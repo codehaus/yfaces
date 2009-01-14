@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.hybris.yfaces;
+package de.hybris.yfaces.application;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -25,8 +25,6 @@ import javax.servlet.ServletContextListener;
 import org.apache.log4j.PropertyConfigurator;
 import org.springframework.web.context.ConfigurableWebApplicationContext;
 import org.springframework.web.context.support.XmlWebApplicationContext;
-
-import de.hybris.platform.core.Registry;
 
 public class YFacesStartupListener implements ServletContextListener {
 
@@ -50,7 +48,8 @@ public class YFacesStartupListener implements ServletContextListener {
 			URL url = arg0.getServletContext().getResource(springCfg);
 			ctx.setConfigLocation(url.toExternalForm());
 			ctx.refresh();
-			Registry.setApplicationContext(ctx);
+			YFacesContext.setApplicationContext(ctx);
+			
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		}
