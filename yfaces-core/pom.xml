@@ -1,6 +1,6 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>yfaces-core</groupId>
+  <groupId>org.codehaus.yfaces</groupId>
   <artifactId>yfaces-core</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   
@@ -52,7 +52,12 @@
             			<descriptor>src/main/assembly/src.xml</descriptor>
           			</descriptors>
         		</configuration>        		
-        	</plugin>			
+        	</plugin>
+      		<plugin>
+      			<groupId>org.codehaus.mojo</groupId>
+      			<artifactId>wagon-maven-plugin</artifactId>
+      			<version>1.0-beta-1</version>
+      		</plugin>			
 	  	</plugins>
   
   </build>
@@ -150,4 +155,21 @@
   	<dependencies>
   	</dependencies>
   </dependencyManagement>
+  <distributionManagement>
+  	<repository>
+  		<id>codehaus.org</id>
+  		<name>YFaces Central Repository</name>
+  		<url>dav:https://dav.codehaus.org/repository/yfaces/</url>
+  	</repository>
+  	<snapshotRepository>
+  		<uniqueVersion>false</uniqueVersion>
+  		<id>codehaus.org</id>
+  		<name>YFaces Central Development Repository</name>
+  		<url>dav:https://dav.codehaus.org/snapshots.repository/yfaces/</url>
+  	</snapshotRepository>
+  	<site>
+  		<id>codehaus.org</id>
+  		<url>dav:https://dav.codehaus.org/yfaces/</url>
+  	</site>
+  </distributionManagement>
 </project>
