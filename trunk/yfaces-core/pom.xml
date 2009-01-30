@@ -2,8 +2,41 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.codehaus.yfaces</groupId>
   <artifactId>yfaces-core</artifactId>
+  <name>yFaces</name>
   <version>0.0.1-SNAPSHOT</version>
-  
+  <description>Make component development easy ... fast, declarative, use-case driven.</description>
+  <url>http://yfaces.codehaus.org/</url>
+  <inceptionYear>2009</inceptionYear>
+  <issueManagement>
+  	<system>Jira</system>
+  	<url>http://jira.codehaus.org/browse/YFACES</url>
+  </issueManagement>
+  <developers>
+  	<developer>
+  		<name>Denny Strietzbaum</name>
+  		<email>dstrietz@codehaus.org</email>
+  	</developer>
+  	<developer>
+  		<name>Thomas Hertz</name>
+  		<email>thomas.hertz@hybris.de</email>
+  	</developer>
+  </developers>
+  <scm>
+  	<tag>trunk</tag>
+  	<url>http://svn.codehaus.org/yfaces/</url>
+  </scm>
+<licenses>
+  <license>
+    <name>Apache 2</name>
+    <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+    <distribution>repo</distribution>
+    <comments>A business-friendly OSS license</comments>
+  </license>
+</licenses>
+<organization>
+	<name>hybris</name>
+	<url>http://www.hybris.com</url>
+</organization>    
   <build>
  		<defaultGoal>install</defaultGoal>  	
 		<directory>${basedir}/target</directory>
@@ -53,6 +86,8 @@
   		</releases>
   	</repository>
   </repositories>
+  <pluginRepositories>
+  </pluginRepositories>
   <dependencies>
   	<dependency>
   		<groupId>com.sun.facelets</groupId>
@@ -133,6 +168,15 @@
 	</dependency>
   	
   </dependencies>
+  <reporting>
+  	<plugins>
+  		<plugin>
+  			<groupId>org.apache.maven.plugins</groupId>
+  			<artifactId>maven-project-info-reports-plugin</artifactId>
+  			<version>2.1</version>
+  		</plugin>
+  	</plugins>
+  </reporting>
   <dependencyManagement>
   	<dependencies>
   	</dependencies>
@@ -151,6 +195,7 @@
   	</snapshotRepository>
   	<site>
   		<id>codehaus.org</id>
+  		<name>YFaces Website</name>
   		<url>dav:https://dav.codehaus.org/yfaces/</url>
   	</site>
   </distributionManagement>
