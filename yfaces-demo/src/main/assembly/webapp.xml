@@ -1,0 +1,67 @@
+<assembly>
+	<id>webapp</id>
+	<formats>
+		<format>zip</format>
+	</formats>
+	<files>
+		<file>
+			<source>README.txt</source>
+			<outputDirectory>/</outputDirectory>
+			<filtered>true</filtered>
+		</file>
+		<file>
+			<source>LICENSE.txt</source>
+			<outputDirectory>/</outputDirectory>
+		</file>
+		<file>
+			<source>NOTICE.txt</source>
+			<outputDirectory>/</outputDirectory>
+			<filtered>true</filtered>
+		</file>
+		<file>
+			<source>pom.xml</source>
+			<outputDirectory>src</outputDirectory>
+		</file>
+	</files>
+	<fileSets>
+		
+		<!-- Collect component sources -->
+		<fileSet>
+			<directory>components</directory>
+			<outputDirectory>components</outputDirectory>
+		</fileSet>
+		
+		<fileSet>
+			<directory>templates</directory>
+			<outputDirectory>templates</outputDirectory>
+		</fileSet>
+		
+		
+		<!-- Collect java sources -->
+		<fileSet>
+			<directory>src/main/java</directory>
+			<outputDirectory>src</outputDirectory>
+		</fileSet>
+		
+		<!-- don't use the lib folder directly (may contain some developer libs) -->
+		<fileSet>
+			<directory>WEB-INF</directory>
+			<outputDirectory>WEB-INF</outputDirectory>
+			<excludes>
+				<exclude>lib/**</exclude>
+			</excludes>
+		</fileSet>
+	</fileSets> 
+	
+	<!-- push dependencies into WEB-INF/lib -->
+	<dependencySets>
+		<dependencySet>
+			<outputDirectory>/WEB-INF/lib</outputDirectory>
+			<excludes>
+				<exclude>javax.el:el-api</exclude>
+				<exclude>javax.servlet:servlet-api</exclude>
+				<exclude>yfaces-demo:yfaces-demo</exclude>
+			</excludes>			
+		</dependencySet>
+	</dependencySets>	
+</assembly>  
