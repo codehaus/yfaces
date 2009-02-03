@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 
 <web-app
 	id="yfaces-testweb"
@@ -10,12 +10,10 @@
 	<display-name>yfaces-testweb</display-name>
 
 
+	<!--  This will cause JBoss to ignore the built-in JSF implementation -->
 	<context-param>
      <param-name>org.jboss.jbossfaces.WAR_BUNDLES_JSF_IMPL</param-name>
      <param-value>true</param-value>
-		<!--<description>
-		This will cause JBoss to ignore the built-in JSF implementation
-		</description>-->
 	</context-param> 
 	
 	<context-param>
@@ -58,17 +56,20 @@
     	<param-value>org.apache.myfaces.component.html.util.StreamingAddResource</param-value>
   	</context-param>
   	 
-  	<!-- 
-	<context-param>
-		<param-name>org.apache.myfaces.SERIAL_FACTORY</param-name>
-		<param-value>de.hybris.yfaces.myfaces.JBossSerialFactory</param-value>
-	</context-param>  -->   	
-	
 	<!-- Additional faces-configs -->
 	<context-param>
 		<param-name>javax.faces.CONFIG_FILES</param-name>
 		<param-value>
 			/WEB-INF/yfaces-config.xml,
+			/selenium/selenium-faces-config.xml
+		</param-value>
+	</context-param>
+	
+	<!-- YFaces Parameter -->
+	<context-param>
+		<param-name>yfaces.taglib.DIR</param-name>
+		<param-value>
+			/components, /selenium/components
 		</param-value>
 	</context-param>
 	
@@ -88,17 +89,6 @@
 		<param-value>true</param-value>
 	</context-param>
 	
-	<!-- State compression: server -->
-	<!--context-param>
-	<param-name>org.apache.myfaces.COMPRESS_STATE_IN_SESSION</param-name>
-	<param-value>false</param-value>
-	</context-param-->
-	
-	<!-- State serialization: server -->
-	<!--context-param>
-	<param-name>org.apache.myfaces.SERIALIZE_STATE_IN_SESSION</param-name>
-	<param-value>false</param-value>
-	</context-param-->
 	
 	<context-param>
 		<param-name>org.apache.myfaces.PRETTY_HTML</param-name>
@@ -132,70 +122,12 @@
 		<param-value>false</param-value>
 	</context-param>
 	
-	<!-- YFaces Parameter -->
-	<context-param>
-		<param-name>yfaces.taglib.DIR</param-name>
-		<param-value>
-			/components,
-		</param-value>
-	</context-param>
 
-	
-	<filter>
-		<filter-name>MyFacesExtensionsFilter</filter-name>
-		
-		<!--<filter-class>org.apache.myfaces.component.html.util.ExtensionsFilter</filter-class>-->
-		<filter-class>
-			org.apache.myfaces.webapp.filter.ExtensionsFilter</filter-class>
-		<init-param>
-			<param-name>uploadMaxFileSize</param-name>
-			<param-value>100m</param-value>
-			<!--<description>Set the size limit for uploaded files.
-			Format: 10 - 10 bytes
-			10k - 10 KB
-			10m - 10 MB
-			1g - 1 GB
-			</description>-->
-		</init-param>
-		<init-param>
-			<param-name>uploadThresholdSize</param-name>
-			<param-value>100k</param-value>
-			<!--<description>Set the threshold size - files
-			below this limit are stored in memory, files above
-			this limit are stored on disk.
-			
-			Format: 10 - 10 bytes
-			10k - 10 KB
-			10m - 10 MB
-			1g - 1 GB
-			</description>-->
-		</init-param>
-		<!--    <init-param>
-		<param-name>uploadRepositoryPath</param-name>
-		<param-value>/temp</param-value>
-		<description>Set the path where the intermediary files will be stored.
-		</description>
-		</init-param>-->
-	</filter>
-	
-	
- 	<filter-mapping>
-		<filter-name>MyFacesExtensionsFilter</filter-name>
-		<url-pattern>*.jsf</url-pattern>
-	</filter-mapping> 
-	
-	<filter-mapping>
-		<filter-name>MyFacesExtensionsFilter</filter-name>
-		<url-pattern>/faces/myFacesExtensionResource/*</url-pattern>
-	</filter-mapping>
-	
-	
 	<listener>
 		<listener-class>
 			de.hybris.yfaces.application.YFacesStartupListener
 		</listener-class>
 	</listener>
-	
 	
 	<!--  ServletRequestListener for Spring -->
 	<listener>
