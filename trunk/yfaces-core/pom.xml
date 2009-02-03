@@ -61,6 +61,7 @@
 				<configuration>
 					<descriptors>
 						<descriptor>src/main/assembly/src.xml</descriptor>
+						<descriptor>src/main/assembly/javadoc.xml</descriptor>
 						<descriptor>src/main/assembly/dist.xml</descriptor>
 					</descriptors>
 				</configuration>
@@ -91,17 +92,17 @@
 								<goals>
 									<goal>upload</goal>
 								</goals>
-								 <configuration>
-            						<fromDir>target</fromDir>
-						            <includes>
-					            		${project.build.finalName}.jar,
-					            		${project.build.finalName}-src.zip,
-					            		${project.build.finalName}-dist.zip,
+								<configuration>
+									<fromDir>target</fromDir>
+									<includes>
+										${project.build.finalName}.jar,
+										${project.build.finalName}-src.zip,
+										${project.build.finalName}-dist.zip,
 						            </includes>
-						            <url>dav:https://dav.codehaus.org/dist/yfaces/</url>
-						            <serverId>codehaus.org</serverId>
-						            <toDir>${project.build.finalName}</toDir>
-						          </configuration>								
+									<url>dav:https://dav.codehaus.org/dist/yfaces/</url>
+									<serverId>codehaus.org</serverId>
+									<toDir>${project.build.finalName}</toDir>
+								</configuration>
 							</execution>
 						</executions>
 					</plugin>
@@ -118,6 +119,10 @@
 			<releases>
 				<enabled>false</enabled>
 			</releases>
+		</repository>
+		<repository>
+			<id>Codehaus</id>
+			<url>http://repository.codehaus.org</url>
 		</repository>
 	</repositories>
 	<pluginRepositories>

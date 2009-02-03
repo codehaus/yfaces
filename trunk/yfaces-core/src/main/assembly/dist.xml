@@ -22,12 +22,11 @@
 			<source>pom.xml</source>
 			<outputDirectory>src</outputDirectory>
 		</file>
-		
 	</files>
 	<fileSets>
 		<fileSet>
 			<directory>target/site/apidocs</directory>
-			<outputDirectory>docs\apidocs</outputDirectory>
+			<outputDirectory>docs/apidocs</outputDirectory>
 		</fileSet>
 		<fileSet>
 			<directory>src</directory>
