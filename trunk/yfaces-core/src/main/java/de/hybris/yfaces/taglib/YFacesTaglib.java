@@ -88,9 +88,11 @@ public class YFacesTaglib extends AbstractTagLibrary implements YComponentInfoLi
 		} else {
 			log.info("Skipped " + url);
 			if (YFacesConfig.ALSO_REGISTER_NON_YCMP.getBoolean()) {
-				log.info("Will be registered as plain tag");
 				final String name = YComponentRegistry.getInstance().getYComponentNameFromURL(url);
-				super.addUserTag(name, url);
+				if (name != null && name.trim().length() > 0) {
+					log.info("Will be registered as plain tag (" + name + ")");
+					super.addUserTag(name, url);
+				}
 			}
 		}
 	}
