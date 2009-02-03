@@ -22,13 +22,16 @@ import java.net.URL;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
+import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 import org.springframework.web.context.ConfigurableWebApplicationContext;
 import org.springframework.web.context.support.XmlWebApplicationContext;
 
 public class YFacesStartupListener implements ServletContextListener {
 
-	private static final String springCfg = "/WEB-INF/yfaces-context.xml";
+	private static final Logger log = Logger.getLogger(YFacesStartupListener.class);
+
+	private static final String PARAM_YFACES_CTX = "yfaces-context";
 	private static final String log4jCfg = "/WEB-INF/yfaces.properties";
 
 	public void contextDestroyed(ServletContextEvent arg0) {
@@ -45,11 +48,18 @@ public class YFacesStartupListener implements ServletContextListener {
 		ConfigurableWebApplicationContext ctx = new XmlWebApplicationContext();
 		ctx.setServletContext(arg0.getServletContext());
 		try {
-			URL url = arg0.getServletContext().getResource(springCfg);
+			String yfacesCtx = arg0.getServletContext().getInitParameter(PARAM_YFACES_CTX);
+			URL url = null;
+			if (yfacesCtx != null) {
+				url = arg0.getServletContext().getResource(yfacesCtx);
+			} else {
+				url = YFacesStartupListener.class.getResource("/META-INF/yfaces-context.xml");
+			}
+			log.debug("Using spring configuration:" + url);
 			ctx.setConfigLocation(url.toExternalForm());
 			ctx.refresh();
 			YFacesContext.setApplicationContext(ctx);
-			
+
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		}
