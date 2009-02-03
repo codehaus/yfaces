@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='UTF-8'?>
+ 
+<faces-config
+	xmlns="http://java.sun.com/xml/ns/javaee"	version="1.2"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee/web-facesconfig_1_2.xsd">
+
+	<application>
+		<view-handler>com.sun.facelets.FaceletViewHandler</view-handler>
+	</application>
+	  
+	<factory>
+		<application-factory>
+			de.hybris.yfaces.myfaces.YFacesApplicationFactory
+		</application-factory>
+	</factory>
+
+	<lifecycle>
+		<phase-listener> de.hybris.yfaces.event.NavigationContextPhaseListener </phase-listener>
+		
+		<!-- for developing; nice logging (debug logger must be enabled)-->
+		<phase-listener> de.hybris.yfaces.event.DebugPhaseListener </phase-listener>
+	</lifecycle>
+	
+	
+	<component>
+		<component-type>hybris.YComponent</component-type>
+		<component-class>de.hybris.yfaces.component.html.HtmlYComponent</component-class>
+	</component>
+
+
+	<!-- Take this converter to enable converters at UIParameter child components -->	
+	<!-- See Javadoc for more information                                         --> 
+	<converter>
+		<converter-id>parameterConverter</converter-id>
+		<converter-class>de.hybris.yfaces.convert.ParameterConverter</converter-class>
+	</converter>
+
+
+</faces-config>
