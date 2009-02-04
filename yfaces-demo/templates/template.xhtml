@@ -1,47 +1,78 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" [<!ENTITY nbsp "&#160;">]>
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" [<!ENTITY nbsp "&#160;">]>
 
-<f:view
-	xmlns="http://www.w3.org/1999/xhtml"
+<f:view 
+	xmlns="http://www.w3.org/1999/xhtml" 
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:h="http://java.sun.com/jsf/html" 
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:t="http://myfaces.apache.org/tomahawk" 
 	xmlns:c="http://java.sun.com/jstl/core"
-	xmlns:yf="http://hybris.com/jsf/yfaces"
-	>
-	
-<html>
+	xmlns:yf="http://hybris.com/jsf/yfaces">
+
+	<html>
 
 	<head profile="http://www.w3.org/2000/08/w3c-synd/#">
 		<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-		<base href="demo"/>
-	</head>
 	
+		<style type="text/css">
+			.even div {
+				background-color: #FFFFDD;
+				border: 1px dotted;
+				margin: 15px;
+				padding: 10px;
+			}
+			
+			.odd div {
+				background-color: #FFFFEE;
+				border: 1px dotted;
+				margin: 15px;
+				padding: 10px;
+			}
+			
+			.odd span,.even span {
+				font-weight:bold;
+			}
+			
+			.tablecell {
+				vertical-align:top;
+				padding:2px 15px;
+			}
+			
+			.caption {
+				font-weight:bold;
+			}
+			
+		</style>
+	</head>
+
 	<body>
-		<h2>
-			<ui:insert name="title"/>
-		</h2>
-		<div>
-			<ui:insert name="short"/>
-		</div>
-		<div>
-			<div style="text-decoration:underline; font-weight:bold; margin:5px;">Use Case:</div>
-			<ui:insert name="usecase"/>
-		</div>
-
-		<div>
-			<div style="text-decoration:underline; font-weight:bold; margin:5px;">Participants:</div>
-			<ui:insert name="parts"/>
-		</div>
-
+		<h2><ui:insert name="title" /></h2>
+	
+	
+		<h:panelGrid columns="2" columnClasses="tablecell">
+			<h:outputText value="use case" styleClass="caption"/>
+			<h:outputText value="participants" styleClass="caption"/>
+	
+			<h:panelGroup>
+				<ui:insert name="usecase" />
+			</h:panelGroup>
+	
+			<h:panelGroup>
+				<ui:insert name="parts" />
+			</h:panelGroup>
+		</h:panelGrid>
+	
+	
 		<hr/>
 		<div>
-		<div style="text-decoration:underline; font-weight:bold; margin:5px;">Examples:</div>
-		<ui:insert name="example"/>
+			<div style="text-decoration: underline; font-weight: bold; margin: 5px;">Examples:</div>
+			<ui:insert name="example" />
 		</div>
-		<hr/>
-		<ui:insert name="long"/>
-		</body>
+		<hr />
+	
+		<ui:insert name="long" />
+
+	</body>
 	</html>
 </f:view>
 

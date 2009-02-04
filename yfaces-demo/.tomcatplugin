@@ -10,18 +10,19 @@
     <webPath>yfaces</webPath>
     <webClassPathEntries>
         <webClassPathEntry>/yfaces-core/target/classes</webClassPathEntry>
-        <webClassPathEntry>D:/libaries/_m2_repository/apache-log4j/log4j/1.2.14/log4j-1.2.14.jar</webClassPathEntry>
-        <webClassPathEntry>D:/libaries/_m2_repository/com/sun/facelets/jsf-facelets/1.1.15.B1/jsf-facelets-1.1.15.B1.jar</webClassPathEntry>
-        <webClassPathEntry>D:/libaries/_m2_repository/commons-beanutils/commons-beanutils/1.7.0/commons-beanutils-1.7.0.jar</webClassPathEntry>
-        <webClassPathEntry>D:/libaries/_m2_repository/commons-codec/commons-codec/1.3/commons-codec-1.3.jar</webClassPathEntry>
-        <webClassPathEntry>D:/libaries/_m2_repository/commons-collections/commons-collections/3.2/commons-collections-3.2.jar</webClassPathEntry>
-        <webClassPathEntry>D:/libaries/_m2_repository/commons-digester/commons-digester/1.8/commons-digester-1.8.jar</webClassPathEntry>
-        <webClassPathEntry>D:/libaries/_m2_repository/commons-discovery/commons-discovery/0.4/commons-discovery-0.4.jar</webClassPathEntry>
-        <webClassPathEntry>D:/libaries/_m2_repository/commons-io/commons-io/1.4/commons-io-1.4.jar</webClassPathEntry>
-        <webClassPathEntry>D:/libaries/_m2_repository/commons-lang/commons-lang/2.4/commons-lang-2.4.jar</webClassPathEntry>
-        <webClassPathEntry>D:/libaries/_m2_repository/commons-logging/commons-logging/1.1.1/commons-logging-1.1.1.jar</webClassPathEntry>
-        <webClassPathEntry>D:/libaries/_m2_repository/org/apache/myfaces/core/myfaces-api/1.2.4/myfaces-api-1.2.4.jar</webClassPathEntry>
-        <webClassPathEntry>D:/libaries/_m2_repository/org/apache/myfaces/core/myfaces-impl/1.2.4/myfaces-impl-1.2.4.jar</webClassPathEntry>
-        <webClassPathEntry>D:/libaries/_m2_repository/org/springframework/spring/2.5.6/spring-2.5.6.jar</webClassPathEntry>
+        <webClassPathEntry>D:/libraries/_maven/apache-log4j/log4j/1.2.14/log4j-1.2.14.jar</webClassPathEntry>
+        <webClassPathEntry>D:/libraries/_maven/com/sun/facelets/jsf-facelets/1.1.15.B1/jsf-facelets-1.1.15.B1.jar</webClassPathEntry>
+        <webClassPathEntry>D:/libraries/_maven/commons-beanutils/commons-beanutils/1.7.0/commons-beanutils-1.7.0.jar</webClassPathEntry>
+        <webClassPathEntry>D:/libraries/_maven/commons-codec/commons-codec/1.3/commons-codec-1.3.jar</webClassPathEntry>
+        <webClassPathEntry>D:/libraries/_maven/commons-collections/commons-collections/3.2/commons-collections-3.2.jar</webClassPathEntry>
+        <webClassPathEntry>D:/libraries/_maven/commons-digester/commons-digester/1.8/commons-digester-1.8.jar</webClassPathEntry>
+        <webClassPathEntry>D:/libraries/_maven/commons-discovery/commons-discovery/0.4/commons-discovery-0.4.jar</webClassPathEntry>
+        <webClassPathEntry>D:/libraries/_maven/commons-io/commons-io/1.4/commons-io-1.4.jar</webClassPathEntry>
+        <webClassPathEntry>D:/libraries/_maven/commons-lang/commons-lang/2.4/commons-lang-2.4.jar</webClassPathEntry>
+        <webClassPathEntry>D:/libraries/_maven/commons-logging/commons-logging/1.1.1/commons-logging-1.1.1.jar</webClassPathEntry>
+        <webClassPathEntry>D:/libraries/_maven/junit/junit/4.5/junit-4.5.jar</webClassPathEntry>
+        <webClassPathEntry>D:/libraries/_maven/org/apache/myfaces/core/myfaces-api/1.2.4/myfaces-api-1.2.4.jar</webClassPathEntry>
+        <webClassPathEntry>D:/libraries/_maven/org/apache/myfaces/core/myfaces-impl/1.2.4/myfaces-impl-1.2.4.jar</webClassPathEntry>
+        <webClassPathEntry>D:/libraries/_maven/org/springframework/spring/2.5.6/spring-2.5.6.jar</webClassPathEntry>
     </webClassPathEntries>
 </tomcatProjectProperties>
