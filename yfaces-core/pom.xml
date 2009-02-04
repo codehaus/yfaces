@@ -136,13 +136,6 @@
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
-			<groupId>apache-log4j</groupId>
-			<artifactId>log4j</artifactId>
-			<version>1.2.8</version>
-			<type>jar</type>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
 			<groupId>javax.el</groupId>
 			<artifactId>el-api</artifactId>
 			<version>1.2</version>
@@ -204,6 +197,13 @@
 			<version>4.5</version>
 			<type>jar</type>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>apache-log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.14</version>
+			<type>jar</type>
+			<scope>compile</scope>
 		</dependency>
 
 	</dependencies>
