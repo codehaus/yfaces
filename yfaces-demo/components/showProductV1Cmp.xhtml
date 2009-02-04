@@ -10,17 +10,19 @@
 	xmlns:yf="http://hybris.com/jsf/yfaces">
 
 	<yf:component
-		id="testLifecycleCmp"
-		default="de.hybris.yfaces.selenium.TestLifecycleComponent"
-		var="cmp">
+		id="showProductV1"
+		default="de.hybris.yfaces.demo.basic1.ShowProductComponent"
+		var="cmp"
+		injectable="code, name, imageUrl, description">
 		
-		Status: #{cmp.state}
-		<br/>
-		
-		<h:form>
-			<h:commandButton value="Submit"/>
-		</h:form>
-		
+		<div>
+			<h:outputText value="Code: #{cmp.code}"/><br/>
+			<h:outputText value="Name: #{cmp.name}"/><br/>
+			<h:outputText value="Description: #{cmp.description}"/><br/>
+			<h:outputText value="Image: #{cmp.imageUrl}"/><br/>
+			<h:graphicImage value="#{cmp.imageUrl}" rendered="#{cmp.imageUrl != null}"/><br/>
+		</div>
+			
 	</yf:component>
 
 </ui:composition>
