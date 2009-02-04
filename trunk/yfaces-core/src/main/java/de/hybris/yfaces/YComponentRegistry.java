@@ -92,7 +92,8 @@ public class YComponentRegistry {
 	private static final String ATTR_SPEC_CLASS = "definition";
 	private static final String ATTR_INJECTABLE = "injectable";
 
-	public static final Pattern TAGNAME_FROM_URL = Pattern.compile(".*[/\\\\](.*)Tag\\.xhtml");
+	public static final Pattern TAGNAME_FROM_URL = Pattern
+			.compile(".*[/\\\\](.*)((?:Cmp)|(?:Tag))\\.xhtml");
 
 	// Searches for all component attributes as raw, unsplitted String
 	// <yf:component xxx > whereas xxx is the result)
@@ -325,7 +326,7 @@ public class YComponentRegistry {
 		}
 
 		// add list of attributes given as "injectable" to injectable properties
-		// this is the preferred way of decalring injectable attributes
+		// this is the preferred way of declaring injectable attributes
 		final String injectable = attributes.get(ATTR_INJECTABLE);
 		if (injectable != null) {
 			final String properties[] = injectable.trim().split("\\s*,\\s*");

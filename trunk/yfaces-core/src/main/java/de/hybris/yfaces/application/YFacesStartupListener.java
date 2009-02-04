@@ -18,6 +18,7 @@ package de.hybris.yfaces.application;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Arrays;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -27,6 +28,12 @@ import org.apache.log4j.PropertyConfigurator;
 import org.springframework.web.context.ConfigurableWebApplicationContext;
 import org.springframework.web.context.support.XmlWebApplicationContext;
 
+/**
+ * YFaces startup. Reads configuration and initializes runtime properties for
+ * Logging, Spring, etc.
+ * 
+ * @author Denny.Strietzbaum
+ */
 public class YFacesStartupListener implements ServletContextListener {
 
 	private static final Logger log = Logger.getLogger(YFacesStartupListener.class);
@@ -44,19 +51,24 @@ public class YFacesStartupListener implements ServletContextListener {
 		this.configureLogging(arg0);
 	}
 
+	/**
+	 * Configures Spring.
+	 */
 	private void configureSpring(ServletContextEvent arg0) {
 		ConfigurableWebApplicationContext ctx = new XmlWebApplicationContext();
 		ctx.setServletContext(arg0.getServletContext());
+
+		URL defaultConfig = YFacesStartupListener.class.getResource("/META-INF/yfaces-context.xml");
+		String[] configs = new String[] { defaultConfig.toExternalForm() };
+
 		try {
 			String yfacesCtx = arg0.getServletContext().getInitParameter(PARAM_YFACES_CTX);
-			URL url = null;
 			if (yfacesCtx != null) {
-				url = arg0.getServletContext().getResource(yfacesCtx);
-			} else {
-				url = YFacesStartupListener.class.getResource("/META-INF/yfaces-context.xml");
+				URL customConfig = arg0.getServletContext().getResource(yfacesCtx);
+				configs = new String[] { configs[0], customConfig.toExternalForm() };
 			}
-			log.debug("Using spring configuration:" + url);
-			ctx.setConfigLocation(url.toExternalForm());
+			log.debug("Using spring configuration:" + Arrays.asList(configs));
+			ctx.setConfigLocations(configs);
 			ctx.refresh();
 			YFacesContext.setApplicationContext(ctx);
 
@@ -65,8 +77,10 @@ public class YFacesStartupListener implements ServletContextListener {
 		}
 	}
 
+	/**
+	 * Configures log4j.
+	 */
 	private void configureLogging(ServletContextEvent arg0) {
-		ConfigurableWebApplicationContext ctx = new XmlWebApplicationContext();
 		try {
 			URL url = arg0.getServletContext().getResource(log4jCfg);
 			PropertyConfigurator.configure(url);
