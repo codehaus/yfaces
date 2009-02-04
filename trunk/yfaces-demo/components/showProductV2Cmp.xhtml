@@ -10,12 +10,19 @@
 	xmlns:yf="http://hybris.com/jsf/yfaces">
 
 	<yf:component
-		id="testCmp"
-		default="de.hybris.yfaces.testweb.test1.TestComponent"
-		var="cmp">
+		id="showProductV2"
+		default="de.hybris.yfaces.demo.basic2.ShowProductComponent"
+		var="cmp"
+		injectable="code">
 		
-		TESTCOMPONENT
-		
+		<div>
+			<h:outputText value="Code: #{cmp.code}"/><br/>
+			<h:outputText value="Name: #{cmp.name}"/><br/>
+			<h:outputText value="Description: #{cmp.description}"/><br/>
+			<h:outputText value="Image: #{cmp.imageUrl}"/><br/>
+			<h:graphicImage value="#{cmp.imageUrl}" rendered="#{cmp.imageUrl != null}"/><br/>
+		</div>
+			
 	</yf:component>
 
 </ui:composition>

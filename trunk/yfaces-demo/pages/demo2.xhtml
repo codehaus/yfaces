@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" [<!ENTITY nbsp "&#160;">]>
+
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:yf="http://hybris.com/jsf/yfaces"
+   template="../templates/template.xhtml">
+   
+	<ui:define name="example">
+		<div id="example1">
+			<b>&lt;yf:showProductV2/&gt;</b>
+			<yf:showProductV2/>
+		</div>
+
+		<div id="example3">
+			<b>&lt;yf:showProductV2 code="nonExistingProductCode" /&gt;</b>
+			<yf:showProductV2 code="nonExistingProductCode"/>
+		</div>
+		
+		<div id="example3">
+			<b>&lt;yf:showProductV2 code="FRUIT-1" /&gt;</b>
+			<yf:showProductV2 code="FRUIT-1"/>
+		</div>
+
+	</ui:define>
+
+
+   <ui:define name="title">
+   	Basics
+   </ui:define>
+   
+   <ui:define name="usecase">
+   	Validate passed property values and/or use them as parameters to load missing component values.
+   </ui:define>
+   
+	
+	<ui:define name="parts">
+			view:  /components/showProductV2Cmp.xhtml<br/>
+			class: de.hybris.yfaces.demo.component.ShowProductComponent
+	</ui:define>
+
+   <ui:define name="short">
+   	After each property is injected the components postInitialize() method gets invoked.<br/>
+   	This is the place where passed values can be validated or missing values are loaded.
+   </ui:define>
+	
+   <ui:define name="long">
+   	<br/>
+   </ui:define>
+	
+</ui:composition>
