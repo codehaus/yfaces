@@ -10,20 +10,24 @@
    template="../templates/template.xhtml">
    
 	<ui:define name="example">
-		<div id="example1">
-			<b>&lt;yf:showProductV1/&gt;</b>
-			<yf:showProductV1/>
-		</div>
+		
+		<h:panelGrid rowClasses="even,odd">
+			<h:panelGroup>
+				<span>&lt;yf:showProductV1/&gt;</span>
+				<yf:showProductV1/>
+			</h:panelGroup>
 
-		<div id="example2">
-			<b>&lt;yf:showProductV1 code="FRUIT-1" /&gt;</b>
-			<yf:showProductV1 code="FRUIT-1"/>
-		</div>
+			<h:panelGroup>
+				<span>&lt;yf:showProductV1 code="FRUIT-1" /&gt;</span>
+				<yf:showProductV1 code="FRUIT-1"/>
+			</h:panelGroup>
 
-		<div id="example3">
-			<b>&lt;yf:showProductV1 name="citron fruit" imageUrl="/images/CEF_1112.jpg" /&gt;</b>
-			<yf:showProductV1 name="citron fruit" imageUrl="/images/CEF_1112.jpg"/>
-		</div>
+			<h:panelGroup>
+				<span>&lt;yf:showProductV1 name="citron fruit" imageUrl="/images/CEF_1112.jpg" /&gt;</span>
+				<yf:showProductV1 name="citron fruit" imageUrl="/images/CEF_1112.jpg"/>
+			</h:panelGroup>
+		</h:panelGrid>
+	
 	</ui:define>
 
 
@@ -40,11 +44,8 @@
 			class: de.hybris.yfaces.demo.component.ShowProductComponent
 	</ui:define>
 
-   <ui:define name="short">
-   	The easiest component just acts as basic data container which displays values.Values may be calculated by the component or pushed/injected/passed from the view.<br/>
-   </ui:define>
-	
    <ui:define name="long">
+   The easiest component just acts as basic data container which displays values.Values may be calculated by the component or pushed/injected/passed from the view.<br/>
    	<br/>
    	The component is used multiple times at this page via &lt;yf:showProductV1/&gt;<br/>
    	Each component view is backed by an own component instance (somthing which is hard to achieve with plain JSF ManagedBeans)

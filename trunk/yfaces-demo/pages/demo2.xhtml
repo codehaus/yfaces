@@ -10,20 +10,23 @@
    template="../templates/template.xhtml">
    
 	<ui:define name="example">
-		<div id="example1">
-			<b>&lt;yf:showProductV2/&gt;</b>
-			<yf:showProductV2/>
-		</div>
+	
+		<h:panelGrid rowClasses="even,odd">
+			<h:panelGroup>
+				<span>&lt;yf:showProductV2/&gt;</span>
+				<yf:showProductV2/>
+			</h:panelGroup>
 
-		<div id="example3">
-			<b>&lt;yf:showProductV2 code="nonExistingProductCode" /&gt;</b>
-			<yf:showProductV2 code="nonExistingProductCode"/>
-		</div>
-		
-		<div id="example3">
-			<b>&lt;yf:showProductV2 code="FRUIT-1" /&gt;</b>
-			<yf:showProductV2 code="FRUIT-1"/>
-		</div>
+			<h:panelGroup>
+				<span>&lt;yf:showProductV2 code="nonExistingProductCode" /&gt;</span>
+				<yf:showProductV2 code="nonExistingProductCode"/>
+			</h:panelGroup>
+
+			<h:panelGroup>
+				<span>&lt;yf:showProductV2 code="FRUIT-1" /&gt;;</span>
+				<yf:showProductV2 code="FRUIT-1"/>
+			</h:panelGroup>
+		</h:panelGrid>
 
 	</ui:define>
 
@@ -42,13 +45,9 @@
 			class: de.hybris.yfaces.demo.component.ShowProductComponent
 	</ui:define>
 
-   <ui:define name="short">
+   <ui:define name="long">
    	After each property is injected the components postInitialize() method gets invoked.<br/>
    	This is the place where passed values can be validated or missing values are loaded.
-   </ui:define>
-	
-   <ui:define name="long">
-   	<br/>
    </ui:define>
 	
 </ui:composition>
