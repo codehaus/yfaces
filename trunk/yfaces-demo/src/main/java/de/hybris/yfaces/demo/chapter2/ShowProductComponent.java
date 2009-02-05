@@ -1,4 +1,4 @@
-package de.hybris.yfaces.demo.basic2;
+package de.hybris.yfaces.demo.chapter2;
 
 import de.hybris.yfaces.component.AbstractYComponent;
 
