@@ -61,7 +61,7 @@
 		<param-name>javax.faces.CONFIG_FILES</param-name>
 		<param-value>
 			/WEB-INF/yfaces-config.xml,
-			/selenium/selenium-faces-config.xml
+			/WEB-INF/demo-faces-config.xml,
 		</param-value>
 	</context-param>
 	
