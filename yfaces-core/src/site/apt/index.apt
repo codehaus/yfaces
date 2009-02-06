@@ -12,7 +12,7 @@ About
 
 ** What are "use-case" driven components?
 
- Simply components who're reflecting a special business case like edit a customer, display a cart etc.
+ Simply components that are reflecting a special business case like edit a customer, display a cart etc.
 
 
 ** An own component concept?
@@ -24,14 +24,14 @@ About
  Many features won't work with just combining those two libraries.
 
 
-** Why own components when there're so much components already available for free?
+** Why own components when there are so many components already available for free?
 
  Because available components are only just functional and very basic.
  For your use-cases they are a good toolset but not more.
  Practically more disadvantages occur when increasing the number of external component libraries.
  These are:
  More complexity: JSF itself is a complex world. Each additional library increases this as it brings new concepts and models.
- Less compatibility: Many libraries are shipped with various filters or own View- and Navigationhandlers. Using one library works well but special combinations with others can lead into instabilities or other strange behavior.
+ Less compatibility: Many libraries are shipped with various filters or own View- and Navigationhandlers. Using one library works well but special combinations with others can lead into instabilities or other strange behaviour.
 
 
 ** What are the technical improvements compared to standalone solutions JSF and Facelets?
@@ -43,5 +43,5 @@ About
  Each view is backed by a component class whose scope is bound to that view.
  A xsd file gets generated for each view; this adds code completion for your components to your IDE.
  Each view gets automatically registered during startup as component Tag.
- Each component tag allows dynamic passing of attributes whose values are injected to the component.
+ Each component tag allows dynamic passing of attributes whose values are injected into the component.
 
