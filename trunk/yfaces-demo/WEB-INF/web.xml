@@ -69,7 +69,7 @@
 	<context-param>
 		<param-name>yfaces.taglib.DIR</param-name>
 		<param-value>
-			/components, /selenium/components
+			/demo/**, /selenium/components
 		</param-value>
 	</context-param>
 	

@@ -1,0 +1,17 @@
+Das inludierte template referenziert eine requestbean 'doc'.
+Die 'doc' bean liest während des instanziierens die URL, fügt generisch [letztesVerzeichniss].txt hinzu und parst das textfile.
+
+
+{title}
+
+{usecase}
+
+{parts}
+- generische ermittlung der xhtml views: getResources(url minus host)
+- generische ermittlung der component klassen (new ycomponentinfo)
+
+{example-id1}
+
+{example-id2}
+
+{example-id...}
