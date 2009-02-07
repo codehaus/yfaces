@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" [<!ENTITY nbsp "&#160;">]>
+
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:yf="http://hybris.com/jsf/yfaces"
+   template="/demo/template.xhtml">
+   
+	<ui:define name="example">
+		
+		<h:panelGrid rowClasses="even,odd">
+			<h:panelGroup>
+				<span>&lt;yf:demo1/&gt;</span>
+				<yf:demo1/>
+			</h:panelGroup>
+
+			<h:panelGroup>
+				<span>&lt;yf:demo1 code="FRUIT-1" /&gt;</span>
+				<yf:demo1 code="FRUIT-1"/>
+			</h:panelGroup>
+
+			<h:panelGroup>
+				<span>&lt;yf:demo1 name="citron fruit" imageUrl="/images/CEF_1112.jpg" /&gt;</span>
+				<yf:demo1 name="citron fruit" imageUrl="/images/CEF_1112.jpg"/>
+			</h:panelGroup>
+		</h:panelGrid>
+	
+	</ui:define>
+
+
+   <ui:define name="title">
+   	Basics
+   </ui:define>
+
+   <ui:define name="usecase">
+   	Pass property values to component from view (push/inject values)
+   </ui:define>
+	
+	<ui:define name="parts">
+			view:  /components/yf:demo1.xhtml<br/>
+			class: de.hybris.yfaces.demo.component.ShowProductComponent
+	</ui:define>
+
+   <ui:define name="long">
+   The easiest component just acts as basic data container which displays values.Values may be calculated by the component or pushed/injected/passed from the view.<br/>
+   	<br/>
+   	The component is used multiple times at this page via &lt;yf:showProductV1/&gt;<br/>
+   	Each component view is backed by an own component instance (somthing which is hard to achieve with plain JSF ManagedBeans)
+   	Each setter of the component class is available as injectable property.<br/>
+   	Property values can be injected as tag attributes &lt;yf:showProductV1 code="value" /&gt;
+   </ui:define>
+	
+</ui:composition>
