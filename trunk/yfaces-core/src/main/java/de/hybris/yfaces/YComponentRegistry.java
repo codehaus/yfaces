@@ -34,11 +34,11 @@ import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 
 import de.hybris.yfaces.YComponentInfo.ERROR_STATE;
+import de.hybris.yfaces.taglib.YFacesTaglib;
 
 /**
- * A registry which holds meta information about registered YComponent.
- * Components are registered during startup. YComponent meta information are
- * described as {@link YComponentInfo}.
+ * A registry which holds meta information about registered YComponent. Components are registered
+ * during startup. YComponent meta information are described as {@link YComponentInfo}.
  * 
  * @author Denny.Strietzbaum
  */
@@ -92,8 +92,6 @@ public class YComponentRegistry {
 	private static final String ATTR_SPEC_CLASS = "definition";
 	private static final String ATTR_INJECTABLE = "injectable";
 
-	public static final Pattern TAGNAME_FROM_URL = Pattern
-			.compile(".*[/\\\\](.*)((?:Cmp)|(?:Tag))\\.xhtml");
 
 	// Searches for all component attributes as raw, unsplitted String
 	// <yf:component xxx > whereas xxx is the result)
@@ -223,8 +221,8 @@ public class YComponentRegistry {
 	}
 
 	/**
-	 * Checks whether passed URL matches a name Pattern for a YComponent
-	 * Renderer. This is the case when externalized URL ends with "Tag.xhtml"
+	 * Checks whether passed URL matches a name Pattern for a YComponent Renderer. This is the case
+	 * when externalized URL ends with "Tag.xhtml"
 	 * 
 	 * @param url
 	 * @return true when passed url matches component pattern
@@ -239,7 +237,7 @@ public class YComponentRegistry {
 
 	public String getYComponentNameFromURL(final URL url) {
 		String result = null;
-		final Matcher tagNameMatcher = TAGNAME_FROM_URL.matcher(url.toExternalForm());
+		final Matcher tagNameMatcher = YFacesTaglib.COMPONENT_RESOURCE_PATTERN.matcher(url.toExternalForm());
 		if (tagNameMatcher.matches()) {
 			result = tagNameMatcher.group(1);
 		}
@@ -247,8 +245,8 @@ public class YComponentRegistry {
 	}
 
 	/**
-	 * Detects available properties from a given resource. Parses the content
-	 * and extracts needed values. Does no verification or class instantiations.
+	 * Detects available properties from a given resource. Parses the content and extracts needed
+	 * values. Does no verification or class instantiations.
 	 * 
 	 * @param url
 	 *            resource url
@@ -257,7 +255,7 @@ public class YComponentRegistry {
 		YComponentInfo result = null;
 
 		// extract tagname
-		final Matcher tagNameMatcher = TAGNAME_FROM_URL.matcher(url.toExternalForm());
+		final Matcher tagNameMatcher = YFacesTaglib.COMPONENT_RESOURCE_PATTERN.matcher(url.toExternalForm());
 		if (tagNameMatcher.matches()) {
 			String content = null;
 			try {
@@ -292,8 +290,8 @@ public class YComponentRegistry {
 	}
 
 	/**
-	 * Detects available properties from a given resource. Parses the content
-	 * and extracts needed values. Does no verification or class instantiations.
+	 * Detects available properties from a given resource. Parses the content and extracts needed
+	 * values. Does no verification or class instantiations.
 	 * 
 	 * @param content
 	 *            String
