@@ -14,7 +14,16 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.log4j.Logger;
 
+/**
+ * @author Denny.Strietzbaum
+ * 
+ */
 public class ChapterMBean {
+
+	private static final String SECTION_TITLE = "title";
+	private static final String SECTION_USECASE = "usecase";
+	private static final String SECTION_EXAMPLE = "example-";
+	private static final String SECTION_LONGDESCRIPTION = "long";
 
 	private static final Logger log = Logger.getLogger(ChapterMBean.class);
 
@@ -22,7 +31,7 @@ public class ChapterMBean {
 	private static Pattern chpSectionPattern = Pattern.compile("\\{(.*?)\\}(.*?)(?=\\{|\\z)",
 			Pattern.DOTALL);
 
-	public static Pattern YCOMPONENT = Pattern.compile("</?yf:(.*?)>", Pattern.DOTALL);
+	private static Pattern ycmpTagPattern = Pattern.compile("</?yf:(.*?)>", Pattern.DOTALL);
 
 	private String indexFile = null;
 	private String nextView = null;
@@ -82,20 +91,20 @@ public class ChapterMBean {
 			String type = m.group(1).toLowerCase();
 			String content = m.group(2).trim();
 
-			if (type.equals("title")) {
+			if (type.equals(SECTION_TITLE)) {
 				this.title = content;
 			}
 
-			if (type.equals("usecase")) {
+			if (type.equals(SECTION_USECASE)) {
 				this.usecase = content;
 			}
 
-			if (type.equals("long")) {
+			if (type.equals(SECTION_LONGDESCRIPTION)) {
 				this.longDescription = this.escapeYComponentTags(content);
 			}
 
-			if (type.startsWith("example-")) {
-				String example = type.substring("example-".length());
+			if (type.startsWith(SECTION_EXAMPLE)) {
+				String example = type.substring(SECTION_EXAMPLE.length());
 				this.examples.put(example, escapeYComponentTags(content));
 			}
 
@@ -120,8 +129,15 @@ public class ChapterMBean {
 		}
 	}
 
+	/**
+	 * Escapes YComponent tags from a given input string.Does no escaping for any other tags.
+	 * 
+	 * @param in
+	 *            input string
+	 * @return string with escaped ycompoment tags
+	 */
 	public String escapeYComponentTags(String in) {
-		Matcher m = YCOMPONENT.matcher(in);
+		Matcher m = ycmpTagPattern.matcher(in);
 		String result = in;
 		if (m.find()) {
 			m.reset();
@@ -144,11 +160,5 @@ public class ChapterMBean {
 		}
 		return result;
 	}
-
-	//	public static void main (String argc[]) {
-	//		//ChapterMBean bean = new ChapterMBean();
-	//		
-	//		System.out.println(ChapterMBean.encodeYComponentOccurrences("Das is nur nen <yf:component attre='213'/> test <br/> Und noch was <yf:component> value </yf:component>"));
-	//	}
 
 }
