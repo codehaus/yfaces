@@ -84,6 +84,8 @@ public class YFacesTaglib extends AbstractTagLibrary implements YComponentInfoLi
 	/** tag name for {@link HtmlYComponent} */
 	public static final String COMPONENT_NAME = "component";
 
+	public static final String COMPONENT_NAME_FULL = "yf:component";
+
 	/** deployment parameter for additional component search path elements */
 	public static final String PARAM_COMPONENT_DIRS = "yfaces.taglib.DIR";
 

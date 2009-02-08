@@ -82,9 +82,6 @@ public class YComponentRegistry {
 
 	private static final Logger log = Logger.getLogger(YComponentRegistry.class);
 
-	// Tag representation for a HtmlYComponent
-	private static final String YCOMPONENT_TAG = "yf:component";
-
 	// some attribute names
 	private static final String ATTR_ID = "id";
 	private static final String ATTR_VAR = "var";
@@ -92,11 +89,10 @@ public class YComponentRegistry {
 	private static final String ATTR_SPEC_CLASS = "definition";
 	private static final String ATTR_INJECTABLE = "injectable";
 
-
 	// Searches for all component attributes as raw, unsplitted String
 	// <yf:component xxx > whereas xxx is the result)
-	private static final Pattern ALL_ATTRIBUTES = Pattern.compile("<" + YCOMPONENT_TAG + "(.*?)"
-			+ ">", Pattern.DOTALL);
+	public static final Pattern ALL_ATTRIBUTES = Pattern.compile("<"
+			+ YFacesTaglib.COMPONENT_NAME_FULL + "(.*?)" + ">", Pattern.DOTALL);
 
 	// Searches for a single Attribute within the attributes String
 	private static final Pattern SINGLE_ATTRIBUTE = Pattern.compile(
@@ -237,7 +233,8 @@ public class YComponentRegistry {
 
 	public String getYComponentNameFromURL(final URL url) {
 		String result = null;
-		final Matcher tagNameMatcher = YFacesTaglib.COMPONENT_RESOURCE_PATTERN.matcher(url.toExternalForm());
+		final Matcher tagNameMatcher = YFacesTaglib.COMPONENT_RESOURCE_PATTERN.matcher(url
+				.toExternalForm());
 		if (tagNameMatcher.matches()) {
 			result = tagNameMatcher.group(1);
 		}
@@ -255,7 +252,8 @@ public class YComponentRegistry {
 		YComponentInfo result = null;
 
 		// extract tagname
-		final Matcher tagNameMatcher = YFacesTaglib.COMPONENT_RESOURCE_PATTERN.matcher(url.toExternalForm());
+		final Matcher tagNameMatcher = YFacesTaglib.COMPONENT_RESOURCE_PATTERN.matcher(url
+				.toExternalForm());
 		if (tagNameMatcher.matches()) {
 			String content = null;
 			try {
