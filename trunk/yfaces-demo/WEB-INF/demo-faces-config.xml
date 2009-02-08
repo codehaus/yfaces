@@ -6,6 +6,15 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee/web-facesconfig_1_2.xsd">
 
 	<managed-bean>
+		<managed-bean-name>chapter</managed-bean-name>
+		<managed-bean-class>
+			de.hybris.yfaces.demo.ChapterMBean
+		</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+
+
+	<managed-bean>
 		<managed-bean-name>frame3</managed-bean-name>
 		<managed-bean-class>
 			de.hybris.yfaces.demo.chapter3.Demo3Frame
