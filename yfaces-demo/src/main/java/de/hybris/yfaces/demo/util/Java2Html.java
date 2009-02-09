@@ -29,7 +29,6 @@ import java.io.Writer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringEscapeUtils;
 
 /**
@@ -42,7 +41,7 @@ import org.apache.commons.lang.StringEscapeUtils;
 public class Java2Html {
 
 	private static final String STYLECLASS_LINENUMBER = "jh_line";
-	private static final String STYLECLASS_JAVADOCR = "jh_jdoc";
+	private static final String STYLECLASS_JAVADOC = "jh_jdoc";
 	private static final String STYLECLASS_COMMENTBLOCK = "jh_cblk";
 	private static final String STYLECLASS_COMMENTLINE = "jh_cline";
 	private static final String STYLECLASS_KEYWORD = "jh_keyw";
@@ -52,6 +51,9 @@ public class Java2Html {
 
 	private static final String NOTHING_REMAINS = "";
 
+	/**
+	 * The two types of possible comment blocks.
+	 */
 	private enum COMMENTBLOCK {
 		NORMAL_BLOCK,
 		JAVADOC_BLOCK
@@ -155,7 +157,7 @@ public class Java2Html {
 		printer.println("<html>");
 		printer.println("<head>");
 		printer.println("<style type=\"text/css\"> span." + STYLECLASS_COMMENTBLOCK
-				+ " { color:rgb(63,127,95) } span." + STYLECLASS_JAVADOCR
+				+ " { color:rgb(63,127,95) } span." + STYLECLASS_JAVADOC
 				+ " {color:rgb(63,95,191)} " + "span." + STYLECLASS_COMMENTLINE
 				+ " {color:rgb(63,127,95)} " + "span." + STYLECLASS_LINENUMBER
 				+ " {color:rgb(120,120,120)}" + "span." + STYLECLASS_LITERAL
@@ -286,7 +288,7 @@ public class Java2Html {
 	private void processAsBlockComment() {
 		// update target content; open span tag
 		String styleClass = (this.commentMode == COMMENTBLOCK.NORMAL_BLOCK) ? STYLECLASS_COMMENTBLOCK
-				: STYLECLASS_JAVADOCR;
+				: STYLECLASS_JAVADOC;
 		targetLine.append("<span class=\"").append(styleClass).append("\">");
 
 		// matcher to find the end of that comment block
@@ -409,18 +411,6 @@ public class Java2Html {
 			long t2 = System.currentTimeMillis();
 			System.out.println("Took: " + (t2 - t1) + "ms");
 		}
-	}
-
-	public static void main3(String[] argc) throws Exception {
-		String sourceName = base + "/" + Java2Html.class.getName().replaceAll("\\.", "/") + ".java";
-		File source = new File(sourceName);
-		StringWriter w = new StringWriter();
-		IOUtils.copy(new FileReader(source), w);
-
-		String s = w.toString();
-
-		System.out.println(new Java2Html().format(s));
-
 	}
 
 	public static void main2(String argc[]) {
