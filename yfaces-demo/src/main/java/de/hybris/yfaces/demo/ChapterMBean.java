@@ -3,16 +3,26 @@ package de.hybris.yfaces.demo;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringWriter;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.log4j.Logger;
+
+import de.hybris.yfaces.YComponentInfo;
+import de.hybris.yfaces.YComponentRegistry;
+import de.hybris.yfaces.taglib.YFacesTaglib;
 
 /**
  * @author Denny.Strietzbaum
@@ -33,7 +43,12 @@ public class ChapterMBean {
 
 	private static Pattern ycmpTagPattern = Pattern.compile("</?yf:(.*?)>", Pattern.DOTALL);
 
-	private String indexFile = null;
+	private String chapterCtx = null;
+	private String chapterRoot = null;
+	private int chapter = 0;
+
+	// chapter descriptor (index.txt)
+	// private String indexFile = null;
 	private String nextView = null;
 	private String prevView = null;
 
@@ -41,10 +56,19 @@ public class ChapterMBean {
 	private String usecase = null;
 	private String longDescription = null;
 	private Map<String, String> examples = new HashMap<String, String>();
+	private List participants = new ArrayList();
+
+	public static class Participant {
+		private String name = null;
+		private String source = null;
+		private String unformattedSource = null;
+	}
 
 	public ChapterMBean() {
+		detectChapterRoot();
 		this.prepareChapterNavigation();
 		this.prepareChapterSections();
+		this.detectParticipants();
 
 	}
 
@@ -56,10 +80,16 @@ public class ChapterMBean {
 		return this.prevView;
 	}
 
+	/**
+	 * @return title of this chapter
+	 */
 	public String getTitle() {
 		return this.title;
 	}
 
+	/**
+	 * @return small text which describes a typical use-case of this chapter
+	 */
 	public String getUseCase() {
 		return this.usecase;
 	}
@@ -68,13 +98,24 @@ public class ChapterMBean {
 		return this.longDescription;
 	}
 
+	/**
+	 * @return map with all available examples of this chapter
+	 */
 	public Map<String, String> getExamples() {
 		return this.examples;
 	}
 
+	public List getParticipants() {
+		return this.participants;
+	}
+
+	/**
+	 * Parses the chapter descriptor, generally an index.txt file, and prepares all chapter
+	 * information like title, description etc.
+	 */
 	private void prepareChapterSections() {
 		InputStream in = FacesContext.getCurrentInstance().getExternalContext()
-				.getResourceAsStream(indexFile);
+				.getResourceAsStream(chapterRoot + "/index.txt");
 		StringWriter writer = new StringWriter();
 
 		try {
@@ -112,20 +153,60 @@ public class ChapterMBean {
 		log.debug(in);
 	}
 
+	/**
+	 * Prepares the chapter navigation. This means build up links for previous and next chapter
+	 */
 	private void prepareChapterNavigation() {
+		int index = this.chapterRoot.lastIndexOf("/chp");
+		String blankChapter = this.chapterCtx + this.chapterRoot.substring(0, index);
+
+		nextView = blankChapter + "/chp" + (this.chapter + 1) + "/index.jsf";
+		if (this.chapter > 1) {
+			prevView = blankChapter + "/chp" + (this.chapter - 1) + "/index.jsf";
+		}
+	}
+
+	private void detectChapterRoot() {
 		FacesContext fc = FacesContext.getCurrentInstance();
 		String id = fc.getViewRoot().getViewId();
 		Matcher m = chpIdPattern.matcher(id);
 		if (m.matches()) {
-			int chapterId = Integer.parseInt(m.group(2));
-			String ctxPath = fc.getExternalContext().getRequestContextPath();
-			nextView = ctxPath + m.group(1) + "/chp" + (chapterId + 1) + m.group(3) + ".jsf";
+			this.chapter = Integer.parseInt(m.group(2));
+			this.chapterCtx = fc.getExternalContext().getRequestContextPath();
+			this.chapterRoot = m.group(1) + "/chp" + (chapter);
+		} else {
+			throw new IllegalStateException("Can't detect chapter root");
+		}
+	}
 
-			if (chapterId > 1) {
-				prevView = ctxPath + m.group(1) + "/chp" + (chapterId - 1) + m.group(3) + ".jsf";
+	private void detectParticipants() {
+		ExternalContext ctx = FacesContext.getCurrentInstance().getExternalContext();
+
+		// ...retrieve all available resources inside that path
+		final Set<String> resources = ctx.getResourcePaths(this.chapterRoot);
+
+		// iterate over resources...
+		for (final String resource : resources) {
+
+			// ...check whether name matches pattern for a YComponent view file
+			if (YFacesTaglib.COMPONENT_RESOURCE_PATTERN.matcher(resource).matches()) {
+				try {
+					// fetch URL and register at component registry
+					final URL url = ctx.getResource(resource);
+					YComponentInfo info = YComponentRegistry.getInstance()
+							.createYComponentInfo(url);
+					if (info.getImplementationClassName() != null) {
+						this.participants.add(info.getImplementationClassName());
+					}
+					if (info.getSpecificationClassName() != null) {
+						this.participants.add(info.getSpecificationClassName());
+					}
+
+				} catch (final MalformedURLException e) {
+					log.error(e.getMessage());
+					log.error("Error while fetching URL for resource " + resource);
+				}
 			}
-
-			this.indexFile = m.group(1) + "/chp" + (chapterId) + "/index.txt";
 		}
 	}
 
