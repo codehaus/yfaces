@@ -23,31 +23,57 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.io.Reader;
+import java.io.StringReader;
+import java.io.StringWriter;
 import java.io.Writer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringEscapeUtils;
 
 /**
- * general javadoc
+ * Generates formatted html markup based on java source code.
  * 
  * @author Denny.Strietzbaum
  */
 
-// TODO: documentation
 // TODO: configurable tabsize
 public class Java2Html {
 
-	private static Pattern interceptOutputPattern = null;
+	private static final String STYLECLASS_LINENUMBER = "jh_line";
+	private static final String STYLECLASS_JAVADOCR = "jh_jdoc";
+	private static final String STYLECLASS_COMMENTBLOCK = "jh_cblk";
+	private static final String STYLECLASS_COMMENTLINE = "jh_cline";
+	private static final String STYLECLASS_KEYWORD = "jh_keyw";
+	private static final String STYLECLASS_LITERAL = "jh_lit";
+
+	private static Pattern nextMatchPattern = null;
 
 	private static final String NOTHING_REMAINS = "";
 
-	private enum TYPE {
+	private enum COMMENTBLOCK {
+		NORMAL_BLOCK,
+		JAVADOC_BLOCK
+	}
+
+	/**
+	 * Enumeration for all these occurrences which needs a special output treatment.
+	 */
+	private enum MATCH_TYPE {
+		/** Javadoc comment block */
 		JAVADOC("/\\*\\*", "\\*/"),
+
+		/** General comment block */
 		COMMENT_BLOCK("/\\*", "\\*/"),
+
+		/** Comment line */
 		COMMENT_LINE("//", null),
+
+		/** String literal */
 		LITERAL("\"", "[^\\\\]\""),
+
+		/** Reserved java keywords */
 		KEYWORDS("(?<=[\\s\\.\\(\\{)};=]|^)(?:public|static|final|private|new|void|this|return|"
 				+ "class|package|enum|import|if|else|try|catch|finally|throw|switch|case|break|"
 				+ "default|for|do|while|int|long|boolean|double|float|null)(?=[\\s\\.\\(\\{)};]|$)", null);
@@ -56,7 +82,7 @@ public class Java2Html {
 		private String endPatternString = null;
 		private Pattern endPattern = null;
 
-		private TYPE(String start, String end) {
+		private MATCH_TYPE(String start, String end) {
 			this.startPatternString = start;
 			this.endPatternString = end;
 			if (endPatternString != null) {
@@ -64,9 +90,9 @@ public class Java2Html {
 			}
 		}
 
-		private static String getFullPattern() {
+		private static String getAllAsPatternString() {
 			StringBuilder sb = new StringBuilder();
-			for (TYPE type : TYPE.values()) {
+			for (MATCH_TYPE type : MATCH_TYPE.values()) {
 				sb.append("|(" + type.startPatternString + ")");
 			}
 			sb.deleteCharAt(0);
@@ -75,10 +101,10 @@ public class Java2Html {
 	}
 
 	static {
-		interceptOutputPattern = Pattern.compile(TYPE.getFullPattern());
+		nextMatchPattern = Pattern.compile(MATCH_TYPE.getAllAsPatternString());
 	}
 
-	private String currentComentBlockStyle = null;
+	private COMMENTBLOCK commentMode = null;
 
 	private int lineCount = 0;
 	private String sourceLine = null;
@@ -86,7 +112,7 @@ public class Java2Html {
 	private StringBuilder targetLine = null;
 
 	/**
-	 * Formats a single java source file and prints the result into a target file.
+	 * Generates html markup from java source code.
 	 * 
 	 * @param source
 	 *            java source file
@@ -100,37 +126,52 @@ public class Java2Html {
 		}
 
 		// create directory structure when not already available
-		File directory = new File(target.getParent());
-		if (!directory.exists()) {
-			target.mkdirs();
-		}
+		target.mkdirs();
+
+		String _target = source.getName().replace(".java", ".html");
+		target = new File(target.getPath() + "/" + _target);
 
 		try {
-			Reader _source = new FileReader(source);
-			Writer _target = new FileWriter(target);
-			this.format(_source, _target);
+			Reader reader = new FileReader(source);
+			Writer writer = new FileWriter(target);
+			this.format(reader, writer);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
+	/**
+	 * Generates html markup from java source code.
+	 * 
+	 * @param source
+	 *            reader which provides java source code
+	 * @param target
+	 *            writer which is used for generated html markup
+	 */
 	public void format(Reader source, Writer target) {
 		BufferedReader reader = new BufferedReader(source);
 		PrintWriter printer = new PrintWriter(new BufferedWriter(target));
 
 		printer.println("<html>");
 		printer.println("<head>");
-		printer.println("<style type=\"text/css\"> span.commentBlock "
-				+ "{ color:rgb(63,127,95) } span.commentBlockJavadoc {color:rgb(63,95,191)} "
-				+ "span.commentLine {color:rgb(63,127,95)} "
-				+ "span.lineNumber {color:rgb(120,120,120)}" + "span.literal {color:rgb(42,0,255)}"
-				+ "span.keyword {color:rgb(127,0,85); font-weight:bold} </style>");
+		printer.println("<style type=\"text/css\"> span." + STYLECLASS_COMMENTBLOCK
+				+ " { color:rgb(63,127,95) } span." + STYLECLASS_JAVADOCR
+				+ " {color:rgb(63,95,191)} " + "span." + STYLECLASS_COMMENTLINE
+				+ " {color:rgb(63,127,95)} " + "span." + STYLECLASS_LINENUMBER
+				+ " {color:rgb(120,120,120)}" + "span." + STYLECLASS_LITERAL
+				+ " {color:rgb(42,0,255)}" + "span." + STYLECLASS_KEYWORD
+				+ " {color:rgb(127,0,85); font-weight:bold} </style>");
 		printer.println("</head>");
 		printer.println("<body><pre><code>");
 
 		try {
 			while (reader.ready()) {
 				String line = reader.readLine();
+
+				// prevent an infinite loop; e.g. a StringReader is always ready
+				if (line == null) {
+					break;
+				}
 				String result = this.processSourceLine(line);
 				printer.println(result);
 			}
@@ -143,7 +184,21 @@ public class Java2Html {
 	}
 
 	/**
-	 * Processed a whole line from java source.
+	 * Generates html markup from java source code.
+	 * 
+	 * @param input
+	 *            java source code (with or without linebreaks)
+	 * @return generated html
+	 */
+	public String format(String input) {
+		Reader source = new StringReader(input);
+		Writer target = new StringWriter();
+		this.format(source, target);
+		return target.toString();
+	}
+
+	/**
+	 * Processed a whole line of java source code. The passed string must't contain any line breaks.
 	 * 
 	 * @return html formatted line
 	 */
@@ -153,8 +208,8 @@ public class Java2Html {
 		this.targetLine = new StringBuilder();
 		this.lineCount++;
 		this.targetLine.append("<span class=\"lineNumber\">").append(lineCount).append(": </span>");
-		if (this.currentComentBlockStyle != null) {
-			this.processAsBlockComment(currentComentBlockStyle);
+		if (this.commentMode != null) {
+			this.processAsBlockComment();
 		} else {
 			this.processRemainingLine();
 		}
@@ -171,7 +226,7 @@ public class Java2Html {
 		while (this.remainingLine.length() > 0) {
 
 			// matcher for special java occurrences
-			Matcher m = interceptOutputPattern.matcher(this.remainingLine);
+			Matcher m = nextMatchPattern.matcher(this.remainingLine);
 
 			// when content needs special formatting...
 			if (m.find()) {
@@ -194,26 +249,26 @@ public class Java2Html {
 				}
 
 				// get the enum value for that matching group
-				TYPE matchType = TYPE.values()[matchIndex - 1];
+				MATCH_TYPE matchType = MATCH_TYPE.values()[matchIndex - 1];
 
 				// and process further according the type
 				switch (matchType) {
 				case JAVADOC:
-					this.currentComentBlockStyle = "commentBlockJavadoc";
-					this.processAsBlockComment(currentComentBlockStyle);
+					this.commentMode = COMMENTBLOCK.JAVADOC_BLOCK;
+					this.processAsBlockComment();
 					break;
 				case COMMENT_BLOCK:
-					this.currentComentBlockStyle = "commentBlock";
-					this.processAsBlockComment(currentComentBlockStyle);
+					this.commentMode = COMMENTBLOCK.NORMAL_BLOCK;
+					this.processAsBlockComment();
 					break;
 				case COMMENT_LINE:
-					this.processAsLineComment("commentLine");
+					this.processAsLineComment();
 					break;
 				case LITERAL:
-					this.processAsLiteral("literal");
+					this.processAsLiteral();
 					break;
 				case KEYWORDS:
-					this.processAsKeyword(matchValue, "keyword");
+					this.processAsKeyword(matchValue);
 					break;
 				}
 			} else {
@@ -227,16 +282,15 @@ public class Java2Html {
 	/**
 	 * Block comment processing. Processing starts at first char and finishes when the comment block
 	 * is closed (star followed by slash) or end of content is reached.
-	 * 
-	 * @param styleClass
-	 *            style class which is used for the span tag
 	 */
-	private void processAsBlockComment(String styleClass) {
+	private void processAsBlockComment() {
 		// update target content; open span tag
+		String styleClass = (this.commentMode == COMMENTBLOCK.NORMAL_BLOCK) ? STYLECLASS_COMMENTBLOCK
+				: STYLECLASS_JAVADOCR;
 		targetLine.append("<span class=\"").append(styleClass).append("\">");
 
 		// matcher to find the end of that comment block
-		Matcher m = TYPE.COMMENT_BLOCK.endPattern.matcher(this.remainingLine);
+		Matcher m = MATCH_TYPE.COMMENT_BLOCK.endPattern.matcher(this.remainingLine);
 
 		// when comment block is closed ...
 		if (m.find()) {
@@ -249,7 +303,7 @@ public class Java2Html {
 			// update remaing content
 			this.remainingLine = this.remainingLine.substring(index);
 			// reset comment block mode by nullify comment style class
-			this.currentComentBlockStyle = null;
+			this.commentMode = null;
 		} else {
 			// comment block is not closed;
 			// take full remaining content as comment
@@ -262,17 +316,14 @@ public class Java2Html {
 	/**
 	 * Line comment processing. Processing starts at first char and finishes at last char. Remaining
 	 * content gets marked as finished (nothing remains)
-	 * 
-	 * @param styleClass
-	 *            style class which is used for the span tag
 	 */
-	private void processAsLineComment(String styleClass) {
+	private void processAsLineComment() {
 		// html escape the comment
 		String comment = StringEscapeUtils.escapeHtml(this.remainingLine);
 
 		// update target content
-		targetLine.append("<span class=\"").append(styleClass).append("\">").append(comment)
-				.append("</span>");
+		targetLine.append("<span class=\"").append(STYLECLASS_COMMENTLINE).append("\">").append(
+				comment).append("</span>");
 
 		// update remaining content
 		this.remainingLine = NOTHING_REMAINS;
@@ -282,16 +333,13 @@ public class Java2Html {
 	 * Literal processing. Processing starts at first char and finishes when an unescaped double
 	 * quote is found. Remaining content gets updated by the content followed after current
 	 * processed content.
-	 * 
-	 * @param styleClass
-	 *            style class which is used for the span tag
 	 */
-	private void processAsLiteral(String styleClass) {
+	private void processAsLiteral() {
 		// open a span tag with passed style
-		targetLine.append("<span class=\"").append(styleClass).append("\">");
+		targetLine.append("<span class=\"").append(STYLECLASS_LITERAL).append("\">");
 
 		// find end of literal...
-		Matcher m = TYPE.LITERAL.endPattern.matcher(this.remainingLine);
+		Matcher m = MATCH_TYPE.LITERAL.endPattern.matcher(this.remainingLine);
 
 		// literal end must be available
 		if (m.find()) {
@@ -319,13 +367,11 @@ public class Java2Html {
 	 * 
 	 * @param keyword
 	 *            the keyword itself
-	 * @param styleClass
-	 *            style class which is used for the span tag
 	 */
-	private void processAsKeyword(String keyword, String styleClass) {
+	private void processAsKeyword(String keyword) {
 		// update target content
-		targetLine.append("<span class=\"").append(styleClass).append("\">").append(keyword)
-				.append("</span>");
+		targetLine.append("<span class=\"").append(STYLECLASS_KEYWORD).append("\">")
+				.append(keyword).append("</span>");
 
 		// update remaining content
 		this.remainingLine = remainingLine.substring(keyword.length());
@@ -335,7 +381,9 @@ public class Java2Html {
 	//
 	// Testing area
 	//
-	private static final String base = "D:/projects/yfaces-demo/src/main/java";
+	// private static final String base = "D:/projects/yfaces-demo/src/main/java";
+	private static final String base = "D:/projects/yfaces/yfaces-demo/src/main/java";
+	private static final String targetDir = "D:/_temp/";
 
 	/**
 	 * Javadoc
@@ -350,11 +398,10 @@ public class Java2Html {
 		String s3 = "a literal with a linebrerak because of a very very very very olong literal"
 				+ " string sdfasdfasfdsf";
 		String enumVar = "testtest";
-		System.out.println("Using Pattern:" + Java2Html.interceptOutputPattern.pattern());
+		System.out.println("Using Pattern:" + Java2Html.nextMatchPattern.pattern());
 
-		// File source = new File(sourceName);
 		File source = new File(sourceName);
-		File target = new File("c:/_test/Test.html"); // comment after
+		File target = new File(targetDir); // comment after
 		for (int i = 0; i <= 10; i++) {
 			long t1 = System.currentTimeMillis();
 			Java2Html test = new Java2Html();
@@ -362,6 +409,18 @@ public class Java2Html {
 			long t2 = System.currentTimeMillis();
 			System.out.println("Took: " + (t2 - t1) + "ms");
 		}
+	}
+
+	public static void main3(String[] argc) throws Exception {
+		String sourceName = base + "/" + Java2Html.class.getName().replaceAll("\\.", "/") + ".java";
+		File source = new File(sourceName);
+		StringWriter w = new StringWriter();
+		IOUtils.copy(new FileReader(source), w);
+
+		String s = w.toString();
+
+		System.out.println(new Java2Html().format(s));
+
 	}
 
 	public static void main2(String argc[]) {
