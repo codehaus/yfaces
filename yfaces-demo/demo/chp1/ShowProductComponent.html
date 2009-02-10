@@ -1,0 +1,50 @@
+<html>
+<head>
+<style type="text/css"> span.jh_cblk { color:rgb(63,127,95) } span.jh_jdoc {color:rgb(63,95,191)} span.jh_cline {color:rgb(63,127,95)} span.jh_line {color:rgb(120,120,120)}span.jh_lit {color:rgb(42,0,255)}span.jh_keyw {color:rgb(127,0,85); font-weight:bold} </style>
+</head>
+<body><pre><code>
+<span class="jh_line">1: </span><span class="jh_keyw">package</span> de.hybris.yfaces.demo.chapter1;
+<span class="jh_line">2: </span>
+<span class="jh_line">3: </span><span class="jh_keyw">import</span> de.hybris.yfaces.component.AbstractYComponent;
+<span class="jh_line">4: </span>
+<span class="jh_line">5: </span><span class="jh_keyw">public</span> <span class="jh_keyw">class</span> ShowProductComponent extends AbstractYComponent {
+<span class="jh_line">6: </span>
+<span class="jh_line">7: </span>	<span class="jh_keyw">private</span> String imageUrl = <span class="jh_keyw">null</span>;
+<span class="jh_line">8: </span>	<span class="jh_keyw">private</span> String description = <span class="jh_keyw">null</span>;
+<span class="jh_line">9: </span>	<span class="jh_keyw">private</span> String name = <span class="jh_lit">&quot;[no name available]&quot;</span>;
+<span class="jh_line">10: </span>	<span class="jh_keyw">private</span> String code = <span class="jh_keyw">null</span>;
+<span class="jh_line">11: </span>
+<span class="jh_line">12: </span>	<span class="jh_keyw">public</span> String getImageUrl() {
+<span class="jh_line">13: </span>		<span class="jh_keyw">return</span> imageUrl;
+<span class="jh_line">14: </span>	}
+<span class="jh_line">15: </span>
+<span class="jh_line">16: </span>	<span class="jh_keyw">public</span> <span class="jh_keyw">void</span> setImageUrl(String imageUrl) {
+<span class="jh_line">17: </span>		<span class="jh_keyw">this</span>.imageUrl = imageUrl;
+<span class="jh_line">18: </span>	}
+<span class="jh_line">19: </span>
+<span class="jh_line">20: </span>	<span class="jh_keyw">public</span> String getDescription() {
+<span class="jh_line">21: </span>		<span class="jh_keyw">return</span> description;
+<span class="jh_line">22: </span>	}
+<span class="jh_line">23: </span>
+<span class="jh_line">24: </span>	<span class="jh_keyw">public</span> <span class="jh_keyw">void</span> setDescription(String description) {
+<span class="jh_line">25: </span>		<span class="jh_keyw">this</span>.description = description;
+<span class="jh_line">26: </span>	}
+<span class="jh_line">27: </span>
+<span class="jh_line">28: </span>	<span class="jh_keyw">public</span> String getName() {
+<span class="jh_line">29: </span>		<span class="jh_keyw">return</span> name;
+<span class="jh_line">30: </span>	}
+<span class="jh_line">31: </span>
+<span class="jh_line">32: </span>	<span class="jh_keyw">public</span> <span class="jh_keyw">void</span> setName(String name) {
+<span class="jh_line">33: </span>		<span class="jh_keyw">this</span>.name = name;
+<span class="jh_line">34: </span>	}
+<span class="jh_line">35: </span>
+<span class="jh_line">36: </span>	<span class="jh_keyw">public</span> String getCode() {
+<span class="jh_line">37: </span>		<span class="jh_keyw">return</span> code;
+<span class="jh_line">38: </span>	}
+<span class="jh_line">39: </span>
+<span class="jh_line">40: </span>	<span class="jh_keyw">public</span> <span class="jh_keyw">void</span> setCode(String id) {
+<span class="jh_line">41: </span>		<span class="jh_keyw">this</span>.code = id;
+<span class="jh_line">42: </span>	}
+<span class="jh_line">43: </span>
+<span class="jh_line">44: </span>}
+</code></pre></body></html>
