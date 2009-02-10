@@ -62,7 +62,16 @@
 			</h:panelGroup>
 	
 			<h:panelGroup>
-				<ui:insert name="parts" />
+				<ui:insert name="parts" >
+					<ui:repeat value="#{chapter.participants}" var="part">
+						<h:outputText value="#{part.name}" rendered="#{part.source == null}"/>
+						<h:outputLink value="#{request.requestURI}" rendered="#{part.source != null}">
+							<f:param name="source" value="#{part.source}"/>
+							<f:param name="type" value="#{part.type}"/>
+							<h:outputText style="margin-right:8px;" value="[#{part.name}]"/>
+						</h:outputLink>
+					</ui:repeat>
+				</ui:insert>
 			</h:panelGroup>
 		</h:panelGrid>
 	

@@ -5,6 +5,10 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee/web-facesconfig_1_2.xsd">
 
+	<lifecycle>
+		<phase-listener> de.hybris.yfaces.demo.ProvideFormattedSource </phase-listener>
+	</lifecycle>
+
 	<managed-bean>
 		<managed-bean-name>chapter</managed-bean-name>
 		<managed-bean-class>

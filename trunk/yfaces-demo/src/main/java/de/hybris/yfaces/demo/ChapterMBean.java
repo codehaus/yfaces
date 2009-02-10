@@ -58,10 +58,25 @@ public class ChapterMBean {
 	private Map<String, String> examples = new HashMap<String, String>();
 	private List participants = new ArrayList();
 
+	/**
+	 * A Participant defines a resource (java source, xhtml file) which is part of this chapter.
+	 */
 	public static class Participant {
 		private String name = null;
 		private String source = null;
-		private String unformattedSource = null;
+		private String type = null;
+
+		public String getName() {
+			return name;
+		}
+
+		public String getSource() {
+			return source;
+		}
+
+		public String getType() {
+			return type;
+		}
 	}
 
 	public ChapterMBean() {
@@ -188,26 +203,37 @@ public class ChapterMBean {
 		// iterate over resources...
 		for (final String resource : resources) {
 
+			if (resource.endsWith(".xhtml")) {
+				Participant p = new Participant();
+				p.source = resource;
+				p.type = null;
+				p.name = resource.substring(resource.lastIndexOf("/") + 1);
+				this.participants.add(p);
+			}
+
 			// ...check whether name matches pattern for a YComponent view file
 			if (YFacesTaglib.COMPONENT_RESOURCE_PATTERN.matcher(resource).matches()) {
-				try {
-					// fetch URL and register at component registry
-					final URL url = ctx.getResource(resource);
-					YComponentInfo info = YComponentRegistry.getInstance()
-							.createYComponentInfo(url);
-					if (info.getImplementationClassName() != null) {
-						this.participants.add(info.getImplementationClassName());
-					}
-					if (info.getSpecificationClassName() != null) {
-						this.participants.add(info.getSpecificationClassName());
-					}
 
-				} catch (final MalformedURLException e) {
-					log.error(e.getMessage());
-					log.error("Error while fetching URL for resource " + resource);
+				// fetch URL and register at component registry
+				URL url = this.getResource(resource);
+				YComponentInfo info = YComponentRegistry.getInstance().createYComponentInfo(url);
+				if (info.getImplementationClassName() != null) {
+					this.addParticipiantClass(info.getImplementationClassName());
+				}
+				if (info.getSpecificationClassName() != null) {
+					this.addParticipiantClass(info.getSpecificationClassName());
 				}
 			}
 		}
+	}
+
+	private void addParticipiantClass(String resource) {
+
+		Participant p = new Participant();
+		p.source = resource;
+		p.type = null;
+		p.name = resource.substring(resource.lastIndexOf(".") + 1) + ".java";
+		this.participants.add(p);
 	}
 
 	/**
@@ -240,6 +266,19 @@ public class ChapterMBean {
 			result = resultBuilder.toString();
 		}
 		return result;
+	}
+
+	private URL getResource(String resource) {
+		ExternalContext ctx = FacesContext.getCurrentInstance().getExternalContext();
+		URL result = null;
+		try {
+			result = ctx.getResource(resource);
+		} catch (MalformedURLException e) {
+			log.error(e.getMessage());
+			log.error("Error while fetching URL for resource " + resource);
+		}
+		return result;
+
 	}
 
 }
