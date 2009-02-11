@@ -21,12 +21,6 @@ public class SourceBlock {
 		this.end = end;
 	}
 
-	// public SourceNode addSubNode(String start, String end) {
-	// SourceNode result = new SourceNode(start, end);
-	// this.subNodes.add(result);
-	// return result;
-	// }
-
 	public void addSubNode(SourceBlock subnode) {
 		this.subNodes.add(subnode);
 	}
