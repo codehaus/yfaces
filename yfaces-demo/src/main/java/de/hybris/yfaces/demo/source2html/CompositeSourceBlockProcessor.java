@@ -6,23 +6,27 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.lang.StringEscapeUtils;
 
-public class CompositeSourceBlockProcessor extends SourceBlockProcessor {
+public class CompositeSourceBlockProcessor extends SourceSelectionProcessor {
 
-	private SourceBlockProcessor[] processors = null;
+	private SourceSelectionProcessor[] processors = null;
 	private Pattern compositePattern = null;
 
-	public CompositeSourceBlockProcessor(SourceBlock sourceNode,
-			List<SourceBlockProcessor> subElements) {
+	protected CompositeSourceBlockProcessor(SourceSelection sourceNode,
+			List<SourceSelectionProcessor> subElements) {
 		super(sourceNode);
-		String subPattern = this.getCompositePatternString(subElements) + "|(" + endPattern + ")";
+		String subPattern = this.getCompositePatternString(subElements);
+		if (sourceSelection.getEndPattern() != null) {
+			subPattern = subPattern + "|(" + sourceSelection.getEndPattern().pattern() + ")";
+		}
+
 		this.compositePattern = Pattern.compile(subPattern);
-		this.processors = subElements.toArray(new SourceBlockProcessor[0]);
+		this.processors = subElements.toArray(new SourceSelectionProcessor[0]);
 	}
 
-	private String getCompositePatternString(List<SourceBlockProcessor> elements) {
+	private String getCompositePatternString(List<SourceSelectionProcessor> elements) {
 		StringBuilder sb = new StringBuilder();
-		for (SourceBlockProcessor element : elements) {
-			sb.append("|(" + element.getStartPattern().pattern() + ")");
+		for (SourceSelectionProcessor element : elements) {
+			sb.append("|(" + element.sourceSelection.getStartPattern().pattern() + ")");
 		}
 		sb.deleteCharAt(0);
 		return sb.toString();
@@ -33,10 +37,10 @@ public class CompositeSourceBlockProcessor extends SourceBlockProcessor {
 	 * remaining content and increases the amount of target content.
 	 */
 	@Override
-	public void process(SourceDocument doc, String match) {
+	public void process(SourceDocument doc, String startMatch) {
 
 		// open a span tag with passed style
-		super.openSpanTag(doc);
+		doc.targetLine.append(sourceSelection.getOpeningTag());
 
 		// matcher for special java occurrences
 		Matcher m = compositePattern.matcher(doc.remainingLine);
@@ -47,7 +51,7 @@ public class CompositeSourceBlockProcessor extends SourceBlockProcessor {
 			String out = StringEscapeUtils.escapeHtml(doc.remainingLine.substring(0, m.start()));
 			doc.targetLine.append(out);
 
-			super.closeSpanTag(doc);
+			doc.targetLine.append(sourceSelection.getClosingTag());
 
 			// update remaining content
 			doc.remainingLine = doc.remainingLine.substring(m.start());
@@ -65,12 +69,12 @@ public class CompositeSourceBlockProcessor extends SourceBlockProcessor {
 
 			if (matchIndex <= this.processors.length) {
 				// get the enum value for that matching group
-				SourceBlockProcessor matchingElement = this.processors[matchIndex - 1];
-				doc.foModeStack.push(matchingElement);
+				SourceSelectionProcessor matchingElement = this.processors[matchIndex - 1];
+				doc.selectionStack.push(matchingElement);
 				matchingElement.process(doc, matchValue);
 			} else {
-				doc.foModeStack.pop();
-				super.closeSpanTag(doc);
+				doc.selectionStack.pop();
+				doc.targetLine.append(sourceSelection.getClosingTag());
 			}
 
 		} else {
@@ -78,7 +82,7 @@ public class CompositeSourceBlockProcessor extends SourceBlockProcessor {
 			String out = StringEscapeUtils.escapeHtml(doc.remainingLine);
 			doc.targetLine.append(out);
 			doc.remainingLine = null;
-			super.closeSpanTag(doc);
+			doc.targetLine.append(sourceSelection.getClosingTag());
 		}
 	}
 

@@ -25,20 +25,27 @@ public class SourceDocument {
 	protected String remainingLine = null;
 	protected StringBuilder targetLine = null;
 
-	protected Stack<SourceBlockProcessor> foModeStack = null;
+	// stack with current active selection
+	protected Stack<SourceSelectionProcessor> selectionStack = null;
 
 	protected String style = "";
 
-	private SourceBlock sourceRoot = new SourceBlock(null, null);
+	private SourceSelection sourceRoot = new SourceSelection(null, null);
 
-	public SourceBlock getSourcePattern() {
+	/**
+	 * Returns the root selection for this source document. This one has the whole document selected
+	 * but child selections are added via {@link SourceSelection#addChild(SourceSelection)}
+	 * 
+	 * @return {@link SourceSelection} which selects the whole document
+	 */
+	public SourceSelection getSourceSelection() {
 		return this.sourceRoot;
 	}
 
 	public void compileConfiguration() {
 
 		// build pattern tree
-		SourceBlockProcessor root = getSourceElementForSourceNode(this.sourceRoot);
+		SourceSelectionProcessor root = getSourceElementForSourceNode(this.sourceRoot);
 
 		// collect styles
 		Map<String, String> styles = new LinkedHashMap<String, String>();
@@ -48,21 +55,21 @@ public class SourceDocument {
 		}
 		this.style = "<style type=\"text/css\"> " + this.style + " </style";
 
-		this.foModeStack = new Stack<SourceBlockProcessor>();
-		this.foModeStack.push(root);
+		this.selectionStack = new Stack<SourceSelectionProcessor>();
+		this.selectionStack.push(root);
 	}
 
-	private SourceBlockProcessor getSourceElementForSourceNode(SourceBlock node) {
+	private SourceSelectionProcessor getSourceElementForSourceNode(SourceSelection node) {
 
-		SourceBlockProcessor result = null;
+		SourceSelectionProcessor result = null;
 
 		// no subnodes; take a default sourceelement
-		if (node.getSubNodes().isEmpty()) {
-			result = new SourceBlockProcessor(node);
+		if (node.getAllChilds().isEmpty()) {
+			result = new SourceSelectionProcessor(node);
 		} else {
-			List<SourceBlockProcessor> subElements = new ArrayList<SourceBlockProcessor>();
-			for (SourceBlock subnode : node.getSubNodes()) {
-				SourceBlockProcessor se = getSourceElementForSourceNode(subnode);
+			List<SourceSelectionProcessor> subElements = new ArrayList<SourceSelectionProcessor>();
+			for (SourceSelection subnode : node.getAllChilds()) {
+				SourceSelectionProcessor se = getSourceElementForSourceNode(subnode);
 				subElements.add(se);
 			}
 			result = new CompositeSourceBlockProcessor(node, subElements);
@@ -70,11 +77,11 @@ public class SourceDocument {
 		return result;
 	}
 
-	private void collectAllStyles(SourceBlock node, Map<String, String> styles) {
+	private void collectAllStyles(SourceSelection node, Map<String, String> styles) {
 		if (node.getStyleClass() != null) {
 			styles.put(node.getStyleClass(), node.getStyleValues());
 		}
-		for (SourceBlock subnode : node.getSubNodes()) {
+		for (SourceSelection subnode : node.getAllChilds()) {
 			this.collectAllStyles(subnode, styles);
 		}
 	}
@@ -183,7 +190,7 @@ public class SourceDocument {
 				.append(lineCount).append(": </span>");
 		// System.out.println(this.sourceLine);
 		while (this.remainingLine != null && this.remainingLine.length() > 0) {
-			SourceBlockProcessor foMode = this.foModeStack.peek();
+			SourceSelectionProcessor foMode = this.selectionStack.peek();
 			foMode.process(this, null);
 		}
 		return this.targetLine.toString();

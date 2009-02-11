@@ -37,10 +37,10 @@ public class XhtmlSourceDocument extends SourceDocument {
 		YF_TAG_ATTRIB("\\w+:?\\w+(?=\\s*=)", null, STYLE_YFTAGATTRIB),
 		YF_LITERAL("\"", "[^\\\\]\"", STYLE_YFLITERAL);
 
-		private SourceBlock node = null;
+		private SourceSelection node = null;
 
 		private TYPE(String start, String end, String[] style) {
-			this.node = new SourceBlock(start, end);
+			this.node = new SourceSelection(start, end);
 			node.setName(this.name());
 			node.setStyleClass(style[0]);
 			node.setStyleValues(style[1]);
@@ -49,19 +49,19 @@ public class XhtmlSourceDocument extends SourceDocument {
 
 	public XhtmlSourceDocument() {
 
-		SourceBlock node = super.getSourcePattern();
-		node.addSubNode(TYPE.COMMENTBLOCK.node);
-		node.addSubNode(TYPE.YF_TAG.node);
-		node.addSubNode(TYPE.TAG.node);
-		node.addSubNode(TYPE.LITERAL.node);
+		SourceSelection node = super.getSourceSelection();
+		node.addChild(TYPE.COMMENTBLOCK.node);
+		node.addChild(TYPE.YF_TAG.node);
+		node.addChild(TYPE.TAG.node);
+		node.addChild(TYPE.LITERAL.node);
 
-		SourceBlock tagNode = TYPE.TAG.node;
-		tagNode.addSubNode(TYPE.LITERAL.node);
-		tagNode.addSubNode(TYPE.TAG_ATTRIB.node);
+		SourceSelection tagNode = TYPE.TAG.node;
+		tagNode.addChild(TYPE.LITERAL.node);
+		tagNode.addChild(TYPE.TAG_ATTRIB.node);
 
-		SourceBlock yfTagNode = TYPE.YF_TAG.node;
-		yfTagNode.addSubNode(TYPE.YF_LITERAL.node);
-		yfTagNode.addSubNode(TYPE.YF_TAG_ATTRIB.node);
+		SourceSelection yfTagNode = TYPE.YF_TAG.node;
+		yfTagNode.addChild(TYPE.YF_LITERAL.node);
+		yfTagNode.addChild(TYPE.YF_TAG_ATTRIB.node);
 
 		super.compileConfiguration();
 	}
@@ -83,7 +83,7 @@ public class XhtmlSourceDocument extends SourceDocument {
 		if (argc.length > 1) {
 
 		} else {
-			String base = "D:/projects/yfaces-demo";
+			String base = "D:/projects/yfaces/yfaces-demo";
 			// sourceName = base + "/demo/test.xhtml";
 			// sourceName = base + "/demo/template.xhtml";
 			sourceName = base + "/demo/chp1/demo1Cmp.xhtml";
