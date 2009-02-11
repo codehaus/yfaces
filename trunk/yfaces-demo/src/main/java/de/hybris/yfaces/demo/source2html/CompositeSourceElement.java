@@ -12,26 +12,38 @@ public class CompositeSourceElement extends DefaultSourceElement {
 
 	private Pattern subElementsPattern = null;
 
-	public CompositeSourceElement(List<SourceElement> subElements, String styleClass) {
-		this(null, null, subElements, styleClass);
+	public CompositeSourceElement(List<SourceElement> subElements) {
+		String startPattern = getCompositePatternString(subElements);
+		super.startPattern = Pattern.compile(startPattern);
+		this.subElementsPattern = this.startPattern;
+		super.styleClass = null;
+		this.elements = subElements.toArray(new SourceElement[0]);
 	}
 
-	public CompositeSourceElement(String startPattern, String endPattern, List<SourceElement> subElements,
-			String styleClass) {
+	public CompositeSourceElement(String startPattern, String endPattern,
+			List<SourceElement> subElements, String styleClass) {
 		super(startPattern, endPattern, styleClass);
+
+		String subPattern = this.getCompositePatternString(subElements) + "|(" + endPattern + ")";
+		this.subElementsPattern = Pattern.compile(subPattern);
+		this.elements = subElements.toArray(new SourceElement[0]);
+		super.styleClass = styleClass;
+	}
+
+	public CompositeSourceElement(SourceNode sourceNode, List<SourceElement> subElements) {
+		super(sourceNode);
+		String subPattern = this.getCompositePatternString(subElements) + "|(" + endPattern + ")";
+		this.subElementsPattern = Pattern.compile(subPattern);
+		this.elements = subElements.toArray(new SourceElement[0]);
+	}
+
+	private String getCompositePatternString(List<SourceElement> elements) {
 		StringBuilder sb = new StringBuilder();
-		for (SourceElement element : subElements) {
+		for (SourceElement element : elements) {
 			sb.append("|(" + element.getStartPattern().pattern() + ")");
 		}
-
-		if (endPattern != null) {
-			// add this ending pattern
-			sb.append("|(" + endPattern + ")");
-		}
 		sb.deleteCharAt(0);
-
-		this.subElementsPattern = Pattern.compile(sb.toString());
-		this.elements = subElements.toArray(new SourceElement[0]);
+		return sb.toString();
 	}
 
 	/**
@@ -41,15 +53,21 @@ public class CompositeSourceElement extends DefaultSourceElement {
 	@Override
 	public void process(SourceDocument doc, String match) {
 
+		// open a span tag with passed style
+		// doc.targetLine.append("<span class=\"").append(this.styleClass).append("\">");
+		super.openSpanTag(doc);
+
 		// matcher for special java occurrences
 		Matcher m = subElementsPattern.matcher(doc.remainingLine);
 
 		// when content needs special formatting...
 		if (m.find()) {
-
 			// update target content (with current format until matched position)
 			String out = StringEscapeUtils.escapeHtml(doc.remainingLine.substring(0, m.start()));
 			doc.targetLine.append(out);
+
+			// doc.targetLine.append("</span>");
+			super.closeSpanTag(doc);
 
 			// update remaining content
 			doc.remainingLine = doc.remainingLine.substring(m.start());
@@ -65,14 +83,16 @@ public class CompositeSourceElement extends DefaultSourceElement {
 				}
 			}
 
-			// get the enum value for that matching group
-			SourceElement matchingElement = this.elements[matchIndex - 1];
-
-			if (matchingElement == this) {
-				super.process(doc, matchValue);
-			} else {
+			if (matchIndex <= this.elements.length) {
+				// get the enum value for that matching group
+				SourceElement matchingElement = this.elements[matchIndex - 1];
 				doc.foModeStack.push(matchingElement);
 				matchingElement.process(doc, matchValue);
+			} else {
+				// super.process(doc, matchValue);
+				doc.foModeStack.pop();
+				// doc.targetLine.append("</span>");
+				super.closeSpanTag(doc);
 			}
 
 		} else {
@@ -80,6 +100,8 @@ public class CompositeSourceElement extends DefaultSourceElement {
 			String out = StringEscapeUtils.escapeHtml(doc.remainingLine);
 			doc.targetLine.append(out);
 			doc.remainingLine = null;
+			// doc.targetLine.append("</span>");
+			super.closeSpanTag(doc);
 		}
 	}
 
