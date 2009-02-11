@@ -72,7 +72,7 @@ public class SourceDocument {
 				SourceSelectionProcessor se = getSourceElementForSourceNode(subnode);
 				subElements.add(se);
 			}
-			result = new CompositeSourceBlockProcessor(node, subElements);
+			result = new ParentSourceSelectionProcessor(node, subElements);
 		}
 		return result;
 	}

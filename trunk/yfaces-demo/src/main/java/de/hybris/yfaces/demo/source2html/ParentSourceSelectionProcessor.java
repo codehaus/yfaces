@@ -6,12 +6,12 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.lang.StringEscapeUtils;
 
-public class CompositeSourceBlockProcessor extends SourceSelectionProcessor {
+public class ParentSourceSelectionProcessor extends SourceSelectionProcessor {
 
 	private SourceSelectionProcessor[] processors = null;
 	private Pattern compositePattern = null;
 
-	protected CompositeSourceBlockProcessor(SourceSelection sourceNode,
+	protected ParentSourceSelectionProcessor(SourceSelection sourceNode,
 			List<SourceSelectionProcessor> subElements) {
 		super(sourceNode);
 		String subPattern = this.getCompositePatternString(subElements);
