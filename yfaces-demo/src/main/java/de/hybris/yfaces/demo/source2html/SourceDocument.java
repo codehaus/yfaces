@@ -10,12 +10,13 @@ import java.io.Reader;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Stack;
 
 public class SourceDocument {
-
-	public static final String NOTHING_REMAINS = null;
-	public static final String NOTHING_REMAINS_BUT_KEPP_MODE = "";
 
 	public static final String STYLECLASS_LINENUMBER = "jh_line";
 
@@ -26,7 +27,57 @@ public class SourceDocument {
 
 	protected Stack<SourceElement> foModeStack = null;
 
-	protected String style = null;
+	protected String style = "";
+
+	private SourceNode sourceRoot = new SourceNode(null, null);
+
+	public SourceNode getSourcePattern() {
+		return this.sourceRoot;
+	}
+
+	public void compileConfiguration() {
+
+		// build pattern tree
+		SourceElement root = getSourceElementForSourceNode(this.sourceRoot);
+
+		// collect styles
+		Map<String, String> styles = new LinkedHashMap<String, String>();
+		this.collectAllStyles(this.sourceRoot, styles);
+		for (Map.Entry<String, String> entry : styles.entrySet()) {
+			this.style = this.style + " span." + entry.getKey() + " {" + entry.getValue() + "} ";
+		}
+		this.style = "<style type=\"text/css\"> " + this.style + " </style";
+
+		this.foModeStack = new Stack<SourceElement>();
+		this.foModeStack.push(root);
+	}
+
+	private SourceElement getSourceElementForSourceNode(SourceNode node) {
+
+		SourceElement result = null;
+
+		// no subnodes; take a default sourceelement
+		if (node.getSubNodes().isEmpty()) {
+			result = new DefaultSourceElement(node);
+		} else {
+			List<SourceElement> subElements = new ArrayList<SourceElement>();
+			for (SourceNode subnode : node.getSubNodes()) {
+				SourceElement se = getSourceElementForSourceNode(subnode);
+				subElements.add(se);
+			}
+			result = new CompositeSourceElement(node, subElements);
+		}
+		return result;
+	}
+
+	private void collectAllStyles(SourceNode node, Map<String, String> styles) {
+		if (node.getStyleClass() != null) {
+			styles.put(node.getStyleClass(), node.getStyleValues());
+		}
+		for (SourceNode subnode : node.getSubNodes()) {
+			this.collectAllStyles(subnode, styles);
+		}
+	}
 
 	/**
 	 * Generates html markup from java source code.
@@ -45,7 +96,8 @@ public class SourceDocument {
 		// create directory structure when not already available
 		target.mkdirs();
 
-		String _target = source.getName().replace(".java", ".html");
+		String fileExtension = source.getName().substring(source.getName().lastIndexOf(".") + 1);
+		String _target = source.getName().replace(fileExtension, "html");
 		target = new File(target.getPath() + "/" + _target);
 
 		try {
@@ -70,18 +122,12 @@ public class SourceDocument {
 		BufferedReader reader = new BufferedReader(source);
 		PrintWriter printer = new PrintWriter(new BufferedWriter(target));
 
+		this.lineCount = 0;
 		printer.println("<html>");
 		printer.println("<head>");
 		if (this.style != null) {
 			printer.println(style);
 		}
-		// printer.println("<style type=\"text/css\"> span." + STYLECLASS_COMMENTBLOCK
-		// + " { color:rgb(63,127,95) } span." + STYLECLASS_JAVADOC
-		// + " {color:rgb(63,95,191)} " + "span." + STYLECLASS_COMMENTLINE
-		// + " {color:rgb(63,127,95)} " + "span." + STYLECLASS_LINENUMBER
-		// + " {color:rgb(120,120,120)}" + "span." + STYLECLASS_LITERAL
-		// + " {color:rgb(42,0,255)}" + "span." + STYLECLASS_KEYWORD
-		// + " {color:rgb(127,0,85); font-weight:bold} </style>");
 		printer.println("</head>");
 		printer.println("<body><pre><code>");
 
@@ -99,7 +145,8 @@ public class SourceDocument {
 			long end = System.currentTimeMillis();
 			printer.println("</code></pre>");
 			printer.println();
-			printer.println("<i style=\"font-size:8pt\">Generated in " + (end - start) + "ms");
+			printer.println("<i style=\"font-size:8pt\">Generated in " + (end - start)
+					+ "ms with Source2Html");
 			printer.println("</body></html>");
 			printer.flush();
 			printer.close();
@@ -134,8 +181,7 @@ public class SourceDocument {
 		this.lineCount++;
 		this.targetLine.append("<span class=\"").append(STYLECLASS_LINENUMBER).append("\">")
 				.append(lineCount).append(": </span>");
-		boolean keepMode = false;
-		System.out.println(this.sourceLine);
+		// System.out.println(this.sourceLine);
 		while (this.remainingLine != null && this.remainingLine.length() > 0) {
 			SourceElement foMode = this.foModeStack.peek();
 			foMode.process(this, null);

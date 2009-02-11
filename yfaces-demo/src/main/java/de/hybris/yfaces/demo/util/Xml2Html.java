@@ -33,9 +33,9 @@ public class Xml2Html {
 	private enum MATCH_TYPE {
 		/** General comment block */
 		COMMENT_BLOCK("<!--", "-->"),
-		
-//		TAG_BLOCK("<", ">"),
-		
+
+		// TAG_BLOCK("<", ">"),
+
 		/** String literal */
 		LITERAL("\"", "[^\\\\]\""),
 
@@ -176,15 +176,15 @@ public class Xml2Html {
 		this.lineCount++;
 		this.targetLine.append("<span class=\"").append(STYLECLASS_LINENUMBER).append("\">")
 				.append(lineCount).append(": </span>");
-		
-		//when blocks are processed previous mode is still active  
+
+		// when blocks are processed previous mode is still active
 		if (this.lastMode != null) {
 			this.processMatch(this.lastMode, null);
 		}
-		
-		//process normal when no bloc is active or block is finished for that line
+
+		// process normal when no bloc is active or block is finished for that line
 		this.processRemainingLine();
-		
+
 		return this.targetLine.toString();
 	}
 
@@ -204,7 +204,8 @@ public class Xml2Html {
 			if (m.find()) {
 
 				// update target content (neutral output until matched position)
-				String out = StringEscapeUtils.escapeHtml(this.remainingLine.substring(0, m.start()));
+				String out = StringEscapeUtils.escapeHtml(this.remainingLine
+						.substring(0, m.start()));
 				targetLine.append(out);
 
 				// update remaining content
@@ -270,27 +271,21 @@ public class Xml2Html {
 			this.remainingLine = NOTHING_REMAINS;
 		}
 	}
-	
-	
-	
-	
-	
-	
+
 	private void processMatch(MATCH_TYPE matchType, String matchValue) {
 		switch (matchType) {
 		case COMMENT_BLOCK:
 			this.processAsCommentBlock();
 			break;
-//		case TAG_BLOCK:
-//			this.processAsTagBlock();
-//			break;
+		// case TAG_BLOCK:
+		// this.processAsTagBlock();
+		// break;
 		case LITERAL:
 			this.processAsLiteral();
 			break;
 		}
 	}
-	
-	
+
 	/**
 	 * General comment block processing.
 	 */
@@ -298,6 +293,7 @@ public class Xml2Html {
 		this.lastMode = MATCH_TYPE.COMMENT_BLOCK;
 		this.processAsBlock(STYLECLASS_COMMENTBLOCK, MATCH_TYPE.COMMENT_BLOCK.endPattern);
 	}
+
 	/**
 	 * Literal processing. Processing starts at first char and finishes when an unescaped double
 	 * quote is found. Remaining content gets updated by the content followed after current
@@ -329,26 +325,24 @@ public class Xml2Html {
 		}
 	}
 
-	
-	
-	public static final Pattern TAG_ATTRIBUTE = Pattern.compile("\\w+(?=\\s*=)");
-//
-//	private void processAsTagBlock() {
-//		
-//		Matcher m = MATCH_TYPE.TAG_BLOCK.endPattern.matcher(this.remainingLine);
-//
-//		if (m.find()) {
-//			this.processAsTagAttributes(this.remainingLine.substring(0, m.start())); 
-//		} else {
-//			this.processAsTagAttributes(this.remainingLine);
-//		}
-//		Matcher attributeMatcher = TAG_ATTRIBUTE.matcher(this.remainingLine);
-//	}
-//	
-//	private void processAsTagAttributes(String values) {
-//	}
+	public static final Pattern TAG_ATTRIBUTE = Pattern.compile("(\\w)+(?=\\s*=)");
 
-	
+	//
+	// private void processAsTagBlock() {
+	//		
+	// Matcher m = MATCH_TYPE.TAG_BLOCK.endPattern.matcher(this.remainingLine);
+	//
+	// if (m.find()) {
+	// this.processAsTagAttributes(this.remainingLine.substring(0, m.start()));
+	// } else {
+	// this.processAsTagAttributes(this.remainingLine);
+	// }
+	// Matcher attributeMatcher = TAG_ATTRIBUTE.matcher(this.remainingLine);
+	// }
+	//	
+	// private void processAsTagAttributes(String values) {
+	// }
+
 	public static void main(String argc[]) {
 		String[] test = new String[] { "sdafdsa  fasdf <br test=\"value\" test3  = \"value\"  />" };
 
@@ -357,7 +351,8 @@ public class Xml2Html {
 			Matcher m = TAG_ATTRIBUTE.matcher(s);
 
 			while (m.find()) {
-				System.out.println("->" + s.substring(m.start(), m.end()));
+				// System.out.println("->" + s.substring(m.start(), m.end()));
+				System.out.println("->" + m.group(0));
 			}
 		}
 

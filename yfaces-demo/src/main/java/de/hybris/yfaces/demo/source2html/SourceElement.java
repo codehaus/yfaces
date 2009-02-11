@@ -4,6 +4,8 @@ import java.util.regex.Pattern;
 
 public interface SourceElement {
 
+	public String getName();
+
 	public String getStyleClass();
 
 	public Pattern getStartPattern();
