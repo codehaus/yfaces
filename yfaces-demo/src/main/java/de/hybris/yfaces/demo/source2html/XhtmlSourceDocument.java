@@ -37,10 +37,10 @@ public class XhtmlSourceDocument extends SourceDocument {
 		YF_TAG_ATTRIB("\\w+:?\\w+(?=\\s*=)", null, STYLE_YFTAGATTRIB),
 		YF_LITERAL("\"", "[^\\\\]\"", STYLE_YFLITERAL);
 
-		private SourceNode node = null;
+		private SourceBlock node = null;
 
 		private TYPE(String start, String end, String[] style) {
-			this.node = new SourceNode(start, end);
+			this.node = new SourceBlock(start, end);
 			node.setName(this.name());
 			node.setStyleClass(style[0]);
 			node.setStyleValues(style[1]);
@@ -49,17 +49,17 @@ public class XhtmlSourceDocument extends SourceDocument {
 
 	public XhtmlSourceDocument() {
 
-		SourceNode node = super.getSourcePattern();
+		SourceBlock node = super.getSourcePattern();
 		node.addSubNode(TYPE.COMMENTBLOCK.node);
 		node.addSubNode(TYPE.YF_TAG.node);
 		node.addSubNode(TYPE.TAG.node);
 		node.addSubNode(TYPE.LITERAL.node);
 
-		SourceNode tagNode = TYPE.TAG.node;
+		SourceBlock tagNode = TYPE.TAG.node;
 		tagNode.addSubNode(TYPE.LITERAL.node);
 		tagNode.addSubNode(TYPE.TAG_ATTRIB.node);
 
-		SourceNode yfTagNode = TYPE.YF_TAG.node;
+		SourceBlock yfTagNode = TYPE.YF_TAG.node;
 		yfTagNode.addSubNode(TYPE.YF_LITERAL.node);
 		yfTagNode.addSubNode(TYPE.YF_TAG_ATTRIB.node);
 

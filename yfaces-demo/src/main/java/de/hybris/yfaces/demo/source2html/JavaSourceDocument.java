@@ -37,14 +37,14 @@ public class JavaSourceDocument extends SourceDocument {
 		private String endPatternString = null;
 		private String styleClass = null;
 
-		private SourceNode node = null;
+		private SourceBlock node = null;
 
 		private MATCH_TYPE(String start, String end, String[] style) {
 			this.startPatternString = start;
 			this.endPatternString = end;
 			this.styleClass = style[0];
 
-			this.node = new SourceNode(start, end);
+			this.node = new SourceBlock(start, end);
 			node.setName(this.name());
 			node.setStyleClass(style[0]);
 			node.setStyleValues(style[1]);
@@ -53,7 +53,7 @@ public class JavaSourceDocument extends SourceDocument {
 
 	public JavaSourceDocument() {
 
-		SourceNode root = super.getSourcePattern();
+		SourceBlock root = super.getSourcePattern();
 
 		root.addSubNode(MATCH_TYPE.COMMENT_BLOCK.node);
 		root.addSubNode(MATCH_TYPE.JAVADOC.node);
