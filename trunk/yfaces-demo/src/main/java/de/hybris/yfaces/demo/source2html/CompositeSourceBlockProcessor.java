@@ -6,40 +6,40 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.lang.StringEscapeUtils;
 
-public class CompositeSourceElement extends DefaultSourceElement {
+public class CompositeSourceBlockProcessor extends SourceBlockProcessor {
 
-	private DefaultSourceElement[] elements = null;
+	private SourceBlockProcessor[] elements = null;
 
 	private Pattern subElementsPattern = null;
 
-	public CompositeSourceElement(List<DefaultSourceElement> subElements) {
+	public CompositeSourceBlockProcessor(List<SourceBlockProcessor> subElements) {
 		String startPattern = getCompositePatternString(subElements);
 		super.startPattern = Pattern.compile(startPattern);
 		this.subElementsPattern = this.startPattern;
 		super.styleClass = null;
-		this.elements = subElements.toArray(new DefaultSourceElement[0]);
+		this.elements = subElements.toArray(new SourceBlockProcessor[0]);
 	}
 
-	public CompositeSourceElement(String startPattern, String endPattern,
-			List<DefaultSourceElement> subElements, String styleClass) {
+	public CompositeSourceBlockProcessor(String startPattern, String endPattern,
+			List<SourceBlockProcessor> subElements, String styleClass) {
 		super(startPattern, endPattern, styleClass);
 
 		String subPattern = this.getCompositePatternString(subElements) + "|(" + endPattern + ")";
 		this.subElementsPattern = Pattern.compile(subPattern);
-		this.elements = subElements.toArray(new DefaultSourceElement[0]);
+		this.elements = subElements.toArray(new SourceBlockProcessor[0]);
 		super.styleClass = styleClass;
 	}
 
-	public CompositeSourceElement(SourceNode sourceNode, List<DefaultSourceElement> subElements) {
+	public CompositeSourceBlockProcessor(SourceBlock sourceNode, List<SourceBlockProcessor> subElements) {
 		super(sourceNode);
 		String subPattern = this.getCompositePatternString(subElements) + "|(" + endPattern + ")";
 		this.subElementsPattern = Pattern.compile(subPattern);
-		this.elements = subElements.toArray(new DefaultSourceElement[0]);
+		this.elements = subElements.toArray(new SourceBlockProcessor[0]);
 	}
 
-	private String getCompositePatternString(List<DefaultSourceElement> elements) {
+	private String getCompositePatternString(List<SourceBlockProcessor> elements) {
 		StringBuilder sb = new StringBuilder();
-		for (DefaultSourceElement element : elements) {
+		for (SourceBlockProcessor element : elements) {
 			sb.append("|(" + element.getStartPattern().pattern() + ")");
 		}
 		sb.deleteCharAt(0);
@@ -85,7 +85,7 @@ public class CompositeSourceElement extends DefaultSourceElement {
 
 			if (matchIndex <= this.elements.length) {
 				// get the enum value for that matching group
-				DefaultSourceElement matchingElement = this.elements[matchIndex - 1];
+				SourceBlockProcessor matchingElement = this.elements[matchIndex - 1];
 				doc.foModeStack.push(matchingElement);
 				matchingElement.process(doc, matchValue);
 			} else {

@@ -25,20 +25,20 @@ public class SourceDocument {
 	protected String remainingLine = null;
 	protected StringBuilder targetLine = null;
 
-	protected Stack<DefaultSourceElement> foModeStack = null;
+	protected Stack<SourceBlockProcessor> foModeStack = null;
 
 	protected String style = "";
 
-	private SourceNode sourceRoot = new SourceNode(null, null);
+	private SourceBlock sourceRoot = new SourceBlock(null, null);
 
-	public SourceNode getSourcePattern() {
+	public SourceBlock getSourcePattern() {
 		return this.sourceRoot;
 	}
 
 	public void compileConfiguration() {
 
 		// build pattern tree
-		DefaultSourceElement root = getSourceElementForSourceNode(this.sourceRoot);
+		SourceBlockProcessor root = getSourceElementForSourceNode(this.sourceRoot);
 
 		// collect styles
 		Map<String, String> styles = new LinkedHashMap<String, String>();
@@ -48,33 +48,33 @@ public class SourceDocument {
 		}
 		this.style = "<style type=\"text/css\"> " + this.style + " </style";
 
-		this.foModeStack = new Stack<DefaultSourceElement>();
+		this.foModeStack = new Stack<SourceBlockProcessor>();
 		this.foModeStack.push(root);
 	}
 
-	private DefaultSourceElement getSourceElementForSourceNode(SourceNode node) {
+	private SourceBlockProcessor getSourceElementForSourceNode(SourceBlock node) {
 
-		DefaultSourceElement result = null;
+		SourceBlockProcessor result = null;
 
 		// no subnodes; take a default sourceelement
 		if (node.getSubNodes().isEmpty()) {
-			result = new DefaultSourceElement(node);
+			result = new SourceBlockProcessor(node);
 		} else {
-			List<DefaultSourceElement> subElements = new ArrayList<DefaultSourceElement>();
-			for (SourceNode subnode : node.getSubNodes()) {
-				DefaultSourceElement se = getSourceElementForSourceNode(subnode);
+			List<SourceBlockProcessor> subElements = new ArrayList<SourceBlockProcessor>();
+			for (SourceBlock subnode : node.getSubNodes()) {
+				SourceBlockProcessor se = getSourceElementForSourceNode(subnode);
 				subElements.add(se);
 			}
-			result = new CompositeSourceElement(node, subElements);
+			result = new CompositeSourceBlockProcessor(node, subElements);
 		}
 		return result;
 	}
 
-	private void collectAllStyles(SourceNode node, Map<String, String> styles) {
+	private void collectAllStyles(SourceBlock node, Map<String, String> styles) {
 		if (node.getStyleClass() != null) {
 			styles.put(node.getStyleClass(), node.getStyleValues());
 		}
-		for (SourceNode subnode : node.getSubNodes()) {
+		for (SourceBlock subnode : node.getSubNodes()) {
 			this.collectAllStyles(subnode, styles);
 		}
 	}
@@ -183,7 +183,7 @@ public class SourceDocument {
 				.append(lineCount).append(": </span>");
 		// System.out.println(this.sourceLine);
 		while (this.remainingLine != null && this.remainingLine.length() > 0) {
-			DefaultSourceElement foMode = this.foModeStack.peek();
+			SourceBlockProcessor foMode = this.foModeStack.peek();
 			foMode.process(this, null);
 		}
 		return this.targetLine.toString();

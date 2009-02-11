@@ -3,7 +3,7 @@ package de.hybris.yfaces.demo.source2html;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SourceNode {
+public class SourceBlock {
 
 	private String start = null;
 	private String end = null;
@@ -13,10 +13,10 @@ public class SourceNode {
 	private boolean isMultilineMode = false;
 	private String name = null;
 
-	private List<SourceNode> subNodes = null;
+	private List<SourceBlock> subNodes = null;
 
-	protected SourceNode(String start, String end) {
-		this.subNodes = new ArrayList<SourceNode>();
+	protected SourceBlock(String start, String end) {
+		this.subNodes = new ArrayList<SourceBlock>();
 		this.start = start;
 		this.end = end;
 	}
@@ -27,11 +27,11 @@ public class SourceNode {
 	// return result;
 	// }
 
-	public void addSubNode(SourceNode subnode) {
+	public void addSubNode(SourceBlock subnode) {
 		this.subNodes.add(subnode);
 	}
 
-	protected List<SourceNode> getSubNodes() {
+	protected List<SourceBlock> getSubNodes() {
 		return this.subNodes;
 	}
 

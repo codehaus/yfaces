@@ -5,7 +5,10 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.lang.StringEscapeUtils;
 
-public class DefaultSourceElement {
+//TODO: use a member reference to SourceBlock
+public class SourceBlockProcessor {
+
+	private SourceBlock sourceBlock = null;
 
 	private String name = null;
 
@@ -22,11 +25,11 @@ public class DefaultSourceElement {
 	protected String styleClass = null;
 	private boolean isMultiLineModeEnabled = true;
 
-	protected DefaultSourceElement() {
+	protected SourceBlockProcessor() {
 
 	}
 
-	public DefaultSourceElement(SourceNode node) {
+	public SourceBlockProcessor(SourceBlock node) {
 		if (node.getStart() != null) {
 			this.startPattern = Pattern.compile(node.getStart());
 		}
@@ -39,7 +42,7 @@ public class DefaultSourceElement {
 		this.name = node.getName();
 	}
 
-	public DefaultSourceElement(String startPattern, String endPattern, String styleClass) {
+	public SourceBlockProcessor(String startPattern, String endPattern, String styleClass) {
 		if (startPattern != null) {
 			this.startPattern = Pattern.compile(startPattern);
 		}
