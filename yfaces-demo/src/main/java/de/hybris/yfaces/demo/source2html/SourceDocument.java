@@ -25,7 +25,7 @@ public class SourceDocument {
 	protected String remainingLine = null;
 	protected StringBuilder targetLine = null;
 
-	protected Stack<SourceElement> foModeStack = null;
+	protected Stack<DefaultSourceElement> foModeStack = null;
 
 	protected String style = "";
 
@@ -38,7 +38,7 @@ public class SourceDocument {
 	public void compileConfiguration() {
 
 		// build pattern tree
-		SourceElement root = getSourceElementForSourceNode(this.sourceRoot);
+		DefaultSourceElement root = getSourceElementForSourceNode(this.sourceRoot);
 
 		// collect styles
 		Map<String, String> styles = new LinkedHashMap<String, String>();
@@ -48,21 +48,21 @@ public class SourceDocument {
 		}
 		this.style = "<style type=\"text/css\"> " + this.style + " </style";
 
-		this.foModeStack = new Stack<SourceElement>();
+		this.foModeStack = new Stack<DefaultSourceElement>();
 		this.foModeStack.push(root);
 	}
 
-	private SourceElement getSourceElementForSourceNode(SourceNode node) {
+	private DefaultSourceElement getSourceElementForSourceNode(SourceNode node) {
 
-		SourceElement result = null;
+		DefaultSourceElement result = null;
 
 		// no subnodes; take a default sourceelement
 		if (node.getSubNodes().isEmpty()) {
 			result = new DefaultSourceElement(node);
 		} else {
-			List<SourceElement> subElements = new ArrayList<SourceElement>();
+			List<DefaultSourceElement> subElements = new ArrayList<DefaultSourceElement>();
 			for (SourceNode subnode : node.getSubNodes()) {
-				SourceElement se = getSourceElementForSourceNode(subnode);
+				DefaultSourceElement se = getSourceElementForSourceNode(subnode);
 				subElements.add(se);
 			}
 			result = new CompositeSourceElement(node, subElements);
@@ -183,7 +183,7 @@ public class SourceDocument {
 				.append(lineCount).append(": </span>");
 		// System.out.println(this.sourceLine);
 		while (this.remainingLine != null && this.remainingLine.length() > 0) {
-			SourceElement foMode = this.foModeStack.peek();
+			DefaultSourceElement foMode = this.foModeStack.peek();
 			foMode.process(this, null);
 		}
 		return this.targetLine.toString();

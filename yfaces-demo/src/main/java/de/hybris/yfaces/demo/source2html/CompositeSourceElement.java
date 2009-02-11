@@ -8,38 +8,38 @@ import org.apache.commons.lang.StringEscapeUtils;
 
 public class CompositeSourceElement extends DefaultSourceElement {
 
-	private SourceElement[] elements = null;
+	private DefaultSourceElement[] elements = null;
 
 	private Pattern subElementsPattern = null;
 
-	public CompositeSourceElement(List<SourceElement> subElements) {
+	public CompositeSourceElement(List<DefaultSourceElement> subElements) {
 		String startPattern = getCompositePatternString(subElements);
 		super.startPattern = Pattern.compile(startPattern);
 		this.subElementsPattern = this.startPattern;
 		super.styleClass = null;
-		this.elements = subElements.toArray(new SourceElement[0]);
+		this.elements = subElements.toArray(new DefaultSourceElement[0]);
 	}
 
 	public CompositeSourceElement(String startPattern, String endPattern,
-			List<SourceElement> subElements, String styleClass) {
+			List<DefaultSourceElement> subElements, String styleClass) {
 		super(startPattern, endPattern, styleClass);
 
 		String subPattern = this.getCompositePatternString(subElements) + "|(" + endPattern + ")";
 		this.subElementsPattern = Pattern.compile(subPattern);
-		this.elements = subElements.toArray(new SourceElement[0]);
+		this.elements = subElements.toArray(new DefaultSourceElement[0]);
 		super.styleClass = styleClass;
 	}
 
-	public CompositeSourceElement(SourceNode sourceNode, List<SourceElement> subElements) {
+	public CompositeSourceElement(SourceNode sourceNode, List<DefaultSourceElement> subElements) {
 		super(sourceNode);
 		String subPattern = this.getCompositePatternString(subElements) + "|(" + endPattern + ")";
 		this.subElementsPattern = Pattern.compile(subPattern);
-		this.elements = subElements.toArray(new SourceElement[0]);
+		this.elements = subElements.toArray(new DefaultSourceElement[0]);
 	}
 
-	private String getCompositePatternString(List<SourceElement> elements) {
+	private String getCompositePatternString(List<DefaultSourceElement> elements) {
 		StringBuilder sb = new StringBuilder();
-		for (SourceElement element : elements) {
+		for (DefaultSourceElement element : elements) {
 			sb.append("|(" + element.getStartPattern().pattern() + ")");
 		}
 		sb.deleteCharAt(0);
@@ -85,7 +85,7 @@ public class CompositeSourceElement extends DefaultSourceElement {
 
 			if (matchIndex <= this.elements.length) {
 				// get the enum value for that matching group
-				SourceElement matchingElement = this.elements[matchIndex - 1];
+				DefaultSourceElement matchingElement = this.elements[matchIndex - 1];
 				doc.foModeStack.push(matchingElement);
 				matchingElement.process(doc, matchValue);
 			} else {

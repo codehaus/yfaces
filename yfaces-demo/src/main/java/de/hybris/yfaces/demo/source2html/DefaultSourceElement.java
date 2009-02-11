@@ -5,7 +5,7 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.lang.StringEscapeUtils;
 
-public class DefaultSourceElement implements SourceElement {
+public class DefaultSourceElement {
 
 	private String name = null;
 
