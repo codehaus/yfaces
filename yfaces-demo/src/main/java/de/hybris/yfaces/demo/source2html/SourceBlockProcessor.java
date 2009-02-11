@@ -5,56 +5,21 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.lang.StringEscapeUtils;
 
-//TODO: use a member reference to SourceBlock
 public class SourceBlockProcessor {
 
 	private SourceBlock sourceBlock = null;
 
-	private String name = null;
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getName() {
-		return this.name;
-	}
-
 	protected Pattern startPattern = null;
 	protected Pattern endPattern = null;
-	protected String styleClass = null;
-	private boolean isMultiLineModeEnabled = true;
-
-	protected SourceBlockProcessor() {
-
-	}
 
 	public SourceBlockProcessor(SourceBlock node) {
+		this.sourceBlock = node;
 		if (node.getStart() != null) {
 			this.startPattern = Pattern.compile(node.getStart());
 		}
 		if (node.getEnd() != null) {
 			this.endPattern = Pattern.compile(node.getEnd());
 		}
-
-		boolean hasStyle = (node.getStyleClass() != null && node.getStyleClass().trim().length() > 0);
-		this.styleClass = (hasStyle) ? node.getStyleClass() : null;
-		this.name = node.getName();
-	}
-
-	public SourceBlockProcessor(String startPattern, String endPattern, String styleClass) {
-		if (startPattern != null) {
-			this.startPattern = Pattern.compile(startPattern);
-		}
-		if (endPattern != null) {
-			this.endPattern = Pattern.compile(endPattern);
-		}
-
-		this.styleClass = styleClass;
-	}
-
-	public void setStyleClass(String styleClass) {
-		this.styleClass = styleClass;
 	}
 
 	public Pattern getEndPattern() {
@@ -65,14 +30,10 @@ public class SourceBlockProcessor {
 		return this.startPattern;
 	}
 
-	public String getStyleClass() {
-		return this.styleClass;
-	}
-
 	public void process(SourceDocument doc, String matchElement) {
 
 		// open a span tag with passed style
-		doc.targetLine.append("<span class=\"").append(this.styleClass).append("\">");
+		this.openSpanTag(doc);
 
 		if (this.endPattern == null) {
 			// update remaining content
@@ -99,7 +60,7 @@ public class SourceBlockProcessor {
 				doc.foModeStack.pop();
 
 			} else {
-				if (isMultiLineModeEnabled) {
+				if (sourceBlock.isMultilineMode()) {
 					String match = StringEscapeUtils.escapeHtml(doc.remainingLine);
 					doc.targetLine.append(match);
 					doc.remainingLine = null;
@@ -115,17 +76,18 @@ public class SourceBlockProcessor {
 
 	@Override
 	public String toString() {
-		return this.getClass().getName() + "[" + this.getName() + "]";
+		return this.getClass().getName() + "[" + this.sourceBlock.getName() + "]";
 	}
 
 	protected void openSpanTag(SourceDocument doc) {
-		if (this.styleClass != null) {
-			doc.targetLine.append("<span class=\"").append(this.styleClass).append("\">");
+		if (this.sourceBlock.getStyleClass() != null) {
+			doc.targetLine.append("<span class=\"").append(this.sourceBlock.getStyleClass())
+					.append("\">");
 		}
 	}
 
 	protected void closeSpanTag(SourceDocument doc) {
-		if (this.styleClass != null) {
+		if (this.sourceBlock.getStyleClass() != null) {
 			doc.targetLine.append("</span>");
 		}
 	}

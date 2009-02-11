@@ -8,33 +8,15 @@ import org.apache.commons.lang.StringEscapeUtils;
 
 public class CompositeSourceBlockProcessor extends SourceBlockProcessor {
 
-	private SourceBlockProcessor[] elements = null;
+	private SourceBlockProcessor[] processors = null;
+	private Pattern compositePattern = null;
 
-	private Pattern subElementsPattern = null;
-
-	public CompositeSourceBlockProcessor(List<SourceBlockProcessor> subElements) {
-		String startPattern = getCompositePatternString(subElements);
-		super.startPattern = Pattern.compile(startPattern);
-		this.subElementsPattern = this.startPattern;
-		super.styleClass = null;
-		this.elements = subElements.toArray(new SourceBlockProcessor[0]);
-	}
-
-	public CompositeSourceBlockProcessor(String startPattern, String endPattern,
-			List<SourceBlockProcessor> subElements, String styleClass) {
-		super(startPattern, endPattern, styleClass);
-
-		String subPattern = this.getCompositePatternString(subElements) + "|(" + endPattern + ")";
-		this.subElementsPattern = Pattern.compile(subPattern);
-		this.elements = subElements.toArray(new SourceBlockProcessor[0]);
-		super.styleClass = styleClass;
-	}
-
-	public CompositeSourceBlockProcessor(SourceBlock sourceNode, List<SourceBlockProcessor> subElements) {
+	public CompositeSourceBlockProcessor(SourceBlock sourceNode,
+			List<SourceBlockProcessor> subElements) {
 		super(sourceNode);
 		String subPattern = this.getCompositePatternString(subElements) + "|(" + endPattern + ")";
-		this.subElementsPattern = Pattern.compile(subPattern);
-		this.elements = subElements.toArray(new SourceBlockProcessor[0]);
+		this.compositePattern = Pattern.compile(subPattern);
+		this.processors = subElements.toArray(new SourceBlockProcessor[0]);
 	}
 
 	private String getCompositePatternString(List<SourceBlockProcessor> elements) {
@@ -54,11 +36,10 @@ public class CompositeSourceBlockProcessor extends SourceBlockProcessor {
 	public void process(SourceDocument doc, String match) {
 
 		// open a span tag with passed style
-		// doc.targetLine.append("<span class=\"").append(this.styleClass).append("\">");
 		super.openSpanTag(doc);
 
 		// matcher for special java occurrences
-		Matcher m = subElementsPattern.matcher(doc.remainingLine);
+		Matcher m = compositePattern.matcher(doc.remainingLine);
 
 		// when content needs special formatting...
 		if (m.find()) {
@@ -66,7 +47,6 @@ public class CompositeSourceBlockProcessor extends SourceBlockProcessor {
 			String out = StringEscapeUtils.escapeHtml(doc.remainingLine.substring(0, m.start()));
 			doc.targetLine.append(out);
 
-			// doc.targetLine.append("</span>");
 			super.closeSpanTag(doc);
 
 			// update remaining content
@@ -83,15 +63,13 @@ public class CompositeSourceBlockProcessor extends SourceBlockProcessor {
 				}
 			}
 
-			if (matchIndex <= this.elements.length) {
+			if (matchIndex <= this.processors.length) {
 				// get the enum value for that matching group
-				SourceBlockProcessor matchingElement = this.elements[matchIndex - 1];
+				SourceBlockProcessor matchingElement = this.processors[matchIndex - 1];
 				doc.foModeStack.push(matchingElement);
 				matchingElement.process(doc, matchValue);
 			} else {
-				// super.process(doc, matchValue);
 				doc.foModeStack.pop();
-				// doc.targetLine.append("</span>");
 				super.closeSpanTag(doc);
 			}
 
@@ -100,7 +78,6 @@ public class CompositeSourceBlockProcessor extends SourceBlockProcessor {
 			String out = StringEscapeUtils.escapeHtml(doc.remainingLine);
 			doc.targetLine.append(out);
 			doc.remainingLine = null;
-			// doc.targetLine.append("</span>");
 			super.closeSpanTag(doc);
 		}
 	}

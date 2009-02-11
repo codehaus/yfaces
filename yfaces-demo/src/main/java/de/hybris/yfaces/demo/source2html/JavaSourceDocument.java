@@ -17,21 +17,21 @@ public class JavaSourceDocument extends SourceDocument {
 	 */
 	private enum MATCH_TYPE {
 		/** Javadoc comment block */
-		JAVADOC("/\\*\\*", "\\*/", STYLE_JAVADOC),
+		JAVADOC("/\\*\\*", "\\*/", true, STYLE_JAVADOC),
 
 		/** General comment block */
-		COMMENT_BLOCK("/\\*", "\\*/", STYLE_COMMENTBLOCK),
+		COMMENT_BLOCK("/\\*", "\\*/", true, STYLE_COMMENTBLOCK),
 
 		/** Comment line */
-		COMMENT_LINE("//", "$", STYLE_COMMENTLINE),
+		COMMENT_LINE("//", "$", false, STYLE_COMMENTLINE),
 
 		/** String literal */
-		LITERAL("\"", "[^\\\\]\"", STYLE_LITERAL),
+		LITERAL("\"", "[^\\\\]\"", false, STYLE_LITERAL),
 
 		/** Reserved java keywords */
 		KEYWORDS("(?<=[\\s\\.\\(\\{)};=]|^)(?:public|static|final|private|new|void|this|return|"
 				+ "class|package|enum|import|if|else|try|catch|finally|throw|switch|case|break|"
-				+ "default|for|do|while|int|long|boolean|double|float|null)(?=[\\s\\.\\(\\{)};]|$)", null, STYLE_KEYWORD);
+				+ "default|for|do|while|int|long|boolean|double|float|null)(?=[\\s\\.\\(\\{)};]|$)", null, true, STYLE_KEYWORD);
 
 		private String startPatternString = null;
 		private String endPatternString = null;
@@ -39,7 +39,7 @@ public class JavaSourceDocument extends SourceDocument {
 
 		private SourceBlock node = null;
 
-		private MATCH_TYPE(String start, String end, String[] style) {
+		private MATCH_TYPE(String start, String end, boolean isMultiLine, String[] style) {
 			this.startPatternString = start;
 			this.endPatternString = end;
 			this.styleClass = style[0];
@@ -48,15 +48,15 @@ public class JavaSourceDocument extends SourceDocument {
 			node.setName(this.name());
 			node.setStyleClass(style[0]);
 			node.setStyleValues(style[1]);
+			node.setMultilineMode(isMultiLine);
 		}
 	}
 
 	public JavaSourceDocument() {
 
 		SourceBlock root = super.getSourcePattern();
-
-		root.addSubNode(MATCH_TYPE.COMMENT_BLOCK.node);
 		root.addSubNode(MATCH_TYPE.JAVADOC.node);
+		root.addSubNode(MATCH_TYPE.COMMENT_BLOCK.node);
 		root.addSubNode(MATCH_TYPE.COMMENT_LINE.node);
 		root.addSubNode(MATCH_TYPE.KEYWORDS.node);
 		root.addSubNode(MATCH_TYPE.LITERAL.node);
