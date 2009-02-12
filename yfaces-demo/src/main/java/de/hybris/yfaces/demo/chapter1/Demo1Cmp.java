@@ -3,11 +3,13 @@ package de.hybris.yfaces.demo.chapter1;
 import de.hybris.yfaces.component.AbstractYComponent;
 
 /**
- * A basic sample component which demonstrates injections mechanism
+ * Sample component for chapter one. This component just defines some members which are made
+ * available as setter/getter. A property can be set directly from the view as long as a setter is
+ * available.
  * 
  * @author Denny.Strietzbaum
  */
-public class ShowProductComponent extends AbstractYComponent {
+public class Demo1Cmp extends AbstractYComponent {
 
 	private String imageUrl = null;
 	private String description = null;

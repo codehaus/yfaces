@@ -5,34 +5,31 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:t="http://myfaces.apache.org/tomahawk"
 	xmlns:yf="http://hybris.com/jsf/yfaces"
    template="/demo/template.xhtml">
    
 	<ui:define name="example">
-	
 		<h:panelGrid rowClasses="even,odd">
-			
 			<h:panelGroup>
-				No binding, no passing of attributes.<br/>
-				Press 'Submit' or 'Reset': count is always '1' and hashcode always changes (always new instance)<br/>
+				<h:outputText value="#{chapter.examples.ex1}" escape="false"/>
 				<yf:demo3/>
 			</h:panelGroup>
 
 			<h:panelGroup>
+				<h:outputText value="#{chapter.examples.ex2}" escape="false"/>
 				<yf:demo3 binding="#{frame3.component2}"/>
 			</h:panelGroup>
 
 			<h:panelGroup>
+				<h:outputText value="#{chapter.examples.ex3}" escape="false"/>
 				<yf:demo3 binding="#{frame3.component3}" message="A message which was passed by the frame view"/>
 			</h:panelGroup>
 
 			<h:panelGroup>
+				<h:outputText value="#{chapter.examples.ex4}" escape="false"/>
 				<yf:demo3 binding="#{frame3.component4}" message=""/>
 			</h:panelGroup>
-			
 		</h:panelGrid>
-		
 		
 		<h:form>
 			<h:commandLink value="Faces Request (POST)"/>
@@ -42,21 +39,5 @@
 	</ui:define>
 
 
-   <ui:define name="title">
-   	
-   </ui:define>
-   
-   <ui:define name="usecase">
-   	
-   </ui:define>
-   
-	
-	<ui:define name="parts">
-			view:  
-			class: 
-	</ui:define>
-
-   <ui:define name="long">
-   </ui:define>
 	
 </ui:composition>

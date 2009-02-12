@@ -1,0 +1,27 @@
+﻿
+{title} 
+Basics
+
+{usecase}
+Validate passed property values and/or use them as parameters to load missing component values.
+
+{parts}
+
+
+{long}
+After each property is injected the components postInitialize() method gets invoked.
+This is the place where passed values can be validated or missing values are loaded.
+   	
+{example-ex1}
+No binding, no passing of attributes.
+Press 'Submit' or 'Reset': count is always '1' and hashcode always changes (always new instance)<br/>
+<yf:demo3/>
+
+{example-ex2}
+<yf:demo3 binding="#{frame3.component2}"/>
+
+{example-ex3}
+<yf:demo3 binding="#{frame3.component3}" message="A message which was passed by the frame view"/>
+
+{example-ex4}
+<yf:demo3 binding="#{frame3.component4}" message=""/>

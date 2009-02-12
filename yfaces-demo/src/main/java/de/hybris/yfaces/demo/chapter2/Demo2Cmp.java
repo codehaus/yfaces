@@ -2,7 +2,7 @@ package de.hybris.yfaces.demo.chapter2;
 
 import de.hybris.yfaces.component.AbstractYComponent;
 
-public class ShowProductComponent extends AbstractYComponent {
+public class Demo2Cmp extends AbstractYComponent {
 
 	private String imageUrl = null;
 	private String description = null;
