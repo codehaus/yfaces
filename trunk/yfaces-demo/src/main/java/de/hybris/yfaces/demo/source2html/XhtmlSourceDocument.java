@@ -26,16 +26,16 @@ public class XhtmlSourceDocument extends SourceDocument {
 		/** General comment block */
 		COMMENTBLOCK("<!--", "-->", STYLE_COMMENTBLOCK),
 
+		YF_TAG("</?yf:", ">", STYLE_YFTAG),
+		YF_TAG_ATTRIB("\\w+:?\\w+(?=\\s*=)", null, STYLE_YFTAGATTRIB),
+		YF_LITERAL("\"", "[^\\\\]\"", STYLE_YFLITERAL),
+
 		TAG("<(?!!)", ">", STYLE_TAG),
 
 		TAG_ATTRIB("\\w+:?\\w+(?=\\s*=)", null, STYLE_TAGATTRIB),
 
 		/** String literal */
-		LITERAL("\"", "[^\\\\]\"", STYLE_LITERAL),
-
-		YF_TAG("</?yf:", ">", STYLE_YFTAG),
-		YF_TAG_ATTRIB("\\w+:?\\w+(?=\\s*=)", null, STYLE_YFTAGATTRIB),
-		YF_LITERAL("\"", "[^\\\\]\"", STYLE_YFLITERAL);
+		LITERAL("\"", "[^\\\\]\"", STYLE_LITERAL);
 
 		private SourceSelection node = null;
 
@@ -83,8 +83,8 @@ public class XhtmlSourceDocument extends SourceDocument {
 		if (argc.length > 1) {
 
 		} else {
-			String base = "D:/projects/yfaces/yfaces-demo";
-			// sourceName = base + "/demo/test.xhtml";
+			String base = "D:/projects/yfaces-demo";
+			sourceName = base + "/demo/test.xhtml";
 			// sourceName = base + "/demo/template.xhtml";
 			sourceName = base + "/demo/chp1/demo1Cmp.xhtml";
 			targetName = "C:/_test/";

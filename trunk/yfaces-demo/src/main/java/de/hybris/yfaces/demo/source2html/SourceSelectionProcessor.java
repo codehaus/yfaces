@@ -14,7 +14,8 @@ public class SourceSelectionProcessor {
 	protected SourceSelection sourceSelection = null;
 
 	/**
-	 * Constructor.
+	 * Constructor. The passed {@link SourceSelection} specifies the part of source which shall be
+	 * processed by this processor instance
 	 * 
 	 * @param selection
 	 *            {@link SourceSelection} which this processor belongs to
@@ -36,53 +37,57 @@ public class SourceSelectionProcessor {
 	 */
 	public void process(SourceDocument doc, String startMatch) {
 
-		// add html markup which opens this selection
-		doc.targetLine.append(this.sourceSelection.getOpeningTag());
-
 		// when no end pattern is available the range of start pattern match is taken instead
 		if (sourceSelection.getEndPattern() == null) {
-
-			// add content to target, remove content from source, finish selection
-			doc.targetLine.append(startMatch);
-			doc.remainingLine = doc.remainingLine.substring(startMatch.length());
+			this.processContent(doc, startMatch);
 			doc.selectionStack.pop();
 		} else {
 
 			// try to find the end of this selection ...
 			Matcher m = sourceSelection.getEndPattern().matcher(doc.remainingLine);
 
-			// when end is available...
+			// when an end match is available...
 			if (m.find()) {
-
-				// extract and process content
-				int index = m.end();
-				String match = doc.remainingLine.substring(0, index);
-				match = StringEscapeUtils.escapeHtml(match);
-
-				// add content to target, remove content from source, finish selection
-				doc.targetLine.append(match);
-				doc.remainingLine = doc.remainingLine.substring(index);
+				// process content until end index of current match
+				String content = doc.remainingLine.substring(0, m.end());
+				this.processContent(doc, content);
 				doc.selectionStack.pop();
 
 			} else {
 				// when no selection end is available...
 				// and multiline is enabled
 				if (sourceSelection.isMultilineMode()) {
-
-					// extract and process content
-					String match = StringEscapeUtils.escapeHtml(doc.remainingLine);
-					// add content to target, remove content from source, don't finish selection
-					doc.targetLine.append(match);
-					doc.remainingLine = null;
+					// process content until end of line
+					this.processContent(doc, doc.remainingLine);
 				} else {
-					// exception when no multiline is allowed
+					// or throw exception when no multiline is allowed
 					throw new IllegalStateException("Can't find end of current element at line "
 							+ doc.lineCount + ":" + doc.sourceLine);
 				}
 			}
 		}
-		// add html markup which closes this selection
-		doc.targetLine.append(this.sourceSelection.getClosingTag());
+	}
+
+	/**
+	 * Prints passed content into documents output channel. Does all necessary html escaping and
+	 * updates the documents input channel (remove processed content)
+	 * 
+	 * @param doc
+	 *            {@link SourceDocument}
+	 * @param content
+	 */
+	protected void processContent(SourceDocument doc, String content) {
+		// escape content for valid html markup
+		String escaped = StringEscapeUtils.escapeHtml(content);
+
+		// open appropriate html tag, add content to output, close tag
+		doc.targetLine.append(sourceSelection.getOpeningTag());
+		doc.targetLine.append(escaped);
+		doc.targetLine.append(sourceSelection.getClosingTag());
+
+		// remove processed content from input
+		doc.remainingLine = doc.remainingLine.substring(content.length());
+
 	}
 
 	@Override
