@@ -1,0 +1,22 @@
+﻿
+{title} 
+Basics
+
+{usecase}
+Validate passed property values and/or use them as parameters to load missing component values.
+
+{parts}
+
+
+{long}
+After each property is injected the components postInitialize() method gets invoked.
+This is the place where passed values can be validated or missing values are loaded.
+   	
+{example-ex1}
+<yf:demo2/>
+
+{example-ex2}
+<yf:demo2 code="nonExistingProductCode"/>
+
+{example-ex3}
+yf:demo2 code="FRUIT-1"/>
