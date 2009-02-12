@@ -16,6 +16,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
+/**
+ * Represents a source which shall be transformed into html markup. Transformation is processed line
+ * based. One line is taken from source (e.g. a {@link Reader}), processed according available
+ * {@link SourceSelection} and written into a target (e.g. a {@link Writer}.
+ * 
+ * @author Denny.Strietzbaum
+ */
 public class SourceDocument {
 
 	public static final String STYLECLASS_LINENUMBER = "jh_line";
@@ -25,12 +32,13 @@ public class SourceDocument {
 	protected String remainingLine = null;
 	protected StringBuilder targetLine = null;
 
-	// stack with current active selection
+	// stack with current active selection (TODO: make private?)
 	protected Stack<SourceSelectionProcessor> selectionStack = null;
 
-	protected String style = "";
+	private String style = null;
 
-	private SourceSelection sourceRoot = new SourceSelection(null, null);
+	// sourceselection which selects the whole document
+	private SourceSelection sourceSelection = new SourceSelection(null, null);
 
 	/**
 	 * Returns the root selection for this source document. This one has the whole document selected
@@ -39,65 +47,101 @@ public class SourceDocument {
 	 * @return {@link SourceSelection} which selects the whole document
 	 */
 	public SourceSelection getSourceSelection() {
-		return this.sourceRoot;
+		return this.sourceSelection;
 	}
 
 	public void compileConfiguration() {
 
-		// build pattern tree
-		SourceSelectionProcessor root = getSourceElementForSourceNode(this.sourceRoot);
+		// create processors for all selections
+		SourceSelectionProcessor root = createProcessors(this.sourceSelection);
 
-		// collect styles
-		Map<String, String> styles = new LinkedHashMap<String, String>();
-		this.collectAllStyles(this.sourceRoot, styles);
-		for (Map.Entry<String, String> entry : styles.entrySet()) {
-			this.style = this.style + " span." + entry.getKey() + " {" + entry.getValue() + "} ";
-		}
-		this.style = "<style type=\"text/css\"> " + this.style + " </style";
+		// create inline styles for all selections
+		this.style = createInlineStyles(this.sourceSelection);
 
+		// initialize selection stack
 		this.selectionStack = new Stack<SourceSelectionProcessor>();
 		this.selectionStack.push(root);
 	}
 
-	private SourceSelectionProcessor getSourceElementForSourceNode(SourceSelection node) {
+	/**
+	 * Creates the hierarchy of all {@link SourceSelectionProcessor} for this document. The passed
+	 * sourceselection ought to be the root selection which selects the whole document. For this
+	 * selection as well as each child selection an appropriate {@link SourceSelectionProcessor} is
+	 * created.
+	 * 
+	 * @param sourceSelection
+	 *            root selection which selects the full document
+	 * @return {@link SourceSelectionProcessor}
+	 */
+	private SourceSelectionProcessor createProcessors(SourceSelection sourceSelection) {
 
 		SourceSelectionProcessor result = null;
 
 		// no subnodes; take a default sourceelement
-		if (node.getAllChilds().isEmpty()) {
-			result = new SourceSelectionProcessor(node);
+		if (sourceSelection.getAllChilds().isEmpty()) {
+			result = new SourceSelectionProcessor(sourceSelection);
 		} else {
 			List<SourceSelectionProcessor> subElements = new ArrayList<SourceSelectionProcessor>();
-			for (SourceSelection subnode : node.getAllChilds()) {
-				SourceSelectionProcessor se = getSourceElementForSourceNode(subnode);
+			for (SourceSelection subnode : sourceSelection.getAllChilds()) {
+				SourceSelectionProcessor se = createProcessors(subnode);
 				subElements.add(se);
 			}
-			result = new ParentSourceSelectionProcessor(node, subElements);
+			result = new ParentSourceSelectionProcessor(sourceSelection, subElements);
 		}
 		return result;
 	}
 
-	private void collectAllStyles(SourceSelection node, Map<String, String> styles) {
-		if (node.getStyleClass() != null) {
-			styles.put(node.getStyleClass(), node.getStyleValues());
+	/**
+	 * Collects all styles from passed selection and all child selections. Creates and returns an
+	 * inline style representation which is meant to be placed into the &lt;head&gt; body.
+	 * 
+	 * @param selection
+	 *            the selection to start with collecting
+	 * @return inline style sheet representation
+	 */
+	private String createInlineStyles(SourceSelection selection) {
+		String result = "";
+		Map<String, String> styles = new LinkedHashMap<String, String>();
+		this.collectStyles(selection, styles);
+		for (Map.Entry<String, String> entry : styles.entrySet()) {
+			result = result + " span." + entry.getKey() + " {" + entry.getValue() + "} ";
 		}
-		for (SourceSelection subnode : node.getAllChilds()) {
-			this.collectAllStyles(subnode, styles);
+		result = "<style type=\"text/css\"> " + result + " span." + STYLECLASS_LINENUMBER
+				+ " {color:rgb(120,120,120)} </style";
+		return result;
+	}
+
+	/**
+	 * Internal. Recursive collection of styles and their classes.
+	 * 
+	 * @param selection
+	 * @param styleMap
+	 */
+	private void collectStyles(SourceSelection selection, Map<String, String> styleMap) {
+		if (selection.getStyleClass() != null) {
+			styleMap.put(selection.getStyleClass(), selection.getStyleValues());
+		}
+		for (SourceSelection subnode : selection.getAllChilds()) {
+			this.collectStyles(subnode, styleMap);
 		}
 	}
 
 	/**
-	 * Generates html markup from java source code.
+	 * Processes content from one file and writes html markup into another file.
 	 * 
 	 * @param source
-	 *            java source file
+	 *            file which provides the source
 	 * @param target
-	 *            html target file
+	 *            file which is used for generated html markup
 	 */
 	public void format(File source, File target) {
 
+		if (!source.exists()) {
+			throw new IllegalArgumentException("Source '" + source + " doesn't exist");
+		}
+
 		if (!source.isFile()) {
-			throw new IllegalArgumentException("Source is not a file");
+			throw new IllegalArgumentException("Source '" + source + " is not a file");
 		}
 
 		// create directory structure when not already available
@@ -117,10 +161,10 @@ public class SourceDocument {
 	}
 
 	/**
-	 * Generates html markup from java source code.
+	 * Processes content from one Reader and writes html markup into a Writer.
 	 * 
 	 * @param source
-	 *            reader which provides java source code
+	 *            reader which provides the source
 	 * @param target
 	 *            writer which is used for generated html markup
 	 */
@@ -146,7 +190,7 @@ public class SourceDocument {
 				if (line == null) {
 					break;
 				}
-				String result = this.formatSingleLine(line);
+				String result = this.processLine(line);
 				printer.println(result);
 			}
 			long end = System.currentTimeMillis();
@@ -177,11 +221,33 @@ public class SourceDocument {
 	}
 
 	/**
-	 * Processed a whole line of java source code. The passed string must't contain any line breaks.
+	 * Sets style information for this document.By default inline styles are generated which can be
+	 * overwritten.For inline styles use <code>&lt;style type="text/css"&gt;...&lt;style&gt;</code>
+	 * for external styles use
+	 * <code>&ltlink rel="stylesheet" type="text/css" href="path/to/styles.css"&gt;</code>
+	 * 
+	 * @param style
+	 */
+	public void setStyle(String style) {
+		this.style = style;
+	}
+
+	/**
+	 * Returns the stylesheet definition for this documents generated html markup.
+	 * 
+	 * @return styles as String
+	 */
+	public String getStyle() {
+		return this.style;
+	}
+
+	/**
+	 * Processes a whole line of source. Iterates over the line content and chooses an appropriate
+	 * {@link SourceSelectionProcessor} for the content
 	 * 
 	 * @return html formatted line
 	 */
-	private String formatSingleLine(String sourceLine) {
+	private String processLine(String sourceLine) {
 		this.sourceLine = sourceLine;
 		this.remainingLine = sourceLine;
 		this.targetLine = new StringBuilder();

@@ -2,8 +2,6 @@ package de.hybris.yfaces.demo.source2html;
 
 import java.io.File;
 
-import de.hybris.yfaces.demo.util.Java2Html;
-
 public class JavaSourceDocument extends SourceDocument {
 
 	private static final String[] STYLE_JAVADOC = { "jv_jdoc", "color:rgb(63,95,191)" };
@@ -34,9 +32,9 @@ public class JavaSourceDocument extends SourceDocument {
 		LITERAL("\"", "[^\\\\]\"", false, STYLE_LITERAL),
 
 		/** Reserved java keywords */
-		KEYWORDS("(?<=[\\s\\.\\(\\{)};=]|^)(?:public|static|final|private|new|void|this|return|"
-				+ "class|package|enum|import|if|else|try|catch|finally|throw|switch|case|break|"
-				+ "default|for|do|while|int|long|boolean|double|float|null)(?=[\\s\\.\\(\\{)};]|$)", null, true, STYLE_KEYWORD);
+		KEYWORDS("(?<=[\\s\\.\\(\\{)};=]|^)(?:public|static|final|private|new|void|this|super|return|"
+				+ "class|interface|extends|package|enum|import|if|else|try|catch|finally|throw|switch|case|break|"
+				+ "default|for|do|while|int|long|boolean|double|float|null|true|false)(?=[\\s\\.\\(\\{)};,]|$)", null, true, STYLE_KEYWORD);
 
 		private SourceSelection value = null;
 
@@ -68,7 +66,7 @@ public class JavaSourceDocument extends SourceDocument {
 	//
 	// Testing area
 	//
-	private static final String base = "D:/projects/yfaces/yfaces-demo/src/main/java";
+	private static final String base = "D:/projects/yfaces-demo/src/main/java";
 	private static final String targetDir = "C:/_test/";
 
 	// private static final String base = "D:/projects/yfaces/yfaces-demo/src/main/java";
@@ -80,7 +78,8 @@ public class JavaSourceDocument extends SourceDocument {
 	 * @param argc
 	 */
 	public static void main(String[] argc) {
-		String sourceName = base + "/" + Java2Html.class.getName().replaceAll("\\.", "/") + ".java";
+		String sourceName = base + "/" + JavaSourceDocument.class.getName().replaceAll("\\.", "/")
+				+ ".java";
 
 		String s1 = "a normal literal"; /* das is test */
 		String s2 = "a literal with a quotate \" inside it ";

@@ -2,6 +2,11 @@ package de.hybris.yfaces.demo.chapter1;
 
 import de.hybris.yfaces.component.AbstractYComponent;
 
+/**
+ * A basic sample component which demonstrates injections mechanism
+ * 
+ * @author Denny.Strietzbaum
+ */
 public class ShowProductComponent extends AbstractYComponent {
 
 	private String imageUrl = null;

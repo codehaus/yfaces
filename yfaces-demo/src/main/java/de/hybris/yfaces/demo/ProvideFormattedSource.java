@@ -13,8 +13,8 @@ import javax.faces.event.PhaseId;
 import javax.faces.event.PhaseListener;
 import javax.servlet.http.HttpServletResponse;
 
-import de.hybris.yfaces.demo.util.Java2Html;
-import de.hybris.yfaces.demo.util.Xml2Html;
+import de.hybris.yfaces.demo.source2html.JavaSourceDocument;
+import de.hybris.yfaces.demo.source2html.XhtmlSourceDocument;
 
 /**
  * {@link PhaseListener} which reads various non html based source files and formats it on-the-fly
@@ -26,6 +26,14 @@ public class ProvideFormattedSource implements PhaseListener {
 
 	private static final String P_SOURCE = "source";
 	private static final String P_TYPE = "type";
+
+	private JavaSourceDocument javaSource = null;
+	private XhtmlSourceDocument xhtmlSource = null;
+
+	public ProvideFormattedSource() {
+		this.javaSource = new JavaSourceDocument();
+		this.xhtmlSource = new XhtmlSourceDocument();
+	}
 
 	public void afterPhase(PhaseEvent arg0) {
 		Map map = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
@@ -68,9 +76,7 @@ public class ProvideFormattedSource implements PhaseListener {
 	private void writeAsXmlSource(String source) {
 		Reader reader = getReader(source);
 		PrintWriter writer = new PrintWriter(getWriter());
-
-		Xml2Html xml2Html = new Xml2Html();
-		xml2Html.format(reader, writer);
+		this.xhtmlSource.format(reader, writer);
 	}
 
 	private void writeAsJavaSource(String source) {
@@ -79,8 +85,7 @@ public class ProvideFormattedSource implements PhaseListener {
 		String sourcePath = "/src/main/java/" + source.replaceAll("\\.", "/") + ".java";
 		Reader reader = getReader(sourcePath);
 		Writer writer = getWriter();
-		Java2Html java2Html = new Java2Html();
-		java2Html.format(reader, writer);
+		this.javaSource.format(reader, writer);
 	}
 
 	private Writer getWriter() {

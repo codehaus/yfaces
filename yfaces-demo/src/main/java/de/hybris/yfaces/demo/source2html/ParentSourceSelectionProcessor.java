@@ -4,32 +4,34 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.commons.lang.StringEscapeUtils;
-
+/**
+ * Processes a {@link SourceSelection} according the selection properties. Additionally a collection
+ * of child processors can be configured. Each of the child specifies a subselection within this
+ * parent selection.
+ * 
+ * @author Denny.Strietzbaum
+ */
 public class ParentSourceSelectionProcessor extends SourceSelectionProcessor {
 
 	private SourceSelectionProcessor[] processors = null;
 	private Pattern compositePattern = null;
 
-	protected ParentSourceSelectionProcessor(SourceSelection sourceNode,
-			List<SourceSelectionProcessor> subElements) {
-		super(sourceNode);
-		String subPattern = this.getCompositePatternString(subElements);
-		if (sourceSelection.getEndPattern() != null) {
-			subPattern = subPattern + "|(" + sourceSelection.getEndPattern().pattern() + ")";
-		}
-
-		this.compositePattern = Pattern.compile(subPattern);
-		this.processors = subElements.toArray(new SourceSelectionProcessor[0]);
-	}
-
-	private String getCompositePatternString(List<SourceSelectionProcessor> elements) {
-		StringBuilder sb = new StringBuilder();
-		for (SourceSelectionProcessor element : elements) {
-			sb.append("|(" + element.sourceSelection.getStartPattern().pattern() + ")");
-		}
-		sb.deleteCharAt(0);
-		return sb.toString();
+	/**
+	 * Constructor. The passed {@link SourceSelection} specifies the part of source which shall be
+	 * processed by this processor instance. Additionally a list of child processors are passed
+	 * which all become active as long as this processor stays active (as long as the current
+	 * selection is processed)
+	 * 
+	 * @param sourceSelection
+	 *            {@link SourceSelection} which this processor belongs to
+	 * @param childSelections
+	 *            List of child processors
+	 */
+	protected ParentSourceSelectionProcessor(SourceSelection sourceSelection,
+			List<SourceSelectionProcessor> childSelections) {
+		super(sourceSelection);
+		this.compositePattern = this.createCompositePattern(childSelections);
+		this.processors = childSelections.toArray(new SourceSelectionProcessor[0]);
 	}
 
 	/**
@@ -39,22 +41,15 @@ public class ParentSourceSelectionProcessor extends SourceSelectionProcessor {
 	@Override
 	public void process(SourceDocument doc, String startMatch) {
 
-		// open a span tag with passed style
-		doc.targetLine.append(sourceSelection.getOpeningTag());
-
-		// matcher for special java occurrences
+		// match beginning of a child selection or end of this parent selection
 		Matcher m = compositePattern.matcher(doc.remainingLine);
-
-		// when content needs special formatting...
 		if (m.find()) {
-			// update target content (with current format until matched position)
-			String out = StringEscapeUtils.escapeHtml(doc.remainingLine.substring(0, m.start()));
-			doc.targetLine.append(out);
 
-			doc.targetLine.append(sourceSelection.getClosingTag());
-
-			// update remaining content
-			doc.remainingLine = doc.remainingLine.substring(m.start());
+			// print content between remaining content and matched position with current formatting
+			if (m.start() > 0) {
+				String content = doc.remainingLine.substring(0, m.start());
+				this.processContent(doc, content);
+			}
 
 			// the match itself (one of the optional ones)
 			String matchValue = m.group(0);
@@ -67,23 +62,47 @@ public class ParentSourceSelectionProcessor extends SourceSelectionProcessor {
 				}
 			}
 
+			// when current match belongs to a child selection ...
 			if (matchIndex <= this.processors.length) {
-				// get the enum value for that matching group
+				// ... make this selection active at document and start child processing
 				SourceSelectionProcessor matchingElement = this.processors[matchIndex - 1];
 				doc.selectionStack.push(matchingElement);
 				matchingElement.process(doc, matchValue);
 			} else {
+				// ...otherwise current match was the end of this parent selection
+				// process content of end match
+				this.processContent(doc, doc.remainingLine.substring(0, m.end() - m.start()));
 				doc.selectionStack.pop();
-				doc.targetLine.append(sourceSelection.getClosingTag());
 			}
 
 		} else {
-			// content needs no formatting; just add it to target and clear remaining content
-			String out = StringEscapeUtils.escapeHtml(doc.remainingLine);
-			doc.targetLine.append(out);
-			doc.remainingLine = null;
-			doc.targetLine.append(sourceSelection.getClosingTag());
+			this.processContent(doc, doc.remainingLine);
 		}
+	}
+
+	/**
+	 * Creates a Pattern which matches the beginning of each {@link SourceSelection} provided as
+	 * List of {@link SourceSelectionProcessor} and additionally matches the ending of this
+	 * processors {@link SourceSelection}.
+	 * 
+	 * @param elements
+	 *            List of {@link SourceSelectionProcessor} whose {@link SourceSelection} beginning
+	 *            pattern is used
+	 * @return {@link Pattern}
+	 */
+	private Pattern createCompositePattern(List<SourceSelectionProcessor> elements) {
+		StringBuilder sb = new StringBuilder();
+		for (SourceSelectionProcessor element : elements) {
+			sb.append("|(" + element.sourceSelection.getStartPattern().pattern() + ")");
+		}
+		sb.deleteCharAt(0);
+
+		if (this.sourceSelection.getEndPattern() != null) {
+			sb.append("|(" + this.sourceSelection.getEndPattern().pattern() + ")");
+		}
+
+		Pattern result = Pattern.compile(sb.toString());
+		return result;
 	}
 
 }
