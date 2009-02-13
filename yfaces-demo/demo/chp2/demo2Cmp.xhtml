@@ -12,15 +12,10 @@
 	<yf:component
 		id="showProductV2"
 		default="de.hybris.yfaces.demo.chapter2.Demo2Cmp"
-		var="cmp"
-		injectable="code">
+		var="cmp">
 		
 		<div>
-			<h:outputText value="Code: #{cmp.code}"/><br/>
-			<h:outputText value="Name: #{cmp.name}"/><br/>
-			<h:outputText value="Description: #{cmp.description}"/><br/>
-			<h:outputText value="Image: #{cmp.imageUrl}"/><br/>
-			<h:graphicImage value="#{cmp.imageUrl}" rendered="#{cmp.imageUrl != null}"/><br/>
+			<h:outputText value="HashCode: #{cmp.hashCode}"/><br/>
 		</div>
 			
 	</yf:component>

@@ -1,6 +1,6 @@
 ﻿
 {title} 
-Basics
+Chapter II - Component bindings (Frames)
 
 {usecase}
 Validate passed property values and/or use them as parameters to load missing component values.
@@ -12,6 +12,8 @@ Validate passed property values and/or use them as parameters to load missing co
 After each property is injected the components postInitialize() method gets invoked.
 This is the place where passed values can be validated or missing values are loaded.
    	
+A component is used intrates the usage of a component in different ways.
+<a href="http://docs.codehaus.org/display/YFACES/2.+YComponent#2.YComponent-2.2.4Componentrequestcycle">More</a>
 
 {example-ex1}
 All examples are using the same component. No binding, no passing of attributes.

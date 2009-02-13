@@ -197,7 +197,7 @@ public class SourceDocument {
 			printer.println("</code></pre>");
 			printer.println();
 			printer.println("<i style=\"font-size:8pt\">Generated in " + (end - start)
-					+ "ms with PrettySourceCode (PSC)");
+					+ "ms with PrettySource");
 			printer.println("</body></html>");
 			printer.flush();
 			printer.close();

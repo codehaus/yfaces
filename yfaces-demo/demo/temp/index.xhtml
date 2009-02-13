@@ -12,13 +12,6 @@
 	<ui:define name="example">
 	
 		<h:panelGrid rowClasses="even,odd">
-		
-		<yf:demo2/><hr/>
-		<yf:demo2 binding="#{chapter2.cmp1}"/><hr/>
-						<yf:demo2 binding="#{chapter2.cmp2}"/><hr/>
-						<yf:demo2 binding="#{chapter2.cmp3}"/><hr/>
-		
-<ui:remove>
 			<h:panelGroup>
 				<h:outputText value="#{chapter.examples.ex1}" escape="false"/>				
 				<yf:demo2/>
@@ -26,16 +19,14 @@
 
 			<h:panelGroup>
 				<h:outputText value="#{chapter.examples.ex2}" escape="false"/>	
-				<yf:demo2 binding="#{chapter2.component}"/>
+				<yf:demo2 code="nonExistingProductCode"/>
 			</h:panelGroup>
-</ui:remove>			
+
+			<h:panelGroup>
+				<h:outputText value="#{chapter.examples.ex3}" escape="false"/>
+				<yf:demo2 code="FRUIT-1"/>
+			</h:panelGroup>
 		</h:panelGrid>
-		
-		<h:form>
-			<h:commandLink value="Faces Request (POST)"/>
-		</h:form>
-		<h:outputLink value="">Non Faces Request (GET)</h:outputLink>
-		
 
 	</ui:define>
 
