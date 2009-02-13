@@ -47,13 +47,11 @@ import de.hybris.yfaces.el.YFacesELContext;
 
 /**
  * Each {@link YComponent} must be enclosed by this {@link UIComponent}.<br/>
- * The enclosed {@link YComponent} must be either passed or, when null, gets
- * automatically instantiated via the <code>default</code> Attribute.<br/>
+ * The enclosed {@link YComponent} must be either passed or, when null, gets automatically
+ * instantiated via the <code>default</code> Attribute.<br/>
  * An undefined amount of additional attributes can be defined.<br/>
- * Each of such attribute must be available as property (setter) at the
- * {@link YComponent} instance.<br/>
- * When such attributes are passed then the value gets injected into the
- * {@link YComponent}. <br/>
+ * Each of such attribute must be available as property (setter) at the {@link YComponent} instance.<br/>
+ * When such attributes are passed then the value gets injected into the {@link YComponent}. <br/>
  * This component works within compile time and render time tags.<br/>
  * 
  * @author Denny.Strietzbaum
@@ -105,8 +103,8 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 	}
 
 	/**
-	 * Sets the definition (interface) for this Component. This is an optional
-	 * but recommended property.<br./>
+	 * Sets the definition (interface) for this Component. This is an optional but recommended
+	 * property.<br./>
 	 * 
 	 * @param interfaceClass
 	 *            interface
@@ -125,8 +123,8 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 	}
 
 	/**
-	 * Returns the {@link ValueExpression} which binds a YComponent. Returns
-	 * 'null' when no binding is available.
+	 * Returns the {@link ValueExpression} which binds a YComponent. Returns 'null' when no binding
+	 * is available.
 	 * 
 	 * @return {@link ValueExpression}
 	 */
@@ -165,6 +163,16 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 				((YComponentBinding) value).setValue(cmp);
 			}
 
+			if (value == null) {
+				if (YComponent.class.isAssignableFrom(vb.getType(elCtx))) {
+					vb.setValue(elCtx, cmp);
+				} else {
+					YComponentBinding binding = new YComponentBinding<YComponent>(this.getId());
+					vb.setValue(elCtx, binding);
+					binding.setValue(cmp);
+				}
+			}
+
 			yCtx.setResolveYComponentBinding(true);
 		}
 
@@ -185,8 +193,7 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 	}
 
 	/**
-	 * Returns the class of the interface which must be assignable to the passed
-	 * {@link YComponent}.
+	 * Returns the class of the interface which must be assignable to the passed {@link YComponent}.
 	 * 
 	 * @return class of interface
 	 */
@@ -196,8 +203,7 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 
 	/**
 	 * Returns the final {@link YComponent} which is used for rendering.<br/>
-	 * This is the merge result of the passed {@link YComponent} and passed
-	 * model attributes.<br/>
+	 * This is the merge result of the passed {@link YComponent} and passed model attributes.<br/>
 	 * 
 	 * @return {@link YComponent}
 	 */
@@ -217,8 +223,7 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 	/**
 	 * Internal.<br/>
 	 * Sets the final {@link YComponent} which shall be used.<br/>
-	 * Normally this is done after all passed {@link YComponent} Attributes are
-	 * injected.<br/>
+	 * Normally this is done after all passed {@link YComponent} Attributes are injected.<br/>
 	 * 
 	 * @param cmp
 	 *            {@link YComponent} to set.
@@ -245,8 +250,7 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 	}
 
 	/**
-	 * Set {@link YComponent} instance as value of variable whose name was
-	 * passed as 'var'
+	 * Set {@link YComponent} instance as value of variable whose name was passed as 'var'
 	 * 
 	 * @param component
 	 *            {@link YComponent}
@@ -346,9 +350,7 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * javax.faces.component.UIComponentBase#processDecodes(javax.faces.context
-	 * .FacesContext)
+	 * @see javax.faces.component.UIComponentBase#processDecodes(javax.faces.context .FacesContext)
 	 */
 	@Override
 	public void processDecodes(final FacesContext context) {
@@ -399,9 +401,7 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * javax.faces.component.UIComponentBase#encodeBegin(javax.faces.context
-	 * .FacesContext)
+	 * @see javax.faces.component.UIComponentBase#encodeBegin(javax.faces.context .FacesContext)
 	 */
 	@Override
 	public void encodeBegin(final FacesContext context) throws IOException {
@@ -440,8 +440,8 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 	}
 
 	/**
-	 * Returns a {@link YComponentInfo} which matches the {@link YComponent}
-	 * bound to this {@link UIComponent} instance.
+	 * Returns a {@link YComponentInfo} which matches the {@link YComponent} bound to this
+	 * {@link UIComponent} instance.
 	 * 
 	 * @return {@link YComponentInfo}
 	 */
@@ -500,8 +500,8 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 	}
 
 	/**
-	 * Verifies the component ID for duplicates. This may happen when the
-	 * component is embedded into some compile time tags like &lt;c:forEach&gt;.
+	 * Verifies the component ID for duplicates. This may happen when the component is embedded into
+	 * some compile time tags like &lt;c:forEach&gt;.
 	 */
 	private void verifyRenderTimeID() {
 		// when component is transient no check must be performed
@@ -539,8 +539,7 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @seejavax.faces.component.UIComponentBase#encodeEnd(javax.faces.context.
-	 * FacesContext)
+	 * @seejavax.faces.component.UIComponentBase#encodeEnd(javax.faces.context. FacesContext)
 	 */
 	@Override
 	public void encodeEnd(final FacesContext context) throws IOException {
@@ -604,10 +603,9 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 	}
 
 	/**
-	 * Iterates over all writable properties of the passed {@link YComponent}.
-	 * If a properties name matches an attributes name of this component, the
-	 * value of the attribute gets injected into the passed {@link YComponent}
-	 * instance.
+	 * Iterates over all writable properties of the passed {@link YComponent}. If a properties name
+	 * matches an attributes name of this component, the value of the attribute gets injected into
+	 * the passed {@link YComponent} instance.
 	 * 
 	 * @param cmp
 	 *            {@link YComponent}
@@ -714,8 +712,7 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 	// }
 
 	/**
-	 * Creates HTML debug output. Forwards the content directly into the
-	 * ResponseWriter.
+	 * Creates HTML debug output. Forwards the content directly into the ResponseWriter.
 	 * 
 	 * @param cmp
 	 *            {@link YComponent}
@@ -742,8 +739,7 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 	}
 
 	/**
-	 * This component brings an own event which refreshes the value for the
-	 * 'var' ValueBinding.<br/>
+	 * This component brings an own event which refreshes the value for the 'var' ValueBinding.<br/>
 	 * This event must be added before any other event.
 	 * 
 	 * @see HtmlYComponent#queueEvent(FacesEvent)

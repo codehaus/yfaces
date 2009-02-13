@@ -79,8 +79,8 @@ public abstract class AbstractYComponent implements YComponent {
 	}
 
 	/**
-	 * Creates an {@link YComponentEventHandler} whose default
-	 * {@link YComponentEventListener} does nothing.
+	 * Creates an {@link YComponentEventHandler} whose default {@link YComponentEventListener} does
+	 * nothing.
 	 * 
 	 * @return {@link YComponentEventHandler}
 	 */
@@ -89,8 +89,8 @@ public abstract class AbstractYComponent implements YComponent {
 	}
 
 	/**
-	 * Creates an {@link YComponentEventHandler} whose default
-	 * {@link YComponentEventListener} is the passed one.
+	 * Creates an {@link YComponentEventHandler} whose default {@link YComponentEventListener} is
+	 * the passed one.
 	 * 
 	 * @param listener
 	 *            {@link YComponentEventListener} default listener
@@ -112,8 +112,7 @@ public abstract class AbstractYComponent implements YComponent {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * ystorefoundationpackage.faces.components.YComponent#update(de.hybris.
+	 * @see ystorefoundationpackage.faces.components.YComponent#update(de.hybris.
 	 * platform.webfoundation.PropertyChangeLog)
 	 */
 	public void update(final UserSessionPropertyChangeLog log) {
@@ -135,7 +134,11 @@ public abstract class AbstractYComponent implements YComponent {
 			final FacesContext fc = FacesContext.getCurrentInstance();
 			final ValueExpression ve = fc.getApplication().getExpressionFactory()
 					.createValueExpression(fc.getELContext(), this.frameBinding, Object.class);
-			result = (YFrame) ve.getValue(fc.getELContext());
+
+			Object value = ve.getValue(fc.getELContext());
+			if (value instanceof YFrame) {
+				result = (YFrame) value;
+			}
 		}
 		return result;
 	}
