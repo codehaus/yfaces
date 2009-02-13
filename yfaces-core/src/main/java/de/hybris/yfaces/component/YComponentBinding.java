@@ -24,10 +24,8 @@ import de.hybris.yfaces.YFacesException;
 /**
  * A Binding for an {@link YComponent} instance.<br/>
  * <br/>
- * Within the view this binding gets fully resolved into a {@link YComponent}
- * instance.<br/>
- * When using it programatically {@link YComponentBinding#getValue()} must be
- * called.
+ * Within the view this binding gets fully resolved into a {@link YComponent} instance.<br/>
+ * When using it programatically {@link YComponentBinding#getValue()} must be called.
  * 
  * @author Denny.Strietzbaum
  */
@@ -43,14 +41,17 @@ public class YComponentBinding<T extends YComponent> {
 	// transient members
 	private transient T value = null;
 
+	public YComponentBinding() {
+
+	}
+
 	/**
-	 * Constructor. Bounds this binding to a {@link YComponent} which is given
-	 * by its ID.<br/>
+	 * Constructor. Bounds this binding to a {@link YComponent} which is given by its ID.<br/>
 	 * 
 	 * @param id
 	 *            component id
 	 */
-	protected YComponentBinding(final String id) {
+	public YComponentBinding(final String id) {
 		this.id = id;
 	}
 
@@ -100,8 +101,7 @@ public class YComponentBinding<T extends YComponent> {
 	}
 
 	/**
-	 * A binding was resolved when {@link #getValue()} was called at least one
-	 * times.<br/>
+	 * A binding was resolved when {@link #getValue()} was called at least one times.<br/>
 	 * A component of an unresolved binding never gets updated by the Frame.
 	 * 
 	 * @return true when resolved
