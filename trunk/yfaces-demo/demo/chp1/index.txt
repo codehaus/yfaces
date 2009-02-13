@@ -1,23 +1,22 @@
 ﻿
 {title} 
-Basics
+Chapter I - Define and use a component
 
 {usecase}
 Pass property values to component from view (push/inject values)
 
-
 {parts}
-- generische ermittlung der xhtml views: getResources(url minus host)
-- generische ermittlung der component klassen (new ycomponentinfo)
 
 {long}
-The easiest component just acts as basic data container which displays values.
-Values may be calculated by the component or pushed/injected/passed from the view.<br/>
+This chapter just demonstrates the easiest way of using a component.
+The component class basically defines available component properties. 
+The component view just displays them.
+The component is made available as Tag named after the components view file.
+Available Tag Attributes are depending on your component properties.
 <br/>
-The component is used multiple times at this page via <yf:showProductV1/>;<br/>
-Each component view is backed by an own component instance (somthing which is hard to achieve with plain JSF ManagedBeans)
-Each setter of the component class is available as injectable property.<br/>
-Property values can be injected as tag attributes <yf:showProductV1 code="value" />;
+Steps to build your component: Create a component class, create a component view (don't forget to declare
+your component class there and optionally the properties which are allowed to set from within the view),
+put your view file into <code>/components</code> folder of your webapp. Thats all.    
    	
 {example-ex1}
 <yf:demo1/>

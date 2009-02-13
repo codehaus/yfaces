@@ -78,16 +78,15 @@
 				</ui:insert>
 			</h:panelGroup>
 		</h:panelGrid>
-	
-	
+		
+		<hr/>
+		<ui:insert name="long"> <h:outputText value="#{chapter.longDescription}" escape="false"/> </ui:insert>
 		<hr/>
 		<div>
 			<div style="text-decoration: underline; font-weight: bold; margin: 5px;">Examples:</div>
 			<ui:insert name="example" />
 		</div>
 		<hr />
-	
-		<ui:insert name="long"> <h:outputText value="#{chapter.longDescription}" escape="false"/> </ui:insert>
 
 	</body>
 	</html>
