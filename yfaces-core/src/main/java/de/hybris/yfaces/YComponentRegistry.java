@@ -73,7 +73,7 @@ import de.hybris.yfaces.taglib.YFacesTaglib;
 // the current view id -> useless
 public class YComponentRegistry {
 
-	public interface YComponentInfoListener {
+	public interface YComponentRegistryListener {
 
 		public void addedYComponent(YComponentInfo cmpInfo);
 
@@ -142,7 +142,7 @@ public class YComponentRegistry {
 	 * @param url
 	 * @param listener
 	 */
-	public void processURL(final URL url, final YComponentInfoListener listener) {
+	public void processURL(final URL url, final YComponentRegistryListener listener) {
 
 		boolean added = false;
 		YComponentInfo cmpInfo = null;
