@@ -17,7 +17,7 @@ import junit.framework.TestCase;
 import org.apache.log4j.Logger;
 
 import de.hybris.yfaces.YComponentInfo.ERROR_STATE;
-import de.hybris.yfaces.YComponentRegistry.YComponentInfoListener;
+import de.hybris.yfaces.YComponentRegistry.YComponentRegistryListener;
 
 /**
  * @author Denny.Strietzbaum
@@ -30,7 +30,7 @@ public class TestYComponentInfo extends TestCase {
 	private static final String TEST_COMPONENT = YTestComponent.class.getName();
 	private static final String TEST_COMPONENT_IMPL = YTestComponentImpl.class.getName();
 
-	private class AddSingleYComponentTest implements YComponentInfoListener {
+	private class AddSingleYComponentTest implements YComponentRegistryListener {
 		private String componentFile = null;
 		private YComponentRegistry registry = null;
 

@@ -46,14 +46,16 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
 import com.sun.facelets.FaceletFactory;
+import com.sun.facelets.compiler.Compiler;
 import com.sun.facelets.impl.DefaultFaceletFactory;
 import com.sun.facelets.tag.AbstractTagLibrary;
+import com.sun.facelets.tag.TagLibrary;
 
 import de.hybris.yfaces.YComponentInfo;
 import de.hybris.yfaces.YComponentRegistry;
 import de.hybris.yfaces.YFacesConfig;
 import de.hybris.yfaces.YFacesException;
-import de.hybris.yfaces.YComponentRegistry.YComponentInfoListener;
+import de.hybris.yfaces.YComponentRegistry.YComponentRegistryListener;
 import de.hybris.yfaces.component.html.HtmlYComponent;
 import de.hybris.yfaces.component.html.HtmlYComponentHandler;
 
@@ -73,11 +75,9 @@ import de.hybris.yfaces.component.html.HtmlYComponentHandler;
  * <p>
  * 
  * 
- * 
- * 
  * @author Denny.Strietzbaum
  */
-public class YFacesTaglib extends AbstractTagLibrary implements YComponentInfoListener {
+public class YFacesTaglib extends AbstractTagLibrary implements YComponentRegistryListener {
 
 	private static final Logger log = Logger.getLogger(YFacesTaglib.class);
 
@@ -96,6 +96,7 @@ public class YFacesTaglib extends AbstractTagLibrary implements YComponentInfoLi
 	public static final String PARAM_COMPONENT_DIRS = "yfaces.taglib.DIR";
 
 	public static final String PARAM_NAMESPACES = "yfaces.taglib.NAMESPACES";
+	public static final String NAMESPACE_FROM_FOLDER = "$folder";
 
 	// matches when a string represents a visible directory
 	// (no dot after a slash; ends with a slash)
@@ -105,13 +106,20 @@ public class YFacesTaglib extends AbstractTagLibrary implements YComponentInfoLi
 	public static final Pattern COMPONENT_RESOURCE_PATTERN = Pattern
 			.compile(".*[/\\\\](.*)((?:Cmp)|(?:Tag))\\.xhtml");
 
+	// maps a resource pattern to a namespace id
+	private Map<Pattern, String> patternToNamespaceMap = null;
+	// maps a namespace id to a taglib instance
+	private Map<String, AbstractTagLibrary> namespaceToTaglibMap = null;
+
 	/**
 	 * Constructor. Gets invoked by Facelet framework.
 	 */
 	public YFacesTaglib() {
 		super(NAMESPACE);
 
-		this.collectNamespaces();
+		this.patternToNamespaceMap = this.createPattern2NamespaceLookup();
+		this.namespaceToTaglibMap = new HashMap<String, AbstractTagLibrary>();
+		this.namespaceToTaglibMap.put("", this);
 
 		// search for component views and register all as usertags
 		this.registerYComponents();
@@ -124,66 +132,29 @@ public class YFacesTaglib extends AbstractTagLibrary implements YComponentInfoLi
 				HtmlYComponentHandler.class);
 	}
 
-	public YFacesTaglib(String subNamespace) {
+	/**
+	 * Private Constructor which is used when multiple namespaces are used. Facelets requires a
+	 * {@link TagLibrary} instance registered at used {@link Compiler} whenever a new namespace is
+	 * introduced. Only the {@link YFacesTaglib} instance created with public Constructor (by
+	 * Facelets) uses this private Constructor.
+	 * 
+	 * @param subNamespace
+	 *            additional namespace suffix which gets added to the global namespace literal
+	 */
+	private YFacesTaglib(String subNamespace) {
 		super(NAMESPACE + "/" + subNamespace);
 		((DefaultFaceletFactory) FaceletFactory.getInstance()).getCompiler().addTagLibrary(this);
 	}
 
-	//maps a resource pattern to a namespace id 
-	private Map<Pattern, String> patternToNamespaceMap = new LinkedHashMap<Pattern, String>();
-	//maps a namespace id to a taglib
-	private Map<String, AbstractTagLibrary> namespaceToTaglibMap = new HashMap<String, AbstractTagLibrary>();
-
-	private void collectNamespaces() {
-		String[] values = getAsArrays(PARAM_NAMESPACES);
-
-		for (String value : values) {
-			if (value.endsWith(".xhtml")) {
-				throw new YFacesException(
-						value
-								+ " is not a valid directory expression please adjust your web.xml setting for "
-								+ PARAM_NAMESPACES);
-			}
-			int index = value.indexOf(":");
-			String namespaceId = value.substring(0, index);
-			String regex = value.substring(index + 1);
-			if (regex.endsWith("/**")) {
-				regex = ".*" + regex.substring(0, regex.length() - 2) + "(.*)\\.xhtml";
-			} else {
-				regex = ".*" + regex + "([^/\\\\]*)\\.xhtml";
-			}
-			if ("$folder".equals(namespaceId)) {
-				namespaceId = null;
-			}
-			this.patternToNamespaceMap.put(Pattern.compile(regex), namespaceId);
-		}
-		this.patternToNamespaceMap.put(Pattern.compile(".*"), "yf");
-	}
-
-	private AbstractTagLibrary getTaglibForResource(URL resource) {
-		AbstractTagLibrary result = null;
-		String value = resource.toExternalForm();
-		for (Map.Entry<Pattern, String> entry : this.patternToNamespaceMap.entrySet()) {
-			Matcher m = entry.getKey().matcher(value);
-			if (m.matches()) {
-				String namespaceId = entry.getValue();
-				if (namespaceId == null) {
-					String folders[] = value.split("[/\\\\]");
-					namespaceId = folders[folders.length - 2];
-				}
-				result = this.namespaceToTaglibMap.get(namespaceId);
-				if (result == null) {
-					this.namespaceToTaglibMap.put(namespaceId, result = new YFacesTaglib(
-							namespaceId));
-				}
-				break;
-			}
-		}
-		return result;
-	}
-
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * de.hybris.yfaces.YComponentRegistry.YComponentRegistryListener#addedYComponent(de.hybris.
+	 * yfaces.YComponentInfo)
+	 */
 	public void addedYComponent(final YComponentInfo cmpInfo) {
-		//super.addUserTag(cmpInfo.getComponentName(), cmpInfo.getURL());
+		// super.addUserTag(cmpInfo.getComponentName(), cmpInfo.getURL());
 		YFacesTaglib taglib = (YFacesTaglib) getTaglibForResource(cmpInfo.getURL());
 		taglib.addUserTag(cmpInfo.getComponentName(), cmpInfo.getURL());
 
@@ -193,6 +164,13 @@ public class YFacesTaglib extends AbstractTagLibrary implements YComponentInfoLi
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * de.hybris.yfaces.YComponentRegistry.YComponentRegistryListener#skippedYComponent(java.net
+	 * .URL, de.hybris.yfaces.YComponentInfo)
+	 */
 	public void skippedYComponent(final URL url, final YComponentInfo cmpInfo) {
 		if (cmpInfo != null) {
 			log.info("Skipped " + url);
@@ -206,6 +184,85 @@ public class YFacesTaglib extends AbstractTagLibrary implements YComponentInfoLi
 				}
 			}
 		}
+	}
+
+	/**
+	 * Creates a lookup which maps a general Pattern to a concrete namespace id. Pattern is designed
+	 * to evaluate an URL String.
+	 * 
+	 * @return lookup Map
+	 */
+	private Map<Pattern, String> createPattern2NamespaceLookup() {
+
+		Map<Pattern, String> result = new LinkedHashMap<Pattern, String>();
+
+		// fetch configured namespaces (raw)
+		String[] values = getAsArray(PARAM_NAMESPACES);
+
+		for (String value : values) {
+
+			// only expressions to folders are allowed
+			if (value.endsWith(".xhtml")) {
+				throw new YFacesException(
+						value
+								+ " is not a valid directory expression please adjust your web.xml setting for "
+								+ PARAM_NAMESPACES);
+			}
+			// split configured value into namespace id and resource pattern
+			int index = value.indexOf(":");
+			String namespaceId = value.substring(0, index);
+			String regex = value.substring(index + 1);
+			if (regex.endsWith("/**")) {
+				regex = ".*" + regex.substring(0, regex.length() - 2) + "(.*)\\.xhtml";
+			} else {
+				regex = ".*" + regex + "([^/\\\\]*)\\.xhtml";
+			}
+			// handle that special namespace id which dynamically gets calculated according the
+			// resources folder name
+			if (NAMESPACE_FROM_FOLDER.equals(namespaceId)) {
+				namespaceId = null;
+			}
+			result.put(Pattern.compile(regex), namespaceId);
+		}
+		result.put(Pattern.compile(".*"), "");
+		return result;
+	}
+
+	/**
+	 * Finds an appropriate {@link TagLibrary} for the passed resource. This is only of interest
+	 * when different namespaces are used.
+	 * 
+	 * @param resource
+	 *            resource to lookup for
+	 * @return {@link AbstractTagLibrary}
+	 */
+	private AbstractTagLibrary getTaglibForResource(URL resource) {
+		AbstractTagLibrary result = null;
+		String value = resource.toExternalForm();
+
+		// iterate over each Pattern which stands for a custom namespace
+		for (Map.Entry<Pattern, String> entry : this.patternToNamespaceMap.entrySet()) {
+
+			// when namespace pattern matches
+			Matcher m = entry.getKey().matcher(value);
+			if (m.matches()) {
+				// take the namespace id (suffix to master namespace)
+				String namespaceId = entry.getValue();
+				// or use the foldername as namespace id
+				if (namespaceId == null) {
+					String folders[] = value.split("[/\\\\]");
+					namespaceId = folders[folders.length - 2];
+				}
+				// and fetch (or initially create)the Taglibrary instance for that namespace
+				result = this.namespaceToTaglibMap.get(namespaceId);
+				if (result == null) {
+					this.namespaceToTaglibMap.put(namespaceId, result = new YFacesTaglib(
+							namespaceId));
+				}
+				break;
+			}
+		}
+		return result;
 	}
 
 	/**
@@ -239,10 +296,16 @@ public class YFacesTaglib extends AbstractTagLibrary implements YComponentInfoLi
 		}
 	}
 
+	/**
+	 * Registers a single YComponent resource at {@link YComponentRegistry}
+	 * 
+	 * @param resource
+	 *            resource to register
+	 */
 	private void registerYComponent(String resource) {
 		try {
 			final YComponentRegistry registry = YComponentRegistry.getInstance();
-			// fetch URL for resource  
+			// fetch URL for resource
 			final URL url = FacesContext.getCurrentInstance().getExternalContext().getResource(
 					resource);
 			// and register as component at registry
@@ -261,13 +324,9 @@ public class YFacesTaglib extends AbstractTagLibrary implements YComponentInfoLi
 	 * @return {@link Collections} of search path elements
 	 */
 	private Collection<String> getComponentSearchPaths() {
-		ExternalContext ctx = FacesContext.getCurrentInstance().getExternalContext();
 
 		// configured raw value for search path elements
-		String s = ctx.getInitParameter(PARAM_COMPONENT_DIRS);
-
-		// split by ',' and remove any whitespaces
-		final String[] searchDir = s.trim().split("\\s*,\\s*");
+		final String[] searchDir = this.getAsArray(PARAM_COMPONENT_DIRS);
 
 		// use a set of raw dirs to filter out configured duplicates
 		Collection<String> searchDirSet = new LinkedHashSet<String>();
@@ -278,7 +337,7 @@ public class YFacesTaglib extends AbstractTagLibrary implements YComponentInfoLi
 		// iterate over each search element
 		for (String dir : searchDirSet) {
 
-			// when sub-elements shall be processed...  
+			// when sub-elements shall be processed...
 			if (dir.endsWith("/**")) {
 				// add them recursively
 				dir = dir.substring(0, dir.length() - 3);
@@ -286,13 +345,11 @@ public class YFacesTaglib extends AbstractTagLibrary implements YComponentInfoLi
 				Collections.sort(subDirs);
 				result.addAll(subDirs);
 			} else {
-				//otherwise just add this search path
+				// otherwise just add this search path
 				result.add(dir);
 			}
 		}
-
 		return result;
-
 	}
 
 	/**
@@ -388,7 +445,15 @@ public class YFacesTaglib extends AbstractTagLibrary implements YComponentInfoLi
 		return resultPath;
 	}
 
-	private String[] getAsArrays(String initParameter) {
+	/**
+	 * Returns the value of an deployment parameter as array. Splits the value into an array, uses
+	 * comma as delimiter and removes any whitespaces.
+	 * 
+	 * @param initParameter
+	 *            name of deployment parameter
+	 * @return array
+	 */
+	private String[] getAsArray(String initParameter) {
 		// fetch conigured value
 		String s = FacesContext.getCurrentInstance().getExternalContext().getInitParameter(
 				initParameter);
