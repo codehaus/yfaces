@@ -9,7 +9,7 @@ import de.hybris.yfaces.component.AbstractYComponent;
  * 
  * @author Denny.Strietzbaum
  */
-public class Demo1Cmp extends AbstractYComponent {
+public class DemoCmp extends AbstractYComponent {
 
 	private String imageUrl = null;
 	private String description = null;

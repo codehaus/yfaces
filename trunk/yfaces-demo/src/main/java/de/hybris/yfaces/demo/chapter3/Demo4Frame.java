@@ -5,10 +5,10 @@ import de.hybris.yfaces.component.YComponentBinding;
 
 public class Demo4Frame extends AbstractYFrame {
 
-	private YComponentBinding<Demo3Cmp> cmp1 = null;
-	private YComponentBinding<Demo3Cmp> cmp2 = null;
-	private YComponentBinding<Demo3Cmp> cmp3 = null;
-	private YComponentBinding<Demo3Cmp> cmp4 = null;
+	private YComponentBinding<DemoCmp> cmp1 = null;
+	private YComponentBinding<DemoCmp> cmp2 = null;
+	private YComponentBinding<DemoCmp> cmp3 = null;
+	private YComponentBinding<DemoCmp> cmp4 = null;
 
 	public Demo4Frame() {
 
@@ -22,7 +22,7 @@ public class Demo4Frame extends AbstractYFrame {
 
 		//initialized binding 
 		//with concrete instance
-		Demo3Cmp demoCmp = new Demo3Cmp();
+		DemoCmp demoCmp = new DemoCmp();
 		demoCmp.setMessage("Component was created by Frame");
 		this.cmp3 = createComponentBinding(demoCmp);
 
@@ -31,15 +31,15 @@ public class Demo4Frame extends AbstractYFrame {
 		this.cmp4 = createComponentBinding("frameDemoCmp");
 	}
 
-	public YComponentBinding<Demo3Cmp> getComponent1() {
+	public YComponentBinding<DemoCmp> getComponent1() {
 		return this.cmp1;
 	}
 
-	public YComponentBinding<Demo3Cmp> getComponent2() {
+	public YComponentBinding<DemoCmp> getComponent2() {
 		return this.cmp2;
 	}
 
-	public YComponentBinding<Demo3Cmp> getComponent3() {
+	public YComponentBinding<DemoCmp> getComponent3() {
 		return this.cmp3;
 	}
 

@@ -6,28 +6,29 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:yf="http://hybris.com/jsf/yfaces"
+	xmlns:chp="http://hybris.com/jsf/yfaces/chp3"
    template="/demo/template.xhtml">
    
 	<ui:define name="example">
 		<h:panelGrid rowClasses="even,odd">
 			<h:panelGroup>
 				<h:outputText value="#{chapter.examples.ex1}" escape="false"/>
-				<yf:demo3/>
+				<chp:demo/>
 			</h:panelGroup>
 
 			<h:panelGroup>
 				<h:outputText value="#{chapter.examples.ex2}" escape="false"/>
-				<yf:demo3 binding="#{frame3.component2}"/>
+				<chp:demo binding="#{frame3.component2}"/>
 			</h:panelGroup>
 
 			<h:panelGroup>
 				<h:outputText value="#{chapter.examples.ex3}" escape="false"/>
-				<yf:demo3 binding="#{frame3.component3}" message="A message which was passed by the frame view"/>
+				<chp:demo binding="#{frame3.component3}" message="A message which was passed by the frame view"/>
 			</h:panelGroup>
 
 			<h:panelGroup>
 				<h:outputText value="#{chapter.examples.ex4}" escape="false"/>
-				<yf:demo3 binding="#{frame3.component4}" message=""/>
+				<chp:demo binding="#{frame3.component4}" message=""/>
 			</h:panelGroup>
 		</h:panelGrid>
 		

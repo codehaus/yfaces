@@ -7,26 +7,27 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:t="http://myfaces.apache.org/tomahawk"
 	xmlns:yf="http://hybris.com/jsf/yfaces"
+	xmlns:chp="http://hybris.com/jsf/yfaces/chp2"
    template="/demo/template.xhtml">
    
 	<ui:define name="example">
 	
 		<h:panelGrid rowClasses="even,odd">
 		
-		<yf:demo2/><hr/>
-		<yf:demo2 binding="#{chapter2.cmp1}"/><hr/>
-						<yf:demo2 binding="#{chapter2.cmp2}"/><hr/>
-						<yf:demo2 binding="#{chapter2.cmp3}"/><hr/>
+		<chp:demo/><hr/>
+		<chp:demo binding="#{chapter2.cmp1}"/><hr/>
+						<chp:demo binding="#{chapter2.cmp2}"/><hr/>
+						<chp:demo binding="#{chapter2.cmp3}"/><hr/>
 		
 <ui:remove>
 			<h:panelGroup>
 				<h:outputText value="#{chapter.examples.ex1}" escape="false"/>				
-				<yf:demo2/>
+				<chp:demo/>
 			</h:panelGroup>
 
 			<h:panelGroup>
 				<h:outputText value="#{chapter.examples.ex2}" escape="false"/>	
-				<yf:demo2 binding="#{chapter2.component}"/>
+				<chp:demo binding="#{chapter2.component}"/>
 			</h:panelGroup>
 </ui:remove>			
 		</h:panelGrid>
