@@ -17,21 +17,20 @@ package de.hybris.yfaces.component;
 
 import java.util.Map;
 
+import de.hybris.yfaces.application.YFacesContext;
 import de.hybris.yfaces.session.UserSessionPropertyChangeLog;
 
 /**
  * The NavigationContext manages navigation and state through multiple pages.<br/>
- * {@link NavigationContext#getCurrentPage()} always returns the current visible
- * {@link YPage}.<br/>
- * The {@link NavigationContext} checks with each request whether the new
- * requested {@link YPage} is part of this {@link NavigationContext}.<br/>
+ * {@link NavigationContext#getCurrentPage()} always returns the current visible {@link YPage}.<br/>
+ * The {@link NavigationContext} checks with each request whether the new requested {@link YPage} is
+ * part of this {@link NavigationContext}.<br/>
  * <br/>
- * If so, the {@link YPage} gets added to the contexts page queue, otherwise
- * whole context information are reseted and the {@link YPage} queue gets
- * cleared with the new YPage as first element. <br/>
+ * If so, the {@link YPage} gets added to the contexts page queue, otherwise whole context
+ * information are reseted and the {@link YPage} queue gets cleared with the new YPage as first
+ * element. <br/>
  * <br/>
- * This context evaluates each request and decides whether it is a valid
- * NavigationRequest or not.<br/>
+ * This context evaluates each request and decides whether it is a valid NavigationRequest or not.<br/>
  * A valid NavigationRequest is present when the requested Page is:<br/>
  * - the current shown page<br/>
  * - a previously, context managed page<br/>
@@ -55,8 +54,7 @@ public abstract class NavigationContext {
 	/**
 	 * Returns the current displayed Page.<br/>
 	 * May or may not have one ore more previous pages<br/>
-	 * (depends on whether {@link #getNextPage()} was called before current
-	 * request)<br/>
+	 * (depends on whether {@link #getNextPage()} was called before current request)<br/>
 	 * <br/>
 	 * 
 	 * @return the current {@link YPage}
@@ -64,16 +62,12 @@ public abstract class NavigationContext {
 	public abstract YPage getCurrentPage();
 
 	/**
-	 * Returns the {@link YPage} which becomes the current one with next
-	 * request.<br/>
+	 * Returns the {@link YPage} which becomes the current one with next request.<br/>
 	 * Calling this method first lazily creates a new instance.<br/>
-	 * Every other call returns the same instance as long as the current request
-	 * is processed.<br/>
-	 * When a new requests starts this instance gets added to the stack of
-	 * available context pages.<br/>
+	 * Every other call returns the same instance as long as the current request is processed.<br/>
+	 * When a new requests starts this instance gets added to the stack of available context pages.<br/>
 	 * <br/>
-	 * When this method isn't called the context is reseted with the next
-	 * request.
+	 * When this method isn't called the context is reseted with the next request.
 	 * 
 	 * @return {@link YPage}
 	 */
@@ -82,8 +76,7 @@ public abstract class NavigationContext {
 	/**
 	 * Starts updating this context.<br/>
 	 * The default update process is:<br/>
-	 * For each {@link YPage}, call
-	 * {@link YPage#update(UserSessionPropertyChangeLog)}<br/>
+	 * For each {@link YPage}, call {@link YPage#update(UserSessionPropertyChangeLog)}<br/>
 	 * For each {@link YFrame} of current update {@link YPage} call
 	 * {@link YFrame#update(UserSessionPropertyChangeLog)}<br/>
 	 * For each {@link YComponent} of current update {@link YFrame} call
@@ -102,8 +95,8 @@ public abstract class NavigationContext {
 
 	/**
 	 * Redirects to the current URL.<br/>
-	 * This creates a non-faces request and is useful to ensure that no data is
-	 * cached within the component tree.<br/>
+	 * This creates a non-faces request and is useful to ensure that no data is cached within the
+	 * component tree.<br/>
 	 */
 	public abstract void redirect(boolean isFlash);
 
@@ -124,5 +117,9 @@ public abstract class NavigationContext {
 	 * @param url
 	 */
 	public abstract void redirect(String url);
+
+	public static NavigationContext getCurrentContext() {
+		return YFacesContext.getCurrentContext().getNavigationContext();
+	}
 
 }
