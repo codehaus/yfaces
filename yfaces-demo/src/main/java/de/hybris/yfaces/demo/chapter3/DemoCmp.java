@@ -2,12 +2,12 @@ package de.hybris.yfaces.demo.chapter3;
 
 import de.hybris.yfaces.component.AbstractYComponent;
 
-public class Demo3Cmp extends AbstractYComponent {
+public class DemoCmp extends AbstractYComponent {
 
 	private String message = null;
 	private int count = 0;
 
-	public Demo3Cmp() {
+	public DemoCmp() {
 		this.message = "Default message (constructor)";
 	}
 

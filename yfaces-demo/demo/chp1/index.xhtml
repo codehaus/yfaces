@@ -8,23 +8,24 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:yf="http://hybris.com/jsf/yfaces"
+	xmlns:chp="http://hybris.com/jsf/yfaces/chp1"
    template="/demo/template.xhtml">
    
 	<ui:define name="example">
 		<h:panelGrid rowClasses="even,odd">
 			<h:panelGroup>
 				<h:outputText value="#{chapter.examples.ex1}" escape="false"/>
-				<yf:demo1/>
+				<chp:demo/>
 			</h:panelGroup>
 
 			<h:panelGroup>
 				<h:outputText value="#{chapter.examples.ex2}" escape="false"/>
-				<yf:demo1 code="FRUIT-1"/>
+				<chp:demo code="FRUIT-1"/>
 			</h:panelGroup>
 
 			<h:panelGroup>
 				<h:outputText value="#{chapter.examples.ex3}" escape="false"/>
-				<yf:demo1 name="citron fruit" imageUrl="/images/CEF_1112.jpg"/>
+				<chp:demo name="citron fruit" imageUrl="/images/CEF_1112.jpg"/>
 			</h:panelGroup>
 		</h:panelGrid>
 	
