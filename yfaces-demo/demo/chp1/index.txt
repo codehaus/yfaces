@@ -19,10 +19,10 @@ your component class there and optionally the properties which are allowed to se
 put your view file into <code>/components</code> folder of your webapp. Thats all.    
    	
 {example-ex1}
-<yf:demo1/>
+<chp:demo/>
 
 {example-ex2}
-<yf:demo1 code="FRUIT-1"/>
+<chp:demo code="FRUIT-1"/>
 
 {example-ex3}
-<yf:demo1 name="citron fruit" imageUrl="/images/CEF_1112.jpg"/>
+<chp:demo name="citron fruit" imageUrl="/images/CEF_1112.jpg"/>

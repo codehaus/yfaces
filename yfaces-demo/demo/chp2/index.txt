@@ -25,10 +25,10 @@ The example component just increases a counter and displays the hash code.
 It can be seen that the bound component keeps the instance whereas the other one always gets recreated.
 
 {example-ex1}
-<yf:demo2/>
+<chp:demo/>
 
 {example-ex2}
-<yf:demo2 code="nonExistingProductCode"/>
+<chp:demo code="nonExistingProductCode"/>
 
 {example-ex3}
-yf:demo2 code="FRUIT-1"/>
+<chp:demo code="FRUIT-1"/>

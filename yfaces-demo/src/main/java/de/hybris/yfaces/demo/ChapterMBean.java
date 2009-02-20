@@ -45,7 +45,8 @@ public class ChapterMBean {
 	private static Pattern chpSectionPattern = Pattern.compile("^\\{(.*?)\\}(.*?)(?=^\\{|\\z)",
 			Pattern.DOTALL + Pattern.MULTILINE);
 
-	private static Pattern ycmpTagPattern = Pattern.compile("</?yf:(.*?)>", Pattern.DOTALL);
+	private static Pattern ycmpTagPattern = Pattern.compile("</?(?:yf)|(?:chp):(.*?)>",
+			Pattern.DOTALL);
 
 	private static Pattern ycmpBindingAttribute = Pattern
 			.compile("<yf:(?:.*)binding=\"#\\{(.*)\\.(?:.*)>");
@@ -240,12 +241,13 @@ public class ChapterMBean {
 		// iterate over resources...
 		for (final String resource : resources) {
 
-			if (resource.endsWith(".xhtml")) {
+			// handle general xml/xhtml
+			if (resource.endsWith(".xhtml") || resource.endsWith(".xml")) {
 				Participant p = this.createParticipiantFromXhtml(resource);
 				set.add(p);
 			}
 
-			// ... from a component extract interface and implementation class
+			// handle ycomponent view file (find interface and implementation class)
 			if (YFacesTaglib.COMPONENT_RESOURCE_PATTERN.matcher(resource).matches()) {
 
 				// fetch URL and register at component registry

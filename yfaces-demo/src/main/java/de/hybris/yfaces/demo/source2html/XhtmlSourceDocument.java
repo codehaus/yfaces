@@ -26,7 +26,7 @@ public class XhtmlSourceDocument extends SourceDocument {
 		/** General comment block */
 		COMMENTBLOCK("<!--", "-->", STYLE_COMMENTBLOCK),
 
-		YF_TAG("</?yf:", ">", STYLE_YFTAG),
+		YF_TAG("</?(?:yf|chp):", ">", STYLE_YFTAG),
 		YF_TAG_ATTRIB("\\w+:?\\w+(?=\\s*=)", null, STYLE_YFTAGATTRIB),
 		YF_LITERAL("\"", "[^\\\\]\"", STYLE_YFLITERAL),
 
