@@ -22,7 +22,7 @@ import de.hybris.yfaces.demo.source2html.XhtmlSourceDocument;
  * 
  * @author Denny.Strietzbaum
  */
-public class ProvideFormattedSource implements PhaseListener {
+public class PrettySourceListener implements PhaseListener {
 
 	private static final String P_SOURCE = "source";
 	private static final String P_TYPE = "type";
@@ -30,7 +30,7 @@ public class ProvideFormattedSource implements PhaseListener {
 	private JavaSourceDocument javaSource = null;
 	private XhtmlSourceDocument xhtmlSource = null;
 
-	public ProvideFormattedSource() {
+	public PrettySourceListener() {
 		this.javaSource = new JavaSourceDocument();
 		this.xhtmlSource = new XhtmlSourceDocument();
 	}
@@ -48,7 +48,7 @@ public class ProvideFormattedSource implements PhaseListener {
 				this.writeAsJavaSource(source);
 			}
 
-			if ("xhtml".equals(type)) {
+			if ("xhtml".equals(type) || "xml".equals(type)) {
 				this.writeAsXmlSource(source);
 			}
 			FacesContext.getCurrentInstance().responseComplete();
@@ -65,10 +65,10 @@ public class ProvideFormattedSource implements PhaseListener {
 
 	private String detectType(String source) {
 		String result = null;
-		if (source.endsWith(".xhtml")) {
-			result = "xhtml";
-		} else {
+		if (source.startsWith("de.hybris.yfaces")) {
 			result = "java";
+		} else {
+			result = source.substring(source.lastIndexOf(".") + 1);
 		}
 		return result;
 	}

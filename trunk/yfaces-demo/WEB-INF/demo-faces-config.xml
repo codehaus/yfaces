@@ -6,7 +6,7 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee/web-facesconfig_1_2.xsd">
 
 	<lifecycle>
-		<phase-listener> de.hybris.yfaces.demo.ProvideFormattedSource </phase-listener>
+		<phase-listener> de.hybris.yfaces.demo.PrettySourceListener </phase-listener>
 	</lifecycle>
 
 	<managed-bean>

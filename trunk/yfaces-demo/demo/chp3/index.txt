@@ -18,13 +18,13 @@ A component is used intrates the usage of a component in different ways.
 {example-ex1}
 All examples are using the same component. No binding, no passing of attributes.
 Press 'Submit' or 'Reset': count is always '1' and hashcode always changes (always new instance)<br/>
-<yf:demo3/>
+<chp:demo/>
 
 {example-ex2}
-<yf:demo3 binding="#{frame3.component2}"/>
+<chp:demo binding="#{frame3.component2}"/>
 
 {example-ex3}
-<yf:demo3 binding="#{frame3.component3}" message="A message which was passed by the frame view"/>
+<chp:demo binding="#{frame3.component3}" message="A message which was passed by the frame view"/>
 
 {example-ex4}
-<yf:demo3 binding="#{frame3.component4}" message=""/>
+<chp:demo binding="#{frame3.component4}" message=""/>
