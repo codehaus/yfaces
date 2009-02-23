@@ -6,9 +6,9 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee/web-facesconfig_1_2.xsd">
 
 	<managed-bean>
-		<managed-bean-name>bindingBean2</managed-bean-name>
+		<managed-bean-name>bindingBean</managed-bean-name>
 		<managed-bean-class>
-			de.hybris.yfaces.demo.chapter3.BindingDemoBean2
+			de.hybris.yfaces.demo.binding1.BindingDemoBean
 		</managed-bean-class>
 		<managed-bean-scope>session</managed-bean-scope>
 	</managed-bean>
