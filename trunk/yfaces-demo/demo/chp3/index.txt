@@ -9,18 +9,18 @@ Validate passed property values and/or use them as parameters to load missing co
 
 
 {long}
-After each property is injected the components postInitialize() method gets invoked.
-This is the place where passed values can be validated or missing values are loaded.
-   	
-A component is used intrates the usage of a component in different ways.
-<a href="http://docs.codehaus.org/display/YFACES/2.+YComponent#2.YComponent-2.2.4Componentrequestcycle">More</a>
+YFaces extends general JSF binding technique with the possibility to have a small meta-class or a "binding wrapper".
+This allows a more particulary description of the binding type and gives the programmer more control.
+The view looks exactly the same except that the ManagedBean returns a YComponentBinding instance instead
+of the component instance itself.
+
 
 {example-ex1}
-All examples are using the same component. No binding, no passing of attributes.
-Press 'Submit' or 'Reset': count is always '1' and hashcode always changes (always new instance)<br/>
 <chp:demo/>
 
 {example-ex2}
-<chp:demo binding="#{bindingBean2.component}"/>
+<chp:demo binding="#{bindingBean2.component1}"/>
 
+{example-ex3}
+<chp:demo binding="#{bindingBean2.component2}"/>
 
