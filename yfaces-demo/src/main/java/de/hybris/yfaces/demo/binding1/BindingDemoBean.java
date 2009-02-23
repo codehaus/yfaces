@@ -1,4 +1,4 @@
-package de.hybris.yfaces.demo.chapter2;
+package de.hybris.yfaces.demo.binding1;
 
 public class BindingDemoBean {
 

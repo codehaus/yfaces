@@ -1,4 +1,4 @@
-package de.hybris.yfaces.demo.chapter3;
+package de.hybris.yfaces.demo.binding2;
 
 import de.hybris.yfaces.component.YComponentBinding;
 
