@@ -49,7 +49,7 @@ public class ChapterMBean {
 			Pattern.DOTALL);
 
 	private static Pattern ycmpBindingAttribute = Pattern
-			.compile("<yf:(?:.*)binding=\"#\\{(.*)\\.(?:.*)>");
+			.compile("<(?:yf|chp):(?:.*)binding=\"#\\{(.*)\\.(?:.*)>");
 
 	private String chapterCtx = null;
 	private String chapterRoot = null;
@@ -178,7 +178,9 @@ public class ChapterMBean {
 			String content = m.group(2).trim();
 
 			if (type.equals(SECTION_TITLE)) {
-				this.title = content;
+				String titleId = this.chapterRoot.substring(this.chapterRoot.lastIndexOf("/") + 1);
+				titleId = titleId.replaceAll("chp", "Chapter ");
+				this.title = titleId + ": " + content;
 			}
 
 			if (type.equals(SECTION_USECASE)) {
@@ -315,7 +317,7 @@ public class ChapterMBean {
 
 	/**
 	 * Escapes each YComponent tags (&ltyf:.../&gt;) from passed content so that they can be used
-	 * with html markup. Any other tags (generally html ones) stay untouched.
+	 * with html markup. Oher tags (generally html ones) are staying untouched.
 	 * 
 	 * @param content
 	 *            input string
@@ -334,7 +336,8 @@ public class ChapterMBean {
 					resultBuilder = new StringBuilder();
 				}
 				String match = m.group(0);
-				match = "<code>" + StringEscapeUtils.escapeHtml(match) + "</code>";
+				match = "<span class='yfExample'><code>" + StringEscapeUtils.escapeHtml(match)
+						+ "</code></span>";
 
 				resultBuilder.append(content.substring(cursor, m.start()));
 				resultBuilder.append(match);
