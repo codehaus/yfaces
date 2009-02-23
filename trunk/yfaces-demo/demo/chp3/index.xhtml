@@ -5,30 +5,23 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
 	xmlns:yf="http://hybris.com/jsf/yfaces"
 	xmlns:chp="http://hybris.com/jsf/yfaces/chp3"
    template="/demo/template.xhtml">
    
 	<ui:define name="example">
+	
 		<h:panelGrid rowClasses="even,odd">
+		
 			<h:panelGroup>
-				<h:outputText value="#{chapter.examples.ex1}" escape="false"/>
+				<h:outputText value="#{chapter.examples.ex1}" escape="false"/>				
 				<chp:demo/>
 			</h:panelGroup>
 
 			<h:panelGroup>
-				<h:outputText value="#{chapter.examples.ex2}" escape="false"/>
-				<chp:demo binding="#{frame3.component2}"/>
-			</h:panelGroup>
-
-			<h:panelGroup>
-				<h:outputText value="#{chapter.examples.ex3}" escape="false"/>
-				<chp:demo binding="#{frame3.component3}" message="A message which was passed by the frame view"/>
-			</h:panelGroup>
-
-			<h:panelGroup>
-				<h:outputText value="#{chapter.examples.ex4}" escape="false"/>
-				<chp:demo binding="#{frame3.component4}" message=""/>
+				<h:outputText value="#{chapter.examples.ex2}" escape="false"/>	
+				<chp:demo binding="#{bindingBean2.component}"/>
 			</h:panelGroup>
 		</h:panelGrid>
 		
@@ -36,9 +29,9 @@
 			<h:commandLink value="Faces Request (POST)"/>
 		</h:form>
 		<h:outputLink value="">Non Faces Request (GET)</h:outputLink>
+		
 
 	</ui:define>
-
 
 	
 </ui:composition>
