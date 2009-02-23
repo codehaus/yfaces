@@ -1,6 +1,6 @@
 package de.hybris.yfaces.demo.chapter2;
 
-public class ManagedBean {
+public class BindingDemoBean {
 
 	private DemoCmp component = null;
 

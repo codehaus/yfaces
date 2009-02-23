@@ -10,15 +10,12 @@
 	xmlns:yf="http://hybris.com/jsf/yfaces">
 
 	<yf:component
-		id="demoKIU"
+		id="demoJUF"
 		default="de.hybris.yfaces.demo.chapter3.DemoCmp"
-		var="cmp"
-		injectable="message">
+		var="cmp">
 		
 		<div>
-			<h:outputText value="Mesage: #{cmp.message}"/><br/>
-			<h:outputText value="count: #{cmp.count}"/><br/>
-			<h:outputText value="hash: #{cmp.hashCode}"/><br/>
+			<h:outputText value="HashCode: #{cmp.hashCode}"/><br/>
 		</div>
 			
 	</yf:component>

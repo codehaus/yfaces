@@ -1,6 +1,6 @@
 ﻿
 {title} 
-Component bindings (Frames)
+Component binding (YComponentBinding)
 
 {usecase}
 Validate passed property values and/or use them as parameters to load missing component values.
@@ -21,10 +21,6 @@ Press 'Submit' or 'Reset': count is always '1' and hashcode always changes (alwa
 <chp:demo/>
 
 {example-ex2}
-<chp:demo binding="#{frame3.component2}"/>
+<chp:demo binding="#{bindingBean2.component}"/>
 
-{example-ex3}
-<chp:demo binding="#{frame3.component3}" message="A message which was passed by the frame view"/>
 
-{example-ex4}
-<chp:demo binding="#{frame3.component4}" message=""/>
