@@ -63,9 +63,8 @@
 			/WEB-INF/yfaces-config.xml,
 			/WEB-INF/demo-faces-config.xml,
 			/demo/chp1/faces-config.xml,
-			/demo/chp2/faces-config.xml,
-			/demo/chp3/faces-config.xml,
-			/demo/chp4/faces-config.xml,
+			/demo/binding1/faces-config.xml,
+			/demo/binding2/faces-config.xml,
 		</param-value>
 	</context-param>
 	
