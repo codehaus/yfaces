@@ -1,9 +1,9 @@
 ﻿
 {title} 
-Chapter I - Define and use a component
+Define and use a component
 
 {usecase}
-Pass property values to component from view (push/inject values)
+Pass property values to component from the view perspective<br/>(push/inject values into component class)
 
 {parts}
 

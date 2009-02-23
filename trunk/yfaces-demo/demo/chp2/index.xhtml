@@ -14,12 +14,6 @@
 	
 		<h:panelGrid rowClasses="even,odd">
 		
-		<chp:demo/><hr/>
-		<chp:demo binding="#{chapter2.cmp1}"/><hr/>
-						<chp:demo binding="#{chapter2.cmp2}"/><hr/>
-						<chp:demo binding="#{chapter2.cmp3}"/><hr/>
-		
-<ui:remove>
 			<h:panelGroup>
 				<h:outputText value="#{chapter.examples.ex1}" escape="false"/>				
 				<chp:demo/>
@@ -27,9 +21,8 @@
 
 			<h:panelGroup>
 				<h:outputText value="#{chapter.examples.ex2}" escape="false"/>	
-				<chp:demo binding="#{chapter2.component}"/>
+				<chp:demo binding="#{mbean.component}"/>
 			</h:panelGroup>
-</ui:remove>			
 		</h:panelGrid>
 		
 		<h:form>
