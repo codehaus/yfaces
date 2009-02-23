@@ -62,7 +62,7 @@
 		<param-value>
 			/WEB-INF/yfaces-config.xml,
 			/WEB-INF/demo-faces-config.xml,
-			/demo/chp1/faces-config.xml,
+			/demo/basic/faces-config.xml,
 			/demo/binding1/faces-config.xml,
 			/demo/binding2/faces-config.xml,
 		</param-value>
