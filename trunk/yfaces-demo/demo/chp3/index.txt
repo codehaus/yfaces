@@ -1,6 +1,6 @@
 ﻿
 {title} 
-Chapter II - Component bindings (Frames)
+Component bindings (Frames)
 
 {usecase}
 Validate passed property values and/or use them as parameters to load missing component values.
