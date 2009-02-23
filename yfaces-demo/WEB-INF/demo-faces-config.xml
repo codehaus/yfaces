@@ -10,7 +10,7 @@
 	</lifecycle>
 
 	<managed-bean>
-		<managed-bean-name>chapter</managed-bean-name>
+		<managed-bean-name>chapterBean</managed-bean-name>
 		<managed-bean-class>
 			de.hybris.yfaces.demo.ChapterMBean
 		</managed-bean-class>

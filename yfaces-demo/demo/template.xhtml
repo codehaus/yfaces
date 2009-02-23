@@ -53,8 +53,11 @@
 	</head>
 
 	<body>
-		<h:outputLink value="#{chapter.previousPage}" rendered="#{chapter.previousPage != null}"> Previous  </h:outputLink>
-		<h:outputLink value="#{chapter.nextPage}" rendered="#{chapter.nextPage != null}"> Next </h:outputLink>
+	
+		<ui:param name="chapter" value="#{chapterBean.currentChapter}"/>
+		
+		<h:outputLink value="#{chapter.prevChapter.viewURL}" rendered="#{chapter.prevChapter != null}"> Previous  </h:outputLink>
+		<h:outputLink value="#{chapter.nextChapter.viewURL}" rendered="#{chapter.nextChapter != null}"> Next </h:outputLink>
 		
 		<h2>
 			<ui:insert name="title">
