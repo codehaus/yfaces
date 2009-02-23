@@ -10,7 +10,6 @@
 	xmlns:h="http://java.sun.com/jsf/html" 
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:t="http://myfaces.apache.org/tomahawk" 
-	xmlns:c="http://java.sun.com/jstl/core"
 	xmlns:yf="http://hybris.com/jsf/yfaces">
 
 	<html>
@@ -47,6 +46,9 @@
 				font-weight:bold;
 			}
 			
+			.yfExample {
+				font-weight:bold;
+			}
 		</style>
 	</head>
 
@@ -54,30 +56,25 @@
 		<h:outputLink value="#{chapter.previousPage}" rendered="#{chapter.previousPage != null}"> Previous  </h:outputLink>
 		<h:outputLink value="#{chapter.nextPage}" rendered="#{chapter.nextPage != null}"> Next </h:outputLink>
 		
-		<h2><ui:insert name="title" />#{chapter.title}</h2>
+		<h2>
+			<ui:insert name="title">
+				#{chapter.title}
+			</ui:insert>
+		</h2>
 		
-	
-		<h:panelGrid columns="2" columnClasses="tablecell">
-			<h:outputText value="use case" styleClass="caption"/>
-			<h:outputText value="participants" styleClass="caption"/>
-	
-			<h:panelGroup>
-				<ui:insert name="usecase" > #{chapter.useCase} </ui:insert>
-			</h:panelGroup>
-	
-			<h:panelGroup>
-				<ui:insert name="parts" >
-					<ui:repeat value="#{chapter.participants}" var="part">
-						<h:outputText value="#{part.name}" rendered="#{part.source == null}"/>
-						<h:outputLink value="#{request.requestURI}" rendered="#{part.source != null}">
-							<f:param name="source" value="#{part.source}"/>
-							<f:param name="type" value="#{part.type}"/>
-							<h:outputText style="margin-right:8px;" value="[#{part.name}]"/>
-						</h:outputLink>
-					</ui:repeat>
-				</ui:insert>
-			</h:panelGroup>
-		</h:panelGrid>
+		<ui:insert name="usecase" >
+			<h:outputText value="#{chapter.useCase}" escape="false"/>
+		</ui:insert><br/><br/>
+		
+		<h:outputText value="participants: " styleClass="caption"/>
+		<ui:repeat value="#{chapter.participants}" var="part">
+			<h:outputText value="#{part.name}" rendered="#{part.source == null}"/>
+			<h:outputLink value="#{request.requestURI}" rendered="#{part.source != null}">
+				<f:param name="source" value="#{part.source}"/>
+				<f:param name="type" value="#{part.type}"/>
+				<h:outputText style="margin-right:8px;" value="[#{part.name}]"/>
+			</h:outputLink>
+		</ui:repeat>
 		
 		<hr/>
 		<ui:insert name="long"> <h:outputText value="#{chapter.longDescription}" escape="false"/> </ui:insert>

@@ -6,9 +6,9 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee/web-facesconfig_1_2.xsd">
 
 	<managed-bean>
-		<managed-bean-name>chapter2</managed-bean-name>
+		<managed-bean-name>mbean</managed-bean-name>
 		<managed-bean-class>
-			de.hybris.yfaces.demo.chapter2.Chapter2Bean
+			de.hybris.yfaces.demo.chapter2.ManagedBean
 		</managed-bean-class>
 		<managed-bean-scope>session</managed-bean-scope>
 	</managed-bean>
