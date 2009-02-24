@@ -11,18 +11,30 @@
     template="/selenium/template.xhtml">
 	
 	<ui:define name="content">
-
-		Submit 'OK' two times, the third one should throw an exception
-		
-		->#{sessionScope['REQUEST_COUNTER']}
-		
+	
+		Basic:<br/>
+		YFaces17: "illegal component state" exception when value of 'rendered' attribute changes.<br/>
+		<br/>
+		Test setting:<br/>
+		A servlet filter increases a counter. The counter value is used as part of a components 'rendered' definition.<br/>
+		When the counter reaches '3' the exception gets thrown.<br/>
+		It seems that only this 'raw' approach (operating outside the JSF lifecycle) provoke this error.<br/>   
+		<br/>
+		<br/>
+		Request counter: #{sessionScope['REQUEST_COUNTER']}<br/>
+		<h:outputLink>
+			<f:param name="clearCounter"/>
+			Clear Request Counter
+		</h:outputLink>
+		<br/>
+		<br/>
+		<h:form>
+		  <h:commandButton value="Faces Request"/>
+		</h:form>
+		<br/>
 		<f:subview rendered="#{sessionScope['REQUEST_COUNTER'] &gt; 2}">
 		   <ysel:selenium/>
 		</f:subview>
-		
-		<h:form>
-		  <h:commandButton value="GO"/>
-		</h:form>
 		
 		
 	</ui:define>
