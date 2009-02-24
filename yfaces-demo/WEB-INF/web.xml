@@ -44,10 +44,12 @@
 		<param-value>true</param-value>
 	</context-param>
 	
+	<!-- 
 	<context-param>
 		<param-name>org.apache.myfaces.ERROR_HANDLER</param-name>
 		<param-value>de.hybris.yfaces.myfaces.MyFacesErrorHandler</param-value>
 	</context-param>
+	 -->
 	
 	<!-- Performance:
 	     replaces DefaultAddResource (no response parsing [ReducedHtmlParser] anymore) -->
