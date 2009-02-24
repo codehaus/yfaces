@@ -7,6 +7,8 @@
 
 	<lifecycle>
 		<phase-listener> de.hybris.yfaces.demo.PrettySourceListener </phase-listener>
+		
+		<phase-listener> de.hybris.yfaces.selenium.SeleniumPhaseListener </phase-listener>
 	</lifecycle>
 
 	<managed-bean>
@@ -16,15 +18,5 @@
 		</managed-bean-class>
 		<managed-bean-scope>request</managed-bean-scope>
 	</managed-bean>
-
-
-	<managed-bean>
-		<managed-bean-name>frame3</managed-bean-name>
-		<managed-bean-class>
-			de.hybris.yfaces.demo.chapter3.Demo3Frame
-		</managed-bean-class>
-		<managed-bean-scope>request</managed-bean-scope>
-	</managed-bean>
-
 
 </faces-config>
