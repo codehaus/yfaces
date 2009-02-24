@@ -1,0 +1,31 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" [<!ENTITY nbsp "&#160;">]>
+
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jstl/core"	
+    xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:ysel="http://hybris.com/jsf/yfaces"
+    template="/selenium/template.xhtml">
+	
+	<ui:define name="content">
+		
+		->#{sessionScope['REQUEST_COUNTER']}
+		
+		<f:subview>
+		<ysel:selenium/>
+		</f:subview>
+		
+		<f:subview rendered="#{sessionScope['REQUEST_COUNTER'] &gt; 2}">
+		   <ysel:selenium/>
+		</f:subview>
+		
+		<h:form>
+		  <h:commandButton value="GO"/>
+		</h:form>
+		
+		
+	</ui:define>
+</ui:composition>
