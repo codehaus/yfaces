@@ -24,10 +24,9 @@ import de.hybris.yfaces.YFacesException;
 import de.hybris.yfaces.myfaces.MyFacesErrorHandler;
 
 /**
- * Provides general error handling. When the {@link MyFacesErrorHandler} is
- * registered at web.xml this handler gets invoked automatically at
- * {@link #handleException(FacesContext, Exception)}. Additionally a manual
- * error handling can be invoked at every time.
+ * Provides general error handling. When the {@link MyFacesErrorHandler} is registered at web.xml
+ * this handler gets invoked automatically at {@link #handleException(FacesContext, Exception)}.
+ * Additionally a manual error handling can be invoked at every time.
  * 
  * @author Denny.Strietzbaum
  */
@@ -37,16 +36,14 @@ public class YFacesErrorHandler {
 	private static final String ERROR_STACK = YFacesErrorHandler.class.getName();
 
 	/**
-	 * Catches and handles the passed exception. Exception handling involves
-	 * redirecting to an error page and hold an provide the error cause
-	 * {@link #getErrorSource()}. until the next RENDER_RESPONSE phase has
-	 * finished. The error cause gets lost with next RENDER_RESPONSE phase.
-	 * (Nevertheless this is a redirect safe solution).
+	 * Catches and handles the passed exception. Exception handling involves redirecting to an error
+	 * page and hold an provide the error cause {@link #getErrorSource()}. until the next
+	 * RENDER_RESPONSE phase has finished. The error cause gets lost with next RENDER_RESPONSE
+	 * phase. (Nevertheless this is a redirect safe solution).
 	 * <p/>
-	 * The redirect page is requested from
-	 * {@link #getErrorPage(FacesContext, Throwable)}. The error message is
-	 * requested from {@link #getErrorMessage(FacesContext, Throwable)}. Both
-	 * methods can be overridden for a more customized error handling.
+	 * The redirect page is requested from {@link #getErrorPage(FacesContext, Throwable)}. The error
+	 * message is requested from {@link #getErrorMessage(FacesContext, Throwable)}. Both methods can
+	 * be overridden for a more customized error handling.
 	 * 
 	 * @param fc
 	 *            {@link FacesContext}
@@ -56,16 +53,15 @@ public class YFacesErrorHandler {
 	public void handleException(final FacesContext fc, final Exception ex) {
 		final Throwable cause = this.findReleventCause(ex);
 
+		log.error("Got unhandled exception", ex);
+
 		final String target = this.getErrorPage(fc, cause);
 		if (target != null) {
 			final String errorMsg = getErrorMessage(fc, cause);
 			log.error("Redirecting to errorpage: " + target + "(" + errorMsg + ")");
 			YFacesContext.getCurrentContext().getNavigationContext().redirect(target);
 			fc.getExternalContext().getSessionMap().put(ERROR_STACK, errorMsg);
-		} else {
-			log.error("Got unhandled exception " + ex.getMessage());
 		}
-
 	}
 
 	public void handleException(final FacesContext fc, final String msg) {
@@ -78,9 +74,8 @@ public class YFacesErrorHandler {
 	}
 
 	/**
-	 * Returns the desired page which shall be redirected to. Parameters can be
-	 * used to decide between multiple pages. A return of 'null' means that this
-	 * error shouldn't be handled.
+	 * Returns the desired page which shall be redirected to. Parameters can be used to decide
+	 * between multiple pages. A return of 'null' means that this error shouldn't be handled.
 	 * 
 	 * @param fc
 	 * @param ex
@@ -118,8 +113,7 @@ public class YFacesErrorHandler {
 
 	/**
 	 * Internal.<br/>
-	 * Tries to walk one level up in case the exception is not of type
-	 * {@link YFacesException}
+	 * Tries to walk one level up in case the exception is not of type {@link YFacesException}
 	 * 
 	 * @param e
 	 * @return {@link Throwable}
