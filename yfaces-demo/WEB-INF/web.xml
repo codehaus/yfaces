@@ -65,6 +65,7 @@
 			/demo/basic/faces-config.xml,
 			/demo/binding1/faces-config.xml,
 			/demo/binding2/faces-config.xml,
+			/demo/frame/faces-config.xml,
 		</param-value>
 	</context-param>
 	
