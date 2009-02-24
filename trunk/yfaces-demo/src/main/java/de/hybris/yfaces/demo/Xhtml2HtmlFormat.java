@@ -1,11 +1,15 @@
-package de.hybris.yfaces.demo.source2html;
+package de.hybris.yfaces.demo;
 
 import java.io.File;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class XhtmlSourceDocument extends SourceDocument {
+import de.str.prettysource.SourceFormat;
+import de.str.prettysource.SourceSelection;
+import de.str.prettysource.html.HtmlFormat;
+import de.str.prettysource.html.XmlHtmlFormat;
 
+public class Xhtml2HtmlFormat extends HtmlFormat {
 	private static final String[] STYLE_COMMENTBLOCK = { "xhtml_ctblk", "color:rgb(63,127,95)" };
 	private static final String[] STYLE_LITERAL = { "xhtml_literal", "color:rgb(42,0,255)" };
 	private static final String[] STYLE_TAG = { "xhtml_tag", "color:rgb(63,127,95)" };
@@ -26,7 +30,7 @@ public class XhtmlSourceDocument extends SourceDocument {
 		/** General comment block */
 		COMMENTBLOCK("<!--", "-->", STYLE_COMMENTBLOCK),
 
-		YF_TAG("</?(?:yf|chp):", ">", STYLE_YFTAG),
+		YF_TAG("</?yf:", ">", STYLE_YFTAG),
 		YF_TAG_ATTRIB("\\w+:?\\w+(?=\\s*=)", null, STYLE_YFTAGATTRIB),
 		YF_LITERAL("\"", "[^\\\\]\"", STYLE_YFLITERAL),
 
@@ -47,9 +51,12 @@ public class XhtmlSourceDocument extends SourceDocument {
 		}
 	}
 
-	public XhtmlSourceDocument() {
+	public Xhtml2HtmlFormat() {
+		super(createSelections());
+	}
 
-		SourceSelection node = super.getSourceSelection();
+	private static SourceSelection createSelections() {
+		SourceSelection node = SourceFormat.createRootSelection();
 		node.addChild(TYPE.COMMENTBLOCK.node);
 		node.addChild(TYPE.YF_TAG.node);
 		node.addChild(TYPE.TAG.node);
@@ -63,7 +70,7 @@ public class XhtmlSourceDocument extends SourceDocument {
 		yfTagNode.addChild(TYPE.YF_LITERAL.node);
 		yfTagNode.addChild(TYPE.YF_TAG_ATTRIB.node);
 
-		super.compileConfiguration();
+		return node;
 	}
 
 	//
@@ -95,7 +102,7 @@ public class XhtmlSourceDocument extends SourceDocument {
 
 		// for (int i = 0; i <= 10; i++) {
 		long t1 = System.currentTimeMillis();
-		SourceDocument source = new XhtmlSourceDocument();
+		SourceFormat source = new XmlHtmlFormat();
 		source.format(sourceFile, targetFile);
 		long t2 = System.currentTimeMillis();
 		System.out.println("Took: " + (t2 - t1) + "ms");

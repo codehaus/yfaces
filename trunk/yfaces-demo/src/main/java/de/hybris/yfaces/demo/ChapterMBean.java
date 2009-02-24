@@ -74,8 +74,9 @@ public class ChapterMBean {
 				// create and add a chapter instance for each input line
 				Chapter prevChapter = null;
 				while (reader.ready()) {
+					String line = null;
 					try {
-						String line = reader.readLine().trim();
+						line = reader.readLine().trim();
 						String[] values = line.split(":");
 						Chapter chapter = new Chapter(CHAPTERS_ROOT + values[1]);
 						chapter.setTitle(values[0] + " - " + chapter.getTitle());
@@ -86,16 +87,14 @@ public class ChapterMBean {
 							chapter.setPrevChapter(prevChapter);
 						}
 						prevChapter = chapter;
-					} catch (MalformedURLException e) {
-
+					} catch (IllegalArgumentException e) {
+						log.error("Skipping:" + line);
 					}
 				}
 			} catch (IOException e) {
 				throw new RuntimeException(e);
 			}
-
 		}
-
 		return result;
 	}
 

@@ -13,8 +13,7 @@ import javax.faces.event.PhaseId;
 import javax.faces.event.PhaseListener;
 import javax.servlet.http.HttpServletResponse;
 
-import de.hybris.yfaces.demo.source2html.JavaSourceDocument;
-import de.hybris.yfaces.demo.source2html.XhtmlSourceDocument;
+import de.str.prettysource.html.JavaHtmlFormat;
 
 /**
  * {@link PhaseListener} which reads various non html based source files and formats it on-the-fly
@@ -27,12 +26,12 @@ public class PrettySourceListener implements PhaseListener {
 	private static final String P_SOURCE = "source";
 	private static final String P_TYPE = "type";
 
-	private JavaSourceDocument javaSource = null;
-	private XhtmlSourceDocument xhtmlSource = null;
+	private JavaHtmlFormat javaSource = null;
+	private Xhtml2HtmlFormat xhtmlSource = null;
 
 	public PrettySourceListener() {
-		this.javaSource = new JavaSourceDocument();
-		this.xhtmlSource = new XhtmlSourceDocument();
+		this.javaSource = new JavaHtmlFormat();
+		this.xhtmlSource = new Xhtml2HtmlFormat();
 	}
 
 	public void afterPhase(PhaseEvent arg0) {
