@@ -33,6 +33,8 @@ public class Chapter {
 
 	private static final Logger log = Logger.getLogger(Chapter.class);
 
+	private static final String CHAPTER_DESCRIPTOR = "index.txt";
+
 	private static final String SECTION_TITLE = "title";
 	private static final String SECTION_USECASE = "usecase";
 	private static final String SECTION_EXAMPLE = "example-";
@@ -55,34 +57,24 @@ public class Chapter {
 
 	private Chapter prevChapter = null;
 	private Chapter nextChapter = null;
-
-	public Chapter getPrevChapter() {
-		return prevChapter;
-	}
-
-	public void setPrevChapter(Chapter prevChapter) {
-		this.prevChapter = prevChapter;
-	}
-
-	public Chapter getNextChapter() {
-		return nextChapter;
-	}
-
-	public void setNextChapter(Chapter nextChapter) {
-		this.nextChapter = nextChapter;
-	}
-
 	private String chapterViewIdRoot = null;
 	private String chapterURL = null;
 
+	/**
+	 * Constructs a new Chapter based on the passed view root.
+	 * 
+	 * @param chapterViewIdRoot
+	 *            view root e.g. /demo/chapter5
+	 * @throws MalformedURLException
+	 *             when view root can't be used to construct a valid {@link URL}
+	 */
 	public Chapter(String chapterViewIdRoot) throws MalformedURLException {
-		FacesContext fc = FacesContext.getCurrentInstance();
+		ExternalContext ctx = FacesContext.getCurrentInstance().getExternalContext();
 		this.chapterViewIdRoot = chapterViewIdRoot;
-		this.chapterURL = fc.getExternalContext().getRequestContextPath() + chapterViewIdRoot
-				+ "/index.jsf";
+		this.chapterURL = ctx.getRequestContextPath() + chapterViewIdRoot + "/index.jsf";
 
 		// process chapter descriptor
-		URL chpDescrURL = fc.getExternalContext().getResource(chapterViewIdRoot + "/index.txt");
+		URL chpDescrURL = ctx.getResource(chapterViewIdRoot + "/" + CHAPTER_DESCRIPTOR);
 		this.initialize(chpDescrURL);
 
 		// find participiants
@@ -90,7 +82,45 @@ public class Chapter {
 	}
 
 	/**
-	 * The title of this chapter. Chapter tag: {title}
+	 * Returns the previous {@link Chapter}
+	 * 
+	 * @return {@link Chapter}
+	 */
+	public Chapter getPrevChapter() {
+		return prevChapter;
+	}
+
+	/**
+	 * Sets the previous {@link Chapter}
+	 * 
+	 * @param prevChapter
+	 *            {@link Chapter}
+	 */
+	public void setPrevChapter(Chapter prevChapter) {
+		this.prevChapter = prevChapter;
+	}
+
+	/**
+	 * Returns the next {@link Chapter}
+	 * 
+	 * @return {@link Chapter}
+	 */
+	public Chapter getNextChapter() {
+		return nextChapter;
+	}
+
+	/**
+	 * Sets the next {@link Chapter}
+	 * 
+	 * @param nextChapter
+	 *            {@link Chapter}
+	 */
+	public void setNextChapter(Chapter nextChapter) {
+		this.nextChapter = nextChapter;
+	}
+
+	/**
+	 * Returns the title of this chapter.
 	 * 
 	 * @return title of this chapter
 	 */
@@ -98,6 +128,11 @@ public class Chapter {
 		return this.title;
 	}
 
+	/**
+	 * Sets the title of this chapter.
+	 * 
+	 * @param title
+	 */
 	public void setTitle(String title) {
 		this.title = title;
 	}
@@ -135,13 +170,18 @@ public class Chapter {
 		return this.examples;
 	}
 
+	/**
+	 * Returns a list of {@link ChapterParticipiant} for this chapter.
+	 * 
+	 * @return List of {@link ChapterParticipiant}
+	 */
 	public List<ChapterParticipiant> getParticipants() {
 		return this.participants;
 	}
 
 	/**
-	 * Parses the chapter descriptor, generally an index.txt file, and prepares all chapter
-	 * information like title, description etc.
+	 * Parses the chapter descriptor, generally an index.txt file, and sets some chapter properties
+	 * like title, description, participants
 	 */
 	private void initialize(URL url) {
 		StringWriter writer = new StringWriter();
