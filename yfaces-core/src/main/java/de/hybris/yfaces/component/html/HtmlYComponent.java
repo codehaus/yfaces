@@ -407,8 +407,7 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 	public void encodeBegin(final FacesContext context) throws IOException {
 		this.logId = getId() + ": ";
 
-		// some general assertions (context!= null, isRendered=true),
-		// choose optional Renderer
+		//FIXME: isRendered is never evaluated here; super call can be removed
 		super.encodeBegin(context);
 
 		// retrieve some meta information
