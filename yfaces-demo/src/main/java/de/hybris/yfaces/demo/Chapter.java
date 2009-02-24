@@ -65,16 +65,25 @@ public class Chapter {
 	 * 
 	 * @param chapterViewIdRoot
 	 *            view root e.g. /demo/chapter5
-	 * @throws MalformedURLException
-	 *             when view root can't be used to construct a valid {@link URL}
+	 * @throws IllegalArgumentException
+	 *             in case this chapter can't be created
 	 */
-	public Chapter(String chapterViewIdRoot) throws MalformedURLException {
+	public Chapter(String chapterViewIdRoot) {
 		ExternalContext ctx = FacesContext.getCurrentInstance().getExternalContext();
 		this.chapterViewIdRoot = chapterViewIdRoot;
 		this.chapterURL = ctx.getRequestContextPath() + chapterViewIdRoot + "/index.jsf";
 
 		// process chapter descriptor
-		URL chpDescrURL = ctx.getResource(chapterViewIdRoot + "/" + CHAPTER_DESCRIPTOR);
+		URL chpDescrURL = null;
+		try {
+			chpDescrURL = ctx.getResource(chapterViewIdRoot + "/" + CHAPTER_DESCRIPTOR);
+		} catch (MalformedURLException e) {
+			throw new IllegalArgumentException("Can't create resource " + chapterURL, e);
+		}
+
+		if (chpDescrURL == null) {
+			throw new IllegalArgumentException("Can't create resource " + chapterURL);
+		}
 		this.initialize(chpDescrURL);
 
 		// find participiants
