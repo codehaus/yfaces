@@ -11,12 +11,10 @@
     template="/selenium/template.xhtml">
 	
 	<ui:define name="content">
+
+		Submit 'OK' two times, the third one should throw an exception
 		
 		->#{sessionScope['REQUEST_COUNTER']}
-		
-		<f:subview>
-		<ysel:selenium/>
-		</f:subview>
 		
 		<f:subview rendered="#{sessionScope['REQUEST_COUNTER'] &gt; 2}">
 		   <ysel:selenium/>
