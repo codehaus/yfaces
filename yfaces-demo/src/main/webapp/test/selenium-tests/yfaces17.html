@@ -1,4 +1,4 @@
-﻿<html>
+<html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>yfaces17</title>
@@ -10,10 +10,49 @@
 </thead><tbody>
 <tr>
 	<td>open</td>
-	<td>../yfaces17.jsf</td>
+	<td>/yfaces/test/yfaces17.jsf?clearCounter=</td>
 	<td></td>
 </tr>
-
+<tr>
+	<td>assertElementNotPresent</td>
+	<td>subview:yfaces17:form</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>countText</td>
+	<td>Request counter: 1</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>form:facesReqCommand</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertElementNotPresent</td>
+	<td>subview:yfaces17:form</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>countText</td>
+	<td>Request counter: 2</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>form:facesReqCommand</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertElementPresent</td>
+	<td>subview:yfaces17:form</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>countText</td>
+	<td>Request counter: 3</td>
+</tr>
 <!--
 <tr>
 	<td>clickAndWait</td>
