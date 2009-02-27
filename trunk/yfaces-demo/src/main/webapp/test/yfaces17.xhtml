@@ -12,27 +12,30 @@
 	
 	<ui:define name="content">
 	
-		Basic:<br/>
+		Issue:<br/>
 		YFaces17: "illegal component state" exception when value of 'rendered' attribute changes.<br/>
 		<br/>
-		Test setting:<br/>
+		Test:<br/>
 		A servlet filter increases a counter. The counter value is used as part of a components 'rendered' definition.<br/>
 		When the counter reaches '3' the exception gets thrown.<br/>
 		It seems that only this 'raw' approach (operating outside the JSF lifecycle) provoke this error.<br/>   
 		<br/>
+		Tags:<br/>
+		HtmlYComponent, rendered, Lifecycle<br/>
 		<br/>
-		Request counter: #{sessionScope['REQUEST_COUNTER']}<br/>
-		<h:outputLink>
+		<h:outputText id="countText" value="Request counter: #{sessionScope['REQUEST_COUNTER']}"/><br/>
+		
+		<h:outputLink id="clrReqCounterLink">
 			<f:param name="clearCounter"/>
 			Clear Request Counter
 		</h:outputLink>
 		<br/>
 		<br/>
-		<h:form>
-		  <h:commandButton value="Faces Request"/>
+		<h:form id="form">
+		  <h:commandButton value="Faces Request" id="facesReqCommand"/>
 		</h:form>
 		<br/>
-		<f:subview rendered="#{sessionScope['REQUEST_COUNTER'] &gt; 2}">
+		<f:subview id="subview" rendered="#{sessionScope['REQUEST_COUNTER'] &gt; 2}">
 		   <ytest:testComponent/>
 		</f:subview>
 		
