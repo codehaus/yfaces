@@ -208,12 +208,10 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 	 * @return {@link YComponent}
 	 */
 	public YComponent getYComponent() {
-		// during rendering this component instance can be used multiple times
-		// e.g. within a loop
-		// to know which YComponent instance must be used for the current JSF
-		// Phase
-		// each created/passed YComponent instance is mapped to the UIComponents
-		// client id.
+		// it's possible that one HtmlYComponent instance is used with multiple YComponent instances
+		// example for that are loops like dataList, table etc..
+		// in that case UIComponents and YComponent instances are similar
+		// therefore the YComponent instance is mapped to the UIComponent instance via it's clientid
 		final String key = super.getClientId(getFacesContext());
 		final Map<String, Object> map = getStateMap();
 		final YComponent result = (YComponent) map.get(key + "_COMPONENT");
@@ -229,17 +227,15 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 	 *            {@link YComponent} to set.
 	 */
 	private void setYComponent(final YComponent cmp) {
-		final String key = super.getClientId(getFacesContext());
+		final String clientId = super.getClientId(getFacesContext());
 		final Map<String, Object> map = getStateMap();
-		map.put(key + "_COMPONENT", cmp);
+		map.put(clientId + "_COMPONENT", cmp);
 	}
 
 	/**
 	 * Internal.<br/>
 	 * The state map is used for save/restore used YComponent.<br/>
-	 * In general this will be the Attribute map from the UITree.<br/>
-	 * Other result values may be useful to allow non-serializeable HComponents.<br/>
-	 * <br/>
+	 * Actually this is the UITrees Attribute map.<br/>
 	 * 
 	 * @return {@link Map}
 	 */
@@ -356,27 +352,26 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 	public void processDecodes(final FacesContext context) {
 		final YComponent restored = getYComponent();
 
-		// as this component gets restored, a component must be available
-		if (restored == null) {
-			throw new YFacesException(logId + ": Illegal state of Component",
-					new NullPointerException());
-		}
+		// it's possible that a previously unrenderable component can be renderable after a
+		// faces request, in that case a YComponent instance isn't available yet
+		if (restored != null) {
 
-		// set 'var' before any child processing starts
-		// this is necessary to assure that 'rendered' Attributes work properly
-		this.setVarValue(restored);
+			// set 'var' before any child processing starts
+			// this is necessary to assure that 'rendered' Attributes work properly
+			this.setVarValue(restored);
 
-		// only has an affect when component is backed by a writable
-		// ValueBinding
-		// XXX 1.2 simulate old behavior that non-framed components aren't
-		// available
-		if (restored.getFrame() != null) {
-			this.setValue(restored);
-		}
+			// only has an affect when component is backed by a writable
+			// ValueBinding
+			// XXX 1.2 simulate old behavior that non-framed components aren't
+			// available
+			if (restored.getFrame() != null) {
+				this.setValue(restored);
+			}
 
-		// process childs
-		if (isRendered()) {
-			super.processDecodes(context);
+			// process childs
+			if (isRendered()) {
+				super.processDecodes(context);
+			}
 		}
 	}
 
@@ -385,8 +380,10 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 		// set 'var' value again
 		// necessary when using this component within a loop
 		final YComponent restored = getYComponent();
-		this.setVarValue(restored);
-		super.processUpdates(arg0);
+		if (restored != null) {
+			this.setVarValue(restored);
+			super.processUpdates(arg0);
+		}
 	}
 
 	@Override
@@ -394,8 +391,10 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 		// set 'var' value again
 		// necessary when using this component within a loop
 		final YComponent restored = getYComponent();
-		this.setVarValue(restored);
-		super.processValidators(arg0);
+		if (restored != null) {
+			this.setVarValue(restored);
+			super.processValidators(arg0);
+		}
 	}
 
 	/*
@@ -407,7 +406,7 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 	public void encodeBegin(final FacesContext context) throws IOException {
 		this.logId = getId() + ": ";
 
-		//FIXME: isRendered is never evaluated here; super call can be removed
+		// FIXME: isRendered is never evaluated here; super call can be removed
 		super.encodeBegin(context);
 
 		// retrieve some meta information
