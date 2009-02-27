@@ -1,0 +1,23 @@
+﻿
+{title} 
+YFrame - page scope
+
+{usecase}
+
+
+{parts}
+
+
+{long}
+YFrame = Page scope
+
+So whenever you declare a Frame you automatically get a Page scoped ManagedBean.
+<br/>
+Note: YFaces doesn't introduce a new scope 'page' as this procedure isn't backed by the JSF spec.
+
+
+{example-ex1}
+
+
+
+

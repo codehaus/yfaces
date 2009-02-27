@@ -1,0 +1,31 @@
+﻿
+Introduce the component binding to a frame
+
+{title} 
+Component binding
+
+{usecase}
+
+
+{parts}
+
+
+{long}
+A new component instance will be created with every new request.
+To keep the instance just use the 'binding' Attribute.
+This is a JSF standard mechanism and allows binding your instance to a ManagedBean.
+The component instance now has the scope of your ManagedBean.<br/>
+<br/>
+For those who are already familiar with a JSF binding this chapter should give nothing new.<br/>
+For all others: This chapter uses a ManagedBean with session scope and binds the second component instance
+to it. This causes JSF to fetch the component instance from that bean with every request.
+In case no instance is available an initial one gets created and injected into the ManagedBean.<br/>
+Hash code of example one (unbound component) always changes whereas hash code of example two (bound component)
+is always the same which proves that the instance is always the same.
+
+{example-ex1}
+<chp:demo/>
+
+{example-ex2}
+<chp:demo binding="#{demoBean.component}"/>
+

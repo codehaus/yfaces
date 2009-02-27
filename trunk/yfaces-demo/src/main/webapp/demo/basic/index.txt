@@ -1,0 +1,28 @@
+﻿
+{title} 
+Define and use a component
+
+{usecase}
+Pass property values to component from the view perspective<br/>(push/inject values into component class)
+
+{parts}
+
+{long}
+This chapter just demonstrates the easiest way of using a component.
+The component class basically defines available component properties. 
+The component view just displays them.
+The component is made available as Tag named after the components view file.
+Available Tag Attributes are depending on your component properties.
+<br/>
+Steps to build your component: Create a component class, create a component view (don't forget to declare
+your component class there and optionally the properties which are allowed to set from within the view),
+put your view file into <code>/components</code> folder of your webapp. Thats all.    
+   	
+{example-ex1}
+<chp:demo/>
+
+{example-ex2}
+<chp:demo code="FRUIT-1"/>
+
+{example-ex3}
+<chp:demo name="citron fruit" imageUrl="/images/CEF_1112.jpg"/>

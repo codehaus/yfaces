@@ -1,0 +1,23 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" [<!ENTITY nbsp "&#160;">]>
+
+
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:yf="http://hybris.com/jsf/yfaces">
+
+	<yf:component
+		id="demoJUZ"
+		default="de.hybris.yfaces.demo.binding1.DemoCmp"
+		var="cmp">
+		
+		<div>
+			<h:outputText value="HashCode: #{cmp.hashCode}"/><br/>
+		</div>
+			
+	</yf:component>
+
+</ui:composition>
