@@ -1,0 +1,26 @@
+﻿
+{title} 
+Component binding (YComponentBinding)
+
+{usecase}
+Validate passed property values and/or use them as parameters to load missing component values.
+
+{parts}
+
+
+{long}
+YFaces extends general JSF binding technique with the possibility to have a small meta-class or a "binding wrapper".
+This allows a more particulary description of the binding type and gives the programmer more control.
+The view looks exactly the same except that the ManagedBean returns a YComponentBinding instance instead
+of the component instance itself.
+
+
+{example-ex1}
+<chp:demo/>
+
+{example-ex2}
+<chp:demo binding="#{bindingBean2.component1}"/>
+
+{example-ex3}
+<chp:demo binding="#{bindingBean2.component2}"/>
+

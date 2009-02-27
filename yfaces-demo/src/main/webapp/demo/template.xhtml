@@ -1,0 +1,94 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" [<!ENTITY nbsp "&#160;">]>
+
+<!--  
+	Template for all demo chapters 
+-->
+
+<f:view 
+	xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html" 
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:t="http://myfaces.apache.org/tomahawk" 
+	xmlns:yf="http://hybris.com/jsf/yfaces">
+
+	<html>
+
+	<head profile="http://www.w3.org/2000/08/w3c-synd/#">
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+		<META HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE"/>
+	
+		<style type="text/css">
+			.even div {
+				background-color: #FFFFDD;
+				border: 1px dotted;
+				margin: 15px;
+				padding: 10px;
+			}
+			
+			.odd div {
+				background-color: #FFFFEE;
+				border: 1px dotted;
+				margin: 15px;
+				padding: 10px;
+			}
+			
+			.odd span,.even span {
+				font-weight:bold;
+			}
+			
+			.tablecell {
+				vertical-align:top;
+				padding:2px 15px;
+			}
+			
+			.caption {
+				font-weight:bold;
+			}
+			
+			.yfExample {
+				font-weight:bold;
+			}
+		</style>
+	</head>
+
+	<body>
+	
+		<ui:param name="chapter" value="#{chapterBean.currentChapter}"/>
+		
+		<h:outputLink value="#{chapter.prevChapter.viewURL}" rendered="#{chapter.prevChapter != null}"> Previous  </h:outputLink>
+		<h:outputLink value="#{chapter.nextChapter.viewURL}" rendered="#{chapter.nextChapter != null}"> Next </h:outputLink>
+		
+		<h2>
+			<ui:insert name="title">
+				#{chapter.title}
+			</ui:insert>
+		</h2>
+		
+		<ui:insert name="usecase" >
+			<h:outputText value="#{chapter.useCase}" escape="false"/>
+		</ui:insert><br/><br/>
+		
+		<h:outputText value="participants: " styleClass="caption"/>
+		<ui:repeat value="#{chapter.participants}" var="part">
+			<h:outputText value="#{part.name}" rendered="#{part.source == null}"/>
+			<h:outputLink value="#{request.requestURI}" rendered="#{part.source != null}">
+				<f:param name="source" value="#{part.source}"/>
+				<f:param name="type" value="#{part.type}"/>
+				<h:outputText style="margin-right:8px;" value="[#{part.name}]"/>
+			</h:outputLink>
+		</ui:repeat>
+		
+		<hr/>
+		<ui:insert name="long"> <h:outputText value="#{chapter.longDescription}" escape="false"/> </ui:insert>
+		<hr/>
+		<div>
+			<div style="text-decoration: underline; font-weight: bold; margin: 5px;">Examples:</div>
+			<ui:insert name="example" />
+		</div>
+		<hr />
+
+	</body>
+	</html>
+</f:view>
+
