@@ -29,8 +29,7 @@ import org.springframework.web.context.ConfigurableWebApplicationContext;
 import org.springframework.web.context.support.XmlWebApplicationContext;
 
 /**
- * YFaces startup. Reads configuration and initializes runtime properties for
- * Logging, Spring, etc.
+ * YFaces startup. Reads configuration and initializes runtime properties for Logging, Spring, etc.
  * 
  * @author Denny.Strietzbaum
  */
@@ -39,7 +38,7 @@ public class YFacesStartupListener implements ServletContextListener {
 	private static final Logger log = Logger.getLogger(YFacesStartupListener.class);
 
 	private static final String PARAM_YFACES_CTX = "yfaces-context";
-	private static final String log4jCfg = "/WEB-INF/yfaces.properties";
+	private static final String log4jCfg = "/WEB-INF/log4j.properties";
 
 	public void contextDestroyed(ServletContextEvent arg0) {
 		// TODO Auto-generated method stub
@@ -83,7 +82,12 @@ public class YFacesStartupListener implements ServletContextListener {
 	private void configureLogging(ServletContextEvent arg0) {
 		try {
 			URL url = arg0.getServletContext().getResource(log4jCfg);
-			PropertyConfigurator.configure(url);
+			if (url != null) {
+				PropertyConfigurator.configure(url);
+			} else {
+				System.out.println(log4jCfg + " not found; logging disabled");
+			}
+
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		}
