@@ -54,8 +54,8 @@ public class YComponentInfo {
 	private static final String PLACEHOLDER_PROPERTIES = "properties";
 
 	/**
-	 * Enumeration of possible error state. Supports placeholders whose values
-	 * are extracted from a {@link YComponentInfo}
+	 * Enumeration of possible error state. Supports placeholders whose values are extracted from a
+	 * {@link YComponentInfo}
 	 */
 	public static enum ERROR_STATE {
 
@@ -122,8 +122,7 @@ public class YComponentInfo {
 		}
 
 		/**
-		 * Returns a formatted error message based on the passed
-		 * {@link YComponentInfo}
+		 * Returns a formatted error message based on the passed {@link YComponentInfo}
 		 * 
 		 * @param cmpInfo
 		 *            {@link YComponentInfo}
@@ -134,9 +133,9 @@ public class YComponentInfo {
 		}
 
 		/**
-		 * Returns a formatted error message based on the passed
-		 * {@link YComponentInfo}. An optional custom implementation is used
-		 * instead of {@link YComponentInfo#getImplementationClassName()}
+		 * Returns a formatted error message based on the passed {@link YComponentInfo}. An optional
+		 * custom implementation is used instead of
+		 * {@link YComponentInfo#getImplementationClassName()}
 		 * 
 		 * @param cmpInfo
 		 *            {@link YComponentInfo}
@@ -191,7 +190,7 @@ public class YComponentInfo {
 	private String implClassName = null;
 
 	// Properties which gets evaluated and injected; specified by renderer
-	private Set<String> injectableAttributes = null;
+	private Set<String> injectableAttributes = Collections.EMPTY_SET;
 
 	// Properties which can be injected; specified by component class
 	private Map<String, Method> writableProperties = null;
@@ -204,6 +203,7 @@ public class YComponentInfo {
 
 	private String cmpName = null;
 
+	private String namespace = null;
 	private URL url = null;
 
 	// all errors which are detected after a verification
@@ -225,10 +225,14 @@ public class YComponentInfo {
 		this.injectableAttributes = Collections.EMPTY_SET;
 	}
 
+	public YComponentInfo(String namespace, URL url) {
+		this.namespace = namespace;
+		this.url = url;
+	}
+
 	/**
 	 * Verifies the component.<br/>
-	 * Checks for specification, implementation, non-duplicate 'id' and 'var'
-	 * values.<br/>
+	 * Checks for specification, implementation, non-duplicate 'id' and 'var' values.<br/>
 	 * 
 	 */
 	public Set<ERROR_STATE> verifyComponent() {
@@ -261,8 +265,7 @@ public class YComponentInfo {
 
 	/**
 	 * Sets the classname of the interface/specification class.<br/>
-	 * Nullifies an already (optional) created instance of the implementation
-	 * class.<br/>
+	 * Nullifies an already (optional) created instance of the implementation class.<br/>
 	 * Does no verification at all.<br/>
 	 * 
 	 * @param className
@@ -346,8 +349,7 @@ public class YComponentInfo {
 	}
 
 	/**
-	 * Creates and returns an {@link YComponent} instance based on this
-	 * information.
+	 * Creates and returns an {@link YComponent} instance based on this information.
 	 * 
 	 * @return {@link YComponent}
 	 */
@@ -474,12 +476,10 @@ public class YComponentInfo {
 	}
 
 	/**
-	 * Asserts the passed class whether it can be used with this component
-	 * configuration.<br/>
+	 * Asserts the passed class whether it can be used with this component configuration.<br/>
 	 * 
 	 * Possible verification errors are:<br/> {@link ERROR_STATE#IMPL_IS_INTERFACE}<br/>
-	 * {@link ERROR_STATE#IMPL_IS_NO_YCMP}<br/>
-	 * {@link ERROR_STATE#IMPL_UNASSIGNABLE_TO_SPEC}<br/>
+	 * {@link ERROR_STATE#IMPL_IS_NO_YCMP}<br/> {@link ERROR_STATE#IMPL_UNASSIGNABLE_TO_SPEC}<br/>
 	 * 
 	 * @param implClass
 	 * @return result
@@ -539,9 +539,10 @@ public class YComponentInfo {
 
 	@Override
 	public String toString() {
-		final String result = "id:" + this.id + "; spec:" + this.specClassName + "; impl:"
-				+ this.implClassName + "; var:" + this.cmpVar + "; injects:"
-				+ this.injectableAttributes;
+		//		final String result = "id:" + this.id + "; spec:" + this.specClassName + "; impl:"
+		//				+ this.implClassName + "; var:" + this.cmpVar + "; injects:"
+		//				+ this.injectableAttributes;
+		String result = this.url.toExternalForm();
 		return result;
 	}
 
@@ -551,6 +552,24 @@ public class YComponentInfo {
 
 	protected void setURL(final URL url) {
 		this.url = url;
+	}
+
+	public String getNamespace() {
+		return this.namespace;
+	}
+
+	protected void setNamespace(String ns) {
+		this.namespace = ns;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		return this.url.toExternalForm().equals(((YComponentInfo) obj).url.toExternalForm());
+	}
+
+	@Override
+	public int hashCode() {
+		return this.url.toExternalForm().hashCode();
 	}
 
 }

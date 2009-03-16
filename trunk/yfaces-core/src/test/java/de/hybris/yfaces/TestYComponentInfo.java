@@ -17,7 +17,6 @@ import junit.framework.TestCase;
 import org.apache.log4j.Logger;
 
 import de.hybris.yfaces.YComponentInfo.ERROR_STATE;
-import de.hybris.yfaces.YComponentRegistry.YComponentRegistryListener;
 
 /**
  * @author Denny.Strietzbaum
@@ -30,9 +29,10 @@ public class TestYComponentInfo extends TestCase {
 	private static final String TEST_COMPONENT = YTestComponent.class.getName();
 	private static final String TEST_COMPONENT_IMPL = YTestComponentImpl.class.getName();
 
-	private class AddSingleYComponentTest implements YComponentRegistryListener {
+	private class AddSingleYComponentTest {
 		private String componentFile = null;
 		private YComponentRegistry registry = null;
+		private YComponentFactory cmpFac = new YComponentFactory();
 
 		private boolean expectedToAdd = false;
 		private Set<YComponentInfo.ERROR_STATE> expectedErrors = Collections.EMPTY_SET;
@@ -63,7 +63,9 @@ public class TestYComponentInfo extends TestCase {
 			log.info("Now processing: " + componentFile + " ...");
 			log.info("Expected errors: " + this.expectedErrors);
 
-			registry.processURL(url, this);
+			//registry.processURL(url, this);
+			this.cmpInfo = cmpFac.createComponentInfo(url, null);
+			this.wasAdded = registry.addComponent(cmpInfo);
 
 			if (this.wasAdded) {
 				log.info("...added");
@@ -85,15 +87,15 @@ public class TestYComponentInfo extends TestCase {
 			}
 		}
 
-		public void addedYComponent(final YComponentInfo cmpInfo) {
-			this.wasAdded = true;
-			this.cmpInfo = cmpInfo;
-		}
-
-		public void skippedYComponent(final URL url, final YComponentInfo cmpInfo) {
-			this.wasAdded = false;
-			this.cmpInfo = cmpInfo;
-		}
+		//		public void addedYComponent(final YComponentInfo cmpInfo) {
+		//			this.wasAdded = true;
+		//			this.cmpInfo = cmpInfo;
+		//		}
+		//
+		//		public void skippedYComponent(final URL url, final YComponentInfo cmpInfo) {
+		//			this.wasAdded = false;
+		//			this.cmpInfo = cmpInfo;
+		//		}
 	}
 
 	/**
@@ -120,10 +122,11 @@ public class TestYComponentInfo extends TestCase {
 				"<yf:component	id	= \" id1\"	default=	\"		" + impl + "\"	definition=\"" + spec
 						+ "\" var=\"" + var + "	\" >", };
 
+		YComponentFactory cmpFac = new YComponentFactory();
 		int count = 0;
 		for (final String s : cmps1) {
 			// System.out.println(count++ + ": " + s);
-			final YComponentInfo cmpInfo = YComponentRegistry.getInstance().createYComponentInfo(s);
+			final YComponentInfo cmpInfo = cmpFac.createComponentInfo(s);
 			assertEquals(spec, cmpInfo.getSpecificationClassName());
 			assertEquals(impl, cmpInfo.getImplementationClassName());
 			assertEquals(var, cmpInfo.getVarName());
@@ -152,7 +155,7 @@ public class TestYComponentInfo extends TestCase {
 		count = 0;
 		for (final String s : cmps2) {
 			// System.out.println(count++ + ": " + s);
-			final YComponentInfo cmpInfo = YComponentRegistry.getInstance().createYComponentInfo(s);
+			final YComponentInfo cmpInfo = cmpFac.createComponentInfo(s);
 			final Collection props = cmpInfo.getInjectableProperties();
 			assertEquals(4, props.size());
 			assertTrue("Got properties " + props.toString(), props.containsAll(properties));
@@ -160,8 +163,8 @@ public class TestYComponentInfo extends TestCase {
 	}
 
 	/**
-	 * Tests various validation errors which can occur. YComponent definition is
-	 * given as simple String.
+	 * Tests various validation errors which can occur. YComponent definition is given as simple
+	 * String.
 	 */
 	public void testYComponentInfoValidation() {
 
@@ -176,6 +179,7 @@ public class TestYComponentInfo extends TestCase {
 		final Set<String> properties = new HashSet<String>(Arrays.asList("prop1", "prop2", "prop3",
 				"prop4"));
 		YComponentInfo cmpInfo = null;
+		YComponentFactory cmpFac = new YComponentFactory();
 
 		// test various errors
 		int count = -1;
@@ -224,7 +228,7 @@ public class TestYComponentInfo extends TestCase {
 			if (count >= 0) {
 				log.info("Asserting: " + cmp);
 				log.info("Expecting: " + expected);
-				cmpInfo = YComponentRegistry.getInstance().createYComponentInfo(cmp);
+				cmpInfo = cmpFac.createComponentInfo(cmp);
 				Set<ERROR_STATE> errors = cmpInfo.verifyComponent();
 				assertEquals(new HashSet(expected), errors);
 			}
@@ -232,9 +236,8 @@ public class TestYComponentInfo extends TestCase {
 	}
 
 	/**
-	 * Tests {@link YComponentRegistry} and {@link YComponentInfo} validation.
-	 * Additional does enhanced text parsing as components are provided as
-	 * external resources.
+	 * Tests {@link YComponentRegistry} and {@link YComponentInfo} validation. Additional does
+	 * enhanced text parsing as components are provided as external resources.
 	 */
 	public void testYComponentRegistry() {
 
