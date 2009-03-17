@@ -25,8 +25,8 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.log4j.Logger;
 
+import de.hybris.yfaces.YComponentFactory;
 import de.hybris.yfaces.YComponentInfo;
-import de.hybris.yfaces.YComponentRegistry;
 import de.hybris.yfaces.taglib.YFacesTaglib;
 
 public class Chapter {
@@ -254,7 +254,8 @@ public class Chapter {
 
 				// fetch URL and register at component registry
 				URL url = this.getResource(resource);
-				YComponentInfo info = YComponentRegistry.getInstance().createYComponentInfo(url);
+				YComponentFactory cmpFac = new YComponentFactory();
+				YComponentInfo info = cmpFac.createComponentInfo(url, null);
 				if (info.getImplementationClassName() != null) {
 					ChapterParticipiant p = this.createParticipiantFromClass(info
 							.getImplementationClassName());

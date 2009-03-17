@@ -77,17 +77,10 @@
 	<context-param>
 		<param-name>yfaces.taglib.DIR</param-name>
 		<param-value>
-			/demo/**, /test/components
-		</param-value>
-	</context-param>
-	<context-param>
-		<param-name>yfaces.taglib.NAMESPACES</param-name>
-		<param-value>
 			$folder:/demo/**,
+			/test/components
 		</param-value>
 	</context-param>
-	
-	
 	
 	<!-- JSF-Spec: 
 	1)/META-INF/faces-config.xml 
