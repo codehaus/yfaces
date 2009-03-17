@@ -98,7 +98,7 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 	 * @param defaultClass
 	 *            name of class
 	 */
-	public void setDefault(final String defaultClass) {
+	public void setImpl(final String defaultClass) {
 		this.implClassName = defaultClass;
 	}
 
@@ -109,7 +109,7 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 	 * @param interfaceClass
 	 *            interface
 	 */
-	public void setDefinition(final String interfaceClass) {
+	public void setSpec(final String interfaceClass) {
 		this.specClassName = interfaceClass;
 	}
 
@@ -188,7 +188,7 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 	 * 
 	 * @return class of default component.
 	 */
-	public String getDefault() {
+	public String getImpl() {
 		return this.implClassName;
 	}
 
@@ -197,7 +197,7 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 	 * 
 	 * @return class of interface
 	 */
-	public String getDefinition() {
+	public String getSpec() {
 		return this.specClassName;
 	}
 
@@ -446,7 +446,7 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 	private YComponentInfo getYComponentInfo() {
 		// validation
 		final YComponentInfo cmpInfo = new YComponentInfo(getId(), getVarName(), this
-				.getDefinition(), this.getDefault());
+				.getSpec(), this.getImpl());
 		final Set<ERROR_STATE> errors = new HashSet<ERROR_STATE>(cmpInfo.verifyComponent());
 		errors.remove(ERROR_STATE.VIEW_ID_NOT_SPECIFIED);
 		errors.remove(ERROR_STATE.SPEC_IS_MISSING);

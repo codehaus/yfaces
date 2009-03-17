@@ -1,3 +1,18 @@
+/*
+ * Copyright 2009 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package de.hybris.yfaces;
 
 import java.io.BufferedReader;
@@ -13,13 +28,18 @@ import org.apache.commons.io.IOUtils;
 
 import de.hybris.yfaces.taglib.YFacesTaglib;
 
+/**
+ * Factory class for {@link YComponentInfo} instances.
+ * 
+ * @author Denny.Strietzbaum
+ */
 public class YComponentFactory {
 
 	// some attribute names
 	private static final String ATTR_ID = "id";
 	private static final String ATTR_VAR = "var";
-	private static final String ATTR_IMPL_CLASS = "default";
-	private static final String ATTR_SPEC_CLASS = "definition";
+	private static final String ATTR_IMPL_CLASS = "impl";
+	private static final String ATTR_SPEC_CLASS = "spec";
 	private static final String ATTR_INJECTABLE = "injectable";
 
 	// Searches for a single Attribute within the attributes String

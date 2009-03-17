@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 the original author or authors.
+ * Copyright 2009 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -66,11 +66,12 @@ import de.hybris.yfaces.component.html.HtmlYComponentHandler;
  * descriptor {@value #DEFAULT_COMPONENTS_DIR}</li>
  * </ul>
  * Each component resource gets registered under it's component name.The search path for component
- * resources is configured as comma separated list and is given as value of a deployment descriptor
- * name {@value #DEFAULT_COMPONENTS_DIR}. When a search path element ends with /** subfolders are
- * included. The namespace for each resource is {@link YFacesTaglib#NAMESPACE_BASE}. However
- * namespace can be extended by either a custom value or the folders name where the resource is
- * located.
+ * resources is configured as comma separated list.This is configured as value of deployment
+ * parameter {@link #DEFAULT_COMPONENTS_DIR}. When a search path element ends with /** subfolders
+ * are included. By default each resource gets registered under a default namespace
+ * {@link YFacesTaglib#NAMESPACE_BASE}. However that namespace can be extended by either a custom
+ * value or the folders name where the resource is located. To do so the namespace suffix must be
+ * added as search path prefix.
  * <p>
  * Example: <code><pre>
  * &ltcontext-param&gt
@@ -157,7 +158,9 @@ public class YFacesTaglib extends AbstractTagLibrary {
 	}
 
 	/**
-	 * Registers configured components.
+	 * Registers configured components. Fetches the configured value of
+	 * {@link #DEFAULT_COMPONENTS_DIR}, splits it to single elements and processes each search path
+	 * element by looking for component resources.
 	 */
 	private void registerYComponents() {
 
@@ -191,12 +194,26 @@ public class YFacesTaglib extends AbstractTagLibrary {
 			if (added) {
 				YFacesTaglib tagLib = getTagLib(cmpInfo);
 				tagLib.addUserTag(cmpInfo.getComponentName(), cmpInfo.getURL());
-				log.info("Added " + cmpInfo.getURL());
+				log.debug("Added " + cmpInfo.getURL());
 			}
 		}
-
 	}
 
+	/**
+	 * Collect component resources. Expects a raw search path which contains information about
+	 * recursive lookup and namespace. Does recursive lookup when path ends with "/**". Treats all
+	 * before a colon as custom namespace. A special custom namespace is "$folder" which just takes
+	 * the current resource location path as namespace. examples for a raw search path:
+	 * <p/>
+	 * <code>
+	 * $folder:/demo/components,
+	 * demo:/demo2/**,
+	 * /demo3/**
+	 * </code>
+	 * 
+	 * @param rawSearchPath
+	 *            the component search path as raw string
+	 */
 	private void collectComponentResources(String rawSearchPath) {
 
 		// detect recursive mode
@@ -205,39 +222,60 @@ public class YFacesTaglib extends AbstractTagLibrary {
 			rawSearchPath = rawSearchPath.substring(0, rawSearchPath.length() - 3);
 		}
 
-		// detect namespace mode
+		// detect namespace
 		String namespaceURI = "";
 		int nsDelimiterIndex = rawSearchPath.indexOf(":");
 		if (nsDelimiterIndex > 0) {
-			namespaceURI = "/" + rawSearchPath.substring(0, nsDelimiterIndex - 1);
-			rawSearchPath = rawSearchPath.substring(nsDelimiterIndex);
+			namespaceURI = rawSearchPath.substring(0, nsDelimiterIndex);
+			rawSearchPath = rawSearchPath.substring(nsDelimiterIndex + 1);
 		}
 
+		// fetch component resources (recursive)
 		this.collectComponentResources(namespaceURI, rawSearchPath, recursive);
 	}
 
-	private void collectComponentResources(String namespaceURI, String base, boolean recursive) {
+	/**
+	 * Recursive way of finding all component resources.Create a {@link YComponentInfo} instances
+	 * with appropriate namespaces and adda all to the {@link YComponentRegistry}. A namespace
+	 * prefix may be passed which extends the default namespace: {@link #NAMESPACE_BASE}
+	 * 
+	 * @param extNamespace
+	 *            namespace prefix; extends default namespace for all components within passed base
+	 * @param base
+	 *            base search path for component resources; starts with a slash and may (not must)
+	 *            end with a slash; must be a folder, not a resource
+	 * @param recursive
+	 *            true when subfolders shall be searched too
+	 */
+	private void collectComponentResources(String extNamespace, String base, boolean recursive) {
 
-		// fetch all subresources from passed base
+		// fetch resources from passed base
 		final ExternalContext ctx = FacesContext.getCurrentInstance().getExternalContext();
 		Set<String> resources = ctx.getResourcePaths(base);
 
+		// is null when base is not valid
 		if (resources != null) {
 
 			// process each resource...
 			for (String resource : resources) {
 
-				// when enabled and current resource is a folder process it's subresources
+				// when recursive lookup is enabled process subresources in case base is a folder 
 				if (recursive && UNHIDDEN_DIRECTORY_PATTERN.matcher(resource).matches()) {
-					collectComponentResources(namespaceURI, base, recursive);
+					collectComponentResources(extNamespace, resource, recursive);
 				}
 
+				// check whether resource name matches a component resource
 				if (COMPONENT_RESOURCE_PATTERN.matcher(resource).matches()) {
 					try {
 						URL url = ctx.getResource(resource);
-						String ns = NAMESPACE_FROM_FOLDER.equals(namespaceURI) ? "/" + base
-								: namespaceURI;
-						YComponentInfo cmpInfo = new YComponentInfo(NAMESPACE_BASE + ns, url);
+						String ns = NAMESPACE_FROM_FOLDER.equals(extNamespace) ? base : "/"
+								+ extNamespace;
+
+						if (ns.endsWith("/")) {
+							ns = ns.substring(0, ns.length() - 1);
+						}
+						ns = NAMESPACE_BASE + ns;
+						YComponentInfo cmpInfo = new YComponentInfo(ns, url);
 						this.componentSet.add(cmpInfo);
 					} catch (MalformedURLException e) {
 						log.error(e);
