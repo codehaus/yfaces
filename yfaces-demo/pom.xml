@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>yfaces-demo</groupId>
 	<artifactId>yfaces-demo </artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.2</version>
 	<build>
 		<plugins>
 			<plugin>
@@ -42,7 +42,7 @@
 		<dependency>
 			<groupId>org.codehaus.yfaces</groupId>
 			<artifactId>yfaces-core</artifactId>
-			<version>0.0.1</version>
+			<version>0.2</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>

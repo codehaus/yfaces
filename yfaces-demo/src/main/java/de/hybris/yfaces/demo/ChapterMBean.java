@@ -5,7 +5,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.faces.context.FacesContext;
@@ -29,7 +31,7 @@ public class ChapterMBean {
 
 	public ChapterMBean() {
 		String viewId = FacesContext.getCurrentInstance().getViewRoot().getViewId();
-		Map<String, Chapter> chapters = this.getAllChapters();
+		Map<String, Chapter> chapters = this.getAllChaptersAsMap();
 		this.currentChapter = chapters.get(viewId);
 	}
 
@@ -37,19 +39,24 @@ public class ChapterMBean {
 		return this.currentChapter;
 	}
 
+	public List<Chapter> getAllChapters() {
+		return new ArrayList(getAllChaptersAsMap().values());
+	}
+
 	/**
-	 * Returns all available chapters as a Mapping chapter-id -> {@link Chapter} Does all necessary
-	 * initialization and parsings when chapter descriptor wasn't parsed yet or has changed.<br/>
+	 * Returns all available chapters as a Mapping chapterid(viewid) -> {@link Chapter} Does all
+	 * necessary initialization and parsings when chapter descriptor wasn't parsed yet or has
+	 * changed.<br/>
 	 * Initialization of Chapter map is not thread-safe (is just ignored).
 	 * 
 	 * @return Map of {@link Chapter}
 	 */
-	private Map<String, Chapter> getAllChapters() {
+	private Map<String, Chapter> getAllChaptersAsMap() {
 		FacesContext fc = FacesContext.getCurrentInstance();
 		Map appMap = fc.getExternalContext().getApplicationMap();
 
 		// try to fetch already initialized chapters
-		Map<String, Chapter> result = result = (Map) appMap.get(CHAPTERS_KEY);
+		Map<String, Chapter> result = (Map) appMap.get(CHAPTERS_KEY);
 		URL url = null;
 		try {
 			// check whether chapter descriptor has changed
@@ -64,7 +71,7 @@ public class ChapterMBean {
 			log.info("Reading " + url + "(" + (isChanged ? "has changed" : "") + ")");
 
 			// create the result map
-			result = new HashMap<String, Chapter>();
+			result = new LinkedHashMap<String, Chapter>();
 			appMap.put(CHAPTERS_KEY, result);
 
 			// parse the chapter descriptor file
@@ -77,16 +84,18 @@ public class ChapterMBean {
 					String line = null;
 					try {
 						line = reader.readLine().trim();
-						String[] values = line.split(":");
-						Chapter chapter = new Chapter(CHAPTERS_ROOT + values[1]);
-						chapter.setTitle(values[0] + " - " + chapter.getTitle());
-						result.put(chapter.getViewId(), chapter);
+						if (!line.startsWith("#")) {
+							String[] values = line.split(":");
+							Chapter chapter = new Chapter(CHAPTERS_ROOT + values[1]);
+							chapter.setTitle(values[0] + " - " + chapter.getTitle());
+							result.put(chapter.getViewId(), chapter);
 
-						if (prevChapter != null) {
-							prevChapter.setNextChapter(chapter);
-							chapter.setPrevChapter(prevChapter);
+							if (prevChapter != null) {
+								prevChapter.setNextChapter(chapter);
+								chapter.setPrevChapter(prevChapter);
+							}
+							prevChapter = chapter;
 						}
-						prevChapter = chapter;
 					} catch (IllegalArgumentException e) {
 						log.error("Skipping:" + line);
 					}
