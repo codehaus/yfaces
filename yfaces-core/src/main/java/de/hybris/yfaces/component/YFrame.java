@@ -17,8 +17,6 @@ package de.hybris.yfaces.component;
 
 import java.util.Map;
 
-import de.hybris.yfaces.session.UserSessionPropertyChangeLog;
-
 /**
  * @author Denny.Strietzbaum
  * 
@@ -40,8 +38,8 @@ public interface YFrame {
 	public String getTitle();
 
 	/**
-	 * Creates an {@link YComponentBinding} which is currently not bound to any
-	 * particular component instance.<br/>
+	 * Creates an {@link YComponentBinding} which is currently not bound to any particular component
+	 * instance.<br/>
 	 * 
 	 * @param <T>
 	 *            type of {@link YComponent}
@@ -50,8 +48,7 @@ public interface YFrame {
 	public <T extends YComponent> YComponentBinding<T> createComponentBinding();
 
 	/**
-	 * Creates an {@link YComponentBinding} which is bound to a component
-	 * instance given by its id.<br/>
+	 * Creates an {@link YComponentBinding} which is bound to a component instance given by its id.<br/>
 	 * The ID must match one of the IDs of the component xhtml files.
 	 * 
 	 * @param <T>
@@ -63,8 +60,7 @@ public interface YFrame {
 	public <T extends YComponent> YComponentBinding<T> createComponentBinding(String componentId);
 
 	/**
-	 * Creates a {@link YComponentBinding} and already sets a concrete component
-	 * instance.
+	 * Creates a {@link YComponentBinding} and already sets a concrete component instance.
 	 * 
 	 * @param <T>
 	 *            type of {@link YComponent}
@@ -93,9 +89,8 @@ public interface YFrame {
 	 * 
 	 * @param log
 	 *            {@link UserSessionPropertyChangeLog} <br/>
-	 * @see NavigationContext#update() for more information about when an update
-	 *      is invoked.
+	 * @see NavigationContext#update() for more information about when an update is invoked.
 	 */
-	public void update(UserSessionPropertyChangeLog log);
+	public void update();
 
 }

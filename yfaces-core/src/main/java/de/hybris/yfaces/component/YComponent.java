@@ -18,8 +18,6 @@ package de.hybris.yfaces.component;
 import java.io.Serializable;
 import java.util.Map;
 
-import de.hybris.yfaces.session.UserSessionPropertyChangeLog;
-
 /**
  * The base of all components.<br/>
  * 
@@ -27,8 +25,8 @@ import de.hybris.yfaces.session.UserSessionPropertyChangeLog;
  */
 public interface YComponent extends /* Externalizable */Serializable {
 	/**
-	 * The id of this component. This is the same ID which is used within the
-	 * components renderer file.
+	 * The id of this component. This is the same ID which is used within the components renderer
+	 * file.
 	 * 
 	 * @return component id
 	 */
@@ -51,8 +49,8 @@ public interface YComponent extends /* Externalizable */Serializable {
 	 * - step1) Constructor (for all non-expensive members)<br/>
 	 * - step2) attribute injection from the renderer (xhtml)<br/>
 	 * - step3) this one <br/>
-	 * PostInitialization must assure that each member of this component has a
-	 * valid initialized state or, when not, give it a nice default one.<br/>
+	 * PostInitialization must assure that each member of this component has a valid initialized
+	 * state or, when not, give it a nice default one.<br/>
 	 * <br/>
 	 * Use this phase for expensive members.<br/>
 	 * (database queries etc.)
@@ -64,7 +62,7 @@ public interface YComponent extends /* Externalizable */Serializable {
 	 * 
 	 * @param propertyChangeLog
 	 */
-	public void update(UserSessionPropertyChangeLog propertyChangeLog);
+	public void update();
 
 	/**
 	 * Returns the parent {@link YFrame} of this component.<br/>

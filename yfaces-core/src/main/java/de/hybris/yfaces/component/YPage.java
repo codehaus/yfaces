@@ -17,15 +17,13 @@ package de.hybris.yfaces.component;
 
 import java.util.Map;
 
-import de.hybris.yfaces.session.UserSessionPropertyChangeLog;
-
 /**
- * A YPage contains of one or more {@link YFrame}. A page is that thing which is
- * locateable by a client.<br/>
+ * A YPage contains of one or more {@link YFrame}. A page is that thing which is locateable by a
+ * client.<br/>
  * (Either directly via URL or indirectly via navigationid)<br/>
  * <br/>
- * The superior instance of a YPage is the {@link NavigationContext} which is
- * able to manage state and navigation route between multiple pages <br/>
+ * The superior instance of a YPage is the {@link NavigationContext} which is able to manage state
+ * and navigation route between multiple pages <br/>
  * 
  * @author Denny.Strietzbaum
  */
@@ -87,14 +85,13 @@ public interface YPage {
 	 */
 	public <T extends YFrame> T getFrame(Class<T> frameClass);
 
-	public void update(UserSessionPropertyChangeLog log);
+	public void update();
 
 	/**
 	 * Returns the previous YPage.<br/>
-	 * This is the case when this YPage is element of a navigation route (Wizard
-	 * or Conversation) otherwise it is null. <br/>
-	 * A page becomes ancestor of another page after calling
-	 * {@link NavigationContext#getNextPage()} <br/>
+	 * This is the case when this YPage is element of a navigation route (Wizard or Conversation)
+	 * otherwise it is null. <br/>
+	 * A page becomes ancestor of another page after calling {@link NavigationContext#getNextPage()} <br/>
 	 * 
 	 * @return previous YPage
 	 */

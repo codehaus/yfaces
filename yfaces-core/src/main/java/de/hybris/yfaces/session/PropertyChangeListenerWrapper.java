@@ -22,8 +22,8 @@ import java.lang.reflect.Method;
 import de.hybris.yfaces.YFacesException;
 
 /**
- * Delegates a general, untyped {@link PropertyChangeListener} to a more
- * specific listener given by an interface definition.
+ * Delegates a general, untyped {@link PropertyChangeListener} to a more specific listener given by
+ * an interface definition.
  * 
  * @author Denny.Strietzbaum
  */
@@ -60,7 +60,7 @@ public class PropertyChangeListenerWrapper implements PropertyChangeListener {
 	public void propertyChange(final PropertyChangeEvent evt) {
 		final Method method = this.descriptor.getMethod();
 		try {
-			method.invoke(listener, evt.getSource(), evt.getOldValue(), evt.getNewValue());
+			method.invoke(listener, evt.getOldValue(), evt.getNewValue());
 		} catch (final Exception e) {
 			throw new YFacesException("Can't reach eventlistener " + listener.getClass().getName()
 					+ " (" + method.getName() + ")", e);

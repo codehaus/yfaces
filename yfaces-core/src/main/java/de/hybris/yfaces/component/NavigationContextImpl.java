@@ -30,7 +30,6 @@ import org.apache.log4j.Logger;
 import de.hybris.yfaces.YFacesException;
 import de.hybris.yfaces.application.YFacesContext;
 import de.hybris.yfaces.el.YFacesResolverWrapper;
-import de.hybris.yfaces.session.UserSessionPropertyChangeLog;
 
 /**
  * @author Denny.Strietzbaum
@@ -91,8 +90,8 @@ public class NavigationContextImpl extends NavigationContext {
 	}
 
 	/**
-	 * Enabling 'flash' allows a one-time GET request without destroying the
-	 * current active {@link NavigationContext}.<br/>
+	 * Enabling 'flash' allows a one-time GET request without destroying the current active
+	 * {@link NavigationContext}.<br/>
 	 * Especially useful when doing a redirect, but all other GETs are fine too.<br/>
 	 * 
 	 * @param flash
@@ -191,8 +190,8 @@ public class NavigationContextImpl extends NavigationContext {
 	}
 
 	/**
-	 * Finishes the current Page request. The viewid has changed when an
-	 * internal forward was accomplished <br/>
+	 * Finishes the current Page request. The viewid has changed when an internal forward was
+	 * accomplished <br/>
 	 * This method gets called after RENDER_RESPONSE.
 	 * 
 	 * @param viewId
@@ -212,8 +211,7 @@ public class NavigationContextImpl extends NavigationContext {
 	/**
 	 * Starts updating this context.<br/>
 	 * The default update process is:<br/>
-	 * For each {@link YPage}, call
-	 * {@link YPage#update(UserSessionPropertyChangeLog)}<br/>
+	 * For each {@link YPage}, call {@link YPage#update(UserSessionPropertyChangeLog)}<br/>
 	 * For each {@link YFrame} of current update {@link YPage} call
 	 * {@link YFrame#update(UserSessionPropertyChangeLog)}<br/>
 	 * For each {@link YComponent} of current update {@link YFrame} call
@@ -230,18 +228,16 @@ public class NavigationContextImpl extends NavigationContext {
 	 */
 	@Override
 	public void update() {
-		final UserSessionPropertyChangeLog log = YFacesContext.getCurrentContext().getUserSession()
-				.getPropertyChangeLog();
 		for (final YPage page : this.contextPages.values()) {
-			page.update(log);
+			page.update();
 		}
-		log.reset();
+		//log.reset();
+		YFacesContext.getCurrentContext().getUserSession().reset();
 	}
 
 	/**
 	 * Redirects to the current URL.<br/>
-	 * This creates a non-faces request which destroys the current
-	 * {@link UIViewRoot}
+	 * This creates a non-faces request which destroys the current {@link UIViewRoot}
 	 */
 	@Override
 	public void redirect(final boolean isFlash) {
@@ -346,8 +342,8 @@ public class NavigationContextImpl extends NavigationContext {
 	}
 
 	/**
-	 * Returns a URI starting with a slash and relative to the webapps context
-	 * root for the requested view.
+	 * Returns a URI starting with a slash and relative to the webapps context root for the
+	 * requested view.
 	 * 
 	 * @param viewId
 	 *            view to generate the URL for
@@ -399,8 +395,8 @@ public class NavigationContextImpl extends NavigationContext {
 	}
 
 	/**
-	 * Navigates to the passed page. Sets the passed page as current one. Throws
-	 * away all following pages (if any) and preserves all previous ones.
+	 * Navigates to the passed page. Sets the passed page as current one. Throws away all following
+	 * pages (if any) and preserves all previous ones.
 	 * 
 	 * @param page
 	 *            page to navigate to
@@ -455,8 +451,8 @@ public class NavigationContextImpl extends NavigationContext {
 	}
 
 	/**
-	 * Returns a {@link YPage} by its pageId. The page must be available within
-	 * the queue of managed pages otherwise null is returned.
+	 * Returns a {@link YPage} by its pageId. The page must be available within the queue of managed
+	 * pages otherwise null is returned.
 	 * 
 	 * @param pageId
 	 *            pageId

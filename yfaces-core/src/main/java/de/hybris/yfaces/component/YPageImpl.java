@@ -27,7 +27,6 @@ import org.apache.log4j.Logger;
 
 import de.hybris.yfaces.YFacesException;
 import de.hybris.yfaces.YManagedBean;
-import de.hybris.yfaces.session.UserSessionPropertyChangeLog;
 
 /**
  * Implementation of {@link YPage}.
@@ -114,8 +113,7 @@ public class YPageImpl implements YPage {
 	}
 
 	/**
-	 * Initiates a new Page request. This put back all request scoped
-	 * ManagedBeans into JSF context.
+	 * Initiates a new Page request. This put back all request scoped ManagedBeans into JSF context.
 	 */
 	protected void startPageRequest() {
 		for (final YFrame frame : getFrames().values()) {
@@ -190,10 +188,10 @@ public class YPageImpl implements YPage {
 	 * 
 	 * @see ystorefoundationpackage.YPage#updateFrames()
 	 */
-	public void update(final UserSessionPropertyChangeLog log) {
+	public void update() {
 		for (final YFrame frame : getFrames().values()) {
-			YPageImpl.log.debug("Updating Frame: " + frame.getId());
-			frame.update(log);
+			log.debug("Updating Frame: " + frame.getId());
+			frame.update();
 		}
 	}
 

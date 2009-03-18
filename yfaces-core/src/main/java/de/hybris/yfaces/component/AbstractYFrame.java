@@ -24,7 +24,6 @@ import org.apache.log4j.Logger;
 
 import de.hybris.yfaces.YManagedBean;
 import de.hybris.yfaces.application.YFacesContext;
-import de.hybris.yfaces.session.UserSessionPropertyChangeLog;
 
 /**
  * Abstract base class for every YFrame.<br/>
@@ -51,16 +50,14 @@ public abstract class AbstractYFrame extends YManagedBean implements YFrame, Ser
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * ystorefoundationpackage.faces.mbean.YFrame#updateComponents(de.hybris
+	 * @see ystorefoundationpackage.faces.mbean.YFrame#updateComponents(de.hybris
 	 * .platform.webfoundation.PropertyChangeLog)
 	 */
-	public void update(final UserSessionPropertyChangeLog log) {
+	public void update() {
 		for (final YComponentBinding binding : this.componentBindings) {
 			if (binding.isResolved() && binding.getValue() != null) {
-				AbstractYFrame.log.debug("Updating component: "
-						+ binding.getValue().getClass().getSimpleName());
-				binding.getValue().update(log);
+				log.debug("Updating component: " + binding.getValue().getClass().getSimpleName());
+				binding.getValue().update();
 			}
 		}
 	};
@@ -86,9 +83,7 @@ public abstract class AbstractYFrame extends YManagedBean implements YFrame, Ser
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * de.hybris.yfaces.YFrame#createComponentBinding(de.hybris.yfaces.YComponent
-	 * )
+	 * @see de.hybris.yfaces.YFrame#createComponentBinding(de.hybris.yfaces.YComponent )
 	 */
 	public <T extends YComponent> YComponentBinding<T> createComponentBinding(final T value) {
 		return this.createComponentBinding(null, value);
@@ -132,8 +127,8 @@ public abstract class AbstractYFrame extends YManagedBean implements YFrame, Ser
 	}
 
 	/**
-	 * Creates an {@link YComponentEventListener} for this {@link YFrame} based
-	 * on the passed method.<br/>
+	 * Creates an {@link YComponentEventListener} for this {@link YFrame} based on the passed
+	 * method.<br/>
 	 * 
 	 * @param frameMethod
 	 *            method of this frame which shall listen to
