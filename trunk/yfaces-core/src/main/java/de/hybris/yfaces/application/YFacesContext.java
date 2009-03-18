@@ -18,7 +18,7 @@ package de.hybris.yfaces.application;
 import org.springframework.context.ApplicationContext;
 
 import de.hybris.yfaces.component.NavigationContext;
-import de.hybris.yfaces.session.UserSession;
+import de.hybris.yfaces.session.YPropertyHandler;
 
 /**
  * @author Denny.Strietzbaum
@@ -27,12 +27,11 @@ import de.hybris.yfaces.session.UserSession;
 public abstract class YFacesContext {
 
 	private static ApplicationContext appCtx = null;
-	
+
 	static void setApplicationContext(ApplicationContext ctx) {
 		appCtx = ctx;
 	}
-	
-	
+
 	public static YFacesContext getCurrentContext() {
 		return (YFacesContext) appCtx.getBean(YFacesContext.class.getName());
 	}
@@ -42,7 +41,7 @@ public abstract class YFacesContext {
 	 * 
 	 * @return the UserSession
 	 */
-	public abstract UserSession getUserSession();
+	public abstract YPropertyHandler getUserSession();
 
 	public abstract YFacesErrorHandler getErrorHandler();
 

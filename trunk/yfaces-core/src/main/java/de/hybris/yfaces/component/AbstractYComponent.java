@@ -30,7 +30,6 @@ import org.apache.log4j.Logger;
 
 import de.hybris.yfaces.YComponentRegistry;
 import de.hybris.yfaces.YFacesException;
-import de.hybris.yfaces.session.UserSessionPropertyChangeLog;
 
 /**
  * @author Denny.Strietzbaum
@@ -109,14 +108,18 @@ public abstract class AbstractYComponent implements YComponent {
 	public void postInitialize() {
 	};
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see ystorefoundationpackage.faces.components.YComponent#update(de.hybris.
-	 * platform.webfoundation.PropertyChangeLog)
-	 */
-	public void update(final UserSessionPropertyChangeLog log) {
-	};
+	public void update() {
+
+	}
+
+	//	/*
+	//	 * (non-Javadoc)
+	//	 * 
+	//	 * @see ystorefoundationpackage.faces.components.YComponent#update(de.hybris.
+	//	 * platform.webfoundation.PropertyChangeLog)
+	//	 */
+	//	public void update(final UserSessionPropertyChangeLog log) {
+	//	};
 
 	@Override
 	public String toString() {

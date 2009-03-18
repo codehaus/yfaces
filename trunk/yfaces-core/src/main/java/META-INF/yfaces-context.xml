@@ -13,15 +13,15 @@
 	<bean id="de.hybris.yfaces.application.YFacesContext" 
 		class="de.hybris.yfaces.application.YFacesContextImpl"
 		scope="request">
-		<property name="userSession" ref="de.hybris.yfaces.session.UserSession" />
+		<property name="userSession" ref="de.hybris.yfaces.session.YSessionContext" />
 		<property name="errorHandler" ref="de.hybris.yfaces.application.YFacesErrorHandler"/>
 	</bean> 
 
 	<!--  
 		UserSession handles session data and provides a listener system based on session changes
 	 -->
-	<bean id="de.hybris.yfaces.session.UserSession"
-		class="de.hybris.yfaces.session.UserSessionImpl"
+	<bean id="de.hybris.yfaces.session.YSessionContext"
+		class="de.hybris.yfaces.session.YSessionContext"
 		scope="session"/>
 
 	<!--  
