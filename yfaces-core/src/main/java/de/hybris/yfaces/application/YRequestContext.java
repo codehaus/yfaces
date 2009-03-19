@@ -15,24 +15,16 @@
  */
 package de.hybris.yfaces.application;
 
-import org.springframework.context.ApplicationContext;
-
 import de.hybris.yfaces.component.NavigationContext;
 
 /**
  * @author Denny.Strietzbaum
  * 
  */
-public abstract class YFacesContext {
+public abstract class YRequestContext {
 
-	private static ApplicationContext appCtx = null;
-
-	static void setApplicationContext(ApplicationContext ctx) {
-		appCtx = ctx;
-	}
-
-	public static YFacesContext getCurrentContext() {
-		return (YFacesContext) appCtx.getBean(YFacesContext.class.getName());
+	public static YRequestContext getCurrentContext() {
+		return (YRequestContext) YApplicationContext.getApplicationContext().getBean(YRequestContext.class.getName());
 	}
 
 	/**

@@ -27,7 +27,7 @@ import de.hybris.yfaces.component.NavigationContextImpl;
  * @author Denny.Strietzbaum
  * 
  */
-public class YFacesContextImpl extends YFacesContext {
+public class YRequestContextImpl extends YRequestContext {
 
 	private YSessionContext userSession = null;
 	private YFacesErrorHandler errorHandler = null;

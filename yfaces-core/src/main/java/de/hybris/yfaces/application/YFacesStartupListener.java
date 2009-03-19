@@ -69,7 +69,7 @@ public class YFacesStartupListener implements ServletContextListener {
 			log.debug("Using spring configuration:" + Arrays.asList(configs));
 			ctx.setConfigLocations(configs);
 			ctx.refresh();
-			YFacesContext.setApplicationContext(ctx);
+			YApplicationContext.setApplicationContext(ctx);
 
 		} catch (MalformedURLException e) {
 			e.printStackTrace();

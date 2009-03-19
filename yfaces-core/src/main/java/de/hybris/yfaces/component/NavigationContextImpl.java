@@ -29,7 +29,7 @@ import org.apache.log4j.Logger;
 
 import de.hybris.yfaces.YFacesException;
 import de.hybris.yfaces.YManagedBean;
-import de.hybris.yfaces.application.YFacesContext;
+import de.hybris.yfaces.application.YRequestContext;
 import de.hybris.yfaces.application.YPageContext;
 import de.hybris.yfaces.application.YPageContextImpl;
 import de.hybris.yfaces.el.YFacesResolverWrapper;
@@ -239,7 +239,7 @@ public class NavigationContextImpl extends NavigationContext {
 		}
 		//log.reset();
 		//YFacesContext.getCurrentContext().getUserSession().reset();
-		YFacesContext.getCurrentContext().getUserSession().update();
+		YRequestContext.getCurrentContext().getUserSession().update();
 	}
 
 	/**
