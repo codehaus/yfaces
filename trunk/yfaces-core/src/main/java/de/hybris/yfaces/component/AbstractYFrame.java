@@ -23,7 +23,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 import de.hybris.yfaces.YManagedBean;
-import de.hybris.yfaces.application.YFacesContext;
+import de.hybris.yfaces.application.YRequestContext;
 import de.hybris.yfaces.application.YPageContext;
 
 /**
@@ -124,7 +124,7 @@ public abstract class AbstractYFrame extends YManagedBean implements YFrame, Ser
 	 * @see storefoundation.yfaces.YFrame#getPage()
 	 */
 	public YPageContext getPage() {
-		return YFacesContext.getCurrentContext().getNavigationContext().getCurrentPage();
+		return YRequestContext.getCurrentContext().getNavigationContext().getCurrentPage();
 	}
 
 	/**

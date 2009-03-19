@@ -23,7 +23,7 @@ import javax.faces.event.PhaseListener;
 
 import org.apache.log4j.Logger;
 
-import de.hybris.yfaces.application.YFacesContext;
+import de.hybris.yfaces.application.YRequestContext;
 import de.hybris.yfaces.component.NavigationContext;
 import de.hybris.yfaces.component.NavigationContextImpl;
 
@@ -114,7 +114,7 @@ public class NavigationContextPhaseListener implements PhaseListener {
 		if (phaseevent.getPhaseId() == PhaseId.RENDER_RESPONSE) {
 			getNavigationContext().finishPageRequest(getViewId());
 
-			YFacesContext.getCurrentContext().getErrorHandler().clearErrorStack();
+			YRequestContext.getCurrentContext().getErrorHandler().clearErrorStack();
 		}
 	}
 
@@ -136,7 +136,7 @@ public class NavigationContextPhaseListener implements PhaseListener {
 	private NavigationContextImpl getNavigationContext() {
 		// this could be the place to support different NavigationContexts
 		// given by a URL query param
-		return (NavigationContextImpl) YFacesContext.getCurrentContext().getNavigationContext();
+		return (NavigationContextImpl) YRequestContext.getCurrentContext().getNavigationContext();
 	}
 
 	/**

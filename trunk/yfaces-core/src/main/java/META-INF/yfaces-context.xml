@@ -10,8 +10,8 @@
 
 
 
-	<bean id="de.hybris.yfaces.application.YFacesContext" 
-		class="de.hybris.yfaces.application.YFacesContextImpl"
+	<bean id="de.hybris.yfaces.application.YRequestContext" 
+		class="de.hybris.yfaces.application.YRequestContextImpl"
 		scope="request">
 		<property name="userSession" ref="de.hybris.yfaces.session.YSessionContext" />
 		<property name="errorHandler" ref="de.hybris.yfaces.application.YFacesErrorHandler"/>
