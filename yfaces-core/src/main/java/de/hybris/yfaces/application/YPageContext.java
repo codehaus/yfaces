@@ -30,7 +30,7 @@ import de.hybris.yfaces.component.YFrame;
  * 
  * @author Denny.Strietzbaum
  */
-public interface YPage {
+public interface YPageContext {
 	/**
 	 * @return a
 	 */
@@ -98,5 +98,5 @@ public interface YPage {
 	 * 
 	 * @return previous YPage
 	 */
-	public YPage getPreviousPage();
+	public YPageContext getPreviousPage();
 }

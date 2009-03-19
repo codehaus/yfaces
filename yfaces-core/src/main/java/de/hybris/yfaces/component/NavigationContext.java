@@ -17,16 +17,16 @@ package de.hybris.yfaces.component;
 
 import java.util.Map;
 
-import de.hybris.yfaces.application.YPage;
+import de.hybris.yfaces.application.YPageContext;
 
 /**
  * The NavigationContext manages navigation and state through multiple pages.<br/>
- * {@link NavigationContext#getCurrentPage()} always returns the current visible {@link YPage}.<br/>
- * The {@link NavigationContext} checks with each request whether the new requested {@link YPage} is
+ * {@link NavigationContext#getCurrentPage()} always returns the current visible {@link YPageContext}.<br/>
+ * The {@link NavigationContext} checks with each request whether the new requested {@link YPageContext} is
  * part of this {@link NavigationContext}.<br/>
  * <br/>
- * If so, the {@link YPage} gets added to the contexts page queue, otherwise whole context
- * information are reseted and the {@link YPage} queue gets cleared with the new YPage as first
+ * If so, the {@link YPageContext} gets added to the contexts page queue, otherwise whole context
+ * information are reseted and the {@link YPageContext} queue gets cleared with the new YPage as first
  * element. <br/>
  * <br/>
  * This context evaluates each request and decides whether it is a valid NavigationRequest or not.<br/>
@@ -56,27 +56,27 @@ public abstract class NavigationContext {
 	 * (depends on whether {@link #getNextPage()} was called before current request)<br/>
 	 * <br/>
 	 * 
-	 * @return the current {@link YPage}
+	 * @return the current {@link YPageContext}
 	 */
-	public abstract YPage getCurrentPage();
+	public abstract YPageContext getCurrentPage();
 
 	/**
-	 * Returns the {@link YPage} which becomes the current one with next request.<br/>
+	 * Returns the {@link YPageContext} which becomes the current one with next request.<br/>
 	 * Calling this method first lazily creates a new instance.<br/>
 	 * Every other call returns the same instance as long as the current request is processed.<br/>
 	 * When a new requests starts this instance gets added to the stack of available context pages.<br/>
 	 * <br/>
 	 * When this method isn't called the context is reseted with the next request.
 	 * 
-	 * @return {@link YPage}
+	 * @return {@link YPageContext}
 	 */
-	public abstract YPage getNextPage();
+	public abstract YPageContext getNextPage();
 
 	/**
 	 * Starts updating this context.<br/>
 	 * The default update process is:<br/>
-	 * For each {@link YPage}, call {@link YPage#update(UserSessionPropertyChangeLog)}<br/>
-	 * For each {@link YFrame} of current update {@link YPage} call
+	 * For each {@link YPageContext}, call {@link YPageContext#update(UserSessionPropertyChangeLog)}<br/>
+	 * For each {@link YFrame} of current update {@link YPageContext} call
 	 * {@link YFrame#update(UserSessionPropertyChangeLog)}<br/>
 	 * For each {@link YComponent} of current update {@link YFrame} call
 	 * {@link YComponent#update(UserSessionPropertyChangeLog)}<br/>
@@ -99,7 +99,7 @@ public abstract class NavigationContext {
 	 */
 	public abstract void redirect(boolean isFlash);
 
-	public abstract void redirect(YPage page, boolean isFlash);
+	public abstract void redirect(YPageContext page, boolean isFlash);
 
 	/**
 	 * Redirect to the passed URL.<br>

@@ -17,7 +17,7 @@ package de.hybris.yfaces.component;
 
 import java.util.Map;
 
-import de.hybris.yfaces.application.YPage;
+import de.hybris.yfaces.application.YPageContext;
 
 /**
  * @author Denny.Strietzbaum
@@ -80,14 +80,14 @@ public interface YFrame {
 	public Map<String, Object> getAttributes();
 
 	/**
-	 * Returns the parent {@link YPage} which manages this Frame.
+	 * Returns the parent {@link YPageContext} which manages this Frame.
 	 * 
-	 * @return {@link YPage}
+	 * @return {@link YPageContext}
 	 */
-	public YPage getPage();
+	public YPageContext getPage();
 
 	/**
-	 * Gets called from {@link YPage#update(UserSessionPropertyChangeLog)}<br/>
+	 * Gets called from {@link YPageContext#update(UserSessionPropertyChangeLog)}<br/>
 	 * 
 	 * @param log
 	 *            {@link UserSessionPropertyChangeLog} <br/>

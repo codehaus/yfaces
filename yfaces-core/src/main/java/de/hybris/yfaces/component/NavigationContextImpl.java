@@ -30,8 +30,8 @@ import org.apache.log4j.Logger;
 import de.hybris.yfaces.YFacesException;
 import de.hybris.yfaces.YManagedBean;
 import de.hybris.yfaces.application.YFacesContext;
-import de.hybris.yfaces.application.YPage;
-import de.hybris.yfaces.application.YPageImpl;
+import de.hybris.yfaces.application.YPageContext;
+import de.hybris.yfaces.application.YPageContextImpl;
 import de.hybris.yfaces.el.YFacesResolverWrapper;
 
 /**
@@ -46,7 +46,7 @@ public class NavigationContextImpl extends NavigationContext {
 	};
 
 	// the current pagecontext
-	private YPage currentPage = null;
+	private YPageContext currentPage = null;
 	private REQUEST_PHASE currentPhase = REQUEST_PHASE.END_REQUEST;
 
 	private int resetCounter = 0;
@@ -58,11 +58,11 @@ public class NavigationContextImpl extends NavigationContext {
 	private boolean isFlash = false;
 
 	// holds a queue of navigable pages
-	private Map<String, YPage> contextPages = new LinkedHashMap<String, YPage>();
+	private Map<String, YPageContext> contextPages = new LinkedHashMap<String, YPageContext>();
 
 	// next page
 	// gets added to queue of context pages with the next request
-	private YPage nextContextPage = null;
+	private YPageContext nextContextPage = null;
 
 	public NavigationContextImpl(final String idPrefix) {
 		this.id = this.calculateNewId();
@@ -77,17 +77,17 @@ public class NavigationContextImpl extends NavigationContext {
 	}
 
 	/**
-	 * @return the current {@link YPage}
+	 * @return the current {@link YPageContext}
 	 */
 	@Override
-	public YPage getCurrentPage() {
+	public YPageContext getCurrentPage() {
 		return this.currentPage;
 	}
 
 	@Override
-	public YPage getNextPage() {
+	public YPageContext getNextPage() {
 		if (this.nextContextPage == null) {
-			this.nextContextPage = new YPageImpl(this, null, null);
+			this.nextContextPage = new YPageContextImpl(this, null, null);
 		}
 		return this.nextContextPage;
 	}
@@ -119,7 +119,7 @@ public class NavigationContextImpl extends NavigationContext {
 		// b)GET with enabled flash
 		if (isPostBack || isFlash) {
 			// iterate over all context pages...
-			for (final YPage page : this.contextPages.values()) {
+			for (final YPageContext page : this.contextPages.values()) {
 				// ...and notify page for a new request (re-inject all
 				// frames/mbeans)
 				//((YPageImpl) page).startPageRequest();
@@ -144,7 +144,7 @@ public class NavigationContextImpl extends NavigationContext {
 		else {
 			// ...reset context with new initialized page
 			final String url = getViewURL(viewId, true);
-			this.resetToPage(new YPageImpl(this, viewId, url));
+			this.resetToPage(new YPageContextImpl(this, viewId, url));
 		}
 	}
 
@@ -161,7 +161,7 @@ public class NavigationContextImpl extends NavigationContext {
 
 		// lookup whether newViewId matches on of context managed previous pages
 		// (browser backbutton, regular "back" navigation, etc. )
-		final YPage previousPage = this.getPage(newViewId);
+		final YPageContext previousPage = this.getPage(newViewId);
 
 		// when no previous page is available (e.g. navigation to a new view)
 		// ...
@@ -171,8 +171,8 @@ public class NavigationContextImpl extends NavigationContext {
 				// ...take that "next page" and append it to the queue of
 				// current pages
 				final String viewUrl = getViewURL(newViewId, false);
-				((YPageImpl) this.nextContextPage).setId(newViewId);
-				((YPageImpl) this.nextContextPage).setURL(viewUrl);
+				((YPageContextImpl) this.nextContextPage).setId(newViewId);
+				((YPageContextImpl) this.nextContextPage).setURL(viewUrl);
 				this.addPage(this.nextContextPage);
 				this.currentPage = this.nextContextPage;
 				this.nextContextPage = null;
@@ -182,7 +182,7 @@ public class NavigationContextImpl extends NavigationContext {
 			else {
 				// ...initialize new context and new YPage
 				final String viewUrl = getViewURL(newViewId, false);
-				this.resetToPage(new YPageImpl(this, newViewId, viewUrl));
+				this.resetToPage(new YPageContextImpl(this, newViewId, viewUrl));
 			}
 		}
 		// when a previous page is available...
@@ -207,7 +207,7 @@ public class NavigationContextImpl extends NavigationContext {
 
 		if (log.isDebugEnabled()) {
 			int i = 0;
-			YPage page = this.getCurrentPage();
+			YPageContext page = this.getCurrentPage();
 			do {
 				log.debug(this.id + " Page(" + i++ + "):" + page.toString());
 			} while ((page = page.getPreviousPage()) != null);
@@ -217,8 +217,8 @@ public class NavigationContextImpl extends NavigationContext {
 	/**
 	 * Starts updating this context.<br/>
 	 * The default update process is:<br/>
-	 * For each {@link YPage}, call {@link YPage#update(UserSessionPropertyChangeLog)}<br/>
-	 * For each {@link YFrame} of current update {@link YPage} call
+	 * For each {@link YPageContext}, call {@link YPageContext#update(UserSessionPropertyChangeLog)}<br/>
+	 * For each {@link YFrame} of current update {@link YPageContext} call
 	 * {@link YFrame#update(UserSessionPropertyChangeLog)}<br/>
 	 * For each {@link YComponent} of current update {@link YFrame} call
 	 * {@link YComponent#update(UserSessionPropertyChangeLog)}<br/>
@@ -234,7 +234,7 @@ public class NavigationContextImpl extends NavigationContext {
 	 */
 	@Override
 	public void update() {
-		for (final YPage page : this.contextPages.values()) {
+		for (final YPageContext page : this.contextPages.values()) {
 			page.update();
 		}
 		//log.reset();
@@ -254,7 +254,7 @@ public class NavigationContextImpl extends NavigationContext {
 	}
 
 	@Override
-	public void redirect(final YPage page, final boolean isFlash) {
+	public void redirect(final YPageContext page, final boolean isFlash) {
 		this.redirect(page.getURL(), isFlash);
 	}
 
@@ -390,11 +390,11 @@ public class NavigationContextImpl extends NavigationContext {
 	 * 
 	 * @param page
 	 */
-	private void resetToPage(final YPage page) {
+	private void resetToPage(final YPageContext page) {
 		this.attributes.clear();
 		this.id = this.calculateNewId();
 		this.currentPage = page;
-		this.contextPages = new LinkedHashMap<String, YPage>();
+		this.contextPages = new LinkedHashMap<String, YPageContext>();
 		this.contextPages.put(page.getId(), page);
 		this.nextContextPage = null;
 
@@ -408,7 +408,7 @@ public class NavigationContextImpl extends NavigationContext {
 	 * @param page
 	 *            page to navigate to
 	 */
-	private void navigateToPage(final YPage page) {
+	private void navigateToPage(final YPageContext page) {
 		if (!this.contextPages.containsKey(page.getId())) {
 			throw new YFacesException("Can't navigate to page " + page.getId() + " (not found)");
 		}
@@ -421,8 +421,8 @@ public class NavigationContextImpl extends NavigationContext {
 		this.nextContextPage = null;
 
 		// find requested page within queued context pages
-		final Map<String, YPage> updatedNavigationPages = new LinkedHashMap<String, YPage>();
-		for (final Map.Entry<String, YPage> entry : this.contextPages.entrySet()) {
+		final Map<String, YPageContext> updatedNavigationPages = new LinkedHashMap<String, YPageContext>();
+		for (final Map.Entry<String, YPageContext> entry : this.contextPages.entrySet()) {
 			updatedNavigationPages.put(entry.getKey(), entry.getValue());
 			if (entry.getKey().equals(this.currentPage.getId())) {
 				break;
@@ -435,11 +435,11 @@ public class NavigationContextImpl extends NavigationContext {
 	 * Adds the passed page to top of the queue of already managed pages.
 	 * 
 	 * @param page
-	 *            {@link YPage} to add.
+	 *            {@link YPageContext} to add.
 	 */
-	public void addPage(final YPage page) {
-		final YPage previousPage = page.getPreviousPage();
-		final YPage currentPage = this.getCurrentPage();
+	public void addPage(final YPageContext page) {
+		final YPageContext previousPage = page.getPreviousPage();
+		final YPageContext currentPage = this.getCurrentPage();
 
 		// in case added page has already a previous page, then it must be same
 		// as current page
@@ -451,21 +451,21 @@ public class NavigationContextImpl extends NavigationContext {
 		}
 
 		// set current page as previous page of added page
-		((YPageImpl) page).setPreviousPage(currentPage);
+		((YPageContextImpl) page).setPreviousPage(currentPage);
 
 		// add page to queue
 		this.contextPages.put(page.getId(), page);
 	}
 
 	/**
-	 * Returns a {@link YPage} by its pageId. The page must be available within the queue of managed
+	 * Returns a {@link YPageContext} by its pageId. The page must be available within the queue of managed
 	 * pages otherwise null is returned.
 	 * 
 	 * @param pageId
 	 *            pageId
-	 * @return {@link YPage}
+	 * @return {@link YPageContext}
 	 */
-	public YPage getPage(final String pageId) {
+	public YPageContext getPage(final String pageId) {
 		return this.contextPages.get(pageId);
 	}
 

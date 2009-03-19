@@ -31,12 +31,12 @@ import de.hybris.yfaces.component.NavigationContext;
 import de.hybris.yfaces.component.YFrame;
 
 /**
- * Implementation of {@link YPage}.
+ * Implementation of {@link YPageContext}.
  * 
  * @author Denny.Strietzbaum
  */
-public class YPageImpl implements YPage {
-	private static final Logger log = Logger.getLogger(YPageImpl.class);
+public class YPageContextImpl implements YPageContext {
+	private static final Logger log = Logger.getLogger(YPageContextImpl.class);
 
 	private String pageId = null;
 	private String url = null;
@@ -44,19 +44,19 @@ public class YPageImpl implements YPage {
 
 	private final Map<Object, Object> attributes = new HashMap<Object, Object>();
 
-	private YPage previousPage = null;
+	private YPageContext previousPage = null;
 
 	private NavigationContext navigationContext = null;
 
 	// all Frames within this page
 	private final Map<String, YFrame> frames = new HashMap<String, YFrame>();
 
-	public YPageImpl(final NavigationContext ctx, final String pageId, final String url) {
+	public YPageContextImpl(final NavigationContext ctx, final String pageId, final String url) {
 		this(ctx, pageId, url, null);
 	}
 
-	private YPageImpl(final NavigationContext ctx, final String pageId, final String url,
-			final YPage previous) {
+	private YPageContextImpl(final NavigationContext ctx, final String pageId, final String url,
+			final YPageContext previous) {
 		if (ctx == null) {
 			throw new YFacesException("No NavigationContext specified", new NullPointerException());
 		}
@@ -177,11 +177,11 @@ public class YPageImpl implements YPage {
 	 * 
 	 * @see ystorefoundationpackage.YPage#getPreviousPage()
 	 */
-	public YPage getPreviousPage() {
+	public YPageContext getPreviousPage() {
 		return this.previousPage;
 	}
 
-	public void setPreviousPage(final YPage previousPage) {
+	public void setPreviousPage(final YPageContext previousPage) {
 		this.previousPage = previousPage;
 	}
 

@@ -24,11 +24,11 @@ import org.apache.log4j.Logger;
 
 import de.hybris.yfaces.YManagedBean;
 import de.hybris.yfaces.application.YFacesContext;
-import de.hybris.yfaces.application.YPage;
+import de.hybris.yfaces.application.YPageContext;
 
 /**
  * Abstract base class for every YFrame.<br/>
- * Each {@link YPage} manages one or more {@link YFrame} instances.<br/>
+ * Each {@link YPageContext} manages one or more {@link YFrame} instances.<br/>
  * Each {@link YFrame} manages one ore more {@link YComponent} instances. <br/>
  * A YFrame is a ManagedBean and must declared in a faces configuration file.<br/>
  * 
@@ -123,7 +123,7 @@ public abstract class AbstractYFrame extends YManagedBean implements YFrame, Ser
 	 * 
 	 * @see storefoundation.yfaces.YFrame#getPage()
 	 */
-	public YPage getPage() {
+	public YPageContext getPage() {
 		return YFacesContext.getCurrentContext().getNavigationContext().getCurrentPage();
 	}
 
