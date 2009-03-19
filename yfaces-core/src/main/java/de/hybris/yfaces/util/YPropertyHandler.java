@@ -1,4 +1,4 @@
-package de.hybris.yfaces.session;
+package de.hybris.yfaces.util;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -99,7 +99,7 @@ public class YPropertyHandler extends PropertyChangeSupport {
 		}
 	}
 
-	public void reset() {
+	public void resetPropertyChanged() {
 		this.propChangeLog.clear();
 	}
 

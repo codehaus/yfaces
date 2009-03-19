@@ -17,8 +17,6 @@ package de.hybris.yfaces.component;
 
 import java.util.Map;
 
-import de.hybris.yfaces.application.YFacesContext;
-
 /**
  * The NavigationContext manages navigation and state through multiple pages.<br/>
  * {@link NavigationContext#getCurrentPage()} always returns the current visible {@link YPage}.<br/>
@@ -116,9 +114,5 @@ public abstract class NavigationContext {
 	 * @param url
 	 */
 	public abstract void redirect(String url);
-
-	public static NavigationContext getCurrentContext() {
-		return YFacesContext.getCurrentContext().getNavigationContext();
-	}
 
 }

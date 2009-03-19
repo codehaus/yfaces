@@ -22,7 +22,6 @@ import javax.faces.context.FacesContext;
 
 import de.hybris.yfaces.component.NavigationContext;
 import de.hybris.yfaces.component.NavigationContextImpl;
-import de.hybris.yfaces.session.YSessionContext;
 
 /**
  * @author Denny.Strietzbaum
