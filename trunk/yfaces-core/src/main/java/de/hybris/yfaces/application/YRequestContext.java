@@ -15,7 +15,6 @@
  */
 package de.hybris.yfaces.application;
 
-import de.hybris.yfaces.component.NavigationContext;
 
 /**
  * @author Denny.Strietzbaum

@@ -20,8 +20,6 @@ import java.util.Map;
 
 import javax.faces.context.FacesContext;
 
-import de.hybris.yfaces.component.NavigationContext;
-import de.hybris.yfaces.component.NavigationContextImpl;
 
 /**
  * @author Denny.Strietzbaum

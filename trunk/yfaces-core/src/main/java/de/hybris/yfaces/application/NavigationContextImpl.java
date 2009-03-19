@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.hybris.yfaces.component;
+package de.hybris.yfaces.application;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -29,9 +29,8 @@ import org.apache.log4j.Logger;
 
 import de.hybris.yfaces.YFacesException;
 import de.hybris.yfaces.YManagedBean;
-import de.hybris.yfaces.application.YRequestContext;
-import de.hybris.yfaces.application.YPageContext;
-import de.hybris.yfaces.application.YPageContextImpl;
+import de.hybris.yfaces.component.YComponent;
+import de.hybris.yfaces.component.YFrame;
 import de.hybris.yfaces.el.YFacesResolverWrapper;
 
 /**
@@ -122,7 +121,6 @@ public class NavigationContextImpl extends NavigationContext {
 			for (final YPageContext page : this.contextPages.values()) {
 				// ...and notify page for a new request (re-inject all
 				// frames/mbeans)
-				//((YPageImpl) page).startPageRequest();
 				for (YFrame frame : page.getFrames().values()) {
 					((YManagedBean) frame).refreshBeanScope();
 				}
@@ -458,8 +456,8 @@ public class NavigationContextImpl extends NavigationContext {
 	}
 
 	/**
-	 * Returns a {@link YPageContext} by its pageId. The page must be available within the queue of managed
-	 * pages otherwise null is returned.
+	 * Returns a {@link YPageContext} by its pageId. The page must be available within the queue of
+	 * managed pages otherwise null is returned.
 	 * 
 	 * @param pageId
 	 *            pageId

@@ -23,9 +23,9 @@ import javax.faces.event.PhaseListener;
 
 import org.apache.log4j.Logger;
 
+import de.hybris.yfaces.application.NavigationContext;
+import de.hybris.yfaces.application.NavigationContextImpl;
 import de.hybris.yfaces.application.YRequestContext;
-import de.hybris.yfaces.component.NavigationContext;
-import de.hybris.yfaces.component.NavigationContextImpl;
 
 /**
  * This {@link PhaseListener} is mandatory for a properly work with the

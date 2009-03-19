@@ -13,11 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.hybris.yfaces.component;
+package de.hybris.yfaces.application;
 
 import java.util.Map;
 
-import de.hybris.yfaces.application.YPageContext;
+import de.hybris.yfaces.component.YComponent;
+import de.hybris.yfaces.component.YFrame;
 
 /**
  * The NavigationContext manages navigation and state through multiple pages.<br/>
