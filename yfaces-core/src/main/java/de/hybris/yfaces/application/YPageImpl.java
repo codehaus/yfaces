@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.hybris.yfaces.component;
+package de.hybris.yfaces.application;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,6 +27,8 @@ import org.apache.log4j.Logger;
 
 import de.hybris.yfaces.YFacesException;
 import de.hybris.yfaces.YManagedBean;
+import de.hybris.yfaces.component.NavigationContext;
+import de.hybris.yfaces.component.YFrame;
 
 /**
  * Implementation of {@link YPage}.
@@ -112,14 +114,14 @@ public class YPageImpl implements YPage {
 		return result;
 	}
 
-	/**
-	 * Initiates a new Page request. This put back all request scoped ManagedBeans into JSF context.
-	 */
-	protected void startPageRequest() {
-		for (final YFrame frame : getFrames().values()) {
-			((YManagedBean) frame).refreshBeanScope();
-		}
-	}
+	//	/**
+	//	 * Initiates a new Page request. This put back all request scoped ManagedBeans into JSF context.
+	//	 */
+	//	protected void startPageRequest() {
+	//		for (final YFrame frame : getFrames().values()) {
+	//			((YManagedBean) frame).refreshBeanScope();
+	//		}
+	//	}
 
 	/*
 	 * (non-Javadoc)
@@ -130,7 +132,7 @@ public class YPageImpl implements YPage {
 		return this.pageId;
 	}
 
-	protected void setId(final String pageId) {
+	public void setId(final String pageId) {
 		this.pageId = pageId;
 	}
 
@@ -201,7 +203,7 @@ public class YPageImpl implements YPage {
 	 * @param url
 	 *            url to set.
 	 */
-	protected void setURL(final String url) {
+	public void setURL(final String url) {
 		this.url = url;
 	}
 

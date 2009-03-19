@@ -13,9 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.hybris.yfaces.component;
+package de.hybris.yfaces.application;
 
 import java.util.Map;
+
+import de.hybris.yfaces.component.NavigationContext;
+import de.hybris.yfaces.component.YFrame;
 
 /**
  * A YPage contains of one or more {@link YFrame}. A page is that thing which is locateable by a
