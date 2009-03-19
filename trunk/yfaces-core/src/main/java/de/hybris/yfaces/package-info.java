@@ -5,7 +5,7 @@
  * {@link de.hybris.yfaces.component.YComponent}<br/>
  * {@link de.hybris.yfaces.component.YComponentBinding}<br/>
  * {@link de.hybris.yfaces.component.YFrame}<br/>
- * {@link de.hybris.yfaces.component.YPage}<br/>
+ * {@link de.hybris.yfaces.application.YPage}<br/>
  * {@link de.hybris.yfaces.component.NavigationContext}<br/>
  */
 package de.hybris.yfaces;

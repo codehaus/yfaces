@@ -17,6 +17,8 @@ package de.hybris.yfaces.component;
 
 import java.util.Map;
 
+import de.hybris.yfaces.application.YPage;
+
 /**
  * @author Denny.Strietzbaum
  * 

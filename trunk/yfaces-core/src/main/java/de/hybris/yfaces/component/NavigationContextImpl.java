@@ -28,7 +28,10 @@ import javax.faces.render.ResponseStateManager;
 import org.apache.log4j.Logger;
 
 import de.hybris.yfaces.YFacesException;
+import de.hybris.yfaces.YManagedBean;
 import de.hybris.yfaces.application.YFacesContext;
+import de.hybris.yfaces.application.YPage;
+import de.hybris.yfaces.application.YPageImpl;
 import de.hybris.yfaces.el.YFacesResolverWrapper;
 
 /**
@@ -119,7 +122,10 @@ public class NavigationContextImpl extends NavigationContext {
 			for (final YPage page : this.contextPages.values()) {
 				// ...and notify page for a new request (re-inject all
 				// frames/mbeans)
-				((YPageImpl) page).startPageRequest();
+				//((YPageImpl) page).startPageRequest();
+				for (YFrame frame : page.getFrames().values()) {
+					((YManagedBean) frame).refreshBeanScope();
+				}
 			}
 
 			// force a one-time survive after a GET (redirect)

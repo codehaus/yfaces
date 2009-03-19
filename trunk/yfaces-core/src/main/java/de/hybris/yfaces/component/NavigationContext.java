@@ -17,6 +17,8 @@ package de.hybris.yfaces.component;
 
 import java.util.Map;
 
+import de.hybris.yfaces.application.YPage;
+
 /**
  * The NavigationContext manages navigation and state through multiple pages.<br/>
  * {@link NavigationContext#getCurrentPage()} always returns the current visible {@link YPage}.<br/>
