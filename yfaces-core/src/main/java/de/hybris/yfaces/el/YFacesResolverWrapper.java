@@ -26,8 +26,8 @@ import javax.el.PropertyNotFoundException;
 import javax.el.PropertyNotWritableException;
 import javax.faces.application.Application;
 
+import de.hybris.yfaces.application.NavigationContextImpl;
 import de.hybris.yfaces.application.YRequestContext;
-import de.hybris.yfaces.component.NavigationContextImpl;
 import de.hybris.yfaces.component.YComponent;
 import de.hybris.yfaces.component.YComponentBinding;
 import de.hybris.yfaces.component.YFrame;

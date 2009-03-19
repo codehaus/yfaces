@@ -27,7 +27,6 @@ import org.apache.log4j.Logger;
 
 import de.hybris.yfaces.YFacesException;
 import de.hybris.yfaces.YManagedBean;
-import de.hybris.yfaces.component.NavigationContext;
 import de.hybris.yfaces.component.YFrame;
 
 /**

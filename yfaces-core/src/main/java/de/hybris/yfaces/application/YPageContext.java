@@ -17,7 +17,6 @@ package de.hybris.yfaces.application;
 
 import java.util.Map;
 
-import de.hybris.yfaces.component.NavigationContext;
 import de.hybris.yfaces.component.YFrame;
 
 /**

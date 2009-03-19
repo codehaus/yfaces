@@ -25,6 +25,7 @@ import javax.faces.el.MethodBinding;
 import org.apache.log4j.Logger;
 
 import de.hybris.yfaces.YFacesException;
+import de.hybris.yfaces.application.NavigationContext;
 import de.hybris.yfaces.application.YRequestContext;
 
 /**
