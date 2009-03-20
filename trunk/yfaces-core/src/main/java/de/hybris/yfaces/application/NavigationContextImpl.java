@@ -15,6 +15,7 @@
  */
 package de.hybris.yfaces.application;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -50,7 +51,6 @@ public class NavigationContextImpl extends NavigationContext {
 
 	// context attributes
 	private final Map<String, Object> attributes = new HashMap<String, Object>();
-	//private boolean isFlash = false;
 
 	// holds a queue of navigable pages
 	private Map<String, YPageContext> contextPages = new LinkedHashMap<String, YPageContext>();
@@ -80,23 +80,22 @@ public class NavigationContextImpl extends NavigationContext {
 	}
 
 	@Override
-	public YPageContext getNextPage() {
+	public YPageContext getOrCreateNextPage() {
 		if (this.nextContextPage == null) {
 			this.nextContextPage = new YPageContextImpl(this, null, null);
 		}
 		return this.nextContextPage;
 	}
 
-	/**
-	 * Enabling 'flash' allows a one-time GET request without destroying the current active
-	 * {@link NavigationContext}.<br/>
-	 * Especially useful when doing a redirect, but all other GETs are fine too.<br/>
-	 * 
-	 * @param flash
-	 */
-	//	private void setFlash(final boolean flash) {
-	//		this.isFlash = flash;
-	//	}
+	public YPageContext getNextPage() {
+		return this.nextContextPage;
+	}
+
+	@Override
+	public Collection<YPageContext> getAllPages() {
+		return this.contextPages.values();
+	}
+
 	/**
 	 * Starts a new YPage request.<br/>
 	 * 
@@ -114,7 +113,8 @@ public class NavigationContextImpl extends NavigationContext {
 		// b)GET with enabled flash
 		if (isPostBack || isFlash) {
 			// iterate over all context pages...
-			for (final YPageContext page : this.contextPages.values()) {
+			Collection<YPageContext> pages = getAllPages();
+			for (final YPageContext page : pages) {
 				// ...and notify page for a new request (re-inject all
 				// frames/mbeans)
 				for (YFrame frame : page.getFrames().values()) {
@@ -136,7 +136,7 @@ public class NavigationContextImpl extends NavigationContext {
 		else {
 			// ...reset context with new initialized page
 			final String url = getViewURL(viewId, true);
-			this.resetToPage(new YPageContextImpl(this, viewId, url));
+			this.start(new YPageContextImpl(this, viewId, url));
 		}
 	}
 
@@ -158,29 +158,26 @@ public class NavigationContextImpl extends NavigationContext {
 		// when no previous page is available (e.g. navigation to a new view)
 		// ...
 		if (previousPage == null) {
-			// ...and the context is prepared to have a next page...
-			if (this.nextContextPage != null) {
-				// ...take that "next page" and append it to the queue of
-				// current pages
-				final String viewUrl = getViewURL(newViewId, false);
-				((YPageContextImpl) this.nextContextPage).setId(newViewId);
-				((YPageContextImpl) this.nextContextPage).setURL(viewUrl);
-				this.addPage(this.nextContextPage);
-				this.currentPage = this.nextContextPage;
-				this.nextContextPage = null;
 
+			final String viewUrl = getViewURL(newViewId, false);
+
+			// ...and the context is prepared to have a next page...
+			YPageContext forwardPage = getNextPage();
+			if (forwardPage != null) {
+				((YPageContextImpl) forwardPage).setURL(viewUrl);
+				((YPageContextImpl) forwardPage).setId(newViewId);
+				this.forward(forwardPage);
 			}
 			// ...otherwise reset NavigationContext
 			else {
 				// ...initialize new context and new YPage
-				final String viewUrl = getViewURL(newViewId, false);
-				this.resetToPage(new YPageContextImpl(this, newViewId, viewUrl));
+				this.start(new YPageContextImpl(this, newViewId, viewUrl));
 			}
 		}
 		// when a previous page is available...
 		else {
 			// ...navigate to this page
-			this.navigateToPage(previousPage);
+			this.backward(previousPage);
 
 			// ...and start update mechanism
 			this.update();
@@ -301,7 +298,7 @@ public class NavigationContextImpl extends NavigationContext {
 	 * 
 	 * @param page
 	 */
-	private void resetToPage(final YPageContext page) {
+	public void start(final YPageContext page) {
 		this.attributes.clear();
 		this.id = this.calculateNewId();
 		this.currentPage = page;
@@ -312,6 +309,13 @@ public class NavigationContextImpl extends NavigationContext {
 		log.debug("Reseting to initial new Page (" + page.getId() + ")");
 	}
 
+	public void forward(YPageContext page) {
+		// ...take that "next page" and append it to the queue of current pages
+		this.addPage(page);
+		this.currentPage = page;
+		this.nextContextPage = null;
+	}
+
 	/**
 	 * Navigates to the passed page. Sets the passed page as current one. Throws away all following
 	 * pages (if any) and preserves all previous ones.
@@ -319,7 +323,7 @@ public class NavigationContextImpl extends NavigationContext {
 	 * @param page
 	 *            page to navigate to
 	 */
-	private void navigateToPage(final YPageContext page) {
+	private void backward(final YPageContext page) {
 		if (!this.contextPages.containsKey(page.getId())) {
 			throw new YFacesException("Can't navigate to page " + page.getId() + " (not found)");
 		}
