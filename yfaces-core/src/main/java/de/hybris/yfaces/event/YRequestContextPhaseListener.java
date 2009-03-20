@@ -23,30 +23,29 @@ import javax.faces.event.PhaseListener;
 
 import org.apache.log4j.Logger;
 
-import de.hybris.yfaces.application.NavigationContext;
-import de.hybris.yfaces.application.NavigationContextImpl;
+import de.hybris.yfaces.application.YConversationContext;
+import de.hybris.yfaces.application.YConversationContextImpl;
 import de.hybris.yfaces.application.YRequestContext;
 import de.hybris.yfaces.application.YRequestContextImpl;
 
 /**
- * This {@link PhaseListener} is mandatory for a properly work with the {@link NavigationContext}.<br/>
+ * This {@link PhaseListener} is mandatory for a properly work with the {@link YConversationContext}
+ * .<br/>
  * <br/>
  * Implementation note: <br/>
- * This listener assumes a {@link NavigationContextImpl} as implementation.<br/>
+ * This listener assumes a {@link YConversationContextImpl} as implementation.<br/>
  * On that implementation some callback methods are used:<br/>
- * - {@link NavigationContextImpl#startPageRequest(String)} -
- * {@link NavigationContextImpl#switchPage(String)} -
- * {@link NavigationContextImpl#finishPageRequest(String)}
+ * - {@link YConversationContextImpl#startPageRequest(String)} -
+ * {@link YConversationContextImpl#switchPage(String)} -
+ * {@link YConversationContextImpl#finishPageRequest(String)}
  * 
  * @author Denny.Strietzbaum
  */
 
-// Should this become renamed into a more general one like YFacesPhaseListener?
-// since other stuff (clear errors) are done here too
-public class NavigationContextPhaseListener implements PhaseListener {
+public class YRequestContextPhaseListener implements PhaseListener {
 
 	@SuppressWarnings("unused")
-	private static final Logger log = Logger.getLogger(NavigationContextPhaseListener.class);
+	private static final Logger log = Logger.getLogger(YRequestContextPhaseListener.class);
 
 	/*
 	 * (non-Javadoc)
@@ -122,17 +121,6 @@ public class NavigationContextPhaseListener implements PhaseListener {
 	 */
 	public PhaseId getPhaseId() {
 		return PhaseId.ANY_PHASE;
-	}
-
-	/**
-	 * Returns the {@link NavigationContext} which is used for this current cycle.
-	 * 
-	 * @return {@link NavigationContext}
-	 */
-	private NavigationContextImpl getNavigationContext() {
-		// this could be the place to support different NavigationContexts
-		// given by a URL query param
-		return (NavigationContextImpl) YRequestContext.getCurrentContext().getNavigationContext();
 	}
 
 	/**

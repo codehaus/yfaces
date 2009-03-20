@@ -16,7 +16,7 @@
 	</factory>
 
 	<lifecycle>
-		<phase-listener> de.hybris.yfaces.event.NavigationContextPhaseListener </phase-listener>
+		<phase-listener> de.hybris.yfaces.event.YRequestContextPhaseListener </phase-listener>
 		
 		<!-- for developing; nice logging (debug logger must be enabled)-->
 		<phase-listener> de.hybris.yfaces.event.DebugPhaseListener </phase-listener>

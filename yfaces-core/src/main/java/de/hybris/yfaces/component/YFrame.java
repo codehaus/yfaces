@@ -17,7 +17,7 @@ package de.hybris.yfaces.component;
 
 import java.util.Map;
 
-import de.hybris.yfaces.application.NavigationContext;
+import de.hybris.yfaces.application.YConversationContext;
 import de.hybris.yfaces.application.YPageContext;
 
 /**
@@ -92,7 +92,7 @@ public interface YFrame {
 	 * 
 	 * @param log
 	 *            {@link UserSessionPropertyChangeLog} <br/>
-	 * @see NavigationContext#update() for more information about when an update is invoked.
+	 * @see YConversationContext#update() for more information about when an update is invoked.
 	 */
 	public void update();
 

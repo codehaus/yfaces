@@ -31,8 +31,8 @@ import de.hybris.yfaces.el.YFacesResolverWrapper;
  * @author Denny.Strietzbaum
  * 
  */
-public class NavigationContextImpl extends NavigationContext {
-	private static final Logger log = Logger.getLogger(NavigationContextImpl.class);
+public class YConversationContextImpl implements YConversationContext {
+	private static final Logger log = Logger.getLogger(YConversationContextImpl.class);
 
 	public enum REQUEST_PHASE {
 		START_REQUEST, FORWARD_REQUEST, END_REQUEST
@@ -56,14 +56,13 @@ public class NavigationContextImpl extends NavigationContext {
 	// gets added to queue of context pages with the next request
 	private YPageContext nextContextPage = null;
 
-	public NavigationContextImpl(final String idPrefix) {
+	public YConversationContextImpl(final String idPrefix) {
 		this.id = this.calculateNewId();
 	}
 
 	/**
 	 * @return Attributes bound to this context.
 	 */
-	@Override
 	public Map<String, Object> getAttributes() {
 		return this.attributes;
 	}
@@ -71,12 +70,10 @@ public class NavigationContextImpl extends NavigationContext {
 	/**
 	 * @return the current {@link YPageContext}
 	 */
-	@Override
 	public YPageContext getCurrentPage() {
 		return this.currentPage;
 	}
 
-	@Override
 	public YPageContext getOrCreateNextPage() {
 		if (this.nextContextPage == null) {
 			this.nextContextPage = new YPageContextImpl(this, null, null);
@@ -88,7 +85,6 @@ public class NavigationContextImpl extends NavigationContext {
 		return this.nextContextPage;
 	}
 
-	@Override
 	public Collection<YPageContext> getAllPages() {
 		return this.contextPages.values();
 	}
@@ -111,7 +107,6 @@ public class NavigationContextImpl extends NavigationContext {
 	 * - any other requests (non valid Navigationrequests)<br/>
 	 * <br/>
 	 */
-	@Override
 	public void update() {
 		for (final YPageContext page : this.contextPages.values()) {
 			page.update();

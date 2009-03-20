@@ -6,6 +6,6 @@
  * {@link de.hybris.yfaces.component.YComponentBinding}<br/>
  * {@link de.hybris.yfaces.component.YFrame}<br/>
  * {@link de.hybris.yfaces.application.YPageContext}<br/>
- * {@link de.hybris.yfaces.application.NavigationContext}<br/>
+ * {@link de.hybris.yfaces.application.YConversationContext}<br/>
  */
 package de.hybris.yfaces;

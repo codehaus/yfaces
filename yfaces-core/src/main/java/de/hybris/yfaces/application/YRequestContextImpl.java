@@ -37,6 +37,7 @@ import de.hybris.yfaces.component.YFrame;
 public class YRequestContextImpl extends YRequestContext {
 
 	private static final Logger log = Logger.getLogger(YRequestContextImpl.class);
+	private static final String IS_FLASHBACK = YRequestContext.class.getName() + "_isFlashback";
 
 	private YSessionContext userSession = null;
 	private YFacesErrorHandler errorHandler = null;
@@ -86,15 +87,16 @@ public class YRequestContextImpl extends YRequestContext {
 	 * @see de.hybris.yfaces.YFacesContext#getNavigationContext()
 	 */
 	@Override
-	public NavigationContextImpl getNavigationContext() {
+	public YConversationContextImpl getConversationContext() {
 		// return NavigationContext.getCurrentContext();
 		final Map map = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
-		NavigationContext result = (NavigationContext) map.get(NavigationContext.class.getName());
+		YConversationContext result = (YConversationContext) map.get(YConversationContext.class
+				.getName());
 		if (result == null) {
-			result = new NavigationContextImpl(null);
-			map.put(NavigationContext.class.getName(), result);
+			result = new YConversationContextImpl(null);
+			map.put(YConversationContext.class.getName(), result);
 		}
-		return (NavigationContextImpl) result;
+		return (YConversationContextImpl) result;
 	}
 
 	/**
@@ -169,8 +171,6 @@ public class YRequestContextImpl extends YRequestContext {
 		}
 	}
 
-	private static final String IS_FLASHBACK = RequestCycle.class.getName() + "_isFlashback";
-
 	@Override
 	public boolean isFlashback() {
 		return this.isFlashback;
@@ -207,7 +207,7 @@ public class YRequestContextImpl extends YRequestContext {
 		// b)GET with enabled flash
 		if (isPostBack || isFlash) {
 			// iterate over all context pages...
-			Collection<YPageContext> pages = getNavigationContext().getAllPages();
+			Collection<YPageContext> pages = getConversationContext().getAllPages();
 			for (final YPageContext page : pages) {
 				// ...and notify page for a new request (re-inject all
 				// frames/mbeans)
@@ -230,8 +230,8 @@ public class YRequestContextImpl extends YRequestContext {
 		else {
 			// ...reset context with new initialized page
 			final String url = getViewURL(viewId, true);
-			YPageContext newPage = new YPageContextImpl(getNavigationContext(), viewId, url);
-			getNavigationContext().start(newPage);
+			YPageContext newPage = new YPageContextImpl(getConversationContext(), viewId, url);
+			getConversationContext().start(newPage);
 		}
 	}
 
@@ -246,7 +246,7 @@ public class YRequestContextImpl extends YRequestContext {
 	public void switchPage(final String newViewId) {
 		this.currentPhase = REQUEST_PHASE.FORWARD_REQUEST;
 
-		NavigationContextImpl navCtx = getNavigationContext();
+		YConversationContextImpl navCtx = getConversationContext();
 
 		// lookup whether newViewId matches on of context managed previous pages
 		// (browser backbutton, regular "back" navigation, etc. )
@@ -293,9 +293,9 @@ public class YRequestContextImpl extends YRequestContext {
 
 		if (log.isDebugEnabled()) {
 			int i = 0;
-			YPageContext page = getNavigationContext().getCurrentPage();
+			YPageContext page = getConversationContext().getCurrentPage();
 			do {
-				log.debug(getNavigationContext().hashCode() + " Page(" + i++ + "):"
+				log.debug(getConversationContext().hashCode() + " Page(" + i++ + "):"
 						+ page.toString());
 			} while ((page = page.getPreviousPage()) != null);
 		}
