@@ -16,10 +16,10 @@
 	</factory>
 
 	<lifecycle>
-		<phase-listener> de.hybris.yfaces.event.YRequestContextPhaseListener </phase-listener>
+		<phase-listener> de.hybris.yfaces.application.YRequestContextPhaseListener </phase-listener>
 		
 		<!-- for developing; nice logging (debug logger must be enabled)-->
-		<phase-listener> de.hybris.yfaces.event.DebugPhaseListener </phase-listener>
+		<phase-listener> de.hybris.yfaces.util.DebugPhaseListener </phase-listener>
 	</lifecycle>
 	
 	
@@ -33,7 +33,7 @@
 	<!-- See Javadoc for more information                                         --> 
 	<converter>
 		<converter-id>parameterConverter</converter-id>
-		<converter-class>de.hybris.yfaces.convert.ParameterConverter</converter-class>
+		<converter-class>de.hybris.yfaces.util.ParameterConverter</converter-class>
 	</converter>
 
 
