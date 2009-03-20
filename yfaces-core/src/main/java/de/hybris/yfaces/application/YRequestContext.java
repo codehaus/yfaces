@@ -40,6 +40,8 @@ public abstract class YRequestContext {
 
 	public abstract YConversationContext getConversationContext();
 
+	public abstract YPageContext getPageContext();
+
 	/**
 	 * Redirects to the current URL.<br/>
 	 * This creates a non-faces request and is useful to ensure that no data is cached within the
