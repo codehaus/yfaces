@@ -124,7 +124,7 @@ public abstract class AbstractYFrame extends YManagedBean implements YFrame, Ser
 	 * @see storefoundation.yfaces.YFrame#getPage()
 	 */
 	public YPageContext getPage() {
-		return YRequestContext.getCurrentContext().getNavigationContext().getCurrentPage();
+		return YRequestContext.getCurrentContext().getConversationContext().getCurrentPage();
 	}
 
 	/**

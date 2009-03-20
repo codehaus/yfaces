@@ -23,10 +23,10 @@ import de.hybris.yfaces.component.YFrame;
 
 /**
  * The NavigationContext manages navigation and state through multiple pages.<br/>
- * {@link NavigationContext#getCurrentPage()} always returns the current visible
+ * {@link YConversationContext#getCurrentPage()} always returns the current visible
  * {@link YPageContext}.<br/>
- * The {@link NavigationContext} checks with each request whether the new requested
- * {@link YPageContext} is part of this {@link NavigationContext}.<br/>
+ * The {@link YConversationContext} checks with each request whether the new requested
+ * {@link YPageContext} is part of this {@link YConversationContext}.<br/>
  * <br/>
  * If so, the {@link YPageContext} gets added to the contexts page queue, otherwise whole context
  * information are reseted and the {@link YPageContext} queue gets cleared with the new YPage as
@@ -42,7 +42,7 @@ import de.hybris.yfaces.component.YFrame;
  * 
  * @author Denny.Strietzbaum
  */
-public abstract class NavigationContext {
+public interface YConversationContext {
 
 	/**
 	 * Returns a context related map of attributes.<br/>

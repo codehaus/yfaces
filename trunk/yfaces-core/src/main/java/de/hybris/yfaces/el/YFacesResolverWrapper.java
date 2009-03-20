@@ -26,7 +26,7 @@ import javax.el.PropertyNotFoundException;
 import javax.el.PropertyNotWritableException;
 import javax.faces.application.Application;
 
-import de.hybris.yfaces.application.NavigationContextImpl;
+import de.hybris.yfaces.application.YConversationContextImpl;
 import de.hybris.yfaces.application.YRequestContext;
 import de.hybris.yfaces.component.YComponent;
 import de.hybris.yfaces.component.YComponentBinding;
@@ -93,7 +93,7 @@ public class YFacesResolverWrapper extends ELResolver {
 
 		// ... when value is a Frame: notify current YPage
 		if (result instanceof YFrame) {
-			((NavigationContextImpl) YRequestContext.getCurrentContext().getNavigationContext())
+			((YConversationContextImpl) YRequestContext.getCurrentContext().getConversationContext())
 					.handleFrameRequest((YFrame) result);
 		}
 

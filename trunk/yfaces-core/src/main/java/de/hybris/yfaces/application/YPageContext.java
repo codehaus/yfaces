@@ -24,7 +24,7 @@ import de.hybris.yfaces.component.YFrame;
  * client.<br/>
  * (Either directly via URL or indirectly via navigationid)<br/>
  * <br/>
- * The superior instance of a YPage is the {@link NavigationContext} which is able to manage state
+ * The superior instance of a YPage is the {@link YConversationContext} which is able to manage state
  * and navigation route between multiple pages <br/>
  * 
  * @author Denny.Strietzbaum
@@ -62,11 +62,11 @@ public interface YPageContext {
 	public Map<Object, Object> getAttributes();
 
 	/**
-	 * Returns the superior {@link NavigationContext}.
+	 * Returns the superior {@link YConversationContext}.
 	 * 
-	 * @return {@link NavigationContext}
+	 * @return {@link YConversationContext}
 	 */
-	public NavigationContext getNavigationContext();
+	public YConversationContext getNavigationContext();
 
 	/**
 	 * Returns the enclosing Frames.
@@ -93,7 +93,7 @@ public interface YPageContext {
 	 * Returns the previous YPage.<br/>
 	 * This is the case when this YPage is element of a navigation route (Wizard or Conversation)
 	 * otherwise it is null. <br/>
-	 * A page becomes ancestor of another page after calling {@link NavigationContext#getOrCreateNextPage()} <br/>
+	 * A page becomes ancestor of another page after calling {@link YConversationContext#getOrCreateNextPage()} <br/>
 	 * 
 	 * @return previous YPage
 	 */

@@ -45,16 +45,16 @@ public class YPageContextImpl implements YPageContext {
 
 	private YPageContext previousPage = null;
 
-	private NavigationContext navigationContext = null;
+	private YConversationContext navigationContext = null;
 
 	// all Frames within this page
 	private final Map<String, YFrame> frames = new HashMap<String, YFrame>();
 
-	public YPageContextImpl(final NavigationContext ctx, final String pageId, final String url) {
+	public YPageContextImpl(final YConversationContext ctx, final String pageId, final String url) {
 		this(ctx, pageId, url, null);
 	}
 
-	private YPageContextImpl(final NavigationContext ctx, final String pageId, final String url,
+	private YPageContextImpl(final YConversationContext ctx, final String pageId, final String url,
 			final YPageContext previous) {
 		if (ctx == null) {
 			throw new YFacesException("No NavigationContext specified", new NullPointerException());
@@ -158,7 +158,7 @@ public class YPageContextImpl implements YPageContext {
 	 * 
 	 * @see ystorefoundationpackage.YPage#getNavigationContext()
 	 */
-	public NavigationContext getNavigationContext() {
+	public YConversationContext getNavigationContext() {
 		return this.navigationContext;
 	}
 

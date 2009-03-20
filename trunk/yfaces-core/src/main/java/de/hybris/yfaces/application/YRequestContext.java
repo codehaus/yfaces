@@ -38,15 +38,7 @@ public abstract class YRequestContext {
 
 	public abstract YFacesErrorHandler getErrorHandler();
 
-	public abstract NavigationContext getNavigationContext();
-
-	// add Constructor at NavigationContext which accepts YSessionContext
-	// add getSessionContext at NavgiationContext
-	// let getNavigationContext part of YFacesContextImpl; ask SpringCOntext for YSessionContext instance when creating NavContext
-	// comment out getUserSession / getNavigationContext; (or let it be for convenience at first but use new delegate mechanism) <- no think better remove it
-	// add getPageContext (getNavigationContext.getCurrentPage)
-	// 
-	// rename each into *Context
+	public abstract YConversationContext getConversationContext();
 
 	/**
 	 * Redirects to the current URL.<br/>
