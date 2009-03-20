@@ -237,7 +237,7 @@ public class NavigationContextImpl extends NavigationContext {
 		}
 		//log.reset();
 		//YFacesContext.getCurrentContext().getUserSession().reset();
-		YRequestContext.getCurrentContext().getUserSession().update();
+		YRequestContext.getCurrentContext().getSessionContext().update();
 	}
 
 	/**

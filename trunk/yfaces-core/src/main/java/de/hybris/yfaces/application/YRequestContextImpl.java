@@ -50,7 +50,7 @@ public class YRequestContextImpl extends YRequestContext {
 	 * @return the userSession
 	 */
 	@Override
-	public YSessionContext getUserSession() {
+	public YSessionContext getSessionContext() {
 		return userSession;
 	}
 
@@ -58,7 +58,7 @@ public class YRequestContextImpl extends YRequestContext {
 	 * @param userSession
 	 *            the userSession to set
 	 */
-	public void setUserSession(YSessionContext userSession) {
+	public void setSessionContext(YSessionContext userSession) {
 		this.userSession = userSession;
 	}
 

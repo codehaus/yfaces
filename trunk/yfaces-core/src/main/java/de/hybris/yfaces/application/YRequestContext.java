@@ -31,7 +31,7 @@ public abstract class YRequestContext {
 	 * 
 	 * @return the UserSession
 	 */
-	public abstract YSessionContext getUserSession();
+	public abstract YSessionContext getSessionContext();
 
 	public abstract YFacesErrorHandler getErrorHandler();
 
