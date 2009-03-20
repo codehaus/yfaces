@@ -20,7 +20,6 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import javax.faces.context.FacesContext;
-import javax.faces.render.ResponseStateManager;
 
 import org.apache.log4j.Logger;
 
@@ -107,7 +106,7 @@ public class NavigationContextImpl extends NavigationContext {
 		this.currentPhase = REQUEST_PHASE.START_REQUEST;
 
 		// detect method
-		boolean isPostBack = this.isPostback();
+		boolean isPostBack = YRequestContext.getCurrentContext().isPostback();
 		boolean isFlash = YRequestContext.getCurrentContext().isFlashback();
 
 		// restore context information (mbeans) when
@@ -128,9 +127,6 @@ public class NavigationContextImpl extends NavigationContext {
 				if (isPostBack) {
 					throw new YFacesException("Illegal Navigationstate");
 				}
-
-				// TODO: should be removeable after put that prop into requestcontext
-				//this.isFlash = false;
 
 				// must explicitly invoked for GET
 				this.switchPage(viewId);
@@ -251,7 +247,7 @@ public class NavigationContextImpl extends NavigationContext {
 		// b) method is post and START_REQUEST phase has finished
 		// e.g. nothing is done when the Frame was requested from within an
 		// action/actionlistener
-		final boolean doNothing = this.isPostback()
+		final boolean doNothing = YRequestContext.getCurrentContext().isPostback()
 				&& (this.currentPhase.equals(REQUEST_PHASE.START_REQUEST));
 
 		if (!doNothing) {
@@ -262,22 +258,6 @@ public class NavigationContextImpl extends NavigationContext {
 	public REQUEST_PHASE getRequestPhase() {
 		return this.currentPhase;
 	}
-
-	/**
-	 * Shortcut for {@link ResponseStateManager#isPostback(FacesContext)}
-	 * 
-	 * @return true when current request is a jsf postback
-	 */
-	public boolean isPostback() {
-		// true when a _JSF_ form was submitted 
-		// (javax.faces.ViewState parameter is present at request map)
-		return FacesContext.getCurrentInstance().getRenderKit().getResponseStateManager()
-				.isPostback(FacesContext.getCurrentInstance());
-	}
-
-	//	public boolean isFlashback() {
-	//		return this.isFlash;
-	//	}
 
 	/**
 	 * Returns a URI starting with a slash and relative to the webapps context root for the

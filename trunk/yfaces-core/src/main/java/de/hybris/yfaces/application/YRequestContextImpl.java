@@ -173,4 +173,12 @@ public class YRequestContextImpl extends YRequestContext {
 		return this.isFlashback;
 	}
 
+	@Override
+	public boolean isPostback() {
+		// true when a _JSF_ form was submitted 
+		// (javax.faces.ViewState parameter is present at request map)
+		return FacesContext.getCurrentInstance().getRenderKit().getResponseStateManager()
+				.isPostback(FacesContext.getCurrentInstance());
+	}
+
 }
