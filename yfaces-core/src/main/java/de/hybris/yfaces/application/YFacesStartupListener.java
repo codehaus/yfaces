@@ -38,7 +38,7 @@ public class YFacesStartupListener implements ServletContextListener {
 	private static final Logger log = Logger.getLogger(YFacesStartupListener.class);
 
 	private static final String PARAM_YFACES_CTX = "yfaces-context";
-	private static final String log4jCfg = "/WEB-INF/log4j.properties";
+	private static final String log4jCfg = "/WEB-INF/yfaces-log4j.properties";
 
 	public void contextDestroyed(ServletContextEvent arg0) {
 		// TODO Auto-generated method stub
@@ -83,9 +83,9 @@ public class YFacesStartupListener implements ServletContextListener {
 		try {
 			URL url = arg0.getServletContext().getResource(log4jCfg);
 			if (url != null) {
+				System.out.println(log4jCfg
+						+ " found; this overwrites any previous log4j configurations!");
 				PropertyConfigurator.configure(url);
-			} else {
-				System.out.println(log4jCfg + " not found; logging disabled");
 			}
 
 		} catch (MalformedURLException e) {
