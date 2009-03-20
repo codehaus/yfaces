@@ -93,7 +93,7 @@ public interface YPageContext {
 	 * Returns the previous YPage.<br/>
 	 * This is the case when this YPage is element of a navigation route (Wizard or Conversation)
 	 * otherwise it is null. <br/>
-	 * A page becomes ancestor of another page after calling {@link NavigationContext#getNextPage()} <br/>
+	 * A page becomes ancestor of another page after calling {@link NavigationContext#getOrCreateNextPage()} <br/>
 	 * 
 	 * @return previous YPage
 	 */

@@ -15,6 +15,7 @@
  */
 package de.hybris.yfaces.application;
 
+import java.util.Collection;
 import java.util.Map;
 
 import de.hybris.yfaces.component.YComponent;
@@ -35,7 +36,7 @@ import de.hybris.yfaces.component.YFrame;
  * A valid NavigationRequest is present when the requested Page is:<br/>
  * - the current shown page<br/>
  * - a previously, context managed page<br/>
- * - the configured next page via {@link #getNextPage()}<br/>
+ * - the configured next page via {@link #getOrCreateNextPage()}<br/>
  * AND <br/>
  * The request was a POST or a GET but with enabled flash flag. <br/>
  * 
@@ -55,7 +56,7 @@ public abstract class NavigationContext {
 	/**
 	 * Returns the current displayed Page.<br/>
 	 * May or may not have one ore more previous pages<br/>
-	 * (depends on whether {@link #getNextPage()} was called before current request)<br/>
+	 * (depends on whether {@link #getOrCreateNextPage()} was called before current request)<br/>
 	 * <br/>
 	 * 
 	 * @return the current {@link YPageContext}
@@ -72,7 +73,7 @@ public abstract class NavigationContext {
 	 * 
 	 * @return {@link YPageContext}
 	 */
-	public abstract YPageContext getNextPage();
+	public abstract YPageContext getOrCreateNextPage();
 
 	/**
 	 * Starts updating this context.<br/>
@@ -94,29 +95,6 @@ public abstract class NavigationContext {
 	 */
 	public abstract void update();
 
-	//	/**
-	//	 * Redirects to the current URL.<br/>
-	//	 * This creates a non-faces request and is useful to ensure that no data is cached within the
-	//	 * component tree.<br/>
-	//	 */
-	//	public abstract void redirect(boolean isFlash);
-	//
-	//	public abstract void redirect(YPageContext page, boolean isFlash);
-	//
-	//	/**
-	//	 * Redirect to the passed URL.<br>
-	//	 * If URL is relative, the Applicationpath will be added first.
-	//	 * 
-	//	 * @param url
-	//	 *            target URL.
-	//	 */
-	//	public abstract void redirect(String url, boolean isFlash);
-	//
-	//	/**
-	//	 * Redirects to the passed URL.
-	//	 * 
-	//	 * @param url
-	//	 */
-	//	public abstract void redirect(String url);
+	public abstract Collection<YPageContext> getAllPages();
 
 }

@@ -181,4 +181,99 @@ public class YRequestContextImpl extends YRequestContext {
 				.isPostback(FacesContext.getCurrentInstance());
 	}
 
+	//	public enum REQUEST_PHASE {
+	//		START_REQUEST, FORWARD_REQUEST, END_REQUEST
+	//	};
+	//
+	//	private REQUEST_PHASE currentPhase = REQUEST_PHASE.END_REQUEST;
+	//
+	//	/**
+	//	 * Starts a new YPage request.<br/>
+	//	 * 
+	//	 * @param viewId
+	//	 */
+	//	public void startPageRequest(final String viewId) {
+	//		this.currentPhase = REQUEST_PHASE.START_REQUEST;
+	//
+	//		// detect method
+	//		boolean isPostBack = YRequestContext.getCurrentContext().isPostback();
+	//		boolean isFlash = YRequestContext.getCurrentContext().isFlashback();
+	//
+	//		// restore context information (mbeans) when
+	//		// a)POST (postback) or
+	//		// b)GET with enabled flash
+	//		if (isPostBack || isFlash) {
+	//			// iterate over all context pages...
+	//			Collection<YPageContext> pages = YRequestContext.getCurrentContext()
+	//					.getNavigationContext().getAllPages();
+	//			for (final YPageContext page : pages) {
+	//				// ...and notify page for a new request (re-inject all
+	//				// frames/mbeans)
+	//				for (YFrame frame : page.getFrames().values()) {
+	//					((YManagedBean) frame).refreshBeanScope();
+	//				}
+	//			}
+	//
+	//			// force a one-time survive after a GET (redirect)
+	//			if (isFlash) {
+	//				if (isPostBack) {
+	//					throw new YFacesException("Illegal Navigationstate");
+	//				}
+	//
+	//				// must explicitly invoked for GET
+	//				this.switchPage(viewId);
+	//			}
+	//		}
+	//		// otherwise ...
+	//		else {
+	//			// ...reset context with new initialized page
+	//			final String url = getViewURL(viewId, true);
+	//
+	//			//this.resetToPage(new YPageContextImpl(this, viewId, url));
+	//			YPageContext newPage = new YPageContextImpl(getNavigationContext(), viewId, url);
+	//			this.startNewConversation(newPage);
+	//		}
+	//	}
+	//
+	//	/**
+	//	 * Returns a URI starting with a slash and relative to the webapps context root for the
+	//	 * requested view.
+	//	 * 
+	//	 * @param viewId
+	//	 *            view to generate the URL for
+	//	 * @return String
+	//	 */
+	//	private String getViewURL(final String viewId, final boolean addCurrentQueryParams) {
+	//		final FacesContext fc = FacesContext.getCurrentInstance();
+	//
+	//		// request view url but without context path
+	//		String result2 = fc.getApplication().getViewHandler().getActionURL(fc, viewId);
+	//		result2 = result2.substring(fc.getExternalContext().getRequestContextPath().length());
+	//
+	//		// optional append a query parameter string
+	//		// HttpServletRequest#getQueryString isn't used here as it is not
+	//		// available in an portlet
+	//		// environment and, more important, may return an incorrect string when
+	//		// urlrewriting is used.
+	//		if (addCurrentQueryParams) {
+	//			final Map<String, String[]> values = FacesContext.getCurrentInstance()
+	//					.getExternalContext().getRequestParameterValuesMap();
+	//			if (!values.isEmpty()) {
+	//				String params = "?";
+	//				for (final Map.Entry<String, String[]> entry : values.entrySet()) {
+	//					for (final String value : entry.getValue()) {
+	//						params = params + entry.getKey() + "=" + value + ";";
+	//					}
+	//				}
+	//				result2 = result2 + params.substring(0, params.length() - 1);
+	//			}
+	//		}
+	//
+	//		return result2;
+	//	}
+	//
+	//	private void startNewConversation(YPageContext initialPage) {
+	//		((NavigationContextImpl) getNavigationContext()).resetToPage(initialPage);
+	//	}
+
 }
