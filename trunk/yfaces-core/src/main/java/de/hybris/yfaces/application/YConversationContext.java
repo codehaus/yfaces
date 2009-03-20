@@ -61,7 +61,8 @@ public interface YConversationContext {
 	 * 
 	 * @return the current {@link YPageContext}
 	 */
-	public abstract YPageContext getCurrentPage();
+	//	public abstract YPageContext getCurrentPage();
+	public abstract YPageContext getLastPage();
 
 	/**
 	 * Returns the {@link YPageContext} which becomes the current one with next request.<br/>

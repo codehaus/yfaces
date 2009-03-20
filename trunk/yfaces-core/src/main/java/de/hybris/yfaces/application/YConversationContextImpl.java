@@ -44,7 +44,7 @@ public class YConversationContextImpl implements YConversationContext {
 	private final Map<String, Object> attributes = new HashMap<String, Object>();
 
 	// holds a queue of navigable pages
-	private Map<String, YPageContext> contextPages = new LinkedHashMap<String, YPageContext>();
+	private LinkedHashMap<String, YPageContext> contextPages = new LinkedHashMap<String, YPageContext>();
 
 	// next page
 	// gets added to queue of context pages with the next request
@@ -52,6 +52,13 @@ public class YConversationContextImpl implements YConversationContext {
 
 	public YConversationContextImpl(final String idPrefix) {
 		this.id = this.calculateNewId();
+
+		//new
+		YPageContext startPage = new YPageContextImpl(this, null, null);
+		this.currentPage = startPage;
+		this.contextPages = new LinkedHashMap<String, YPageContext>();
+		this.contextPages.put(startPage.getId(), startPage);
+		this.nextContextPage = null;
 	}
 
 	public String getId() {
@@ -65,12 +72,14 @@ public class YConversationContextImpl implements YConversationContext {
 		return this.attributes;
 	}
 
-	/**
-	 * @return the current {@link YPageContext}
-	 */
-	public YPageContext getCurrentPage() {
-		return this.currentPage;
-	}
+	//	/**
+	//	 * @return the current {@link YPageContext}
+	//	 */
+	//	public YPageContext getCurrentPage() {
+	//		//return this.currentPage;
+	//
+	//		return YRequestContext.getCurrentContext().getPageContext();
+	//	}
 
 	public YPageContext getOrCreateNextPage() {
 		if (this.nextContextPage == null) {
@@ -120,7 +129,10 @@ public class YConversationContextImpl implements YConversationContext {
 	public void start(final YPageContext page) {
 		this.attributes.clear();
 		this.id = this.calculateNewId();
+
 		this.currentPage = page;
+		((YRequestContextImpl) YRequestContext.getCurrentContext()).setPageContext(page);
+
 		this.contextPages = new LinkedHashMap<String, YPageContext>();
 		this.contextPages.put(page.getId(), page);
 		this.nextContextPage = null;
@@ -131,7 +143,10 @@ public class YConversationContextImpl implements YConversationContext {
 	public void forward(YPageContext page) {
 		// ...take that "next page" and append it to the queue of current pages
 		this.addPage(page);
+
 		this.currentPage = page;
+		((YRequestContextImpl) YRequestContext.getCurrentContext()).setPageContext(page);
+
 		this.nextContextPage = null;
 	}
 
@@ -152,13 +167,15 @@ public class YConversationContextImpl implements YConversationContext {
 		}
 
 		this.currentPage = page;
+		((YRequestContextImpl) YRequestContext.getCurrentContext()).setPageContext(page);
+
 		this.nextContextPage = null;
 
 		// find requested page within queued context pages
-		final Map<String, YPageContext> updatedNavigationPages = new LinkedHashMap<String, YPageContext>();
+		final LinkedHashMap<String, YPageContext> updatedNavigationPages = new LinkedHashMap<String, YPageContext>();
 		for (final Map.Entry<String, YPageContext> entry : this.contextPages.entrySet()) {
 			updatedNavigationPages.put(entry.getKey(), entry.getValue());
-			if (entry.getKey().equals(this.currentPage.getId())) {
+			if (entry.getKey().equals(page.getId())) {
 				break;
 			}
 		}
@@ -173,7 +190,9 @@ public class YConversationContextImpl implements YConversationContext {
 	 */
 	public void addPage(final YPageContext page) {
 		final YPageContext previousPage = page.getPreviousPage();
-		final YPageContext currentPage = this.getCurrentPage();
+
+		//final YPageContext currentPage = this.getCurrentPage();
+		YPageContext currentPage = YRequestContext.getCurrentContext().getPageContext();
 
 		// in case added page has already a previous page, then it must be same
 		// as current page
@@ -201,6 +220,10 @@ public class YConversationContextImpl implements YConversationContext {
 	 */
 	public YPageContext getPage(final String pageId) {
 		return this.contextPages.get(pageId);
+	}
+
+	public YPageContext getLastPage() {
+		return this.currentPage;
 	}
 
 	private String calculateNewId() {

@@ -23,7 +23,6 @@ import javax.faces.event.PhaseListener;
 
 import org.apache.log4j.Logger;
 
-
 /**
  * This {@link PhaseListener} is mandatory for a properly work with the {@link YConversationContext}
  * .<br/>
@@ -49,37 +48,13 @@ public class YRequestContextPhaseListener implements PhaseListener {
 	 * @see javax.faces.event.PhaseListener#beforePhase(javax.faces.event.PhaseEvent)
 	 */
 	public void beforePhase(final PhaseEvent phaseevent) {
-		// if (phaseevent.getPhaseId() == PhaseId.RESTORE_VIEW)
-		// {
-		// REQUEST_PHASE phase =
-		// ((NavigationContextImpl)NavigationContext.getCurrentContext()).getRequestPhase();
-		// if (!phase.equals(REQUEST_PHASE.END_REQUEST))
-		// {
-		// while (!phase.equals(REQUEST_PHASE.END_REQUEST))
-		// {
-		// log.warn("Concurrent user request; go to sleep ...(" +
-		// Thread.currentThread().getId() + ")");
-		// try
-		// {
-		// Thread.sleep(2000);
-		// phase =
-		// ((NavigationContextImpl)NavigationContext.getCurrentContext()).getRequestPhase();
-		// }
-		// catch (Exception e)
-		// {
-		// e.printStackTrace();
-		// }
-		// }
-		// log.warn("awake from sleep (" + Thread.currentThread().getId() +
-		// ")");
-		// }
-		// }
 
-		// if (phaseevent.getPhaseId() == PhaseId.INVOKE_APPLICATION)
-		// {
-		// FacesContext.getCurrentInstance().getExternalContext().getRequestMap().put("FACES_REQUEST",
-		// true);
-		// }
+		if (phaseevent.getPhaseId() == PhaseId.RESTORE_VIEW) {
+			YRequestContextImpl reqCtx = (YRequestContextImpl) YRequestContext.getCurrentContext();
+			YSessionContextImpl sesCtx = (YSessionContextImpl) reqCtx.getSessionContext();
+			YPageContext pageContext = sesCtx.getConversationContext().getLastPage();
+			reqCtx.setPageContext(pageContext);
+		}
 
 		if (phaseevent.getPhaseId() == PhaseId.RENDER_RESPONSE) {
 			final boolean facesRequest = YRequestContext.getCurrentContext().isPostback();
