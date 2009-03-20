@@ -36,8 +36,10 @@ public abstract class YRequestContext {
 	 */
 	public abstract YSessionContext getSessionContext();
 
+	// TODO: move to appCtx
 	public abstract YFacesErrorHandler getErrorHandler();
 
+	// TODO: remove
 	public abstract YConversationContext getConversationContext();
 
 	public abstract YPageContext getPageContext();

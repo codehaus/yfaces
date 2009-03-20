@@ -7,6 +7,12 @@ public class YSessionContextImpl implements YSessionContext {
 
 	private Map<String, Object> attributes = new HashMap<String, Object>();
 
+	private YConversationContext conversationCtx = null;
+
+	public YSessionContextImpl() {
+		this.conversationCtx = new YConversationContextImpl(null);
+	}
+
 	public Map<String, Object> getAttributes() {
 		return this.attributes;
 	}
@@ -14,6 +20,10 @@ public class YSessionContextImpl implements YSessionContext {
 	public void update() {
 		// TODO Auto-generated method stub
 
+	}
+
+	public YConversationContext getConversationContext() {
+		return this.conversationCtx;
 	}
 
 }

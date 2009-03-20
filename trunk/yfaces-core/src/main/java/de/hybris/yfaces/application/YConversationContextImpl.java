@@ -54,6 +54,10 @@ public class YConversationContextImpl implements YConversationContext {
 		this.id = this.calculateNewId();
 	}
 
+	public String getId() {
+		return this.id;
+	}
+
 	/**
 	 * @return Attributes bound to this context.
 	 */

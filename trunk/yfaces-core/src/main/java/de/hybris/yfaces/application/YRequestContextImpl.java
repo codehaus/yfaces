@@ -98,15 +98,8 @@ public class YRequestContextImpl extends YRequestContext {
 	 * @see de.hybris.yfaces.YFacesContext#getNavigationContext()
 	 */
 	@Override
-	public YConversationContextImpl getConversationContext() {
-		final Map map = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
-		YConversationContext result = (YConversationContext) map.get(YConversationContext.class
-				.getName());
-		if (result == null) {
-			result = new YConversationContextImpl(null);
-			map.put(YConversationContext.class.getName(), result);
-		}
-		return (YConversationContextImpl) result;
+	public YConversationContext getConversationContext() {
+		return ((YSessionContextImpl) getSessionContext()).getConversationContext();
 	}
 
 	/**
@@ -235,7 +228,7 @@ public class YRequestContextImpl extends YRequestContext {
 			// ...reset context with new initialized page
 			final String url = getViewURL(viewId, true);
 			YPageContext newPage = new YPageContextImpl(getConversationContext(), viewId, url);
-			getConversationContext().start(newPage);
+			((YConversationContextImpl) getConversationContext()).start(newPage);
 		}
 	}
 
@@ -250,7 +243,7 @@ public class YRequestContextImpl extends YRequestContext {
 	public void switchPage(final String newViewId) {
 		this.currentPhase = REQUEST_PHASE.FORWARD_REQUEST;
 
-		YConversationContextImpl navCtx = getConversationContext();
+		YConversationContextImpl navCtx = (YConversationContextImpl) getConversationContext();
 
 		// lookup whether newViewId matches on of context managed previous pages
 		// (browser backbutton, regular "back" navigation, etc. )
@@ -297,10 +290,10 @@ public class YRequestContextImpl extends YRequestContext {
 
 		if (log.isDebugEnabled()) {
 			int i = 0;
-			YPageContext page = getConversationContext().getCurrentPage();
+			YPageContext page = getPageContext();
+			String id = ((YConversationContextImpl) getConversationContext()).getId();
 			do {
-				log.debug(getConversationContext().hashCode() + " Page(" + i++ + "):"
-						+ page.toString());
+				log.debug(id + " Page(" + i++ + "):" + page.toString());
 			} while ((page = page.getPreviousPage()) != null);
 		}
 	}

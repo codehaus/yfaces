@@ -25,8 +25,6 @@ import javax.faces.el.MethodBinding;
 import org.apache.log4j.Logger;
 
 import de.hybris.yfaces.YFacesException;
-import de.hybris.yfaces.application.YConversationContext;
-import de.hybris.yfaces.application.YRequestContext;
 
 /**
  * @author Denny.Strietzbaum
@@ -104,10 +102,6 @@ public abstract class AbstractYComponentEventListener<T extends YComponent> impl
 
 	public String getValueChangeListener() {
 		return this.valueChangeListener;
-	}
-
-	public YConversationContext getNavigationContext() {
-		return YRequestContext.getCurrentContext().getConversationContext();
 	}
 
 	/**
