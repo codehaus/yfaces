@@ -15,6 +15,9 @@
  */
 package de.hybris.yfaces.application;
 
+import javax.faces.context.FacesContext;
+import javax.faces.render.ResponseStateManager;
+
 /**
  * @author Denny.Strietzbaum
  * 
@@ -70,5 +73,15 @@ public abstract class YRequestContext {
 	 */
 	public abstract void redirect(String url);
 
+	/**
+	 * Similar to a postback but only occurs for a GET request
+	 */
 	public abstract boolean isFlashback();
+
+	/**
+	 * Shortcut for {@link ResponseStateManager#isPostback(FacesContext)}
+	 * 
+	 * @return true when current request is a jsf postback
+	 */
+	public abstract boolean isPostback();
 }

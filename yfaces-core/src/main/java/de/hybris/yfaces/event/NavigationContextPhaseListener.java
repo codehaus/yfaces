@@ -28,8 +28,7 @@ import de.hybris.yfaces.application.NavigationContextImpl;
 import de.hybris.yfaces.application.YRequestContext;
 
 /**
- * This {@link PhaseListener} is mandatory for a properly work with the
- * {@link NavigationContext}.<br/>
+ * This {@link PhaseListener} is mandatory for a properly work with the {@link NavigationContext}.<br/>
  * <br/>
  * Implementation note: <br/>
  * This listener assumes a {@link NavigationContextImpl} as implementation.<br/>
@@ -51,8 +50,7 @@ public class NavigationContextPhaseListener implements PhaseListener {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * javax.faces.event.PhaseListener#beforePhase(javax.faces.event.PhaseEvent)
+	 * @see javax.faces.event.PhaseListener#beforePhase(javax.faces.event.PhaseEvent)
 	 */
 	public void beforePhase(final PhaseEvent phaseevent) {
 		// if (phaseevent.getPhaseId() == PhaseId.RESTORE_VIEW)
@@ -88,7 +86,7 @@ public class NavigationContextPhaseListener implements PhaseListener {
 		// }
 
 		if (phaseevent.getPhaseId() == PhaseId.RENDER_RESPONSE) {
-			final boolean facesRequest = getNavigationContext().isPostback();
+			final boolean facesRequest = YRequestContext.getCurrentContext().isPostback();
 			// boolean facesRequest =
 			// FacesContext.getCurrentInstance().getExternalContext().getRequestMap().get("FACES_REQUEST")
 			// != null;
@@ -103,8 +101,7 @@ public class NavigationContextPhaseListener implements PhaseListener {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * javax.faces.event.PhaseListener#afterPhase(javax.faces.event.PhaseEvent)
+	 * @see javax.faces.event.PhaseListener#afterPhase(javax.faces.event.PhaseEvent)
 	 */
 	public void afterPhase(final PhaseEvent phaseevent) {
 		if (phaseevent.getPhaseId() == PhaseId.RESTORE_VIEW) {
@@ -128,8 +125,7 @@ public class NavigationContextPhaseListener implements PhaseListener {
 	}
 
 	/**
-	 * Returns the {@link NavigationContext} which is used for this current
-	 * cycle.
+	 * Returns the {@link NavigationContext} which is used for this current cycle.
 	 * 
 	 * @return {@link NavigationContext}
 	 */
