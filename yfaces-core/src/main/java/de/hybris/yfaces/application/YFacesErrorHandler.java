@@ -59,7 +59,7 @@ public class YFacesErrorHandler {
 		if (target != null) {
 			final String errorMsg = getErrorMessage(fc, cause);
 			log.error("Redirecting to errorpage: " + target + "(" + errorMsg + ")");
-			YRequestContext.getCurrentContext().getNavigationContext().redirect(target);
+			YRequestContext.getCurrentContext().redirect(target);
 			fc.getExternalContext().getSessionMap().put(ERROR_STACK, errorMsg);
 		}
 	}

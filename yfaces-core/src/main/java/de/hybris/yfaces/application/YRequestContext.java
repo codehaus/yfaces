@@ -15,7 +15,6 @@
  */
 package de.hybris.yfaces.application;
 
-
 /**
  * @author Denny.Strietzbaum
  * 
@@ -23,7 +22,8 @@ package de.hybris.yfaces.application;
 public abstract class YRequestContext {
 
 	public static YRequestContext getCurrentContext() {
-		return (YRequestContext) YApplicationContext.getApplicationContext().getBean(YRequestContext.class.getName());
+		return (YRequestContext) YApplicationContext.getApplicationContext().getBean(
+				YRequestContext.class.getName());
 	}
 
 	/**
@@ -45,4 +45,30 @@ public abstract class YRequestContext {
 	// 
 	// rename each into *Context
 
+	/**
+	 * Redirects to the current URL.<br/>
+	 * This creates a non-faces request and is useful to ensure that no data is cached within the
+	 * component tree.<br/>
+	 */
+	public abstract void redirect(boolean isFlash);
+
+	public abstract void redirect(YPageContext page, boolean isFlash);
+
+	/**
+	 * Redirect to the passed URL.<br>
+	 * If URL is relative, the Applicationpath will be added first.
+	 * 
+	 * @param url
+	 *            target URL.
+	 */
+	public abstract void redirect(String url, boolean isFlash);
+
+	/**
+	 * Redirects to the passed URL.
+	 * 
+	 * @param url
+	 */
+	public abstract void redirect(String url);
+
+	public abstract boolean isFlashback();
 }

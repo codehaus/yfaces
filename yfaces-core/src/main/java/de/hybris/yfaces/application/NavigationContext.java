@@ -22,13 +22,14 @@ import de.hybris.yfaces.component.YFrame;
 
 /**
  * The NavigationContext manages navigation and state through multiple pages.<br/>
- * {@link NavigationContext#getCurrentPage()} always returns the current visible {@link YPageContext}.<br/>
- * The {@link NavigationContext} checks with each request whether the new requested {@link YPageContext} is
- * part of this {@link NavigationContext}.<br/>
+ * {@link NavigationContext#getCurrentPage()} always returns the current visible
+ * {@link YPageContext}.<br/>
+ * The {@link NavigationContext} checks with each request whether the new requested
+ * {@link YPageContext} is part of this {@link NavigationContext}.<br/>
  * <br/>
  * If so, the {@link YPageContext} gets added to the contexts page queue, otherwise whole context
- * information are reseted and the {@link YPageContext} queue gets cleared with the new YPage as first
- * element. <br/>
+ * information are reseted and the {@link YPageContext} queue gets cleared with the new YPage as
+ * first element. <br/>
  * <br/>
  * This context evaluates each request and decides whether it is a valid NavigationRequest or not.<br/>
  * A valid NavigationRequest is present when the requested Page is:<br/>
@@ -93,29 +94,29 @@ public abstract class NavigationContext {
 	 */
 	public abstract void update();
 
-	/**
-	 * Redirects to the current URL.<br/>
-	 * This creates a non-faces request and is useful to ensure that no data is cached within the
-	 * component tree.<br/>
-	 */
-	public abstract void redirect(boolean isFlash);
-
-	public abstract void redirect(YPageContext page, boolean isFlash);
-
-	/**
-	 * Redirect to the passed URL.<br>
-	 * If URL is relative, the Applicationpath will be added first.
-	 * 
-	 * @param url
-	 *            target URL.
-	 */
-	public abstract void redirect(String url, boolean isFlash);
-
-	/**
-	 * Redirects to the passed URL.
-	 * 
-	 * @param url
-	 */
-	public abstract void redirect(String url);
+	//	/**
+	//	 * Redirects to the current URL.<br/>
+	//	 * This creates a non-faces request and is useful to ensure that no data is cached within the
+	//	 * component tree.<br/>
+	//	 */
+	//	public abstract void redirect(boolean isFlash);
+	//
+	//	public abstract void redirect(YPageContext page, boolean isFlash);
+	//
+	//	/**
+	//	 * Redirect to the passed URL.<br>
+	//	 * If URL is relative, the Applicationpath will be added first.
+	//	 * 
+	//	 * @param url
+	//	 *            target URL.
+	//	 */
+	//	public abstract void redirect(String url, boolean isFlash);
+	//
+	//	/**
+	//	 * Redirects to the passed URL.
+	//	 * 
+	//	 * @param url
+	//	 */
+	//	public abstract void redirect(String url);
 
 }

@@ -15,13 +15,10 @@
  */
 package de.hybris.yfaces.application;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import javax.faces.component.UIViewRoot;
-import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.render.ResponseStateManager;
 
@@ -54,7 +51,7 @@ public class NavigationContextImpl extends NavigationContext {
 
 	// context attributes
 	private final Map<String, Object> attributes = new HashMap<String, Object>();
-	private boolean isFlash = false;
+	//private boolean isFlash = false;
 
 	// holds a queue of navigable pages
 	private Map<String, YPageContext> contextPages = new LinkedHashMap<String, YPageContext>();
@@ -98,10 +95,9 @@ public class NavigationContextImpl extends NavigationContext {
 	 * 
 	 * @param flash
 	 */
-	private void setFlash(final boolean flash) {
-		this.isFlash = flash;
-	}
-
+	//	private void setFlash(final boolean flash) {
+	//		this.isFlash = flash;
+	//	}
 	/**
 	 * Starts a new YPage request.<br/>
 	 * 
@@ -111,7 +107,8 @@ public class NavigationContextImpl extends NavigationContext {
 		this.currentPhase = REQUEST_PHASE.START_REQUEST;
 
 		// detect method
-		final boolean isPostBack = this.isPostback();
+		boolean isPostBack = this.isPostback();
+		boolean isFlash = YRequestContext.getCurrentContext().isFlashback();
 
 		// restore context information (mbeans) when
 		// a)POST (postback) or
@@ -132,7 +129,8 @@ public class NavigationContextImpl extends NavigationContext {
 					throw new YFacesException("Illegal Navigationstate");
 				}
 
-				this.isFlash = false;
+				// TODO: should be removeable after put that prop into requestcontext
+				//this.isFlash = false;
 
 				// must explicitly invoked for GET
 				this.switchPage(viewId);
@@ -241,74 +239,6 @@ public class NavigationContextImpl extends NavigationContext {
 	}
 
 	/**
-	 * Redirects to the current URL.<br/>
-	 * This creates a non-faces request which destroys the current {@link UIViewRoot}
-	 */
-	@Override
-	public void redirect(final boolean isFlash) {
-		final String url = FacesContext.getCurrentInstance().getExternalContext()
-				.getRequestServletPath();
-		redirect(url, isFlash);
-	}
-
-	@Override
-	public void redirect(final YPageContext page, final boolean isFlash) {
-		this.redirect(page.getURL(), isFlash);
-	}
-
-	@Override
-	public void redirect(final String url) {
-		this.redirect(url, false);
-	}
-
-	/**
-	 * Redirects to the passed url.<br>
-	 * When flash is enabled some yfaces specific content keeps alive.<br/>
-	 * <br/>
-	 * Url can be absolute or relative.<br/>
-	 * URLs starting with 'http' are used absolute.<br/>
-	 * URLs starting with a slash '/' are handled relative to the webapp root.<br/>
-	 * All other URLs are handled relative to the current request URI.
-	 * 
-	 * @param url
-	 *            target URL.
-	 */
-	@Override
-	public void redirect(String url, final boolean isFlash) {
-		if (url == null) {
-			throw new YFacesException("No URL specified", new NullPointerException());
-		}
-
-		final FacesContext fctx = FacesContext.getCurrentInstance();
-		final ExternalContext ectx = fctx.getExternalContext();
-
-		// when url is not absolute...
-		if (!url.startsWith("http")) {
-			// spec. accepts absolute as well as relative url
-			// relative path without leading slash is interpreted relatively to
-			// current request URI
-			// relative path with leading slash is interpreted relatively to
-			// context root
-
-			// but here a leading slash is interpreted relatively to
-			// webapplication root
-			if (url.startsWith("/")) {
-				url = ectx.getRequestContextPath() + url;
-			}
-		}
-		log.info("Redirecting to " + url);
-
-		try {
-			ectx.redirect(ectx.encodeResourceURL(url));
-			fctx.responseComplete();
-
-		} catch (final IOException e) {
-			throw new YFacesException("Can't redirect to " + url, e);
-		}
-		this.setFlash(isFlash);
-	}
-
-	/**
 	 * Internal. Notifies the context that a Frame is right now requested.
 	 * 
 	 * @param frame
@@ -339,12 +269,15 @@ public class NavigationContextImpl extends NavigationContext {
 	 * @return true when current request is a jsf postback
 	 */
 	public boolean isPostback() {
-		// JSF postback: true only when a JSF form was submitted or in other
-		// words
-		// when a javax.faces.ViewState parameter is present at the request map
+		// true when a _JSF_ form was submitted 
+		// (javax.faces.ViewState parameter is present at request map)
 		return FacesContext.getCurrentInstance().getRenderKit().getResponseStateManager()
 				.isPostback(FacesContext.getCurrentInstance());
 	}
+
+	//	public boolean isFlashback() {
+	//		return this.isFlash;
+	//	}
 
 	/**
 	 * Returns a URI starting with a slash and relative to the webapps context root for the
