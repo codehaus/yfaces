@@ -6,12 +6,4 @@ public interface RequestCycle {
 
 	public void finishPageRequest(String viewid);
 
-	public boolean isPostback();
-
-	public boolean isFlashback();
-
-	public void setFlashbackEnabled();
-
-	public boolean isFlashbackEnabled();
-
 }
