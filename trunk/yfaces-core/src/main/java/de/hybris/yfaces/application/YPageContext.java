@@ -66,7 +66,7 @@ public interface YPageContext {
 	 * 
 	 * @return {@link YConversationContext}
 	 */
-	public YConversationContext getNavigationContext();
+	public YConversationContext getConversationContext();
 
 	/**
 	 * Returns the enclosing Frames.

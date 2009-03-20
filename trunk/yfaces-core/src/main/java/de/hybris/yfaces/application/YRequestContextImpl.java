@@ -39,6 +39,12 @@ public class YRequestContextImpl extends YRequestContext {
 	private static final Logger log = Logger.getLogger(YRequestContextImpl.class);
 	private static final String IS_FLASHBACK = YRequestContext.class.getName() + "_isFlashback";
 
+	public enum REQUEST_PHASE {
+		START_REQUEST, FORWARD_REQUEST, END_REQUEST
+	};
+
+	private REQUEST_PHASE currentPhase = REQUEST_PHASE.END_REQUEST;
+
 	private YSessionContext userSession = null;
 	private YFacesErrorHandler errorHandler = null;
 
@@ -73,6 +79,11 @@ public class YRequestContextImpl extends YRequestContext {
 		return userSession;
 	}
 
+	@Override
+	public YPageContext getPageContext() {
+		return getConversationContext().getCurrentPage();
+	}
+
 	/**
 	 * @param userSession
 	 *            the userSession to set
@@ -88,7 +99,6 @@ public class YRequestContextImpl extends YRequestContext {
 	 */
 	@Override
 	public YConversationContextImpl getConversationContext() {
-		// return NavigationContext.getCurrentContext();
 		final Map map = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
 		YConversationContext result = (YConversationContext) map.get(YConversationContext.class
 				.getName());
@@ -183,12 +193,6 @@ public class YRequestContextImpl extends YRequestContext {
 		return FacesContext.getCurrentInstance().getRenderKit().getResponseStateManager()
 				.isPostback(FacesContext.getCurrentInstance());
 	}
-
-	public enum REQUEST_PHASE {
-		START_REQUEST, FORWARD_REQUEST, END_REQUEST
-	};
-
-	private REQUEST_PHASE currentPhase = REQUEST_PHASE.END_REQUEST;
 
 	/**
 	 * Starts a new YPage request.<br/>
@@ -336,6 +340,10 @@ public class YRequestContextImpl extends YRequestContext {
 		}
 
 		return result2;
+	}
+
+	public REQUEST_PHASE getRequestPhase() {
+		return this.currentPhase;
 	}
 
 }

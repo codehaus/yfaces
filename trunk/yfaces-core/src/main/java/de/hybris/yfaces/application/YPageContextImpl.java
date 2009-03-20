@@ -158,7 +158,7 @@ public class YPageContextImpl implements YPageContext {
 	 * 
 	 * @see ystorefoundationpackage.YPage#getNavigationContext()
 	 */
-	public YConversationContext getNavigationContext() {
+	public YConversationContext getConversationContext() {
 		return this.navigationContext;
 	}
 

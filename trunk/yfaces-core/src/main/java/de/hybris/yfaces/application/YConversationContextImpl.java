@@ -25,7 +25,6 @@ import org.apache.log4j.Logger;
 import de.hybris.yfaces.YFacesException;
 import de.hybris.yfaces.component.YComponent;
 import de.hybris.yfaces.component.YFrame;
-import de.hybris.yfaces.el.YFacesResolverWrapper;
 
 /**
  * @author Denny.Strietzbaum
@@ -34,13 +33,8 @@ import de.hybris.yfaces.el.YFacesResolverWrapper;
 public class YConversationContextImpl implements YConversationContext {
 	private static final Logger log = Logger.getLogger(YConversationContextImpl.class);
 
-	public enum REQUEST_PHASE {
-		START_REQUEST, FORWARD_REQUEST, END_REQUEST
-	};
-
 	// the current pagecontext
 	private YPageContext currentPage = null;
-	private REQUEST_PHASE currentPhase = REQUEST_PHASE.END_REQUEST;
 
 	private int resetCounter = 0;
 
@@ -112,31 +106,6 @@ public class YConversationContextImpl implements YConversationContext {
 			page.update();
 		}
 		YRequestContext.getCurrentContext().getSessionContext().update();
-	}
-
-	/**
-	 * Internal. Notifies the context that a Frame is right now requested.
-	 * 
-	 * @param frame
-	 * 
-	 * @see YFacesResolverWrapper
-	 */
-	public void handleFrameRequest(final YFrame frame) {
-		// frames are getting added when:
-		// a) method is get
-		// b) method is post and START_REQUEST phase has finished
-		// e.g. nothing is done when the Frame was requested from within an
-		// action/actionlistener
-		final boolean doNothing = YRequestContext.getCurrentContext().isPostback()
-				&& (this.currentPhase.equals(REQUEST_PHASE.START_REQUEST));
-
-		if (!doNothing) {
-			this.getCurrentPage().addFrame(frame);
-		}
-	}
-
-	public REQUEST_PHASE getRequestPhase() {
-		return this.currentPhase;
 	}
 
 	/**

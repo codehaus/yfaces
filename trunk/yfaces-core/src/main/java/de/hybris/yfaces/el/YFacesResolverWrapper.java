@@ -26,8 +26,8 @@ import javax.el.PropertyNotFoundException;
 import javax.el.PropertyNotWritableException;
 import javax.faces.application.Application;
 
-import de.hybris.yfaces.application.YConversationContextImpl;
 import de.hybris.yfaces.application.YRequestContext;
+import de.hybris.yfaces.application.YRequestContextImpl;
 import de.hybris.yfaces.component.YComponent;
 import de.hybris.yfaces.component.YComponentBinding;
 import de.hybris.yfaces.component.YFrame;
@@ -93,8 +93,9 @@ public class YFacesResolverWrapper extends ELResolver {
 
 		// ... when value is a Frame: notify current YPage
 		if (result instanceof YFrame) {
-			((YConversationContextImpl) YRequestContext.getCurrentContext().getConversationContext())
-					.handleFrameRequest((YFrame) result);
+			//			((YConversationContextImpl) YRequestContext.getCurrentContext()
+			//					.getConversationContext()).handleFrameRequest((YFrame) result);
+			this.handleFrameRequest((YFrame) result);
 		}
 
 		// ... when value is a YCOmponentBinding and resolving is enabled,
@@ -215,6 +216,38 @@ public class YFacesResolverWrapper extends ELResolver {
 	 */
 	private YFacesELContext getYContext(final ELContext context) {
 		return (YFacesELContext) context.getContext(YFacesELContext.class);
+	}
+
+	/**
+	 * Internal. Notifies the context that a Frame is right now requested.
+	 * 
+	 * @param frame
+	 * 
+	 * @see YFacesResolverWrapper
+	 */
+	private void handleFrameRequest(final YFrame frame) {
+		// frames are getting added when:
+		// a) method is get
+		// b) method is post and START_REQUEST phase has finished
+		// e.g. nothing is done when the Frame was requested from within an
+		// action/actionlistener
+		boolean isPostback = YRequestContext.getCurrentContext().isPostback();
+		boolean isStartRequest = ((YRequestContextImpl) YRequestContext.getCurrentContext())
+				.getRequestPhase()
+				.equals(
+						de.hybris.yfaces.application.YRequestContextImpl.REQUEST_PHASE.START_REQUEST);
+
+		//		final boolean doNothing = YRequestContext.getCurrentContext().isPostback()
+		//				&& (this.currentPhase.equals(REQUEST_PHASE.START_REQUEST));
+		//		if (!doNothing) {
+		//			this.getCurrentPage().addFrame(frame);
+		//		}
+
+		boolean addFrameToCurrentPage = !(isPostback && isStartRequest);
+
+		if (addFrameToCurrentPage) {
+			YRequestContext.getCurrentContext().getPageContext().addFrame(frame);
+		}
 	}
 
 }
