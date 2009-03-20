@@ -26,6 +26,7 @@ import org.apache.log4j.Logger;
 import de.hybris.yfaces.application.NavigationContext;
 import de.hybris.yfaces.application.NavigationContextImpl;
 import de.hybris.yfaces.application.YRequestContext;
+import de.hybris.yfaces.application.YRequestContextImpl;
 
 /**
  * This {@link PhaseListener} is mandatory for a properly work with the {@link NavigationContext}.<br/>
@@ -87,13 +88,10 @@ public class NavigationContextPhaseListener implements PhaseListener {
 
 		if (phaseevent.getPhaseId() == PhaseId.RENDER_RESPONSE) {
 			final boolean facesRequest = YRequestContext.getCurrentContext().isPostback();
-			// boolean facesRequest =
-			// FacesContext.getCurrentInstance().getExternalContext().getRequestMap().get("FACES_REQUEST")
-			// != null;
 			if (facesRequest) {
 				// this viewid can be different (after a POST) from that one in
 				// RESTORE_VIEW
-				getNavigationContext().switchPage(getViewId());
+				((YRequestContextImpl) YRequestContext.getCurrentContext()).switchPage(getViewId());
 			}
 		}
 	}
@@ -105,11 +103,13 @@ public class NavigationContextPhaseListener implements PhaseListener {
 	 */
 	public void afterPhase(final PhaseEvent phaseevent) {
 		if (phaseevent.getPhaseId() == PhaseId.RESTORE_VIEW) {
-			getNavigationContext().startPageRequest(getViewId());
+			((YRequestContextImpl) YRequestContext.getCurrentContext())
+					.startPageRequest(getViewId());
 		}
 
 		if (phaseevent.getPhaseId() == PhaseId.RENDER_RESPONSE) {
-			getNavigationContext().finishPageRequest(getViewId());
+			((YRequestContextImpl) YRequestContext.getCurrentContext())
+					.finishPageRequest(getViewId());
 
 			YRequestContext.getCurrentContext().getErrorHandler().clearErrorStack();
 		}

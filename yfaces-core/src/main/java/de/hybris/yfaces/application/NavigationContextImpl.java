@@ -20,12 +20,9 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import javax.faces.context.FacesContext;
-
 import org.apache.log4j.Logger;
 
 import de.hybris.yfaces.YFacesException;
-import de.hybris.yfaces.YManagedBean;
 import de.hybris.yfaces.component.YComponent;
 import de.hybris.yfaces.component.YFrame;
 import de.hybris.yfaces.el.YFacesResolverWrapper;
@@ -97,113 +94,6 @@ public class NavigationContextImpl extends NavigationContext {
 	}
 
 	/**
-	 * Starts a new YPage request.<br/>
-	 * 
-	 * @param viewId
-	 */
-	public void startPageRequest(final String viewId) {
-		this.currentPhase = REQUEST_PHASE.START_REQUEST;
-
-		// detect method
-		boolean isPostBack = YRequestContext.getCurrentContext().isPostback();
-		boolean isFlash = YRequestContext.getCurrentContext().isFlashback();
-
-		// restore context information (mbeans) when
-		// a)POST (postback) or
-		// b)GET with enabled flash
-		if (isPostBack || isFlash) {
-			// iterate over all context pages...
-			Collection<YPageContext> pages = getAllPages();
-			for (final YPageContext page : pages) {
-				// ...and notify page for a new request (re-inject all
-				// frames/mbeans)
-				for (YFrame frame : page.getFrames().values()) {
-					((YManagedBean) frame).refreshBeanScope();
-				}
-			}
-
-			// force a one-time survive after a GET (redirect)
-			if (isFlash) {
-				if (isPostBack) {
-					throw new YFacesException("Illegal Navigationstate");
-				}
-
-				// must explicitly invoked for GET
-				this.switchPage(viewId);
-			}
-		}
-		// otherwise ...
-		else {
-			// ...reset context with new initialized page
-			final String url = getViewURL(viewId, true);
-			this.start(new YPageContextImpl(this, viewId, url));
-		}
-	}
-
-	/**
-	 * Gets invoked before the new Page is processed.<br/>
-	 * Invocation happens:<br/>
-	 * a) for a POST: after INVOKE_APPLICATION and before RENDER_RESPONSE<br/>
-	 * b) for a GET (flash=true): after RESTORE_VIEW and before RENDER_RESPONSE<br/>
-	 * 
-	 * @param newViewId
-	 */
-	public void switchPage(final String newViewId) {
-		this.currentPhase = REQUEST_PHASE.FORWARD_REQUEST;
-
-		// lookup whether newViewId matches on of context managed previous pages
-		// (browser backbutton, regular "back" navigation, etc. )
-		final YPageContext previousPage = this.getPage(newViewId);
-
-		// when no previous page is available (e.g. navigation to a new view)
-		// ...
-		if (previousPage == null) {
-
-			final String viewUrl = getViewURL(newViewId, false);
-
-			// ...and the context is prepared to have a next page...
-			YPageContext forwardPage = getNextPage();
-			if (forwardPage != null) {
-				((YPageContextImpl) forwardPage).setURL(viewUrl);
-				((YPageContextImpl) forwardPage).setId(newViewId);
-				this.forward(forwardPage);
-			}
-			// ...otherwise reset NavigationContext
-			else {
-				// ...initialize new context and new YPage
-				this.start(new YPageContextImpl(this, newViewId, viewUrl));
-			}
-		}
-		// when a previous page is available...
-		else {
-			// ...navigate to this page
-			this.backward(previousPage);
-
-			// ...and start update mechanism
-			this.update();
-		}
-	}
-
-	/**
-	 * Finishes the current Page request. The viewid has changed when an internal forward was
-	 * accomplished <br/>
-	 * This method gets called after RENDER_RESPONSE.
-	 * 
-	 * @param viewId
-	 */
-	public void finishPageRequest(final String viewId) {
-		this.currentPhase = REQUEST_PHASE.END_REQUEST;
-
-		if (log.isDebugEnabled()) {
-			int i = 0;
-			YPageContext page = this.getCurrentPage();
-			do {
-				log.debug(this.id + " Page(" + i++ + "):" + page.toString());
-			} while ((page = page.getPreviousPage()) != null);
-		}
-	}
-
-	/**
 	 * Starts updating this context.<br/>
 	 * The default update process is:<br/>
 	 * For each {@link YPageContext}, call {@link YPageContext#update(UserSessionPropertyChangeLog)}<br/>
@@ -226,8 +116,6 @@ public class NavigationContextImpl extends NavigationContext {
 		for (final YPageContext page : this.contextPages.values()) {
 			page.update();
 		}
-		//log.reset();
-		//YFacesContext.getCurrentContext().getUserSession().reset();
 		YRequestContext.getCurrentContext().getSessionContext().update();
 	}
 
@@ -254,43 +142,6 @@ public class NavigationContextImpl extends NavigationContext {
 
 	public REQUEST_PHASE getRequestPhase() {
 		return this.currentPhase;
-	}
-
-	/**
-	 * Returns a URI starting with a slash and relative to the webapps context root for the
-	 * requested view.
-	 * 
-	 * @param viewId
-	 *            view to generate the URL for
-	 * @return String
-	 */
-	private String getViewURL(final String viewId, final boolean addCurrentQueryParams) {
-		final FacesContext fc = FacesContext.getCurrentInstance();
-
-		// request view url but without context path
-		String result2 = fc.getApplication().getViewHandler().getActionURL(fc, viewId);
-		result2 = result2.substring(fc.getExternalContext().getRequestContextPath().length());
-
-		// optional append a query parameter string
-		// HttpServletRequest#getQueryString isn't used here as it is not
-		// available in an portlet
-		// environment and, more important, may return an incorrect string when
-		// urlrewriting is used.
-		if (addCurrentQueryParams) {
-			final Map<String, String[]> values = FacesContext.getCurrentInstance()
-					.getExternalContext().getRequestParameterValuesMap();
-			if (!values.isEmpty()) {
-				String params = "?";
-				for (final Map.Entry<String, String[]> entry : values.entrySet()) {
-					for (final String value : entry.getValue()) {
-						params = params + entry.getKey() + "=" + value + ";";
-					}
-				}
-				result2 = result2 + params.substring(0, params.length() - 1);
-			}
-		}
-
-		return result2;
 	}
 
 	/**
@@ -323,7 +174,7 @@ public class NavigationContextImpl extends NavigationContext {
 	 * @param page
 	 *            page to navigate to
 	 */
-	private void backward(final YPageContext page) {
+	public void backward(final YPageContext page) {
 		if (!this.contextPages.containsKey(page.getId())) {
 			throw new YFacesException("Can't navigate to page " + page.getId() + " (not found)");
 		}
