@@ -45,7 +45,9 @@ public class YRequestContextImpl extends YRequestContext {
 
 	private REQUEST_PHASE currentPhase = REQUEST_PHASE.END_REQUEST;
 
-	private YSessionContext userSession = null;
+	private YSessionContext sessionContext = null;
+	private YPageContext pageContext = null;
+
 	private YFacesErrorHandler errorHandler = null;
 
 	private boolean isFlashback = false;
@@ -76,30 +78,24 @@ public class YRequestContextImpl extends YRequestContext {
 	 */
 	@Override
 	public YSessionContext getSessionContext() {
-		return userSession;
+		return sessionContext;
 	}
 
 	@Override
 	public YPageContext getPageContext() {
-		return getConversationContext().getCurrentPage();
+		return this.pageContext;
+	}
+
+	public void setPageContext(YPageContext pageContext) {
+		this.pageContext = pageContext;
 	}
 
 	/**
-	 * @param userSession
+	 * @param sessionContext
 	 *            the userSession to set
 	 */
-	public void setSessionContext(YSessionContext userSession) {
-		this.userSession = userSession;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see de.hybris.yfaces.YFacesContext#getNavigationContext()
-	 */
-	@Override
-	public YConversationContext getConversationContext() {
-		return ((YSessionContextImpl) getSessionContext()).getConversationContext();
+	public void setSessionContext(YSessionContext sessionContext) {
+		this.sessionContext = sessionContext;
 	}
 
 	/**
@@ -199,12 +195,14 @@ public class YRequestContextImpl extends YRequestContext {
 		boolean isPostBack = YRequestContext.getCurrentContext().isPostback();
 		boolean isFlash = YRequestContext.getCurrentContext().isFlashback();
 
+		YConversationContext convCtx = getPageContext().getConversationContext();
+
 		// restore context information (mbeans) when
 		// a)POST (postback) or
 		// b)GET with enabled flash
 		if (isPostBack || isFlash) {
 			// iterate over all context pages...
-			Collection<YPageContext> pages = getConversationContext().getAllPages();
+			Collection<YPageContext> pages = convCtx.getAllPages();
 			for (final YPageContext page : pages) {
 				// ...and notify page for a new request (re-inject all
 				// frames/mbeans)
@@ -227,8 +225,8 @@ public class YRequestContextImpl extends YRequestContext {
 		else {
 			// ...reset context with new initialized page
 			final String url = getViewURL(viewId, true);
-			YPageContext newPage = new YPageContextImpl(getConversationContext(), viewId, url);
-			((YConversationContextImpl) getConversationContext()).start(newPage);
+			YPageContext newPage = new YPageContextImpl(convCtx, viewId, url);
+			((YConversationContextImpl) convCtx).start(newPage);
 		}
 	}
 
@@ -243,11 +241,12 @@ public class YRequestContextImpl extends YRequestContext {
 	public void switchPage(final String newViewId) {
 		this.currentPhase = REQUEST_PHASE.FORWARD_REQUEST;
 
-		YConversationContextImpl navCtx = (YConversationContextImpl) getConversationContext();
+		YConversationContextImpl convCtx = (YConversationContextImpl) getPageContext()
+				.getConversationContext();
 
 		// lookup whether newViewId matches on of context managed previous pages
 		// (browser backbutton, regular "back" navigation, etc. )
-		final YPageContext previousPage = navCtx.getPage(newViewId);
+		final YPageContext previousPage = convCtx.getPage(newViewId);
 
 		// when no previous page is available (e.g. navigation to a new view)
 		// ...
@@ -256,25 +255,25 @@ public class YRequestContextImpl extends YRequestContext {
 			final String viewUrl = getViewURL(newViewId, false);
 
 			// ...and the context is prepared to have a next page...
-			YPageContext forwardPage = navCtx.getNextPage();
+			YPageContext forwardPage = convCtx.getNextPage();
 			if (forwardPage != null) {
 				((YPageContextImpl) forwardPage).setURL(viewUrl);
 				((YPageContextImpl) forwardPage).setId(newViewId);
-				navCtx.forward(forwardPage);
+				convCtx.forward(forwardPage);
 			}
 			// ...otherwise reset NavigationContext
 			else {
 				// ...initialize new context and new YPage
-				navCtx.start(new YPageContextImpl(navCtx, newViewId, viewUrl));
+				convCtx.start(new YPageContextImpl(convCtx, newViewId, viewUrl));
 			}
 		}
 		// when a previous page is available...
 		else {
 			// ...navigate to this page
-			navCtx.backward(previousPage);
+			convCtx.backward(previousPage);
 
 			// ...and start update mechanism
-			navCtx.update();
+			convCtx.update();
 		}
 	}
 
@@ -291,7 +290,8 @@ public class YRequestContextImpl extends YRequestContext {
 		if (log.isDebugEnabled()) {
 			int i = 0;
 			YPageContext page = getPageContext();
-			String id = ((YConversationContextImpl) getConversationContext()).getId();
+			YConversationContext convCtx = page.getConversationContext();
+			String id = ((YConversationContextImpl) convCtx).getId();
 			do {
 				log.debug(id + " Page(" + i++ + "):" + page.toString());
 			} while ((page = page.getPreviousPage()) != null);
