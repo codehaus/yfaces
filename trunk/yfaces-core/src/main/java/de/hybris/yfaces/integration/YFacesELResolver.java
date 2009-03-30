@@ -49,7 +49,7 @@ import de.hybris.yfaces.util.myfaces.YFacesApplicationFactory.YFacesApplication;
  * @author Denny.Strietzbaum
  * 
  */
-public class YFacesResolverWrapper extends ELResolver {
+public class YFacesELResolver extends ELResolver {
 	private ELResolver resolver = null;
 
 	/**
@@ -59,7 +59,7 @@ public class YFacesResolverWrapper extends ELResolver {
 	 * 
 	 * @param resolver
 	 */
-	public YFacesResolverWrapper(final ELResolver resolver) {
+	public YFacesELResolver(final ELResolver resolver) {
 		this.resolver = resolver;
 	}
 
@@ -223,7 +223,7 @@ public class YFacesResolverWrapper extends ELResolver {
 	 * 
 	 * @param frame
 	 * 
-	 * @see YFacesResolverWrapper
+	 * @see YFacesELResolver
 	 */
 	private void handleFrameRequest(final YFrame frame) {
 		// frames are getting added when:

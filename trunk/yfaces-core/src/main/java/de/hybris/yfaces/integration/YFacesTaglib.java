@@ -289,7 +289,7 @@ public class YFacesTaglib extends AbstractTagLibrary {
 
 	private void registerElFunctions() {
 		// Add functions
-		for (final Method method : ELFunctions.class.getMethods()) {
+		for (final Method method : YFacesELFunctions.class.getMethods()) {
 			if (Modifier.isStatic(method.getModifiers())) {
 				this.addFunction(method.getName(), method);
 				if (log.isDebugEnabled()) {
