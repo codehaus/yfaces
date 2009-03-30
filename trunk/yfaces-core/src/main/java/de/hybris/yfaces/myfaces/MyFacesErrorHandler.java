@@ -18,7 +18,7 @@ package de.hybris.yfaces.myfaces;
 import javax.faces.context.FacesContext;
 
 import de.hybris.yfaces.application.YRequestContext;
-import de.hybris.yfaces.application.YFacesErrorHandler;
+import de.hybris.yfaces.util.YFacesErrorHandler;
 
 /**
  * This class is meant to be the myfaces error handler which must be declared as

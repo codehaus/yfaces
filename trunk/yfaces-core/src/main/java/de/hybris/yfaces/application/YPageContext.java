@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 the original author or authors.
+ * Copyright 2009 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,8 +24,8 @@ import de.hybris.yfaces.component.YFrame;
  * client.<br/>
  * (Either directly via URL or indirectly via navigationid)<br/>
  * <br/>
- * The superior instance of a YPage is the {@link YConversationContext} which is able to manage state
- * and navigation route between multiple pages <br/>
+ * The superior instance of a YPage is the {@link YConversationContext} which is able to manage
+ * state and navigation route between multiple pages <br/>
  * 
  * @author Denny.Strietzbaum
  */
@@ -93,7 +93,8 @@ public interface YPageContext {
 	 * Returns the previous YPage.<br/>
 	 * This is the case when this YPage is element of a navigation route (Wizard or Conversation)
 	 * otherwise it is null. <br/>
-	 * A page becomes ancestor of another page after calling {@link YConversationContext#getOrCreateNextPage()} <br/>
+	 * A page becomes ancestor of another page after calling
+	 * {@link YConversationContext#getOrCreateNextPage()} <br/>
 	 * 
 	 * @return previous YPage
 	 */
