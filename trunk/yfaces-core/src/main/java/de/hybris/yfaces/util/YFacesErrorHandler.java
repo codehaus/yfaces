@@ -22,7 +22,7 @@ import org.apache.log4j.Logger;
 
 import de.hybris.yfaces.YFacesException;
 import de.hybris.yfaces.application.YRequestContext;
-import de.hybris.yfaces.myfaces.MyFacesErrorHandler;
+import de.hybris.yfaces.util.myfaces.MyFacesErrorHandler;
 
 /**
  * Provides general error handling. When the {@link MyFacesErrorHandler} is registered at web.xml

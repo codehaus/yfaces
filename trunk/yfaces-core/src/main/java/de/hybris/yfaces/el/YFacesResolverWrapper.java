@@ -31,8 +31,8 @@ import de.hybris.yfaces.application.YRequestContextImpl;
 import de.hybris.yfaces.component.YComponent;
 import de.hybris.yfaces.component.YComponentBinding;
 import de.hybris.yfaces.component.YFrame;
-import de.hybris.yfaces.myfaces.YFacesApplicationFactory;
-import de.hybris.yfaces.myfaces.YFacesApplicationFactory.YFacesApplication;
+import de.hybris.yfaces.util.myfaces.YFacesApplicationFactory;
+import de.hybris.yfaces.util.myfaces.YFacesApplicationFactory.YFacesApplication;
 
 /**
  * A wrapper around a {@link ELResolver}.<br/>
