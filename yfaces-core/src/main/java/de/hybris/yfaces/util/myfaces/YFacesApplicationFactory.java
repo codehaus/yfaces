@@ -24,7 +24,7 @@ import org.apache.myfaces.application.ApplicationImpl;
 
 import de.hybris.yfaces.YFacesException;
 import de.hybris.yfaces.integration.YFacesELContextListener;
-import de.hybris.yfaces.integration.YFacesResolverWrapper;
+import de.hybris.yfaces.integration.YFacesELResolver;
 
 /**
  * A custom {@link ApplicationFactory} implementation which creates a {@link YFacesApplication}.<br/>
@@ -38,7 +38,7 @@ import de.hybris.yfaces.integration.YFacesResolverWrapper;
  */
 public class YFacesApplicationFactory extends ApplicationFactory {
 	/**
-	 * Own {@link Application} implementation which uses an {@link YFacesResolverWrapper} instead of
+	 * Own {@link Application} implementation which uses an {@link YFacesELResolver} instead of
 	 * the JSF created {@link ELResolver}.<br/>
 	 * <br/>
 	 * For easier handling this implementation depends on the myfaces implementation<br/>
@@ -65,7 +65,7 @@ public class YFacesApplicationFactory extends ApplicationFactory {
 		@Override
 		public ELResolver getELResolver() {
 			if (this.resolver == null) {
-				this.resolver = new YFacesResolverWrapper(super.getELResolver());
+				this.resolver = new YFacesELResolver(super.getELResolver());
 			}
 			return this.resolver;
 		}
