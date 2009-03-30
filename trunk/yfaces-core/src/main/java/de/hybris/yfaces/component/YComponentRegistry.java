@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.hybris.yfaces;
+package de.hybris.yfaces.component;
 
 import java.util.Collections;
 import java.util.EnumSet;
@@ -25,7 +25,7 @@ import java.util.Set;
 
 import org.apache.log4j.Logger;
 
-import de.hybris.yfaces.YComponentInfo.ERROR_STATE;
+import de.hybris.yfaces.component.YComponentInfo.ERROR_STATE;
 
 /**
  * A registry which holds meta information about registered YComponent. Components are registered

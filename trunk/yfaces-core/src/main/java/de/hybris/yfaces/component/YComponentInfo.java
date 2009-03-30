@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.hybris.yfaces;
+package de.hybris.yfaces.component;
 
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
@@ -34,8 +34,7 @@ import java.util.regex.Pattern;
 
 import org.apache.log4j.Logger;
 
-import de.hybris.yfaces.component.AbstractYComponent;
-import de.hybris.yfaces.component.YComponent;
+import de.hybris.yfaces.YFacesException;
 
 /**
  * Holds {@link YComponent} specific meta information.

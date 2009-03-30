@@ -1,4 +1,4 @@
-package de.hybris.yfaces.integration;
+package de.hybris.yfaces;
 
 import javax.el.ELContextEvent;
 import javax.el.ELContextListener;

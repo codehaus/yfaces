@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.hybris.yfaces;
+package de.hybris.yfaces.component;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -26,7 +26,7 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.io.IOUtils;
 
-import de.hybris.yfaces.integration.YFacesTaglib;
+import de.hybris.yfaces.YFacesTaglib;
 
 /**
  * Factory class for {@link YComponentInfo} instances.

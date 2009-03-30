@@ -35,15 +35,15 @@ import javax.faces.event.PhaseId;
 
 import org.apache.log4j.Logger;
 
-import de.hybris.yfaces.YComponentInfo;
-import de.hybris.yfaces.YComponentRegistry;
 import de.hybris.yfaces.YFacesConfig;
+import de.hybris.yfaces.YFacesELContext;
 import de.hybris.yfaces.YFacesException;
-import de.hybris.yfaces.YComponentInfo.ERROR_STATE;
 import de.hybris.yfaces.component.AbstractYComponent;
 import de.hybris.yfaces.component.YComponent;
 import de.hybris.yfaces.component.YComponentBinding;
-import de.hybris.yfaces.integration.YFacesELContext;
+import de.hybris.yfaces.component.YComponentInfo;
+import de.hybris.yfaces.component.YComponentRegistry;
+import de.hybris.yfaces.component.YComponentInfo.ERROR_STATE;
 
 /**
  * Each {@link YComponent} must be enclosed by this {@link UIComponent}.<br/>

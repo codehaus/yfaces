@@ -22,9 +22,9 @@ import javax.faces.application.ApplicationFactory;
 
 import org.apache.myfaces.application.ApplicationImpl;
 
+import de.hybris.yfaces.YFacesELContextListener;
+import de.hybris.yfaces.YFacesELResolver;
 import de.hybris.yfaces.YFacesException;
-import de.hybris.yfaces.integration.YFacesELContextListener;
-import de.hybris.yfaces.integration.YFacesELResolver;
 
 /**
  * A custom {@link ApplicationFactory} implementation which creates a {@link YFacesApplication}.<br/>
