@@ -8,7 +8,7 @@
 <facelet-taglib>
 
 	<library-class>
-		de.hybris.yfaces.taglib.YFacesTaglib
+		de.hybris.yfaces.YFacesTaglib
 	</library-class>
 
 </facelet-taglib>	
