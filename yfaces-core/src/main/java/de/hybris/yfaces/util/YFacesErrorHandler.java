@@ -14,13 +14,14 @@
  * limitations under the License.
  */
 
-package de.hybris.yfaces.application;
+package de.hybris.yfaces.util;
 
 import javax.faces.context.FacesContext;
 
 import org.apache.log4j.Logger;
 
 import de.hybris.yfaces.YFacesException;
+import de.hybris.yfaces.application.YRequestContext;
 import de.hybris.yfaces.myfaces.MyFacesErrorHandler;
 
 /**
