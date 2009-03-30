@@ -16,7 +16,10 @@ import junit.framework.TestCase;
 
 import org.apache.log4j.Logger;
 
-import de.hybris.yfaces.YComponentInfo.ERROR_STATE;
+import de.hybris.yfaces.component.YComponentFactory;
+import de.hybris.yfaces.component.YComponentInfo;
+import de.hybris.yfaces.component.YComponentRegistry;
+import de.hybris.yfaces.component.YComponentInfo.ERROR_STATE;
 
 /**
  * @author Denny.Strietzbaum

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.hybris.yfaces.integration;
+package de.hybris.yfaces;
 
 /**
  * @author Denny.Strietzbaum

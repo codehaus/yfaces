@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.hybris.yfaces.integration;
+package de.hybris.yfaces;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -49,9 +49,9 @@ import com.sun.facelets.FaceletFactory;
 import com.sun.facelets.impl.DefaultFaceletFactory;
 import com.sun.facelets.tag.AbstractTagLibrary;
 
-import de.hybris.yfaces.YComponentFactory;
-import de.hybris.yfaces.YComponentInfo;
-import de.hybris.yfaces.YComponentRegistry;
+import de.hybris.yfaces.component.YComponentFactory;
+import de.hybris.yfaces.component.YComponentInfo;
+import de.hybris.yfaces.component.YComponentRegistry;
 import de.hybris.yfaces.component.html.HtmlYComponent;
 import de.hybris.yfaces.component.html.HtmlYComponentHandler;
 

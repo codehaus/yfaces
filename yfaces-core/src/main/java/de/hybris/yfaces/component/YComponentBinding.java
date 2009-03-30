@@ -15,22 +15,17 @@
  */
 package de.hybris.yfaces.component;
 
-import javax.faces.component.html.HtmlOutputText;
-
 import org.apache.log4j.Logger;
 
-import de.hybris.yfaces.YComponentInfo;
-import de.hybris.yfaces.YComponentRegistry;
 import de.hybris.yfaces.YFacesException;
+import de.hybris.yfaces.component.html.HtmlYComponent;
 
 /**
  * A Binding for an {@link YComponent} instance.<br/>
  * Generally JSF doesn't use a "binding instance" when a binding attribute is used but
  * injects/retrieves the bound value directly from the parent instance. <br/>
  * example: <code>&lt;h:outputText binding="#{managedBean.textComponent}"/&gt; </code><br/>
- * Whereas managedBean is a ManagedBean which has a getter and a setter for an
- * {@link HtmlOutputText} component. <br/>
- * <br/>
+ * Whereas managedBean is a ManagedBean which has a getter and a setter for a {@link HtmlYComponent} <br/>
  * YFaces provides another technique and introduces a thin meta-class which describes such a binding
  * for a {@link YComponent} instance more particularly. Instead of returning the concrete component
  * instance an instance of {@link YComponentBinding} can be returned. For the view nothing changes,

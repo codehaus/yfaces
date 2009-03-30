@@ -28,7 +28,6 @@ import javax.faces.context.FacesContext;
 
 import org.apache.log4j.Logger;
 
-import de.hybris.yfaces.YComponentRegistry;
 import de.hybris.yfaces.YFacesException;
 
 /**
