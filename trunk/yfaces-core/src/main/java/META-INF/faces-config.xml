@@ -11,12 +11,12 @@
 	   
 	<factory>
 		<application-factory>
-			de.hybris.yfaces.myfaces.YFacesApplicationFactory
+			de.hybris.yfaces.util.myfaces.YFacesApplicationFactory
 		</application-factory>
 	</factory>
 
 	<lifecycle>
-		<phase-listener> de.hybris.yfaces.application.YRequestContextPhaseListener </phase-listener>
+		<phase-listener> de.hybris.yfaces.context.YRequestContextPhaseListener </phase-listener>
 		
 		<!-- for developing; nice logging (debug logger must be enabled)-->
 		<phase-listener> de.hybris.yfaces.util.DebugPhaseListener </phase-listener>

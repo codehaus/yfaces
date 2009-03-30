@@ -28,7 +28,7 @@ public abstract class YRequestContext {
 
 	public static YRequestContext getCurrentContext() {
 		return (YRequestContext) YApplicationContext.getApplicationContext().getBean(
-				YRequestContext.class.getName());
+				YRequestContext.class.getSimpleName());
 	}
 
 	/**
