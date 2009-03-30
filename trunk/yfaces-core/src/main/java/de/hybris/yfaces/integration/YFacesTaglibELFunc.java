@@ -20,7 +20,7 @@ package de.hybris.yfaces.integration;
  * @author Denny.Strietzbaum
  * 
  */
-public class YFacesELFunctions {
+public class YFacesTaglibELFunc {
 
 	/**
 	 * Internal. Used for Selenium testing (allComponents.jsf)

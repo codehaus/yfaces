@@ -28,7 +28,7 @@ import org.apache.log4j.PropertyConfigurator;
 import org.springframework.web.context.ConfigurableWebApplicationContext;
 import org.springframework.web.context.support.XmlWebApplicationContext;
 
-import de.hybris.yfaces.application.YApplicationContext;
+import de.hybris.yfaces.context.YApplicationContext;
 
 /**
  * YFaces startup. Reads configuration and initializes runtime properties for Logging, Spring, etc.

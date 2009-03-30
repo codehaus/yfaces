@@ -21,7 +21,7 @@ import javax.faces.context.FacesContext;
 import org.apache.log4j.Logger;
 
 import de.hybris.yfaces.YFacesException;
-import de.hybris.yfaces.application.YRequestContext;
+import de.hybris.yfaces.context.YRequestContext;
 import de.hybris.yfaces.util.myfaces.MyFacesErrorHandler;
 
 /**

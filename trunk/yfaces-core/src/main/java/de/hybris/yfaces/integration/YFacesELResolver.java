@@ -26,11 +26,11 @@ import javax.el.PropertyNotFoundException;
 import javax.el.PropertyNotWritableException;
 import javax.faces.application.Application;
 
-import de.hybris.yfaces.application.YRequestContext;
-import de.hybris.yfaces.application.YRequestContextImpl;
 import de.hybris.yfaces.component.YComponent;
 import de.hybris.yfaces.component.YComponentBinding;
 import de.hybris.yfaces.component.YFrame;
+import de.hybris.yfaces.context.YRequestContext;
+import de.hybris.yfaces.context.YRequestContextImpl;
 import de.hybris.yfaces.util.myfaces.YFacesApplicationFactory;
 import de.hybris.yfaces.util.myfaces.YFacesApplicationFactory.YFacesApplication;
 
@@ -235,7 +235,7 @@ public class YFacesELResolver extends ELResolver {
 		boolean isStartRequest = ((YRequestContextImpl) YRequestContext.getCurrentContext())
 				.getRequestPhase()
 				.equals(
-						de.hybris.yfaces.application.YRequestContextImpl.REQUEST_PHASE.START_REQUEST);
+						de.hybris.yfaces.context.YRequestContextImpl.REQUEST_PHASE.START_REQUEST);
 
 		//		final boolean doNothing = YRequestContext.getCurrentContext().isPostback()
 		//				&& (this.currentPhase.equals(REQUEST_PHASE.START_REQUEST));
