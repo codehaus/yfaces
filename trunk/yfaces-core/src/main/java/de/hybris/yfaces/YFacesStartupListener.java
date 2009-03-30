@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.hybris.yfaces.application;
+package de.hybris.yfaces;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -28,6 +28,8 @@ import org.apache.log4j.PropertyConfigurator;
 import org.springframework.web.context.ConfigurableWebApplicationContext;
 import org.springframework.web.context.support.XmlWebApplicationContext;
 
+import de.hybris.yfaces.application.YApplicationContext;
+
 /**
  * YFaces startup. Reads configuration and initializes runtime properties for Logging, Spring, etc.
  * 
@@ -38,6 +40,8 @@ public class YFacesStartupListener implements ServletContextListener {
 	private static final Logger log = Logger.getLogger(YFacesStartupListener.class);
 
 	private static final String PARAM_YFACES_CTX = "yfaces-context";
+	private static final String DEFAULT_YFACES_CTX = "/META-INF/yfaces-context.xml";
+
 	private static final String log4jCfg = "/WEB-INF/yfaces-log4j.properties";
 
 	public void contextDestroyed(ServletContextEvent arg0) {
@@ -57,7 +61,7 @@ public class YFacesStartupListener implements ServletContextListener {
 		ConfigurableWebApplicationContext ctx = new XmlWebApplicationContext();
 		ctx.setServletContext(arg0.getServletContext());
 
-		URL defaultConfig = YFacesStartupListener.class.getResource("/META-INF/yfaces-context.xml");
+		URL defaultConfig = YFacesStartupListener.class.getResource(DEFAULT_YFACES_CTX);
 		String[] configs = new String[] { defaultConfig.toExternalForm() };
 
 		try {
@@ -69,7 +73,7 @@ public class YFacesStartupListener implements ServletContextListener {
 			log.debug("Using spring configuration:" + Arrays.asList(configs));
 			ctx.setConfigLocations(configs);
 			ctx.refresh();
-			YApplicationContext.setApplicationContext(ctx);
+			new YApplicationContext(ctx);
 
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
