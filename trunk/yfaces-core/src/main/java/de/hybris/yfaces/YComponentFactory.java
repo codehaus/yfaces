@@ -26,7 +26,7 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.io.IOUtils;
 
-import de.hybris.yfaces.taglib.YFacesTaglib;
+import de.hybris.yfaces.integration.YFacesTaglib;
 
 /**
  * Factory class for {@link YComponentInfo} instances.
