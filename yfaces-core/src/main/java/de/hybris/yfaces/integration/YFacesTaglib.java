@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.hybris.yfaces.taglib;
+package de.hybris.yfaces.integration;
 
 import java.io.File;
 import java.io.FileWriter;

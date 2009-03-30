@@ -16,8 +16,6 @@
 
 package de.hybris.yfaces.util.myfaces;
 
-import javax.el.ELContextEvent;
-import javax.el.ELContextListener;
 import javax.el.ELResolver;
 import javax.faces.application.Application;
 import javax.faces.application.ApplicationFactory;
@@ -25,12 +23,11 @@ import javax.faces.application.ApplicationFactory;
 import org.apache.myfaces.application.ApplicationImpl;
 
 import de.hybris.yfaces.YFacesException;
-import de.hybris.yfaces.el.YFacesELContext;
-import de.hybris.yfaces.el.YFacesResolverWrapper;
+import de.hybris.yfaces.integration.YFacesELContextListener;
+import de.hybris.yfaces.integration.YFacesResolverWrapper;
 
 /**
- * A custom {@link ApplicationFactory} implementation which creates a
- * {@link YFacesApplication}.<br/>
+ * A custom {@link ApplicationFactory} implementation which creates a {@link YFacesApplication}.<br/>
  * <br/>
  * Note:<br/>
  * JSF provides no way to configure a custom {@link Application} class but a
@@ -41,14 +38,12 @@ import de.hybris.yfaces.el.YFacesResolverWrapper;
  */
 public class YFacesApplicationFactory extends ApplicationFactory {
 	/**
-	 * Own {@link Application} implementation which uses an
-	 * {@link YFacesResolverWrapper} instead of the JSF created
-	 * {@link ELResolver}.<br/>
+	 * Own {@link Application} implementation which uses an {@link YFacesResolverWrapper} instead of
+	 * the JSF created {@link ELResolver}.<br/>
 	 * <br/>
-	 * For easier handling this implementation depends on the myfaces
-	 * implementation<br/>
-	 * Whenever an independent solution is needed the source {@link Application}
-	 * instance must be wrapped. <br/>
+	 * For easier handling this implementation depends on the myfaces implementation<br/>
+	 * Whenever an independent solution is needed the source {@link Application} instance must be
+	 * wrapped. <br/>
 	 * 
 	 * @author Denny.Strietzbaum
 	 */
@@ -77,30 +72,14 @@ public class YFacesApplicationFactory extends ApplicationFactory {
 	}
 
 	/**
-	 * An {@link ELContextListener} which adds an {@link YFacesELContext}.
-	 */
-	public static class YFacesELContextListener implements ELContextListener {
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * javax.el.ELContextListener#contextCreated(javax.el.ELContextEvent)
-		 */
-		public void contextCreated(final ELContextEvent arg0) {
-			arg0.getELContext().putContext(YFacesELContext.class, new YFacesELContext());
-		}
-	}
-
-	/**
 	 * Constructor.<br/>
 	 * <br/>
 	 * Following is taken out from the myfaces ApplicationFactoryImpl javadoc:<br/>
 	 * <br/>
 	 * Application is thread-safe (see Application javadoc)
-	 * "Application represents a per-web-application singleton object..."
-	 * FactoryFinder has a ClassLoader-Factory Map. Since each webapp has it's
-	 * own ClassLoader, each webapp will have it's own private factory
-	 * instances.
+	 * "Application represents a per-web-application singleton object..." FactoryFinder has a
+	 * ClassLoader-Factory Map. Since each webapp has it's own ClassLoader, each webapp will have
+	 * it's own private factory instances.
 	 */
 	public YFacesApplicationFactory() {
 		this.application = new YFacesApplication();
@@ -121,8 +100,7 @@ public class YFacesApplicationFactory extends ApplicationFactory {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * javax.faces.application.ApplicationFactory#setApplication(javax.faces
+	 * @see javax.faces.application.ApplicationFactory#setApplication(javax.faces
 	 * .application.Application)
 	 */
 	@Override

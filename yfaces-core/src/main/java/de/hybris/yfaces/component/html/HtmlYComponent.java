@@ -43,7 +43,7 @@ import de.hybris.yfaces.YComponentInfo.ERROR_STATE;
 import de.hybris.yfaces.component.AbstractYComponent;
 import de.hybris.yfaces.component.YComponent;
 import de.hybris.yfaces.component.YComponentBinding;
-import de.hybris.yfaces.el.YFacesELContext;
+import de.hybris.yfaces.integration.YFacesELContext;
 
 /**
  * Each {@link YComponent} must be enclosed by this {@link UIComponent}.<br/>
