@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.hybris.yfaces.myfaces;
+package de.hybris.yfaces.util.myfaces;
 
 import javax.el.ELContextEvent;
 import javax.el.ELContextListener;
