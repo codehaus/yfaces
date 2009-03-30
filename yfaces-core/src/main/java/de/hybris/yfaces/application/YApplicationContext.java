@@ -17,11 +17,20 @@ package de.hybris.yfaces.application;
 
 import org.springframework.context.ApplicationContext;
 
+import de.hybris.yfaces.YFacesException;
+
 public class YApplicationContext {
 
 	private static ApplicationContext appCtx = null;
 
-	static void setApplicationContext(ApplicationContext ctx) {
+	public YApplicationContext(ApplicationContext ctx) {
+		if (appCtx != null) {
+			throw new YFacesException(this.getClass().getName() + " was already created");
+		}
+		appCtx = ctx;
+	}
+
+	protected static void setApplicationContext(ApplicationContext ctx) {
 		appCtx = ctx;
 	}
 
