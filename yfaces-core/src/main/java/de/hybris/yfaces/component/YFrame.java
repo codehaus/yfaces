@@ -17,8 +17,8 @@ package de.hybris.yfaces.component;
 
 import java.util.Map;
 
-import de.hybris.yfaces.application.YConversationContext;
-import de.hybris.yfaces.application.YPageContext;
+import de.hybris.yfaces.context.YConversationContext;
+import de.hybris.yfaces.context.YPageContext;
 
 /**
  * @author Denny.Strietzbaum

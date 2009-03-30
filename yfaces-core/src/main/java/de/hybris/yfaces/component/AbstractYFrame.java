@@ -23,8 +23,8 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 import de.hybris.yfaces.YManagedBean;
-import de.hybris.yfaces.application.YPageContext;
-import de.hybris.yfaces.application.YRequestContext;
+import de.hybris.yfaces.context.YPageContext;
+import de.hybris.yfaces.context.YRequestContext;
 
 /**
  * Abstract base class for every YFrame.<br/>

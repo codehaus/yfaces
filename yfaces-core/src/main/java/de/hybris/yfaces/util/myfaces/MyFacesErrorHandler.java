@@ -17,7 +17,7 @@ package de.hybris.yfaces.util.myfaces;
 
 import javax.faces.context.FacesContext;
 
-import de.hybris.yfaces.application.YRequestContext;
+import de.hybris.yfaces.context.YRequestContext;
 import de.hybris.yfaces.util.YFacesErrorHandler;
 
 /**

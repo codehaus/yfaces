@@ -13,29 +13,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.hybris.yfaces.application;
+package de.hybris.yfaces.context;
 
-import org.springframework.context.ApplicationContext;
+import java.util.HashMap;
+import java.util.Map;
 
-import de.hybris.yfaces.YFacesException;
+public class YSessionContextImpl implements YSessionContext {
 
-public class YApplicationContext {
+	private Map<String, Object> attributes = new HashMap<String, Object>();
 
-	private static ApplicationContext appCtx = null;
+	private YConversationContext conversationCtx = null;
 
-	public YApplicationContext(ApplicationContext ctx) {
-		if (appCtx != null) {
-			throw new YFacesException(this.getClass().getName() + " was already created");
-		}
-		appCtx = ctx;
+	public YSessionContextImpl() {
+		this.conversationCtx = new YConversationContextImpl(null);
 	}
 
-	protected static void setApplicationContext(ApplicationContext ctx) {
-		appCtx = ctx;
+	public Map<String, Object> getAttributes() {
+		return this.attributes;
 	}
 
-	public static ApplicationContext getApplicationContext() {
-		return appCtx;
+	public void update() {
+		// TODO Auto-generated method stub
+
+	}
+
+	public YConversationContext getConversationContext() {
+		return this.conversationCtx;
 	}
 
 }

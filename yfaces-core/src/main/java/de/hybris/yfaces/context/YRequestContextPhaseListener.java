@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.hybris.yfaces.application;
+package de.hybris.yfaces.context;
 
 import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseEvent;

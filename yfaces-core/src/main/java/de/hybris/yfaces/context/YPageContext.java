@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.hybris.yfaces.application;
+package de.hybris.yfaces.context;
 
 import java.util.Map;
 
