@@ -24,6 +24,8 @@ import de.hybris.yfaces.component.YComponent;
  */
 public class YFacesException extends RuntimeException {
 
+	private static final long serialVersionUID = 1L;
+
 	public YFacesException(final YComponent cmp) {
 		super(createMessage(cmp, ""));
 	}

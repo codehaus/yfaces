@@ -26,6 +26,7 @@ import org.apache.log4j.Logger;
 
 import com.sun.facelets.FaceletContext;
 import com.sun.facelets.tag.MetaRuleset;
+import com.sun.facelets.tag.TagAttribute;
 import com.sun.facelets.tag.jsf.ComponentConfig;
 import com.sun.facelets.tag.jsf.ComponentHandler;
 
@@ -42,11 +43,11 @@ public class HtmlYComponentHandler extends ComponentHandler {
 	private static final Logger log = Logger.getLogger(HtmlYComponentHandler.class);
 	private static final String VAR_BINDING = "binding";
 
-	// private final TagAttribute attributes;
+	private final TagAttribute attributes;
 
 	public HtmlYComponentHandler(final ComponentConfig config) {
 		super(config);
-		//this.attributes = super.getAttribute("value");
+		this.attributes = super.getAttribute("value");
 	}
 
 	@Override
