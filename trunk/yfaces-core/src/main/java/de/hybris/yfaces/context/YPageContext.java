@@ -15,79 +15,172 @@
  */
 package de.hybris.yfaces.context;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import org.apache.log4j.Logger;
+
+import de.hybris.yfaces.YFacesException;
+import de.hybris.yfaces.YManagedBean;
+import de.hybris.yfaces.component.YComponent;
 import de.hybris.yfaces.component.YFrame;
 
 /**
- * A YPage contains of one or more {@link YFrame}. A page is that thing which is locateable by a
- * client.<br/>
- * (Either directly via URL or indirectly via navigationid)<br/>
- * <br/>
- * The superior instance of a YPage is the {@link YConversationContext} which is able to manage
- * state and navigation route between multiple pages <br/>
+ * A context object whose scope and lifetime is bound to a Page. A page lays between
+ * {@link YApplicationContext} and {@link YSessionContext} but is always lesser than a
+ * {@link YConversationContext}. A page represents the full rendered view and lives as long as
+ * operations are made at that view. An easy summary: this instance lives as long as the customer
+ * deals with the same browser URL (incl. query parameters)
+ * <p>
+ * Access is provided to every {@link YFrame} (and all {@link YComponent} instances) which are used
+ * to build up the current view. When this page is part of a conversation it may have one ore more
+ * previous (not visible) pages.
  * 
  * @author Denny.Strietzbaum
  */
-public interface YPageContext {
-	/**
-	 * @return a
-	 */
-	public String getId();
+public class YPageContext {
+
+	private static final Logger log = Logger.getLogger(YPageContext.class);
+
+	// pattern for the url
+	private static final Pattern urlPattern = Pattern.compile(".*/(.*?)\\..*");
+
+	private String pageId = null;
+	private String url = null;
+	private String navigationId = null;
+
+	private final Map<Object, Object> attributes = new HashMap<Object, Object>();
+
+	private YPageContext previousPage = null;
+
+	private YConversationContext navigationContext = null;
+
+	// all Frames within this page
+	private final Map<String, YFrame> frames = new HashMap<String, YFrame>();
+
+	public YPageContext(final YConversationContext ctx, final String pageId, final String url) {
+		this(ctx, pageId, url, null);
+	}
+
+	private YPageContext(final YConversationContext ctx, final String pageId, final String url,
+			final YPageContext previous) {
+		if (ctx == null) {
+			throw new YFacesException("No NavigationContext specified", new NullPointerException());
+		}
+
+		this.pageId = pageId;
+		this.navigationContext = ctx;
+		this.url = url;
+		this.previousPage = previous;
+
+		log.debug("Created new YPage (" + pageId + ") as root view");
+	}
 
 	/**
-	 * Returns the URL where this page is located.<br/>
-	 * Result may either be absolute or relative to the webapp root.<br/>
-	 * A relative result always starts with a leading slash '/'.
-	 * <p/>
-	 * In difference to the viewrootid this result may include query parameters.
+	 * @return page id
+	 */
+	public String getId() {
+		return this.pageId;
+	}
+
+	protected void setId(final String pageId) {
+		this.pageId = pageId;
+	}
+
+	/**
+	 * Returns the URL where this page is located (absolute or relative to the webapp root). A
+	 * relative result always starts with a leading slash '/'. In difference to the viewroot-id this
+	 * result may include query parameters.
 	 * 
 	 * @return URL
 	 */
-	public String getURL();
+	public String getURL() {
+		return this.url;
+	}
 
 	/**
-	 * Returns the navigation id of the page which is located.<br/>
-	 * The navigation id is never null.
+	 * Sets the URL for this page.
+	 * 
+	 * @param url
+	 *            url to set.
+	 */
+	protected void setURL(final String url) {
+		this.url = url;
+	}
+
+	/**
+	 * Returns the navigation id for this page. This is an ID which can be used within faces-config
+	 * as navigation target. The navigation id is never null.
 	 * 
 	 * @return navigationId
 	 */
-	public String getNavigationId();
+	public String getNavigationId() {
+		if (this.navigationId == null) {
+			// get the path of the url without the host name and/or port,
+			// for example, if the url looks like
+			// "http://www.example.com:8080/path/index.html",
+			// the result is "index"
+			final Matcher m = urlPattern.matcher(this.getURL());
+			if (m.matches()) {
+				this.navigationId = m.group(1);
+			}
+			if (this.navigationId == null) {
+				log.error("no navigation id found for [" + getId() + "]");
+			}
+		}
+		return this.navigationId;
+	}
 
 	/**
-	 * Returns a page scoped attribute map.
+	 * Custom attributes for free usage.
 	 * 
-	 * @return attribute map.
+	 * @return {@link Map}
 	 */
-	public Map<Object, Object> getAttributes();
+	public Map<Object, Object> getAttributes() {
+		return this.attributes;
+
+	}
 
 	/**
-	 * Returns the superior {@link YConversationContext}.
+	 * Returns the {@link YConversationContext}.
 	 * 
 	 * @return {@link YConversationContext}
 	 */
-	public YConversationContext getConversationContext();
+	public YConversationContext getConversationContext() {
+		return this.navigationContext;
+	}
 
 	/**
 	 * Returns the enclosing Frames.
 	 * 
 	 * @return Frames
 	 */
-	public Map<String, YFrame> getFrames();
-
-	/**
-	 * Adds an {@link YFrame} to this page.<br/>
-	 * 
-	 * @param frame
-	 */
-	public void addFrame(YFrame frame);
+	public Map<String, YFrame> getFrames() {
+		return this.frames;
+	}
 
 	/**
 	 * @param frameClass
 	 */
-	public <T extends YFrame> T getFrame(Class<T> frameClass);
+	public <T extends YFrame> T getFrame(Class<T> frameClass) {
+		T result = (T) this.frames.get(frameClass.getName());
 
-	public void update();
+		if (result == null) {
+			result = (T) YManagedBean.getBean((Class) frameClass);
+			this.addFrame(result);
+		}
+		return result;
+	}
+
+	//currently only used for YFacesELResolver
+	public void addFrame(final YFrame frame) {
+		this.frames.put(frame.getClass().getName(), frame);
+	}
 
 	/**
 	 * Returns the previous YPage.<br/>
@@ -98,5 +191,32 @@ public interface YPageContext {
 	 * 
 	 * @return previous YPage
 	 */
-	public YPageContext getPreviousPage();
+	public YPageContext getPreviousPage() {
+		return this.previousPage;
+	}
+
+	protected void setPreviousPage(final YPageContext previousPage) {
+		this.previousPage = previousPage;
+	}
+
+	protected void update() {
+		for (final YFrame frame : getFrames().values()) {
+			log.debug("Updating Frame: " + frame.getId());
+			frame.update();
+		}
+	}
+
+	@Override
+	public String toString() {
+		final List<String> idList = new ArrayList<String>();
+		for (final YFrame frame : this.frames.values()) {
+			idList.add(frame.getId());
+		}
+		final String frames = Arrays.toString(idList.toArray());
+
+		final String result = getId() + ": " + frames;
+
+		return result;
+	}
+
 }

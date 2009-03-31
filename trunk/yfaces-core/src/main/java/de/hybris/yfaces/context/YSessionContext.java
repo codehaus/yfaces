@@ -16,11 +16,47 @@
 
 package de.hybris.yfaces.context;
 
+import java.util.HashMap;
 import java.util.Map;
 
-public interface YSessionContext {
+import javax.servlet.http.HttpSession;
 
-	public void update();
+/**
+ * A context object whose scope and lifetime is bound to {@link HttpSession}.
+ * 
+ * @author Denny.Strietzbaum
+ */
+public class YSessionContext {
 
-	public Map<String, Object> getAttributes();
+	private Map<String, Object> attributes = new HashMap<String, Object>();
+
+	private YConversationContext conversationCtx = null;
+
+	public YSessionContext() {
+		this.conversationCtx = new YConversationContext(null);
+	}
+
+	/**
+	 * Custom attributes for free usage.
+	 * 
+	 * @return {@link Map}
+	 */
+	public Map<String, Object> getAttributes() {
+		return this.attributes;
+	}
+
+	public YConversationContext getConversationContext() {
+		return this.conversationCtx;
+	}
+
+	/**
+	 * Gets invoked for incoming POST requests (or GET as flashback). But only when request goes to
+	 * same page or to a temporary inactive one (previous conversation page).Iterates over available
+	 * {@link YConversationContext} instances and invokes {@link YConversationContext#update()} on
+	 * each one
+	 */
+	protected void update() {
+		conversationCtx.update();
+	}
+
 }
