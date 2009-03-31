@@ -31,6 +31,7 @@ import de.hybris.yfaces.component.YComponentBinding;
 import de.hybris.yfaces.component.YFrame;
 import de.hybris.yfaces.context.YRequestContext;
 import de.hybris.yfaces.context.YRequestContextImpl;
+import de.hybris.yfaces.context.YRequestContext.REQUEST_PHASE;
 import de.hybris.yfaces.util.myfaces.YFacesApplicationFactory;
 import de.hybris.yfaces.util.myfaces.YFacesApplicationFactory.YFacesApplication;
 
@@ -93,8 +94,6 @@ public class YFacesELResolver extends ELResolver {
 
 		// ... when value is a Frame: notify current YPage
 		if (result instanceof YFrame) {
-			//			((YConversationContextImpl) YRequestContext.getCurrentContext()
-			//					.getConversationContext()).handleFrameRequest((YFrame) result);
 			this.handleFrameRequest((YFrame) result);
 		}
 
@@ -231,22 +230,15 @@ public class YFacesELResolver extends ELResolver {
 		// b) method is post and START_REQUEST phase has finished
 		// e.g. nothing is done when the Frame was requested from within an
 		// action/actionlistener
-		boolean isPostback = YRequestContext.getCurrentContext().isPostback();
-		boolean isStartRequest = ((YRequestContextImpl) YRequestContext.getCurrentContext())
-				.getRequestPhase()
-				.equals(
-						de.hybris.yfaces.context.YRequestContextImpl.REQUEST_PHASE.START_REQUEST);
-
-		//		final boolean doNothing = YRequestContext.getCurrentContext().isPostback()
-		//				&& (this.currentPhase.equals(REQUEST_PHASE.START_REQUEST));
-		//		if (!doNothing) {
-		//			this.getCurrentPage().addFrame(frame);
-		//		}
+		YRequestContext yctx = YRequestContext.getCurrentContext();
+		boolean isPostback = yctx.isPostback();
+		boolean isStartRequest = ((YRequestContextImpl) yctx).getRequestPhase().equals(
+				REQUEST_PHASE.START_REQUEST);
 
 		boolean addFrameToCurrentPage = !(isPostback && isStartRequest);
 
 		if (addFrameToCurrentPage) {
-			YRequestContext.getCurrentContext().getPageContext().addFrame(frame);
+			yctx.getPageContext().addFrame(frame);
 		}
 	}
 

@@ -16,42 +16,76 @@
 package de.hybris.yfaces.context;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
-import de.hybris.yfaces.component.YComponent;
-import de.hybris.yfaces.component.YFrame;
+import org.apache.log4j.Logger;
+
+import de.hybris.yfaces.YFacesException;
 
 /**
- * The NavigationContext manages navigation and state through multiple pages.<br/>
- * {@link YConversationContext#getCurrentPage()} always returns the current visible
- * {@link YPageContext}.<br/>
- * The {@link YConversationContext} checks with each request whether the new requested
- * {@link YPageContext} is part of this {@link YConversationContext}.<br/>
- * <br/>
- * If so, the {@link YPageContext} gets added to the contexts page queue, otherwise whole context
- * information are reseted and the {@link YPageContext} queue gets cleared with the new YPage as
- * first element. <br/>
- * <br/>
- * This context evaluates each request and decides whether it is a valid NavigationRequest or not.<br/>
- * A valid NavigationRequest is present when the requested Page is:<br/>
- * - the current shown page<br/>
- * - a previously, context managed page<br/>
- * - the configured next page via {@link #getOrCreateNextPage()}<br/>
- * AND <br/>
- * The request was a POST or a GET but with enabled flash flag. <br/>
+ * A context object whose scope and lifetime is bound to a Conversation. A conversation lays between
+ * {@link YApplicationContext} and {@link YSessionContext} and is always greater than a
+ * {@link YPageContext}.
+ * <p>
+ * A conversation is started when {@link #getOrCreateNextPage()} is called. In that case a
+ * {@link YPageContext} is returned (or initially created) which can be modified and initialized
+ * with a specific state.This preconfigured context gets activated with next request
+ * <p>
+ * The conversation "rollbacks" to a previous state whenever a user interacts in a way that a page
+ * is displayed which is element of the pages stack internally hold by this conversation.The
+ * conversation goes on when the user navigates to the page which was configured with
+ * {@link #getOrCreateNextPage()}. The conversation stops (throws away all state) when the user
+ * navigates to a page which is not element of this conversation (means: which is neither a previous
+ * page nor current displayed page nor the prepared next page)
  * 
  * @author Denny.Strietzbaum
  */
-public interface YConversationContext {
+public class YConversationContext {
+
+	private static final Logger log = Logger.getLogger(YConversationContext.class);
+
+	// the current pagecontext
+	private YPageContext currentPage = null;
+
+	private int resetCounter = 0;
+
+	private String id = null;
+
+	// context attributes
+	private final Map<String, Object> attributes = new HashMap<String, Object>();
+
+	// holds a queue of navigable pages
+	private LinkedHashMap<String, YPageContext> contextPages = new LinkedHashMap<String, YPageContext>();
+
+	// next page
+	// gets added to queue of context pages with the next request
+	private YPageContext nextContextPage = null;
+
+	public YConversationContext(final String idPrefix) {
+		this.id = this.calculateNewId();
+
+		//new
+		YPageContext startPage = new YPageContext(this, null, null);
+		this.currentPage = startPage;
+		this.contextPages = new LinkedHashMap<String, YPageContext>();
+		this.contextPages.put(startPage.getId(), startPage);
+		this.nextContextPage = null;
+	}
+
+	public String getId() {
+		return this.id;
+	}
 
 	/**
-	 * Returns a context related map of attributes.<br/>
-	 * Use this map to hold conversation/wizard like Attributes.<br/>
-	 * <br/>
+	 * Custom attributes for free usage.
 	 * 
-	 * @return Attributes bound to this context.
+	 * @return {@link Map}
 	 */
-	public abstract Map<String, Object> getAttributes();
+	public Map<String, Object> getAttributes() {
+		return this.attributes;
+	}
 
 	/**
 	 * Returns the current displayed Page.<br/>
@@ -61,8 +95,9 @@ public interface YConversationContext {
 	 * 
 	 * @return the current {@link YPageContext}
 	 */
-	//	public abstract YPageContext getCurrentPage();
-	public abstract YPageContext getLastPage();
+	public YPageContext getLastPage() {
+		return this.currentPage;
+	}
 
 	/**
 	 * Returns the {@link YPageContext} which becomes the current one with next request.<br/>
@@ -74,28 +109,150 @@ public interface YConversationContext {
 	 * 
 	 * @return {@link YPageContext}
 	 */
-	public abstract YPageContext getOrCreateNextPage();
+	public YPageContext getOrCreateNextPage() {
+		if (this.nextContextPage == null) {
+			this.nextContextPage = new YPageContext(this, null, null);
+		}
+		return this.nextContextPage;
+	}
 
 	/**
-	 * Starts updating this context.<br/>
-	 * The default update process is:<br/>
-	 * For each {@link YPageContext}, call {@link YPageContext#update(UserSessionPropertyChangeLog)}<br/>
-	 * For each {@link YFrame} of current update {@link YPageContext} call
-	 * {@link YFrame#update(UserSessionPropertyChangeLog)}<br/>
-	 * For each {@link YComponent} of current update {@link YFrame} call
-	 * {@link YComponent#update(UserSessionPropertyChangeLog)}<br/>
-	 * <br/>
-	 * An update is invoked for:<br/>
-	 * - a Navigationrequest which requests the current Page<br/>
-	 * - a Navigationrequest which requests a previous Page<br/>
-	 * <br/>
-	 * An update is not invoked for:<br/>
-	 * - a Navigationrequest which requests a new Page<br/>
-	 * - any other requests (non valid Navigationrequests)<br/>
-	 * <br/>
+	 * @return
 	 */
-	public abstract void update();
+	protected YPageContext getNextPage() {
+		return this.nextContextPage;
+	}
 
-	public abstract Collection<YPageContext> getAllPages();
+	public Collection<YPageContext> getAllPages() {
+		return this.contextPages.values();
+	}
+
+	/**
+	 * Returns the current {@link YSessionContext}
+	 * 
+	 * @return {@link YSessionContext}
+	 */
+	public YSessionContext getSessionContext() {
+		return YRequestContext.getCurrentContext().getSessionContext();
+	}
+
+	/**
+	 * Starts updating all {@link YPageContext} instances (pages) of this conversation. Incoming
+	 * request must be of type POST or GET as flashback. Requested page must be element of this
+	 * conversation (current displayed one or a previous one).
+	 * <p>
+	 * This method gets not invoked for general GET requests and it gets not invoked for POST
+	 * requests on Pages that are not element of this conversation.
+	 */
+	protected void update() {
+		for (YPageContext page : this.contextPages.values()) {
+			page.update();
+		}
+	}
+
+	/**
+	 * Resets the context and sets the passed Page as new, initial one.
+	 * 
+	 * @param page
+	 */
+	void start(final YPageContext page) {
+		this.attributes.clear();
+		this.id = this.calculateNewId();
+
+		this.currentPage = page;
+		YRequestContext.getCurrentContext().setPageContext(page);
+
+		this.contextPages = new LinkedHashMap<String, YPageContext>();
+		this.contextPages.put(page.getId(), page);
+		this.nextContextPage = null;
+
+		log.debug("Reseting to initial new Page (" + page.getId() + ")");
+	}
+
+	void forward(YPageContext page) {
+		// ...take that "next page" and append it to the queue of current pages
+		this.addPage(page);
+
+		this.currentPage = page;
+		YRequestContext.getCurrentContext().setPageContext(page);
+
+		this.nextContextPage = null;
+	}
+
+	/**
+	 * Navigates to the passed page. Sets the passed page as current one. Throws away all following
+	 * pages (if any) and preserves all previous ones.
+	 * 
+	 * @param page
+	 *            page to navigate to
+	 */
+	void backward(final YPageContext page) {
+		if (!this.contextPages.containsKey(page.getId())) {
+			throw new YFacesException("Can't navigate to page " + page.getId() + " (not found)");
+		}
+
+		if (log.isDebugEnabled()) {
+			log.debug("Navigating to already existing page (" + page.getId() + ")");
+		}
+
+		this.currentPage = page;
+		YRequestContext.getCurrentContext().setPageContext(page);
+
+		this.nextContextPage = null;
+
+		// find requested page within queued context pages
+		final LinkedHashMap<String, YPageContext> updatedNavigationPages = new LinkedHashMap<String, YPageContext>();
+		for (final Map.Entry<String, YPageContext> entry : this.contextPages.entrySet()) {
+			updatedNavigationPages.put(entry.getKey(), entry.getValue());
+			if (entry.getKey().equals(page.getId())) {
+				break;
+			}
+		}
+		this.contextPages = updatedNavigationPages;
+	}
+
+	/**
+	 * Adds the passed page to top of the queue of already managed pages.
+	 * 
+	 * @param page
+	 *            {@link YPageContext} to add.
+	 */
+	void addPage(final YPageContext page) {
+		final YPageContext previousPage = page.getPreviousPage();
+
+		//final YPageContext currentPage = this.getCurrentPage();
+		YPageContext currentPage = YRequestContext.getCurrentContext().getPageContext();
+
+		// in case added page has already a previous page, then it must be same
+		// as current page
+		if (previousPage != null && !previousPage.equals(currentPage)) {
+			final String msg = "Can't add page (" + page.getId() + ") as previous page ("
+					+ previousPage.getId() + ") is not compatible with current page ("
+					+ currentPage.getId() + ")";
+			throw new YFacesException(msg);
+		}
+
+		// set current page as previous page of added page
+		page.setPreviousPage(currentPage);
+
+		// add page to queue
+		this.contextPages.put(page.getId(), page);
+	}
+
+	/**
+	 * Returns a {@link YPageContext} by its pageId. The page must be available within the queue of
+	 * managed pages otherwise null is returned.
+	 * 
+	 * @param pageId
+	 *            pageId
+	 * @return {@link YPageContext}
+	 */
+	YPageContext getPage(final String pageId) {
+		return this.contextPages.get(pageId);
+	}
+
+	private String calculateNewId() {
+		return "#" + String.valueOf(this.resetCounter++);
+	}
 
 }

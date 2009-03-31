@@ -15,14 +15,30 @@
  */
 package de.hybris.yfaces.context;
 
+import javax.servlet.ServletContext;
+
 import org.springframework.context.ApplicationContext;
 
 import de.hybris.yfaces.YFacesException;
 
+/**
+ * A context object whose scope and lifetime is bound to {@link ServletContext}. In other words:
+ * there's only one instance per webapplication available.<br/>
+ * YFaces libraries must be loaded by a webapplication specific classloader (which generally is the
+ * case when putting them into WEB-INF/lib)
+ * 
+ * @author Denny.Strietzbaum
+ */
 public class YApplicationContext {
 
 	private static ApplicationContext appCtx = null;
 
+	/**
+	 * Constructor. An instance can be created only one times otherwise an exception is thrown.
+	 * 
+	 * @param ctx
+	 *            Spring {@link ApplicationContext}
+	 */
 	public YApplicationContext(ApplicationContext ctx) {
 		if (appCtx != null) {
 			throw new YFacesException(this.getClass().getName() + " was already created");
@@ -34,6 +50,11 @@ public class YApplicationContext {
 		appCtx = ctx;
 	}
 
+	/**
+	 * Returns a Spring {@link ApplicationContext}
+	 * 
+	 * @return {@link ApplicationContext}
+	 */
 	public static ApplicationContext getApplicationContext() {
 		return appCtx;
 	}
