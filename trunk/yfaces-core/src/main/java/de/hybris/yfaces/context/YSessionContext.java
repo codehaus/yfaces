@@ -33,7 +33,7 @@ public class YSessionContext {
 	private YConversationContext conversationCtx = null;
 
 	public YSessionContext() {
-		this.conversationCtx = new YConversationContext(null);
+		this.conversationCtx = new YConversationContext();
 	}
 
 	/**

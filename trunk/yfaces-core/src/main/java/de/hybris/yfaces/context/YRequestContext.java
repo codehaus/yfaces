@@ -240,7 +240,7 @@ public abstract class YRequestContext {
 			for (final YPageContext page : pages) {
 				// ...and notify page for a new request (re-inject all
 				// frames/mbeans)
-				for (YFrame frame : page.getFrames().values()) {
+				for (YFrame frame : page.getFrames()) {
 					((YManagedBean) frame).refreshBeanScope();
 				}
 			}

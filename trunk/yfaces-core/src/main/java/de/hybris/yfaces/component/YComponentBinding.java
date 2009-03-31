@@ -97,7 +97,7 @@ public class YComponentBinding<T extends YComponent> {
 	/**
 	 * Sets the {@link YComponent} for this binding.
 	 */
-	public void setValue(final T value) {
+	public void setValue(T value) {
 		this.value = value;
 		if (value != null) {
 			// inject the frame

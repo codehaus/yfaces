@@ -46,6 +46,12 @@ public class YApplicationContext {
 		appCtx = ctx;
 	}
 
+	/**
+	 * Sets the Spring {@link ApplicationContext}
+	 * 
+	 * @param ctx
+	 *            {@link ApplicationContext} to set
+	 */
 	protected static void setApplicationContext(ApplicationContext ctx) {
 		appCtx = ctx;
 	}

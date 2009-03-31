@@ -101,12 +101,12 @@ public class YComponentInfo {
 		// Pattern for detecting placeholders
 		private static final Pattern placeHolderPattern = Pattern.compile("\\{(.*?)\\}");
 
-		public static String getFormattedErrorMessage(final Collection<ERROR_STATE> errors,
-				final YComponentInfo cmpInfo, final Class customImplClass) {
+		public static String getFormattedErrorMessage(Collection<ERROR_STATE> errors,
+				YComponentInfo cmpInfo, Class<?> customImplClass) {
 			String result = null;
 			if (!errors.isEmpty()) {
 				result = cmpInfo.getId() != null ? cmpInfo.getId() : "";
-				for (final ERROR_STATE error : errors) {
+				for (ERROR_STATE error : errors) {
 					result = result + "," + error.getFormattedErrorMessage(cmpInfo);
 				}
 			}
@@ -116,7 +116,7 @@ public class YComponentInfo {
 
 		private String msg = null;
 
-		private ERROR_STATE(final String msg) {
+		private ERROR_STATE(String msg) {
 			this.msg = msg;
 		}
 
@@ -142,8 +142,7 @@ public class YComponentInfo {
 		 *            Class
 		 * @return String
 		 */
-		public String getFormattedErrorMessage(final YComponentInfo cmpInfo,
-				final Class customImplClass) {
+		public String getFormattedErrorMessage(YComponentInfo cmpInfo, Class<?> customImplClass) {
 			String result = "";
 			final String msg = this.msg;
 
@@ -189,16 +188,16 @@ public class YComponentInfo {
 	private String implClassName = null;
 
 	// Properties which gets evaluated and injected; specified by renderer
-	private Set<String> injectableAttributes = Collections.EMPTY_SET;
+	private Set<String> injectableAttributes = Collections.emptySet();
 
 	// Properties which can be injected; specified by component class
 	private Map<String, Method> writableProperties = null;
 
 	// instance of specification class
-	private Class specClass = null;
+	private Class<?> specClass = null;
 
 	// instance of implementation class
-	private Class implClass = null;
+	private Class<?> implClass = null;
 
 	private String cmpName = null;
 
@@ -209,7 +208,7 @@ public class YComponentInfo {
 	private Set<ERROR_STATE> errors = null;
 
 	protected YComponentInfo() {
-		this.injectableAttributes = Collections.EMPTY_SET;
+		this.injectableAttributes = Collections.emptySet();
 	}
 
 	/**
@@ -221,7 +220,7 @@ public class YComponentInfo {
 		this.cmpVar = varName;
 		this.specClassName = specClassname;
 		this.implClassName = implClassName;
-		this.injectableAttributes = Collections.EMPTY_SET;
+		this.injectableAttributes = Collections.emptySet();
 	}
 
 	public YComponentInfo(String namespace, URL url) {
@@ -318,11 +317,11 @@ public class YComponentInfo {
 		this.cmpVar = varName;
 	}
 
-	public Class getSpecificationClass() {
+	public Class<?> getSpecificationClass() {
 		return this.specClass;
 	}
 
-	public Class getImplementationClass() {
+	public Class<?> getImplementationClass() {
 		return this.implClass;
 	}
 
@@ -374,7 +373,7 @@ public class YComponentInfo {
 		}
 	}
 
-	private Map<String, Method> findWriteableProperties(final Class startClass, final Class endClass) {
+	private Map<String, Method> findWriteableProperties(Class<?> startClass, Class<?> endClass) {
 
 		final Map<String, Method> result = new HashMap<String, Method>();
 		try {
@@ -483,7 +482,7 @@ public class YComponentInfo {
 	 * @param implClass
 	 * @return result
 	 */
-	public Set<ERROR_STATE> assertCustomImplementationClass(final Class implClass) {
+	public Set<ERROR_STATE> assertCustomImplementationClass(Class<?> implClass) {
 		final Set<ERROR_STATE> result = EnumSet.noneOf(ERROR_STATE.class);
 
 		if (implClass.isInterface()) {
@@ -513,7 +512,7 @@ public class YComponentInfo {
 		return this.errors.isEmpty();
 	}
 
-	private <T> Class<T> getClass(final String classname, final ERROR_STATE catchError) {
+	private <T> Class<T> getClass(String classname, ERROR_STATE catchError) {
 		Class<T> result = null;
 		try {
 			result = (Class<T>) Class.forName(classname);
