@@ -320,7 +320,7 @@ public class YFacesTaglib extends AbstractTagLibrary {
 				.getExternalContext().getRequest();
 		final ServletContext ctx = request.getSession().getServletContext();
 
-		final Set resources = ctx.getResourcePaths(DEFAULT_COMPONENTS_DIR);
+		final Set<?> resources = ctx.getResourcePaths(DEFAULT_COMPONENTS_DIR);
 
 		pr.println("<ui:composition " + "xmlns=\"http://www.w3.org/1999/xhtml\" \n"
 				+ "xmlns:ui=\"http://java.sun.com/jsf/facelets\" \n" + "xmlns:yf=\""
