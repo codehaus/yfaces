@@ -63,10 +63,12 @@ public class YConversationContext {
 	// gets added to queue of context pages with the next request
 	private YPageContext nextContextPage = null;
 
-	public YConversationContext(final String idPrefix) {
+	/**
+	 * Constructor.
+	 */
+	public YConversationContext() {
 		this.id = this.calculateNewId();
 
-		//new
 		YPageContext startPage = new YPageContext(this, null, null);
 		this.currentPage = startPage;
 		this.contextPages = new LinkedHashMap<String, YPageContext>();
@@ -74,6 +76,11 @@ public class YConversationContext {
 		this.nextContextPage = null;
 	}
 
+	/**
+	 * Returns the ID of this context.
+	 * 
+	 * @return id
+	 */
 	public String getId() {
 		return this.id;
 	}
@@ -117,12 +124,19 @@ public class YConversationContext {
 	}
 
 	/**
-	 * @return
+	 * Returns the next {@link YPageContext} if any.
+	 * 
+	 * @return {@link YPageContext}
 	 */
 	protected YPageContext getNextPage() {
 		return this.nextContextPage;
 	}
 
+	/**
+	 * Returns all available {@link YPageContext} instances for this conversation.
+	 * 
+	 * @return all {@link YPageContext} instances
+	 */
 	public Collection<YPageContext> getAllPages() {
 		return this.contextPages.values();
 	}
@@ -154,6 +168,7 @@ public class YConversationContext {
 	 * Resets the context and sets the passed Page as new, initial one.
 	 * 
 	 * @param page
+	 *            {@link YPageContext} as start page
 	 */
 	void start(final YPageContext page) {
 		this.attributes.clear();
@@ -169,6 +184,14 @@ public class YConversationContext {
 		log.debug("Reseting to initial new Page (" + page.getId() + ")");
 	}
 
+	/**
+	 * Proceeds conversation with adding a new {@link YPageContext} to the queue of current pages.A
+	 * possible {@link YPageContext} created previously with {@link #getOrCreateNextPage()} gets
+	 * reseted.
+	 * 
+	 * @param page
+	 *            {@link YPageContext}
+	 */
 	void forward(YPageContext page) {
 		// ...take that "next page" and append it to the queue of current pages
 		this.addPage(page);
@@ -180,13 +203,16 @@ public class YConversationContext {
 	}
 
 	/**
-	 * Navigates to the passed page. Sets the passed page as current one. Throws away all following
-	 * pages (if any) and preserves all previous ones.
+	 * "Rollback" the conversation. Passed {@link YPageContext} must be element of this
+	 * conversations page stack. Passed page is set as current one and the conversations page stack
+	 * gets updated (following pages are removed)
 	 * 
 	 * @param page
 	 *            page to navigate to
 	 */
 	void backward(final YPageContext page) {
+
+		// availability check
 		if (!this.contextPages.containsKey(page.getId())) {
 			throw new YFacesException("Can't navigate to page " + page.getId() + " (not found)");
 		}
@@ -195,12 +221,12 @@ public class YConversationContext {
 			log.debug("Navigating to already existing page (" + page.getId() + ")");
 		}
 
+		// update some members and request context
+		this.nextContextPage = null;
 		this.currentPage = page;
 		YRequestContext.getCurrentContext().setPageContext(page);
 
-		this.nextContextPage = null;
-
-		// find requested page within queued context pages
+		// update pages stack
 		final LinkedHashMap<String, YPageContext> updatedNavigationPages = new LinkedHashMap<String, YPageContext>();
 		for (final Map.Entry<String, YPageContext> entry : this.contextPages.entrySet()) {
 			updatedNavigationPages.put(entry.getKey(), entry.getValue());
@@ -217,10 +243,9 @@ public class YConversationContext {
 	 * @param page
 	 *            {@link YPageContext} to add.
 	 */
-	void addPage(final YPageContext page) {
+	protected void addPage(final YPageContext page) {
 		final YPageContext previousPage = page.getPreviousPage();
 
-		//final YPageContext currentPage = this.getCurrentPage();
 		YPageContext currentPage = YRequestContext.getCurrentContext().getPageContext();
 
 		// in case added page has already a previous page, then it must be same
@@ -235,7 +260,7 @@ public class YConversationContext {
 		// set current page as previous page of added page
 		page.setPreviousPage(currentPage);
 
-		// add page to queue
+		// add page to stack
 		this.contextPages.put(page.getId(), page);
 	}
 
@@ -247,7 +272,7 @@ public class YConversationContext {
 	 *            pageId
 	 * @return {@link YPageContext}
 	 */
-	YPageContext getPage(final String pageId) {
+	protected YPageContext getPage(final String pageId) {
 		return this.contextPages.get(pageId);
 	}
 

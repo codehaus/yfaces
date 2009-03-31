@@ -32,16 +32,16 @@ public class PropertyChangeListenerWrapper implements PropertyChangeListener {
 	private DelegatorDescriptor descriptor = null;
 
 	private static class DelegatorDescriptor {
-		private Class delegateToDefinition = null;
+		private Class<?> delegateToDefinition = null;
 		private transient Method method = null;
 
-		private DelegatorDescriptor(final Class definition) {
+		private DelegatorDescriptor(Class<?> definition) {
 			this.delegateToDefinition = definition;
 		}
 
 		private Method getMethod() {
 			if (this.method == null) {
-				final Method[] methods = this.delegateToDefinition.getMethods();
+				Method[] methods = this.delegateToDefinition.getMethods();
 				if (methods.length > 1) {
 					throw new YFacesException("Ambigious number of methods");
 				}
@@ -51,17 +51,17 @@ public class PropertyChangeListenerWrapper implements PropertyChangeListener {
 		}
 	}
 
-	public PropertyChangeListenerWrapper(final Class delegateDefinition, final Object listener) {
+	public PropertyChangeListenerWrapper(Class<?> delegateDefinition, Object listener) {
 		this.listener = listener;
 		// maybe use a static lookup map?
 		this.descriptor = new DelegatorDescriptor(delegateDefinition);
 	}
 
-	public void propertyChange(final PropertyChangeEvent evt) {
-		final Method method = this.descriptor.getMethod();
+	public void propertyChange(PropertyChangeEvent evt) {
+		Method method = this.descriptor.getMethod();
 		try {
 			method.invoke(listener, evt.getOldValue(), evt.getNewValue());
-		} catch (final Exception e) {
+		} catch (Exception e) {
 			throw new YFacesException("Can't reach eventlistener " + listener.getClass().getName()
 					+ " (" + method.getName() + ")", e);
 		}
@@ -74,7 +74,7 @@ public class PropertyChangeListenerWrapper implements PropertyChangeListener {
 	// PropertyChangeListener again into an EventListenerAggreagte which doesn't
 	// care about duplicates
 	@Override
-	public boolean equals(final Object obj) {
+	public boolean equals(Object obj) {
 		return (obj instanceof PropertyChangeListenerWrapper)
 				&& this.listener.equals(((PropertyChangeListenerWrapper) obj).listener);
 	}

@@ -32,18 +32,20 @@ import org.apache.log4j.Logger;
 import de.hybris.yfaces.component.AbstractYFrame;
 
 /**
- * Abstract Implementation of a generic ManagedBean. Autodetects the ManagedBean
- * id according the classname.<br/>
+ * Abstract Implementation of a generic ManagedBean. Autodetects the ManagedBean id according the
+ * classname.<br/>
  * Automatically restores the ManagedBean scope after deserialization.<br/>
  * 
  * @author Denny.Strietzbaum
  */
 public class YManagedBean implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+
 	private static final Logger log = Logger.getLogger(AbstractYFrame.class);
 
 	// Cache for ManagedBean id's
-	private static final Map<Class<YManagedBean>, String> mbeanIdMap =
-			new HashMap<Class<YManagedBean>, String>();
+	private static final Map<Class<YManagedBean>, String> mbeanIdMap = new HashMap<Class<YManagedBean>, String>();
 
 	// custom attributes
 	private Map<String, Object> attributes = null;
@@ -88,37 +90,33 @@ public class YManagedBean implements Serializable {
 	}
 
 	/**
-	 * Creates an expression String for a property or method of this
-	 * ManagedBean.<br/>
-	 * Assuming a bean id "mybean" whose property "myproperty" gets called the
-	 * result would be #{mybean.property}.
+	 * Creates an expression String for a property or method of this ManagedBean.<br/>
+	 * Assuming a bean id "mybean" whose property "myproperty" gets called the result would be
+	 * #{mybean.property}.
 	 * 
 	 * @return String
 	 */
-	public String createExpressionString(final String property) {
+	public String createExpressionString(String property) {
 		return this.createExpressionString(getBeanId(), property);
 	}
 
 	/**
-	 * Internal. CReates an expression String based on a ManagedBean class and a
-	 * property.
+	 * Internal. CReates an expression String based on a ManagedBean class and a property.
 	 * 
 	 * @param beanId
 	 * @param property
 	 */
-	private String createExpressionString(final String beanId, final String property) {
-		final String beanProperty = (property != null) ? "." + property : "";
-		final String result = "#{" + beanId + beanProperty + "}";
+	private String createExpressionString(String beanId, String property) {
+		String beanProperty = (property != null) ? "." + property : "";
+		String result = "#{" + beanId + beanProperty + "}";
 		return result;
 	}
 
 	/**
 	 * Returns the ID for this ManagedBean.<br/>
 	 * This is the same one as configured within the JSF configuration file.<br/>
-	 * Default implementation simply returns the simplified classname with first
-	 * letter lowercase.<br/>
-	 * Beans whose ID's doesn't work with that pattern must overwrite this
-	 * method.
+	 * Default implementation simply returns the simplified classname with first letter lowercase.<br/>
+	 * Beans whose ID's doesn't work with that pattern must overwrite this method.
 	 * 
 	 * @return bean id as String
 	 */
@@ -130,18 +128,18 @@ public class YManagedBean implements Serializable {
 	}
 
 	/**
-	 * The YFrame identifier is the ManagedBean identifier for the faces-config.
-	 * It is the name of the class, first char as lowercase.
+	 * The YFrame identifier is the ManagedBean identifier for the faces-config. It is the name of
+	 * the class, first char as lowercase.
 	 * 
 	 * @param clazz
 	 *            Frame class
 	 * @return YFrame ID
 	 */
-	private static String getBeanId(final Class<? extends YManagedBean> clazz) {
+	private static String getBeanId(Class<? extends YManagedBean> clazz) {
 		String result = mbeanIdMap.get(clazz);
 		if (result == null) {
-			final String prefix = String.valueOf(clazz.getSimpleName().charAt(0)).toLowerCase();
-			final String suffix = clazz.getSimpleName().substring(1);
+			String prefix = String.valueOf(clazz.getSimpleName().charAt(0)).toLowerCase();
+			String suffix = clazz.getSimpleName().substring(1);
 			result = prefix + suffix;
 			log.debug("Initial MBean ID detection for " + clazz.getSimpleName() + ": " + result);
 			mbeanIdMap.put((Class) clazz, result);
@@ -149,14 +147,14 @@ public class YManagedBean implements Serializable {
 		return result;
 	}
 
-	public static <T extends YManagedBean> T getBean(final Class<T> clazz) {
+	public static <T extends YManagedBean> T getBean(Class<T> clazz) {
 		T result = null;
 		try {
 			// can't use the ValueExpression way as i don't know the beanid
 			// however, its known after instantiation via #getBeanId()
 			result = clazz.newInstance();
 			result.refreshBeanScope();
-		} catch (final Exception e) {
+		} catch (Exception e) {
 			throw new YFacesException("", e);
 		}
 		return result;
@@ -169,16 +167,16 @@ public class YManagedBean implements Serializable {
 	 * @see de.hybris.yfaces.YManagedBean#refreshBeanScope()
 	 */
 	public void refreshBeanScope() {
-		final String beanId = this.getBeanId();
-		final ELContext ctx = FacesContext.getCurrentInstance().getELContext();
-		final ValueExpression ve =
-				FacesContext.getCurrentInstance().getApplication().getExpressionFactory()
-						.createValueExpression(ctx, "#{" + beanId + "}", YManagedBean.class);
+		String beanId = this.getBeanId();
+		ELContext ctx = FacesContext.getCurrentInstance().getELContext();
+		ValueExpression ve = FacesContext.getCurrentInstance().getApplication()
+				.getExpressionFactory().createValueExpression(ctx, "#{" + beanId + "}",
+						YManagedBean.class);
 		ve.setValue(ctx, this);
 	}
 
 	@Override
-	public boolean equals(final Object obj) {
+	public boolean equals(Object obj) {
 		return (obj instanceof YManagedBean)
 				&& ((YManagedBean) obj).getBeanId().equals(this.getBeanId());
 	}
@@ -190,14 +188,14 @@ public class YManagedBean implements Serializable {
 
 	@Override
 	public String toString() {
-		final String result = super.toString() + "(ManagedBean:" + getBeanId() + ")";
+		String result = super.toString() + "(ManagedBean:" + getBeanId() + ")";
 		return result;
 	}
 
 	//
 	// DeSerialization
 	//
-	private void readObject(final ObjectInputStream in) throws ClassNotFoundException, IOException {
+	private void readObject(ObjectInputStream in) throws ClassNotFoundException, IOException {
 		in.defaultReadObject();
 		this.logId = this.getBeanId();
 		if (log.isDebugEnabled()) {
@@ -210,7 +208,7 @@ public class YManagedBean implements Serializable {
 	//
 	// Serialization
 	//
-	private void writeObject(final ObjectOutputStream aOutputStream) throws IOException {
+	private void writeObject(ObjectOutputStream aOutputStream) throws IOException {
 		aOutputStream.defaultWriteObject();
 		if (log.isDebugEnabled()) {
 			log.debug("SERIALIZE (save) instance [" + logId + "] (" + this.hashCode() + ")");

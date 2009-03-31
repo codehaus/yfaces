@@ -118,14 +118,14 @@ public class YFacesELResolver extends ELResolver {
 			Object value) throws NullPointerException, PropertyNotFoundException,
 			PropertyNotWritableException, ELException {
 
-		Class type = this.resolver.getType(context, base, property);
+		Class<?> type = this.resolver.getType(context, base, property);
 
 		//special handling in case of YComponentBinding
 		if (YComponentBinding.class.equals(type)) {
 			boolean resolveBinding = getYContext(context).isResolveYComponentBinding();
 			if (resolveBinding) {
-				YComponentBinding binding = (YComponentBinding) this.resolver.getValue(context,
-						base, property);
+				YComponentBinding<YComponent> binding = (YComponentBinding) this.resolver.getValue(
+						context, base, property);
 				binding.setValue((YComponent) value);
 			} else {
 				this.resolver.setValue(context, base, property, value);

@@ -445,8 +445,8 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 	 */
 	private YComponentInfo getYComponentInfo() {
 		// validation
-		final YComponentInfo cmpInfo = new YComponentInfo(getId(), getVarName(), this
-				.getSpec(), this.getImpl());
+		final YComponentInfo cmpInfo = new YComponentInfo(getId(), getVarName(), this.getSpec(),
+				this.getImpl());
 		final Set<ERROR_STATE> errors = new HashSet<ERROR_STATE>(cmpInfo.verifyComponent());
 		errors.remove(ERROR_STATE.VIEW_ID_NOT_SPECIFIED);
 		errors.remove(ERROR_STATE.SPEC_IS_MISSING);
@@ -608,8 +608,8 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 	 * @param cmp
 	 *            {@link YComponent}
 	 */
-	private void injectAttributes(final YComponentInfo cmpInfo, final YComponent cmp) {
-		final Map<String, Method> attributeToMethodMap = cmpInfo.getAllComponentProperties();
+	private void injectAttributes(YComponentInfo cmpInfo, YComponent cmp) {
+		Map<String, Method> attributeToMethodMap = cmpInfo.getAllComponentProperties();
 
 		// attributes can be given as comma separated list ("injectable"
 		// attribute)
@@ -627,7 +627,7 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 		// now go through all attributes which shall be injected
 		for (final String attribute : attributes) {
 			// attribute value may either be a ValueExpression or a Literal
-			final ValueExpression vb = getValueExpression(attribute);
+			ValueExpression vb = getValueExpression(attribute);
 			Object value = (vb != null) ? vb.getValue(getFacesContext().getELContext())
 					: getAttributes().get(attribute);
 
@@ -639,24 +639,24 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 					// entry.getValue());
 
 					// JSF 1.2: do type coercion (e.g. String->Integer)
-					final Method method = attributeToMethodMap.get(attribute);
+					Method method = attributeToMethodMap.get(attribute);
 					value = FacesContext.getCurrentInstance().getApplication()
 							.getExpressionFactory().coerceToType(value,
 									method.getParameterTypes()[0]);
 
 					// and finally inject value
 					method.invoke(cmp, value);
-				} catch (final Exception e) {
+				} catch (Exception e) {
 					throw new YFacesException(logId + ": can't set attribute " + attribute
 							+ " (argument mismatch?)", e);
 				}
 
 				// some nice debug output for bughunting
 				if (log.isDebugEnabled()) {
-					final String _value = (value != null) ? value.toString() : "null";
+					String _value = (value != null) ? value.toString() : "null";
 					String suffix = "";
 					if (value instanceof Collection) {
-						suffix = "(count:" + ((Collection) value).size() + ")";
+						suffix = "(count:" + ((Collection<?>) value).size() + ")";
 					}
 
 					log.debug(logId

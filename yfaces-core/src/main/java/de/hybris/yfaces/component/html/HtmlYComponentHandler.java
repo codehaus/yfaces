@@ -26,16 +26,15 @@ import org.apache.log4j.Logger;
 
 import com.sun.facelets.FaceletContext;
 import com.sun.facelets.tag.MetaRuleset;
-import com.sun.facelets.tag.TagAttribute;
 import com.sun.facelets.tag.jsf.ComponentConfig;
 import com.sun.facelets.tag.jsf.ComponentHandler;
 
 import de.hybris.yfaces.component.YComponent;
 
 /**
- * This {@link ComponentHandler} works with an {@link YComponent}. It injects
- * the value of a possible "binding" attribute as well as values of attributes
- * which are configured as being injectable.
+ * This {@link ComponentHandler} works with an {@link YComponent}. It injects the value of a
+ * possible "binding" attribute as well as values of attributes which are configured as being
+ * injectable.
  * 
  * @author Denny.Strietzbaum
  */
@@ -43,15 +42,15 @@ public class HtmlYComponentHandler extends ComponentHandler {
 	private static final Logger log = Logger.getLogger(HtmlYComponentHandler.class);
 	private static final String VAR_BINDING = "binding";
 
-	private final TagAttribute attributes;
+	// private final TagAttribute attributes;
 
 	public HtmlYComponentHandler(final ComponentConfig config) {
 		super(config);
-		this.attributes = super.getAttribute("value");
+		//this.attributes = super.getAttribute("value");
 	}
 
 	@Override
-	protected MetaRuleset createMetaRuleset(final Class type) {
+	protected MetaRuleset createMetaRuleset(Class type) {
 		// called once after instanciation
 		return super.createMetaRuleset(type);
 	}

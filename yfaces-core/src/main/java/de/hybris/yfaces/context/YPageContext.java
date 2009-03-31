@@ -17,6 +17,7 @@ package de.hybris.yfaces.context;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,6 +28,7 @@ import org.apache.log4j.Logger;
 
 import de.hybris.yfaces.YFacesException;
 import de.hybris.yfaces.YManagedBean;
+import de.hybris.yfaces.component.AbstractYFrame;
 import de.hybris.yfaces.component.YComponent;
 import de.hybris.yfaces.component.YFrame;
 
@@ -63,12 +65,17 @@ public class YPageContext {
 	// all Frames within this page
 	private final Map<String, YFrame> frames = new HashMap<String, YFrame>();
 
+	/**
+	 * Constructor.
+	 * 
+	 * @param ctx
+	 *            {@link YConversationContext}
+	 * @param pageId
+	 *            id of page
+	 * @param url
+	 *            url of page
+	 */
 	public YPageContext(final YConversationContext ctx, final String pageId, final String url) {
-		this(ctx, pageId, url, null);
-	}
-
-	private YPageContext(final YConversationContext ctx, final String pageId, final String url,
-			final YPageContext previous) {
 		if (ctx == null) {
 			throw new YFacesException("No NavigationContext specified", new NullPointerException());
 		}
@@ -76,18 +83,24 @@ public class YPageContext {
 		this.pageId = pageId;
 		this.navigationContext = ctx;
 		this.url = url;
-		this.previousPage = previous;
 
-		log.debug("Created new YPage (" + pageId + ") as root view");
 	}
 
 	/**
-	 * @return page id
+	 * Returns the page-id.
+	 * 
+	 * @return page-id
 	 */
 	public String getId() {
 		return this.pageId;
 	}
 
+	/**
+	 * Sets the page-id.
+	 * 
+	 * @param pageId
+	 *            page-id to set
+	 */
 	protected void setId(final String pageId) {
 		this.pageId = pageId;
 	}
@@ -156,20 +169,29 @@ public class YPageContext {
 	}
 
 	/**
-	 * Returns the enclosing Frames.
+	 * Returns all frames which are managed by this page.
 	 * 
 	 * @return Frames
 	 */
-	public Map<String, YFrame> getFrames() {
-		return this.frames;
+	public Collection<YFrame> getFrames() {
+		return this.frames.values();
 	}
 
 	/**
+	 * Returns (and initially creates when necessary) a frame instance according the passed frame
+	 * class.Every frame which shall be managed by this page must be requested (created) by this
+	 * method.
+	 * 
 	 * @param frameClass
+	 *            requested frame
+	 * 
+	 * @see AbstractYFrame#getBeanId()
 	 */
-	public <T extends YFrame> T getFrame(Class<T> frameClass) {
+	public <T extends YFrame> T getOrCreateFrame(Class<T> frameClass) {
 		T result = (T) this.frames.get(frameClass.getName());
 
+		// when no instance is available, request is delegated to YManagedBean which itself creates a
+		// instance of the class, asks for the beanId and register it at JSF scope
 		if (result == null) {
 			result = (T) YManagedBean.getBean((Class) frameClass);
 			this.addFrame(result);
@@ -195,13 +217,21 @@ public class YPageContext {
 		return this.previousPage;
 	}
 
-	protected void setPreviousPage(final YPageContext previousPage) {
+	/**
+	 * Sets a previous page for this page.
+	 * 
+	 * @param previousPage
+	 *            {@link YPageContext}
+	 */
+	void setPreviousPage(final YPageContext previousPage) {
 		this.previousPage = previousPage;
 	}
 
+	/**
+	 * Starts updating all {@link YFrame} instances of this page.
+	 */
 	protected void update() {
-		for (final YFrame frame : getFrames().values()) {
-			log.debug("Updating Frame: " + frame.getId());
+		for (final YFrame frame : getFrames()) {
 			frame.update();
 		}
 	}

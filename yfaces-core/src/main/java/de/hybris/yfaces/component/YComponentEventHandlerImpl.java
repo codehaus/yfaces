@@ -28,7 +28,10 @@ import org.apache.log4j.Logger;
  * @author Denny.Strietzbaum
  * 
  */
-public class YComponentEventHandlerImpl implements YComponentEventHandler {
+public class YComponentEventHandlerImpl implements YComponentEventHandler<YComponent> {
+
+	private static final long serialVersionUID = 1L;
+
 	private static final Logger log = Logger.getLogger(YComponentEventHandlerImpl.class);
 
 	// list of listeners
@@ -46,7 +49,7 @@ public class YComponentEventHandlerImpl implements YComponentEventHandler {
 		this(new DefaultYComponentEventListener<YComponent>());
 	}
 
-	protected YComponentEventHandlerImpl(final YComponentEventListener listener) {
+	protected YComponentEventHandlerImpl(YComponentEventListener listener) {
 		this.listeners = new LinkedList<YComponentEventListener>();
 		listeners.add(listener);
 	}
@@ -95,8 +98,7 @@ public class YComponentEventHandlerImpl implements YComponentEventHandler {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * storefoundation.yfaces.YComponentEventHandler#actionListener(javax.faces
+	 * @see storefoundation.yfaces.YComponentEventHandler#actionListener(javax.faces
 	 * .event.ActionEvent)
 	 */
 	public void actionListener(final ActionEvent event) {
@@ -134,8 +136,7 @@ public class YComponentEventHandlerImpl implements YComponentEventHandler {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * storefoundation.yfaces.YComponentEventHandler#valueChangeListener(javax
+	 * @see storefoundation.yfaces.YComponentEventHandler#valueChangeListener(javax
 	 * .faces.event.ValueChangeEvent)
 	 */
 	public void valueChangeListener(final ValueChangeEvent event) {
@@ -165,8 +166,7 @@ public class YComponentEventHandlerImpl implements YComponentEventHandler {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * ystorefoundationpackage.faces.components.JsfEventContainer#isEnabled()
+	 * @see ystorefoundationpackage.faces.components.JsfEventContainer#isEnabled()
 	 */
 	public boolean isEnabled() {
 		return this.enabled;
@@ -175,9 +175,7 @@ public class YComponentEventHandlerImpl implements YComponentEventHandler {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * ystorefoundationpackage.faces.components.JsfEventContainer#setEnabled
-	 * (boolean)
+	 * @see ystorefoundationpackage.faces.components.JsfEventContainer#setEnabled (boolean)
 	 */
 	public void setEnabled(final boolean enabled) {
 		this.enabled = enabled;
@@ -195,9 +193,7 @@ public class YComponentEventHandlerImpl implements YComponentEventHandler {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * storefoundation.yfaces.YComponentEventHandler#setName(java.lang.CharSequence
-	 * )
+	 * @see storefoundation.yfaces.YComponentEventHandler#setName(java.lang.CharSequence )
 	 */
 	public void setName(final CharSequence key) {
 		this.name = key.toString();

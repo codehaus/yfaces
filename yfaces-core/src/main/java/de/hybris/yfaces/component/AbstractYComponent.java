@@ -35,6 +35,9 @@ import de.hybris.yfaces.YFacesException;
  * 
  */
 public abstract class AbstractYComponent implements YComponent {
+
+	private static final long serialVersionUID = 1L;
+
 	private static final Logger log = Logger.getLogger(AbstractYComponent.class);
 
 	private Map<String, Object> attributes = null;
@@ -145,19 +148,19 @@ public abstract class AbstractYComponent implements YComponent {
 		return result;
 	}
 
-	public <T extends YComponent> T newInstance(final String id) {
+	public <T extends YComponent> T newInstance(String id) {
 		return (T) YComponentRegistry.getInstance().getComponent(id).createDefaultComponent();
 	}
 
-	public <T extends YComponent> T newInstance(final T template) {
+	public <T extends YComponent> T newInstance(T template) {
 		return this.newInstance(template, template.getClass());
 	}
 
-	private <T extends YComponent> T newInstance(final T template, final Class clazz) {
+	private <T extends YComponent> T newInstance(T template, Class<?> clazz) {
 		T result = null;
 		try {
-			final Constructor c = clazz.getConstructor(YComponent.class);
-			result = (T) c.newInstance(template);
+			Constructor<T> c = (Constructor<T>) clazz.getConstructor(YComponent.class);
+			result = c.newInstance(template);
 		} catch (final Exception e) {
 			throw new YFacesException(clazz
 					+ " can't be created; missing Constructor which accepts " + YComponent.class);
