@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 the original author or authors.
+ * Copyright 2009 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -127,7 +127,7 @@ public class YComponentInfo {
 		 *            {@link YComponentInfo}
 		 * @return String
 		 */
-		public String getFormattedErrorMessage(final YComponentInfo cmpInfo) {
+		public String getFormattedErrorMessage(YComponentInfo cmpInfo) {
 			return this.getFormattedErrorMessage(cmpInfo, null);
 		}
 
@@ -144,9 +144,9 @@ public class YComponentInfo {
 		 */
 		public String getFormattedErrorMessage(YComponentInfo cmpInfo, Class<?> customImplClass) {
 			String result = "";
-			final String msg = this.msg;
+			String msg = this.msg;
 
-			final Matcher parameter = placeHolderPattern.matcher(msg);
+			Matcher parameter = placeHolderPattern.matcher(msg);
 			int start = 0;
 			while (parameter.find()) {
 				String param = parameter.group(1);
@@ -214,8 +214,7 @@ public class YComponentInfo {
 	/**
 	 * Constructor. Initializes this instance by parsing the url stream.
 	 */
-	public YComponentInfo(final String id, final String varName, final String specClassname,
-			final String implClassName) {
+	public YComponentInfo(String id, String varName, String specClassname, String implClassName) {
 		this.id = id;
 		this.cmpVar = varName;
 		this.specClassName = specClassname;
@@ -269,9 +268,8 @@ public class YComponentInfo {
 	 * @param className
 	 *            classname
 	 */
-	protected void setSpecificationClassName(final String className) {
-		final String newClass = (className == null || className.trim().length() == 0) ? null
-				: className;
+	protected void setSpecificationClassName(String className) {
+		String newClass = (className == null || className.trim().length() == 0) ? null : className;
 		if (newClass != null && !newClass.equals(this.specClassName)) {
 			this.specClassName = newClass;
 			this.implClass = null;
@@ -292,9 +290,8 @@ public class YComponentInfo {
 	 * 
 	 * @param className
 	 */
-	protected void setImplementationClassName(final String className) {
-		final String newClass = (className == null || className.trim().length() == 0) ? null
-				: className;
+	protected void setImplementationClassName(String className) {
+		String newClass = (className == null || className.trim().length() == 0) ? null : className;
 		if (newClass != null && !newClass.equals(this.implClassName)) {
 			this.implClassName = newClass;
 			this.implClass = null;
@@ -305,7 +302,7 @@ public class YComponentInfo {
 		return this.id;
 	}
 
-	protected void setId(final String id) {
+	protected void setId(String id) {
 		this.id = id;
 	}
 
@@ -313,7 +310,7 @@ public class YComponentInfo {
 		return this.cmpVar;
 	}
 
-	protected void setVarName(final String varName) {
+	protected void setVarName(String varName) {
 		this.cmpVar = varName;
 	}
 
@@ -333,15 +330,15 @@ public class YComponentInfo {
 		return this.injectableAttributes;
 	}
 
-	protected void addInjectableProperty(final String property) {
+	protected void addInjectableProperty(String property) {
 		if (this.injectableAttributes == Collections.EMPTY_SET) {
 			this.injectableAttributes = new HashSet<String>();
 		}
 		this.injectableAttributes.add(property);
 	}
 
-	protected void addInjectableProperties(final String... properties) {
-		for (final String property : properties) {
+	protected void addInjectableProperties(String... properties) {
+		for (String property : properties) {
 			this.addInjectableProperty(property);
 		}
 	}
@@ -356,7 +353,7 @@ public class YComponentInfo {
 		try {
 			result = (YComponent) this.getImplementationClass().newInstance();
 			((AbstractYComponent) result).setId(this.id);
-		} catch (final Exception e) {
+		} catch (Exception e) {
 			throw new YFacesException("Can't create " + YComponent.class.getName() + " instance ("
 					+ implClass + ")", e);
 		}
@@ -375,15 +372,15 @@ public class YComponentInfo {
 
 	private Map<String, Method> findWriteableProperties(Class<?> startClass, Class<?> endClass) {
 
-		final Map<String, Method> result = new HashMap<String, Method>();
+		Map<String, Method> result = new HashMap<String, Method>();
 		try {
 			// find setter for attributes
 			PropertyDescriptor[] descriptors = Introspector.getBeanInfo(startClass,
 					AbstractYComponent.class).getPropertyDescriptors();
 
-			for (final PropertyDescriptor descriptor : descriptors) {
-				final String name = descriptor.getName();
-				final Method writeMethod = descriptor.getWriteMethod();
+			for (PropertyDescriptor descriptor : descriptors) {
+				String name = descriptor.getName();
+				Method writeMethod = descriptor.getWriteMethod();
 
 				if (writeMethod != null) {
 					result.put(name, writeMethod);
@@ -398,7 +395,7 @@ public class YComponentInfo {
 					}
 				}
 			}
-		} catch (final IntrospectionException e) {
+		} catch (IntrospectionException e) {
 			e.printStackTrace();
 		}
 		return result;
@@ -483,7 +480,7 @@ public class YComponentInfo {
 	 * @return result
 	 */
 	public Set<ERROR_STATE> assertCustomImplementationClass(Class<?> implClass) {
-		final Set<ERROR_STATE> result = EnumSet.noneOf(ERROR_STATE.class);
+		Set<ERROR_STATE> result = EnumSet.noneOf(ERROR_STATE.class);
 
 		if (implClass.isInterface()) {
 			result.add(ERROR_STATE.IMPL_IS_INTERFACE);
@@ -501,7 +498,7 @@ public class YComponentInfo {
 	}
 
 	private boolean assertProperties() {
-		for (final String s : RESERVED_PROPERTY_NAMES) {
+		for (String s : RESERVED_PROPERTY_NAMES) {
 			// if (this.writableProperties.containsKey(s))
 			// this.errors.add(ERROR_STATE.FORBIDDEN_PROPERTY);
 
@@ -548,7 +545,7 @@ public class YComponentInfo {
 		return url;
 	}
 
-	protected void setURL(final URL url) {
+	protected void setURL(URL url) {
 		this.url = url;
 	}
 

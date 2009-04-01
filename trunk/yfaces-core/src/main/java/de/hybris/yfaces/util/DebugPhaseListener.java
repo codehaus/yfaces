@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 the original author or authors.
+ * Copyright 2009 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,12 +29,11 @@ import org.apache.log4j.Logger;
 
 /**
  * A PhaseListener which is only useful for developing.<br/>
- * Evaluates every Phase of JSF lifecycle and prints some nice debug
- * information.<br/>
- * Outputs current jsf phase, recognizes redirects, various aborts like
- * validation errors (incl. their source) and other stuff.<br/>
- * To enable this listener it must be configured at faces configuration file and
- * the logger for this class must be set to debug level.<br/>
+ * Evaluates every Phase of JSF lifecycle and prints some nice debug information.<br/>
+ * Outputs current jsf phase, recognizes redirects, various aborts like validation errors (incl.
+ * their source) and other stuff.<br/>
+ * To enable this listener it must be configured at faces configuration file and the logger for this
+ * class must be set to debug level.<br/>
  * <br/>
  * 
  * @author Denny.Strietzbaum
@@ -47,7 +46,7 @@ public class DebugPhaseListener implements PhaseListener {
 
 	private static int reqCount = 0;
 
-	public void beforePhase(final PhaseEvent e) {
+	public void beforePhase(PhaseEvent e) {
 		if (log.isDebugEnabled()) {
 			switch (e.getPhaseId().getOrdinal()) {
 			case 1:
@@ -60,15 +59,15 @@ public class DebugPhaseListener implements PhaseListener {
 		}
 	}
 
-	public void afterPhase(final PhaseEvent e) {
+	public void afterPhase(PhaseEvent e) {
 		if (log.isDebugEnabled()) {
 			boolean isAbortedByRenderResponse = false;
-			final boolean isAbortedByResponseComplete = FacesContext.getCurrentInstance()
+			boolean isAbortedByResponseComplete = FacesContext.getCurrentInstance()
 					.getResponseComplete();
 
 			switch (e.getPhaseId().getOrdinal()) {
 			case 1:
-				final UIViewRoot viewRoot = e.getFacesContext().getViewRoot();
+				UIViewRoot viewRoot = e.getFacesContext().getViewRoot();
 				log.debug(reqCount + ": View:" + viewRoot.getViewId() + " (" + viewRoot.hashCode()
 						+ ")");
 				break;
@@ -87,9 +86,9 @@ public class DebugPhaseListener implements PhaseListener {
 				log.debug(reqCount
 						+ ": ---------- ABORTED LIFECYCLE (renderResponse = true) ---------- ");
 				log.debug(reqCount + "Validation- or Updateerror? (below a FacesMessage dump");
-				for (final Iterator<FacesMessage> iter = FacesContext.getCurrentInstance()
-						.getMessages(); iter.hasNext();) {
-					final FacesMessage msg = iter.next();
+				for (Iterator<FacesMessage> iter = FacesContext.getCurrentInstance().getMessages(); iter
+						.hasNext();) {
+					FacesMessage msg = iter.next();
 					log.debug("- " + msg.getSeverity() + "; " + msg.getSummary() + "; "
 							+ msg.getDetail());
 				}

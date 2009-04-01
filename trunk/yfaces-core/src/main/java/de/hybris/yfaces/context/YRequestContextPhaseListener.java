@@ -21,8 +21,6 @@ import javax.faces.event.PhaseEvent;
 import javax.faces.event.PhaseId;
 import javax.faces.event.PhaseListener;
 
-import org.apache.log4j.Logger;
-
 /**
  * This {@link PhaseListener} is mandatory for a properly work with the {@link YConversationContext}
  * .<br/>
@@ -39,15 +37,16 @@ import org.apache.log4j.Logger;
 
 public class YRequestContextPhaseListener implements PhaseListener {
 
-	@SuppressWarnings("unused")
-	private static final Logger log = Logger.getLogger(YRequestContextPhaseListener.class);
+	private static final long serialVersionUID = 1L;
+
+	//private static final Logger log = Logger.getLogger(YRequestContextPhaseListener.class);
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see javax.faces.event.PhaseListener#beforePhase(javax.faces.event.PhaseEvent)
 	 */
-	public void beforePhase(final PhaseEvent phaseevent) {
+	public void beforePhase(PhaseEvent phaseevent) {
 
 		if (phaseevent.getPhaseId() == PhaseId.RESTORE_VIEW) {
 			YRequestContextImpl reqCtx = (YRequestContextImpl) YRequestContext.getCurrentContext();
@@ -57,7 +56,7 @@ public class YRequestContextPhaseListener implements PhaseListener {
 		}
 
 		if (phaseevent.getPhaseId() == PhaseId.RENDER_RESPONSE) {
-			final boolean facesRequest = YRequestContext.getCurrentContext().isPostback();
+			boolean facesRequest = YRequestContext.getCurrentContext().isPostback();
 			if (facesRequest) {
 				// this viewid can be different (after a POST) from that one in
 				// RESTORE_VIEW
@@ -71,7 +70,7 @@ public class YRequestContextPhaseListener implements PhaseListener {
 	 * 
 	 * @see javax.faces.event.PhaseListener#afterPhase(javax.faces.event.PhaseEvent)
 	 */
-	public void afterPhase(final PhaseEvent phaseevent) {
+	public void afterPhase(PhaseEvent phaseevent) {
 		if (phaseevent.getPhaseId() == PhaseId.RESTORE_VIEW) {
 			((YRequestContextImpl) YRequestContext.getCurrentContext())
 					.startPageRequest(getViewId());

@@ -31,7 +31,7 @@ import org.springframework.web.context.support.XmlWebApplicationContext;
 import de.hybris.yfaces.context.YApplicationContext;
 
 /**
- * YFaces startup. Reads configuration and initializes runtime properties for Logging, Spring, etc.
+ * YFaces startup. Reads configuration and initializes runtime properties.
  * 
  * @author Denny.Strietzbaum
  */

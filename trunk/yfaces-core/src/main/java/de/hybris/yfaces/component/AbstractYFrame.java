@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 the original author or authors.
+ * Copyright 2009 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,16 +36,19 @@ import de.hybris.yfaces.context.YRequestContext;
  * 
  */
 public abstract class AbstractYFrame extends YManagedBean implements YFrame, Serializable {
+
+	private static final long serialVersionUID = 1L;
+
 	private static final Logger log = Logger.getLogger(AbstractYFrame.class);
 
-	private List<YComponentBinding> componentBindings = null;
+	private List<YComponentBinding<?>> componentBindings = null;
 
 	/**
 	 * Constructor.
 	 */
 	public AbstractYFrame() {
 		super();
-		this.componentBindings = new ArrayList<YComponentBinding>();
+		this.componentBindings = new ArrayList<YComponentBinding<?>>();
 	}
 
 	/*
@@ -55,7 +58,7 @@ public abstract class AbstractYFrame extends YManagedBean implements YFrame, Ser
 	 * .platform.webfoundation.PropertyChangeLog)
 	 */
 	public void update() {
-		for (final YComponentBinding binding : this.componentBindings) {
+		for (YComponentBinding<?> binding : this.componentBindings) {
 			if (binding.isResolved() && binding.getValue() != null) {
 				log.debug("Updating component: " + binding.getValue().getClass().getSimpleName());
 				binding.getValue().update();
@@ -86,7 +89,7 @@ public abstract class AbstractYFrame extends YManagedBean implements YFrame, Ser
 	 * 
 	 * @see de.hybris.yfaces.YFrame#createComponentBinding(de.hybris.yfaces.YComponent )
 	 */
-	public <T extends YComponent> YComponentBinding<T> createComponentBinding(final T value) {
+	public <T extends YComponent> YComponentBinding<T> createComponentBinding(T value) {
 		return this.createComponentBinding(null, value);
 	}
 
@@ -95,15 +98,12 @@ public abstract class AbstractYFrame extends YManagedBean implements YFrame, Ser
 	 * 
 	 * @see de.hybris.yfaces.YFrame#createComponentBinding(java.lang.String)
 	 */
-	public <T extends YComponent> YComponentBinding<T> createComponentBinding(
-			final String componentId) {
+	public <T extends YComponent> YComponentBinding<T> createComponentBinding(String componentId) {
 		return this.createComponentBinding(componentId, null);
 	}
 
-	private <T extends YComponent> YComponentBinding<T> createComponentBinding(final String id,
-			final T value) {
-		final YComponentBinding<T> result = new YComponentBinding(id, super
-				.createExpressionString());
+	private <T extends YComponent> YComponentBinding<T> createComponentBinding(String id, T value) {
+		YComponentBinding<T> result = new YComponentBinding<T>(id, super.createExpressionString());
 		result.setValue(value);
 		this.componentBindings.add(result);
 		return result;
@@ -135,8 +135,9 @@ public abstract class AbstractYFrame extends YManagedBean implements YFrame, Ser
 	 *            method of this frame which shall listen to
 	 * @return {@link YComponentEventListener}
 	 */
-	public YComponentEventListener createComponentEventListener(final String frameMethod) {
-		final YComponentEventListener result = new DefaultYComponentEventListener();
+	public <T extends YComponent> YComponentEventListener<T> createComponentEventListener(
+			String frameMethod) {
+		YComponentEventListener<T> result = new DefaultYComponentEventListener<T>();
 		result.setActionListener(super.createExpressionString(frameMethod));
 		return result;
 	}

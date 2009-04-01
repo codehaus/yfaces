@@ -9,8 +9,9 @@ import java.util.Set;
 
 import org.apache.log4j.Logger;
 
-
 public class YPropertyHandler extends PropertyChangeSupport {
+
+	private static final long serialVersionUID = 1L;
 
 	private static final Logger log = Logger.getLogger(YPropertyHandler.class);
 
@@ -26,7 +27,7 @@ public class YPropertyHandler extends PropertyChangeSupport {
 	 * 
 	 * @see de.hybris.platform.webfoundation.UserSession#getProperty(java.lang.String )
 	 */
-	public <T> T getProperty(final String key) {
+	public <T> T getProperty(String key) {
 		return (T) propMap.get(key);
 	}
 
@@ -36,7 +37,7 @@ public class YPropertyHandler extends PropertyChangeSupport {
 	 * @see de.hybris.platform.webfoundation.UserSession#setProperty(java.lang.String ,
 	 * java.lang.Object)
 	 */
-	public void setProperty(final String property, final Object value) {
+	public void setProperty(String property, Object value) {
 		this.setProperty(property, value, true);
 	}
 
@@ -46,8 +47,8 @@ public class YPropertyHandler extends PropertyChangeSupport {
 	 * @see de.hybris.platform.webfoundation.UserSession#setProperty(java.lang.String ,
 	 * java.lang.Object, boolean)
 	 */
-	public void setProperty(final String property, final Object value, final boolean enableEvents) {
-		final Object oldValue = this.propMap.get(property);
+	public void setProperty(String property, Object value, boolean enableEvents) {
+		Object oldValue = this.propMap.get(property);
 
 		// if we ever introduce some kind of veto concept we might need to
 		// change the order of setting the property and firing the change event
@@ -66,13 +67,12 @@ public class YPropertyHandler extends PropertyChangeSupport {
 	 * java.lang.Object, java.lang.Object)
 	 */
 	@Override
-	public void firePropertyChange(final String property, final Object oldValue,
-			final Object newValue) {
-		final boolean changed = isDifferent(oldValue, newValue);
+	public void firePropertyChange(String property, Object oldValue, Object newValue) {
+		boolean changed = isDifferent(oldValue, newValue);
 
 		if (log.isDebugEnabled()) {
-			final String value = newValue != null ? String.valueOf(newValue.hashCode()) : "[null]";
-			final String msg = "property " + property.toUpperCase() + " was set ("
+			String value = newValue != null ? String.valueOf(newValue.hashCode()) : "[null]";
+			String msg = "property " + property.toUpperCase() + " was set ("
 					+ (changed ? "changed to " + value : "unchanged") + ") ";
 			log.debug(msg);
 		}
@@ -109,7 +109,7 @@ public class YPropertyHandler extends PropertyChangeSupport {
 	 * @see de.hybris.platform.webfoundation.UserSession#addPropertyChangeListener
 	 * (de.hybris.platform.webfoundation.UserSession .UserSessionPropertyChangeListener)
 	 */
-	public void addPropertyChangeListener(String propertyName, Class spec, Object listener) {
+	public void addPropertyChangeListener(String propertyName, Class<?> spec, Object listener) {
 		PropertyChangeListener pListener = new PropertyChangeListenerWrapper(spec, listener);
 		super.addPropertyChangeListener(propertyName, pListener);
 	}

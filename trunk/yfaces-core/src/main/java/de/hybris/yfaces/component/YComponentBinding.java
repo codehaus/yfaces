@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 the original author or authors.
+ * Copyright 2009 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 package de.hybris.yfaces.component;
-
-import org.apache.log4j.Logger;
 
 import de.hybris.yfaces.YFacesException;
 import de.hybris.yfaces.component.html.HtmlYComponent;
@@ -35,8 +33,8 @@ import de.hybris.yfaces.component.html.HtmlYComponent;
  * @author Denny.Strietzbaum
  */
 public class YComponentBinding<T extends YComponent> {
-	@SuppressWarnings("unused")
-	private static final Logger log = Logger.getLogger(YComponentBinding.class);
+
+	//private static final Logger log = Logger.getLogger(YComponentBinding.class);
 
 	private String frameBinding = null;
 	private boolean resolved = false;
@@ -61,11 +59,11 @@ public class YComponentBinding<T extends YComponent> {
 	 * @param id
 	 *            component id
 	 */
-	public YComponentBinding(final String id) {
+	public YComponentBinding(String id) {
 		this.id = id;
 	}
 
-	protected YComponentBinding(final String id, final String frameBinding) {
+	protected YComponentBinding(String id, String frameBinding) {
 		this.id = id;
 		this.frameBinding = frameBinding;
 	}
@@ -78,7 +76,7 @@ public class YComponentBinding<T extends YComponent> {
 	public T getValue() {
 		// standard lookup
 		if (this.value == null && this.id != null) {
-			final YComponentInfo cmpd = YComponentRegistry.getInstance().getComponent(this.id);
+			YComponentInfo cmpd = YComponentRegistry.getInstance().getComponent(this.id);
 
 			if (cmpd == null) {
 				throw new YFacesException("There is no component with id '" + this.id

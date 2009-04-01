@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 the original author or authors.
+ * Copyright 2009 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -51,21 +51,21 @@ public class YFacesErrorHandler {
 	 * @param ex
 	 *            {@link Exception}
 	 */
-	public void handleException(final FacesContext fc, final Exception ex) {
-		final Throwable cause = this.findReleventCause(ex);
+	public void handleException(FacesContext fc, Exception ex) {
+		Throwable cause = this.findReleventCause(ex);
 
 		log.error("Got unhandled exception", ex);
 
-		final String target = this.getErrorPage(fc, cause);
+		String target = this.getErrorPage(fc, cause);
 		if (target != null) {
-			final String errorMsg = getErrorMessage(fc, cause);
+			String errorMsg = getErrorMessage(fc, cause);
 			log.error("Redirecting to errorpage: " + target + "(" + errorMsg + ")");
 			YRequestContext.getCurrentContext().redirect(target);
 			fc.getExternalContext().getSessionMap().put(ERROR_STACK, errorMsg);
 		}
 	}
 
-	public void handleException(final FacesContext fc, final String msg) {
+	public void handleException(FacesContext fc, String msg) {
 		try {
 			this.handleException(fc, new YFacesException(msg));
 		} catch (final Exception e) {
@@ -82,7 +82,7 @@ public class YFacesErrorHandler {
 	 * @param ex
 	 * @return error page as relative path
 	 */
-	protected String getErrorPage(final FacesContext fc, final Throwable ex) {
+	protected String getErrorPage(FacesContext fc, Throwable ex) {
 		String result = null;
 		if (ex instanceof YFacesException) {
 			result = "/index.jsf";
@@ -97,8 +97,8 @@ public class YFacesErrorHandler {
 	 * @param ex
 	 * @return error message
 	 */
-	protected String getErrorMessage(final FacesContext fc, final Throwable ex) {
-		final String result = ex.getMessage() != null ? ex.getMessage() : ex.getClass().getName();
+	protected String getErrorMessage(FacesContext fc, Throwable ex) {
+		String result = ex.getMessage() != null ? ex.getMessage() : ex.getClass().getName();
 		return result;
 	}
 
@@ -119,7 +119,7 @@ public class YFacesErrorHandler {
 	 * @param e
 	 * @return {@link Throwable}
 	 */
-	private Throwable findReleventCause(final Exception e) {
+	private Throwable findReleventCause(Exception e) {
 		final Throwable result = (e instanceof YFacesException) ? e : e.getCause();
 		return result;
 	}

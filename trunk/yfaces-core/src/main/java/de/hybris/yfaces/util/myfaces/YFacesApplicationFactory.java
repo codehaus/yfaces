@@ -38,8 +38,8 @@ import de.hybris.yfaces.YFacesException;
  */
 public class YFacesApplicationFactory extends ApplicationFactory {
 	/**
-	 * Own {@link Application} implementation which uses an {@link YFacesELResolver} instead of
-	 * the JSF created {@link ELResolver}.<br/>
+	 * Own {@link Application} implementation which uses an {@link YFacesELResolver} instead of the
+	 * JSF created {@link ELResolver}.<br/>
 	 * <br/>
 	 * For easier handling this implementation depends on the myfaces implementation<br/>
 	 * Whenever an independent solution is needed the source {@link Application} instance must be
@@ -104,7 +104,7 @@ public class YFacesApplicationFactory extends ApplicationFactory {
 	 * .application.Application)
 	 */
 	@Override
-	public void setApplication(final Application application) {
+	public void setApplication(Application application) {
 		throw new YFacesException("Can't set another instance of " + Application.class.getName());
 	}
 

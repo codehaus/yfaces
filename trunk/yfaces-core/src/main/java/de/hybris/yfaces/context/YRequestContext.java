@@ -187,7 +187,7 @@ public abstract class YRequestContext {
 			ectx.redirect(ectx.encodeResourceURL(url));
 			fctx.responseComplete();
 
-		} catch (final IOException e) {
+		} catch (IOException e) {
 			throw new YFacesException("Can't redirect to " + url, e);
 		}
 		//this.setFlash(isFlash);
@@ -222,7 +222,7 @@ public abstract class YRequestContext {
 	 * 
 	 * @param viewId
 	 */
-	void startPageRequest(final String viewId) {
+	void startPageRequest(String viewId) {
 		this.currentPhase = REQUEST_PHASE.START_REQUEST;
 
 		// detect method
@@ -237,7 +237,7 @@ public abstract class YRequestContext {
 		if (isPostBack || isFlash) {
 			// iterate over all context pages...
 			Collection<YPageContext> pages = convCtx.getAllPages();
-			for (final YPageContext page : pages) {
+			for (YPageContext page : pages) {
 				// ...and notify page for a new request (re-inject all
 				// frames/mbeans)
 				for (YFrame frame : page.getFrames()) {
@@ -258,7 +258,7 @@ public abstract class YRequestContext {
 		// otherwise ...
 		else {
 			// ...reset context with new initialized page
-			final String url = getViewURL(viewId, true);
+			String url = getViewURL(viewId, true);
 			YPageContext newPage = new YPageContext(convCtx, viewId, url);
 			convCtx.start(newPage);
 		}
@@ -272,14 +272,14 @@ public abstract class YRequestContext {
 	 * 
 	 * @param newViewId
 	 */
-	void switchPage(final String newViewId) {
+	void switchPage(String newViewId) {
 		this.currentPhase = REQUEST_PHASE.FORWARD_REQUEST;
 
 		YConversationContext convCtx = getPageContext().getConversationContext();
 
 		// lookup whether newViewId matches on of context managed previous pages
 		// (browser backbutton, regular "back" navigation, etc. )
-		final YPageContext previousPage = convCtx.getPage(newViewId);
+		YPageContext previousPage = convCtx.getPage(newViewId);
 
 		// when no previous page is available (e.g. navigation to a new view)
 		// ...
@@ -317,7 +317,7 @@ public abstract class YRequestContext {
 	 * 
 	 * @param viewId
 	 */
-	void finishPageRequest(final String viewId) {
+	void finishPageRequest(String viewId) {
 		this.currentPhase = REQUEST_PHASE.END_REQUEST;
 
 		if (log.isDebugEnabled()) {
@@ -339,8 +339,8 @@ public abstract class YRequestContext {
 	 *            view to generate the URL for
 	 * @return String
 	 */
-	private String getViewURL(final String viewId, final boolean addCurrentQueryParams) {
-		final FacesContext fc = FacesContext.getCurrentInstance();
+	private String getViewURL(String viewId, boolean addCurrentQueryParams) {
+		FacesContext fc = FacesContext.getCurrentInstance();
 
 		// request view url but without context path
 		String result = fc.getApplication().getViewHandler().getActionURL(fc, viewId);
@@ -352,12 +352,12 @@ public abstract class YRequestContext {
 		// environment and, more important, may return an incorrect string when
 		// urlrewriting is used.
 		if (addCurrentQueryParams) {
-			final Map<String, String[]> values = FacesContext.getCurrentInstance()
-					.getExternalContext().getRequestParameterValuesMap();
+			Map<String, String[]> values = FacesContext.getCurrentInstance().getExternalContext()
+					.getRequestParameterValuesMap();
 			if (!values.isEmpty()) {
 				String params = "?";
-				for (final Map.Entry<String, String[]> entry : values.entrySet()) {
-					for (final String value : entry.getValue()) {
+				for (Map.Entry<String, String[]> entry : values.entrySet()) {
+					for (String value : entry.getValue()) {
 						params = params + entry.getKey() + "=" + value + ";";
 					}
 				}

@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 the original author or authors.
+ * Copyright 2009 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -90,7 +90,7 @@ public class YComponentRegistry {
 	 *            ID
 	 * @return {@link YComponentInfo}
 	 */
-	public YComponentInfo getComponent(final String id) {
+	public YComponentInfo getComponent(String id) {
 		return idToCmpMap.get(id);
 	}
 
@@ -107,16 +107,16 @@ public class YComponentRegistry {
 	 * @param cmpInfo
 	 * @return true when successful
 	 */
-	public boolean addComponent(final YComponentInfo cmpInfo) {
+	public boolean addComponent(YComponentInfo cmpInfo) {
 
 		boolean result = false;
 
 		if (cmpInfo != null) {
-			final String id = cmpInfo.getId();
+			String id = cmpInfo.getId();
 
 			if (id != null) {
 				Set<ERROR_STATE> errors = cmpInfo.verifyComponent();
-				Set<ERROR_STATE> warnings = Collections.EMPTY_SET;
+				Set<ERROR_STATE> warnings = Collections.emptySet();
 
 				// when errors are thrown...
 				if (!errors.isEmpty()) {
