@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 the original author or authors.
+ * Copyright 2009 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,18 +24,15 @@ import javax.faces.event.FacesEvent;
  * Common event which gets thrown by a {@link YComponent}<br/>
  * <br/>
  * Or more detailed:<br/>
- * This type of event gets created and thrown from within a
- * {@link YComponentEventHandler}<br/>
- * The {@link YComponentEventHandler} takes the FacesEvent which was thrown by
- * JSF, wraps it into this event and notifies each registered
- * {@link YComponentEventListener}<br/>
+ * This type of event gets created and thrown from within a {@link YComponentEventHandler}<br/>
+ * The {@link YComponentEventHandler} takes the FacesEvent which was thrown by JSF, wraps it into
+ * this event and notifies each registered {@link YComponentEventListener}<br/>
  * 
  * @author Denny.Strietzbaum
  */
 public interface YComponentEvent<T extends YComponent> {
 	/**
-	 * Returns the nearest enclosing {@link UIForm} of the {@link UICommand} who
-	 * fired this action.<br/>
+	 * Returns the nearest enclosing {@link UIForm} of the {@link UICommand} who fired this action.<br/>
 	 * 
 	 * @return {@link UIForm}
 	 */

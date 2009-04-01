@@ -62,16 +62,6 @@ public abstract class AbstractYComponent implements YComponent {
 		this.id = id;
 	}
 
-	// public String getStyleClass()
-	// {
-	// return this.styleClass;
-	// }
-	//
-	// public void setStyleClass(String styleClass)
-	// {
-	// this.styleClass = styleClass;
-	// }
-
 	public Map<String, Object> getAttributes() {
 		if (this.attributes == null) {
 			this.attributes = new HashMap<String, Object>();
@@ -125,20 +115,20 @@ public abstract class AbstractYComponent implements YComponent {
 
 	@Override
 	public String toString() {
-		final StringBuilder result = new StringBuilder();
+		StringBuilder result = new StringBuilder();
 		return super.hashCode() + " uid: " + this.uid + " " + result.toString();
 	}
 
-	public void setFrame(final String frameBinding) {
+	public void setFrame(String frameBinding) {
 		this.frameBinding = frameBinding;
 	}
 
 	public YFrame getFrame() {
 		YFrame result = null;
 		if (frameBinding != null) {
-			final FacesContext fc = FacesContext.getCurrentInstance();
-			final ValueExpression ve = fc.getApplication().getExpressionFactory()
-					.createValueExpression(fc.getELContext(), this.frameBinding, Object.class);
+			FacesContext fc = FacesContext.getCurrentInstance();
+			ValueExpression ve = fc.getApplication().getExpressionFactory().createValueExpression(
+					fc.getELContext(), this.frameBinding, Object.class);
 
 			Object value = ve.getValue(fc.getELContext());
 			if (value instanceof YFrame) {
@@ -174,7 +164,7 @@ public abstract class AbstractYComponent implements YComponent {
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
-	public boolean equals(final Object obj) {
+	public boolean equals(Object obj) {
 		return (obj.getClass().equals(this.getClass()))
 				&& ((AbstractYComponent) obj).uid.equals(this.uid);
 	}
@@ -195,17 +185,16 @@ public abstract class AbstractYComponent implements YComponent {
 	// times
 	// first during restoring treestructure and second during restoring
 	// componentstate
-	private void readObject(final ObjectInputStream in) throws ClassNotFoundException, IOException {
+	private void readObject(ObjectInputStream in) throws ClassNotFoundException, IOException {
 		in.defaultReadObject();
 		this.logId = this.getClass().getSimpleName();
-		// ((SfUserSession)Webfoundation.getInstance().getUserSession()).getEventHandlerForComponents().addToAllPossible(this);
 
 		if (log.isDebugEnabled()) {
 			log.debug("DeSERIALIZE (restore) component [" + logId + "] (" + this.hashCode() + ")");
 		}
 	}
 
-	private void writeObject(final ObjectOutputStream aOutputStream) throws IOException {
+	private void writeObject(ObjectOutputStream aOutputStream) throws IOException {
 		aOutputStream.defaultWriteObject();
 		if (log.isDebugEnabled()) {
 			log.debug("SERIALIZE (save) component [" + logId + "] (" + this.hashCode() + ")");

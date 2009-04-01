@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 the original author or authors.
+ * Copyright 2009 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,6 +29,7 @@ import javax.faces.application.Application;
 import de.hybris.yfaces.component.YComponent;
 import de.hybris.yfaces.component.YComponentBinding;
 import de.hybris.yfaces.component.YFrame;
+import de.hybris.yfaces.context.YPageContext;
 import de.hybris.yfaces.context.YRequestContext;
 import de.hybris.yfaces.context.YRequestContextImpl;
 import de.hybris.yfaces.context.YRequestContext.REQUEST_PHASE;
@@ -36,13 +37,17 @@ import de.hybris.yfaces.util.myfaces.YFacesApplicationFactory;
 import de.hybris.yfaces.util.myfaces.YFacesApplicationFactory.YFacesApplication;
 
 /**
- * A wrapper around a {@link ELResolver}.<br/>
- * This wrapper is used instead of the regular JSF one.<br/>
- * <br/>
- * Task of this resolver is a postprocessing of the resolved value.<br/>
- * This is needed when resolving {@link YComponentBinding} instances automatically to a
- * {@link YComponentBinding#getValue()} or {@link YComponentBinding#setValue(YComponent)}. <br/>
- * <br/>
+ * An own {@link ELResolver} implementation which deals with {@link YComponentBinding} and
+ * {@link YFrame} instances.
+ * <p>
+ * This resolver can't be used as element of a chain of existing resolvers as the goal is to
+ * post-process resolved values of type {@link YComponentBinding} and {@link YFrame}.So technically
+ * this resolver is a wrapper around the configured resolver chain.
+ * <p>
+ * When a {@link YComponentBinding} is to be resolved: Resolves the binding to
+ * {@link YComponentBinding#getValue()} when necessary.
+ * <p>
+ * When a {@link YFrame} is to be resolved: Add that frame to current {@link YPageContext}.
  * 
  * @see YFacesApplicationFactory
  * @see YFacesApplication
@@ -60,7 +65,7 @@ public class YFacesELResolver extends ELResolver {
 	 * 
 	 * @param resolver
 	 */
-	public YFacesELResolver(final ELResolver resolver) {
+	public YFacesELResolver(ELResolver resolver) {
 		this.resolver = resolver;
 	}
 
@@ -81,12 +86,13 @@ public class YFacesELResolver extends ELResolver {
 	 * @see javax.el.ELResolver#getValue(javax.el.ELContext, java.lang.Object, java.lang.Object)
 	 */
 	@Override
-	public Object getValue(final ELContext context, Object base, final Object property)
+	public Object getValue(ELContext context, Object base, Object property)
 			throws NullPointerException, PropertyNotFoundException, ELException {
+
 		// when base is a YComponentBinding (Components within components;
 		// component templates) then resolve to its value
 		if (base instanceof YComponentBinding) {
-			base = ((YComponentBinding) base).getValue();
+			base = ((YComponentBinding<?>) base).getValue();
 		}
 
 		// delegate to original resolver
@@ -94,14 +100,14 @@ public class YFacesELResolver extends ELResolver {
 
 		// ... when value is a Frame: notify current YPage
 		if (result instanceof YFrame) {
-			this.handleFrameRequest((YFrame) result);
+			this.addFrameToPageContext((YFrame) result);
 		}
 
-		// ... when value is a YCOmponentBinding and resolving is enabled,
-		// resolve value to YCOmponentBindings value
+		// ... when value is a YComponentBinding and resolving is enabled,
+		// resolve value to YComponentBindings value
 		if (getYContext(context).isResolveYComponentBinding()
 				&& result instanceof YComponentBinding) {
-			result = ((YComponentBinding) result).getValue();
+			result = ((YComponentBinding<?>) result).getValue();
 		}
 
 		return result;
@@ -114,9 +120,9 @@ public class YFacesELResolver extends ELResolver {
 	 * java.lang.Object)
 	 */
 	@Override
-	public void setValue(final ELContext context, final Object base, final Object property,
-			Object value) throws NullPointerException, PropertyNotFoundException,
-			PropertyNotWritableException, ELException {
+	public void setValue(ELContext context, Object base, Object property, Object value)
+			throws NullPointerException, PropertyNotFoundException, PropertyNotWritableException,
+			ELException {
 
 		Class<?> type = this.resolver.getType(context, base, property);
 
@@ -124,8 +130,8 @@ public class YFacesELResolver extends ELResolver {
 		if (YComponentBinding.class.equals(type)) {
 			boolean resolveBinding = getYContext(context).isResolveYComponentBinding();
 			if (resolveBinding) {
-				YComponentBinding<YComponent> binding = (YComponentBinding) this.resolver.getValue(
-						context, base, property);
+				YComponentBinding binding = (YComponentBinding) this.resolver.getValue(context,
+						base, property);
 				binding.setValue((YComponent) value);
 			} else {
 				this.resolver.setValue(context, base, property, value);
@@ -151,7 +157,7 @@ public class YFacesELResolver extends ELResolver {
 	 * @see javax.el.ELResolver#isReadOnly(javax.el.ELContext, java.lang.Object, java.lang.Object)
 	 */
 	@Override
-	public boolean isReadOnly(final ELContext context, final Object base, final Object property)
+	public boolean isReadOnly(ELContext context, Object base, Object property)
 			throws NullPointerException, PropertyNotFoundException, ELException {
 		final boolean result = false;
 		// if (!this.resolver.getType(context, base,
@@ -172,10 +178,10 @@ public class YFacesELResolver extends ELResolver {
 	 * @see javax.el.ELResolver#getType(javax.el.ELContext, java.lang.Object, java.lang.Object)
 	 */
 	@Override
-	public Class<?> getType(final ELContext context, final Object base, final Object property)
+	public Class<?> getType(ELContext context, Object base, Object property)
 			throws NullPointerException, PropertyNotFoundException, ELException {
 		// delegate to original resolver
-		Class result = this.resolver.getType(context, base, property);
+		Class<?> result = this.resolver.getType(context, base, property);
 
 		// when enabled, resolve YComponentBinding to YComponent
 		if (getYContext(context).isResolveYComponentBinding()
@@ -191,7 +197,7 @@ public class YFacesELResolver extends ELResolver {
 	 * @see javax.el.ELResolver#getCommonPropertyType(javax.el.ELContext, java.lang.Object)
 	 */
 	@Override
-	public Class<?> getCommonPropertyType(final ELContext context, final Object base) {
+	public Class<?> getCommonPropertyType(ELContext context, Object base) {
 		return this.resolver.getCommonPropertyType(context, base);
 	}
 
@@ -201,30 +207,31 @@ public class YFacesELResolver extends ELResolver {
 	 * @see javax.el.ELResolver#getFeatureDescriptors(javax.el.ELContext, java.lang.Object)
 	 */
 	@Override
-	public Iterator<FeatureDescriptor> getFeatureDescriptors(final ELContext context,
-			final Object base) {
+	public Iterator<FeatureDescriptor> getFeatureDescriptors(ELContext context, Object base) {
 		return this.resolver.getFeatureDescriptors(context, base);
 	}
 
 	/**
-	 * Returns the current {@link YFacesELContext}
+	 * Extracts the {@link YFacesELContext} from passed {@link ELContext}
 	 * 
 	 * @param context
 	 *            {@link ELContext}
 	 * @return {@link YFacesELContext}
+	 * 
+	 * @see YFacesELContextListener
 	 */
-	private YFacesELContext getYContext(final ELContext context) {
+	private YFacesELContext getYContext(ELContext context) {
 		return (YFacesELContext) context.getContext(YFacesELContext.class);
 	}
 
 	/**
-	 * Internal. Notifies the context that a Frame is right now requested.
+	 * Adds the frame to current {@link YPageContext} when necessary
 	 * 
 	 * @param frame
+	 *            frame to add
 	 * 
-	 * @see YFacesELResolver
 	 */
-	private void handleFrameRequest(final YFrame frame) {
+	private void addFrameToPageContext(YFrame frame) {
 		// frames are getting added when:
 		// a) method is get
 		// b) method is post and START_REQUEST phase has finished

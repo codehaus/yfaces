@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 the original author or authors.
+ * Copyright 2009 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,24 +17,26 @@ package de.hybris.yfaces.component;
 
 import java.io.Serializable;
 
+import javax.faces.component.UIComponent;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.FacesEvent;
 import javax.faces.event.ValueChangeEvent;
 
 /**
- * An event handler for a {@link YComponent}.<br/>
- * Accepts JSF events ({@link FacesEvent}) and notifies each listener.<br/>
- * Event delegating methods:<br/>
- * ValueChangeEvent: {@link #valueChangeListener(ValueChangeEvent)} ActionEvent:
- * {@link #actionListener(ActionEvent)} Action outcome: {@link #action()} <br/>
- * Appropriate listener methods are:<br/>
- * {@link YComponentEventListener#valueChangeListener(YComponentEvent)}<br/>
- * {@link YComponentEventListener#actionListener(YComponentEvent)}<br/>
- * {@link YComponentEventListener#action()}<br/>
- * <br/>
- * Caught events are wrapped into a {@link YComponentEvent} which gets passed to
- * an appropriate listener. <br/>
- * <br/>
+ * An event handler for a {@link YComponent}.
+ * <p>
+ * Technically this handler catches a JSF event of type {@link FacesEvent}, wraps that event into a
+ * {@link YComponentEvent} and notifies all {@link YComponentEventListener} which are registered at
+ * this handler.
+ * <p>
+ * To assure this handler gets notified when a {@link FacesEvent} is thrown this handler must be
+ * added as listener to appropriate {@link UIComponent} properties.
+ * <p>
+ * Example:<br/>
+ * An YComponent is available under 'mycomponent' and returns an eventhandler under the propery
+ * 'submitForm'. <code>&lth:commandButton action="#{mycomponent.submitForm.action}"
+ * actionListener="#{mycomponent.submitForm.actionListener}"&gt;</code>
+ * <p>
  * 
  * @author Denny.Strietzbaum
  */
@@ -42,20 +44,19 @@ public interface YComponentEventHandler<T extends YComponent> extends Serializab
 
 	/**
 	 * Adds a custom {@link YComponentEventListener}.<br/>
-	 * This listener gets processed after the default one and after all previous
-	 * set listeners.<br/>
+	 * This listener gets processed after the default one and after all previous set listeners.<br/>
 	 * 
 	 * @param listener
 	 *            listener to add.
 	 */
-	public void addCustomListener(YComponentEventListener listener);
+	public void addCustomListener(YComponentEventListener<T> listener);
 
 	/**
 	 * Returns the default {@link YComponentEventListener}.<br/>
 	 * 
 	 * @return {@link YComponentEventListener}
 	 */
-	public YComponentEventListener getListener();
+	public YComponentEventListener<T> getListener();
 
 	/**
 	 * Sets the default {@link YComponentEventListener}
@@ -63,7 +64,7 @@ public interface YComponentEventHandler<T extends YComponent> extends Serializab
 	 * @param listener
 	 *            listener to set.
 	 */
-	public void setListener(YComponentEventListener listener);
+	public void setListener(YComponentEventListener<T> listener);
 
 	/**
 	 * Listens to an incoming JSF FacesEvent and notifies all listeners.<br/>

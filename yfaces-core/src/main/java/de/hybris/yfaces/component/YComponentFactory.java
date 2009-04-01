@@ -57,14 +57,14 @@ public class YComponentFactory {
 
 	public YComponentInfo createComponentInfo(URL url, String namespace) {
 		YComponentInfo result = null;
-		final Matcher tagNameMatcher = YFacesTaglib.COMPONENT_RESOURCE_PATTERN.matcher(url
+		Matcher tagNameMatcher = YFacesTaglib.COMPONENT_RESOURCE_PATTERN.matcher(url
 				.toExternalForm());
 
 		if (tagNameMatcher.matches()) {
 			result = new YComponentInfo();
 			String content = null;
 			try {
-				final StringWriter writer = new StringWriter();
+				StringWriter writer = new StringWriter();
 				IOUtils.copy(new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8")),
 						writer);
 				content = writer.toString();
@@ -82,7 +82,7 @@ public class YComponentFactory {
 				if (!isComponent) {
 					result = null;
 				}
-			} catch (final Exception e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
@@ -112,7 +112,7 @@ public class YComponentFactory {
 	private boolean initializeYComponentInfo(YComponentInfo cmpInfo, String content) {
 
 		// component attributes
-		final Map<String, String> attributes = this.getYComponentAttributes(content);
+		Map<String, String> attributes = this.getYComponentAttributes(content);
 		boolean isYComponent = attributes != null;
 
 		if (isYComponent) {
@@ -122,8 +122,8 @@ public class YComponentFactory {
 			cmpInfo.setSpecificationClassName(attributes.get(ATTR_SPEC_CLASS));
 
 			// old style
-			for (final Map.Entry<String, String> entry : attributes.entrySet()) {
-				final Matcher injectableMatcher = SINGLE_EL_ATTRIBUTE.matcher(entry.getValue());
+			for (Map.Entry<String, String> entry : attributes.entrySet()) {
+				Matcher injectableMatcher = SINGLE_EL_ATTRIBUTE.matcher(entry.getValue());
 				if (injectableMatcher.matches()) {
 					cmpInfo.addInjectableProperty(entry.getKey());
 				}
@@ -131,9 +131,9 @@ public class YComponentFactory {
 
 			// add list of attributes given as "injectable" to injectable properties
 			// this is the preferred way of declaring injectable attributes
-			final String injectable = attributes.get(ATTR_INJECTABLE);
+			String injectable = attributes.get(ATTR_INJECTABLE);
 			if (injectable != null) {
-				final String properties[] = injectable.trim().split("\\s*,\\s*");
+				String properties[] = injectable.trim().split("\\s*,\\s*");
 				cmpInfo.addInjectableProperties(properties);
 			}
 		}
@@ -149,17 +149,17 @@ public class YComponentFactory {
 	 * @param content
 	 *            String
 	 */
-	private Map<String, String> getYComponentAttributes(final String content) {
+	private Map<String, String> getYComponentAttributes(String content) {
 		Map<String, String> result = null;
 
 		// extract all attributes (raw string)
-		final Matcher allAttributesMatcher = ALL_ATTRIBUTES.matcher(content);
+		Matcher allAttributesMatcher = ALL_ATTRIBUTES.matcher(content);
 		if (allAttributesMatcher.find()) {
 			final String _attributes = allAttributesMatcher.group(1);
 			result = new HashMap<String, String>();
 
 			// extract each single attribute
-			final Matcher singleAttributeMatcher = SINGLE_ATTRIBUTE.matcher(_attributes);
+			Matcher singleAttributeMatcher = SINGLE_ATTRIBUTE.matcher(_attributes);
 			while (singleAttributeMatcher.find()) {
 				// ...extract attributes name and value
 				// String attrName = singleAttributeMatcher.group(1).toLowerCase();

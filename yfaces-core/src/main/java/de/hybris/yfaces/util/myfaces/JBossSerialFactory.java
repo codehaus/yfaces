@@ -14,27 +14,27 @@ import org.jboss.serial.io.JBossObjectOutputStream;
 
 public class JBossSerialFactory implements SerialFactory {
 	public static class MyFacesJBossObjectInputStream extends JBossObjectInputStream {
-		public MyFacesJBossObjectInputStream(final InputStream stream) throws IOException {
+		public MyFacesJBossObjectInputStream(InputStream stream) throws IOException {
 			super(stream);
 		}
 
 		@Override
-		protected Class resolveClass(final ObjectStreamClass desc) throws ClassNotFoundException,
+		protected Class<?> resolveClass(ObjectStreamClass desc) throws ClassNotFoundException,
 				IOException {
 			try {
 				return ClassUtils.classForName(desc.getName());
-			} catch (final ClassNotFoundException e) {
+			} catch (ClassNotFoundException e) {
 				return super.resolveClass(desc);
 			}
 		}
 
 	}
 
-	public ObjectOutputStream getObjectOutputStream(final OutputStream stream) throws IOException {
+	public ObjectOutputStream getObjectOutputStream(OutputStream stream) throws IOException {
 		return new JBossObjectOutputStream(stream);
 	}
 
-	public ObjectInputStream getObjectInputStream(final InputStream stream) throws IOException {
+	public ObjectInputStream getObjectInputStream(InputStream stream) throws IOException {
 		return new MyFacesJBossObjectInputStream(stream);
 	}
 

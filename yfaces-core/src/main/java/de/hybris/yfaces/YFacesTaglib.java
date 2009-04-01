@@ -165,7 +165,7 @@ public class YFacesTaglib extends AbstractTagLibrary {
 	private void registerYComponents() {
 
 		// fetch configured component search paths and split it by delimiter
-		final String[] dirs = this.getAsArray(PARAM_COMPONENT_DIRS);
+		String[] dirs = this.getAsArray(PARAM_COMPONENT_DIRS);
 
 		// filter duplicates path elements
 		Collection<String> dirSet = new LinkedHashSet<String>();
@@ -250,7 +250,7 @@ public class YFacesTaglib extends AbstractTagLibrary {
 	private void collectComponentResources(String extNamespace, String base, boolean recursive) {
 
 		// fetch resources from passed base
-		final ExternalContext ctx = FacesContext.getCurrentInstance().getExternalContext();
+		ExternalContext ctx = FacesContext.getCurrentInstance().getExternalContext();
 		Set<String> resources = ctx.getResourcePaths(base);
 
 		// is null when base is not valid
@@ -289,7 +289,7 @@ public class YFacesTaglib extends AbstractTagLibrary {
 
 	private void registerElFunctions() {
 		// Add functions
-		for (final Method method : YFacesTaglibELFunc.class.getMethods()) {
+		for (Method method : YFacesTaglibELFunc.class.getMethods()) {
 			if (Modifier.isStatic(method.getModifiers())) {
 				this.addFunction(method.getName(), method);
 				if (log.isDebugEnabled()) {
@@ -312,27 +312,27 @@ public class YFacesTaglib extends AbstractTagLibrary {
 	 * @throws Exception
 	 */
 	public static String getAllComponentsAsXHTMLFragment() throws Exception {
-		final File result = File.createTempFile("allComponents", ".xhtml");
-		final PrintWriter pr = new PrintWriter(new FileWriter(result));
+		File result = File.createTempFile("allComponents", ".xhtml");
+		PrintWriter pr = new PrintWriter(new FileWriter(result));
 
-		final Pattern pattern = Pattern.compile(DEFAULT_COMPONENTS_DIR + "/(.*)Tag\\.xhtml");
-		final HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance()
+		Pattern pattern = Pattern.compile(DEFAULT_COMPONENTS_DIR + "/(.*)Tag\\.xhtml");
+		HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance()
 				.getExternalContext().getRequest();
-		final ServletContext ctx = request.getSession().getServletContext();
+		ServletContext ctx = request.getSession().getServletContext();
 
-		final Set<?> resources = ctx.getResourcePaths(DEFAULT_COMPONENTS_DIR);
+		Set<?> resources = ctx.getResourcePaths(DEFAULT_COMPONENTS_DIR);
 
 		pr.println("<ui:composition " + "xmlns=\"http://www.w3.org/1999/xhtml\" \n"
 				+ "xmlns:ui=\"http://java.sun.com/jsf/facelets\" \n" + "xmlns:yf=\""
 				+ NAMESPACE_BASE + "\" >");
-		for (final Object obj : resources) {
+		for (Object obj : resources) {
 			// not sure whether this set can contain any other stuff than
 			// Strings
 			if (obj instanceof String) {
-				final String resource = (String) obj;
-				final Matcher m = pattern.matcher(resource);
+				String resource = (String) obj;
+				Matcher m = pattern.matcher(resource);
 				if (m.matches()) {
-					final String cmp = m.group(1);
+					String cmp = m.group(1);
 					pr.println("<b>" + cmp + "Component<br/> &lt;yf:" + cmp + "&gt;</b><br/><br/>");
 					pr.println("<yf:" + cmp + "/> <br/><hr/><br/>");
 				} else {
@@ -344,7 +344,7 @@ public class YFacesTaglib extends AbstractTagLibrary {
 		pr.flush();
 		pr.close();
 
-		final String resultPath = "file:" + result.getAbsolutePath();
+		String resultPath = "file:" + result.getAbsolutePath();
 
 		System.out.println("generated testfile: " + resultPath);
 

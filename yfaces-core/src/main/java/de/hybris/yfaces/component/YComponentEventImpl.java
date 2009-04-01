@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 the original author or authors.
+ * Copyright 2009 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,7 +31,7 @@ import de.hybris.yfaces.component.html.HtmlYComponent;
  * @author Denny.Strietzbaum
  * 
  */
-public class YComponentEventImpl<T extends YComponent> implements YComponentEvent {
+public class YComponentEventImpl<T extends YComponent> implements YComponentEvent<T> {
 	private static final Logger log = Logger.getLogger(YComponentEventImpl.class);
 	private static final String YCOMPONENT_ACTION_PARAMETER = YComponent.class.getSimpleName();
 
@@ -51,14 +51,14 @@ public class YComponentEventImpl<T extends YComponent> implements YComponentEven
 	}
 
 	/**
-	 * Initializes this controller. This includes operations like detect
-	 * actionform (parentform), actioncomponent, retrieve the model, ... <br/>
+	 * Initializes this controller. This includes operations like detect actionform (parentform),
+	 * actioncomponent, retrieve the model, ... <br/>
 	 * This method must be called by all actioneventlisteners.
 	 * 
 	 * @param event
 	 *            {@link ActionEvent}
 	 */
-	protected void initialize(final FacesEvent event) {
+	protected void initialize(FacesEvent event) {
 		this.facesEventSource = event;
 
 		if (event == null) {
@@ -72,7 +72,7 @@ public class YComponentEventImpl<T extends YComponent> implements YComponentEven
 		}
 
 		if (log.isDebugEnabled()) {
-			final YComponent cmp = getActionComponent();
+			YComponent cmp = getActionComponent();
 			String ctxPath = "event:" + this.getClass().getSimpleName() + "; componentId:"
 					+ cmp.getId();
 
@@ -105,8 +105,7 @@ public class YComponentEventImpl<T extends YComponent> implements YComponentEven
 	}
 
 	/**
-	 * Returns the nearest enclosing {@link UIForm} of the {@link UICommand} who
-	 * fired this action.<br/>
+	 * Returns the nearest enclosing {@link UIForm} of the {@link UICommand} who fired this action.<br/>
 	 * 
 	 * @return {@link UIForm}
 	 */
@@ -126,9 +125,8 @@ public class YComponentEventImpl<T extends YComponent> implements YComponentEven
 	}
 
 	/**
-	 * Returns the nearest enclosing {@link HtmlYComponent} of the
-	 * {@link UIComponent} (may be of type command or select) who fired this
-	 * action.<br/>
+	 * Returns the nearest enclosing {@link HtmlYComponent} of the {@link UIComponent} (may be of
+	 * type command or select) who fired this action.<br/>
 	 * 
 	 * @return {@link HtmlYComponent}
 	 */
@@ -153,7 +151,7 @@ public class YComponentEventImpl<T extends YComponent> implements YComponentEven
 	 *            Childcomponent of the Parentform.
 	 * @return Parentform
 	 */
-	private UIForm findParentForm(final UIComponent c) {
+	private UIForm findParentForm(UIComponent c) {
 		UIComponent result = c;
 		while ((!(result instanceof UIForm)) && (result != null)) {
 			result = result.getParent();
@@ -161,12 +159,11 @@ public class YComponentEventImpl<T extends YComponent> implements YComponentEven
 		return (UIForm) result;
 	}
 
-	@SuppressWarnings("unchecked")
-	private <T2 extends YComponent> T2 findComponent(final String attribute) {
+	private <T2 extends YComponent> T2 findComponent(String attribute) {
 		T2 result = null;
 
 		if (this.isInitialized()) {
-			// lookup for parent HybrisComponent which holds the model
+			// lookup for parent YComponent which holds the model
 			HtmlYComponent cmp = null;
 			if (result == null && (cmp = getActionHtmlYComponent()) != null) {
 				result = (T2) cmp.getYComponent();
@@ -176,15 +173,6 @@ public class YComponentEventImpl<T extends YComponent> implements YComponentEven
 					logId
 							+ " found no Component (got no FacesEvent; missing Action- or ValueChangeListener?)");
 		}
-
-		// //try request attributes
-		// if (result == null)
-		// {
-		// log.warn(logId +
-		// ": is not initialized; try request for attribute-lookup as fallback");
-		// result =
-		// (T)FacesContext.getCurrentInstance().getExternalContext().getRequestMap().get(attribute);
-		// }
 
 		// finally throw exception when no component was found
 		if (result == null) {
@@ -200,7 +188,7 @@ public class YComponentEventImpl<T extends YComponent> implements YComponentEven
 
 	public T getActionComponent() {
 		if (this.yCmpSource == null) {
-			this.yCmpSource = (T) findComponent(YCOMPONENT_ACTION_PARAMETER);
+			this.yCmpSource = findComponent(YCOMPONENT_ACTION_PARAMETER);
 		}
 		return this.yCmpSource;
 	}

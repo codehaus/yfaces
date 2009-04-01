@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 the original author or authors.
+ * Copyright 2009 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,14 +28,14 @@ import org.apache.log4j.Logger;
  * @author Denny.Strietzbaum
  * 
  */
-public class YComponentEventHandlerImpl implements YComponentEventHandler<YComponent> {
+public class YComponentEventHandlerImpl<T extends YComponent> implements YComponentEventHandler<T> {
 
 	private static final long serialVersionUID = 1L;
 
 	private static final Logger log = Logger.getLogger(YComponentEventHandlerImpl.class);
 
 	// list of listeners
-	private List<YComponentEventListener> listeners = null;
+	private List<YComponentEventListener<T>> listeners = null;
 
 	// enable/disable handler
 	private boolean enabled = true;
@@ -46,23 +46,23 @@ public class YComponentEventHandlerImpl implements YComponentEventHandler<YCompo
 	private transient FacesEvent eventSource = null;
 
 	public YComponentEventHandlerImpl() {
-		this(new DefaultYComponentEventListener<YComponent>());
+		this(new DefaultYComponentEventListener<T>());
 	}
 
-	protected YComponentEventHandlerImpl(YComponentEventListener listener) {
-		this.listeners = new LinkedList<YComponentEventListener>();
+	protected YComponentEventHandlerImpl(YComponentEventListener<T> listener) {
+		this.listeners = new LinkedList<YComponentEventListener<T>>();
 		listeners.add(listener);
 	}
 
-	public void addCustomListener(final YComponentEventListener listener) {
+	public void addCustomListener(YComponentEventListener<T> listener) {
 		this.listeners.add(listener);
 	}
 
-	public YComponentEventListener getListener() {
+	public YComponentEventListener<T> getListener() {
 		return this.listeners.get(0);
 	}
 
-	public void setListener(final YComponentEventListener listener) {
+	public void setListener(YComponentEventListener<T> listener) {
 		this.listeners.set(0, listener);
 	}
 
@@ -78,12 +78,12 @@ public class YComponentEventHandlerImpl implements YComponentEventHandler<YCompo
 		}
 
 		String result = null;
-		for (final YComponentEventListener listener : this.listeners) {
+		for (YComponentEventListener<T> listener : this.listeners) {
 			try {
 				log.debug("Notify listener (action) " + listener.getClass().getSimpleName());
-				result = ((AbstractYComponentEventListener) listener).fireAction();
-			} catch (final RuntimeException e) {
-				final String msg = "Exception while processing Action (" + "Event: "
+				result = ((AbstractYComponentEventListener<T>) listener).fireAction();
+			} catch (RuntimeException e) {
+				String msg = "Exception while processing Action (" + "Event: "
 						+ listener.getClass().getSimpleName() + ")";
 
 				log.error(msg, e);
@@ -101,10 +101,10 @@ public class YComponentEventHandlerImpl implements YComponentEventHandler<YCompo
 	 * @see storefoundation.yfaces.YComponentEventHandler#actionListener(javax.faces
 	 * .event.ActionEvent)
 	 */
-	public void actionListener(final ActionEvent event) {
+	public void actionListener(ActionEvent event) {
 		this.eventSource = event;
-		for (final YComponentEventListener listener : this.listeners) {
-			final YComponentEvent _event = new YComponentEventImpl(this.eventSource);
+		for (YComponentEventListener<T> listener : this.listeners) {
+			YComponentEvent<T> _event = new YComponentEventImpl<T>(this.eventSource);
 
 			// separate exception handling is included since jsf 1.2 (myfaces)
 			// catches any exception and wraps it into a
@@ -119,9 +119,9 @@ public class YComponentEventHandlerImpl implements YComponentEventHandler<YCompo
 				log
 						.debug("Notify listener (actionListener) "
 								+ listener.getClass().getSimpleName());
-				((AbstractYComponentEventListener) listener).fireActionListener(_event);
-			} catch (final RuntimeException e) {
-				final String msg = "Exception while processing ActionListener ("
+				((AbstractYComponentEventListener<T>) listener).fireActionListener(_event);
+			} catch (RuntimeException e) {
+				String msg = "Exception while processing ActionListener ("
 						+ YComponent.class.getSimpleName() + ": "
 						+ _event.getActionComponent().getId() + "; Event: "
 						+ listener.getClass().getSimpleName() + ")";
@@ -139,20 +139,20 @@ public class YComponentEventHandlerImpl implements YComponentEventHandler<YCompo
 	 * @see storefoundation.yfaces.YComponentEventHandler#valueChangeListener(javax
 	 * .faces.event.ValueChangeEvent)
 	 */
-	public void valueChangeListener(final ValueChangeEvent event) {
+	public void valueChangeListener(ValueChangeEvent event) {
 		this.eventSource = event;
 
-		for (final YComponentEventListener listener : this.listeners) {
-			final YComponentEvent _event = new YComponentEventImpl(this.eventSource);
+		for (YComponentEventListener<T> listener : this.listeners) {
+			YComponentEvent<T> _event = new YComponentEventImpl<T>(this.eventSource);
 
 			// see #actionListener(...) for the reason of this exception
 			// handling
 			try {
 				log.debug("Notify listener (valueChangeListener) "
 						+ listener.getClass().getSimpleName());
-				((AbstractYComponentEventListener) listener).fireValueChangeListener(_event);
-			} catch (final RuntimeException e) {
-				final String msg = "Exception while processing ValueChangeListener ("
+				((AbstractYComponentEventListener<T>) listener).fireValueChangeListener(_event);
+			} catch (RuntimeException e) {
+				String msg = "Exception while processing ValueChangeListener ("
 						+ YComponent.class.getSimpleName() + ": "
 						+ _event.getActionComponent().getId() + "; Event: "
 						+ listener.getClass().getSimpleName() + ")";
@@ -177,7 +177,7 @@ public class YComponentEventHandlerImpl implements YComponentEventHandler<YCompo
 	 * 
 	 * @see ystorefoundationpackage.faces.components.JsfEventContainer#setEnabled (boolean)
 	 */
-	public void setEnabled(final boolean enabled) {
+	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
 	}
 
@@ -195,7 +195,7 @@ public class YComponentEventHandlerImpl implements YComponentEventHandler<YCompo
 	 * 
 	 * @see storefoundation.yfaces.YComponentEventHandler#setName(java.lang.CharSequence )
 	 */
-	public void setName(final CharSequence key) {
+	public void setName(CharSequence key) {
 		this.name = key.toString();
 	}
 

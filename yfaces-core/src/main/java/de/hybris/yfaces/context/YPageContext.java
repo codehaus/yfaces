@@ -75,7 +75,7 @@ public class YPageContext {
 	 * @param url
 	 *            url of page
 	 */
-	public YPageContext(final YConversationContext ctx, final String pageId, final String url) {
+	public YPageContext(YConversationContext ctx, String pageId, String url) {
 		if (ctx == null) {
 			throw new YFacesException("No NavigationContext specified", new NullPointerException());
 		}
@@ -101,7 +101,7 @@ public class YPageContext {
 	 * @param pageId
 	 *            page-id to set
 	 */
-	protected void setId(final String pageId) {
+	protected void setId(String pageId) {
 		this.pageId = pageId;
 	}
 
@@ -122,7 +122,7 @@ public class YPageContext {
 	 * @param url
 	 *            url to set.
 	 */
-	protected void setURL(final String url) {
+	protected void setURL(String url) {
 		this.url = url;
 	}
 
@@ -138,7 +138,7 @@ public class YPageContext {
 			// for example, if the url looks like
 			// "http://www.example.com:8080/path/index.html",
 			// the result is "index"
-			final Matcher m = urlPattern.matcher(this.getURL());
+			Matcher m = urlPattern.matcher(this.getURL());
 			if (m.matches()) {
 				this.navigationId = m.group(1);
 			}
@@ -200,7 +200,7 @@ public class YPageContext {
 	}
 
 	//currently only used for YFacesELResolver
-	public void addFrame(final YFrame frame) {
+	public void addFrame(YFrame frame) {
 		this.frames.put(frame.getClass().getName(), frame);
 	}
 
@@ -223,7 +223,7 @@ public class YPageContext {
 	 * @param previousPage
 	 *            {@link YPageContext}
 	 */
-	void setPreviousPage(final YPageContext previousPage) {
+	void setPreviousPage(YPageContext previousPage) {
 		this.previousPage = previousPage;
 	}
 
@@ -238,13 +238,13 @@ public class YPageContext {
 
 	@Override
 	public String toString() {
-		final List<String> idList = new ArrayList<String>();
-		for (final YFrame frame : this.frames.values()) {
+		List<String> idList = new ArrayList<String>();
+		for (YFrame frame : this.frames.values()) {
 			idList.add(frame.getId());
 		}
-		final String frames = Arrays.toString(idList.toArray());
+		String frames = Arrays.toString(idList.toArray());
 
-		final String result = getId() + ": " + frames;
+		String result = getId() + ": " + frames;
 
 		return result;
 	}

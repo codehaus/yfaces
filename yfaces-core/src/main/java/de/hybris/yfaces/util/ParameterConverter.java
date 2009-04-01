@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 the original author or authors.
+ * Copyright 2009 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,8 +22,8 @@ import javax.faces.convert.Converter;
 import javax.faces.convert.ConverterException;
 
 /**
- * {@link Converter} implementation which evaluates the 'converter' Attribute of
- * enclosing {@link UIParameter} components.<br/>
+ * {@link Converter} implementation which evaluates the 'converter' Attribute of enclosing
+ * {@link UIParameter} components.<br/>
  * <br/>
  * example:<br/>
  * <code>
@@ -32,23 +32,23 @@ import javax.faces.convert.ConverterException;
  * 	&lt;f:param value="#{bean.value2}" converter="#{bean.myConverter}"/&gt;<br/>
  * 	&lt;h:outputFormat/&gt;<br/>
  * </code> <br/>
- * Without the given paramaterConverter all passed paramater values wouldn't be
- * converted by their given converter.<br/>
+ * Without the given paramaterConverter all passed paramater values wouldn't be converted by their
+ * given converter.<br/>
  * 
  * @author Denny.Strietzbaum
  */
 public class ParameterConverter implements Converter {
 
-	public Object getAsObject(final FacesContext arg0, final UIComponent arg1, final String arg2)
+	public Object getAsObject(FacesContext arg0, UIComponent arg1, String arg2)
 			throws ConverterException {
 		throw new UnsupportedOperationException();
 	}
 
-	public String getAsString(final FacesContext arg0, final UIComponent arg1, final Object arg2)
+	public String getAsString(FacesContext arg0, UIComponent arg1, Object arg2)
 			throws ConverterException {
-		for (final UIComponent child : arg1.getChildren()) {
+		for (UIComponent child : arg1.getChildren()) {
 			if (child instanceof UIParameter) {
-				final Object converter = child.getAttributes().get("converter");
+				Object converter = child.getAttributes().get("converter");
 				Converter _converter = null;
 
 				if (converter instanceof Converter) {
@@ -61,8 +61,8 @@ public class ParameterConverter implements Converter {
 				}
 
 				if (_converter != null) {
-					final String newValue = _converter.getAsString(FacesContext
-							.getCurrentInstance(), child, ((UIParameter) child).getValue());
+					String newValue = _converter.getAsString(FacesContext.getCurrentInstance(),
+							child, ((UIParameter) child).getValue());
 					((UIParameter) child).setValue(newValue);
 				}
 			}

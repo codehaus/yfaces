@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 the original author or authors.
+ * Copyright 2009 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,8 +16,6 @@
 
 package de.hybris.yfaces.component;
 
-import org.apache.log4j.Logger;
-
 /**
  * Default implementation for an {@link YComponentEventListener}.<br/>
  * Does nothing when an event occurs.<br/>
@@ -26,8 +24,10 @@ import org.apache.log4j.Logger;
  */
 public class DefaultYComponentEventListener<T extends YComponent> extends
 		AbstractYComponentEventListener<T> {
-	@SuppressWarnings("unused")
-	private static final Logger log = Logger.getLogger(DefaultYComponentEventListener.class);
+
+	private static final long serialVersionUID = 1L;
+
+	//private static final Logger log = Logger.getLogger(DefaultYComponentEventListener.class);
 
 	public DefaultYComponentEventListener() {
 
@@ -51,8 +51,7 @@ public class DefaultYComponentEventListener<T extends YComponent> extends
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * storefoundation.yfaces.AbstractYComponentEventListener#actionListener
+	 * @see storefoundation.yfaces.AbstractYComponentEventListener#actionListener
 	 * (storefoundation.yfaces.YComponentEvent)
 	 */
 	@Override
@@ -63,8 +62,7 @@ public class DefaultYComponentEventListener<T extends YComponent> extends
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * storefoundation.yfaces.AbstractYComponentEventListener#valueChangeListener
+	 * @see storefoundation.yfaces.AbstractYComponentEventListener#valueChangeListener
 	 * (storefoundation.yfaces.YComponentEvent)
 	 */
 	@Override

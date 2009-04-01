@@ -85,7 +85,6 @@ public class YManagedBean implements Serializable {
 	 * @return String
 	 */
 	public String createExpressionString() {
-		// return "#{" + getBeanId() + "}";
 		return this.createExpressionString(getBeanId(), null);
 	}
 

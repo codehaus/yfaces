@@ -170,7 +170,7 @@ public class YConversationContext {
 	 * @param page
 	 *            {@link YPageContext} as start page
 	 */
-	void start(final YPageContext page) {
+	void start(YPageContext page) {
 		this.attributes.clear();
 		this.id = this.calculateNewId();
 
@@ -210,7 +210,7 @@ public class YConversationContext {
 	 * @param page
 	 *            page to navigate to
 	 */
-	void backward(final YPageContext page) {
+	void backward(YPageContext page) {
 
 		// availability check
 		if (!this.contextPages.containsKey(page.getId())) {
@@ -227,8 +227,8 @@ public class YConversationContext {
 		YRequestContext.getCurrentContext().setPageContext(page);
 
 		// update pages stack
-		final LinkedHashMap<String, YPageContext> updatedNavigationPages = new LinkedHashMap<String, YPageContext>();
-		for (final Map.Entry<String, YPageContext> entry : this.contextPages.entrySet()) {
+		LinkedHashMap<String, YPageContext> updatedNavigationPages = new LinkedHashMap<String, YPageContext>();
+		for (Map.Entry<String, YPageContext> entry : this.contextPages.entrySet()) {
 			updatedNavigationPages.put(entry.getKey(), entry.getValue());
 			if (entry.getKey().equals(page.getId())) {
 				break;
@@ -243,15 +243,15 @@ public class YConversationContext {
 	 * @param page
 	 *            {@link YPageContext} to add.
 	 */
-	protected void addPage(final YPageContext page) {
-		final YPageContext previousPage = page.getPreviousPage();
+	protected void addPage(YPageContext page) {
+		YPageContext previousPage = page.getPreviousPage();
 
 		YPageContext currentPage = YRequestContext.getCurrentContext().getPageContext();
 
 		// in case added page has already a previous page, then it must be same
 		// as current page
 		if (previousPage != null && !previousPage.equals(currentPage)) {
-			final String msg = "Can't add page (" + page.getId() + ") as previous page ("
+			String msg = "Can't add page (" + page.getId() + ") as previous page ("
 					+ previousPage.getId() + ") is not compatible with current page ("
 					+ currentPage.getId() + ")";
 			throw new YFacesException(msg);
@@ -272,7 +272,7 @@ public class YConversationContext {
 	 *            pageId
 	 * @return {@link YPageContext}
 	 */
-	protected YPageContext getPage(final String pageId) {
+	protected YPageContext getPage(String pageId) {
 		return this.contextPages.get(pageId);
 	}
 

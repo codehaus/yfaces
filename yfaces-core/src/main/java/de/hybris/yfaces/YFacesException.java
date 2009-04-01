@@ -19,38 +19,39 @@ package de.hybris.yfaces;
 import de.hybris.yfaces.component.YComponent;
 
 /**
- * @author Denny.Strietzbaum
+ * Generic exception which deals with YFaces issues.
  * 
+ * @author Denny.Strietzbaum
  */
 public class YFacesException extends RuntimeException {
 
 	private static final long serialVersionUID = 1L;
 
-	public YFacesException(final YComponent cmp) {
+	public YFacesException(YComponent cmp) {
 		super(createMessage(cmp, ""));
 	}
 
-	public YFacesException(final Throwable cause) {
+	public YFacesException(Throwable cause) {
 		super(cause);
 	}
 
-	public YFacesException(final String msg) {
+	public YFacesException(String msg) {
 		super(msg);
 	}
 
-	public YFacesException(final String msg, final Throwable cause) {
+	public YFacesException(String msg, Throwable cause) {
 		super(msg, cause);
 	}
 
-	public YFacesException(final YComponent cmp, final String message) {
+	public YFacesException(YComponent cmp, String message) {
 		super(createMessage(cmp, message));
 	}
 
-	public YFacesException(final YComponent cmp, final String message, final Throwable cause) {
+	public YFacesException(YComponent cmp, String message, Throwable cause) {
 		super(createMessage(cmp, message), cause);
 	}
 
-	private static String createMessage(final YComponent cmp, final String subMessage) {
+	private static String createMessage(YComponent cmp, String subMessage) {
 		return subMessage + " (" + cmp.getId() + ")";
 	}
 

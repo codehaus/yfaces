@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 the original author or authors.
+ * Copyright 2009 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,6 +18,11 @@ package de.hybris.yfaces;
 
 import java.util.Map;
 
+/**
+ * Enumeration for easy access to Configuration properties.
+ * 
+ * @author Denny.Strietzbaum
+ */
 public enum YFacesConfig {
 
 	/** Enable/Disable useful HTML comments */
@@ -26,7 +31,7 @@ public enum YFacesConfig {
 	/** when true registers non-ycomponents as tag too */
 	ALSO_REGISTER_NON_YCMP("yfaces.tags.registerNonYComponents", "true"), ;
 
-	static Map properties = null;
+	static Map<String, String> properties = null;
 
 	private String key;
 	private String defaultValue;
@@ -35,24 +40,34 @@ public enum YFacesConfig {
 		this.key = key;
 	}
 
-	private YFacesConfig(final String key, final String defaultValue) {
+	private YFacesConfig(String key, String defaultValue) {
 		this.key = key;
 		this.defaultValue = defaultValue;
 	}
 
-	private YFacesConfig(final String key, final boolean defaultValue) {
+	private YFacesConfig(String key, boolean defaultValue) {
 		this(key, String.valueOf(defaultValue));
 	}
 
+	/**
+	 * Returns the configuration value for this key as String.
+	 * 
+	 * @return String
+	 */
 	public String getString() {
 		return getString(properties);
 	}
 
+	/**
+	 * Returns the configuration value for this key as Boolean.
+	 * 
+	 * @return Boolean
+	 */
 	public Boolean getBoolean() {
 		return getBoolean(properties);
 	}
 
-	private String getString(final Map properties) {
+	private String getString(Map<String, String> properties) {
 		String result = properties != null ? (String) properties.get(key) : null;
 		if (result == null || result.trim().length() == 0) {
 			result = defaultValue;
@@ -60,12 +75,12 @@ public enum YFacesConfig {
 		return result;
 	}
 
-	private boolean getBoolean(final Map properties) {
+	private boolean getBoolean(Map<String, String> properties) {
 		String value = properties != null ? getString(properties) : null;
 		if (value == null || value.trim().length() == 0) {
 			value = defaultValue;
 		}
-		final boolean result = "true".equals(value.toLowerCase());
+		boolean result = "true".equals(value.toLowerCase());
 		return result;
 	}
 

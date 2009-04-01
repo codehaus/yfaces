@@ -38,12 +38,12 @@ public class TestYComponentInfo extends TestCase {
 		private YComponentFactory cmpFac = new YComponentFactory();
 
 		private boolean expectedToAdd = false;
-		private Set<YComponentInfo.ERROR_STATE> expectedErrors = Collections.EMPTY_SET;
+		private Set<YComponentInfo.ERROR_STATE> expectedErrors = Collections.emptySet();
 		private String expSpecClassName = null;
 		private String expImplClassName = null;
 		private String expId = null;
 		private String expVar = null;
-		private Collection<String> expInjectableAttributes = Collections.EMPTY_SET;
+		private Collection<String> expInjectableAttributes = Collections.emptySet();
 
 		private YComponentInfo cmpInfo = null;
 		private boolean wasAdded = false;
@@ -107,15 +107,15 @@ public class TestYComponentInfo extends TestCase {
 	public void testComponentInfoParser() {
 
 		// some predefined attribute values
-		final String spec = "ystorefoundationpackage.yfaces.component.misc.AdBannerComponent";
-		final String impl = "ystorefoundationpackage.yfaces.component.misc.DefaultAdBannerComponent";
-		final String var = "adBannerCmpVar";
-		final String id = "id1";
-		final Set<String> properties = new HashSet<String>(Arrays.asList("prop1", "prop2", "prop3",
+		String spec = "ystorefoundationpackage.yfaces.component.misc.AdBannerComponent";
+		String impl = "ystorefoundationpackage.yfaces.component.misc.DefaultAdBannerComponent";
+		String var = "adBannerCmpVar";
+		String id = "id1";
+		Set<String> properties = new HashSet<String>(Arrays.asList("prop1", "prop2", "prop3",
 				"prop4"));
 
 		// test various whitespaces (space, tab etc)
-		final String[] cmps1 = new String[] {
+		String[] cmps1 = new String[] {
 				"<yf:component id=\"id1\" impl=\"" + impl + "\" spec=\"" + spec + "\" var=\"" + var
 						+ "\">",
 				"<yf:component   id =\"id1\"  impl=\"" + impl + "\"   spec=	\"" + spec
@@ -126,10 +126,9 @@ public class TestYComponentInfo extends TestCase {
 						+ var + "	\" >", };
 
 		YComponentFactory cmpFac = new YComponentFactory();
-		int count = 0;
-		for (final String s : cmps1) {
+		for (String s : cmps1) {
 			// System.out.println(count++ + ": " + s);
-			final YComponentInfo cmpInfo = cmpFac.createComponentInfo(s);
+			YComponentInfo cmpInfo = cmpFac.createComponentInfo(s);
 			assertEquals(spec, cmpInfo.getSpecificationClassName());
 			assertEquals(impl, cmpInfo.getImplementationClassName());
 			assertEquals(var, cmpInfo.getVarName());
@@ -138,7 +137,7 @@ public class TestYComponentInfo extends TestCase {
 		}
 
 		// test 'injectable' properties (boths styles)
-		final String[] cmps2 = new String[] {
+		String[] cmps2 = new String[] {
 				"<yf:component spec=\"" + impl + "\" injectable=\"prop1,prop2,prop3,prop4\">",
 				"<yf:component default=\"" + impl
 						+ "\" injectable=\"	prop1 ,prop2	,prop3,	prop4\">",
@@ -155,11 +154,10 @@ public class TestYComponentInfo extends TestCase {
 						+ "\" injectable=\"prop1,prop2,prop3\" prop3=\"#{prop1}\" prop4=\"#{prop1}\">",
 				"<yf:component spec=\"" + impl
 						+ "\" injectable=\"prop1,prop2,prop3\" prop4 =	\" #{prop4}	\">", };
-		count = 0;
-		for (final String s : cmps2) {
+		for (String s : cmps2) {
 			// System.out.println(count++ + ": " + s);
-			final YComponentInfo cmpInfo = cmpFac.createComponentInfo(s);
-			final Collection props = cmpInfo.getInjectableProperties();
+			YComponentInfo cmpInfo = cmpFac.createComponentInfo(s);
+			Collection<String> props = cmpInfo.getInjectableProperties();
 			assertEquals(4, props.size());
 			assertTrue("Got properties " + props.toString(), props.containsAll(properties));
 		}
@@ -175,12 +173,9 @@ public class TestYComponentInfo extends TestCase {
 		log.info("Testing YComponentInfoValidation");
 		log.info("---------------------------------");
 
-		final String spec = TEST_COMPONENT;
-		final String impl = TEST_COMPONENT_IMPL;
-		final String var = "adBannerCmpVar";
-		final String id = "id1";
-		final Set<String> properties = new HashSet<String>(Arrays.asList("prop1", "prop2", "prop3",
-				"prop4"));
+		String spec = TEST_COMPONENT;
+		String impl = TEST_COMPONENT_IMPL;
+		String var = "adBannerCmpVar";
 		YComponentInfo cmpInfo = null;
 		YComponentFactory cmpFac = new YComponentFactory();
 
@@ -233,7 +228,7 @@ public class TestYComponentInfo extends TestCase {
 				log.info("Expecting: " + expected);
 				cmpInfo = cmpFac.createComponentInfo(cmp);
 				Set<ERROR_STATE> errors = cmpInfo.verifyComponent();
-				assertEquals(new HashSet(expected), errors);
+				assertEquals(new HashSet<ERROR_STATE>(expected), errors);
 			}
 		}
 	}
