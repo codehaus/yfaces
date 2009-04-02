@@ -75,8 +75,8 @@ public abstract class AbstractYComponent implements YComponent {
 	 * 
 	 * @return {@link YComponentEventHandler}
 	 */
-	public YComponentEventHandler createEventHandler() {
-		return this.createEventHandler(new DefaultYComponentEventListener<YComponent>());
+	public <T extends YComponent> YComponentEventHandler<T> createEventHandler() {
+		return this.createEventHandler(new DefaultYComponentEventListener<T>());
 	}
 
 	/**
@@ -87,8 +87,9 @@ public abstract class AbstractYComponent implements YComponent {
 	 *            {@link YComponentEventListener} default listener
 	 * @return {@link YComponentEventHandler}
 	 */
-	public YComponentEventHandler createEventHandler(final YComponentEventListener listener) {
-		final YComponentEventHandler result = new YComponentEventHandlerImpl(listener);
+	public <T extends YComponent> YComponentEventHandler<T> createEventHandler(
+			YComponentEventListener<T> listener) {
+		final YComponentEventHandler<T> result = new YComponentEventHandlerImpl<T>(listener);
 		return result;
 	}
 
@@ -139,17 +140,14 @@ public abstract class AbstractYComponent implements YComponent {
 	}
 
 	public <T extends YComponent> T newInstance(String id) {
-		return (T) YComponentRegistry.getInstance().getComponent(id).createDefaultComponent();
+		return YComponentRegistry.getInstance().getComponent(id).createDefaultComponent();
 	}
 
 	public <T extends YComponent> T newInstance(T template) {
-		return this.newInstance(template, template.getClass());
-	}
-
-	private <T extends YComponent> T newInstance(T template, Class<?> clazz) {
 		T result = null;
+		Class<T> clazz = (Class) template.getClass();
 		try {
-			Constructor<T> c = (Constructor<T>) clazz.getConstructor(YComponent.class);
+			Constructor<T> c = clazz.getConstructor(YComponent.class);
 			result = c.newInstance(template);
 		} catch (final Exception e) {
 			throw new YFacesException(clazz

@@ -30,8 +30,6 @@ import javax.faces.component.UIComponentBase;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AbortProcessingException;
 import javax.faces.event.FacesEvent;
-import javax.faces.event.FacesListener;
-import javax.faces.event.PhaseId;
 
 import org.apache.log4j.Logger;
 
@@ -496,20 +494,20 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 	private void verifyRenderTimeID() {
 		// when component is transient no check must be performed
 		if (!super.isTransient()) {
+
+			Map map = getFacesContext().getExternalContext().getRequestMap();
+
 			// create new ID when used within a)compile time tags or b)within
 			// same naming container
-			Set<String> set = (Set<String>) getFacesContext().getExternalContext().getRequestMap()
-					.get(ID_DUPLICATECHECK_KEY);
+			Set<String> set = (Set) map.get(ID_DUPLICATECHECK_KEY);
 			if (set == null) {
-				getFacesContext().getExternalContext().getRequestMap().put(ID_DUPLICATECHECK_KEY,
-						set = new HashSet<String>());
+				map.put(ID_DUPLICATECHECK_KEY, set = new HashSet<String>());
 			}
 			String id = super.getClientId(getFacesContext());
 			boolean isDupplicate = !set.add(id);
 
 			if (isDupplicate) {
 				FacesContext fc = getFacesContext();
-				Map<Object, Object> map = (Map) fc.getExternalContext().getRequestMap();
 				String key = super.getClientId(fc) + "_COUNT";
 				Integer count = (Integer) map.get(key);
 				int result = 0;
@@ -552,7 +550,7 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 
 	@Override
 	public void broadcast(FacesEvent arg0) throws AbortProcessingException {
-		if (arg0 instanceof YComponentActionEvent) {
+		if (arg0 instanceof HtmlYComponentFacesEvent) {
 			((HtmlYComponent) arg0.getComponent()).refreshVarValue();
 		}
 		super.broadcast(arg0);
@@ -575,7 +573,7 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 		// a custom event is added before the original event;
 		// the YComponent broadcast handles this custom event and refreshes the
 		// var-value
-		super.queueEvent(new YComponentActionEvent(this, event.getPhaseId()));
+		super.queueEvent(new HtmlYComponentFacesEvent(this, event.getPhaseId()));
 		super.queueEvent(event);
 
 		// Note(1): another solution
@@ -687,30 +685,6 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 			log.error("Error while generating HTML debug comment: " + e.getMessage());
 		}
 
-	}
-
-	/**
-	 * This component brings an own event which refreshes the value for the 'var' ValueBinding.<br/>
-	 * This event must be added before any other event.
-	 * 
-	 * @see HtmlYComponent#queueEvent(FacesEvent)
-	 * @see HtmlYComponent#broadcast(FacesEvent)
-	 */
-	private static class YComponentActionEvent extends FacesEvent {
-		public YComponentActionEvent(HtmlYComponent source, PhaseId phaseId) {
-			super(source);
-			super.setPhaseId(phaseId);
-		}
-
-		@Override
-		public boolean isAppropriateListener(FacesListener faceslistener) {
-			throw new YFacesException("", new UnsupportedOperationException());
-		}
-
-		@Override
-		public void processListener(FacesListener faceslistener) {
-			throw new YFacesException("", new UnsupportedOperationException());
-		}
 	}
 
 	protected String[] getInjectableProperties() {
