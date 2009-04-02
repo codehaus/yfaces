@@ -348,10 +348,10 @@ public class YComponentInfo {
 	 * 
 	 * @return {@link YComponent}
 	 */
-	public YComponent createDefaultComponent() {
-		YComponent result = null;
+	public <T extends YComponent> T createDefaultComponent() {
+		T result = null;
 		try {
-			result = (YComponent) this.getImplementationClass().newInstance();
+			result = (T) this.getImplementationClass().newInstance();
 			((AbstractYComponent) result).setId(this.id);
 		} catch (Exception e) {
 			throw new YFacesException("Can't create " + YComponent.class.getName() + " instance ("

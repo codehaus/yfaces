@@ -22,8 +22,6 @@ import javax.el.MethodExpression;
 import javax.el.MethodNotFoundException;
 import javax.faces.context.FacesContext;
 
-import org.apache.log4j.Logger;
-
 import de.hybris.yfaces.YFacesException;
 
 /**
@@ -35,7 +33,7 @@ public abstract class AbstractYComponentEventListener<T extends YComponent> impl
 
 	private static final long serialVersionUID = 1L;
 
-	private static final Logger log = Logger.getLogger(AbstractYComponentEventListener.class);
+	// private static final Logger log = Logger.getLogger(AbstractYComponentEventListener.class);
 
 	private String action = null;
 	private String actionListener = null;
