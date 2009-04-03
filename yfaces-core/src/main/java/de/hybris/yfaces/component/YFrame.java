@@ -17,7 +17,6 @@ package de.hybris.yfaces.component;
 
 import java.util.Map;
 
-import de.hybris.yfaces.context.YConversationContext;
 import de.hybris.yfaces.context.YPageContext;
 
 /**
@@ -88,12 +87,10 @@ public interface YFrame {
 	public YPageContext getPage();
 
 	/**
-	 * Gets called from {@link YPageContext#update(UserSessionPropertyChangeLog)}<br/>
-	 * 
-	 * @param log
-	 *            {@link UserSessionPropertyChangeLog} <br/>
-	 * @see YConversationContext#update() for more information about when an update is invoked.
+	 * Refreshes this frame.A refresh is processed when this frame was already created and is used
+	 * again (POST or GET (flashback enabled) to same page). A refresh always is performed before
+	 * any components attribute injection has started.
 	 */
-	public void update();
+	public void refresh();
 
 }

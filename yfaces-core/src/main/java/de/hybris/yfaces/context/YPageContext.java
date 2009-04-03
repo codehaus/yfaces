@@ -230,9 +230,9 @@ public class YPageContext {
 	/**
 	 * Starts updating all {@link YFrame} instances of this page.
 	 */
-	protected void update() {
+	protected void refresh() {
 		for (final YFrame frame : getFrames()) {
-			frame.update();
+			frame.refresh();
 		}
 	}
 

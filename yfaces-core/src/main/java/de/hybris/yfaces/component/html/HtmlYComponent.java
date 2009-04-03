@@ -415,7 +415,7 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 		this.injectAttributes(cmpInfo, cmp);
 
 		// invoke components postinitialize()
-		cmp.postInitialize();
+		cmp.validate();
 
 		this.verifyRenderTimeID();
 

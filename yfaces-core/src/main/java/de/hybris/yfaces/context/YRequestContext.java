@@ -306,7 +306,7 @@ public abstract class YRequestContext {
 			convCtx.backward(previousPage);
 
 			// ...and start update mechanism
-			this.sessionContext.update();
+			this.sessionContext.refresh();
 		}
 	}
 

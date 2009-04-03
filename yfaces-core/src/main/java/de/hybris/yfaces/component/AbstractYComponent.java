@@ -43,8 +43,6 @@ public abstract class AbstractYComponent implements YComponent {
 	private Map<String, Object> attributes = null;
 	private String frameBinding = null;
 
-	// private String styleClass = null;
-
 	private String id = null;// "[component]" + Math.random() ;
 	private String uid = null;
 
@@ -98,10 +96,10 @@ public abstract class AbstractYComponent implements YComponent {
 	 * 
 	 * @see ystorefoundationpackage.faces.components.YComponent#postInitialize()
 	 */
-	public void postInitialize() {
+	public void validate() {
 	};
 
-	public void update() {
+	public void refresh() {
 
 	}
 
