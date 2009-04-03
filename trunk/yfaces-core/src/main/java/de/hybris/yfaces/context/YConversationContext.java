@@ -158,9 +158,9 @@ public class YConversationContext {
 	 * This method gets not invoked for general GET requests and it gets not invoked for POST
 	 * requests on Pages that are not element of this conversation.
 	 */
-	protected void update() {
+	protected void refresh() {
 		for (YPageContext page : this.contextPages.values()) {
-			page.update();
+			page.refresh();
 		}
 	}
 

@@ -52,11 +52,11 @@ public class YSessionContext {
 	/**
 	 * Gets invoked for incoming POST requests (or GET as flashback). But only when request goes to
 	 * same page or to a temporary inactive one (previous conversation page).Iterates over available
-	 * {@link YConversationContext} instances and invokes {@link YConversationContext#update()} on
+	 * {@link YConversationContext} instances and invokes {@link YConversationContext#refresh()} on
 	 * each one
 	 */
-	protected void update() {
-		conversationCtx.update();
+	protected void refresh() {
+		conversationCtx.refresh();
 	}
 
 }

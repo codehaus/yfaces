@@ -19,7 +19,7 @@ import java.io.Serializable;
 import java.util.Map;
 
 /**
- * The base of all components.<br/>
+ * The base of all components.
  * 
  * @author Denny.Strietzbaum
  */
@@ -32,10 +32,6 @@ public interface YComponent extends /* Externalizable */Serializable {
 	 */
 	public String getId();
 
-	// public String getStyleClass();
-	//	
-	// public void setStyleClass(String styleClass);
-
 	/**
 	 * Returns a custom for general usage with the scope of this component.
 	 * 
@@ -44,25 +40,16 @@ public interface YComponent extends /* Externalizable */Serializable {
 	public Map<String, Object> getAttributes();
 
 	/**
-	 * PostInitialization<br/>
-	 * This is the last step of component initialization.<br/>
-	 * - step1) Constructor (for all non-expensive members)<br/>
-	 * - step2) attribute injection from the renderer (xhtml)<br/>
-	 * - step3) this one <br/>
-	 * PostInitialization must assure that each member of this component has a valid initialized
-	 * state or, when not, give it a nice default one.<br/>
-	 * <br/>
-	 * Use this phase for expensive members.<br/>
-	 * (database queries etc.)
+	 * Validates this component. Validation always is processed after attribute injection.
 	 */
-	public void postInitialize();
+	public void validate();
 
 	/**
-	 * Updates this component.<br/>
-	 * 
-	 * @param propertyChangeLog
+	 * Refreshes this component.A refresh is processed when this component was already created and
+	 * needs to be displayed again (POST or GET (flashback enabled) to same page). A refresh always
+	 * is performed before attribute injection.
 	 */
-	public void update();
+	public void refresh();
 
 	/**
 	 * Returns the parent {@link YFrame} of this component.<br/>
