@@ -67,12 +67,12 @@ public class YComponentEventImpl<T extends YComponent> implements YComponentEven
 					new NullPointerException());
 		}
 
-		if (getActionComponent() == null) {
+		if (getComponent() == null) {
 			throw new YFacesException(logId + ": can't find a YComponent");
 		}
 
 		if (log.isDebugEnabled()) {
-			YComponent cmp = getActionComponent();
+			YComponent cmp = getComponent();
 			String ctxPath = "event:" + this.getClass().getSimpleName() + "; componentId:"
 					+ cmp.getId();
 
@@ -92,7 +92,7 @@ public class YComponentEventImpl<T extends YComponent> implements YComponentEven
 	 * 
 	 * @return {@link UICommand}
 	 */
-	public UIComponent getActionUIComponent() {
+	public UIComponent getUIComponent() {
 		if (this.actionUICmp == null) {
 			if (this.facesEventSource == null) {
 				throw new YFacesException(logId
@@ -109,7 +109,7 @@ public class YComponentEventImpl<T extends YComponent> implements YComponentEven
 	 * 
 	 * @return {@link UIForm}
 	 */
-	public UIForm getActionUIForm() {
+	public UIForm getUIForm() {
 		if (this.actionUIForm == null) {
 			if (this.facesEventSource == null) {
 				throw new YFacesException(logId
@@ -132,7 +132,7 @@ public class YComponentEventImpl<T extends YComponent> implements YComponentEven
 	 */
 	public HtmlYComponent getActionHtmlYComponent() {
 		if (this.actionHtmlHCmp == null) {
-			UIComponent _cmp = getActionUIComponent();
+			UIComponent _cmp = getUIComponent();
 			while (!((_cmp = _cmp.getParent()) instanceof HtmlYComponent)) {
 				if (_cmp instanceof UIViewRoot) {
 					_cmp = null;
@@ -186,7 +186,7 @@ public class YComponentEventImpl<T extends YComponent> implements YComponentEven
 		return (this.facesEventSource != null);
 	}
 
-	public T getActionComponent() {
+	public T getComponent() {
 		if (this.yCmpSource == null) {
 			this.yCmpSource = findComponent(YCOMPONENT_ACTION_PARAMETER);
 		}

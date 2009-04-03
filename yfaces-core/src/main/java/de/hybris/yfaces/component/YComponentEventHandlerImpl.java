@@ -123,7 +123,7 @@ public class YComponentEventHandlerImpl<T extends YComponent> implements YCompon
 			} catch (RuntimeException e) {
 				String msg = "Exception while processing ActionListener ("
 						+ YComponent.class.getSimpleName() + ": "
-						+ _event.getActionComponent().getId() + "; Event: "
+						+ _event.getComponent().getId() + "; Event: "
 						+ listener.getClass().getSimpleName() + ")";
 
 				log.error(msg, e);
@@ -154,7 +154,7 @@ public class YComponentEventHandlerImpl<T extends YComponent> implements YCompon
 			} catch (RuntimeException e) {
 				String msg = "Exception while processing ValueChangeListener ("
 						+ YComponent.class.getSimpleName() + ": "
-						+ _event.getActionComponent().getId() + "; Event: "
+						+ _event.getComponent().getId() + "; Event: "
 						+ listener.getClass().getSimpleName() + ")";
 
 				log.error(msg, e);

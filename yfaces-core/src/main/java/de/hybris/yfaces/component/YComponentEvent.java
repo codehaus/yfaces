@@ -36,21 +36,21 @@ public interface YComponentEvent<T extends YComponent> {
 	 * 
 	 * @return {@link UIForm}
 	 */
-	public UIForm getActionUIForm();
+	public UIForm getUIForm();
 
 	/**
 	 * Returns the {@link UICommand} who fired this action.<br/>
 	 * 
 	 * @return {@link UICommand}
 	 */
-	public UIComponent getActionUIComponent();
+	public UIComponent getUIComponent();
 
 	/**
 	 * The {@link YComponent} which was responsible for this event.
 	 * 
 	 * @return {@link YComponent}
 	 */
-	public T getActionComponent();
+	public T getComponent();
 
 	/**
 	 * The {@link FacesEvent} which was thrown by JSF.<br/>
