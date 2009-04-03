@@ -21,6 +21,8 @@ public class ChapterMBean {
 
 	private static final Logger log = Logger.getLogger(ChapterMBean.class);
 
+	private static final String PARAM_REFRESH = "refresh";
+
 	private static final String CHAPTERS_KEY = "CHAPTERS";
 	private static final String CHAPTERS_MODIFIED_KEY = "CHAPTERS2";
 
@@ -128,10 +130,14 @@ public class ChapterMBean {
 		Long chapterVersion = (Long) map.get(CHAPTERS_MODIFIED_KEY);
 
 		boolean changed = !actualVersion.equals(chapterVersion);
+		boolean refresh = FacesContext.getCurrentInstance().getExternalContext()
+				.getRequestParameterMap().containsKey(PARAM_REFRESH);
 		if (changed) {
 			map.put(CHAPTERS_MODIFIED_KEY, actualVersion);
 		}
-		return changed;
+
+		boolean result = changed || refresh;
+		return result;
 	}
 
 }
