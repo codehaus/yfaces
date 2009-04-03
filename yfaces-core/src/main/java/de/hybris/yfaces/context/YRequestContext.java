@@ -40,7 +40,7 @@ public abstract class YRequestContext {
 
 	private YPageContext pageContext = null;
 
-	private static final Logger log = Logger.getLogger(YRequestContextImpl.class);
+	private static final Logger log = Logger.getLogger(YRequestContext.class);
 	private static final String IS_FLASHBACK = YRequestContext.class.getName() + "_isFlashback";
 
 	public enum REQUEST_PHASE {
