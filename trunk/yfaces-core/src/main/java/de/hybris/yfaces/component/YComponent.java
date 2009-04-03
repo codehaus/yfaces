@@ -18,6 +18,8 @@ package de.hybris.yfaces.component;
 import java.io.Serializable;
 import java.util.Map;
 
+import javax.faces.event.PhaseId;
+
 /**
  * The base of all components.
  * 
@@ -40,7 +42,10 @@ public interface YComponent extends /* Externalizable */Serializable {
 	public Map<String, Object> getAttributes();
 
 	/**
-	 * Validates this component. Validation always is processed after attribute injection.
+	 * Validates this component. Validation always is processed after this components attributes are
+	 * injected.
+	 * <p>
+	 * This all happens during execution of {@link PhaseId#RENDER_RESPONSE}
 	 */
 	public void validate();
 
@@ -48,6 +53,9 @@ public interface YComponent extends /* Externalizable */Serializable {
 	 * Refreshes this component.A refresh is processed when this component was already created and
 	 * needs to be displayed again (POST or GET (flashback enabled) to same page). A refresh always
 	 * is performed before attribute injection.
+	 * <p>
+	 * In case of a POST request this happens after {@link PhaseId#INVOKE_APPLICATION}.<br/>
+	 * in case of a GET with enabled flashback this happens after {@link PhaseId#RESTORE_VIEW}.
 	 */
 	public void refresh();
 

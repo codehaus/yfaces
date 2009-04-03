@@ -60,7 +60,7 @@ public class YPageContext {
 
 	private YPageContext previousPage = null;
 
-	private YConversationContext navigationContext = null;
+	private YConversationContext conversationCtx = null;
 
 	// all Frames within this page
 	private final Map<String, YFrame> frames = new HashMap<String, YFrame>();
@@ -81,7 +81,7 @@ public class YPageContext {
 		}
 
 		this.pageId = pageId;
-		this.navigationContext = ctx;
+		this.conversationCtx = ctx;
 		this.url = url;
 
 	}
@@ -165,7 +165,7 @@ public class YPageContext {
 	 * @return {@link YConversationContext}
 	 */
 	public YConversationContext getConversationContext() {
-		return this.navigationContext;
+		return this.conversationCtx;
 	}
 
 	/**
