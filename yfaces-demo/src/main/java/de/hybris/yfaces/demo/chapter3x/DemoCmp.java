@@ -12,7 +12,7 @@ public class DemoCmp extends AbstractYComponent {
 	}
 
 	@Override
-	public void postInitialize() {
+	public void validate() {
 		if (this.message == null || this.message.trim().length() == 0) {
 			this.message = "A message changed by postinitialize (was empty)";
 		}

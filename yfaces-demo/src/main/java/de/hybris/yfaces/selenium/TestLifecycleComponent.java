@@ -1,7 +1,6 @@
 package de.hybris.yfaces.selenium;
 
 import de.hybris.yfaces.component.AbstractYComponent;
-import de.hybris.yfaces.session.UserSessionPropertyChangeLog;
 
 public class TestLifecycleComponent extends AbstractYComponent {
 
@@ -15,11 +14,13 @@ public class TestLifecycleComponent extends AbstractYComponent {
 		this.state = state;
 	}
 
-	public void postInitialize() {
+	@Override
+	public void validate() {
 		this.state = "postInitialize";
 	}
 
-	public void update(UserSessionPropertyChangeLog log) {
+	@Override
+	public void refresh() {
 		this.state = "update";
 	}
 

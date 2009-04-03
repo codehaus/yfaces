@@ -9,7 +9,7 @@ public class Demo2Cmp extends AbstractYComponent {
 	private String name = null;
 	private String code = null;
 
-	public void postInitialize() {
+	public void validate() {
 		if (code != null) {
 			// here's the place where your services may come into action and load
 			// a product by 'code' from your persistence layer
