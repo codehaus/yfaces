@@ -144,7 +144,7 @@
 
 	<listener>
 		<listener-class>
-			de.hybris.yfaces.application.YFacesStartupListener
+			de.hybris.yfaces.YFacesStartupListener
 		</listener-class>
 	</listener>
 	

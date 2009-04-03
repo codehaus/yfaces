@@ -25,9 +25,9 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.log4j.Logger;
 
-import de.hybris.yfaces.YComponentFactory;
-import de.hybris.yfaces.YComponentInfo;
-import de.hybris.yfaces.taglib.YFacesTaglib;
+import de.hybris.yfaces.YFacesTaglib;
+import de.hybris.yfaces.component.YComponentFactory;
+import de.hybris.yfaces.component.YComponentInfo;
 
 public class Chapter {
 
