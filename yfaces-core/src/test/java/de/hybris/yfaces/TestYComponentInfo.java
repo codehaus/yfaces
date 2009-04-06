@@ -138,21 +138,20 @@ public class TestYComponentInfo extends TestCase {
 
 		// test 'injectable' properties (boths styles)
 		String[] cmps2 = new String[] {
-				"<yf:component spec=\"" + impl + "\" injectable=\"prop1,prop2,prop3,prop4\">",
-				"<yf:component default=\"" + impl
-						+ "\" injectable=\"	prop1 ,prop2	,prop3,	prop4\">",
-				"<yf:component spec=\""
+				"<yf:component impl=\"" + impl + "\" injectable=\"prop1,prop2,prop3,prop4\">",
+				"<yf:component impl=\"" + impl + "\" injectable=\"	prop1 ,prop2	,prop3,	prop4\">",
+				"<yf:component impl=\""
 						+ impl
 						+ "\" prop1=\"#{prop1}\" prop2=\"#{prop2}\" prop3=\"#{prop3}\" prop4=\"#{prop4}\">",
-				"<yf:component spec=\""
+				"<yf:component impl=\""
 						+ impl
 						+ "\" prop1=\"#{prop1}\" prop2=\"#{prop1}\" prop3=\"#{prop1}\" prop4=\"#{prop1}\">",
-				"<yf:component spec=\"" + impl
+				"<yf:component impl=\"" + impl
 						+ "\" injectable=\"prop1,prop2\" prop3=\"#{prop1}\" prop4=\"#{prop1}\">",
-				"<yf:component spec=\""
+				"<yf:component impl=\""
 						+ impl
 						+ "\" injectable=\"prop1,prop2,prop3\" prop3=\"#{prop1}\" prop4=\"#{prop1}\">",
-				"<yf:component spec=\"" + impl
+				"<yf:component impl=\"" + impl
 						+ "\" injectable=\"prop1,prop2,prop3\" prop4 =	\" #{prop4}	\">", };
 		for (String s : cmps2) {
 			// System.out.println(count++ + ": " + s);
@@ -186,22 +185,22 @@ public class TestYComponentInfo extends TestCase {
 			Collection<ERROR_STATE> expected = null;
 			switch (count) {
 			case 0:
-				cmp = "<yf:component spec=\"" + impl + "\" definition=\"" + spec + "\" var=\""
-						+ var + "\">";
+				cmp = "<yf:component impl=\"" + impl + "\"  spec=\"" + spec + "\" var=\"" + var
+						+ "\">";
 				expected = Arrays.asList(ERROR_STATE.VIEW_ID_NOT_SPECIFIED);
 				break;
 			case 1:
-				cmp = "<yf:component spec=\"" + impl + "\" >";
+				cmp = "<yf:component impl=\"" + impl + "\" >";
 				expected = Arrays.asList(ERROR_STATE.VIEW_ID_NOT_SPECIFIED,
 						ERROR_STATE.VIEW_VAR_NOT_SPECIFIED, ERROR_STATE.SPEC_IS_MISSING);
 				break;
 			case 2:
-				cmp = "<yf:component id=\"id\" spec=\"java.util.List\" var=\"var\">";
+				cmp = "<yf:component id=\"id\" impl=\"java.util.List\" var=\"var\">";
 				expected = Arrays.asList(ERROR_STATE.SPEC_IS_MISSING,
 						ERROR_STATE.IMPL_IS_INTERFACE, ERROR_STATE.IMPL_IS_NO_YCMP);
 				break;
 			case 3:
-				cmp = "<yf:component id=\"id\" spec=\"java.util.ArrayList\" var=\"var\">";
+				cmp = "<yf:component id=\"id\" impl=\"java.util.ArrayList\" var=\"var\">";
 				expected = Arrays.asList(ERROR_STATE.SPEC_IS_MISSING, ERROR_STATE.IMPL_IS_NO_YCMP);
 				break;
 			case 4:
