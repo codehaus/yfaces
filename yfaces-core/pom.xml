@@ -4,7 +4,7 @@
 	<groupId>org.codehaus.yfaces</groupId>
 	<artifactId>yfaces-core</artifactId>
 	<name>yFaces</name>
-	<version>0.2</version>
+	<version>0.5</version>
 	<description>Make component development easy ... fast, declarative, use-case driven.</description>
 	<url>http://yfaces.codehaus.org/</url>
 	<inceptionYear>2009</inceptionYear>
