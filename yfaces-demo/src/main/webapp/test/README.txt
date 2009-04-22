@@ -1,1 +1,0 @@
-Contents of this folder and any subfolder is for functional testing only.
