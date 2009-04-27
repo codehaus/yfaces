@@ -9,13 +9,13 @@
 			<item name="Source Repository" href="/source-repository.html" />
 		</menu>
 		<menu name="Documentation">
-			<item name="Installation" href="http://docs.codehaus.org/pages/viewpage.action?pageId=115474662" />
-			<item name="Documentation" href="http://docs.codehaus.org/display/YFACES/Full+view" />
+			<item name="Installation" href="http://docs.codehaus.org/pages/viewpage.action?pageId=115474653" />
+			<item name="Documentation" href="http://docs.codehaus.org/display/YFACES/Technical+Documentation" />
+			<item name="Changelog" href="http://docs.codehaus.org/pages/viewpage.action?pageId=119865766" />
 			<item name="Javadoc" href="/apidocs/index.html" />
 		</menu>
 		<menu name="Downloads">
 			<item name="Releases" href="http://dist.codehaus.org/yfaces" />
-			<item name="Snapshots" href="http://snapshots.repository.codehaus.org/org/codehaus/yfaces/yfaces-core/" />
 		</menu>
 		
 		<menu ref="modules" />
