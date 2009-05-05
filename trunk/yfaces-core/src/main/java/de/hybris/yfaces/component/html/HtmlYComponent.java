@@ -414,8 +414,13 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 		// inject attributes
 		this.injectAttributes(cmpInfo, cmp);
 
-		// invoke components postinitialize()
-		cmp.validate();
+		// validate component
+		try {
+			cmp.validate();
+		} catch (Exception e) {
+			log.error(logId + "has thrown an exception during validation", e);
+			((AbstractYComponent) cmp).setValidationState(e.getClass().getSimpleName());
+		}
 
 		this.verifyRenderTimeID();
 
@@ -427,6 +432,39 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 
 		// //give YComponent instance a uid
 		// ((AbstractYComponent)cmp).setId(super.getClientId(context));
+	}
+
+	@Override
+	public void encodeChildren(FacesContext context) throws IOException {
+
+		log.error(logId + "validation fails; component won't be rendered as expected");
+
+		String validationErrorMsg = ((AbstractYComponent) getYComponent()).getValidationState();
+		if (validationErrorMsg == null) {
+			throw new YFacesException("Illegale state");
+		}
+		try {
+			FacesContext.getCurrentInstance().getResponseWriter().startElement("div", this);
+			FacesContext.getCurrentInstance().getResponseWriter().writeText(validationErrorMsg,
+					null);
+			FacesContext.getCurrentInstance().getResponseWriter().endElement("div");
+			((AbstractYComponent) getYComponent()).setValidationState(null);
+		} catch (Exception e) {
+			log.error("Error while generating HTML debug comment: " + e.getMessage());
+		}
+
+		// TODO Auto-generated method stub
+		// super.encodeChildren(context);
+	}
+
+	@Override
+	public boolean getRendersChildren() {
+
+		if (((AbstractYComponent) getYComponent()).getValidationState() != null) {
+			return true;
+		} else {
+			return super.getRendersChildren();
+		}
 	}
 
 	/**
@@ -624,10 +662,6 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 			// when a value can be found
 			if (value != null) {
 				try {
-					// JSF 1.1
-					// attrValue = getConvertedAttributeValue(attrValue,
-					// entry.getValue());
-
 					// JSF 1.2: do type coercion (e.g. String->Integer)
 					Method method = attributeToMethodMap.get(attribute);
 					value = FacesContext.getCurrentInstance().getApplication()

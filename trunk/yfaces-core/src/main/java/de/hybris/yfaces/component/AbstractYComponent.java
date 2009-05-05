@@ -47,6 +47,7 @@ public abstract class AbstractYComponent implements YComponent {
 	private String uid = null;
 
 	private transient String logId = this.getClass().getSimpleName();
+	private transient String validationState = null;
 
 	public AbstractYComponent() {
 		this.uid = this.getClass().getName() + String.valueOf(Math.random());
@@ -152,6 +153,14 @@ public abstract class AbstractYComponent implements YComponent {
 					+ " can't be created; missing Constructor which accepts " + YComponent.class);
 		}
 		return result;
+	}
+
+	public void setValidationState(String state) {
+		this.validationState = state;
+	}
+
+	public String getValidationState() {
+		return this.validationState;
 	}
 
 	/*
