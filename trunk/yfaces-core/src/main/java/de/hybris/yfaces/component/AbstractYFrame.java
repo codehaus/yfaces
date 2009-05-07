@@ -54,14 +54,20 @@ public abstract class AbstractYFrame extends YManagedBean implements YFrame, Ser
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see ystorefoundationpackage.faces.mbean.YFrame#updateComponents(de.hybris
-	 * .platform.webfoundation.PropertyChangeLog)
+	 * @see de.hybris.yfaces.component.YFrame#refresh()
 	 */
 	public void refresh() {
 		for (YComponentBinding<?> binding : this.componentBindings) {
 			if (binding.isResolved() && binding.getValue() != null) {
-				log.debug("Updating component: " + binding.getValue().getClass().getSimpleName());
-				binding.getValue().refresh();
+				log.debug("Refreshing component: " + binding.getValue().getClass().getSimpleName());
+				try {
+					binding.getValue().refresh();
+				} catch (Exception e) {
+					AbstractYComponent cmp = (AbstractYComponent) binding.getValue();
+					cmp.setValidationState(e.getClass().getSimpleName());
+					log.error("Error refreshing component: " + cmp.getClass().getSimpleName()
+							+ " (" + this.getClass().getSimpleName() + ")", e);
+				}
 			}
 		}
 	};

@@ -28,6 +28,7 @@ import javax.faces.component.NamingContainer;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIComponentBase;
 import javax.faces.context.FacesContext;
+import javax.faces.context.ResponseWriter;
 import javax.faces.event.AbortProcessingException;
 import javax.faces.event.FacesEvent;
 
@@ -416,6 +417,7 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 
 		// validate component
 		try {
+			((AbstractYComponent) cmp).setValidationState(null);
 			cmp.validate();
 		} catch (Exception e) {
 			log.error(logId + "has thrown an exception during validation", e);
@@ -437,17 +439,18 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 	@Override
 	public void encodeChildren(FacesContext context) throws IOException {
 
-		log.error(logId + "validation fails; component won't be rendered as expected");
+		log.error(logId + "has an invalid state (exception during validation or refresh?)");
 
 		String validationErrorMsg = ((AbstractYComponent) getYComponent()).getValidationState();
 		if (validationErrorMsg == null) {
 			throw new YFacesException("Illegale state");
 		}
 		try {
-			FacesContext.getCurrentInstance().getResponseWriter().startElement("div", this);
-			FacesContext.getCurrentInstance().getResponseWriter().writeText(validationErrorMsg,
-					null);
-			FacesContext.getCurrentInstance().getResponseWriter().endElement("div");
+			ResponseWriter writer = FacesContext.getCurrentInstance().getResponseWriter();
+			writer.startElement("div", this);
+			writer.writeAttribute("style", "color:red", null);
+			writer.writeText(validationErrorMsg, null);
+			writer.endElement("div");
 			((AbstractYComponent) getYComponent()).setValidationState(null);
 		} catch (Exception e) {
 			log.error("Error while generating HTML debug comment: " + e.getMessage());
