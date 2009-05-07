@@ -512,7 +512,8 @@ public class YComponentInfo {
 	private <T> Class<T> getClass(String classname, ERROR_STATE catchError) {
 		Class<T> result = null;
 		try {
-			result = (Class<T>) Class.forName(classname);
+			//result = (Class<T>) Class.forName(classname);
+			result = (Class<T>) Thread.currentThread().getContextClassLoader().loadClass(classname);
 			this.errors.remove(catchError);
 		} catch (final Exception e) {
 			if (catchError != null) {
