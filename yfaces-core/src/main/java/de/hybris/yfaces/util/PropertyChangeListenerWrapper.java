@@ -17,6 +17,7 @@ package de.hybris.yfaces.util;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import de.hybris.yfaces.YFacesException;
@@ -62,8 +63,26 @@ public class PropertyChangeListenerWrapper implements PropertyChangeListener {
 		try {
 			method.invoke(listener, evt.getOldValue(), evt.getNewValue());
 		} catch (Exception e) {
-			throw new YFacesException("Can't reach eventlistener " + listener.getClass().getName()
-					+ " (" + method.getName() + ")", e);
+			String _method = method.getName();
+			Class[] _ptypes = method.getParameterTypes();
+			String _listener = listener.getClass().getName() + "#" + _method + "("
+					+ _ptypes[0].getName() + "," + _ptypes[1].getName() + ")";
+			String error = null;
+
+			if (e instanceof InvocationTargetException) {
+				// listener could be invoked but throws an exception 
+				error = "Error while processing listener: " + _listener;
+			} else {
+				// listener could not be invoked (IllegalArgumentException etc.)
+				String _passed1 = evt.getOldValue() != null ? evt.getOldValue().getClass()
+						.getName() : "null";
+				String _passed2 = evt.getNewValue() != null ? evt.getNewValue().getClass()
+						.getName() : "null";
+				error = "Can't invoke listener: " + _listener + " with current arguments:"
+						+ _passed1 + "," + _passed2;
+			}
+			throw new YFacesException(error, e);
+
 		}
 	}
 
