@@ -20,6 +20,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Arrays;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
@@ -27,6 +28,7 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.ConfigurableWebApplicationContext;
+import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.XmlWebApplicationContext;
 
 import de.hybris.yfaces.context.YApplicationContext;
@@ -51,8 +53,8 @@ public class YFacesStartupListener implements ServletContextListener {
 	}
 
 	public void contextInitialized(ServletContextEvent arg0) {
-		ApplicationContext ctx = this.createApplicationContext(arg0);
-		this.createYApplicationContext(ctx);
+		ApplicationContext ctx = this.createYFacesApplicationContext(arg0.getServletContext());
+		this.setYFacesApplicationContext(ctx);
 		this.configureLogging(arg0);
 	}
 
@@ -68,21 +70,21 @@ public class YFacesStartupListener implements ServletContextListener {
 	 * If there's already a {@link ApplicationContext} available from elsewhere just override this
 	 * method.
 	 * 
-	 * @param e
+	 * @param servletCtx
 	 *            {@link ServletContextEvent}
 	 * @return {@link ApplicationContext}
 	 */
-	protected ApplicationContext createApplicationContext(ServletContextEvent e) {
+	protected WebApplicationContext createYFacesApplicationContext(ServletContext servletCtx) {
 		ConfigurableWebApplicationContext result = new XmlWebApplicationContext();
-		result.setServletContext(e.getServletContext());
+		result.setServletContext(servletCtx);
 
 		URL defaultConfig = YFacesStartupListener.class.getResource(DEFAULT_YFACES_CTX);
 		String[] configs = new String[] { defaultConfig.toExternalForm() };
 
 		try {
-			String yfacesCtx = e.getServletContext().getInitParameter(PARAM_YFACES_CTX);
+			String yfacesCtx = servletCtx.getInitParameter(PARAM_YFACES_CTX);
 			if (yfacesCtx != null) {
-				URL customConfig = e.getServletContext().getResource(yfacesCtx);
+				URL customConfig = servletCtx.getResource(yfacesCtx);
 				configs = new String[] { configs[0], customConfig.toExternalForm() };
 			}
 			log.debug("Using spring configuration:" + Arrays.asList(configs));
@@ -95,7 +97,7 @@ public class YFacesStartupListener implements ServletContextListener {
 		return result;
 	}
 
-	private void createYApplicationContext(ApplicationContext ctx) {
+	private void setYFacesApplicationContext(ApplicationContext ctx) {
 		// constructor can be called one times
 		// applicationconext is managed internally as static singleton 
 		new YApplicationContext(ctx);

@@ -38,10 +38,10 @@ import de.hybris.yfaces.util.YFacesErrorHandler;
  */
 public abstract class YRequestContext {
 
-	private YPageContext pageContext = null;
-
 	private static final Logger log = Logger.getLogger(YRequestContext.class);
 	private static final String IS_FLASHBACK = YRequestContext.class.getName() + "_isFlashback";
+
+	private YPageContext pageContext = null;
 
 	public enum REQUEST_PHASE {
 		START_REQUEST, FORWARD_REQUEST, END_REQUEST
@@ -54,6 +54,8 @@ public abstract class YRequestContext {
 	private YFacesErrorHandler errorHandler = null;
 
 	private boolean isFlashback = false;
+
+	private boolean isReqLifecycleInitialized = false;
 
 	/**
 	 * Constructor. Sets flashback property to true when previous {@link YRequestContext} instance
@@ -370,6 +372,20 @@ public abstract class YRequestContext {
 
 	public REQUEST_PHASE getRequestPhase() {
 		return this.currentPhase;
+	}
+
+	/**
+	 * Listener which can be used for some custom initialization. Method gets invoked after all
+	 * YFaces specific dependencies are created and properly injected. It's guaranteed that
+	 * {@link YRequestContext#getCurrentContext()} returns a valid instance whose properties like
+	 * {@link YSessionContext}, {@link YPageContext}, {@link YConversationContext} etc. are fully
+	 * available.
+	 */
+	protected void init() {
+		if (isReqLifecycleInitialized) {
+			log.error("YFaces request lifecycle already initialized");
+		}
+		this.isReqLifecycleInitialized = true;
 	}
 
 }
