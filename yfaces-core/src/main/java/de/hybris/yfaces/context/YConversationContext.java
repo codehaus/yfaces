@@ -133,7 +133,8 @@ public class YConversationContext {
 	}
 
 	/**
-	 * Returns all available {@link YPageContext} instances for this conversation.
+	 * Returns all available {@link YPageContext} instances for this conversation. Collection
+	 * elements are ordered by creation time.
 	 * 
 	 * @return all {@link YPageContext} instances
 	 */
@@ -151,17 +152,16 @@ public class YConversationContext {
 	}
 
 	/**
-	 * Starts updating all {@link YPageContext} instances (pages) of this conversation. Incoming
-	 * request must be of type POST or GET as flashback. Requested page must be element of this
-	 * conversation (current displayed one or a previous one).
+	 * Starts updating the current {@link YPageContext}. If a conversation is running and more than
+	 * one pages are available only the active {@link YPageContext} gets refreshed. Incoming request
+	 * must be of type POST or GET as flashback. Refresh isn't called when conversation is left
+	 * (When requested page is not element element of this conversation)
 	 * <p>
 	 * This method gets not invoked for general GET requests and it gets not invoked for POST
 	 * requests on Pages that are not element of this conversation.
 	 */
 	protected void refresh() {
-		for (YPageContext page : this.contextPages.values()) {
-			page.refresh();
-		}
+		this.currentPage.refresh();
 	}
 
 	/**
