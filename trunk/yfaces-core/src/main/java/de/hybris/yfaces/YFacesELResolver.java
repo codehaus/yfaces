@@ -17,6 +17,7 @@ package de.hybris.yfaces;
 
 import java.beans.FeatureDescriptor;
 import java.util.Iterator;
+import java.util.Map;
 
 import javax.el.CompositeELResolver;
 import javax.el.ELContext;
@@ -25,6 +26,7 @@ import javax.el.ELResolver;
 import javax.el.PropertyNotFoundException;
 import javax.el.PropertyNotWritableException;
 import javax.faces.application.Application;
+import javax.faces.context.FacesContext;
 
 import de.hybris.yfaces.component.YComponent;
 import de.hybris.yfaces.component.YComponentBinding;
@@ -56,6 +58,10 @@ import de.hybris.yfaces.util.myfaces.YFacesApplicationFactory.YFacesApplication;
  * 
  */
 public class YFacesELResolver extends ELResolver {
+
+	private static final String ADD_FRAME_THRESHOLD = YFacesELResolver.class.getName()
+			+ "_addFrame";
+
 	private ELResolver resolver = null;
 
 	/**
@@ -100,7 +106,7 @@ public class YFacesELResolver extends ELResolver {
 
 		// ... when value is a Frame: notify current YPage
 		if (result instanceof YFrame) {
-			this.addFrameToPageContext((YFrame) result);
+			this.addFrameToPageContext(context, (YFrame) result);
 		}
 
 		// ... when value is a YComponentBinding and resolving is enabled,
@@ -139,16 +145,6 @@ public class YFacesELResolver extends ELResolver {
 		} else {
 			this.resolver.setValue(context, base, property, value);
 		}
-
-		// 
-
-		//		if (YComponentBinding.class.equals(this.resolver.getType(context, base, property))) {
-		//			final YComponentBinding binding = (YComponentBinding) this.resolver.getValue(context,
-		//					base, property);
-		//			binding.setValue((YComponent) value);
-		//		} else {
-		//			this.resolver.setValue(context, base, property, value);
-		//		}
 	}
 
 	/*
@@ -160,15 +156,6 @@ public class YFacesELResolver extends ELResolver {
 	public boolean isReadOnly(ELContext context, Object base, Object property)
 			throws NullPointerException, PropertyNotFoundException, ELException {
 		final boolean result = false;
-		// if (!this.resolver.getType(context, base,
-		// property).equals(YComponentBinding.class))
-		// {
-		// result = this.resolver.isReadOnly(context, base, property);
-		// }
-		// else
-		// {
-		// context.setPropertyResolved(true);
-		// }
 		return result;
 	}
 
@@ -231,22 +218,49 @@ public class YFacesELResolver extends ELResolver {
 	 *            frame to add
 	 * 
 	 */
-	private void addFrameToPageContext(YFrame frame) {
+	private void addFrameToPageContext(ELContext elCtx, YFrame frame) {
 		// frames are getting added when:
 		// a) method is get
-		// b) method is post and START_REQUEST phase has finished
-		// e.g. nothing is done when the Frame was requested from within an
-		// action/actionlistener
-		YRequestContext yctx = YRequestContext.getCurrentContext();
-		boolean isPostback = yctx.isPostback();
-		boolean isStartRequest = ((YRequestContextImpl) yctx).getRequestPhase().equals(
-				REQUEST_PHASE.START_REQUEST);
+		// b) method is post and START_REQUEST phase has finished (nothing is done
+		//    hen the Frame was requested from within an action/actionlistener)
 
-		boolean addFrameToCurrentPage = !(isPostback && isStartRequest);
+		// a map holds a threshold two reduce unnecessary operations 
+		// (context resolving is done multiple times within one request)  
+		Map m = FacesContext.getCurrentInstance().getExternalContext().getRequestMap();
+		boolean threshold = m.containsKey(ADD_FRAME_THRESHOLD);
+		if (!threshold) {
+			YRequestContext yctx = YRequestContext.getCurrentContext();
+			boolean isPostback = yctx.isPostback();
+			boolean isStartRequest = ((YRequestContextImpl) yctx).getRequestPhase().equals(
+					REQUEST_PHASE.START_REQUEST);
 
-		if (addFrameToCurrentPage) {
-			yctx.getPageContext().addFrame(frame);
+			if (!isPostback || !isStartRequest) {
+				m.put(ADD_FRAME_THRESHOLD, threshold = Boolean.TRUE);
+			}
+		}
+
+		// adding a frame more than one times doesn't matter; it's just ignored
+		if (threshold) {
+			YRequestContext.getCurrentContext().getPageContext().addFrame(frame);
 		}
 	}
+
+	//	private void addFrameToPageContext(ELContext elCtx, YFrame frame) {
+	// frames are getting added when:
+	// a) method is get
+	// b) method is post and START_REQUEST phase has finished
+	// e.g. nothing is done when the Frame was requested from within an
+	// action/actionlistener
+	//		YRequestContext yctx = YRequestContext.getCurrentContext();
+	//		boolean isPostback = yctx.isPostback();
+	//		boolean isStartRequest = ((YRequestContextImpl) yctx).getRequestPhase().equals(
+	//				REQUEST_PHASE.START_REQUEST);
+	//
+	//		boolean addFrameToCurrentPage = !(isPostback && isStartRequest);
+	//
+	//		if (addFrameToCurrentPage) {
+	//			yctx.getPageContext().addFrame(frame);
+	//		}
+	//}
 
 }
