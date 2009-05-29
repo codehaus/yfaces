@@ -16,7 +16,6 @@
 
 package de.hybris.yfaces.component;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,7 +34,7 @@ import de.hybris.yfaces.context.YRequestContext;
  * @author Denny.Strietzbaum
  * 
  */
-public abstract class AbstractYFrame extends YManagedBean implements YFrame, Serializable {
+public abstract class AbstractYFrame extends YManagedBean implements YFrame {
 
 	private static final long serialVersionUID = 1L;
 
@@ -64,7 +63,7 @@ public abstract class AbstractYFrame extends YManagedBean implements YFrame, Ser
 					binding.getValue().refresh();
 				} catch (Exception e) {
 					AbstractYComponent cmp = (AbstractYComponent) binding.getValue();
-					cmp.setValidationState(e.getClass().getSimpleName());
+					cmp.setErrorMessage(e.getClass().getSimpleName());
 					log.error("Error refreshing component: " + cmp.getClass().getSimpleName()
 							+ " (" + this.getClass().getSimpleName() + ")", e);
 				}
