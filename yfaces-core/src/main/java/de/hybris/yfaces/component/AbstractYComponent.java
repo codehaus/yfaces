@@ -155,11 +155,11 @@ public abstract class AbstractYComponent implements YComponent {
 		return result;
 	}
 
-	public void setValidationState(String state) {
+	public void setErrorMessage(String state) {
 		this.validationState = state;
 	}
 
-	public String getValidationState() {
+	public String getErrorMessage() {
 		return this.validationState;
 	}
 
