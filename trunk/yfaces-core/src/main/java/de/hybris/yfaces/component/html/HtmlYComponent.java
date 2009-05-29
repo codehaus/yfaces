@@ -16,6 +16,7 @@
 package de.hybris.yfaces.component.html;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.HashSet;
@@ -412,16 +413,24 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 			this.generateHtmlDebug(cmp, "Start ");
 		}
 
-		// inject attributes
-		this.injectAttributes(cmpInfo, cmp);
+		((AbstractYComponent) cmp).setErrorMessage(null);
+
+		// inject attributes into component
+		try {
+			this.injectAttributes(cmpInfo, cmp);
+		} catch (Exception e) {
+			log.error(logId + "Error injecting component attributes", e);
+			((AbstractYComponent) cmp).setErrorMessage(e.getClass().getSimpleName());
+		}
 
 		// validate component
-		try {
-			((AbstractYComponent) cmp).setValidationState(null);
-			cmp.validate();
-		} catch (Exception e) {
-			log.error(logId + "has thrown an exception during validation", e);
-			((AbstractYComponent) cmp).setValidationState(e.getClass().getSimpleName());
+		if (((AbstractYComponent) cmp).getErrorMessage() == null) {
+			try {
+				cmp.validate();
+			} catch (Exception e) {
+				log.error(logId + "Error while validating component", e);
+				((AbstractYComponent) cmp).setErrorMessage(e.getClass().getSimpleName());
+			}
 		}
 
 		this.verifyRenderTimeID();
@@ -439,19 +448,25 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 	@Override
 	public void encodeChildren(FacesContext context) throws IOException {
 
-		log.error(logId + "has an invalid state (exception during validation or refresh?)");
+		log
+				.error(logId
+						+ "has an invalid state (exception while injecting attributes, validating or refreshing component?)");
 
-		String validationErrorMsg = ((AbstractYComponent) getYComponent()).getValidationState();
+		String validationErrorMsg = ((AbstractYComponent) getYComponent()).getErrorMessage();
 		if (validationErrorMsg == null) {
 			throw new YFacesException("Illegale state");
 		}
 		try {
 			ResponseWriter writer = FacesContext.getCurrentInstance().getResponseWriter();
 			writer.startElement("div", this);
-			writer.writeAttribute("style", "color:red", null);
-			writer.writeText(validationErrorMsg, null);
+			writer.writeAttribute("style", "color: red;font-weight:bold", null);
+			writer.writeText("Invalid component state", null);
+			writer.startElement("div", this);
+			writer.writeAttribute("style", "color:red;font-style:italic;font-weight:normal", null);
+			writer.writeText("(" + validationErrorMsg + ")", null);
 			writer.endElement("div");
-			((AbstractYComponent) getYComponent()).setValidationState(null);
+			writer.endElement("div");
+			// ((AbstractYComponent) getYComponent()).setErrorMessage(null);
 		} catch (Exception e) {
 			log.error("Error while generating HTML debug comment: " + e.getMessage());
 		}
@@ -463,7 +478,7 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 	@Override
 	public boolean getRendersChildren() {
 
-		if (((AbstractYComponent) getYComponent()).getValidationState() != null) {
+		if (((AbstractYComponent) getYComponent()).getErrorMessage() != null) {
 			return true;
 		} else {
 			return super.getRendersChildren();
@@ -663,10 +678,11 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 					: getAttributes().get(attribute);
 
 			// when a value can be found
+			Method method = null;
 			if (value != null) {
 				try {
 					// JSF 1.2: do type coercion (e.g. String->Integer)
-					Method method = attributeToMethodMap.get(attribute);
+					method = attributeToMethodMap.get(attribute);
 					value = FacesContext.getCurrentInstance().getApplication()
 							.getExpressionFactory().coerceToType(value,
 									method.getParameterTypes()[0]);
@@ -674,8 +690,18 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 					// and finally inject value
 					method.invoke(cmp, value);
 				} catch (Exception e) {
-					throw new YFacesException(logId + ": can't set attribute " + attribute
-							+ " (argument mismatch?)", e);
+					if (e instanceof IllegalArgumentException) {
+						log.error(logId + "Error converting " + value.getClass().getName() + " to "
+								+ method.getParameterTypes()[0].getName());
+					} else {
+						if (e instanceof InvocationTargetException) {
+							log.error(logId + "Error while executing setter for attribute '"
+									+ attribute + "'");
+						}
+					}
+					String error = logId + "Error setting attribute '" + attribute + "' at "
+							+ cmp.getClass().getSimpleName();
+					throw new YFacesException(error, e);
 				}
 
 				// some nice debug output for bughunting
