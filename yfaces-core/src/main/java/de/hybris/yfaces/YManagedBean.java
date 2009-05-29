@@ -19,7 +19,6 @@ package de.hybris.yfaces;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -38,7 +37,7 @@ import de.hybris.yfaces.component.AbstractYFrame;
  * 
  * @author Denny.Strietzbaum
  */
-public class YManagedBean implements Serializable {
+public class YManagedBean {
 
 	private static final long serialVersionUID = 1L;
 
@@ -174,16 +173,16 @@ public class YManagedBean implements Serializable {
 		ve.setValue(ctx, this);
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		return (obj instanceof YManagedBean)
-				&& ((YManagedBean) obj).getBeanId().equals(this.getBeanId());
-	}
+	//	@Override
+	//	public boolean equals(Object obj) {
+	//		return (obj instanceof YManagedBean)
+	//				&& ((YManagedBean) obj).getBeanId().equals(this.getBeanId());
+	//	}
 
-	@Override
-	public int hashCode() {
-		return this.getBeanId().hashCode();
-	}
+	//	@Override
+	//	public int hashCode() {
+	//		return this.getBeanId().hashCode();
+	//	}
 
 	@Override
 	public String toString() {
