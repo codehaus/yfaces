@@ -63,7 +63,7 @@ public abstract class AbstractYFrame extends YManagedBean implements YFrame {
 					binding.getValue().refresh();
 				} catch (Exception e) {
 					AbstractYComponent cmp = (AbstractYComponent) binding.getValue();
-					cmp.setErrorMessage(e.getClass().getSimpleName());
+					cmp.setIllegalComponentState(e.getClass().getSimpleName());
 					log.error("Error refreshing component: " + cmp.getClass().getSimpleName()
 							+ " (" + this.getClass().getSimpleName() + ")", e);
 				}

@@ -413,23 +413,23 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 			this.generateHtmlDebug(cmp, "Start ");
 		}
 
-		((AbstractYComponent) cmp).setErrorMessage(null);
+		((AbstractYComponent) cmp).setIllegalComponentState(null);
 
 		// inject attributes into component
 		try {
 			this.injectAttributes(cmpInfo, cmp);
 		} catch (Exception e) {
 			log.error(logId + "Error injecting component attributes", e);
-			((AbstractYComponent) cmp).setErrorMessage(e.getClass().getSimpleName());
+			((AbstractYComponent) cmp).setIllegalComponentState(e.getClass().getSimpleName());
 		}
 
 		// validate component
-		if (((AbstractYComponent) cmp).getErrorMessage() == null) {
+		if (((AbstractYComponent) cmp).getIllegalComponentState() == null) {
 			try {
 				cmp.validate();
 			} catch (Exception e) {
 				log.error(logId + "Error while validating component", e);
-				((AbstractYComponent) cmp).setErrorMessage(e.getClass().getSimpleName());
+				((AbstractYComponent) cmp).setIllegalComponentState(e.getClass().getSimpleName());
 			}
 		}
 
@@ -452,7 +452,7 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 				.error(logId
 						+ "has an invalid state (exception while injecting attributes, validating or refreshing component?)");
 
-		String validationErrorMsg = ((AbstractYComponent) getYComponent()).getErrorMessage();
+		String validationErrorMsg = ((AbstractYComponent) getYComponent()).getIllegalComponentState();
 		if (validationErrorMsg == null) {
 			throw new YFacesException("Illegale state");
 		}
@@ -478,7 +478,7 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 	@Override
 	public boolean getRendersChildren() {
 
-		if (((AbstractYComponent) getYComponent()).getErrorMessage() != null) {
+		if (((AbstractYComponent) getYComponent()).getIllegalComponentState() != null) {
 			return true;
 		} else {
 			return super.getRendersChildren();
