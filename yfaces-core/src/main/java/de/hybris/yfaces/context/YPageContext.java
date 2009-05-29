@@ -199,7 +199,9 @@ public class YPageContext {
 		return result;
 	}
 
-	//currently only used for YFacesELResolver
+	//used for #getOrdCreateFrame(...) currently only used for YFacesELResolver
+	// a) #getOrdCreateFrame(...)
+	// b) #YFacesElResolver whenever a frame is requested
 	public void addFrame(YFrame frame) {
 		this.frames.put(frame.getClass().getName(), frame);
 	}
@@ -240,11 +242,11 @@ public class YPageContext {
 	public String toString() {
 		List<String> idList = new ArrayList<String>();
 		for (YFrame frame : this.frames.values()) {
-			idList.add(frame.getId());
+			idList.add(frame.getId() + "@" + Integer.toHexString(frame.hashCode()));
 		}
 		String frames = Arrays.toString(idList.toArray());
 
-		String result = getId() + ": " + frames;
+		String result = "id=" + getId() + "; frames=" + frames;
 
 		return result;
 	}
