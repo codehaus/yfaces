@@ -19,7 +19,6 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.Map;
 
-import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.render.ResponseStateManager;
 import javax.servlet.http.HttpServletRequest;
@@ -44,7 +43,24 @@ public abstract class YRequestContext {
 	private YPageContext pageContext = null;
 
 	public enum REQUEST_PHASE {
-		START_REQUEST, FORWARD_REQUEST, END_REQUEST
+		/**
+		 * Gets activated when RESTORE_VIEW is finished
+		 */
+		START_REQUEST,
+
+		/**
+		 * Gets never activated for a general GET request but under one of two circumstances:
+		 * <ul>
+		 * <li>with start of RENDER_RESPONSE and when request method is POST</li>
+		 * <li>with ending if RESTORE_VIEW _and_ request method is GET _and_ flashback is enabled</li>
+		 * </ul>
+		 */
+		FORWARD_REQUEST,
+
+		/**
+		 * Gets activated when RENDER_RESPONSE is finished
+		 */
+		END_REQUEST
 	};
 
 	private REQUEST_PHASE currentPhase = REQUEST_PHASE.END_REQUEST;
@@ -152,9 +168,7 @@ public abstract class YRequestContext {
 	}
 
 	/**
-	 * Redirects to the passed URL. URLs starting with 'http' are treated absolute whereas URLs
-	 * starting with a slash '/' are handled relative to the webapp root. All other URLs are handled
-	 * relative to the current request URI.
+	 * Redirects to the passed URL.
 	 * 
 	 * @param url
 	 *            target url.
@@ -167,26 +181,22 @@ public abstract class YRequestContext {
 		}
 
 		final FacesContext fctx = FacesContext.getCurrentInstance();
-		final ExternalContext ectx = fctx.getExternalContext();
-
-		// when url is not absolute...
-		if (!url.startsWith("http")) {
-			// spec. accepts absolute as well as relative url
-			// relative path without leading slash is interpreted relatively to
-			// current request URI
-			// relative path with leading slash is interpreted relatively to
-			// context root
-
-			// but here a leading slash is interpreted relatively to
-			// webapplication root
-			if (url.startsWith("/")) {
-				url = ectx.getRequestContextPath() + url;
-			}
-		}
-		log.info("Redirecting to " + url);
+		String contextPath = fctx.getExternalContext().getRequestContextPath();
 
 		try {
-			ectx.redirect(ectx.encodeResourceURL(url));
+			String target = null;
+			if (!url.startsWith(contextPath + "/")) {
+				target = fctx.getApplication().getViewHandler().getResourceURL(fctx, url);
+			} else {
+				target = fctx.getExternalContext().encodeResourceURL(url);
+			}
+
+			// using the ViewHandler's getResourceURL(...) automatically handles issues
+			// with an existing/non-existing context path and relative/absolute URLs 
+			// -> for relative URL's: only jsessionid is appended (when needed)
+			// -> for absolute URL's: when not already present the requestcontextpath gets added first
+			log.info("Redirecting to " + target + " (" + url + ")");
+			fctx.getExternalContext().redirect(target);
 			fctx.responseComplete();
 
 		} catch (IOException e) {
@@ -328,7 +338,7 @@ public abstract class YRequestContext {
 			YConversationContext convCtx = page.getConversationContext();
 			String id = convCtx.getId();
 			do {
-				log.debug(id + " Page(" + i++ + "):" + page.toString());
+				log.debug(id + " Page[" + i++ + "]: " + page.toString());
 			} while ((page = page.getPreviousPage()) != null);
 		}
 	}
