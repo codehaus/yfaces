@@ -20,6 +20,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Arrays;
 
+import javax.faces.FactoryFinder;
+import javax.faces.application.Application;
+import javax.faces.application.ApplicationFactory;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -53,9 +56,38 @@ public class YFacesStartupListener implements ServletContextListener {
 	}
 
 	public void contextInitialized(ServletContextEvent arg0) {
-		ApplicationContext ctx = this.createYFacesApplicationContext(arg0.getServletContext());
-		this.setYFacesApplicationContext(ctx);
-		this.configureLogging(arg0);
+
+		ServletContext ctx = arg0.getServletContext();
+		this.configureApplicationFactory(ctx);
+		this.configureYApplicationContext(ctx);
+		this.configureLogging(ctx);
+
+	}
+
+	/**
+	 * Creates and registers {@link YFacesApplication} at the {@link ApplicationFactory}.
+	 * 
+	 * @param ctx
+	 *            {@link ServletContext}
+	 */
+	protected void configureApplicationFactory(ServletContext ctx) {
+		ApplicationFactory appFac = (ApplicationFactory) FactoryFinder
+				.getFactory(FactoryFinder.APPLICATION_FACTORY);
+		Application base = appFac.getApplication();
+		appFac.setApplication(new YFacesApplication(base));
+	}
+
+	/**
+	 * Creates and registers an {@link YApplicationContext}.
+	 * 
+	 * @param ctx
+	 *            {@link ServletContext}
+	 */
+	protected void configureYApplicationContext(ServletContext ctx) {
+		ApplicationContext appCtx = this.createYApplicationContext(ctx);
+		// constructor can be called one times
+		// applicationconext is managed internally as static singleton 
+		new YApplicationContext(appCtx);
 	}
 
 	/**
@@ -74,7 +106,7 @@ public class YFacesStartupListener implements ServletContextListener {
 	 *            {@link ServletContextEvent}
 	 * @return {@link ApplicationContext}
 	 */
-	protected WebApplicationContext createYFacesApplicationContext(ServletContext servletCtx) {
+	protected WebApplicationContext createYApplicationContext(ServletContext servletCtx) {
 		ConfigurableWebApplicationContext result = new XmlWebApplicationContext();
 		result.setServletContext(servletCtx);
 
@@ -97,18 +129,12 @@ public class YFacesStartupListener implements ServletContextListener {
 		return result;
 	}
 
-	private void setYFacesApplicationContext(ApplicationContext ctx) {
-		// constructor can be called one times
-		// applicationconext is managed internally as static singleton 
-		new YApplicationContext(ctx);
-	}
-
 	/**
 	 * Configures log4j.
 	 */
-	private void configureLogging(ServletContextEvent arg0) {
+	protected void configureLogging(ServletContext ctx) {
 		try {
-			URL url = arg0.getServletContext().getResource(log4jCfg);
+			URL url = ctx.getResource(log4jCfg);
 			if (url != null) {
 				System.out.println(log4jCfg
 						+ " found; this overwrites any previous log4j configurations!");
