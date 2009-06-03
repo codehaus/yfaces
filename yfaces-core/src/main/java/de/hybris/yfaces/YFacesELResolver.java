@@ -35,24 +35,24 @@ import de.hybris.yfaces.context.YPageContext;
 import de.hybris.yfaces.context.YRequestContext;
 import de.hybris.yfaces.context.YRequestContextImpl;
 import de.hybris.yfaces.context.YRequestContext.REQUEST_PHASE;
-import de.hybris.yfaces.util.myfaces.YFacesApplicationFactory;
-import de.hybris.yfaces.util.myfaces.YFacesApplicationFactory.YFacesApplication;
 
 /**
- * An own {@link ELResolver} implementation which deals with {@link YComponentBinding} and
- * {@link YFrame} instances.
+ * A custom {@link ELResolver} implementation which handles {@link YComponentBinding} and
+ * {@link YFrame} instances.Whenever a resolved value leads into one of these instances some pre- pr
+ * post-processing is done.
+ * <ul>
+ * <li> {@link YComponentBinding}: automatically resolve it to {@link YComponentBinding#getValue()}
+ * except {@link YFacesELContext#isResolveYComponentBinding()} returns false</li>
+ * <li> {@link YFrame}: notify current {@link YPageContext}</li>
+ * </ul>
  * <p>
- * This resolver can't be used as element of a chain of existing resolvers as the goal is to
- * post-process resolved values of type {@link YComponentBinding} and {@link YFrame}.So technically
- * this resolver is a wrapper around the configured resolver chain.
+ * This resolver can't be element of the {@link ELResolver} chain but actually is a wrapper about
+ * the standard resolver returned by the underlying JSF implementation.
  * <p>
- * When a {@link YComponentBinding} is to be resolved: Resolves the binding to
- * {@link YComponentBinding#getValue()} when necessary.
- * <p>
- * When a {@link YFrame} is to be resolved: Add that frame to current {@link YPageContext}.
  * 
- * @see YFacesApplicationFactory
  * @see YFacesApplication
+ * @see YFacesELContextListener
+ * @see YFacesELContext
  * 
  * @author Denny.Strietzbaum
  * 
@@ -244,23 +244,5 @@ public class YFacesELResolver extends ELResolver {
 			YRequestContext.getCurrentContext().getPageContext().addFrame(frame);
 		}
 	}
-
-	//	private void addFrameToPageContext(ELContext elCtx, YFrame frame) {
-	// frames are getting added when:
-	// a) method is get
-	// b) method is post and START_REQUEST phase has finished
-	// e.g. nothing is done when the Frame was requested from within an
-	// action/actionlistener
-	//		YRequestContext yctx = YRequestContext.getCurrentContext();
-	//		boolean isPostback = yctx.isPostback();
-	//		boolean isStartRequest = ((YRequestContextImpl) yctx).getRequestPhase().equals(
-	//				REQUEST_PHASE.START_REQUEST);
-	//
-	//		boolean addFrameToCurrentPage = !(isPostback && isStartRequest);
-	//
-	//		if (addFrameToCurrentPage) {
-	//			yctx.getPageContext().addFrame(frame);
-	//		}
-	//}
 
 }

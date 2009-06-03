@@ -9,12 +9,6 @@
 		<view-handler>com.sun.facelets.FaceletViewHandler</view-handler>
 	</application>
 	   
-	<factory>
-		<application-factory>
-			de.hybris.yfaces.util.myfaces.YFacesApplicationFactory
-		</application-factory>
-	</factory>
-
 	<lifecycle>
 		<phase-listener> de.hybris.yfaces.context.YRequestContextPhaseListener </phase-listener>
 		
