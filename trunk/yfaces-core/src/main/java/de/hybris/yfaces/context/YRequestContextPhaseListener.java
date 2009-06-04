@@ -21,6 +21,8 @@ import javax.faces.event.PhaseEvent;
 import javax.faces.event.PhaseId;
 import javax.faces.event.PhaseListener;
 
+import de.hybris.yfaces.YFaces;
+
 /**
  * This {@link PhaseListener} is mandatory for a properly work with the {@link YConversationContext}
  * .<br/>
@@ -49,7 +51,7 @@ public class YRequestContextPhaseListener implements PhaseListener {
 	public void beforePhase(PhaseEvent phaseevent) {
 
 		if (phaseevent.getPhaseId() == PhaseId.RESTORE_VIEW) {
-			YRequestContextImpl reqCtx = (YRequestContextImpl) YRequestContext.getCurrentContext();
+			YRequestContextImpl reqCtx = (YRequestContextImpl) YFaces.getCurrentContext();
 			YSessionContext sesCtx = reqCtx.getSessionContext();
 			YPageContext pageContext = sesCtx.getConversationContext().getLastPage();
 			reqCtx.setPageContext(pageContext);
@@ -58,11 +60,12 @@ public class YRequestContextPhaseListener implements PhaseListener {
 		}
 
 		if (phaseevent.getPhaseId() == PhaseId.RENDER_RESPONSE) {
-			boolean facesRequest = YRequestContext.getCurrentContext().isPostback();
+			YRequestContextImpl reqCtx = (YRequestContextImpl) YFaces.getCurrentContext();
+			boolean facesRequest = reqCtx.isPostback();
 			if (facesRequest) {
 				// this viewid can be different (after a POST) from that one in
 				// RESTORE_VIEW
-				((YRequestContextImpl) YRequestContext.getCurrentContext()).switchPage(getViewId());
+				reqCtx.switchPage(getViewId());
 			}
 		}
 	}
@@ -74,15 +77,13 @@ public class YRequestContextPhaseListener implements PhaseListener {
 	 */
 	public void afterPhase(PhaseEvent phaseevent) {
 		if (phaseevent.getPhaseId() == PhaseId.RESTORE_VIEW) {
-			((YRequestContextImpl) YRequestContext.getCurrentContext())
-					.startPageRequest(getViewId());
+			((YRequestContextImpl) YFaces.getCurrentContext()).startPageRequest(getViewId());
 		}
 
 		if (phaseevent.getPhaseId() == PhaseId.RENDER_RESPONSE) {
-			((YRequestContextImpl) YRequestContext.getCurrentContext())
-					.finishPageRequest(getViewId());
+			((YRequestContextImpl) YFaces.getCurrentContext()).finishPageRequest(getViewId());
 
-			YRequestContext.getCurrentContext().getErrorHandler().clearErrorStack();
+			YFaces.getCurrentContext().getErrorHandler().clearErrorStack();
 		}
 	}
 

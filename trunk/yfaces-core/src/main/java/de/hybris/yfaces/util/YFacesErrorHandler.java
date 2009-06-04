@@ -20,8 +20,8 @@ import javax.faces.context.FacesContext;
 
 import org.apache.log4j.Logger;
 
+import de.hybris.yfaces.YFaces;
 import de.hybris.yfaces.YFacesException;
-import de.hybris.yfaces.context.YRequestContext;
 import de.hybris.yfaces.util.myfaces.MyFacesErrorHandler;
 
 /**
@@ -60,7 +60,7 @@ public class YFacesErrorHandler {
 		if (target != null) {
 			String errorMsg = getErrorMessage(fc, cause);
 			log.error("Redirecting to errorpage: " + target + "(" + errorMsg + ")");
-			YRequestContext.getCurrentContext().redirect(target);
+			YFaces.getCurrentContext().redirect(target);
 			fc.getExternalContext().getSessionMap().put(ERROR_STACK, errorMsg);
 		}
 	}
