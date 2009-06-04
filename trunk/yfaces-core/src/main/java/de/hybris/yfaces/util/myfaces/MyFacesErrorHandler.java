@@ -38,7 +38,7 @@ import de.hybris.yfaces.util.YFacesErrorHandler;
  */
 public class MyFacesErrorHandler {
 	public void handleException(final FacesContext fc, final Exception ex) {
-		YFaces.getCurrentContext().getErrorHandler().handleException(fc, ex);
+		YFaces.getRequestContext().getErrorHandler().handleException(fc, ex);
 	}
 
 }

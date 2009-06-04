@@ -5,7 +5,7 @@ import de.hybris.yfaces.context.YRequestContext;
 
 public class YFaces {
 
-	public static YRequestContext getCurrentContext() {
+	public static YRequestContext getRequestContext() {
 		return (YRequestContext) YApplicationContext.getApplicationContext().getBean(
 				YRequestContext.class.getSimpleName());
 	}
