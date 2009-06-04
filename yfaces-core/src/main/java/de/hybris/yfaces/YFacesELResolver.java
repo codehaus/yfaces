@@ -228,7 +228,7 @@ public class YFacesELResolver extends ELResolver {
 		Map m = FacesContext.getCurrentInstance().getExternalContext().getRequestMap();
 		boolean threshold = m.containsKey(ADD_FRAME_THRESHOLD);
 		if (!threshold) {
-			YRequestContextImpl yctx = (YRequestContextImpl) YFaces.getCurrentContext();
+			YRequestContextImpl yctx = (YRequestContextImpl) YFaces.getRequestContext();
 			boolean isPostback = yctx.isPostback();
 			boolean isStartRequest = yctx.getRequestPhase().equals(REQUEST_PHASE.START_REQUEST);
 
@@ -239,7 +239,7 @@ public class YFacesELResolver extends ELResolver {
 
 		// adding a frame more than one times doesn't matter; it's just ignored
 		if (threshold) {
-			YFaces.getCurrentContext().getPageContext().addFrame(frame);
+			YFaces.getRequestContext().getPageContext().addFrame(frame);
 		}
 	}
 

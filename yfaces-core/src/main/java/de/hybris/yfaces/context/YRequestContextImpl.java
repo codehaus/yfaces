@@ -358,7 +358,7 @@ public class YRequestContextImpl implements YRequestContext {
 	/**
 	 * Listener which can be used for some custom initialization. Method gets invoked after all
 	 * YFaces specific dependencies are created and properly injected. It's guaranteed that
-	 * {@link YFaces#getCurrentContext()} returns a valid instance whose properties
+	 * {@link YFaces#getRequestContext()} returns a valid instance whose properties
 	 * {@link YSessionContext}, {@link YPageContext}, {@link YConversationContext} etc. are fully
 	 * available.
 	 */

@@ -51,7 +51,7 @@ public class YRequestContextPhaseListener implements PhaseListener {
 	public void beforePhase(PhaseEvent phaseevent) {
 
 		if (phaseevent.getPhaseId() == PhaseId.RESTORE_VIEW) {
-			YRequestContextImpl reqCtx = (YRequestContextImpl) YFaces.getCurrentContext();
+			YRequestContextImpl reqCtx = (YRequestContextImpl) YFaces.getRequestContext();
 			YSessionContext sesCtx = reqCtx.getSessionContext();
 			YPageContext pageContext = sesCtx.getConversationContext().getLastPage();
 			reqCtx.setPageContext(pageContext);
@@ -60,7 +60,7 @@ public class YRequestContextPhaseListener implements PhaseListener {
 		}
 
 		if (phaseevent.getPhaseId() == PhaseId.RENDER_RESPONSE) {
-			YRequestContextImpl reqCtx = (YRequestContextImpl) YFaces.getCurrentContext();
+			YRequestContextImpl reqCtx = (YRequestContextImpl) YFaces.getRequestContext();
 			boolean facesRequest = reqCtx.isPostback();
 			if (facesRequest) {
 				// this viewid can be different (after a POST) from that one in
@@ -77,13 +77,13 @@ public class YRequestContextPhaseListener implements PhaseListener {
 	 */
 	public void afterPhase(PhaseEvent phaseevent) {
 		if (phaseevent.getPhaseId() == PhaseId.RESTORE_VIEW) {
-			((YRequestContextImpl) YFaces.getCurrentContext()).startPageRequest(getViewId());
+			((YRequestContextImpl) YFaces.getRequestContext()).startPageRequest(getViewId());
 		}
 
 		if (phaseevent.getPhaseId() == PhaseId.RENDER_RESPONSE) {
-			((YRequestContextImpl) YFaces.getCurrentContext()).finishPageRequest(getViewId());
+			((YRequestContextImpl) YFaces.getRequestContext()).finishPageRequest(getViewId());
 
-			YFaces.getCurrentContext().getErrorHandler().clearErrorStack();
+			YFaces.getRequestContext().getErrorHandler().clearErrorStack();
 		}
 	}
 
