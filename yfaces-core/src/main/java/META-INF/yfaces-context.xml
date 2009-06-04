@@ -21,7 +21,7 @@
 		UserSession handles session data and provides a listener system based on session changes
 	 -->
 	<bean id="YSessionContext"
-		class="de.hybris.yfaces.context.YSessionContext"
+		class="de.hybris.yfaces.context.YSessionContextImpl"
 		scope="session"/>
 
 	<!--  

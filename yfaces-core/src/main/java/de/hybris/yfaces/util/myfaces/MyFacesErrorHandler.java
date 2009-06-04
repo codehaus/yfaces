@@ -17,19 +17,19 @@ package de.hybris.yfaces.util.myfaces;
 
 import javax.faces.context.FacesContext;
 
-import de.hybris.yfaces.context.YRequestContext;
+import de.hybris.yfaces.YFaces;
 import de.hybris.yfaces.util.YFacesErrorHandler;
 
 /**
- * This class is meant to be the myfaces error handler which must be declared as
- * deployment parameter in web.xml.<br/>
+ * This class is meant to be the myfaces error handler which must be declared as deployment
+ * parameter in web.xml.<br/>
  * <code>
  * &lt;context-param&gt;<br/>
  * 		&lt;param-name&gt;org.apache.myfaces.ERROR_HANDLER&lt;/param-name&gt;<br/>
  * 		&lt;param-value&gt;de.hybris.yfaces.myfaces.MyFacesErrorHandler&lt;/param-value&gt;<br/>
  * 	&lt;/context-param&gt;<br/>
- * </code> After doing this {@link YFacesErrorHandler} gets invoked whenever an
- * exception gets thrown.
+ * </code> After doing this {@link YFacesErrorHandler} gets invoked whenever an exception gets
+ * thrown.
  * <p/>
  * Learn more about the error handling of myfaces here:
  * http://wiki.apache.org/myfaces/Handling_Server_Errors
@@ -38,7 +38,7 @@ import de.hybris.yfaces.util.YFacesErrorHandler;
  */
 public class MyFacesErrorHandler {
 	public void handleException(final FacesContext fc, final Exception ex) {
-		YRequestContext.getCurrentContext().getErrorHandler().handleException(fc, ex);
+		YFaces.getCurrentContext().getErrorHandler().handleException(fc, ex);
 	}
 
 }

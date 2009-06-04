@@ -31,10 +31,9 @@ import javax.faces.context.FacesContext;
 import de.hybris.yfaces.component.YComponent;
 import de.hybris.yfaces.component.YComponentBinding;
 import de.hybris.yfaces.component.YFrame;
+import de.hybris.yfaces.context.REQUEST_PHASE;
 import de.hybris.yfaces.context.YPageContext;
-import de.hybris.yfaces.context.YRequestContext;
 import de.hybris.yfaces.context.YRequestContextImpl;
-import de.hybris.yfaces.context.YRequestContext.REQUEST_PHASE;
 
 /**
  * A custom {@link ELResolver} implementation which handles {@link YComponentBinding} and
@@ -229,10 +228,9 @@ public class YFacesELResolver extends ELResolver {
 		Map m = FacesContext.getCurrentInstance().getExternalContext().getRequestMap();
 		boolean threshold = m.containsKey(ADD_FRAME_THRESHOLD);
 		if (!threshold) {
-			YRequestContext yctx = YRequestContext.getCurrentContext();
+			YRequestContextImpl yctx = (YRequestContextImpl) YFaces.getCurrentContext();
 			boolean isPostback = yctx.isPostback();
-			boolean isStartRequest = ((YRequestContextImpl) yctx).getRequestPhase().equals(
-					REQUEST_PHASE.START_REQUEST);
+			boolean isStartRequest = yctx.getRequestPhase().equals(REQUEST_PHASE.START_REQUEST);
 
 			if (!isPostback || !isStartRequest) {
 				m.put(ADD_FRAME_THRESHOLD, threshold = Boolean.TRUE);
@@ -241,7 +239,7 @@ public class YFacesELResolver extends ELResolver {
 
 		// adding a frame more than one times doesn't matter; it's just ignored
 		if (threshold) {
-			YRequestContext.getCurrentContext().getPageContext().addFrame(frame);
+			YFaces.getCurrentContext().getPageContext().addFrame(frame);
 		}
 	}
 

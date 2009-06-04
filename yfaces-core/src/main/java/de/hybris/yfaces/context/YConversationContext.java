@@ -22,6 +22,7 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 
+import de.hybris.yfaces.YFaces;
 import de.hybris.yfaces.YFacesException;
 
 /**
@@ -148,7 +149,7 @@ public class YConversationContext {
 	 * @return {@link YSessionContext}
 	 */
 	public YSessionContext getSessionContext() {
-		return YRequestContext.getCurrentContext().getSessionContext();
+		return YFaces.getCurrentContext().getSessionContext();
 	}
 
 	/**
@@ -175,7 +176,7 @@ public class YConversationContext {
 		this.id = this.calculateNewId();
 
 		this.currentPage = page;
-		YRequestContext.getCurrentContext().setPageContext(page);
+		((YRequestContextImpl) YFaces.getCurrentContext()).setPageContext(page);
 
 		this.contextPages = new LinkedHashMap<String, YPageContext>();
 		this.contextPages.put(page.getId(), page);
@@ -197,7 +198,7 @@ public class YConversationContext {
 		this.addPage(page);
 
 		this.currentPage = page;
-		YRequestContext.getCurrentContext().setPageContext(page);
+		((YRequestContextImpl) YFaces.getCurrentContext()).setPageContext(page);
 
 		this.nextContextPage = null;
 	}
@@ -224,7 +225,7 @@ public class YConversationContext {
 		// update some members and request context
 		this.nextContextPage = null;
 		this.currentPage = page;
-		YRequestContext.getCurrentContext().setPageContext(page);
+		((YRequestContextImpl) YFaces.getCurrentContext()).setPageContext(page);
 
 		// update pages stack
 		LinkedHashMap<String, YPageContext> updatedNavigationPages = new LinkedHashMap<String, YPageContext>();
@@ -246,7 +247,7 @@ public class YConversationContext {
 	protected void addPage(YPageContext page) {
 		YPageContext previousPage = page.getPreviousPage();
 
-		YPageContext currentPage = YRequestContext.getCurrentContext().getPageContext();
+		YPageContext currentPage = YFaces.getCurrentContext().getPageContext();
 
 		// in case added page has already a previous page, then it must be same
 		// as current page
