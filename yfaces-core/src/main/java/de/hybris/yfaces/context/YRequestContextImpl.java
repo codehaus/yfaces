@@ -52,8 +52,6 @@ public class YRequestContextImpl implements YRequestContext {
 
 	private boolean isFlashback = false;
 
-	private boolean isReqLifecycleInitialized = false;
-
 	/**
 	 * Constructor. Sets flashback property to true when previous {@link YRequestContext} instance
 	 * was used to do a redirect with enabled flashback.
@@ -355,6 +353,14 @@ public class YRequestContextImpl implements YRequestContext {
 		return this.currentPhase;
 	}
 
+	void startInitialization() {
+		YSessionContextImpl sessCtx = (YSessionContextImpl) getSessionContext();
+		if (!sessCtx.isInitialized()) {
+			sessCtx.startInitialization();
+		}
+		this.initialize();
+	}
+
 	/**
 	 * Listener which can be used for some custom initialization. Method gets invoked after all
 	 * YFaces specific dependencies are created and properly injected. It's guaranteed that
@@ -362,11 +368,7 @@ public class YRequestContextImpl implements YRequestContext {
 	 * {@link YSessionContext}, {@link YPageContext}, {@link YConversationContext} etc. are fully
 	 * available.
 	 */
-	protected void init() {
-		if (isReqLifecycleInitialized) {
-			log.error("YFaces request lifecycle already initialized");
-		}
-		this.isReqLifecycleInitialized = true;
+	protected void initialize() {
 	}
 
 }

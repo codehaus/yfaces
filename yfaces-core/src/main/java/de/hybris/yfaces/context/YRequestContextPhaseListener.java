@@ -56,7 +56,7 @@ public class YRequestContextPhaseListener implements PhaseListener {
 			YPageContext pageContext = sesCtx.getConversationContext().getLastPage();
 			reqCtx.setPageContext(pageContext);
 
-			reqCtx.init();
+			reqCtx.startInitialization();
 		}
 
 		if (phaseevent.getPhaseId() == PhaseId.RENDER_RESPONSE) {

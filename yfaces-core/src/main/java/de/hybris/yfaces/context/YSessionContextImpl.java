@@ -31,6 +31,7 @@ public class YSessionContextImpl implements YSessionContext {
 	private Map<String, Object> attributes = new HashMap<String, Object>();
 
 	private YConversationContext conversationCtx = null;
+	private boolean isInitialized = false;
 
 	public YSessionContextImpl() {
 		this.conversationCtx = new YConversationContext();
@@ -47,6 +48,19 @@ public class YSessionContextImpl implements YSessionContext {
 
 	public YConversationContext getConversationContext() {
 		return this.conversationCtx;
+	}
+
+	void startInitialization() {
+		this.isInitialized = true;
+		this.initialize();
+	}
+
+	boolean isInitialized() {
+		return this.isInitialized;
+	}
+
+	protected void initialize() {
+
 	}
 
 	/**
