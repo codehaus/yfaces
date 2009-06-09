@@ -43,7 +43,7 @@ import de.hybris.yfaces.component.YComponent;
 import de.hybris.yfaces.component.YComponentBinding;
 import de.hybris.yfaces.component.YComponentInfo;
 import de.hybris.yfaces.component.YComponentRegistry;
-import de.hybris.yfaces.component.YComponentInfo.ERROR_STATE;
+import de.hybris.yfaces.component.YComponentInfo.ErrorState;
 
 /**
  * Each {@link YComponent} must be enclosed by this {@link UIComponent}.<br/>
@@ -495,11 +495,11 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 		// validation
 		YComponentInfo cmpInfo = new YComponentInfo(getId(), getVarName(), this.getSpec(), this
 				.getImpl());
-		Set<ERROR_STATE> errors = new HashSet<ERROR_STATE>(cmpInfo.verifyComponent());
-		errors.remove(ERROR_STATE.VIEW_ID_NOT_SPECIFIED);
-		errors.remove(ERROR_STATE.SPEC_IS_MISSING);
+		Set<ErrorState> errors = new HashSet<ErrorState>(cmpInfo.verifyComponent());
+		errors.remove(ErrorState.VIEW_ID_NOT_SPECIFIED);
+		errors.remove(ErrorState.SPEC_IS_MISSING);
 
-		String errorString = ERROR_STATE.getFormattedErrorMessage(errors, cmpInfo, null);
+		String errorString = ErrorState.getFormattedErrorMessage(errors, cmpInfo, null);
 		if (errorString != null) {
 			throw new YFacesException(errorString);
 		}
@@ -522,9 +522,9 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 			// ValueBinding
 			this.setValue(cmp);
 		} else {
-			Set<ERROR_STATE> errors = cmpInfo.assertCustomImplementationClass(_cmp.getClass());
+			Set<ErrorState> errors = cmpInfo.assertCustomImplementationClass(_cmp.getClass());
 			if (!errors.isEmpty()) {
-				throw new YFacesException(ERROR_STATE.getFormattedErrorMessage(errors, cmpInfo,
+				throw new YFacesException(ErrorState.getFormattedErrorMessage(errors, cmpInfo,
 						_cmp.getClass()));
 			}
 

@@ -25,7 +25,7 @@ import java.util.Set;
 
 import org.apache.log4j.Logger;
 
-import de.hybris.yfaces.component.YComponentInfo.ERROR_STATE;
+import de.hybris.yfaces.component.YComponentInfo.ErrorState;
 
 /**
  * A registry which holds meta information about registered YComponent. Components are registered
@@ -69,7 +69,7 @@ public class YComponentRegistry {
 	// ID to MetaComponent
 	private Map<String, YComponentInfo> idToCmpMap = null;
 
-	private Set<ERROR_STATE> treatAsWarning = null;
+	private Set<ErrorState> treatAsWarning = null;
 
 	private static YComponentRegistry singleton = new YComponentRegistry();
 
@@ -79,8 +79,8 @@ public class YComponentRegistry {
 
 	public YComponentRegistry() {
 		this.idToCmpMap = new LinkedHashMap<String, YComponentInfo>();
-		this.treatAsWarning = EnumSet.of(ERROR_STATE.VIEW_ID_NOT_SPECIFIED,
-				ERROR_STATE.SPEC_IS_MISSING);
+		this.treatAsWarning = EnumSet.of(ErrorState.VIEW_ID_NOT_SPECIFIED,
+				ErrorState.SPEC_IS_MISSING);
 	}
 
 	/**
@@ -115,14 +115,14 @@ public class YComponentRegistry {
 			String id = cmpInfo.getId();
 
 			if (id != null) {
-				Set<ERROR_STATE> errors = cmpInfo.verifyComponent();
-				Set<ERROR_STATE> warnings = Collections.emptySet();
+				Set<ErrorState> errors = cmpInfo.verifyComponent();
+				Set<ErrorState> warnings = Collections.emptySet();
 
 				// when errors are thrown...
 				if (!errors.isEmpty()) {
 					// ...remove all who're declared as warning
-					errors = new HashSet<ERROR_STATE>(errors);
-					warnings = new HashSet<ERROR_STATE>(this.treatAsWarning);
+					errors = new HashSet<ErrorState>(errors);
+					warnings = new HashSet<ErrorState>(this.treatAsWarning);
 					// only keep warnings which are thrown as error
 					warnings.retainAll(errors);
 					// cleanup errors from warnings
@@ -141,7 +141,7 @@ public class YComponentRegistry {
 						if (!warnings.isEmpty()) {
 							log.debug("Added component " + cmpInfo.getComponentName()
 									+ " with warnings:");
-							String errorMsg = ERROR_STATE.getFormattedErrorMessage(warnings,
+							String errorMsg = ErrorState.getFormattedErrorMessage(warnings,
 									cmpInfo, null);
 							log.debug(errorMsg);
 						} else {
@@ -150,7 +150,7 @@ public class YComponentRegistry {
 					}
 				} else {
 					log.error("Error adding component: " + cmpInfo.getURL());
-					log.error(ERROR_STATE.getFormattedErrorMessage(errors, cmpInfo, null));
+					log.error(ErrorState.getFormattedErrorMessage(errors, cmpInfo, null));
 				}
 			} else {
 				log.error("Error adding component (no id): " + cmpInfo.getURL());

@@ -28,7 +28,8 @@ import javax.servlet.http.HttpSession;
 public interface YSessionContext {
 
 	/**
-	 * Custom attributes for free usage.
+	 * A map of attributes backed by the lifetime of this scope. Fetching a value for a key is the
+	 * same like {@link HttpSession#getAttribute(String)}. Same with setting a value.
 	 * 
 	 * @return {@link Map}
 	 */
