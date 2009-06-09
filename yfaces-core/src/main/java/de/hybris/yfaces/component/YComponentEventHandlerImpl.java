@@ -103,8 +103,9 @@ public class YComponentEventHandlerImpl<T extends YComponent> implements YCompon
 	 */
 	public void actionListener(ActionEvent event) {
 		this.eventSource = event;
+		YComponentEvent<T> _event = new YComponentEventImpl<T>(this.eventSource);
+
 		for (YComponentEventListener<T> listener : this.listeners) {
-			YComponentEvent<T> _event = new YComponentEventImpl<T>(this.eventSource);
 
 			// separate exception handling is included since jsf 1.2 (myfaces)
 			// catches any exception and wraps it into a
@@ -122,9 +123,8 @@ public class YComponentEventHandlerImpl<T extends YComponent> implements YCompon
 				((AbstractYComponentEventListener<T>) listener).fireActionListener(_event);
 			} catch (RuntimeException e) {
 				String msg = "Exception while processing ActionListener ("
-						+ YComponent.class.getSimpleName() + ": "
-						+ _event.getComponent().getId() + "; Event: "
-						+ listener.getClass().getSimpleName() + ")";
+						+ YComponent.class.getSimpleName() + ": " + _event.getComponent().getId()
+						+ "; Event: " + listener.getClass().getSimpleName() + ")";
 
 				log.error(msg, e);
 				throw e;
@@ -141,9 +141,9 @@ public class YComponentEventHandlerImpl<T extends YComponent> implements YCompon
 	 */
 	public void valueChangeListener(ValueChangeEvent event) {
 		this.eventSource = event;
+		YComponentEvent<T> _event = new YComponentEventImpl<T>(this.eventSource);
 
 		for (YComponentEventListener<T> listener : this.listeners) {
-			YComponentEvent<T> _event = new YComponentEventImpl<T>(this.eventSource);
 
 			// see #actionListener(...) for the reason of this exception
 			// handling
@@ -153,9 +153,8 @@ public class YComponentEventHandlerImpl<T extends YComponent> implements YCompon
 				((AbstractYComponentEventListener<T>) listener).fireValueChangeListener(_event);
 			} catch (RuntimeException e) {
 				String msg = "Exception while processing ValueChangeListener ("
-						+ YComponent.class.getSimpleName() + ": "
-						+ _event.getComponent().getId() + "; Event: "
-						+ listener.getClass().getSimpleName() + ")";
+						+ YComponent.class.getSimpleName() + ": " + _event.getComponent().getId()
+						+ "; Event: " + listener.getClass().getSimpleName() + ")";
 
 				log.error(msg, e);
 				throw e;

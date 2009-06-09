@@ -51,9 +51,6 @@ public abstract class AbstractYComponentEventListener<T extends YComponent> impl
 			boolean isMethodBinding = this.action.startsWith("#{");
 			result = this.action;
 			if (isMethodBinding) {
-				//				final MethodBinding mb = FacesContext.getCurrentInstance().getApplication()
-				//						.createMethodBinding(this.action, (Class[]) null);
-				//				result = (String) mb.invoke(FacesContext.getCurrentInstance(), null);
 				ELContext elCtx = FacesContext.getCurrentInstance().getELContext();
 				ExpressionFactory elFac = FacesContext.getCurrentInstance().getApplication()
 						.getExpressionFactory();
@@ -156,38 +153,5 @@ public abstract class AbstractYComponentEventListener<T extends YComponent> impl
 
 		return result;
 	}
-
-	//	private Object invokeYComponentListener(String binding, YComponentEvent<?> event) {
-	//		MethodBinding mb = null;
-	//
-	//		// collect classes which can be used as method parameters
-	//		List<Class<?>> paramTypes = new ArrayList<Class<?>>();
-	//		paramTypes.add(YComponentEvent.class);
-	//		paramTypes.add(event.getClass());
-	//
-	//		// detect a valid binding which accepts one of the parameters
-	//		for (Class<?> paramType : paramTypes) {
-	//			mb = FacesContext.getCurrentInstance().getApplication().createMethodBinding(binding,
-	//					new Class[] { paramType });
-	//			try {
-	//				mb.getType(FacesContext.getCurrentInstance());
-	//				log.debug("Invoke MethodBinding " + binding + "(" + paramType.getName() + ")");
-	//				break;
-	//			} catch (Exception e) {
-	//				mb = null;
-	//			}
-	//		}
-	//
-	//		// throw exception when no binding can be created
-	//		if (mb == null) {
-	//			throw new YFacesException("Invalid MethodBinding: " + binding + "; tried parameters: "
-	//					+ paramTypes);
-	//		}
-	//
-	//		// otherwise invoke binding
-	//		final Object result = mb.invoke(FacesContext.getCurrentInstance(), new Object[] { event });
-	//
-	//		return result;
-	//	}
 
 }

@@ -15,6 +15,9 @@
  */
 package de.hybris.yfaces.component;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.faces.component.UICommand;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIForm;
@@ -36,18 +39,20 @@ public class YComponentEventImpl<T extends YComponent> implements YComponentEven
 	private static final String YCOMPONENT_ACTION_PARAMETER = YComponent.class.getSimpleName();
 
 	// current ActionEvent, ActionForm and ActionComponent (autodetected)
-	private transient FacesEvent facesEventSource = null;
-	private transient UIForm actionUIForm = null;
-	private transient UIComponent actionUICmp = null;
-	private transient HtmlYComponent actionHtmlHCmp = null;
+	private FacesEvent facesEventSource = null;
+	private UIForm actionUIForm = null;
+	private UIComponent actionUICmp = null;
+	private HtmlYComponent actionHtmlHCmp = null;
+	private Map<String, Object> attributes = null;
 
-	private transient T yCmpSource = null;
+	private T yCmpSource = null;
 
-	private transient String logId = null;
+	private String logId = null;
 
 	public YComponentEventImpl(final FacesEvent source) {
 		this.logId = this.getClass().getSimpleName();
 		this.facesEventSource = source;
+		this.attributes = new HashMap<String, Object>();
 	}
 
 	/**
@@ -195,6 +200,15 @@ public class YComponentEventImpl<T extends YComponent> implements YComponentEven
 
 	public FacesEvent getFacesEvent() {
 		return this.facesEventSource;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see de.hybris.yfaces.component.YComponentEvent#getAttributes()
+	 */
+	public Map<String, Object> getAttributes() {
+		return this.attributes;
 	}
 
 }
