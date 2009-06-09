@@ -19,7 +19,7 @@ import org.apache.log4j.Logger;
 import de.hybris.yfaces.component.YComponentFactory;
 import de.hybris.yfaces.component.YComponentInfo;
 import de.hybris.yfaces.component.YComponentRegistry;
-import de.hybris.yfaces.component.YComponentInfo.ERROR_STATE;
+import de.hybris.yfaces.component.YComponentInfo.ErrorState;
 
 /**
  * @author Denny.Strietzbaum
@@ -38,7 +38,7 @@ public class TestYComponentInfo extends TestCase {
 		private YComponentFactory cmpFac = new YComponentFactory();
 
 		private boolean expectedToAdd = false;
-		private Set<YComponentInfo.ERROR_STATE> expectedErrors = Collections.emptySet();
+		private Set<YComponentInfo.ErrorState> expectedErrors = Collections.emptySet();
 		private String expSpecClassName = null;
 		private String expImplClassName = null;
 		private String expId = null;
@@ -54,8 +54,8 @@ public class TestYComponentInfo extends TestCase {
 			this.registry = registry;
 		}
 
-		public void setExpectedErrors(YComponentInfo.ERROR_STATE... errors) {
-			this.expectedErrors = new HashSet<ERROR_STATE>(Arrays.asList(errors));
+		public void setExpectedErrors(YComponentInfo.ErrorState... errors) {
+			this.expectedErrors = new HashSet<ErrorState>(Arrays.asList(errors));
 		}
 
 		public void run() {
@@ -182,40 +182,40 @@ public class TestYComponentInfo extends TestCase {
 		int count = -1;
 		while (++count >= 0) {
 			String cmp = null;
-			Collection<ERROR_STATE> expected = null;
+			Collection<ErrorState> expected = null;
 			switch (count) {
 			case 0:
 				cmp = "<yf:component impl=\"" + impl + "\"  spec=\"" + spec + "\" var=\"" + var
 						+ "\">";
-				expected = Arrays.asList(ERROR_STATE.VIEW_ID_NOT_SPECIFIED);
+				expected = Arrays.asList(ErrorState.VIEW_ID_NOT_SPECIFIED);
 				break;
 			case 1:
 				cmp = "<yf:component impl=\"" + impl + "\" >";
-				expected = Arrays.asList(ERROR_STATE.VIEW_ID_NOT_SPECIFIED,
-						ERROR_STATE.VIEW_VAR_NOT_SPECIFIED, ERROR_STATE.SPEC_IS_MISSING);
+				expected = Arrays.asList(ErrorState.VIEW_ID_NOT_SPECIFIED,
+						ErrorState.VIEW_VAR_NOT_SPECIFIED, ErrorState.SPEC_IS_MISSING);
 				break;
 			case 2:
 				cmp = "<yf:component id=\"id\" impl=\"java.util.List\" var=\"var\">";
-				expected = Arrays.asList(ERROR_STATE.SPEC_IS_MISSING,
-						ERROR_STATE.IMPL_IS_INTERFACE, ERROR_STATE.IMPL_IS_NO_YCMP);
+				expected = Arrays.asList(ErrorState.SPEC_IS_MISSING,
+						ErrorState.IMPL_IS_INTERFACE, ErrorState.IMPL_IS_NO_YCMP);
 				break;
 			case 3:
 				cmp = "<yf:component id=\"id\" impl=\"java.util.ArrayList\" var=\"var\">";
-				expected = Arrays.asList(ERROR_STATE.SPEC_IS_MISSING, ERROR_STATE.IMPL_IS_NO_YCMP);
+				expected = Arrays.asList(ErrorState.SPEC_IS_MISSING, ErrorState.IMPL_IS_NO_YCMP);
 				break;
 			case 4:
 				cmp = "<yf:component id=\"id\" spec=\"java.util.List\" impl=\"java.util.ArrayList\" var=\"var\">";
-				expected = Arrays.asList(ERROR_STATE.SPEC_IS_NO_YCMP, ERROR_STATE.IMPL_IS_NO_YCMP);
+				expected = Arrays.asList(ErrorState.SPEC_IS_NO_YCMP, ErrorState.IMPL_IS_NO_YCMP);
 				break;
 			case 5:
 				cmp = "<yf:component id=\"id\" spec=\"java.util.ArrayList\" impl=\"java.util.ArrayList\" var=\"var\">";
-				expected = Arrays.asList(ERROR_STATE.SPEC_IS_NO_INTERFACE,
-						ERROR_STATE.SPEC_IS_NO_YCMP, ERROR_STATE.IMPL_IS_NO_YCMP);
+				expected = Arrays.asList(ErrorState.SPEC_IS_NO_INTERFACE,
+						ErrorState.SPEC_IS_NO_YCMP, ErrorState.IMPL_IS_NO_YCMP);
 				break;
 			case 6:
 				cmp = "<yf:component id=\"id\" spec=\"java.util.Listxxx\" impl=\"java.util.ArrayListxxx\" var=\"var\">";
-				expected = Arrays.asList(ERROR_STATE.SPEC_NOT_LOADABLE,
-						ERROR_STATE.IMPL_NOT_LOADABLE);
+				expected = Arrays.asList(ErrorState.SPEC_NOT_LOADABLE,
+						ErrorState.IMPL_NOT_LOADABLE);
 				break;
 
 			default:
@@ -226,8 +226,8 @@ public class TestYComponentInfo extends TestCase {
 				log.info("Asserting: " + cmp);
 				log.info("Expecting: " + expected);
 				cmpInfo = cmpFac.createComponentInfo(cmp);
-				Set<ERROR_STATE> errors = cmpInfo.verifyComponent();
-				assertEquals(new HashSet<ERROR_STATE>(expected), errors);
+				Set<ErrorState> errors = cmpInfo.verifyComponent();
+				assertEquals(new HashSet<ErrorState>(expected), errors);
 			}
 		}
 	}
@@ -252,7 +252,7 @@ public class TestYComponentInfo extends TestCase {
 		tests.add(test);
 
 		test = new AddSingleYComponentTest(reg, "validComponent1Tag.xhtml", true);
-		test.setExpectedErrors(ERROR_STATE.SPEC_IS_MISSING);
+		test.setExpectedErrors(ErrorState.SPEC_IS_MISSING);
 		test.expImplClassName = TEST_COMPONENT_IMPL;
 		test.expId = "validComponent1";
 		test.expVar = "validComponent1Var";
@@ -266,7 +266,7 @@ public class TestYComponentInfo extends TestCase {
 		tests.add(test);
 
 		test = new AddSingleYComponentTest(reg, "validComponent3Tag.xhtml", true);
-		test.setExpectedErrors(ERROR_STATE.SPEC_IS_MISSING);
+		test.setExpectedErrors(ErrorState.SPEC_IS_MISSING);
 		test.expImplClassName = TEST_COMPONENT_IMPL;
 		test.expId = "validComponent3";
 		test.expVar = "validComponent3Var";
@@ -275,7 +275,7 @@ public class TestYComponentInfo extends TestCase {
 		tests.add(test);
 
 		test = new AddSingleYComponentTest(reg, "validComponent4Tag.xhtml", true);
-		test.setExpectedErrors(ERROR_STATE.SPEC_IS_MISSING);
+		test.setExpectedErrors(ErrorState.SPEC_IS_MISSING);
 		test.expImplClassName = TEST_COMPONENT_IMPL;
 		test.expId = "validComponent4";
 		test.expVar = "validComponent4Var";

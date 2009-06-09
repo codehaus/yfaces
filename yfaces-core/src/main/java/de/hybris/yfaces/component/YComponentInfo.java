@@ -56,7 +56,7 @@ public class YComponentInfo {
 	 * Enumeration of possible error state. Supports placeholders whose values are extracted from a
 	 * {@link YComponentInfo}
 	 */
-	public static enum ERROR_STATE {
+	public static enum ErrorState {
 
 		/** When no component interface (specification) is provided */
 		SPEC_IS_MISSING("No specification specified"),
@@ -101,12 +101,12 @@ public class YComponentInfo {
 		// Pattern for detecting placeholders
 		private static final Pattern placeHolderPattern = Pattern.compile("\\{(.*?)\\}");
 
-		public static String getFormattedErrorMessage(Collection<ERROR_STATE> errors,
+		public static String getFormattedErrorMessage(Collection<ErrorState> errors,
 				YComponentInfo cmpInfo, Class<?> customImplClass) {
 			String result = null;
 			if (!errors.isEmpty()) {
 				result = cmpInfo.getId() != null ? cmpInfo.getId() : "";
-				for (ERROR_STATE error : errors) {
+				for (ErrorState error : errors) {
 					result = result + "," + error.getFormattedErrorMessage(cmpInfo);
 				}
 			}
@@ -116,7 +116,7 @@ public class YComponentInfo {
 
 		private String msg = null;
 
-		private ERROR_STATE(String msg) {
+		private ErrorState(String msg) {
 			this.msg = msg;
 		}
 
@@ -205,7 +205,7 @@ public class YComponentInfo {
 	private URL url = null;
 
 	// all errors which are detected after a verification
-	private Set<ERROR_STATE> errors = null;
+	private Set<ErrorState> errors = null;
 
 	protected YComponentInfo() {
 		this.injectableAttributes = Collections.emptySet();
@@ -232,9 +232,9 @@ public class YComponentInfo {
 	 * Checks for specification, implementation, non-duplicate 'id' and 'var' values.<br/>
 	 * 
 	 */
-	public Set<ERROR_STATE> verifyComponent() {
+	public Set<ErrorState> verifyComponent() {
 		if (this.errors == null) {
-			this.errors = EnumSet.noneOf(ERROR_STATE.class);
+			this.errors = EnumSet.noneOf(ErrorState.class);
 			assertImplementationClassName();
 			assertSpecificationClassName();
 			assertIdAndVarName();
@@ -403,7 +403,7 @@ public class YComponentInfo {
 
 	private boolean assertSpecificationClassName() {
 		if (specClassName == null || specClassName.trim().length() == 0) {
-			this.errors.add(ERROR_STATE.SPEC_IS_MISSING);
+			this.errors.add(ErrorState.SPEC_IS_MISSING);
 		}
 		return this.errors.isEmpty();
 	}
@@ -416,7 +416,7 @@ public class YComponentInfo {
 	 */
 	private boolean assertImplementationClassName() {
 		if (implClassName == null || implClassName.trim().length() == 0) {
-			this.errors.add(ERROR_STATE.IMPL_IS_MISSING);
+			this.errors.add(ErrorState.IMPL_IS_MISSING);
 		}
 		return this.errors.isEmpty();
 	}
@@ -428,40 +428,40 @@ public class YComponentInfo {
 	 */
 	private boolean assertIdAndVarName() {
 		if (id == null || id.trim().length() == 0) {
-			this.errors.add(ERROR_STATE.VIEW_ID_NOT_SPECIFIED);
+			this.errors.add(ErrorState.VIEW_ID_NOT_SPECIFIED);
 		}
 
 		if (cmpVar == null || cmpVar.trim().length() == 0) {
-			this.errors.add(ERROR_STATE.VIEW_VAR_NOT_SPECIFIED);
+			this.errors.add(ErrorState.VIEW_VAR_NOT_SPECIFIED);
 		}
 
 		return this.errors.isEmpty();
 	}
 
 	private boolean assertSpecificationClass() {
-		if (this.specClass == null && !this.errors.contains(ERROR_STATE.SPEC_IS_MISSING)) {
-			this.specClass = getClass(this.specClassName, ERROR_STATE.SPEC_NOT_LOADABLE);
+		if (this.specClass == null && !this.errors.contains(ErrorState.SPEC_IS_MISSING)) {
+			this.specClass = getClass(this.specClassName, ErrorState.SPEC_NOT_LOADABLE);
 		}
 
 		if (specClass != null) {
 			if (!specClass.isInterface()) {
-				this.errors.add(ERROR_STATE.SPEC_IS_NO_INTERFACE);
+				this.errors.add(ErrorState.SPEC_IS_NO_INTERFACE);
 			}
 
 			if (!YComponent.class.isAssignableFrom(specClass)) {
-				this.errors.add(ERROR_STATE.SPEC_IS_NO_YCMP);
+				this.errors.add(ErrorState.SPEC_IS_NO_YCMP);
 			}
 		}
 		return this.errors.isEmpty();
 	}
 
 	private void assertImplementationClass() {
-		if (this.implClass == null && !this.errors.contains(ERROR_STATE.IMPL_IS_MISSING)) {
-			this.implClass = getClass(this.implClassName, ERROR_STATE.IMPL_NOT_LOADABLE);
+		if (this.implClass == null && !this.errors.contains(ErrorState.IMPL_IS_MISSING)) {
+			this.implClass = getClass(this.implClassName, ErrorState.IMPL_NOT_LOADABLE);
 		}
 
 		if (implClass != null) {
-			final Set<ERROR_STATE> _implErrors = this.assertCustomImplementationClass(implClass);
+			final Set<ErrorState> _implErrors = this.assertCustomImplementationClass(implClass);
 
 			if (!_implErrors.isEmpty()) {
 				this.implClass = null;
@@ -473,25 +473,25 @@ public class YComponentInfo {
 	/**
 	 * Asserts the passed class whether it can be used with this component configuration.<br/>
 	 * 
-	 * Possible verification errors are:<br/> {@link ERROR_STATE#IMPL_IS_INTERFACE}<br/>
-	 * {@link ERROR_STATE#IMPL_IS_NO_YCMP}<br/> {@link ERROR_STATE#IMPL_UNASSIGNABLE_TO_SPEC}<br/>
+	 * Possible verification errors are:<br/> {@link ErrorState#IMPL_IS_INTERFACE}<br/>
+	 * {@link ErrorState#IMPL_IS_NO_YCMP}<br/> {@link ErrorState#IMPL_UNASSIGNABLE_TO_SPEC}<br/>
 	 * 
 	 * @param implClass
 	 * @return result
 	 */
-	public Set<ERROR_STATE> assertCustomImplementationClass(Class<?> implClass) {
-		Set<ERROR_STATE> result = EnumSet.noneOf(ERROR_STATE.class);
+	public Set<ErrorState> assertCustomImplementationClass(Class<?> implClass) {
+		Set<ErrorState> result = EnumSet.noneOf(ErrorState.class);
 
 		if (implClass.isInterface()) {
-			result.add(ERROR_STATE.IMPL_IS_INTERFACE);
+			result.add(ErrorState.IMPL_IS_INTERFACE);
 		}
 
 		if (!YComponent.class.isAssignableFrom(implClass)) {
-			result.add(ERROR_STATE.IMPL_IS_NO_YCMP);
+			result.add(ErrorState.IMPL_IS_NO_YCMP);
 		}
 
 		if (specClass != null && !specClass.isAssignableFrom(implClass)) {
-			result.add(ERROR_STATE.IMPL_UNASSIGNABLE_TO_SPEC);
+			result.add(ErrorState.IMPL_UNASSIGNABLE_TO_SPEC);
 		}
 		return result;
 
@@ -503,13 +503,13 @@ public class YComponentInfo {
 			// this.errors.add(ERROR_STATE.FORBIDDEN_PROPERTY);
 
 			if (this.injectableAttributes.contains(s)) {
-				this.errors.add(ERROR_STATE.VIEW_INJECTABLE_PROP_FORBIDDEN);
+				this.errors.add(ErrorState.VIEW_INJECTABLE_PROP_FORBIDDEN);
 			}
 		}
 		return this.errors.isEmpty();
 	}
 
-	private <T> Class<T> getClass(String classname, ERROR_STATE catchError) {
+	private <T> Class<T> getClass(String classname, ErrorState catchError) {
 		Class<T> result = null;
 		try {
 			//result = (Class<T>) Class.forName(classname);

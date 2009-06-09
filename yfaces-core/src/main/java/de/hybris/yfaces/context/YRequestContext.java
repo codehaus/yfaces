@@ -15,6 +15,8 @@
  */
 package de.hybris.yfaces.context;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 
 import de.hybris.yfaces.util.YFacesErrorHandler;
@@ -38,6 +40,14 @@ public interface YRequestContext {
 	 * @return {@link YSessionContext}
 	 */
 	public YSessionContext getSessionContext();
+
+	/**
+	 * A map of attributes backed by the lifetime of this scope. Fetching a value for a key is the
+	 * same like {@link HttpServletRequest#getAttribute(String)}. Same with setting a value.
+	 * 
+	 * @return {@link Map}
+	 */
+	public Map<String, Object> getAttributes();
 
 	/**
 	 * Shortcut to {@link #redirect(String, boolean)} with disabled flashback.

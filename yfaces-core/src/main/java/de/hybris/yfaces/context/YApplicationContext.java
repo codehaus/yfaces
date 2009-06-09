@@ -15,6 +15,9 @@
  */
 package de.hybris.yfaces.context;
 
+import java.util.Map;
+
+import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
 
 import org.springframework.context.ApplicationContext;
@@ -44,6 +47,16 @@ public class YApplicationContext {
 			throw new YFacesException(this.getClass().getName() + " was already created");
 		}
 		appCtx = ctx;
+	}
+
+	/**
+	 * A map of attributes backed by the lifetime of this scope. Fetching a value for a key is the
+	 * same like {@link ServletContext#getAttribute(String)}. Same with setting a value.
+	 * 
+	 * @return {@link Map}
+	 */
+	public Map<String, Object> getAttributes() {
+		return FacesContext.getCurrentInstance().getExternalContext().getApplicationMap();
 	}
 
 	/**

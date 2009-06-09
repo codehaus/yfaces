@@ -150,7 +150,7 @@ public class YPageContext {
 	}
 
 	/**
-	 * Custom attributes for free usage.
+	 * A map of attributes backed by the lifetime of this scope.
 	 * 
 	 * @return {@link Map}
 	 */

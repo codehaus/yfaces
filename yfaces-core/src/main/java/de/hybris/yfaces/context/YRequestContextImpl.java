@@ -98,6 +98,15 @@ public class YRequestContextImpl implements YRequestContext {
 		this.sessionContext = sessionContext;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see de.hybris.yfaces.context.YRequestContext#getAttributes()
+	 */
+	public Map<String, Object> getAttributes() {
+		return FacesContext.getCurrentInstance().getExternalContext().getRequestMap();
+	}
+
 	/**
 	 * Shortcut to {@link #redirect(String, boolean)} with disabled flashback.
 	 * 

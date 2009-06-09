@@ -16,9 +16,9 @@
 
 package de.hybris.yfaces.context;
 
-import java.util.HashMap;
 import java.util.Map;
 
+import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -27,8 +27,6 @@ import javax.servlet.http.HttpSession;
  * @author Denny.Strietzbaum
  */
 public class YSessionContextImpl implements YSessionContext {
-
-	private Map<String, Object> attributes = new HashMap<String, Object>();
 
 	private YConversationContext conversationCtx = null;
 	private boolean isInitialized = false;
@@ -43,7 +41,9 @@ public class YSessionContextImpl implements YSessionContext {
 	 * @return {@link Map}
 	 */
 	public Map<String, Object> getAttributes() {
-		return this.attributes;
+		Map<String, Object> result = FacesContext.getCurrentInstance().getExternalContext()
+				.getSessionMap();
+		return result;
 	}
 
 	public YConversationContext getConversationContext() {
