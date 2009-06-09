@@ -15,6 +15,8 @@
  */
 package de.hybris.yfaces.component;
 
+import java.util.Map;
+
 import javax.faces.component.UICommand;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIForm;
@@ -58,5 +60,15 @@ public interface YComponentEvent<T extends YComponent> {
 	 * @return {@link FacesEvent}
 	 */
 	public FacesEvent getFacesEvent();
+
+	/**
+	 * A map of custom attributes. These are useful when a queue of {@link YComponentEventListener}
+	 * are registered at a {@link YComponentEventHandler}. Using these attributes are a possibility
+	 * to pass additional parameters (processing results etc.) to following listeners which are
+	 * getting executed next.
+	 * 
+	 * @return map of custom attributes
+	 */
+	public Map<String, Object> getAttributes();
 
 }
