@@ -42,7 +42,7 @@ public class YFacesApplication extends Application {
 	private Application base = null;
 	private ELResolver resolver = null;
 
-	protected YFacesApplication(Application base) {
+	public YFacesApplication(Application base) {
 		this.base = base;
 		this.resolver = new YFacesELResolver(base.getELResolver());
 		this.addELContextListener(new YFacesELContextListener());
