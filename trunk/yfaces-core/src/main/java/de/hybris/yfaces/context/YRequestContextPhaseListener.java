@@ -16,12 +16,18 @@
 
 package de.hybris.yfaces.context;
 
+import javax.faces.FactoryFinder;
+import javax.faces.application.Application;
+import javax.faces.application.ApplicationFactory;
 import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseEvent;
 import javax.faces.event.PhaseId;
 import javax.faces.event.PhaseListener;
+import javax.servlet.ServletContextListener;
 
 import de.hybris.yfaces.YFaces;
+import de.hybris.yfaces.YFacesApplication;
+import de.hybris.yfaces.YFacesException;
 
 /**
  * This {@link PhaseListener} is mandatory for a properly work with the {@link YConversationContext}
@@ -42,6 +48,33 @@ public class YRequestContextPhaseListener implements PhaseListener {
 	private static final long serialVersionUID = 1L;
 
 	//private static final Logger log = Logger.getLogger(YRequestContextPhaseListener.class);
+
+	/**
+	 * Constructor.
+	 * <p>
+	 * Creates and registers a {@link YFacesApplication} instance at currently installed
+	 * {@link ApplicationFactory}.
+	 * <p>
+	 * Execution time of a {@link PhaseListener} constructor assures a well configured JSF
+	 * environment. This wouldn't be the case when using a {@link ServletContextListener} for this
+	 * task. E.g for myfaces such a listener will fail as myfaces configure the JSF environment via
+	 * a listener <code>org.apache.myfaces.webapp.StartupServletContextListener</code> which is
+	 * given in a tld file. Such listeners are (according spec.) invoked after web.xml listeners.
+	 */
+	public YRequestContextPhaseListener() {
+
+		ApplicationFactory appFac = (ApplicationFactory) FactoryFinder
+				.getFactory(FactoryFinder.APPLICATION_FACTORY);
+		Application base = appFac.getApplication();
+
+		// prevents a double registration of this Phaselistener
+		if (base instanceof YFacesApplication) {
+			throw new YFacesException(YFacesApplication.class.getName() + " already registered. "
+					+ this.getClass().getSimpleName() + " is registered twice?");
+		}
+
+		appFac.setApplication(new YFacesApplication(base));
+	}
 
 	/*
 	 * (non-Javadoc)

@@ -20,9 +20,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Arrays;
 
-import javax.faces.FactoryFinder;
-import javax.faces.application.Application;
-import javax.faces.application.ApplicationFactory;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -58,23 +55,9 @@ public class YFacesStartupListener implements ServletContextListener {
 	public void contextInitialized(ServletContextEvent arg0) {
 
 		ServletContext ctx = arg0.getServletContext();
-		this.configureApplicationFactory(ctx);
 		this.configureYApplicationContext(ctx);
 		this.configureLogging(ctx);
 
-	}
-
-	/**
-	 * Creates and registers {@link YFacesApplication} at the {@link ApplicationFactory}.
-	 * 
-	 * @param ctx
-	 *            {@link ServletContext}
-	 */
-	protected void configureApplicationFactory(ServletContext ctx) {
-		ApplicationFactory appFac = (ApplicationFactory) FactoryFinder
-				.getFactory(FactoryFinder.APPLICATION_FACTORY);
-		Application base = appFac.getApplication();
-		appFac.setApplication(new YFacesApplication(base));
 	}
 
 	/**
