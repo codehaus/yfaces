@@ -116,7 +116,7 @@ public class YRequestContextPhaseListener implements PhaseListener {
 		if (phaseevent.getPhaseId() == PhaseId.RENDER_RESPONSE) {
 			((YRequestContextImpl) YFaces.getRequestContext()).finishPageRequest(getViewId());
 
-			YFaces.getRequestContext().getErrorHandler().clearErrorStack();
+			YFaces.getRequestContext().getErrorHandler().reset();
 		}
 	}
 

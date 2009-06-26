@@ -180,7 +180,6 @@ public class YRequestContextImpl implements YRequestContext {
 		} catch (IOException e) {
 			throw new YFacesException("Can't redirect to " + url, e);
 		}
-		//this.setFlash(isFlash);
 		if (enableFlashback) {
 			FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put(
 					IS_FLASHBACK, Boolean.TRUE);
