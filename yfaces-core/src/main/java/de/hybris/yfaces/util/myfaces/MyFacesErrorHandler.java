@@ -17,12 +17,16 @@ package de.hybris.yfaces.util.myfaces;
 
 import javax.faces.context.FacesContext;
 
+import org.apache.log4j.Logger;
+
 import de.hybris.yfaces.YFaces;
+import de.hybris.yfaces.YFacesException;
 import de.hybris.yfaces.util.YFacesErrorHandler;
 
 /**
  * This class is meant to be the myfaces error handler which must be declared as deployment
- * parameter in web.xml.<br/>
+ * parameter in web.xml.
+ * <p>
  * <code>
  * &lt;context-param&gt;<br/>
  * 		&lt;param-name&gt;org.apache.myfaces.ERROR_HANDLER&lt;/param-name&gt;<br/>
@@ -31,14 +35,43 @@ import de.hybris.yfaces.util.YFacesErrorHandler;
  * </code> After doing this {@link YFacesErrorHandler} gets invoked whenever an exception gets
  * thrown.
  * <p/>
+ * This fully replaces the standard error handler or a custom one as provided by Facelets
+ * <p>
  * Learn more about the error handling of myfaces here:
  * http://wiki.apache.org/myfaces/Handling_Server_Errors
  * 
  * @author Denny.Strietzbaum
  */
 public class MyFacesErrorHandler {
+
+	private static final Logger log = Logger.getLogger(MyFacesErrorHandler.class);
+
+	/**
+	 * MyFaces error handler. Just delegates to the configured {@link YFacesErrorHandler}
+	 * 
+	 * @param fc
+	 *            {@link FacesContext}
+	 * @param ex
+	 *            {@link Exception} to deal with
+	 */
 	public void handleException(final FacesContext fc, final Exception ex) {
-		YFaces.getRequestContext().getErrorHandler().handleException(fc, ex);
+
+		log.error("Got notified of an unhandled exception: ", ex);
+
+		Throwable cause = this.findReleventCause(ex);
+		YFaces.getRequestContext().getErrorHandler().handleException(cause);
+	}
+
+	/**
+	 * Internal.<br/>
+	 * Tries to walk one level up in case the exception is not of type {@link YFacesException}
+	 * 
+	 * @param e
+	 * @return {@link Throwable}
+	 */
+	private Throwable findReleventCause(Exception e) {
+		final Throwable result = (e instanceof YFacesException) ? e : e.getCause();
+		return result;
 	}
 
 }

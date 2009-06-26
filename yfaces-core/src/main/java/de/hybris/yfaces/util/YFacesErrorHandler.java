@@ -25,9 +25,23 @@ import de.hybris.yfaces.YFacesException;
 import de.hybris.yfaces.util.myfaces.MyFacesErrorHandler;
 
 /**
- * Provides general error handling. When the {@link MyFacesErrorHandler} is registered at web.xml
- * this handler gets invoked automatically at {@link #handleException(FacesContext, Exception)}.
- * Additionally a manual error handling can be invoked at every time.
+ * Provides general error handling.
+ * <p>
+ * When myfaces are used an additional error handler {@link MyFacesErrorHandler} can be configured
+ * at web.xml. <code>
+ * <pre>
+ * &lt;context-param&gt;
+ *   &lt;param-name&gt;org.apache.myfaces.ERROR_HANDLER&lt;/param-name&gt;
+ *   &lt;param-value&gt;de.hybris.yfaces.util.MyFacesErrorHandler&lt;/param-value&gt;
+ * &lt;/context-param&gt;
+ * </pre>
+ * </code> This handler catches each exception which may occur in any lifecycle phase and delegates
+ * to this handler by calling {@link #handleException(Throwable, String)} Default behavior is to log
+ * the exception and redirect to an error page. Of course this can be invoked manually too. However,
+ * there's a difference between call {@link #handleException(Throwable, String)} and let it be
+ * called by the myfaces error handler. Calling manually may be problematic as the current lifecycle
+ * always gets finished (and fully processed) whereas an exception which is thrown during a
+ * lifecycle interrupts the processing and calls this error handler immediately.
  * 
  * @author Denny.Strietzbaum
  */
@@ -38,7 +52,7 @@ public class YFacesErrorHandler {
 
 	/**
 	 * Catches and handles the passed exception. Exception handling involves redirecting to an error
-	 * page and hold an provide the error cause {@link #getErrorSource()}. until the next
+	 * page and hold an provide the error cause {@link #getErrorCause()}. until the next
 	 * RENDER_RESPONSE phase has finished. The error cause gets lost with next RENDER_RESPONSE
 	 * phase. (Nevertheless this is a redirect safe solution).
 	 * <p/>
@@ -51,26 +65,30 @@ public class YFacesErrorHandler {
 	 * @param ex
 	 *            {@link Exception}
 	 */
-	public void handleException(FacesContext fc, Exception ex) {
-		Throwable cause = this.findReleventCause(ex);
 
-		log.error("Got unhandled exception", ex);
-
-		String target = this.getErrorPage(fc, cause);
-		if (target != null) {
-			String errorMsg = getErrorMessage(fc, cause);
-			log.error("Redirecting to errorpage: " + target + "(" + errorMsg + ")");
-			YFaces.getRequestContext().redirect(target);
-			fc.getExternalContext().getSessionMap().put(ERROR_STACK, errorMsg);
-		}
+	public void handleException(Throwable ex) {
+		this.handleException(ex, null);
 	}
 
-	public void handleException(FacesContext fc, String msg) {
-		try {
-			this.handleException(fc, new YFacesException(msg));
-		} catch (final Exception e) {
-			log.fatal("Unhandled error");
-			e.printStackTrace();
+	/**
+	 * Raises an exception. This includes: error log (console) and redirecting to an error page.
+	 * 
+	 * @param ex
+	 * @param redirectTo
+	 */
+	public void handleException(Throwable ex, String redirectTo) {
+
+		FacesContext fc = FacesContext.getCurrentInstance();
+		log.error(ex);
+		String errorMsg = ex.getMessage() != null ? ex.getMessage() : ex.getClass().getName();
+		if (redirectTo == null) {
+			redirectTo = this.getErrorPage(ex);
+		}
+		log.error("Redirecting to error page: " + redirectTo);
+
+		if (redirectTo != null) {
+			YFaces.getRequestContext().redirect(redirectTo);
+			fc.getExternalContext().getSessionMap().put(ERROR_STACK, errorMsg);
 		}
 	}
 
@@ -82,7 +100,7 @@ public class YFacesErrorHandler {
 	 * @param ex
 	 * @return error page as relative path
 	 */
-	protected String getErrorPage(FacesContext fc, Throwable ex) {
+	protected String getErrorPage(Throwable ex) {
 		String result = null;
 		if (ex instanceof YFacesException) {
 			result = "/index.jsf";
@@ -90,38 +108,14 @@ public class YFacesErrorHandler {
 		return result;
 	}
 
-	/**
-	 * Returns the error message for the passed exception.
-	 * 
-	 * @param fc
-	 * @param ex
-	 * @return error message
-	 */
-	protected String getErrorMessage(FacesContext fc, Throwable ex) {
-		String result = ex.getMessage() != null ? ex.getMessage() : ex.getClass().getName();
-		return result;
-	}
-
-	public String getErrorSource() {
+	public String getErrorCause() {
 		return (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get(
 				ERROR_STACK);
 	}
 
-	public void clearErrorStack() {
+	public void reset() {
 		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put(ERROR_STACK,
 				null);
-	}
-
-	/**
-	 * Internal.<br/>
-	 * Tries to walk one level up in case the exception is not of type {@link YFacesException}
-	 * 
-	 * @param e
-	 * @return {@link Throwable}
-	 */
-	private Throwable findReleventCause(Exception e) {
-		final Throwable result = (e instanceof YFacesException) ? e : e.getCause();
-		return result;
 	}
 
 }
