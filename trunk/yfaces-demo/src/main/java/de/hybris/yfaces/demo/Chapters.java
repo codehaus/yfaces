@@ -17,9 +17,9 @@ import org.apache.log4j.Logger;
 /**
  * @author Denny.Strietzbaum
  */
-public class ChapterMBean {
+public class Chapters {
 
-	private static final Logger log = Logger.getLogger(ChapterMBean.class);
+	private static final Logger log = Logger.getLogger(Chapters.class);
 
 	private static final String PARAM_REFRESH = "refresh";
 
@@ -31,7 +31,7 @@ public class ChapterMBean {
 
 	private Chapter currentChapter = null;
 
-	public ChapterMBean() {
+	public Chapters() {
 		String viewId = FacesContext.getCurrentInstance().getViewRoot().getViewId();
 		Map<String, Chapter> chapters = this.getAllChaptersAsMap();
 		this.currentChapter = chapters.get(viewId);

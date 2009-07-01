@@ -16,7 +16,7 @@
 
 	<head profile="http://www.w3.org/2000/08/w3c-synd/#">
 		<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-		<META HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE"/>
+		<meta http-equiv="cache-control" content="NO-CACHE"/>
 	
 		<style type="text/css">
 			.even div {
@@ -49,12 +49,16 @@
 			.yfExample {
 				font-weight:bold;
 			}
+			
+			.yfPrettySourceLink {
+				font-weight:bold; font-size:5px;
+			}
 		</style>
 	</head>
 
 	<body>
 	
-		<ui:param name="chapter" value="#{chapterBean.currentChapter}"/>
+		<ui:param name="chapter" value="#{chapters.currentChapter}"/>
 		
 		<h:outputLink value="#{chapter.prevChapter.viewURL}" rendered="#{chapter.prevChapter != null}"> Previous  </h:outputLink>
 		<h:outputLink value="#{chapter.nextChapter.viewURL}" rendered="#{chapter.nextChapter != null}"> Next </h:outputLink>
@@ -67,24 +71,33 @@
 		
 		<ui:insert name="usecase" >
 			<h:outputText value="#{chapter.useCase}" escape="false"/>
-		</ui:insert><br/><br/>
+		</ui:insert>
+		<p/>
 		
-		<h:outputText value="participants: " styleClass="caption"/>
+		<h:outputText value="sources: " styleClass="caption"/>
 		<ui:repeat value="#{chapter.participants}" var="part">
 			<h:outputText value="#{part.name}" rendered="#{part.source == null}"/>
-			<h:outputLink value="#{request.requestURI}" rendered="#{part.source != null}">
+			<h:outputLink 
+				value="#{request.requestURI}" 
+				rendered="#{part.source != null}" 
+				target="source" 
+				onclick="javascript:window.open('#','source','height=600,width=800,scrollbars=yes,resizeable=yes')">
 				<f:param name="source" value="#{part.source}"/>
-				<f:param name="type" value="#{part.type}"/>
-				<h:outputText style="margin-right:8px;" value="[#{part.name}]"/>
+				<f:param name="type" value="#{part.sourceType}"/>
+				<h:outputText style="margin-right:8px;" value="[#{part.name}]" title="#{part.facesType}"/>
 			</h:outputLink>
 		</ui:repeat>
 		
 		<hr/>
 		<ui:insert name="long"> <h:outputText value="#{chapter.longDescription}" escape="false"/> </ui:insert>
-		<hr/>
+		<hr/> 
 		<div>
 			<div style="text-decoration: underline; font-weight: bold; margin: 5px;">Examples:</div>
-			<ui:insert name="example" />
+			
+			<!-- Examples of current Chapter -->
+			<ui:param name="examples" value="#{chapter.examples}"/>
+			<ui:insert name="example"/>
+			
 		</div>
 		<hr />
 

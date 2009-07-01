@@ -12,9 +12,9 @@
 	</lifecycle>
 
 	<managed-bean>
-		<managed-bean-name>chapterBean</managed-bean-name>
+		<managed-bean-name>chapters</managed-bean-name>
 		<managed-bean-class>
-			de.hybris.yfaces.demo.ChapterMBean
+			de.hybris.yfaces.demo.Chapters
 		</managed-bean-class>
 		<managed-bean-scope>request</managed-bean-scope>
 	</managed-bean>
