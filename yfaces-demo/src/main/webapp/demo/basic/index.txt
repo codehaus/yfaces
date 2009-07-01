@@ -3,26 +3,29 @@
 Define and use a component
 
 {usecase}
-Pass property values to component from the view perspective<br/>(push/inject values into component class)
+Just a basic component consisting of a class and a view
 
-{parts}
+_$cmpView_
+The view must be enclosed within _yf:component_ Tag and needs at least an _impl_ value for the component class.
+An optional attribute _injectable_ lists component properties which shall support value passing from view side to component class.
+For component properties which are not listed setter injection is disabled.
 
-{long}
-This chapter just demonstrates the easiest way of using a component.
-The component class basically defines available component properties. 
-The component view just displays them.
-The component is made available as Tag named after the components view file.
-Available Tag Attributes are depending on your component properties.
-<br/>
-Steps to build your component: Create a component class, create a component view (don't forget to declare
-your component class there and optionally the properties which are allowed to set from within the view),
-put your view file into <code>/components</code> folder of your webapp. Thats all.    
-   	
+_$cmpImpl_
+Simple class which just manages some properties and extends _AbstractYComponent_. Except _name_ all properties are empty by default.
+
+_$frameView_
+The page view which uses the component as demonstrated below.
+
+
 {example-ex1}
 <chp:demo/>
+Displays the component with it's default state and behavior. Property _name_ has a default value.
 
 {example-ex2}
 <chp:demo code="FRUIT-1"/>
+Displays the component but passes value of attribute _code_ to component setter _setCode(String)_ first.
 
 {example-ex3}
 <chp:demo name="citron fruit" imageUrl="/images/CEF_1112.jpg"/>
+Displays the component but passes values of attributes _name_ and _imageUrl_ to an appropriate component setter first.
+The default component value for _name_ gets overwritten.

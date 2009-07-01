@@ -12,8 +12,9 @@
    template="/template.xhtml">
    
 	<ui:define name="content">
-		<ui:repeat var="chapter" value="#{chapterBean.allChapters}">
-			<h:outputLink value="#{chapter.viewURL}">#{chapter.title}</h:outputLink><br/>
+		<ui:repeat var="chapter" value="#{chapters.allChapters}">
+			<h:outputLink value="#{chapter.viewURL}">#{chapter.title}</h:outputLink>
+			<br/>
 		</ui:repeat>
 	</ui:define>
 

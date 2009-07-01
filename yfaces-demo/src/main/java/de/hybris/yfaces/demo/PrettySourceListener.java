@@ -1,7 +1,6 @@
 package de.hybris.yfaces.demo;
 
 import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.io.Reader;
 import java.io.Writer;
 import java.net.URL;
@@ -13,6 +12,7 @@ import javax.faces.event.PhaseId;
 import javax.faces.event.PhaseListener;
 import javax.servlet.http.HttpServletResponse;
 
+import de.str.prettysource.SourceFormat;
 import de.str.prettysource.html.JavaHtmlFormat;
 
 /**
@@ -26,31 +26,27 @@ public class PrettySourceListener implements PhaseListener {
 	private static final String P_SOURCE = "source";
 	private static final String P_TYPE = "type";
 
+	private static final String TYPE_JAVA = "java";
+	private static final String TYPE_XML = "xml";
+
 	private JavaHtmlFormat javaSource = null;
 	private Xhtml2HtmlFormat xhtmlSource = null;
+
+	private PrettySourceLoader resourceLoader = null;
 
 	public PrettySourceListener() {
 		this.javaSource = new JavaHtmlFormat();
 		this.xhtmlSource = new Xhtml2HtmlFormat();
+		this.resourceLoader = new LocalPrettySourceLoader();
 	}
 
 	public void afterPhase(PhaseEvent arg0) {
-		Map map = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-		String source = (String) map.get(P_SOURCE);
-		if (source != null) {
-			String type = (String) map.get(P_TYPE);
-			if (type == null || type.trim().length() == 0) {
-				type = detectType(source);
-			}
+		Map<?, ?> map = FacesContext.getCurrentInstance().getExternalContext()
+				.getRequestParameterMap();
 
-			if ("java".equals(type)) {
-				this.writeAsJavaSource(source);
-			}
-
-			if ("xhtml".equals(type) || "xml".equals(type)) {
-				this.writeAsXmlSource(source);
-			}
-			FacesContext.getCurrentInstance().responseComplete();
+		boolean prettyResponse = map.get(P_SOURCE) != null;
+		if (prettyResponse) {
+			this.prettyResponse();
 		}
 	}
 
@@ -62,32 +58,43 @@ public class PrettySourceListener implements PhaseListener {
 		return PhaseId.RESTORE_VIEW;
 	}
 
-	private String detectType(String source) {
-		String result = null;
-		if (source.startsWith("de.hybris.yfaces")) {
-			result = "java";
-		} else {
-			result = source.substring(source.lastIndexOf(".") + 1);
+	private void prettyResponse() {
+		Map<?, ?> map = FacesContext.getCurrentInstance().getExternalContext()
+				.getRequestParameterMap();
+
+		String resource = (String) map.get(P_SOURCE);
+		String type = (String) map.get(P_TYPE);
+		if (type == null || type.trim().length() == 0) {
+			if (resource.startsWith("de.hybris.yfaces")) {
+				type = TYPE_JAVA;
+			} else {
+				type = resource.substring(resource.lastIndexOf(".") + 1);
+			}
 		}
-		return result;
+
+		SourceFormat sourceFormat = null;
+		if (TYPE_JAVA.equals(type)) {
+			resource = "/../java/" + resource.replaceAll("\\.", "/") + ".java";
+			sourceFormat = this.javaSource;
+		}
+
+		if ("xhtml".equals(type) || TYPE_XML.equals(type)) {
+			sourceFormat = this.xhtmlSource;
+		}
+		Writer writer = getResponseWriter();
+		Reader reader = getSourceReader(resource);
+		sourceFormat.format(reader, writer);
+
+		FacesContext.getCurrentInstance().responseComplete();
+
 	}
 
-	private void writeAsXmlSource(String source) {
-		Reader reader = getReader(source);
-		PrintWriter writer = new PrintWriter(getWriter());
-		this.xhtmlSource.format(reader, writer);
-	}
-
-	private void writeAsJavaSource(String source) {
-
-		// get URL for unformatted java source code
-		String sourcePath = "/src/main/java/" + source.replaceAll("\\.", "/") + ".java";
-		Reader reader = getReader(sourcePath);
-		Writer writer = getWriter();
-		this.javaSource.format(reader, writer);
-	}
-
-	private Writer getWriter() {
+	/**
+	 * Creates a Writer used for writing into the response.
+	 * 
+	 * @return {@link Writer}
+	 */
+	private Writer getResponseWriter() {
 		Writer result = null;
 		try {
 			result = ((HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext()
@@ -99,11 +106,17 @@ public class PrettySourceListener implements PhaseListener {
 		return result;
 	}
 
-	private Reader getReader(String resource) {
+	/**
+	 * Creates a Reader which points to the requested Resource.
+	 * 
+	 * @param resource
+	 *            resource to read from
+	 * @return Reader
+	 */
+	private Reader getSourceReader(String resource) {
 		Reader result = null;
 		try {
-			URL sourceUrl = FacesContext.getCurrentInstance().getExternalContext().getResource(
-					resource);
+			URL sourceUrl = this.resourceLoader.getResourceURL(resource);
 			result = new InputStreamReader(sourceUrl.openStream());
 
 		} catch (Exception e) {
