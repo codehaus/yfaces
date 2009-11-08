@@ -23,7 +23,7 @@ import javax.faces.event.PhaseId;
 /**
  * The base of all components.
  * 
- * @author Denny.Strietzbaum
+ * @author Denny Strietzbaum
  */
 public interface YComponent extends /* Externalizable */Serializable {
 	/**
@@ -51,8 +51,8 @@ public interface YComponent extends /* Externalizable */Serializable {
 
 	/**
 	 * Refreshes this component.A refresh is processed when this component was already created and
-	 * needs to be displayed again (POST or GET (flashback enabled) to same page). A refresh always
-	 * is performed before attribute injection.
+	 * needs to be displayed again (POST or GET (flashback enabled) to same page). A refresh always is
+	 * performed before attribute injection.
 	 * <p>
 	 * In case of a POST request this happens after {@link PhaseId#INVOKE_APPLICATION}.<br/>
 	 * in case of a GET with enabled flashback this happens after {@link PhaseId#RESTORE_VIEW}.

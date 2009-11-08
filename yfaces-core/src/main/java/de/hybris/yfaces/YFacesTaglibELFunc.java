@@ -17,7 +17,7 @@
 package de.hybris.yfaces;
 
 /**
- * @author Denny.Strietzbaum
+ * @author Denny Strietzbaum
  * 
  */
 public class YFacesTaglibELFunc {

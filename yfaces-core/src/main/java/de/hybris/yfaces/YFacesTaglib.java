@@ -92,7 +92,7 @@ import de.hybris.yfaces.component.html.HtmlYComponentHandler;
  * component is located.<br/>
  * <p>
  * 
- * @author Denny.Strietzbaum
+ * @author Denny Strietzbaum
  */
 public class YFacesTaglib extends AbstractTagLibrary {
 
@@ -124,7 +124,7 @@ public class YFacesTaglib extends AbstractTagLibrary {
 	// maps a namespace id to a taglib instance
 	private Map<String, AbstractTagLibrary> namespaceToTaglibMap = null;
 	// set of component resources
-	private Set<YComponentInfo> componentSet = new HashSet<YComponentInfo>();
+	private final Set<YComponentInfo> componentSet = new HashSet<YComponentInfo>();
 
 	/**
 	 * Constructor. Gets invoked by Facelet framework.
@@ -150,9 +150,9 @@ public class YFacesTaglib extends AbstractTagLibrary {
 	 * Private Constructor. Internally used when multiple namespaces are configured.
 	 * 
 	 * @param namespace
-	 *            namespace to use
+	 *          namespace to use
 	 */
-	private YFacesTaglib(String namespace) {
+	private YFacesTaglib(final String namespace) {
 		super(namespace);
 		((DefaultFaceletFactory) FaceletFactory.getInstance()).getCompiler().addTagLibrary(this);
 	}
@@ -165,34 +165,34 @@ public class YFacesTaglib extends AbstractTagLibrary {
 	private void registerYComponents() {
 
 		// fetch configured component search paths and split it by delimiter
-		String[] dirs = this.getAsArray(PARAM_COMPONENT_DIRS);
+		final String[] dirs = this.getAsArray(PARAM_COMPONENT_DIRS);
 
 		// filter duplicates path elements
-		Collection<String> dirSet = new LinkedHashSet<String>();
+		final Collection<String> dirSet = new LinkedHashSet<String>();
 		dirSet.add(DEFAULT_COMPONENTS_DIR);
 		dirSet.addAll(Arrays.asList(dirs));
 
 		// collect each single component resources
-		for (String rawSearchPath : dirSet) {
+		for (final String rawSearchPath : dirSet) {
 			collectComponentResources(rawSearchPath);
 		}
 
 		// sort collected component resources
-		List<YComponentInfo> cmpInfoList = new ArrayList<YComponentInfo>(this.componentSet);
+		final List<YComponentInfo> cmpInfoList = new ArrayList<YComponentInfo>(this.componentSet);
 		Collections.sort(cmpInfoList, new Comparator<YComponentInfo>() {
-			public int compare(YComponentInfo o1, YComponentInfo o2) {
+			public int compare(final YComponentInfo o1, final YComponentInfo o2) {
 				return o1.getURL().toExternalForm().compareTo(o2.getURL().toExternalForm());
 			}
 		});
 
 		// create componentinfo for each component resource and add to registry
-		YComponentFactory cmpFac = new YComponentFactory();
+		final YComponentFactory cmpFac = new YComponentFactory();
 		for (YComponentInfo cmpInfo : cmpInfoList) {
 			cmpInfo = cmpFac.createComponentInfo(cmpInfo.getURL(), cmpInfo.getNamespace());
-			boolean added = YComponentRegistry.getInstance().addComponent(cmpInfo);
+			final boolean added = YComponentRegistry.getInstance().addComponent(cmpInfo);
 
 			if (added) {
-				YFacesTaglib tagLib = getTagLib(cmpInfo);
+				final YFacesTaglib tagLib = getTagLib(cmpInfo);
 				tagLib.addUserTag(cmpInfo.getComponentName(), cmpInfo.getURL());
 				log.debug("Added " + cmpInfo.getURL());
 			}
@@ -212,19 +212,19 @@ public class YFacesTaglib extends AbstractTagLibrary {
 	 * </code>
 	 * 
 	 * @param rawSearchPath
-	 *            the component search path as raw string
+	 *          the component search path as raw string
 	 */
 	private void collectComponentResources(String rawSearchPath) {
 
 		// detect recursive mode
-		boolean recursive = rawSearchPath.endsWith("/**");
+		final boolean recursive = rawSearchPath.endsWith("/**");
 		if (recursive) {
 			rawSearchPath = rawSearchPath.substring(0, rawSearchPath.length() - 3);
 		}
 
 		// detect namespace
 		String namespaceURI = "";
-		int nsDelimiterIndex = rawSearchPath.indexOf(":");
+		final int nsDelimiterIndex = rawSearchPath.indexOf(":");
 		if (nsDelimiterIndex > 0) {
 			namespaceURI = rawSearchPath.substring(0, nsDelimiterIndex);
 			rawSearchPath = rawSearchPath.substring(nsDelimiterIndex + 1);
@@ -235,29 +235,30 @@ public class YFacesTaglib extends AbstractTagLibrary {
 	}
 
 	/**
-	 * Recursive way of finding all component resources.Create a {@link YComponentInfo} instances
-	 * with appropriate namespaces and adda all to the {@link YComponentRegistry}. A namespace
-	 * prefix may be passed which extends the default namespace: {@link #NAMESPACE_BASE}
+	 * Recursive way of finding all component resources.Create a {@link YComponentInfo} instances with
+	 * appropriate namespaces and adda all to the {@link YComponentRegistry}. A namespace prefix may
+	 * be passed which extends the default namespace: {@link #NAMESPACE_BASE}
 	 * 
 	 * @param extNamespace
-	 *            namespace prefix; extends default namespace for all components within passed base
+	 *          namespace prefix; extends default namespace for all components within passed base
 	 * @param base
-	 *            base search path for component resources; starts with a slash and may (not must)
-	 *            end with a slash; must be a folder, not a resource
+	 *          base search path for component resources; starts with a slash and may (not must) end
+	 *          with a slash; must be a folder, not a resource
 	 * @param recursive
-	 *            true when subfolders shall be searched too
+	 *          true when subfolders shall be searched too
 	 */
-	private void collectComponentResources(String extNamespace, String base, boolean recursive) {
+	private void collectComponentResources(final String extNamespace, final String base,
+			final boolean recursive) {
 
 		// fetch resources from passed base
-		ExternalContext ctx = FacesContext.getCurrentInstance().getExternalContext();
-		Set<String> resources = ctx.getResourcePaths(base);
+		final ExternalContext ctx = FacesContext.getCurrentInstance().getExternalContext();
+		final Set<String> resources = ctx.getResourcePaths(base);
 
 		// is null when base is not valid
 		if (resources != null) {
 
 			// process each resource...
-			for (String resource : resources) {
+			for (final String resource : resources) {
 
 				// when recursive lookup is enabled process subresources in case base is a folder 
 				if (recursive && UNHIDDEN_DIRECTORY_PATTERN.matcher(resource).matches()) {
@@ -267,17 +268,16 @@ public class YFacesTaglib extends AbstractTagLibrary {
 				// check whether resource name matches a component resource
 				if (COMPONENT_RESOURCE_PATTERN.matcher(resource).matches()) {
 					try {
-						URL url = ctx.getResource(resource);
-						String ns = NAMESPACE_FROM_FOLDER.equals(extNamespace) ? base : "/"
-								+ extNamespace;
+						final URL url = ctx.getResource(resource);
+						String ns = NAMESPACE_FROM_FOLDER.equals(extNamespace) ? base : "/" + extNamespace;
 
 						if (ns.endsWith("/")) {
 							ns = ns.substring(0, ns.length() - 1);
 						}
 						ns = NAMESPACE_BASE + ns;
-						YComponentInfo cmpInfo = new YComponentInfo(ns, url);
+						final YComponentInfo cmpInfo = new YComponentInfo(ns, url);
 						this.componentSet.add(cmpInfo);
-					} catch (MalformedURLException e) {
+					} catch (final MalformedURLException e) {
 						log.error(e);
 					}
 				}
@@ -289,7 +289,7 @@ public class YFacesTaglib extends AbstractTagLibrary {
 
 	private void registerElFunctions() {
 		// Add functions
-		for (Method method : YFacesTaglibELFunc.class.getMethods()) {
+		for (final Method method : YFacesTaglibELFunc.class.getMethods()) {
 			if (Modifier.isStatic(method.getModifiers())) {
 				this.addFunction(method.getName(), method);
 				if (log.isDebugEnabled()) {
@@ -303,36 +303,35 @@ public class YFacesTaglib extends AbstractTagLibrary {
 	/**
 	 * Internal (for testing).<br/>
 	 * <br/>
-	 * Creates a XHTML fragment which contains all components found in
-	 * {@link #DEFAULT_COMPONENTS_DIR} No component will be configured as no frame is available. The
-	 * result is a path to a temporary file which must be included. Currently used for Selenium
-	 * testing (test: allComponents)
+	 * Creates a XHTML fragment which contains all components found in {@link #DEFAULT_COMPONENTS_DIR}
+	 * No component will be configured as no frame is available. The result is a path to a temporary
+	 * file which must be included. Currently used for Selenium testing (test: allComponents)
 	 * 
 	 * @return Path to temporary xhtml fragment file
 	 * @throws Exception
 	 */
 	public static String getAllComponentsAsXHTMLFragment() throws Exception {
-		File result = File.createTempFile("allComponents", ".xhtml");
-		PrintWriter pr = new PrintWriter(new FileWriter(result));
+		final File result = File.createTempFile("allComponents", ".xhtml");
+		final PrintWriter pr = new PrintWriter(new FileWriter(result));
 
-		Pattern pattern = Pattern.compile(DEFAULT_COMPONENTS_DIR + "/(.*)Tag\\.xhtml");
-		HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance()
+		final Pattern pattern = Pattern.compile(DEFAULT_COMPONENTS_DIR + "/(.*)Tag\\.xhtml");
+		final HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance()
 				.getExternalContext().getRequest();
-		ServletContext ctx = request.getSession().getServletContext();
+		final ServletContext ctx = request.getSession().getServletContext();
 
-		Set<?> resources = ctx.getResourcePaths(DEFAULT_COMPONENTS_DIR);
+		final Set<?> resources = ctx.getResourcePaths(DEFAULT_COMPONENTS_DIR);
 
 		pr.println("<ui:composition " + "xmlns=\"http://www.w3.org/1999/xhtml\" \n"
-				+ "xmlns:ui=\"http://java.sun.com/jsf/facelets\" \n" + "xmlns:yf=\""
-				+ NAMESPACE_BASE + "\" >");
-		for (Object obj : resources) {
+				+ "xmlns:ui=\"http://java.sun.com/jsf/facelets\" \n" + "xmlns:yf=\"" + NAMESPACE_BASE
+				+ "\" >");
+		for (final Object obj : resources) {
 			// not sure whether this set can contain any other stuff than
 			// Strings
 			if (obj instanceof String) {
-				String resource = (String) obj;
-				Matcher m = pattern.matcher(resource);
+				final String resource = (String) obj;
+				final Matcher m = pattern.matcher(resource);
 				if (m.matches()) {
-					String cmp = m.group(1);
+					final String cmp = m.group(1);
 					pr.println("<b>" + cmp + "Component<br/> &lt;yf:" + cmp + "&gt;</b><br/><br/>");
 					pr.println("<yf:" + cmp + "/> <br/><hr/><br/>");
 				} else {
@@ -344,7 +343,7 @@ public class YFacesTaglib extends AbstractTagLibrary {
 		pr.flush();
 		pr.close();
 
-		String resultPath = "file:" + result.getAbsolutePath();
+		final String resultPath = "file:" + result.getAbsolutePath();
 
 		System.out.println("generated testfile: " + resultPath);
 
@@ -356,21 +355,21 @@ public class YFacesTaglib extends AbstractTagLibrary {
 	 * comma as delimiter and removes any whitespaces.
 	 * 
 	 * @param initParameter
-	 *            name of deployment parameter
+	 *          name of deployment parameter
 	 * @return array
 	 */
-	private String[] getAsArray(String initParameter) {
+	private String[] getAsArray(final String initParameter) {
 		// fetch conigured value
-		String s = FacesContext.getCurrentInstance().getExternalContext().getInitParameter(
+		final String s = FacesContext.getCurrentInstance().getExternalContext().getInitParameter(
 				initParameter);
 
 		// split by ',' and remove any whitespaces
-		String[] result = s != null ? s.trim().split("\\s*,\\s*") : new String[] {};
+		final String[] result = s != null ? s.trim().split("\\s*,\\s*") : new String[] {};
 		return result;
 	}
 
-	private YFacesTaglib getTagLib(YComponentInfo info) {
-		String key = info.getNamespace();
+	private YFacesTaglib getTagLib(final YComponentInfo info) {
+		final String key = info.getNamespace();
 		YFacesTaglib result = (YFacesTaglib) this.namespaceToTaglibMap.get(key);
 		if (result == null) {
 			this.namespaceToTaglibMap.put(key, result = new YFacesTaglib(key));

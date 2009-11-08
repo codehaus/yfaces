@@ -31,7 +31,7 @@ import de.hybris.yfaces.YFacesTaglib;
 /**
  * Factory class for {@link YComponentInfo} instances.
  * 
- * @author Denny.Strietzbaum
+ * @author Denny Strietzbaum
  */
 public class YComponentFactory {
 
@@ -55,18 +55,17 @@ public class YComponentFactory {
 	private static final Pattern ALL_ATTRIBUTES = Pattern.compile("<"
 			+ YFacesTaglib.COMPONENT_NAME_FULL + "(.*?)" + ">", Pattern.DOTALL);
 
-	public YComponentInfo createComponentInfo(URL url, String namespace) {
+	public YComponentInfo createComponentInfo(final URL url, final String namespace) {
 		YComponentInfo result = null;
-		Matcher tagNameMatcher = YFacesTaglib.COMPONENT_RESOURCE_PATTERN.matcher(url
+		final Matcher tagNameMatcher = YFacesTaglib.COMPONENT_RESOURCE_PATTERN.matcher(url
 				.toExternalForm());
 
 		if (tagNameMatcher.matches()) {
 			result = new YComponentInfo();
 			String content = null;
 			try {
-				StringWriter writer = new StringWriter();
-				IOUtils.copy(new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8")),
-						writer);
+				final StringWriter writer = new StringWriter();
+				IOUtils.copy(new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8")), writer);
 				content = writer.toString();
 
 				// this.creationTime =
@@ -78,20 +77,20 @@ public class YComponentFactory {
 				result.setURL(url);
 				result.setNamespace(namespace);
 
-				boolean isComponent = this.initializeYComponentInfo(result, content);
+				final boolean isComponent = this.initializeYComponentInfo(result, content);
 				if (!isComponent) {
 					result = null;
 				}
-			} catch (Exception e) {
+			} catch (final Exception e) {
 				e.printStackTrace();
 			}
 		}
 		return result;
 	}
 
-	public YComponentInfo createComponentInfo(String content) {
+	public YComponentInfo createComponentInfo(final String content) {
 		YComponentInfo result = new YComponentInfo();
-		boolean isComponent = this.initializeYComponentInfo(result, content);
+		final boolean isComponent = this.initializeYComponentInfo(result, content);
 		if (!isComponent) {
 			result = null;
 		}
@@ -104,16 +103,16 @@ public class YComponentFactory {
 	 * declaration.
 	 * 
 	 * @param cmpInfo
-	 *            {@link YComponentInfo} instance which has to be configured
+	 *          {@link YComponentInfo} instance which has to be configured
 	 * @param content
-	 *            content (e.g. from a URL)
+	 *          content (e.g. from a URL)
 	 * @return false when passed content contains a ycomponent declaration
 	 */
-	private boolean initializeYComponentInfo(YComponentInfo cmpInfo, String content) {
+	private boolean initializeYComponentInfo(final YComponentInfo cmpInfo, final String content) {
 
 		// component attributes
-		Map<String, String> attributes = this.getYComponentAttributes(content);
-		boolean isYComponent = attributes != null;
+		final Map<String, String> attributes = this.getYComponentAttributes(content);
+		final boolean isYComponent = attributes != null;
 
 		if (isYComponent) {
 			cmpInfo.setId(attributes.get(ATTR_ID));
@@ -122,8 +121,8 @@ public class YComponentFactory {
 			cmpInfo.setSpecificationClassName(attributes.get(ATTR_SPEC_CLASS));
 
 			// old style
-			for (Map.Entry<String, String> entry : attributes.entrySet()) {
-				Matcher injectableMatcher = SINGLE_EL_ATTRIBUTE.matcher(entry.getValue());
+			for (final Map.Entry<String, String> entry : attributes.entrySet()) {
+				final Matcher injectableMatcher = SINGLE_EL_ATTRIBUTE.matcher(entry.getValue());
 				if (injectableMatcher.matches()) {
 					cmpInfo.addInjectableProperty(entry.getKey());
 				}
@@ -131,9 +130,9 @@ public class YComponentFactory {
 
 			// add list of attributes given as "injectable" to injectable properties
 			// this is the preferred way of declaring injectable attributes
-			String injectable = attributes.get(ATTR_INJECTABLE);
+			final String injectable = attributes.get(ATTR_INJECTABLE);
 			if (injectable != null) {
-				String properties[] = injectable.trim().split("\\s*,\\s*");
+				final String properties[] = injectable.trim().split("\\s*,\\s*");
 				cmpInfo.addInjectableProperties(properties);
 			}
 		}
@@ -142,29 +141,29 @@ public class YComponentFactory {
 	}
 
 	/**
-	 * Extracts configured ycomponent attributes.Expects a string which gets parsed. Returns null
-	 * when String doesn't contain a ycomponent occurence. Returns a Map which maps
+	 * Extracts configured ycomponent attributes.Expects a string which gets parsed. Returns null when
+	 * String doesn't contain a ycomponent occurence. Returns a Map which maps
 	 * attributename->attributevalue or an empty Map when no Attributes are configured.
 	 * 
 	 * @param content
-	 *            String
+	 *          String
 	 */
-	private Map<String, String> getYComponentAttributes(String content) {
+	private Map<String, String> getYComponentAttributes(final String content) {
 		Map<String, String> result = null;
 
 		// extract all attributes (raw string)
-		Matcher allAttributesMatcher = ALL_ATTRIBUTES.matcher(content);
+		final Matcher allAttributesMatcher = ALL_ATTRIBUTES.matcher(content);
 		if (allAttributesMatcher.find()) {
 			final String _attributes = allAttributesMatcher.group(1);
 			result = new HashMap<String, String>();
 
 			// extract each single attribute
-			Matcher singleAttributeMatcher = SINGLE_ATTRIBUTE.matcher(_attributes);
+			final Matcher singleAttributeMatcher = SINGLE_ATTRIBUTE.matcher(_attributes);
 			while (singleAttributeMatcher.find()) {
 				// ...extract attributes name and value
 				// String attrName = singleAttributeMatcher.group(1).toLowerCase();
-				String attrName = singleAttributeMatcher.group(1);
-				String attrValue = singleAttributeMatcher.group(2);
+				final String attrName = singleAttributeMatcher.group(1);
+				final String attrValue = singleAttributeMatcher.group(2);
 				result.put(attrName, attrValue);
 			}
 		}

@@ -3,6 +3,8 @@ package de.hybris.yfaces.context;
 public enum REQUEST_PHASE {
 	/**
 	 * Gets activated when RESTORE_VIEW is finished
+	 * 
+	 * @author Denny Strietzbaum
 	 */
 	START_REQUEST,
 

@@ -36,7 +36,7 @@ import org.apache.log4j.Logger;
  * class must be set to debug level.<br/>
  * <br/>
  * 
- * @author Denny.Strietzbaum
+ * @author Denny Strietzbaum
  */
 public class DebugPhaseListener implements PhaseListener {
 	private static final long serialVersionUID = 1L;
@@ -46,30 +46,28 @@ public class DebugPhaseListener implements PhaseListener {
 
 	private static int reqCount = 0;
 
-	public void beforePhase(PhaseEvent e) {
+	public void beforePhase(final PhaseEvent e) {
 		if (log.isDebugEnabled()) {
 			switch (e.getPhaseId().getOrdinal()) {
 			case 1:
 				reqCount++;
-				log.debug(reqCount + ": ---------- START LIFECYCLE [" + getMethod()
-						+ "] ---------- ");
+				log.debug(reqCount + ": ---------- START LIFECYCLE [" + getMethod() + "] ---------- ");
 				break;
 			}
 			log.debug(reqCount + ": ENTER JSF PHASE: " + e.getPhaseId());
 		}
 	}
 
-	public void afterPhase(PhaseEvent e) {
+	public void afterPhase(final PhaseEvent e) {
 		if (log.isDebugEnabled()) {
 			boolean isAbortedByRenderResponse = false;
-			boolean isAbortedByResponseComplete = FacesContext.getCurrentInstance()
+			final boolean isAbortedByResponseComplete = FacesContext.getCurrentInstance()
 					.getResponseComplete();
 
 			switch (e.getPhaseId().getOrdinal()) {
 			case 1:
-				UIViewRoot viewRoot = e.getFacesContext().getViewRoot();
-				log.debug(reqCount + ": View:" + viewRoot.getViewId() + " (" + viewRoot.hashCode()
-						+ ")");
+				final UIViewRoot viewRoot = e.getFacesContext().getViewRoot();
+				log.debug(reqCount + ": View:" + viewRoot.getViewId() + " (" + viewRoot.hashCode() + ")");
 				break;
 			case 3:
 				isAbortedByRenderResponse = FacesContext.getCurrentInstance().getRenderResponse();
@@ -78,26 +76,24 @@ public class DebugPhaseListener implements PhaseListener {
 				isAbortedByRenderResponse = FacesContext.getCurrentInstance().getRenderResponse();
 				break;
 			case 6:
-				log.debug(reqCount + ": ---------- FINISHED LIFECYCLE [" + getMethod()
-						+ "] ---------- ");
+				log.debug(reqCount + ": ---------- FINISHED LIFECYCLE [" + getMethod() + "] ---------- ");
 			}
 
 			if (isAbortedByRenderResponse) {
-				log.debug(reqCount
-						+ ": ---------- ABORTED LIFECYCLE (renderResponse = true) ---------- ");
+				log.debug(reqCount + ": ---------- ABORTED LIFECYCLE (renderResponse = true) ---------- ");
 				log.debug(reqCount + "Validation- or Updateerror? (below a FacesMessage dump");
-				for (Iterator<FacesMessage> iter = FacesContext.getCurrentInstance().getMessages(); iter
+				for (final Iterator<FacesMessage> iter = FacesContext.getCurrentInstance().getMessages(); iter
 						.hasNext();) {
-					FacesMessage msg = iter.next();
-					log.debug("- " + msg.getSeverity() + "; " + msg.getSummary() + "; "
-							+ msg.getDetail());
+					final FacesMessage msg = iter.next();
+					log.debug("- " + msg.getSeverity() + "; " + msg.getSummary() + "; " + msg.getDetail());
 				}
 				;
 			}
 
 			if (isAbortedByResponseComplete) {
-				log.debug(reqCount
-						+ ": ---------- ABORTED LIFECYCLE (responseComplete = true) ---------- ");
+				log
+						.debug(reqCount
+								+ ": ---------- ABORTED LIFECYCLE (responseComplete = true) ---------- ");
 				log.debug(reqCount + "Redirect?");
 			}
 		}

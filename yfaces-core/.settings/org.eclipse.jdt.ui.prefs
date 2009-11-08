@@ -1,4 +1,4 @@
-#Sat Feb 07 18:34:04 CET 2009
+#Thu Nov 05 22:52:41 CET 2009
 cleanup.add_default_serial_version_id=true
 cleanup.add_generated_serial_version_id=false
 cleanup.add_missing_annotations=true
@@ -53,13 +53,12 @@ cleanup_profile=org.eclipse.jdt.ui.default.eclipse_clean_up_profile
 cleanup_settings_version=2
 eclipse.preferences.version=1
 editor_save_participant_org.eclipse.jdt.ui.postsavelistener.cleanup=true
-formatter_profile=_Eclipse - built in - wrap at 100
+formatter_profile=_custom profile
 formatter_settings_version=11
 org.eclipse.jdt.ui.exception.name=e
 org.eclipse.jdt.ui.gettersetter.use.is=true
 org.eclipse.jdt.ui.keywordthis=false
 org.eclipse.jdt.ui.overrideannotation=true
-org.eclipse.jdt.ui.text.custom_code_templates=<?xml version\="1.0" encoding\="UTF-8" standalone\="no"?><templates/>
 sp_cleanup.add_default_serial_version_id=true
 sp_cleanup.add_generated_serial_version_id=false
 sp_cleanup.add_missing_annotations=true
@@ -76,11 +75,11 @@ sp_cleanup.convert_to_enhanced_for_loop=false
 sp_cleanup.correct_indentation=false
 sp_cleanup.format_source_code=true
 sp_cleanup.format_source_code_changes_only=false
-sp_cleanup.make_local_variable_final=false
-sp_cleanup.make_parameters_final=false
+sp_cleanup.make_local_variable_final=true
+sp_cleanup.make_parameters_final=true
 sp_cleanup.make_private_fields_final=true
 sp_cleanup.make_type_abstract_if_missing_method=false
-sp_cleanup.make_variable_declarations_final=false
+sp_cleanup.make_variable_declarations_final=true
 sp_cleanup.never_use_blocks=false
 sp_cleanup.never_use_parentheses_in_expressions=true
 sp_cleanup.on_save_use_additional_actions=true

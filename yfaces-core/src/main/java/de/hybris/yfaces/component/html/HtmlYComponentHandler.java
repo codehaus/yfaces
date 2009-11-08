@@ -36,7 +36,7 @@ import de.hybris.yfaces.component.YComponent;
  * possible "binding" attribute as well as values of attributes which are configured as being
  * injectable.
  * 
- * @author Denny.Strietzbaum
+ * @author Denny Strietzbaum
  */
 public class HtmlYComponentHandler extends ComponentHandler {
 	private static final Logger log = Logger.getLogger(HtmlYComponentHandler.class);
@@ -44,20 +44,20 @@ public class HtmlYComponentHandler extends ComponentHandler {
 
 	//private final TagAttribute attributes;
 
-	public HtmlYComponentHandler(ComponentConfig config) {
+	public HtmlYComponentHandler(final ComponentConfig config) {
 		super(config);
 		//this.attributes = super.getAttribute("value");
 	}
 
 	@Override
-	protected MetaRuleset createMetaRuleset(Class type) {
+	protected MetaRuleset createMetaRuleset(final Class type) {
 		// called once after instanciation
 		return super.createMetaRuleset(type);
 	}
 
 	@Override
-	protected void applyNextHandler(FaceletContext ctx, UIComponent cmp) throws IOException,
-			FacesException, ELException {
+	protected void applyNextHandler(final FaceletContext ctx, final UIComponent cmp)
+			throws IOException, FacesException, ELException {
 		// release binding
 		ctx.getVariableMapper().setVariable(VAR_BINDING, null);
 
@@ -65,14 +65,14 @@ public class HtmlYComponentHandler extends ComponentHandler {
 	}
 
 	@Override
-	protected void onComponentPopulated(FaceletContext ctx, UIComponent cmp,
-			UIComponent uicomponent1) {
+	protected void onComponentPopulated(final FaceletContext ctx, final UIComponent cmp,
+			final UIComponent uicomponent1) {
 		// TODO Auto-generated method stub
 		super.onComponentPopulated(ctx, cmp, uicomponent1);
 	}
 
 	@Override
-	protected String getId(FaceletContext ctx) {
+	protected String getId(final FaceletContext ctx) {
 		// TODO Auto-generated method stub
 		return super.getId(ctx);
 	}
@@ -81,13 +81,13 @@ public class HtmlYComponentHandler extends ComponentHandler {
 	// METHODS ARE NOT CALLED AFTER A POST
 	//
 	@Override
-	protected UIComponent createComponent(FaceletContext ctx) {
+	protected UIComponent createComponent(final FaceletContext ctx) {
 		// TODO Auto-generated method stub
 		return super.createComponent(ctx);
 	}
 
 	@Override
-	protected void setAttributes(FaceletContext ctx, Object instance) {
+	protected void setAttributes(final FaceletContext ctx, final Object instance) {
 		// here the metarules from createMetaRuleset are affected
 		super.setAttributes(ctx, instance);
 	}
@@ -95,7 +95,8 @@ public class HtmlYComponentHandler extends ComponentHandler {
 	// private static final Pattern pattern = Pattern.compile("(\\w+),?");
 
 	@Override
-	protected void onComponentCreated(FaceletContext ctx, UIComponent cmp, UIComponent uicomponent1) {
+	protected void onComponentCreated(final FaceletContext ctx, final UIComponent cmp,
+			final UIComponent uicomponent1) {
 		// called after setAttributes()
 		super.onComponentCreated(ctx, cmp, uicomponent1);
 
@@ -104,20 +105,20 @@ public class HtmlYComponentHandler extends ComponentHandler {
 		// inject ValueExpression "binding" into HtmlYComponent
 		// "binding" gets released within applyNextHandler (as values are
 		// inherited in child facelets)
-		ValueExpression _binding = ctx.getVariableMapper().resolveVariable(VAR_BINDING);
+		final ValueExpression _binding = ctx.getVariableMapper().resolveVariable(VAR_BINDING);
 		ycmp.setYComponentBinding(_binding);
 
 		// inject ValueExpressions given as comma separated List with Attribute
 		// "injectable"
-		String[] injectable = ycmp.getInjectableProperties();
+		final String[] injectable = ycmp.getInjectableProperties();
 		if (injectable != null) {
-			for (String property : injectable) {
-				ValueExpression binding = ctx.getVariableMapper().resolveVariable(property);
+			for (final String property : injectable) {
+				final ValueExpression binding = ctx.getVariableMapper().resolveVariable(property);
 				if (binding != null) {
 					ycmp.setValueExpression(property, binding);
 					if (log.isDebugEnabled()) {
-						log.debug("Pass property " + property + "(" + binding.getExpressionString()
-								+ ") to " + ycmp.getId() + " (" + ycmp.hashCode() + ")");
+						log.debug("Pass property " + property + "(" + binding.getExpressionString() + ") to "
+								+ ycmp.getId() + " (" + ycmp.hashCode() + ")");
 					}
 				}
 			}

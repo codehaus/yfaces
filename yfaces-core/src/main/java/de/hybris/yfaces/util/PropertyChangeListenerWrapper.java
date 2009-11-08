@@ -26,7 +26,7 @@ import de.hybris.yfaces.YFacesException;
  * Delegates a general, untyped {@link PropertyChangeListener} to a more specific listener given by
  * an interface definition.
  * 
- * @author Denny.Strietzbaum
+ * @author Denny Strietzbaum
  */
 public class PropertyChangeListenerWrapper implements PropertyChangeListener {
 	private Object listener = null;
@@ -36,13 +36,13 @@ public class PropertyChangeListenerWrapper implements PropertyChangeListener {
 		private Class<?> delegateToDefinition = null;
 		private transient Method method = null;
 
-		private DelegatorDescriptor(Class<?> definition) {
+		private DelegatorDescriptor(final Class<?> definition) {
 			this.delegateToDefinition = definition;
 		}
 
 		private Method getMethod() {
 			if (this.method == null) {
-				Method[] methods = this.delegateToDefinition.getMethods();
+				final Method[] methods = this.delegateToDefinition.getMethods();
 				if (methods.length > 1) {
 					throw new YFacesException("Ambigious number of methods");
 				}
@@ -52,20 +52,20 @@ public class PropertyChangeListenerWrapper implements PropertyChangeListener {
 		}
 	}
 
-	public PropertyChangeListenerWrapper(Class<?> delegateDefinition, Object listener) {
+	public PropertyChangeListenerWrapper(final Class<?> delegateDefinition, final Object listener) {
 		this.listener = listener;
 		// maybe use a static lookup map?
 		this.descriptor = new DelegatorDescriptor(delegateDefinition);
 	}
 
-	public void propertyChange(PropertyChangeEvent evt) {
-		Method method = this.descriptor.getMethod();
+	public void propertyChange(final PropertyChangeEvent evt) {
+		final Method method = this.descriptor.getMethod();
 		try {
 			method.invoke(listener, evt.getOldValue(), evt.getNewValue());
-		} catch (Exception e) {
-			String _method = method.getName();
-			Class[] _ptypes = method.getParameterTypes();
-			String _listener = listener.getClass().getName() + "#" + _method + "("
+		} catch (final Exception e) {
+			final String _method = method.getName();
+			final Class[] _ptypes = method.getParameterTypes();
+			final String _listener = listener.getClass().getName() + "#" + _method + "("
 					+ _ptypes[0].getName() + "," + _ptypes[1].getName() + ")";
 			String error = null;
 
@@ -74,12 +74,12 @@ public class PropertyChangeListenerWrapper implements PropertyChangeListener {
 				error = "Error while processing listener: " + _listener;
 			} else {
 				// listener could not be invoked (IllegalArgumentException etc.)
-				String _passed1 = evt.getOldValue() != null ? evt.getOldValue().getClass()
-						.getName() : "null";
-				String _passed2 = evt.getNewValue() != null ? evt.getNewValue().getClass()
-						.getName() : "null";
-				error = "Can't invoke listener: " + _listener + " with current arguments:"
-						+ _passed1 + "," + _passed2;
+				final String _passed1 = evt.getOldValue() != null ? evt.getOldValue().getClass().getName()
+						: "null";
+				final String _passed2 = evt.getNewValue() != null ? evt.getNewValue().getClass().getName()
+						: "null";
+				error = "Can't invoke listener: " + _listener + " with current arguments:" + _passed1 + ","
+						+ _passed2;
 			}
 			throw new YFacesException(error, e);
 
@@ -93,7 +93,7 @@ public class PropertyChangeListenerWrapper implements PropertyChangeListener {
 	// PropertyChangeListener again into an EventListenerAggreagte which doesn't
 	// care about duplicates
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(final Object obj) {
 		return (obj instanceof PropertyChangeListenerWrapper)
 				&& this.listener.equals(((PropertyChangeListenerWrapper) obj).listener);
 	}

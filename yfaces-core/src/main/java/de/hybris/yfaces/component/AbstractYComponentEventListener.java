@@ -25,7 +25,7 @@ import javax.faces.context.FacesContext;
 import de.hybris.yfaces.YFacesException;
 
 /**
- * @author Denny.Strietzbaum
+ * @author Denny Strietzbaum
  * 
  */
 public abstract class AbstractYComponentEventListener<T extends YComponent> implements
@@ -48,13 +48,13 @@ public abstract class AbstractYComponentEventListener<T extends YComponent> impl
 	protected String fireAction() {
 		String result = null;
 		if (this.action != null) {
-			boolean isMethodBinding = this.action.startsWith("#{");
+			final boolean isMethodBinding = this.action.startsWith("#{");
 			result = this.action;
 			if (isMethodBinding) {
-				ELContext elCtx = FacesContext.getCurrentInstance().getELContext();
-				ExpressionFactory elFac = FacesContext.getCurrentInstance().getApplication()
+				final ELContext elCtx = FacesContext.getCurrentInstance().getELContext();
+				final ExpressionFactory elFac = FacesContext.getCurrentInstance().getApplication()
 						.getExpressionFactory();
-				MethodExpression me = elFac.createMethodExpression(elCtx, this.action, null,
+				final MethodExpression me = elFac.createMethodExpression(elCtx, this.action, null,
 						new Class[] {});
 				result = (String) me.invoke(elCtx, null);
 
@@ -66,7 +66,7 @@ public abstract class AbstractYComponentEventListener<T extends YComponent> impl
 
 	}
 
-	protected void fireActionListener(YComponentEvent<T> event) {
+	protected void fireActionListener(final YComponentEvent<T> event) {
 		if (this.actionListener != null) {
 			this.invokeYComponentListener(this.actionListener, event);
 		} else {
@@ -74,7 +74,7 @@ public abstract class AbstractYComponentEventListener<T extends YComponent> impl
 		}
 	}
 
-	protected void fireValueChangeListener(YComponentEvent<T> event) {
+	protected void fireValueChangeListener(final YComponentEvent<T> event) {
 		if (this.valueChangeListener != null) {
 			this.invokeYComponentListener(this.valueChangeListener, event);
 		} else {
@@ -82,16 +82,16 @@ public abstract class AbstractYComponentEventListener<T extends YComponent> impl
 		}
 	}
 
-	public void setAction(String binding) {
+	public void setAction(final String binding) {
 		this.action = binding;
 	}
 
-	public void setActionListener(String binding) {
+	public void setActionListener(final String binding) {
 		this.checkMethodBinding(binding);
 		this.actionListener = binding;
 	}
 
-	public void setValueChangeListener(String binding) {
+	public void setValueChangeListener(final String binding) {
 		this.checkMethodBinding(binding);
 		this.valueChangeListener = binding;
 	}
@@ -112,44 +112,42 @@ public abstract class AbstractYComponentEventListener<T extends YComponent> impl
 	 * Checks the passed String for a valid MethodBinding expression.
 	 * 
 	 * @param binding
-	 *            binding to check
+	 *          binding to check
 	 * @throws YFacesException
-	 *             when binding is not valid
+	 *           when binding is not valid
 	 */
-	private void checkMethodBinding(String binding) {
+	private void checkMethodBinding(final String binding) {
 		final boolean isMethodBinding = binding.startsWith("#{");
 		if (!isMethodBinding) {
 			throw new YFacesException(binding + " is not a valid MethodBinding expression");
 		}
 	}
 
-	private Object invokeYComponentListener(String binding, YComponentEvent<?> event) {
+	private Object invokeYComponentListener(final String binding, final YComponentEvent<?> event) {
 		MethodExpression me = null;
 
-		ExpressionFactory elFac = FacesContext.getCurrentInstance().getApplication()
+		final ExpressionFactory elFac = FacesContext.getCurrentInstance().getApplication()
 				.getExpressionFactory();
-		ELContext elCtx = FacesContext.getCurrentInstance().getELContext();
+		final ELContext elCtx = FacesContext.getCurrentInstance().getELContext();
 
-		me = elFac.createMethodExpression(elCtx, binding, null,
-				new Class[] { YComponentEvent.class });
+		me = elFac.createMethodExpression(elCtx, binding, null, new Class[] { YComponentEvent.class });
 		try {
 			me.getMethodInfo(elCtx);
-		} catch (MethodNotFoundException e1) {
+		} catch (final MethodNotFoundException e1) {
 			try {
-				me = elFac.createMethodExpression(elCtx, binding, null, new Class[] { event
-						.getClass() });
+				me = elFac.createMethodExpression(elCtx, binding, null, new Class[] { event.getClass() });
 				me.getMethodInfo(elCtx);
-			} catch (MethodNotFoundException e2) {
-				String error1 = "binding(" + YComponentEvent.class.getName() + ")";
-				String error2 = "binding(" + event.getClass() + ")";
-				String error = "Invalid " + YComponentEventListener.class.getName()
+			} catch (final MethodNotFoundException e2) {
+				final String error1 = "binding(" + YComponentEvent.class.getName() + ")";
+				final String error2 = "binding(" + event.getClass() + ")";
+				final String error = "Invalid " + YComponentEventListener.class.getName()
 						+ "; there's neither a " + error1 + " nor a" + error2;
 				throw new YFacesException(error);
 			}
 		}
 
 		// invoke method
-		Object result = me.invoke(elCtx, new Object[] { event });
+		final Object result = me.invoke(elCtx, new Object[] { event });
 
 		return result;
 	}

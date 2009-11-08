@@ -18,7 +18,6 @@ package de.hybris.yfaces;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Arrays;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
@@ -26,105 +25,42 @@ import javax.servlet.ServletContextListener;
 
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
-import org.springframework.context.ApplicationContext;
-import org.springframework.web.context.ConfigurableWebApplicationContext;
-import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.context.support.XmlWebApplicationContext;
-
-import de.hybris.yfaces.context.YApplicationContext;
 
 /**
  * YFaces startup. Reads configuration and initializes runtime properties.
  * 
- * @author Denny.Strietzbaum
+ * @author Denny Strietzbaum
  */
 public class YFacesStartupListener implements ServletContextListener {
 
 	private static final Logger log = Logger.getLogger(YFacesStartupListener.class);
 
-	private static final String PARAM_YFACES_CTX = "yfaces-context";
-	private static final String DEFAULT_YFACES_CTX = "/META-INF/yfaces-context.xml";
-
 	private static final String log4jCfg = "/WEB-INF/yfaces-log4j.properties";
 
-	public void contextDestroyed(ServletContextEvent arg0) {
+	public void contextDestroyed(final ServletContextEvent arg0) {
 		// TODO Auto-generated method stub
 
 	}
 
-	public void contextInitialized(ServletContextEvent arg0) {
+	public void contextInitialized(final ServletContextEvent arg0) {
 
-		ServletContext ctx = arg0.getServletContext();
-		this.configureYApplicationContext(ctx);
+		final ServletContext ctx = arg0.getServletContext();
 		this.configureLogging(ctx);
 
 	}
 
 	/**
-	 * Creates and registers an {@link YApplicationContext}.
-	 * 
-	 * @param ctx
-	 *            {@link ServletContext}
-	 */
-	protected void configureYApplicationContext(ServletContext ctx) {
-		ApplicationContext appCtx = this.createYApplicationContext(ctx);
-		// constructor can be called one times
-		// applicationconext is managed internally as static singleton 
-		new YApplicationContext(appCtx);
-	}
-
-	/**
-	 * Creates a spring based {@link ApplicationContext}. The result is used for construction of an
-	 * yfaces specific {@link YApplicationContext}.
-	 * <p>
-	 * Default behavior is to use two different context files which are merged. First one is located
-	 * under {@link #DEFAULT_YFACES_CTX}. This is just a simple but well pre-configured yfaces
-	 * context. Location of second one can be configured as deployment parameter
-	 * {@link #PARAM_YFACES_CTX}.
-	 * <p>
-	 * If there's already a {@link ApplicationContext} available from elsewhere just override this
-	 * method.
-	 * 
-	 * @param servletCtx
-	 *            {@link ServletContextEvent}
-	 * @return {@link ApplicationContext}
-	 */
-	protected WebApplicationContext createYApplicationContext(ServletContext servletCtx) {
-		ConfigurableWebApplicationContext result = new XmlWebApplicationContext();
-		result.setServletContext(servletCtx);
-
-		URL defaultConfig = YFacesStartupListener.class.getResource(DEFAULT_YFACES_CTX);
-		String[] configs = new String[] { defaultConfig.toExternalForm() };
-
-		try {
-			String yfacesCtx = servletCtx.getInitParameter(PARAM_YFACES_CTX);
-			if (yfacesCtx != null) {
-				URL customConfig = servletCtx.getResource(yfacesCtx);
-				configs = new String[] { configs[0], customConfig.toExternalForm() };
-			}
-			log.debug("Using spring configuration:" + Arrays.asList(configs));
-			result.setConfigLocations(configs);
-			result.refresh();
-		} catch (MalformedURLException ex) {
-			ex.printStackTrace();
-		}
-
-		return result;
-	}
-
-	/**
 	 * Configures log4j.
 	 */
-	protected void configureLogging(ServletContext ctx) {
+	protected void configureLogging(final ServletContext ctx) {
 		try {
-			URL url = ctx.getResource(log4jCfg);
+			final URL url = ctx.getResource(log4jCfg);
 			if (url != null) {
-				System.out.println(log4jCfg
-						+ " found; this overwrites any previous log4j configurations!");
+				System.out.println(log4jCfg + " found; this overwrites any previous log4j configurations!");
 				PropertyConfigurator.configure(url);
 			}
 
-		} catch (MalformedURLException e) {
+		} catch (final MalformedURLException e) {
 			e.printStackTrace();
 		}
 	}

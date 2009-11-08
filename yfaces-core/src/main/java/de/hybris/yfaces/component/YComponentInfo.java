@@ -39,7 +39,7 @@ import de.hybris.yfaces.YFacesException;
 /**
  * Holds {@link YComponent} specific meta information.
  * 
- * @author Denny.Strietzbaum
+ * @author Denny Strietzbaum
  */
 public class YComponentInfo {
 	private static final Logger log = Logger.getLogger(YComponentInfo.class);
@@ -78,8 +78,8 @@ public class YComponentInfo {
 		IMPL_IS_INTERFACE("Invalid implementation; got interface but no class"),
 
 		/** When implementation is not an YComponent */
-		IMPL_IS_NO_YCMP("Invalid implementation {" + PLACEHOLDER_IMPLCLASS
-				+ "}; not an instanceof " + YComponent.class.getSimpleName()),
+		IMPL_IS_NO_YCMP("Invalid implementation {" + PLACEHOLDER_IMPLCLASS + "}; not an instanceof "
+				+ YComponent.class.getSimpleName()),
 
 		/** When implementation doesn't match specification */
 		IMPL_UNASSIGNABLE_TO_SPEC("Invalid implementation {" + PLACEHOLDER_IMPLCLASS
@@ -101,12 +101,12 @@ public class YComponentInfo {
 		// Pattern for detecting placeholders
 		private static final Pattern placeHolderPattern = Pattern.compile("\\{(.*?)\\}");
 
-		public static String getFormattedErrorMessage(Collection<ErrorState> errors,
-				YComponentInfo cmpInfo, Class<?> customImplClass) {
+		public static String getFormattedErrorMessage(final Collection<ErrorState> errors,
+				final YComponentInfo cmpInfo, final Class<?> customImplClass) {
 			String result = null;
 			if (!errors.isEmpty()) {
 				result = cmpInfo.getId() != null ? cmpInfo.getId() : "";
-				for (ErrorState error : errors) {
+				for (final ErrorState error : errors) {
 					result = result + "," + error.getFormattedErrorMessage(cmpInfo);
 				}
 			}
@@ -116,7 +116,7 @@ public class YComponentInfo {
 
 		private String msg = null;
 
-		private ErrorState(String msg) {
+		private ErrorState(final String msg) {
 			this.msg = msg;
 		}
 
@@ -124,29 +124,29 @@ public class YComponentInfo {
 		 * Returns a formatted error message based on the passed {@link YComponentInfo}
 		 * 
 		 * @param cmpInfo
-		 *            {@link YComponentInfo}
+		 *          {@link YComponentInfo}
 		 * @return String
 		 */
-		public String getFormattedErrorMessage(YComponentInfo cmpInfo) {
+		public String getFormattedErrorMessage(final YComponentInfo cmpInfo) {
 			return this.getFormattedErrorMessage(cmpInfo, null);
 		}
 
 		/**
 		 * Returns a formatted error message based on the passed {@link YComponentInfo}. An optional
-		 * custom implementation is used instead of
-		 * {@link YComponentInfo#getImplementationClassName()}
+		 * custom implementation is used instead of {@link YComponentInfo#getImplementationClassName()}
 		 * 
 		 * @param cmpInfo
-		 *            {@link YComponentInfo}
+		 *          {@link YComponentInfo}
 		 * @param customImplClass
-		 *            Class
+		 *          Class
 		 * @return String
 		 */
-		public String getFormattedErrorMessage(YComponentInfo cmpInfo, Class<?> customImplClass) {
+		public String getFormattedErrorMessage(final YComponentInfo cmpInfo,
+				final Class<?> customImplClass) {
 			String result = "";
-			String msg = this.msg;
+			final String msg = this.msg;
 
-			Matcher parameter = placeHolderPattern.matcher(msg);
+			final Matcher parameter = placeHolderPattern.matcher(msg);
 			int start = 0;
 			while (parameter.find()) {
 				String param = parameter.group(1);
@@ -214,7 +214,8 @@ public class YComponentInfo {
 	/**
 	 * Constructor. Initializes this instance by parsing the url stream.
 	 */
-	public YComponentInfo(String id, String varName, String specClassname, String implClassName) {
+	public YComponentInfo(final String id, final String varName, final String specClassname,
+			final String implClassName) {
 		this.id = id;
 		this.cmpVar = varName;
 		this.specClassName = specClassname;
@@ -222,7 +223,7 @@ public class YComponentInfo {
 		this.injectableAttributes = Collections.emptySet();
 	}
 
-	public YComponentInfo(String namespace, URL url) {
+	public YComponentInfo(final String namespace, final URL url) {
 		this.namespace = namespace;
 		this.url = url;
 	}
@@ -266,10 +267,11 @@ public class YComponentInfo {
 	 * Does no verification at all.<br/>
 	 * 
 	 * @param className
-	 *            classname
+	 *          classname
 	 */
-	protected void setSpecificationClassName(String className) {
-		String newClass = (className == null || className.trim().length() == 0) ? null : className;
+	protected void setSpecificationClassName(final String className) {
+		final String newClass = (className == null || className.trim().length() == 0) ? null
+				: className;
 		if (newClass != null && !newClass.equals(this.specClassName)) {
 			this.specClassName = newClass;
 			this.implClass = null;
@@ -290,8 +292,9 @@ public class YComponentInfo {
 	 * 
 	 * @param className
 	 */
-	protected void setImplementationClassName(String className) {
-		String newClass = (className == null || className.trim().length() == 0) ? null : className;
+	protected void setImplementationClassName(final String className) {
+		final String newClass = (className == null || className.trim().length() == 0) ? null
+				: className;
 		if (newClass != null && !newClass.equals(this.implClassName)) {
 			this.implClassName = newClass;
 			this.implClass = null;
@@ -302,7 +305,7 @@ public class YComponentInfo {
 		return this.id;
 	}
 
-	protected void setId(String id) {
+	protected void setId(final String id) {
 		this.id = id;
 	}
 
@@ -310,7 +313,7 @@ public class YComponentInfo {
 		return this.cmpVar;
 	}
 
-	protected void setVarName(String varName) {
+	protected void setVarName(final String varName) {
 		this.cmpVar = varName;
 	}
 
@@ -330,15 +333,15 @@ public class YComponentInfo {
 		return this.injectableAttributes;
 	}
 
-	protected void addInjectableProperty(String property) {
+	protected void addInjectableProperty(final String property) {
 		if (this.injectableAttributes == Collections.EMPTY_SET) {
 			this.injectableAttributes = new HashSet<String>();
 		}
 		this.injectableAttributes.add(property);
 	}
 
-	protected void addInjectableProperties(String... properties) {
-		for (String property : properties) {
+	protected void addInjectableProperties(final String... properties) {
+		for (final String property : properties) {
 			this.addInjectableProperty(property);
 		}
 	}
@@ -353,7 +356,7 @@ public class YComponentInfo {
 		try {
 			result = (T) this.getImplementationClass().newInstance();
 			((AbstractYComponent) result).setId(this.id);
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			throw new YFacesException("Can't create " + YComponent.class.getName() + " instance ("
 					+ implClass + ")", e);
 		}
@@ -364,23 +367,23 @@ public class YComponentInfo {
 		// refresh injectable properties
 		this.writableProperties = classToPropertiesMap.get(this.implClassName);
 		if (this.writableProperties == null) {
-			this.writableProperties = this.findWriteableProperties(implClass,
-					AbstractYComponent.class);
+			this.writableProperties = this.findWriteableProperties(implClass, AbstractYComponent.class);
 			classToPropertiesMap.put(this.implClassName, this.writableProperties);
 		}
 	}
 
-	private Map<String, Method> findWriteableProperties(Class<?> startClass, Class<?> endClass) {
+	private Map<String, Method> findWriteableProperties(final Class<?> startClass,
+			final Class<?> endClass) {
 
-		Map<String, Method> result = new HashMap<String, Method>();
+		final Map<String, Method> result = new HashMap<String, Method>();
 		try {
 			// find setter for attributes
-			PropertyDescriptor[] descriptors = Introspector.getBeanInfo(startClass,
+			final PropertyDescriptor[] descriptors = Introspector.getBeanInfo(startClass,
 					AbstractYComponent.class).getPropertyDescriptors();
 
-			for (PropertyDescriptor descriptor : descriptors) {
-				String name = descriptor.getName();
-				Method writeMethod = descriptor.getWriteMethod();
+			for (final PropertyDescriptor descriptor : descriptors) {
+				final String name = descriptor.getName();
+				final Method writeMethod = descriptor.getWriteMethod();
 
 				if (writeMethod != null) {
 					result.put(name, writeMethod);
@@ -395,7 +398,7 @@ public class YComponentInfo {
 					}
 				}
 			}
-		} catch (IntrospectionException e) {
+		} catch (final IntrospectionException e) {
 			e.printStackTrace();
 		}
 		return result;
@@ -479,8 +482,8 @@ public class YComponentInfo {
 	 * @param implClass
 	 * @return result
 	 */
-	public Set<ErrorState> assertCustomImplementationClass(Class<?> implClass) {
-		Set<ErrorState> result = EnumSet.noneOf(ErrorState.class);
+	public Set<ErrorState> assertCustomImplementationClass(final Class<?> implClass) {
+		final Set<ErrorState> result = EnumSet.noneOf(ErrorState.class);
 
 		if (implClass.isInterface()) {
 			result.add(ErrorState.IMPL_IS_INTERFACE);
@@ -498,7 +501,7 @@ public class YComponentInfo {
 	}
 
 	private boolean assertProperties() {
-		for (String s : RESERVED_PROPERTY_NAMES) {
+		for (final String s : RESERVED_PROPERTY_NAMES) {
 			// if (this.writableProperties.containsKey(s))
 			// this.errors.add(ERROR_STATE.FORBIDDEN_PROPERTY);
 
@@ -509,7 +512,7 @@ public class YComponentInfo {
 		return this.errors.isEmpty();
 	}
 
-	private <T> Class<T> getClass(String classname, ErrorState catchError) {
+	private <T> Class<T> getClass(final String classname, final ErrorState catchError) {
 		Class<T> result = null;
 		try {
 			//result = (Class<T>) Class.forName(classname);
@@ -538,7 +541,7 @@ public class YComponentInfo {
 		//		final String result = "id:" + this.id + "; spec:" + this.specClassName + "; impl:"
 		//				+ this.implClassName + "; var:" + this.cmpVar + "; injects:"
 		//				+ this.injectableAttributes;
-		String result = this.url.toExternalForm();
+		final String result = this.url.toExternalForm();
 		return result;
 	}
 
@@ -546,7 +549,7 @@ public class YComponentInfo {
 		return url;
 	}
 
-	protected void setURL(URL url) {
+	protected void setURL(final URL url) {
 		this.url = url;
 	}
 
@@ -554,12 +557,12 @@ public class YComponentInfo {
 		return this.namespace;
 	}
 
-	protected void setNamespace(String ns) {
+	protected void setNamespace(final String ns) {
 		this.namespace = ns;
 	}
 
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(final Object obj) {
 		return this.url.toExternalForm().equals(((YComponentInfo) obj).url.toExternalForm());
 	}
 

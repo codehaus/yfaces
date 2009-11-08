@@ -35,7 +35,7 @@ import de.hybris.yfaces.util.YFacesErrorHandler;
 /**
  * {@link YRequestContext} implementation which gives additional configuration for IOC containers.
  * 
- * @author Denny.Strietzbaum
+ * @author Denny Strietzbaum
  */
 public class YRequestContextImpl implements YRequestContext {
 
@@ -53,12 +53,12 @@ public class YRequestContextImpl implements YRequestContext {
 	private boolean isFlashback = false;
 
 	/**
-	 * Constructor. Sets flashback property to true when previous {@link YRequestContext} instance
-	 * was used to do a redirect with enabled flashback.
+	 * Constructor. Sets flashback property to true when previous {@link YRequestContext} instance was
+	 * used to do a redirect with enabled flashback.
 	 */
 	public YRequestContextImpl() {
-		isFlashback = FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
-				.remove(IS_FLASHBACK) != null;
+		//		isFlashback = FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove(
+		//				IS_FLASHBACK) != null;
 	}
 
 	// TODO: move to appCtx
@@ -66,7 +66,7 @@ public class YRequestContextImpl implements YRequestContext {
 		return errorHandler;
 	}
 
-	public void setErrorHandler(YFacesErrorHandler errorHandler) {
+	public void setErrorHandler(final YFacesErrorHandler errorHandler) {
 		this.errorHandler = errorHandler;
 	}
 
@@ -81,9 +81,9 @@ public class YRequestContextImpl implements YRequestContext {
 	 * Sets the {@link YPageContext}
 	 * 
 	 * @param pageContext
-	 *            {@link YPageContext} to set
+	 *          {@link YPageContext} to set
 	 */
-	protected void setPageContext(YPageContext pageContext) {
+	protected void setPageContext(final YPageContext pageContext) {
 		this.pageContext = pageContext;
 	}
 
@@ -94,7 +94,7 @@ public class YRequestContextImpl implements YRequestContext {
 		return sessionContext;
 	}
 
-	public void setSessionContext(YSessionContext sessionContext) {
+	public void setSessionContext(final YSessionContext sessionContext) {
 		this.sessionContext = sessionContext;
 	}
 
@@ -111,9 +111,9 @@ public class YRequestContextImpl implements YRequestContext {
 	 * Shortcut to {@link #redirect(String, boolean)} with disabled flashback.
 	 * 
 	 * @param url
-	 *            target url
+	 *          target url
 	 */
-	public void redirect(String url) {
+	public void redirect(final String url) {
 		this.redirect(url, false);
 	}
 
@@ -121,10 +121,10 @@ public class YRequestContextImpl implements YRequestContext {
 	 * Shortcut to {@link #redirect(String, boolean)} whereas URL is the servletpath.
 	 * 
 	 * @param isFlash
-	 *            whether flashback shall be enabled
+	 *          whether flashback shall be enabled
 	 * @see HttpServletRequest#getServletPath()
 	 */
-	public void redirect(boolean isFlash) {
+	public void redirect(final boolean isFlash) {
 		final String url = FacesContext.getCurrentInstance().getExternalContext()
 				.getRequestServletPath();
 		redirect(url, isFlash);
@@ -136,12 +136,12 @@ public class YRequestContextImpl implements YRequestContext {
 	 * {@link YPageContext}
 	 * 
 	 * @param page
-	 *            {@link YPageContext} to redirect to
+	 *          {@link YPageContext} to redirect to
 	 * @param isFlash
-	 *            whether flashback shall be enabled
+	 *          whether flashback shall be enabled
 	 * @see YPageContext#getURL()
 	 */
-	public void redirect(YPageContext page, boolean isFlash) {
+	public void redirect(final YPageContext page, final boolean isFlash) {
 		this.redirect(page.getURL(), isFlash);
 	}
 
@@ -149,17 +149,17 @@ public class YRequestContextImpl implements YRequestContext {
 	 * Redirects to the passed URL.
 	 * 
 	 * @param url
-	 *            target url.
+	 *          target url.
 	 * @param isFlash
-	 *            true when flash shall be enabled
+	 *          true when flash shall be enabled
 	 */
-	public void redirect(String url, boolean enableFlashback) {
+	public void redirect(final String url, final boolean enableFlashback) {
 		if (url == null) {
 			throw new YFacesException("No URL specified", new NullPointerException());
 		}
 
 		final FacesContext fctx = FacesContext.getCurrentInstance();
-		String contextPath = fctx.getExternalContext().getRequestContextPath();
+		final String contextPath = fctx.getExternalContext().getRequestContextPath();
 
 		try {
 			String target = null;
@@ -177,12 +177,12 @@ public class YRequestContextImpl implements YRequestContext {
 			fctx.getExternalContext().redirect(target);
 			fctx.responseComplete();
 
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			throw new YFacesException("Can't redirect to " + url, e);
 		}
 		if (enableFlashback) {
-			FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put(
-					IS_FLASHBACK, Boolean.TRUE);
+			FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put(IS_FLASHBACK,
+					Boolean.TRUE);
 		}
 	}
 
@@ -202,8 +202,8 @@ public class YRequestContextImpl implements YRequestContext {
 	public boolean isPostback() {
 		// true when a _JSF_ form was submitted 
 		// (javax.faces.ViewState parameter is present at request map)
-		return FacesContext.getCurrentInstance().getRenderKit().getResponseStateManager()
-				.isPostback(FacesContext.getCurrentInstance());
+		return FacesContext.getCurrentInstance().getRenderKit().getResponseStateManager().isPostback(
+				FacesContext.getCurrentInstance());
 	}
 
 	/**
@@ -211,25 +211,25 @@ public class YRequestContextImpl implements YRequestContext {
 	 * 
 	 * @param viewId
 	 */
-	void startPageRequest(String viewId) {
+	void startPageRequest(final String viewId) {
 		this.currentPhase = REQUEST_PHASE.START_REQUEST;
 
 		// detect method
-		boolean isPostBack = this.isPostback();
-		boolean isFlash = this.isFlashback();
+		final boolean isPostBack = this.isPostback();
+		final boolean isFlash = this.isFlashback();
 
-		YConversationContext convCtx = getPageContext().getConversationContext();
+		final YConversationContext convCtx = getPageContext().getConversationContext();
 
 		// restore context information (mbeans) when
 		// a)POST (postback) or
 		// b)GET with enabled flash
 		if (isPostBack || isFlash) {
 			// iterate over all context pages...
-			Collection<YPageContext> pages = convCtx.getAllPages();
-			for (YPageContext page : pages) {
+			final Collection<YPageContext> pages = convCtx.getAllPages();
+			for (final YPageContext page : pages) {
 				// ...and notify page for a new request (re-inject all
 				// frames/mbeans)
-				for (YFrame frame : page.getFrames()) {
+				for (final YFrame frame : page.getFrames()) {
 					((YManagedBean) frame).refreshBeanScope();
 				}
 			}
@@ -247,8 +247,8 @@ public class YRequestContextImpl implements YRequestContext {
 		// otherwise ...
 		else {
 			// ...reset context with new initialized page
-			String url = getViewURL(viewId, true);
-			YPageContext newPage = new YPageContext(convCtx, viewId, url);
+			final String url = getViewURL(viewId, true);
+			final YPageContext newPage = new YPageContext(convCtx, viewId, url);
 			convCtx.start(newPage);
 		}
 	}
@@ -261,14 +261,14 @@ public class YRequestContextImpl implements YRequestContext {
 	 * 
 	 * @param newViewId
 	 */
-	void switchPage(String newViewId) {
+	void switchPage(final String newViewId) {
 		this.currentPhase = REQUEST_PHASE.FORWARD_REQUEST;
 
-		YConversationContext convCtx = getPageContext().getConversationContext();
+		final YConversationContext convCtx = getPageContext().getConversationContext();
 
 		// lookup whether newViewId matches on of context managed previous pages
 		// (browser backbutton, regular "back" navigation, etc. )
-		YPageContext previousPage = convCtx.getPage(newViewId);
+		final YPageContext previousPage = convCtx.getPage(newViewId);
 
 		// when no previous page is available (e.g. navigation to a new view)
 		// ...
@@ -277,7 +277,7 @@ public class YRequestContextImpl implements YRequestContext {
 			final String viewUrl = getViewURL(newViewId, false);
 
 			// ...and the context is prepared to have a next page...
-			YPageContext forwardPage = convCtx.getNextPage();
+			final YPageContext forwardPage = convCtx.getNextPage();
 			if (forwardPage != null) {
 				forwardPage.setURL(viewUrl);
 				forwardPage.setId(newViewId);
@@ -306,14 +306,14 @@ public class YRequestContextImpl implements YRequestContext {
 	 * 
 	 * @param viewId
 	 */
-	void finishPageRequest(String viewId) {
+	void finishPageRequest(final String viewId) {
 		this.currentPhase = REQUEST_PHASE.END_REQUEST;
 
 		if (log.isDebugEnabled()) {
 			int i = 0;
 			YPageContext page = getPageContext();
-			YConversationContext convCtx = page.getConversationContext();
-			String id = convCtx.getId();
+			final YConversationContext convCtx = page.getConversationContext();
+			final String id = convCtx.getId();
 			do {
 				log.debug(id + " Page[" + i++ + "]: " + page.toString());
 			} while ((page = page.getPreviousPage()) != null);
@@ -321,15 +321,15 @@ public class YRequestContextImpl implements YRequestContext {
 	}
 
 	/**
-	 * Returns a URI starting with a slash and relative to the webapps context root for the
-	 * requested view.
+	 * Returns a URI starting with a slash and relative to the webapps context root for the requested
+	 * view.
 	 * 
 	 * @param viewId
-	 *            view to generate the URL for
+	 *          view to generate the URL for
 	 * @return String
 	 */
-	private String getViewURL(String viewId, boolean addCurrentQueryParams) {
-		FacesContext fc = FacesContext.getCurrentInstance();
+	private String getViewURL(final String viewId, final boolean addCurrentQueryParams) {
+		final FacesContext fc = FacesContext.getCurrentInstance();
 
 		// request view url but without context path
 		String result = fc.getApplication().getViewHandler().getActionURL(fc, viewId);
@@ -341,12 +341,12 @@ public class YRequestContextImpl implements YRequestContext {
 		// environment and, more important, may return an incorrect string when
 		// urlrewriting is used.
 		if (addCurrentQueryParams) {
-			Map<String, String[]> values = FacesContext.getCurrentInstance().getExternalContext()
+			final Map<String, String[]> values = FacesContext.getCurrentInstance().getExternalContext()
 					.getRequestParameterValuesMap();
 			if (!values.isEmpty()) {
 				String params = "?";
-				for (Map.Entry<String, String[]> entry : values.entrySet()) {
-					for (String value : entry.getValue()) {
+				for (final Map.Entry<String, String[]> entry : values.entrySet()) {
+					for (final String value : entry.getValue()) {
 						params = params + entry.getKey() + "=" + value + ";";
 					}
 				}
@@ -362,7 +362,11 @@ public class YRequestContextImpl implements YRequestContext {
 	}
 
 	void startInitialization() {
-		YSessionContextImpl sessCtx = (YSessionContextImpl) getSessionContext();
+
+		isFlashback = FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove(
+				IS_FLASHBACK) != null;
+
+		final YSessionContextImpl sessCtx = (YSessionContextImpl) getSessionContext();
 		if (!sessCtx.isInitialized()) {
 			sessCtx.startInitialization();
 		}
@@ -370,8 +374,8 @@ public class YRequestContextImpl implements YRequestContext {
 	}
 
 	/**
-	 * Listener which can be used for some custom initialization. Method gets invoked after all
-	 * YFaces specific dependencies are created and properly injected. It's guaranteed that
+	 * Listener which can be used for some custom initialization. Method gets invoked after all YFaces
+	 * specific dependencies are created and properly injected. It's guaranteed that
 	 * {@link YFaces#getRequestContext()} returns a valid instance whose properties
 	 * {@link YSessionContext}, {@link YPageContext}, {@link YConversationContext} etc. are fully
 	 * available.

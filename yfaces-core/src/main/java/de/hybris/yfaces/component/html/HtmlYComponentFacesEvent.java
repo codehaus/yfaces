@@ -22,24 +22,26 @@ import de.hybris.yfaces.YFacesException;
  * 
  * @see HtmlYComponent#queueEvent(FacesEvent)
  * @see HtmlYComponent#broadcast(FacesEvent)
+ * 
+ * @author Denny Strietzbaum
  */
 
 public class HtmlYComponentFacesEvent extends FacesEvent {
 
 	private static final long serialVersionUID = 1L;
 
-	public HtmlYComponentFacesEvent(HtmlYComponent source, PhaseId phaseId) {
+	public HtmlYComponentFacesEvent(final HtmlYComponent source, final PhaseId phaseId) {
 		super(source);
 		super.setPhaseId(phaseId);
 	}
 
 	@Override
-	public boolean isAppropriateListener(FacesListener faceslistener) {
+	public boolean isAppropriateListener(final FacesListener faceslistener) {
 		throw new YFacesException("", new UnsupportedOperationException());
 	}
 
 	@Override
-	public void processListener(FacesListener faceslistener) {
+	public void processListener(final FacesListener faceslistener) {
 		throw new YFacesException("", new UnsupportedOperationException());
 	}
 }
