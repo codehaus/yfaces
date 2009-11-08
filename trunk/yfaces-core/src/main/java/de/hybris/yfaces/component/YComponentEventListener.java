@@ -20,7 +20,7 @@ import java.io.Serializable;
 /**
  * A Listener which must be registered at and gets called from an {@link YComponentEventHandler}.
  * 
- * @author Denny.Strietzbaum
+ * @author Denny Strietzbaum
  */
 public interface YComponentEventListener<T extends YComponent> extends Serializable {
 	/**
@@ -34,7 +34,7 @@ public interface YComponentEventListener<T extends YComponent> extends Serializa
 	 * Process actionListener logic.
 	 * 
 	 * @param event
-	 *            {@link YComponentEvent}
+	 *          {@link YComponentEvent}
 	 */
 	public void actionListener(YComponentEvent<T> event);
 
@@ -42,7 +42,7 @@ public interface YComponentEventListener<T extends YComponent> extends Serializa
 	 * Process valueChangeListener logic.
 	 * 
 	 * @param event
-	 *            {@link YComponentEvent}
+	 *          {@link YComponentEvent}
 	 */
 	public void valueChangeListener(YComponentEvent<T> event);
 
@@ -51,7 +51,7 @@ public interface YComponentEventListener<T extends YComponent> extends Serializa
 	 * A binding overrules {@link #action()}<br/>
 	 * 
 	 * @param binding
-	 *            a valid expression string
+	 *          a valid expression string
 	 */
 	public void setAction(String binding);
 
@@ -60,7 +60,7 @@ public interface YComponentEventListener<T extends YComponent> extends Serializa
 	 * This binding overrules {@link #actionListener(YComponentEvent)}
 	 * 
 	 * @param binding
-	 *            a valid expression string
+	 *          a valid expression string
 	 */
 	public void setActionListener(String binding);
 
@@ -69,7 +69,7 @@ public interface YComponentEventListener<T extends YComponent> extends Serializa
 	 * This binding overrules {@link #valueChangeListener(YComponentEvent)}
 	 * 
 	 * @param binding
-	 *            valid expression string
+	 *          valid expression string
 	 */
 	public void setValueChangeListener(String binding);
 

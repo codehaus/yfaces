@@ -31,7 +31,7 @@ import de.hybris.yfaces.component.YComponentInfo.ErrorState;
  * A registry which holds meta information about registered YComponent. Components are registered
  * during startup. YComponent meta information are described as {@link YComponentInfo}.
  * 
- * @author Denny.Strietzbaum
+ * @author Denny Strietzbaum
  */
 // 
 // This registry is a very similar construct to FaceletFactory.
@@ -79,18 +79,17 @@ public class YComponentRegistry {
 
 	public YComponentRegistry() {
 		this.idToCmpMap = new LinkedHashMap<String, YComponentInfo>();
-		this.treatAsWarning = EnumSet.of(ErrorState.VIEW_ID_NOT_SPECIFIED,
-				ErrorState.SPEC_IS_MISSING);
+		this.treatAsWarning = EnumSet.of(ErrorState.VIEW_ID_NOT_SPECIFIED, ErrorState.SPEC_IS_MISSING);
 	}
 
 	/**
 	 * Returns a {@link YComponentInfo} by it's ID.
 	 * 
 	 * @param id
-	 *            ID
+	 *          ID
 	 * @return {@link YComponentInfo}
 	 */
-	public YComponentInfo getComponent(String id) {
+	public YComponentInfo getComponent(final String id) {
 		return idToCmpMap.get(id);
 	}
 
@@ -107,12 +106,12 @@ public class YComponentRegistry {
 	 * @param cmpInfo
 	 * @return true when successful
 	 */
-	public boolean addComponent(YComponentInfo cmpInfo) {
+	public boolean addComponent(final YComponentInfo cmpInfo) {
 
 		boolean result = false;
 
 		if (cmpInfo != null) {
-			String id = cmpInfo.getId();
+			final String id = cmpInfo.getId();
 
 			if (id != null) {
 				Set<ErrorState> errors = cmpInfo.verifyComponent();
@@ -139,10 +138,8 @@ public class YComponentRegistry {
 						this.idToCmpMap.put(cmpInfo.getId(), cmpInfo);
 						result = true;
 						if (!warnings.isEmpty()) {
-							log.debug("Added component " + cmpInfo.getComponentName()
-									+ " with warnings:");
-							String errorMsg = ErrorState.getFormattedErrorMessage(warnings,
-									cmpInfo, null);
+							log.debug("Added component " + cmpInfo.getComponentName() + " with warnings:");
+							final String errorMsg = ErrorState.getFormattedErrorMessage(warnings, cmpInfo, null);
 							log.debug(errorMsg);
 						} else {
 							log.debug("Added component " + cmpInfo.getComponentName());

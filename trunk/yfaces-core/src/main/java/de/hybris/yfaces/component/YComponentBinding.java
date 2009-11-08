@@ -30,7 +30,7 @@ import de.hybris.yfaces.component.html.HtmlYComponent;
  * the binding attribute is used exactly like before. However, the programmer has some more choices
  * now.
  * 
- * @author Denny.Strietzbaum
+ * @author Denny Strietzbaum
  */
 public class YComponentBinding<T extends YComponent> {
 
@@ -57,13 +57,13 @@ public class YComponentBinding<T extends YComponent> {
 	 * Constructor. Bounds this binding to a {@link YComponent} which is given by its ID.<br/>
 	 * 
 	 * @param id
-	 *            component id
+	 *          component id
 	 */
-	public YComponentBinding(String id) {
+	public YComponentBinding(final String id) {
 		this.id = id;
 	}
 
-	protected YComponentBinding(String id, String frameBinding) {
+	protected YComponentBinding(final String id, final String frameBinding) {
 		this.id = id;
 		this.frameBinding = frameBinding;
 	}
@@ -76,11 +76,10 @@ public class YComponentBinding<T extends YComponent> {
 	public T getValue() {
 		// standard lookup
 		if (this.value == null && this.id != null) {
-			YComponentInfo cmpd = YComponentRegistry.getInstance().getComponent(this.id);
+			final YComponentInfo cmpd = YComponentRegistry.getInstance().getComponent(this.id);
 
 			if (cmpd == null) {
-				throw new YFacesException("There is no component with id '" + this.id
-						+ "' registered.");
+				throw new YFacesException("There is no component with id '" + this.id + "' registered.");
 			}
 
 			this.value = (T) cmpd.createDefaultComponent();
@@ -95,7 +94,7 @@ public class YComponentBinding<T extends YComponent> {
 	/**
 	 * Sets the {@link YComponent} for this binding.
 	 */
-	public void setValue(T value) {
+	public void setValue(final T value) {
 		this.value = value;
 		if (value != null) {
 			// inject the frame

@@ -31,7 +31,7 @@ import org.apache.log4j.Logger;
 import de.hybris.yfaces.YFacesException;
 
 /**
- * @author Denny.Strietzbaum
+ * @author Denny Strietzbaum
  * 
  */
 public abstract class AbstractYComponent implements YComponent {
@@ -79,15 +79,15 @@ public abstract class AbstractYComponent implements YComponent {
 	}
 
 	/**
-	 * Creates an {@link YComponentEventHandler} whose default {@link YComponentEventListener} is
-	 * the passed one.
+	 * Creates an {@link YComponentEventHandler} whose default {@link YComponentEventListener} is the
+	 * passed one.
 	 * 
 	 * @param listener
-	 *            {@link YComponentEventListener} default listener
+	 *          {@link YComponentEventListener} default listener
 	 * @return {@link YComponentEventHandler}
 	 */
 	public <T extends YComponent> YComponentEventHandler<T> createEventHandler(
-			YComponentEventListener<T> listener) {
+			final YComponentEventListener<T> listener) {
 		final YComponentEventHandler<T> result = new YComponentEventHandlerImpl<T>(listener);
 		return result;
 	}
@@ -115,22 +115,22 @@ public abstract class AbstractYComponent implements YComponent {
 
 	@Override
 	public String toString() {
-		StringBuilder result = new StringBuilder();
+		final StringBuilder result = new StringBuilder();
 		return super.hashCode() + " uid: " + this.uid + " " + result.toString();
 	}
 
-	public void setFrame(String frameBinding) {
+	public void setFrame(final String frameBinding) {
 		this.frameBinding = frameBinding;
 	}
 
 	public YFrame getFrame() {
 		YFrame result = null;
 		if (frameBinding != null) {
-			FacesContext fc = FacesContext.getCurrentInstance();
-			ValueExpression ve = fc.getApplication().getExpressionFactory().createValueExpression(
+			final FacesContext fc = FacesContext.getCurrentInstance();
+			final ValueExpression ve = fc.getApplication().getExpressionFactory().createValueExpression(
 					fc.getELContext(), this.frameBinding, Object.class);
 
-			Object value = ve.getValue(fc.getELContext());
+			final Object value = ve.getValue(fc.getELContext());
 			if (value instanceof YFrame) {
 				result = (YFrame) value;
 			}
@@ -138,24 +138,24 @@ public abstract class AbstractYComponent implements YComponent {
 		return result;
 	}
 
-	public <T extends YComponent> T newInstance(String id) {
+	public <T extends YComponent> T newInstance(final String id) {
 		return YComponentRegistry.getInstance().getComponent(id).createDefaultComponent();
 	}
 
-	public <T extends YComponent> T newInstance(T template) {
+	public <T extends YComponent> T newInstance(final T template) {
 		T result = null;
-		Class<T> clazz = (Class) template.getClass();
+		final Class<T> clazz = (Class) template.getClass();
 		try {
-			Constructor<T> c = clazz.getConstructor(YComponent.class);
+			final Constructor<T> c = clazz.getConstructor(YComponent.class);
 			result = c.newInstance(template);
 		} catch (final Exception e) {
-			throw new YFacesException(clazz
-					+ " can't be created; missing Constructor which accepts " + YComponent.class);
+			throw new YFacesException(clazz + " can't be created; missing Constructor which accepts "
+					+ YComponent.class);
 		}
 		return result;
 	}
 
-	public void setIllegalComponentState(String state) {
+	public void setIllegalComponentState(final String state) {
 		this.validationState = state;
 	}
 
@@ -169,7 +169,7 @@ public abstract class AbstractYComponent implements YComponent {
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(final Object obj) {
 		return (obj.getClass().equals(this.getClass()))
 				&& ((AbstractYComponent) obj).uid.equals(this.uid);
 	}
@@ -190,7 +190,7 @@ public abstract class AbstractYComponent implements YComponent {
 	// times
 	// first during restoring treestructure and second during restoring
 	// componentstate
-	private void readObject(ObjectInputStream in) throws ClassNotFoundException, IOException {
+	private void readObject(final ObjectInputStream in) throws ClassNotFoundException, IOException {
 		in.defaultReadObject();
 		this.logId = this.getClass().getSimpleName();
 
@@ -199,7 +199,7 @@ public abstract class AbstractYComponent implements YComponent {
 		}
 	}
 
-	private void writeObject(ObjectOutputStream aOutputStream) throws IOException {
+	private void writeObject(final ObjectOutputStream aOutputStream) throws IOException {
 		aOutputStream.defaultWriteObject();
 		if (log.isDebugEnabled()) {
 			log.debug("SERIALIZE (save) component [" + logId + "] (" + this.hashCode() + ")");

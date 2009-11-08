@@ -43,7 +43,7 @@ import de.hybris.yfaces.component.YFrame;
  * to build up the current view. When this page is part of a conversation it may have one ore more
  * previous (not visible) pages.
  * 
- * @author Denny.Strietzbaum
+ * @author Denny Strietzbaum
  */
 public class YPageContext {
 
@@ -69,13 +69,13 @@ public class YPageContext {
 	 * Constructor.
 	 * 
 	 * @param ctx
-	 *            {@link YConversationContext}
+	 *          {@link YConversationContext}
 	 * @param pageId
-	 *            id of page
+	 *          id of page
 	 * @param url
-	 *            url of page
+	 *          url of page
 	 */
-	public YPageContext(YConversationContext ctx, String pageId, String url) {
+	public YPageContext(final YConversationContext ctx, final String pageId, final String url) {
 		if (ctx == null) {
 			throw new YFacesException("No NavigationContext specified", new NullPointerException());
 		}
@@ -99,9 +99,9 @@ public class YPageContext {
 	 * Sets the page-id.
 	 * 
 	 * @param pageId
-	 *            page-id to set
+	 *          page-id to set
 	 */
-	protected void setId(String pageId) {
+	protected void setId(final String pageId) {
 		this.pageId = pageId;
 	}
 
@@ -120,15 +120,15 @@ public class YPageContext {
 	 * Sets the URL for this page.
 	 * 
 	 * @param url
-	 *            url to set.
+	 *          url to set.
 	 */
-	protected void setURL(String url) {
+	protected void setURL(final String url) {
 		this.url = url;
 	}
 
 	/**
-	 * Returns the navigation id for this page. This is an ID which can be used within faces-config
-	 * as navigation target. The navigation id is never null.
+	 * Returns the navigation id for this page. This is an ID which can be used within faces-config as
+	 * navigation target. The navigation id is never null.
 	 * 
 	 * @return navigationId
 	 */
@@ -138,7 +138,7 @@ public class YPageContext {
 			// for example, if the url looks like
 			// "http://www.example.com:8080/path/index.html",
 			// the result is "index"
-			Matcher m = urlPattern.matcher(this.getURL());
+			final Matcher m = urlPattern.matcher(this.getURL());
 			if (m.matches()) {
 				this.navigationId = m.group(1);
 			}
@@ -183,11 +183,11 @@ public class YPageContext {
 	 * method.
 	 * 
 	 * @param frameClass
-	 *            requested frame
+	 *          requested frame
 	 * 
 	 * @see AbstractYFrame#getBeanId()
 	 */
-	public <T extends YFrame> T getOrCreateFrame(Class<T> frameClass) {
+	public <T extends YFrame> T getOrCreateFrame(final Class<T> frameClass) {
 		T result = (T) this.frames.get(frameClass.getName());
 
 		// when no instance is available, request is delegated to YManagedBean which itself creates a
@@ -202,7 +202,7 @@ public class YPageContext {
 	//used for #getOrdCreateFrame(...) currently only used for YFacesELResolver
 	// a) #getOrdCreateFrame(...)
 	// b) #YFacesElResolver whenever a frame is requested
-	public void addFrame(YFrame frame) {
+	public void addFrame(final YFrame frame) {
 		this.frames.put(frame.getClass().getName(), frame);
 	}
 
@@ -223,9 +223,9 @@ public class YPageContext {
 	 * Sets a previous page for this page.
 	 * 
 	 * @param previousPage
-	 *            {@link YPageContext}
+	 *          {@link YPageContext}
 	 */
-	void setPreviousPage(YPageContext previousPage) {
+	void setPreviousPage(final YPageContext previousPage) {
 		this.previousPage = previousPage;
 	}
 
@@ -240,13 +240,13 @@ public class YPageContext {
 
 	@Override
 	public String toString() {
-		List<String> idList = new ArrayList<String>();
-		for (YFrame frame : this.frames.values()) {
+		final List<String> idList = new ArrayList<String>();
+		for (final YFrame frame : this.frames.values()) {
 			idList.add(frame.getId() + "@" + Integer.toHexString(frame.hashCode()));
 		}
-		String frames = Arrays.toString(idList.toArray());
+		final String frames = Arrays.toString(idList.toArray());
 
-		String result = "id=" + getId() + "; frames=" + frames;
+		final String result = "id=" + getId() + "; frames=" + frames;
 
 		return result;
 	}

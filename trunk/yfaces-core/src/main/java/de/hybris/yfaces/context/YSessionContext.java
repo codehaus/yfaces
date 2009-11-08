@@ -23,7 +23,7 @@ import javax.servlet.http.HttpSession;
 /**
  * A context object whose scope and lifetime is bound to {@link HttpSession}.
  * 
- * @author Denny.Strietzbaum
+ * @author Denny Strietzbaum
  */
 public interface YSessionContext {
 

@@ -30,7 +30,7 @@ import javax.faces.event.FacesEvent;
  * The {@link YComponentEventHandler} takes the FacesEvent which was thrown by JSF, wraps it into
  * this event and notifies each registered {@link YComponentEventListener}<br/>
  * 
- * @author Denny.Strietzbaum
+ * @author Denny Strietzbaum
  */
 public interface YComponentEvent<T extends YComponent> {
 	/**
@@ -63,9 +63,9 @@ public interface YComponentEvent<T extends YComponent> {
 
 	/**
 	 * A map of custom attributes. These are useful when a queue of {@link YComponentEventListener}
-	 * are registered at a {@link YComponentEventHandler}. Using these attributes are a possibility
-	 * to pass additional parameters (processing results etc.) to following listeners which are
-	 * getting executed next.
+	 * are registered at a {@link YComponentEventHandler}. Using these attributes are a possibility to
+	 * pass additional parameters (processing results etc.) to following listeners which are getting
+	 * executed next.
 	 * 
 	 * @return map of custom attributes
 	 */

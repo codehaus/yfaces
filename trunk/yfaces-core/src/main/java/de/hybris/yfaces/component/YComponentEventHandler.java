@@ -38,7 +38,7 @@ import javax.faces.event.ValueChangeEvent;
  * actionListener="#{mycomponent.submitForm.actionListener}"&gt;</code>
  * <p>
  * 
- * @author Denny.Strietzbaum
+ * @author Denny Strietzbaum
  */
 public interface YComponentEventHandler<T extends YComponent> extends Serializable {
 
@@ -47,7 +47,7 @@ public interface YComponentEventHandler<T extends YComponent> extends Serializab
 	 * This listener gets processed after the default one and after all previous set listeners.<br/>
 	 * 
 	 * @param listener
-	 *            listener to add.
+	 *          listener to add.
 	 */
 	public void addCustomListener(YComponentEventListener<T> listener);
 
@@ -62,7 +62,7 @@ public interface YComponentEventHandler<T extends YComponent> extends Serializab
 	 * Sets the default {@link YComponentEventListener}
 	 * 
 	 * @param listener
-	 *            listener to set.
+	 *          listener to set.
 	 */
 	public void setListener(YComponentEventListener<T> listener);
 
@@ -94,7 +94,7 @@ public interface YComponentEventHandler<T extends YComponent> extends Serializab
 	 * Sets this handler enabled or disabled
 	 * 
 	 * @param enabled
-	 *            true when enabled
+	 *          true when enabled
 	 */
 	public void setEnabled(boolean enabled);
 
@@ -102,7 +102,7 @@ public interface YComponentEventHandler<T extends YComponent> extends Serializab
 	 * Sets the name of this handler
 	 * 
 	 * @param key
-	 *            name to set
+	 *          name to set
 	 */
 	public void setName(CharSequence key);
 

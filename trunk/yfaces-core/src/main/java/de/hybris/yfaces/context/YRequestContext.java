@@ -24,7 +24,7 @@ import de.hybris.yfaces.util.YFacesErrorHandler;
 /**
  * A context object whose scope and lifetime is bound to {@link HttpServletRequest}.
  * 
- * @author Denny.Strietzbaum
+ * @author Denny Strietzbaum
  */
 public interface YRequestContext {
 
@@ -53,7 +53,7 @@ public interface YRequestContext {
 	 * Shortcut to {@link #redirect(String, boolean)} with disabled flashback.
 	 * 
 	 * @param url
-	 *            target url
+	 *          target url
 	 */
 	public void redirect(String url);
 
@@ -61,7 +61,7 @@ public interface YRequestContext {
 	 * Shortcut to {@link #redirect(String, boolean)} whereas URL is the servletpath.
 	 * 
 	 * @param isFlash
-	 *            whether flashback shall be enabled
+	 *          whether flashback shall be enabled
 	 * @see HttpServletRequest#getServletPath()
 	 */
 	public void redirect(boolean isFlash);
@@ -71,9 +71,9 @@ public interface YRequestContext {
 	 * {@link YPageContext}
 	 * 
 	 * @param page
-	 *            {@link YPageContext} to redirect to
+	 *          {@link YPageContext} to redirect to
 	 * @param isFlash
-	 *            whether flashback shall be enabled
+	 *          whether flashback shall be enabled
 	 * @see YPageContext#getURL()
 	 */
 	public void redirect(YPageContext page, boolean isFlash);
@@ -82,9 +82,9 @@ public interface YRequestContext {
 	 * Redirects to the passed URL.
 	 * 
 	 * @param url
-	 *            target url.
+	 *          target url.
 	 * @param isFlash
-	 *            true when flash shall be enabled
+	 *          true when flash shall be enabled
 	 */
 	public void redirect(String url, boolean enableFlashback);
 

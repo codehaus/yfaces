@@ -43,7 +43,7 @@ import de.hybris.yfaces.util.myfaces.MyFacesErrorHandler;
  * always gets finished (and fully processed) whereas an exception which is thrown during a
  * lifecycle interrupts the processing and calls this error handler immediately.
  * 
- * @author Denny.Strietzbaum
+ * @author Denny Strietzbaum
  */
 public class YFacesErrorHandler {
 
@@ -53,20 +53,20 @@ public class YFacesErrorHandler {
 	/**
 	 * Catches and handles the passed exception. Exception handling involves redirecting to an error
 	 * page and hold an provide the error cause {@link #getErrorCause()}. until the next
-	 * RENDER_RESPONSE phase has finished. The error cause gets lost with next RENDER_RESPONSE
-	 * phase. (Nevertheless this is a redirect safe solution).
+	 * RENDER_RESPONSE phase has finished. The error cause gets lost with next RENDER_RESPONSE phase.
+	 * (Nevertheless this is a redirect safe solution).
 	 * <p/>
 	 * The redirect page is requested from {@link #getErrorPage(FacesContext, Throwable)}. The error
 	 * message is requested from {@link #getErrorMessage(FacesContext, Throwable)}. Both methods can
 	 * be overridden for a more customized error handling.
 	 * 
 	 * @param fc
-	 *            {@link FacesContext}
+	 *          {@link FacesContext}
 	 * @param ex
-	 *            {@link Exception}
+	 *          {@link Exception}
 	 */
 
-	public void handleException(Throwable ex) {
+	public void handleException(final Throwable ex) {
 		this.handleException(ex, null);
 	}
 
@@ -76,11 +76,11 @@ public class YFacesErrorHandler {
 	 * @param ex
 	 * @param redirectTo
 	 */
-	public void handleException(Throwable ex, String redirectTo) {
+	public void handleException(final Throwable ex, String redirectTo) {
 
-		FacesContext fc = FacesContext.getCurrentInstance();
+		final FacesContext fc = FacesContext.getCurrentInstance();
 		log.error(ex);
-		String errorMsg = ex.getMessage() != null ? ex.getMessage() : ex.getClass().getName();
+		final String errorMsg = ex.getMessage() != null ? ex.getMessage() : ex.getClass().getName();
 		if (redirectTo == null) {
 			redirectTo = this.getErrorPage(ex);
 		}
@@ -93,14 +93,14 @@ public class YFacesErrorHandler {
 	}
 
 	/**
-	 * Returns the desired page which shall be redirected to. Parameters can be used to decide
-	 * between multiple pages. A return of 'null' means that this error shouldn't be handled.
+	 * Returns the desired page which shall be redirected to. Parameters can be used to decide between
+	 * multiple pages. A return of 'null' means that this error shouldn't be handled.
 	 * 
 	 * @param fc
 	 * @param ex
 	 * @return error page as relative path
 	 */
-	protected String getErrorPage(Throwable ex) {
+	protected String getErrorPage(final Throwable ex) {
 		String result = null;
 		if (ex instanceof YFacesException) {
 			result = "/index.jsf";
@@ -114,8 +114,7 @@ public class YFacesErrorHandler {
 	}
 
 	public void reset() {
-		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put(ERROR_STACK,
-				null);
+		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put(ERROR_STACK, null);
 	}
 
 }

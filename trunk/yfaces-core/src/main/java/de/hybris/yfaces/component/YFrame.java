@@ -20,7 +20,7 @@ import java.util.Map;
 import de.hybris.yfaces.context.YPageContext;
 
 /**
- * @author Denny.Strietzbaum
+ * @author Denny Strietzbaum
  * 
  */
 public interface YFrame {
@@ -44,7 +44,7 @@ public interface YFrame {
 	 * instance.<br/>
 	 * 
 	 * @param <T>
-	 *            type of {@link YComponent}
+	 *          type of {@link YComponent}
 	 * @return {@link YComponentBinding}
 	 */
 	public <T extends YComponent> YComponentBinding<T> createComponentBinding();
@@ -54,9 +54,9 @@ public interface YFrame {
 	 * The ID must match one of the IDs of the component xhtml files.
 	 * 
 	 * @param <T>
-	 *            type of {@link YComponent}
+	 *          type of {@link YComponent}
 	 * @param componentId
-	 *            component ID as declared in xhtml renderer
+	 *          component ID as declared in xhtml renderer
 	 * @return {@link YComponentBinding}
 	 */
 	public <T extends YComponent> YComponentBinding<T> createComponentBinding(String componentId);
@@ -65,9 +65,9 @@ public interface YFrame {
 	 * Creates a {@link YComponentBinding} and already sets a concrete component instance.
 	 * 
 	 * @param <T>
-	 *            type of {@link YComponent}
+	 *          type of {@link YComponent}
 	 * @param component
-	 *            {@link YComponent} to set
+	 *          {@link YComponent} to set
 	 * @return {@link YComponentBinding}
 	 */
 	public <T extends YComponent> YComponentBinding<T> createComponentBinding(T component);
@@ -88,8 +88,8 @@ public interface YFrame {
 
 	/**
 	 * Refreshes this frame.A refresh is processed when this frame was already created and is used
-	 * again (POST or GET (flashback enabled) to same page). A refresh always is performed before
-	 * any components attribute injection has started.
+	 * again (POST or GET (flashback enabled) to same page). A refresh always is performed before any
+	 * components attribute injection has started.
 	 */
 	public void refresh();
 

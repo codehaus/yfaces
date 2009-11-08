@@ -30,9 +30,18 @@ public class YSessionContextImpl implements YSessionContext {
 
 	private YConversationContext conversationCtx = null;
 	private boolean isInitialized = false;
+	private YApplicationContext appCtx = null;
 
 	public YSessionContextImpl() {
 		this.conversationCtx = new YConversationContext();
+	}
+
+	public void setYApplicationContext(YApplicationContext appCtx) {
+		this.appCtx = appCtx;
+	}
+
+	public YApplicationContext getYApplicationContext() {
+		return this.appCtx;
 	}
 
 	/**

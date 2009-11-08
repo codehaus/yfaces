@@ -40,7 +40,7 @@ import de.hybris.yfaces.YFacesException;
  * {@link YConversationContextImpl#switchPage(String)} -
  * {@link YConversationContextImpl#finishPageRequest(String)}
  * 
- * @author Denny.Strietzbaum
+ * @author Denny Strietzbaum
  */
 
 public class YRequestContextPhaseListener implements PhaseListener {
@@ -57,15 +57,15 @@ public class YRequestContextPhaseListener implements PhaseListener {
 	 * <p>
 	 * Execution time of a {@link PhaseListener} constructor assures a well configured JSF
 	 * environment. This wouldn't be the case when using a {@link ServletContextListener} for this
-	 * task. E.g for myfaces such a listener will fail as myfaces configure the JSF environment via
-	 * a listener <code>org.apache.myfaces.webapp.StartupServletContextListener</code> which is
-	 * given in a tld file. Such listeners are (according spec.) invoked after web.xml listeners.
+	 * task. E.g for myfaces such a listener will fail as myfaces configure the JSF environment via a
+	 * listener <code>org.apache.myfaces.webapp.StartupServletContextListener</code> which is given in
+	 * a tld file. Such listeners are (according spec.) invoked after web.xml listeners.
 	 */
 	public YRequestContextPhaseListener() {
 
-		ApplicationFactory appFac = (ApplicationFactory) FactoryFinder
+		final ApplicationFactory appFac = (ApplicationFactory) FactoryFinder
 				.getFactory(FactoryFinder.APPLICATION_FACTORY);
-		Application base = appFac.getApplication();
+		final Application base = appFac.getApplication();
 
 		// prevents a double registration of this Phaselistener
 		if (base instanceof YFacesApplication) {
@@ -81,20 +81,20 @@ public class YRequestContextPhaseListener implements PhaseListener {
 	 * 
 	 * @see javax.faces.event.PhaseListener#beforePhase(javax.faces.event.PhaseEvent)
 	 */
-	public void beforePhase(PhaseEvent phaseevent) {
+	public void beforePhase(final PhaseEvent phaseevent) {
 
 		if (phaseevent.getPhaseId() == PhaseId.RESTORE_VIEW) {
-			YRequestContextImpl reqCtx = (YRequestContextImpl) YFaces.getRequestContext();
-			YSessionContext sesCtx = reqCtx.getSessionContext();
-			YPageContext pageContext = sesCtx.getConversationContext().getLastPage();
+			final YRequestContextImpl reqCtx = (YRequestContextImpl) YFaces.getRequestContext();
+			final YSessionContext sesCtx = reqCtx.getSessionContext();
+			final YPageContext pageContext = sesCtx.getConversationContext().getLastPage();
 			reqCtx.setPageContext(pageContext);
 
 			reqCtx.startInitialization();
 		}
 
 		if (phaseevent.getPhaseId() == PhaseId.RENDER_RESPONSE) {
-			YRequestContextImpl reqCtx = (YRequestContextImpl) YFaces.getRequestContext();
-			boolean facesRequest = reqCtx.isPostback();
+			final YRequestContextImpl reqCtx = (YRequestContextImpl) YFaces.getRequestContext();
+			final boolean facesRequest = reqCtx.isPostback();
 			if (facesRequest) {
 				// this viewid can be different (after a POST) from that one in
 				// RESTORE_VIEW
@@ -108,7 +108,7 @@ public class YRequestContextPhaseListener implements PhaseListener {
 	 * 
 	 * @see javax.faces.event.PhaseListener#afterPhase(javax.faces.event.PhaseEvent)
 	 */
-	public void afterPhase(PhaseEvent phaseevent) {
+	public void afterPhase(final PhaseEvent phaseevent) {
 		if (phaseevent.getPhaseId() == PhaseId.RESTORE_VIEW) {
 			((YRequestContextImpl) YFaces.getRequestContext()).startPageRequest(getViewId());
 		}

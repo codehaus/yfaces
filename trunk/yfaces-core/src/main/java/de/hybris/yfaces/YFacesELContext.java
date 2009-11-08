@@ -32,7 +32,7 @@ import de.hybris.yfaces.component.html.HtmlYComponent;
  * @see YFacesELResolver
  * @see HtmlYComponent
  * 
- * @author Denny.Strietzbaum
+ * @author Denny Strietzbaum
  */
 public class YFacesELContext {
 	private boolean resolveComponentBinding = true;
@@ -41,9 +41,9 @@ public class YFacesELContext {
 	 * Sets auto-resolving of {@link YComponentBinding} instances.
 	 * 
 	 * @param enabled
-	 *            true when auto-resolving shall be enabled
+	 *          true when auto-resolving shall be enabled
 	 */
-	public void setResolveYComponentBinding(boolean enabled) {
+	public void setResolveYComponentBinding(final boolean enabled) {
 		this.resolveComponentBinding = enabled;
 	}
 

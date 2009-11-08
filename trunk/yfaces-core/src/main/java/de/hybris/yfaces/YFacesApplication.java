@@ -35,14 +35,14 @@ import javax.faces.validator.Validator;
  * Except {@link Application#getELResolver()} each method is delegated to the wrapped Application
  * instance.
  * 
- * @author Denny.Strietzbaum
+ * @author Denny Strietzbaum
  */
 public class YFacesApplication extends Application {
 
 	private Application base = null;
 	private ELResolver resolver = null;
 
-	public YFacesApplication(Application base) {
+	public YFacesApplication(final Application base) {
 		this.base = base;
 		this.resolver = new YFacesELResolver(base.getELResolver());
 		this.addELContextListener(new YFacesELContextListener());
@@ -64,7 +64,7 @@ public class YFacesApplication extends Application {
 	 * @see javax.faces.application.Application#addComponent(java.lang.String, java.lang.String)
 	 */
 	@Override
-	public void addComponent(String s, String s1) {
+	public void addComponent(final String s, final String s1) {
 		base.addComponent(s, s1);
 	}
 
@@ -74,7 +74,7 @@ public class YFacesApplication extends Application {
 	 * @see javax.faces.application.Application#addConverter(java.lang.Class, java.lang.String)
 	 */
 	@Override
-	public void addConverter(Class class1, String s) {
+	public void addConverter(final Class class1, final String s) {
 		base.addConverter(class1, s);
 	}
 
@@ -84,7 +84,7 @@ public class YFacesApplication extends Application {
 	 * @see javax.faces.application.Application#addConverter(java.lang.String, java.lang.String)
 	 */
 	@Override
-	public void addConverter(String s, String s1) {
+	public void addConverter(final String s, final String s1) {
 		base.addConverter(s, s1);
 	}
 
@@ -93,7 +93,7 @@ public class YFacesApplication extends Application {
 	 * @see javax.faces.application.Application#addELContextListener(javax.el.ELContextListener)
 	 */
 	@Override
-	public void addELContextListener(ELContextListener listener) {
+	public void addELContextListener(final ELContextListener listener) {
 		base.addELContextListener(listener);
 	}
 
@@ -102,7 +102,7 @@ public class YFacesApplication extends Application {
 	 * @see javax.faces.application.Application#addELResolver(javax.el.ELResolver)
 	 */
 	@Override
-	public void addELResolver(ELResolver resolver) {
+	public void addELResolver(final ELResolver resolver) {
 		base.addELResolver(resolver);
 	}
 
@@ -112,7 +112,7 @@ public class YFacesApplication extends Application {
 	 * @see javax.faces.application.Application#addValidator(java.lang.String, java.lang.String)
 	 */
 	@Override
-	public void addValidator(String s, String s1) {
+	public void addValidator(final String s, final String s1) {
 		base.addValidator(s, s1);
 	}
 
@@ -123,7 +123,7 @@ public class YFacesApplication extends Application {
 	 * @see javax.faces.application.Application#createComponent(java.lang.String)
 	 */
 	@Override
-	public UIComponent createComponent(String s) throws FacesException {
+	public UIComponent createComponent(final String s) throws FacesException {
 		return base.createComponent(s);
 	}
 
@@ -139,8 +139,8 @@ public class YFacesApplication extends Application {
 	 */
 	@Deprecated
 	@Override
-	public UIComponent createComponent(ValueBinding valuebinding, FacesContext facescontext,
-			String s) throws FacesException {
+	public UIComponent createComponent(final ValueBinding valuebinding,
+			final FacesContext facescontext, final String s) throws FacesException {
 		return base.createComponent(valuebinding, facescontext, s);
 	}
 
@@ -155,8 +155,8 @@ public class YFacesApplication extends Application {
 	 *      javax.faces.context.FacesContext, java.lang.String)
 	 */
 	@Override
-	public UIComponent createComponent(ValueExpression componentExpression,
-			FacesContext facesContext, String componentType) throws FacesException,
+	public UIComponent createComponent(final ValueExpression componentExpression,
+			final FacesContext facesContext, final String componentType) throws FacesException,
 			NullPointerException {
 		return base.createComponent(componentExpression, facesContext, componentType);
 	}
@@ -167,7 +167,7 @@ public class YFacesApplication extends Application {
 	 * @see javax.faces.application.Application#createConverter(java.lang.Class)
 	 */
 	@Override
-	public Converter createConverter(Class class1) {
+	public Converter createConverter(final Class class1) {
 		return base.createConverter(class1);
 	}
 
@@ -177,7 +177,7 @@ public class YFacesApplication extends Application {
 	 * @see javax.faces.application.Application#createConverter(java.lang.String)
 	 */
 	@Override
-	public Converter createConverter(String s) {
+	public Converter createConverter(final String s) {
 		return base.createConverter(s);
 	}
 
@@ -192,7 +192,7 @@ public class YFacesApplication extends Application {
 	 */
 	@Deprecated
 	@Override
-	public MethodBinding createMethodBinding(String s, Class[] aclass)
+	public MethodBinding createMethodBinding(final String s, final Class[] aclass)
 			throws ReferenceSyntaxException {
 		return base.createMethodBinding(s, aclass);
 	}
@@ -204,7 +204,7 @@ public class YFacesApplication extends Application {
 	 * @see javax.faces.application.Application#createValidator(java.lang.String)
 	 */
 	@Override
-	public Validator createValidator(String s) throws FacesException {
+	public Validator createValidator(final String s) throws FacesException {
 		return base.createValidator(s);
 	}
 
@@ -217,7 +217,7 @@ public class YFacesApplication extends Application {
 	 */
 	@Deprecated
 	@Override
-	public ValueBinding createValueBinding(String s) throws ReferenceSyntaxException {
+	public ValueBinding createValueBinding(final String s) throws ReferenceSyntaxException {
 		return base.createValueBinding(s);
 	}
 
@@ -227,7 +227,7 @@ public class YFacesApplication extends Application {
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(final Object obj) {
 		return base.equals(obj);
 	}
 
@@ -241,8 +241,8 @@ public class YFacesApplication extends Application {
 	 *      java.lang.String, java.lang.Class)
 	 */
 	@Override
-	public Object evaluateExpressionGet(FacesContext context, String expression, Class expectedType)
-			throws ELException {
+	public Object evaluateExpressionGet(final FacesContext context, final String expression,
+			final Class expectedType) throws ELException {
 		return base.evaluateExpressionGet(context, expression, expectedType);
 	}
 
@@ -357,8 +357,8 @@ public class YFacesApplication extends Application {
 	 *      java.lang.String)
 	 */
 	@Override
-	public ResourceBundle getResourceBundle(FacesContext ctx, String name) throws FacesException,
-			NullPointerException {
+	public ResourceBundle getResourceBundle(final FacesContext ctx, final String name)
+			throws FacesException, NullPointerException {
 		return base.getResourceBundle(ctx, name);
 	}
 
@@ -423,7 +423,7 @@ public class YFacesApplication extends Application {
 	 * @see javax.faces.application.Application#removeELContextListener(javax.el.ELContextListener)
 	 */
 	@Override
-	public void removeELContextListener(ELContextListener listener) {
+	public void removeELContextListener(final ELContextListener listener) {
 		base.removeELContextListener(listener);
 	}
 
@@ -432,7 +432,7 @@ public class YFacesApplication extends Application {
 	 * @see javax.faces.application.Application#setActionListener(javax.faces.event.ActionListener)
 	 */
 	@Override
-	public void setActionListener(ActionListener actionlistener) {
+	public void setActionListener(final ActionListener actionlistener) {
 		base.setActionListener(actionlistener);
 	}
 
@@ -441,7 +441,7 @@ public class YFacesApplication extends Application {
 	 * @see javax.faces.application.Application#setDefaultLocale(java.util.Locale)
 	 */
 	@Override
-	public void setDefaultLocale(Locale locale) {
+	public void setDefaultLocale(final Locale locale) {
 		base.setDefaultLocale(locale);
 	}
 
@@ -450,7 +450,7 @@ public class YFacesApplication extends Application {
 	 * @see javax.faces.application.Application#setDefaultRenderKitId(java.lang.String)
 	 */
 	@Override
-	public void setDefaultRenderKitId(String s) {
+	public void setDefaultRenderKitId(final String s) {
 		base.setDefaultRenderKitId(s);
 	}
 
@@ -459,7 +459,7 @@ public class YFacesApplication extends Application {
 	 * @see javax.faces.application.Application#setMessageBundle(java.lang.String)
 	 */
 	@Override
-	public void setMessageBundle(String s) {
+	public void setMessageBundle(final String s) {
 		base.setMessageBundle(s);
 	}
 
@@ -468,7 +468,7 @@ public class YFacesApplication extends Application {
 	 * @see javax.faces.application.Application#setNavigationHandler(javax.faces.application.NavigationHandler)
 	 */
 	@Override
-	public void setNavigationHandler(NavigationHandler navigationhandler) {
+	public void setNavigationHandler(final NavigationHandler navigationhandler) {
 		base.setNavigationHandler(navigationhandler);
 	}
 
@@ -479,7 +479,7 @@ public class YFacesApplication extends Application {
 	 */
 	@Deprecated
 	@Override
-	public void setPropertyResolver(PropertyResolver propertyresolver) {
+	public void setPropertyResolver(final PropertyResolver propertyresolver) {
 		base.setPropertyResolver(propertyresolver);
 	}
 
@@ -488,7 +488,7 @@ public class YFacesApplication extends Application {
 	 * @see javax.faces.application.Application#setStateManager(javax.faces.application.StateManager)
 	 */
 	@Override
-	public void setStateManager(StateManager statemanager) {
+	public void setStateManager(final StateManager statemanager) {
 		base.setStateManager(statemanager);
 	}
 
@@ -497,7 +497,7 @@ public class YFacesApplication extends Application {
 	 * @see javax.faces.application.Application#setSupportedLocales(java.util.Collection)
 	 */
 	@Override
-	public void setSupportedLocales(Collection<Locale> arg0) {
+	public void setSupportedLocales(final Collection<Locale> arg0) {
 		base.setSupportedLocales(arg0);
 	}
 
@@ -508,7 +508,7 @@ public class YFacesApplication extends Application {
 	 */
 	@Deprecated
 	@Override
-	public void setVariableResolver(VariableResolver variableresolver) {
+	public void setVariableResolver(final VariableResolver variableresolver) {
 		base.setVariableResolver(variableresolver);
 	}
 
@@ -517,7 +517,7 @@ public class YFacesApplication extends Application {
 	 * @see javax.faces.application.Application#setViewHandler(javax.faces.application.ViewHandler)
 	 */
 	@Override
-	public void setViewHandler(ViewHandler viewhandler) {
+	public void setViewHandler(final ViewHandler viewhandler) {
 		base.setViewHandler(viewhandler);
 	}
 

@@ -20,7 +20,7 @@ package de.hybris.yfaces.component;
  * Default implementation for an {@link YComponentEventListener}.<br/>
  * Does nothing when an event occurs.<br/>
  * 
- * @author Denny.Strietzbaum
+ * @author Denny Strietzbaum
  */
 public class DefaultYComponentEventListener<T extends YComponent> extends
 		AbstractYComponentEventListener<T> {

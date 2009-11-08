@@ -35,20 +35,20 @@ import javax.faces.convert.ConverterException;
  * Without the given paramaterConverter all passed paramater values wouldn't be converted by their
  * given converter.<br/>
  * 
- * @author Denny.Strietzbaum
+ * @author Denny Strietzbaum
  */
 public class ParameterConverter implements Converter {
 
-	public Object getAsObject(FacesContext arg0, UIComponent arg1, String arg2)
+	public Object getAsObject(final FacesContext arg0, final UIComponent arg1, final String arg2)
 			throws ConverterException {
 		throw new UnsupportedOperationException();
 	}
 
-	public String getAsString(FacesContext arg0, UIComponent arg1, Object arg2)
+	public String getAsString(final FacesContext arg0, final UIComponent arg1, final Object arg2)
 			throws ConverterException {
-		for (UIComponent child : arg1.getChildren()) {
+		for (final UIComponent child : arg1.getChildren()) {
 			if (child instanceof UIParameter) {
-				Object converter = child.getAttributes().get("converter");
+				final Object converter = child.getAttributes().get("converter");
 				Converter _converter = null;
 
 				if (converter instanceof Converter) {
@@ -56,13 +56,13 @@ public class ParameterConverter implements Converter {
 				}
 
 				if (converter instanceof String) {
-					_converter = FacesContext.getCurrentInstance().getApplication()
-							.createConverter((String) converter);
+					_converter = FacesContext.getCurrentInstance().getApplication().createConverter(
+							(String) converter);
 				}
 
 				if (_converter != null) {
-					String newValue = _converter.getAsString(FacesContext.getCurrentInstance(),
-							child, ((UIParameter) child).getValue());
+					final String newValue = _converter.getAsString(FacesContext.getCurrentInstance(), child,
+							((UIParameter) child).getValue());
 					((UIParameter) child).setValue(newValue);
 				}
 			}

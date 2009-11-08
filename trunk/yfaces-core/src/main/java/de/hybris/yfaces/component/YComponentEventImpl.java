@@ -31,7 +31,7 @@ import de.hybris.yfaces.YFacesException;
 import de.hybris.yfaces.component.html.HtmlYComponent;
 
 /**
- * @author Denny.Strietzbaum
+ * @author Denny Strietzbaum
  * 
  */
 public class YComponentEventImpl<T extends YComponent> implements YComponentEvent<T> {
@@ -61,14 +61,13 @@ public class YComponentEventImpl<T extends YComponent> implements YComponentEven
 	 * This method must be called by all actioneventlisteners.
 	 * 
 	 * @param event
-	 *            {@link ActionEvent}
+	 *          {@link ActionEvent}
 	 */
-	protected void initialize(FacesEvent event) {
+	protected void initialize(final FacesEvent event) {
 		this.facesEventSource = event;
 
 		if (event == null) {
-			throw new YFacesException(logId
-					+ ":can't initialize controller; No ActionEvent specified",
+			throw new YFacesException(logId + ":can't initialize controller; No ActionEvent specified",
 					new NullPointerException());
 		}
 
@@ -77,9 +76,8 @@ public class YComponentEventImpl<T extends YComponent> implements YComponentEven
 		}
 
 		if (log.isDebugEnabled()) {
-			YComponent cmp = getComponent();
-			String ctxPath = "event:" + this.getClass().getSimpleName() + "; componentId:"
-					+ cmp.getId();
+			final YComponent cmp = getComponent();
+			String ctxPath = "event:" + this.getClass().getSimpleName() + "; componentId:" + cmp.getId();
 
 			if (cmp.getFrame() != null) {
 				ctxPath = ctxPath + "; frameId: " + cmp.getFrame().getId() + "; pageId:"
@@ -130,8 +128,8 @@ public class YComponentEventImpl<T extends YComponent> implements YComponentEven
 	}
 
 	/**
-	 * Returns the nearest enclosing {@link HtmlYComponent} of the {@link UIComponent} (may be of
-	 * type command or select) who fired this action.<br/>
+	 * Returns the nearest enclosing {@link HtmlYComponent} of the {@link UIComponent} (may be of type
+	 * command or select) who fired this action.<br/>
 	 * 
 	 * @return {@link HtmlYComponent}
 	 */
@@ -153,10 +151,10 @@ public class YComponentEventImpl<T extends YComponent> implements YComponentEven
 	 * Finds the closest parent {@link UIForm}
 	 * 
 	 * @param c
-	 *            Childcomponent of the Parentform.
+	 *          Childcomponent of the Parentform.
 	 * @return Parentform
 	 */
-	private UIForm findParentForm(UIComponent c) {
+	private UIForm findParentForm(final UIComponent c) {
 		UIComponent result = c;
 		while ((!(result instanceof UIForm)) && (result != null)) {
 			result = result.getParent();
@@ -164,7 +162,7 @@ public class YComponentEventImpl<T extends YComponent> implements YComponentEven
 		return (UIForm) result;
 	}
 
-	private <T2 extends YComponent> T2 findComponent(String attribute) {
+	private <T2 extends YComponent> T2 findComponent(final String attribute) {
 		T2 result = null;
 
 		if (this.isInitialized()) {
@@ -174,9 +172,8 @@ public class YComponentEventImpl<T extends YComponent> implements YComponentEven
 				result = (T2) cmp.getYComponent();
 			}
 		} else {
-			throw new YFacesException(
-					logId
-							+ " found no Component (got no FacesEvent; missing Action- or ValueChangeListener?)");
+			throw new YFacesException(logId
+					+ " found no Component (got no FacesEvent; missing Action- or ValueChangeListener?)");
 		}
 
 		// finally throw exception when no component was found

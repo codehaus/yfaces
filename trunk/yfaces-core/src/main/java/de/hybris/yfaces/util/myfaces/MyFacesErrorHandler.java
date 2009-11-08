@@ -40,7 +40,7 @@ import de.hybris.yfaces.util.YFacesErrorHandler;
  * Learn more about the error handling of myfaces here:
  * http://wiki.apache.org/myfaces/Handling_Server_Errors
  * 
- * @author Denny.Strietzbaum
+ * @author Denny Strietzbaum
  */
 public class MyFacesErrorHandler {
 
@@ -50,15 +50,15 @@ public class MyFacesErrorHandler {
 	 * MyFaces error handler. Just delegates to the configured {@link YFacesErrorHandler}
 	 * 
 	 * @param fc
-	 *            {@link FacesContext}
+	 *          {@link FacesContext}
 	 * @param ex
-	 *            {@link Exception} to deal with
+	 *          {@link Exception} to deal with
 	 */
 	public void handleException(final FacesContext fc, final Exception ex) {
 
 		log.error("Got notified of an unhandled exception: ", ex);
 
-		Throwable cause = this.findReleventCause(ex);
+		final Throwable cause = this.findReleventCause(ex);
 		YFaces.getRequestContext().getErrorHandler().handleException(cause);
 	}
 
@@ -69,7 +69,7 @@ public class MyFacesErrorHandler {
 	 * @param e
 	 * @return {@link Throwable}
 	 */
-	private Throwable findReleventCause(Exception e) {
+	private Throwable findReleventCause(final Exception e) {
 		final Throwable result = (e instanceof YFacesException) ? e : e.getCause();
 		return result;
 	}

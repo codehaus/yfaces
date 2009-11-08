@@ -21,7 +21,7 @@ import java.util.Map;
 /**
  * Enumeration for easy access to Configuration properties.
  * 
- * @author Denny.Strietzbaum
+ * @author Denny Strietzbaum
  */
 public enum YFacesConfig {
 
@@ -40,12 +40,12 @@ public enum YFacesConfig {
 		this.key = key;
 	}
 
-	private YFacesConfig(String key, String defaultValue) {
+	private YFacesConfig(final String key, final String defaultValue) {
 		this.key = key;
 		this.defaultValue = defaultValue;
 	}
 
-	private YFacesConfig(String key, boolean defaultValue) {
+	private YFacesConfig(final String key, final boolean defaultValue) {
 		this(key, String.valueOf(defaultValue));
 	}
 
@@ -67,7 +67,7 @@ public enum YFacesConfig {
 		return getBoolean(properties);
 	}
 
-	private String getString(Map<String, String> properties) {
+	private String getString(final Map<String, String> properties) {
 		String result = properties != null ? (String) properties.get(key) : null;
 		if (result == null || result.trim().length() == 0) {
 			result = defaultValue;
@@ -75,12 +75,12 @@ public enum YFacesConfig {
 		return result;
 	}
 
-	private boolean getBoolean(Map<String, String> properties) {
+	private boolean getBoolean(final Map<String, String> properties) {
 		String value = properties != null ? getString(properties) : null;
 		if (value == null || value.trim().length() == 0) {
 			value = defaultValue;
 		}
-		boolean result = "true".equals(value.toLowerCase());
+		final boolean result = "true".equals(value.toLowerCase());
 		return result;
 	}
 
