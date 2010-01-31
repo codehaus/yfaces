@@ -25,11 +25,11 @@ import java.util.Set;
 
 import org.apache.log4j.Logger;
 
-import de.hybris.yfaces.component.YComponentInfo.ErrorState;
+import de.hybris.yfaces.component.YComponentValidator.ErrorState;
 
 /**
  * A registry which holds meta information about registered YComponent. Components are registered
- * during startup. YComponent meta information are described as {@link YComponentInfo}.
+ * during startup. YComponent meta information are described as {@link YComponentInfoImpl}.
  * 
  * @author Denny Strietzbaum
  */
@@ -101,7 +101,7 @@ public class YComponentRegistry {
 	}
 
 	/**
-	 * Adds passed {@link YComponentInfo} to the registry.
+	 * Adds passed {@link YComponentInfoImpl} to the registry.
 	 * 
 	 * @param cmpInfo
 	 * @return true when successful
@@ -114,7 +114,8 @@ public class YComponentRegistry {
 			final String id = cmpInfo.getId();
 
 			if (id != null) {
-				Set<ErrorState> errors = cmpInfo.verifyComponent();
+				final YComponentValidator cmpBuilder = new YComponentValidator(cmpInfo);
+				Set<ErrorState> errors = cmpBuilder.verifyComponent();
 				Set<ErrorState> warnings = Collections.emptySet();
 
 				// when errors are thrown...

@@ -104,15 +104,6 @@ public abstract class AbstractYComponent implements YComponent {
 
 	}
 
-	//	/*
-	//	 * (non-Javadoc)
-	//	 * 
-	//	 * @see ystorefoundationpackage.faces.components.YComponent#update(de.hybris.
-	//	 * platform.webfoundation.PropertyChangeLog)
-	//	 */
-	//	public void update(final UserSessionPropertyChangeLog log) {
-	//	};
-
 	@Override
 	public String toString() {
 		final StringBuilder result = new StringBuilder();
@@ -139,7 +130,7 @@ public abstract class AbstractYComponent implements YComponent {
 	}
 
 	public <T extends YComponent> T newInstance(final String id) {
-		return YComponentRegistry.getInstance().getComponent(id).createDefaultComponent();
+		return (T) YComponentRegistry.getInstance().getComponent(id).createComponent();
 	}
 
 	public <T extends YComponent> T newInstance(final T template) {
