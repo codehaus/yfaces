@@ -17,9 +17,9 @@ import junit.framework.TestCase;
 import org.apache.log4j.Logger;
 
 import de.hybris.yfaces.component.YComponentFactory;
-import de.hybris.yfaces.component.YComponentInfo;
+import de.hybris.yfaces.component.YComponentInfoImpl;
 import de.hybris.yfaces.component.YComponentRegistry;
-import de.hybris.yfaces.component.YComponentInfo.ErrorState;
+import de.hybris.yfaces.component.YComponentValidator.ErrorState;
 
 /**
  * @author Denny.Strietzbaum
@@ -32,35 +32,38 @@ public class TestYComponentInfo extends TestCase {
 	private static final String TEST_COMPONENT = YTestComponent.class.getName();
 	private static final String TEST_COMPONENT_IMPL = YTestComponentImpl.class.getName();
 
+	private static final String COMPONENT = "yf:component";
+
 	private class AddSingleYComponentTest {
 		private String componentFile = null;
 		private YComponentRegistry registry = null;
-		private YComponentFactory cmpFac = new YComponentFactory();
+		private final YComponentFactory cmpFac = new YComponentFactory(COMPONENT);
 
 		private boolean expectedToAdd = false;
-		private Set<YComponentInfo.ErrorState> expectedErrors = Collections.emptySet();
+		private Set<ErrorState> expectedErrors = Collections.emptySet();
 		private String expSpecClassName = null;
 		private String expImplClassName = null;
 		private String expId = null;
 		private String expVar = null;
 		private Collection<String> expInjectableAttributes = Collections.emptySet();
 
-		private YComponentInfo cmpInfo = null;
+		private YComponentInfoImpl cmpInfo = null;
 		private boolean wasAdded = false;
 
-		public AddSingleYComponentTest(YComponentRegistry registry, String file, boolean mustBeAdded) {
+		public AddSingleYComponentTest(final YComponentRegistry registry, final String file,
+				final boolean mustBeAdded) {
 			this.componentFile = file;
 			this.expectedToAdd = mustBeAdded;
 			this.registry = registry;
 		}
 
-		public void setExpectedErrors(YComponentInfo.ErrorState... errors) {
+		public void setExpectedErrors(final ErrorState... errors) {
 			this.expectedErrors = new HashSet<ErrorState>(Arrays.asList(errors));
 		}
 
 		public void run() {
 			URL url = null;
-			ClassLoader loader = TestYComponentInfo.class.getClassLoader();
+			final ClassLoader loader = TestYComponentInfo.class.getClassLoader();
 			url = loader.getResource("testYComponentInfo/" + componentFile);
 
 			log.info("Now processing: " + componentFile + " ...");
@@ -81,12 +84,12 @@ public class TestYComponentInfo extends TestCase {
 			if (this.cmpInfo == null) {
 				assertNull(this.expectedErrors);
 			} else {
-				assertEquals(this.expSpecClassName, cmpInfo.getSpecificationClassName());
-				assertEquals(this.expImplClassName, cmpInfo.getImplementationClassName());
+				assertEquals(this.expSpecClassName, cmpInfo.getSpecification());
+				assertEquals(this.expImplClassName, cmpInfo.getImplementation());
 				assertEquals(this.expId, cmpInfo.getId());
-				assertEquals(this.expVar, cmpInfo.getVarName());
-				assertEquals(this.expInjectableAttributes, cmpInfo.getInjectableProperties());
-				assertEquals(this.cmpInfo.verifyComponent(), this.expectedErrors);
+				assertEquals(this.expVar, cmpInfo.getVariableName());
+				assertEquals(this.expInjectableAttributes, cmpInfo.getPushProperties());
+				assertEquals(this.cmpInfo.createValidator().verifyComponent(), this.expectedErrors);
 			}
 		}
 
@@ -107,56 +110,52 @@ public class TestYComponentInfo extends TestCase {
 	public void testComponentInfoParser() {
 
 		// some predefined attribute values
-		String spec = "ystorefoundationpackage.yfaces.component.misc.AdBannerComponent";
-		String impl = "ystorefoundationpackage.yfaces.component.misc.DefaultAdBannerComponent";
-		String var = "adBannerCmpVar";
-		String id = "id1";
-		Set<String> properties = new HashSet<String>(Arrays.asList("prop1", "prop2", "prop3",
+		final String spec = "ystorefoundationpackage.yfaces.component.misc.AdBannerComponent";
+		final String impl = "ystorefoundationpackage.yfaces.component.misc.DefaultAdBannerComponent";
+		final String var = "adBannerCmpVar";
+		final String id = "id1";
+		final Set<String> properties = new HashSet<String>(Arrays.asList("prop1", "prop2", "prop3",
 				"prop4"));
 
 		// test various whitespaces (space, tab etc)
-		String[] cmps1 = new String[] {
-				"<yf:component id=\"id1\" impl=\"" + impl + "\" spec=\"" + spec + "\" var=\"" + var
-						+ "\">",
-				"<yf:component   id =\"id1\"  impl=\"" + impl + "\"   spec=	\"" + spec
-						+ "\"		var=\"" + var + "\" >",
-				"<yf:component	id	=	\"id1\"	impl	=	\"" + impl + "\"	spec=\"" + spec + "\"	var	=\""
-						+ var + "\" >",
-				"<yf:component	id	= \" id1\"	impl=	\"		" + impl + "\"	spec=\"" + spec + "\" var=\""
-						+ var + "	\" >", };
+		final String[] cmps1 = new String[] {
+				"<yf:component id=\"id1\" impl=\"" + impl + "\" spec=\"" + spec + "\" var=\"" + var + "\">",
+				"<yf:component   id =\"id1\"  impl=\"" + impl + "\"   spec=	\"" + spec + "\"		var=\"" + var
+						+ "\" >",
+				"<yf:component	id	=	\"id1\"	impl	=	\"" + impl + "\"	spec=\"" + spec + "\"	var	=\"" + var
+						+ "\" >",
+				"<yf:component	id	= \" id1\"	impl=	\"		" + impl + "\"	spec=\"" + spec + "\" var=\"" + var
+						+ "	\" >", };
 
-		YComponentFactory cmpFac = new YComponentFactory();
-		for (String s : cmps1) {
+		final YComponentFactory cmpFac = new YComponentFactory(COMPONENT);
+		for (final String s : cmps1) {
 			// System.out.println(count++ + ": " + s);
-			YComponentInfo cmpInfo = cmpFac.createComponentInfo(s);
-			assertEquals(spec, cmpInfo.getSpecificationClassName());
-			assertEquals(impl, cmpInfo.getImplementationClassName());
-			assertEquals(var, cmpInfo.getVarName());
+			final YComponentInfoImpl cmpInfo = cmpFac.createComponentInfo(s);
+			assertEquals(spec, cmpInfo.getSpecification());
+			assertEquals(impl, cmpInfo.getImplementation());
+			assertEquals(var, cmpInfo.getVariableName());
 			assertEquals(id, cmpInfo.getId());
-			assertEquals(0, cmpInfo.getInjectableProperties().size());
+			assertEquals(0, cmpInfo.getPushProperties().size());
 		}
 
 		// test 'injectable' properties (boths styles)
-		String[] cmps2 = new String[] {
+		final String[] cmps2 = new String[] {
 				"<yf:component impl=\"" + impl + "\" injectable=\"prop1,prop2,prop3,prop4\">",
 				"<yf:component impl=\"" + impl + "\" injectable=\"	prop1 ,prop2	,prop3,	prop4\">",
-				"<yf:component impl=\""
-						+ impl
+				"<yf:component impl=\"" + impl
 						+ "\" prop1=\"#{prop1}\" prop2=\"#{prop2}\" prop3=\"#{prop3}\" prop4=\"#{prop4}\">",
-				"<yf:component impl=\""
-						+ impl
+				"<yf:component impl=\"" + impl
 						+ "\" prop1=\"#{prop1}\" prop2=\"#{prop1}\" prop3=\"#{prop1}\" prop4=\"#{prop1}\">",
 				"<yf:component impl=\"" + impl
 						+ "\" injectable=\"prop1,prop2\" prop3=\"#{prop1}\" prop4=\"#{prop1}\">",
-				"<yf:component impl=\""
-						+ impl
+				"<yf:component impl=\"" + impl
 						+ "\" injectable=\"prop1,prop2,prop3\" prop3=\"#{prop1}\" prop4=\"#{prop1}\">",
 				"<yf:component impl=\"" + impl
 						+ "\" injectable=\"prop1,prop2,prop3\" prop4 =	\" #{prop4}	\">", };
-		for (String s : cmps2) {
+		for (final String s : cmps2) {
 			// System.out.println(count++ + ": " + s);
-			YComponentInfo cmpInfo = cmpFac.createComponentInfo(s);
-			Collection<String> props = cmpInfo.getInjectableProperties();
+			final YComponentInfoImpl cmpInfo = cmpFac.createComponentInfo(s);
+			final Collection<String> props = cmpInfo.getPushProperties();
 			assertEquals(4, props.size());
 			assertTrue("Got properties " + props.toString(), props.containsAll(properties));
 		}
@@ -172,11 +171,11 @@ public class TestYComponentInfo extends TestCase {
 		log.info("Testing YComponentInfoValidation");
 		log.info("---------------------------------");
 
-		String spec = TEST_COMPONENT;
-		String impl = TEST_COMPONENT_IMPL;
-		String var = "adBannerCmpVar";
-		YComponentInfo cmpInfo = null;
-		YComponentFactory cmpFac = new YComponentFactory();
+		final String spec = TEST_COMPONENT;
+		final String impl = TEST_COMPONENT_IMPL;
+		final String var = "adBannerCmpVar";
+		YComponentInfoImpl cmpInfo = null;
+		final YComponentFactory cmpFac = new YComponentFactory(COMPONENT);
 
 		// test various errors
 		int count = -1;
@@ -185,8 +184,7 @@ public class TestYComponentInfo extends TestCase {
 			Collection<ErrorState> expected = null;
 			switch (count) {
 			case 0:
-				cmp = "<yf:component impl=\"" + impl + "\"  spec=\"" + spec + "\" var=\"" + var
-						+ "\">";
+				cmp = "<yf:component impl=\"" + impl + "\"  spec=\"" + spec + "\" var=\"" + var + "\">";
 				expected = Arrays.asList(ErrorState.VIEW_ID_NOT_SPECIFIED);
 				break;
 			case 1:
@@ -196,8 +194,8 @@ public class TestYComponentInfo extends TestCase {
 				break;
 			case 2:
 				cmp = "<yf:component id=\"id\" impl=\"java.util.List\" var=\"var\">";
-				expected = Arrays.asList(ErrorState.SPEC_IS_MISSING,
-						ErrorState.IMPL_IS_INTERFACE, ErrorState.IMPL_IS_NO_YCMP);
+				expected = Arrays.asList(ErrorState.SPEC_IS_MISSING, ErrorState.IMPL_IS_INTERFACE,
+						ErrorState.IMPL_IS_NO_YCMP);
 				break;
 			case 3:
 				cmp = "<yf:component id=\"id\" impl=\"java.util.ArrayList\" var=\"var\">";
@@ -209,13 +207,12 @@ public class TestYComponentInfo extends TestCase {
 				break;
 			case 5:
 				cmp = "<yf:component id=\"id\" spec=\"java.util.ArrayList\" impl=\"java.util.ArrayList\" var=\"var\">";
-				expected = Arrays.asList(ErrorState.SPEC_IS_NO_INTERFACE,
-						ErrorState.SPEC_IS_NO_YCMP, ErrorState.IMPL_IS_NO_YCMP);
+				expected = Arrays.asList(ErrorState.SPEC_IS_NO_INTERFACE, ErrorState.SPEC_IS_NO_YCMP,
+						ErrorState.IMPL_IS_NO_YCMP);
 				break;
 			case 6:
 				cmp = "<yf:component id=\"id\" spec=\"java.util.Listxxx\" impl=\"java.util.ArrayListxxx\" var=\"var\">";
-				expected = Arrays.asList(ErrorState.SPEC_NOT_LOADABLE,
-						ErrorState.IMPL_NOT_LOADABLE);
+				expected = Arrays.asList(ErrorState.SPEC_NOT_LOADABLE, ErrorState.IMPL_NOT_LOADABLE);
 				break;
 
 			default:
@@ -226,14 +223,14 @@ public class TestYComponentInfo extends TestCase {
 				log.info("Asserting: " + cmp);
 				log.info("Expecting: " + expected);
 				cmpInfo = cmpFac.createComponentInfo(cmp);
-				Set<ErrorState> errors = cmpInfo.verifyComponent();
+				final Set<ErrorState> errors = cmpInfo.createValidator().verifyComponent();
 				assertEquals(new HashSet<ErrorState>(expected), errors);
 			}
 		}
 	}
 
 	/**
-	 * Tests {@link YComponentRegistry} and {@link YComponentInfo} validation. Additional does
+	 * Tests {@link YComponentRegistry} and {@link YComponentInfoImpl} validation. Additional does
 	 * enhanced text parsing as components are provided as external resources.
 	 */
 	public void testYComponentRegistry() {
@@ -242,7 +239,7 @@ public class TestYComponentInfo extends TestCase {
 		log.info("Testing YComponentRegistry");
 		log.info("---------------------------------");
 
-		List<AddSingleYComponentTest> tests = new ArrayList<AddSingleYComponentTest>();
+		final List<AddSingleYComponentTest> tests = new ArrayList<AddSingleYComponentTest>();
 		AddSingleYComponentTest test = null;
 		final YComponentRegistry reg = new YComponentRegistry();
 
@@ -279,11 +276,11 @@ public class TestYComponentInfo extends TestCase {
 		test.expImplClassName = TEST_COMPONENT_IMPL;
 		test.expId = "validComponent4";
 		test.expVar = "validComponent4Var";
-		test.expInjectableAttributes = new HashSet<String>(Arrays.asList("primitiveInt",
-				"wrappedInt", "primitiveBoolean", "wrappedBoolean", "enumValue", "stringValue"));
+		test.expInjectableAttributes = new HashSet<String>(Arrays.asList("primitiveInt", "wrappedInt",
+				"primitiveBoolean", "wrappedBoolean", "enumValue", "stringValue"));
 		tests.add(test);
 
-		for (AddSingleYComponentTest _test : tests) {
+		for (final AddSingleYComponentTest _test : tests) {
 			_test.run();
 		}
 	}
