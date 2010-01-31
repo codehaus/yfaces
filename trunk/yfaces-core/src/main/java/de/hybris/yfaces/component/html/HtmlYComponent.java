@@ -16,9 +16,6 @@
 package de.hybris.yfaces.component.html;
 
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -42,8 +39,10 @@ import de.hybris.yfaces.component.AbstractYComponent;
 import de.hybris.yfaces.component.YComponent;
 import de.hybris.yfaces.component.YComponentBinding;
 import de.hybris.yfaces.component.YComponentInfo;
+import de.hybris.yfaces.component.YComponentInfoImpl;
 import de.hybris.yfaces.component.YComponentRegistry;
-import de.hybris.yfaces.component.YComponentInfo.ErrorState;
+import de.hybris.yfaces.component.YComponentValidator;
+import de.hybris.yfaces.component.YComponentValidator.ErrorState;
 
 /**
  * Each {@link YComponent} must be enclosed by this {@link UIComponent}.<br/>
@@ -405,8 +404,10 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 
 		// retrieve some meta information
 		final YComponentInfo cmpInfo = this.getYComponentInfo();
+		final YComponentValidator cmpValid = cmpInfo.createValidator();
+		this.validateComponent(cmpValid);
 
-		final YComponent cmp = this.getOrCreateYComponent(cmpInfo);
+		final YComponent cmp = this.getOrCreateYComponent(cmpInfo, cmpValid);
 
 		// generate some html debug output when enabled
 		if (YFacesConfig.ENABLE_HTML_DEBUG.getBoolean()) {
@@ -417,7 +418,7 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 
 		// inject attributes into component
 		try {
-			this.injectAttributes(cmpInfo, cmp);
+			this.injectAttributes(cmp, cmpInfo);
 		} catch (final Exception e) {
 			log.error(logId + "Error injecting component attributes", e);
 			((AbstractYComponent) cmp).setIllegalComponentState(e.getClass().getSimpleName());
@@ -487,27 +488,35 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 	}
 
 	/**
-	 * Returns a {@link YComponentInfo} which matches the {@link YComponent} bound to this
+	 * Returns a {@link YComponentInfoImpl} which matches the {@link YComponent} bound to this
 	 * {@link UIComponent} instance.
 	 * 
-	 * @return {@link YComponentInfo}
+	 * @return {@link YComponentInfoImpl}
 	 */
 	private YComponentInfo getYComponentInfo() {
 		// validation
-		final YComponentInfo cmpInfo = new YComponentInfo(getId(), getVarName(), this.getSpec(), this
-				.getImpl());
-		final Set<ErrorState> errors = new HashSet<ErrorState>(cmpInfo.verifyComponent());
+		final YComponentInfo cmpInfo = new YComponentInfoImpl(getId(), getVarName(), this.getSpec(),
+				this.getImpl());
+		return cmpInfo;
+
+	}
+
+	private void validateComponent(final YComponentValidator cmpValid) {
+
+		final Set<ErrorState> errors = new HashSet<ErrorState>(cmpValid.verifyComponent());
 		errors.remove(ErrorState.VIEW_ID_NOT_SPECIFIED);
 		errors.remove(ErrorState.SPEC_IS_MISSING);
 
-		final String errorString = ErrorState.getFormattedErrorMessage(errors, cmpInfo, null);
+		final String errorString = ErrorState.getFormattedErrorMessage(errors, cmpValid
+				.getYComponentInfo(), null);
 		if (errorString != null) {
 			throw new YFacesException(errorString);
 		}
-		return cmpInfo;
+
 	}
 
-	private YComponent getOrCreateYComponent(final YComponentInfo cmpInfo) {
+	private YComponent getOrCreateYComponent(final YComponentInfo cmpInfo,
+			final YComponentValidator cmpValid) {
 		YComponent cmp = null;
 
 		// retrieve passed value (ycomponent instance)
@@ -517,13 +526,13 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 		// when no value was passed...
 		if (_cmp == null) {
 			// create default implementation
-			cmp = cmpInfo.createDefaultComponent();
+			cmp = cmpInfo.createComponent();
 
 			// only has an affect when component is backed by a writable
 			// ValueBinding
 			this.setValue(cmp);
 		} else {
-			final Set<ErrorState> errors = cmpInfo.assertCustomImplementationClass(_cmp.getClass());
+			final Set<ErrorState> errors = cmpValid.assertCustomImplementationClass(_cmp.getClass());
 			if (!errors.isEmpty()) {
 				throw new YFacesException(ErrorState.getFormattedErrorMessage(errors, cmpInfo, _cmp
 						.getClass()));
@@ -539,9 +548,10 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 			}
 
 			log.debug(logId + "found valid Component (" + cmp.getClass().getSimpleName() + ")");
-		}
 
+		}
 		return cmp;
+
 	}
 
 	/**
@@ -655,65 +665,25 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 	 * @param cmp
 	 *          {@link YComponent}
 	 */
-	private void injectAttributes(final YComponentInfo cmpInfo, final YComponent cmp) {
-		final Map<String, Method> attributeToMethodMap = cmpInfo.getAllComponentProperties();
+	private void injectAttributes(final YComponent cmp, final YComponentInfo cmpInfo) {
 
-		// attributes can be given as comma separated list ("injectable"
+		// attributes are given as comma separated list ("injectable"
 		// attribute)
 		// e.g. <yf:component ... injectable="myProperty1,myProperty2"
-		// in that case name of attribute must match the components setter name
-		String[] attributes = this.getInjectableProperties();
-
-		// attributes can be given as separate mapping
-		// e.g. <yf:component ... myProperty1 =
-		// "#{passedProperty}  myProperty2 = "#{otherProperty}">
-		if (attributes == null) {
-			attributes = attributeToMethodMap.keySet().toArray(new String[] {});
-		}
+		final String[] attributes = this.getInjectableProperties();
 
 		// now go through all attributes which shall be injected
-		for (final String attribute : attributes) {
-			// attribute value may either be a ValueExpression or a Literal
-			final ValueExpression vb = getValueExpression(attribute);
-			Object value = (vb != null) ? vb.getValue(getFacesContext().getELContext()) : getAttributes()
-					.get(attribute);
+		if (attributes != null) {
+			for (final String attribute : attributes) {
 
-			// when a value can be found
-			Method method = null;
-			if (value != null) {
-				try {
-					// JSF 1.2: do type coercion (e.g. String->Integer)
-					method = attributeToMethodMap.get(attribute);
-					value = FacesContext.getCurrentInstance().getApplication().getExpressionFactory()
-							.coerceToType(value, method.getParameterTypes()[0]);
+				// attribute value may either be a ValueExpression or a Literal
+				final ValueExpression vb = getValueExpression(attribute);
+				final Object value = (vb != null) ? vb.getValue(getFacesContext().getELContext())
+						: getAttributes().get(attribute);
 
-					// and finally inject value
-					method.invoke(cmp, value);
-				} catch (final Exception e) {
-					if (e instanceof IllegalArgumentException) {
-						log.error(logId + "Error converting " + value.getClass().getName() + " to "
-								+ method.getParameterTypes()[0].getName());
-					} else {
-						if (e instanceof InvocationTargetException) {
-							log.error(logId + "Error while executing setter for attribute '" + attribute + "'");
-						}
-					}
-					final String error = logId + "Error setting attribute '" + attribute + "' at "
-							+ cmp.getClass().getSimpleName();
-					throw new YFacesException(error, e);
-				}
-
-				// some nice debug output for bughunting
-				if (log.isDebugEnabled()) {
-					final String _value = (value != null) ? value.toString() : "null";
-					String suffix = "";
-					if (value instanceof Collection) {
-						suffix = "(count:" + ((Collection<?>) value).size() + ")";
-					}
-
-					log.debug(logId + "injected Attribute " + attribute + " ("
-							+ (_value.length() < 30 ? _value : _value.substring(0, 29).concat("...")) + ")"
-							+ suffix);
+				// when a value can be found
+				if (value != null) {
+					cmpInfo.pushProperty(cmp, attribute, value);
 				}
 			}
 		}
