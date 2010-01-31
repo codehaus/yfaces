@@ -17,10 +17,6 @@
 			<name>Denny Strietzbaum</name>
 			<email>dstrietz@codehaus.org</email>
 		</developer>
-		<developer>
-			<name>Thomas Hertz</name>
-			<email>thomas.hertz@hybris.de</email>
-		</developer>
 	</developers>
 	<scm>
 		<tag>trunk</tag>
@@ -63,6 +59,7 @@
 						<descriptor>src/main/assembly/src.xml</descriptor>
 						<descriptor>src/main/assembly/javadoc.xml</descriptor>
 						<descriptor>src/main/assembly/dist.xml</descriptor>
+						<descriptor>src/main/assembly/test.xml</descriptor>
 					</descriptors>
 				</configuration>
 			</plugin>
@@ -117,8 +114,10 @@
 			<id>jboss-maven2-release-repository</id>
 			<url>http://repository.jboss.org/maven2/</url>
 			<releases>
-				<enabled>false</enabled>
 			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
 		</repository>
 		<repository>
 			<id>Codehaus</id>
@@ -140,7 +139,7 @@
 			<artifactId>el-api</artifactId>
 			<version>1.2</version>
 			<type>jar</type>
-			<scope>compile</scope>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.myfaces.core</groupId>
@@ -161,7 +160,7 @@
 			<artifactId>servlet-api</artifactId>
 			<version>2.5</version>
 			<type>jar</type>
-			<scope>compile</scope>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>commons-io</groupId>
@@ -178,18 +177,12 @@
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring</artifactId>
-			<version>2.5.6</version>
-			<type>jar</type>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
 			<groupId>jboss</groupId>
 			<artifactId>jboss-serialization</artifactId>
 			<version>1.0.3.GA</version>
 			<type>jar</type>
 			<scope>compile</scope>
+			<optional>true</optional>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
@@ -204,6 +197,18 @@
 			<version>1.2.14</version>
 			<type>jar</type>
 			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.jsfunit</groupId>
+			<artifactId>jboss-jsfunit-core</artifactId>
+			<version>1.1.0.GA</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring</artifactId>
+			<version>2.5.6</version>
+			<optional>true</optional>
 		</dependency>
 
 	</dependencies>
