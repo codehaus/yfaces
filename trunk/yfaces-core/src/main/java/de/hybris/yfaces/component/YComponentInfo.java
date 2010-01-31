@@ -16,559 +16,84 @@
 
 package de.hybris.yfaces.component;
 
-import java.beans.IntrospectionException;
-import java.beans.Introspector;
-import java.beans.PropertyDescriptor;
-import java.lang.reflect.Method;
 import java.net.URL;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import org.apache.log4j.Logger;
-
-import de.hybris.yfaces.YFacesException;
 
 /**
  * Holds {@link YComponent} specific meta information.
  * 
  * @author Denny Strietzbaum
  */
-public class YComponentInfo {
-	private static final Logger log = Logger.getLogger(YComponentInfo.class);
-
-	// various placeholders for error messages
-	// placeholder: specification class
-	private static final String PLACEHOLDER_SPECCLASS = "specClass";
-	// placeholder: imlementation
-	private static final String PLACEHOLDER_IMPLCLASS = "implClass";
-	// placeholder: reserved properties (var, id, etc)
-	private static final String PLACEHOLDER_PROPERTIES = "properties";
+public interface YComponentInfo {
 
 	/**
-	 * Enumeration of possible error state. Supports placeholders whose values are extracted from a
-	 * {@link YComponentInfo}
-	 */
-	public static enum ErrorState {
-
-		/** When no component interface (specification) is provided */
-		SPEC_IS_MISSING("No specification specified"),
-
-		/** When specification is not an interface */
-		SPEC_IS_NO_INTERFACE("Invalid specification {" + PLACEHOLDER_SPECCLASS + "} - no interface"),
-
-		/** When specification is not an YComponent */
-		SPEC_IS_NO_YCMP("Invalid specification {" + PLACEHOLDER_SPECCLASS + "} - no "
-				+ YComponent.class.getSimpleName()),
-
-		/** When specification is not loadable (classnotfound etc.) */
-		SPEC_NOT_LOADABLE("Can't load specification class {" + PLACEHOLDER_SPECCLASS + "}"),
-
-		/** When no component class (implementation) is provided */
-		IMPL_IS_MISSING("No implementation specified"),
-
-		/** Implementation is no implementation (but interface) */
-		IMPL_IS_INTERFACE("Invalid implementation; got interface but no class"),
-
-		/** When implementation is not an YComponent */
-		IMPL_IS_NO_YCMP("Invalid implementation {" + PLACEHOLDER_IMPLCLASS + "}; not an instanceof "
-				+ YComponent.class.getSimpleName()),
-
-		/** When implementation doesn't match specification */
-		IMPL_UNASSIGNABLE_TO_SPEC("Invalid implementation {" + PLACEHOLDER_IMPLCLASS
-				+ "}; not an instance of {" + PLACEHOLDER_SPECCLASS + "}"),
-
-		/** When implementation is not loadable (classnotfound etc.) */
-		IMPL_NOT_LOADABLE("Can't load implementation class {" + PLACEHOLDER_IMPLCLASS + "}"),
-
-		/** When no component id attribute is specified */
-		VIEW_ID_NOT_SPECIFIED("No ID specified"),
-
-		/** When no component var attribute is specified */
-		VIEW_VAR_NOT_SPECIFIED("No VAR specified"),
-
-		/** When a reserved attribute is marked as being injectable */
-		VIEW_INJECTABLE_PROP_FORBIDDEN("Found reserved property; one of {" + PLACEHOLDER_PROPERTIES
-				+ "}"), ;
-
-		// Pattern for detecting placeholders
-		private static final Pattern placeHolderPattern = Pattern.compile("\\{(.*?)\\}");
-
-		public static String getFormattedErrorMessage(final Collection<ErrorState> errors,
-				final YComponentInfo cmpInfo, final Class<?> customImplClass) {
-			String result = null;
-			if (!errors.isEmpty()) {
-				result = cmpInfo.getId() != null ? cmpInfo.getId() : "";
-				for (final ErrorState error : errors) {
-					result = result + "," + error.getFormattedErrorMessage(cmpInfo);
-				}
-			}
-			return result;
-
-		}
-
-		private String msg = null;
-
-		private ErrorState(final String msg) {
-			this.msg = msg;
-		}
-
-		/**
-		 * Returns a formatted error message based on the passed {@link YComponentInfo}
-		 * 
-		 * @param cmpInfo
-		 *          {@link YComponentInfo}
-		 * @return String
-		 */
-		public String getFormattedErrorMessage(final YComponentInfo cmpInfo) {
-			return this.getFormattedErrorMessage(cmpInfo, null);
-		}
-
-		/**
-		 * Returns a formatted error message based on the passed {@link YComponentInfo}. An optional
-		 * custom implementation is used instead of {@link YComponentInfo#getImplementationClassName()}
-		 * 
-		 * @param cmpInfo
-		 *          {@link YComponentInfo}
-		 * @param customImplClass
-		 *          Class
-		 * @return String
-		 */
-		public String getFormattedErrorMessage(final YComponentInfo cmpInfo,
-				final Class<?> customImplClass) {
-			String result = "";
-			final String msg = this.msg;
-
-			final Matcher parameter = placeHolderPattern.matcher(msg);
-			int start = 0;
-			while (parameter.find()) {
-				String param = parameter.group(1);
-				if (param.equals(PLACEHOLDER_SPECCLASS)) {
-					param = cmpInfo.getSpecificationClassName();
-				} else if (param.equals(PLACEHOLDER_IMPLCLASS)) {
-					param = (customImplClass == null) ? cmpInfo.getImplementationClassName()
-							: customImplClass.getName();
-				} else if (param.equals(PLACEHOLDER_PROPERTIES)) {
-					param = Arrays.asList(RESERVED_PROPERTY_NAMES).toString();
-				}
-
-				result = result + msg.substring(start, parameter.start()) + param;
-				start = parameter.end();
-			}
-
-			result = result + msg.substring(start);
-
-			return result;
-		}
-
-	}
-
-	// reserved (forbidden) attributes;
-	// their usage is not allowed as injectable component parameter
-	private static final String[] RESERVED_PROPERTY_NAMES = new String[] { "facet" };
-
-	// Class to Methods lookup map.
-	private static Map<String, Map<String, Method>> classToPropertiesMap = new HashMap<String, Map<String, Method>>();
-
-	//
-	// Members
-	//
-
-	// raw (unevaluated) attribute values
-	private String id = null;
-	private String cmpVar = null;
-	private String specClassName = null;
-	private String implClassName = null;
-
-	// Properties which gets evaluated and injected; specified by renderer
-	private Set<String> injectableAttributes = Collections.emptySet();
-
-	// Properties which can be injected; specified by component class
-	private Map<String, Method> writableProperties = null;
-
-	// instance of specification class
-	private Class<?> specClass = null;
-
-	// instance of implementation class
-	private Class<?> implClass = null;
-
-	private String cmpName = null;
-
-	private String namespace = null;
-	private URL url = null;
-
-	// all errors which are detected after a verification
-	private Set<ErrorState> errors = null;
-
-	protected YComponentInfo() {
-		this.injectableAttributes = Collections.emptySet();
-	}
-
-	/**
-	 * Constructor. Initializes this instance by parsing the url stream.
-	 */
-	public YComponentInfo(final String id, final String varName, final String specClassname,
-			final String implClassName) {
-		this.id = id;
-		this.cmpVar = varName;
-		this.specClassName = specClassname;
-		this.implClassName = implClassName;
-		this.injectableAttributes = Collections.emptySet();
-	}
-
-	public YComponentInfo(final String namespace, final URL url) {
-		this.namespace = namespace;
-		this.url = url;
-	}
-
-	/**
-	 * Verifies the component.<br/>
-	 * Checks for specification, implementation, non-duplicate 'id' and 'var' values.<br/>
+	 * Returns the specification for this component.
+	 * <p/>
+	 * This is optional and if available always an interface-class literal.
 	 * 
+	 * @return name of interface
 	 */
-	public Set<ErrorState> verifyComponent() {
-		if (this.errors == null) {
-			this.errors = EnumSet.noneOf(ErrorState.class);
-			assertImplementationClassName();
-			assertSpecificationClassName();
-			assertIdAndVarName();
-
-			this.assertSpecificationClass();
-			this.assertImplementationClass();
-
-			this.assertProperties();
-
-			if (this.implClass != null) {
-				this.refreshWritableProperties();
-			}
-		}
-		return Collections.unmodifiableSet(this.errors);
-	}
+	String getSpecification();
 
 	/**
-	 * Returns the classname of the interface/ specification class.
+	 * Returns the implementation for this component.
+	 * <p/>
+	 * This is mandatory and is the name of class which either is the implementation of the components
+	 * specification or, if no specification is available, just any kind of implementation.
 	 * 
-	 * @return classname
+	 * @return class name
 	 */
-	public String getSpecificationClassName() {
-		return this.specClassName;
-	}
+	String getImplementation();
 
 	/**
-	 * Sets the classname of the interface/specification class.<br/>
-	 * Nullifies an already (optional) created instance of the implementation class.<br/>
-	 * Does no verification at all.<br/>
+	 * Returns the id of this component.
 	 * 
-	 * @param className
-	 *          classname
+	 * @return id
 	 */
-	protected void setSpecificationClassName(final String className) {
-		final String newClass = (className == null || className.trim().length() == 0) ? null
-				: className;
-		if (newClass != null && !newClass.equals(this.specClassName)) {
-			this.specClassName = newClass;
-			this.implClass = null;
-		}
-	}
+	String getId();
 
 	/**
-	 * Returns the classname of the implementation class.
+	 * Returns the name of the variable under which the component implementation instance is available
+	 * in the view layer.
 	 * 
-	 * @return classname
+	 * @return variable name
 	 */
-	public String getImplementationClassName() {
-		return this.implClassName;
-	}
+	String getVariableName();
 
 	/**
-	 * Sets the classname of the implementation class.
+	 * Returns component properties which are allowed to be "pushed" from view into current processed
+	 * component instance.
 	 * 
-	 * @param className
+	 * @return
 	 */
-	protected void setImplementationClassName(final String className) {
-		final String newClass = (className == null || className.trim().length() == 0) ? null
-				: className;
-		if (newClass != null && !newClass.equals(this.implClassName)) {
-			this.implClassName = newClass;
-			this.implClass = null;
-		}
-	}
-
-	public String getId() {
-		return this.id;
-	}
-
-	protected void setId(final String id) {
-		this.id = id;
-	}
-
-	public String getVarName() {
-		return this.cmpVar;
-	}
-
-	protected void setVarName(final String varName) {
-		this.cmpVar = varName;
-	}
-
-	public Class<?> getSpecificationClass() {
-		return this.specClass;
-	}
-
-	public Class<?> getImplementationClass() {
-		return this.implClass;
-	}
-
-	public Map<String, Method> getAllComponentProperties() {
-		return this.writableProperties;
-	}
-
-	public Collection<String> getInjectableProperties() {
-		return this.injectableAttributes;
-	}
-
-	protected void addInjectableProperty(final String property) {
-		if (this.injectableAttributes == Collections.EMPTY_SET) {
-			this.injectableAttributes = new HashSet<String>();
-		}
-		this.injectableAttributes.add(property);
-	}
-
-	protected void addInjectableProperties(final String... properties) {
-		for (final String property : properties) {
-			this.addInjectableProperty(property);
-		}
-	}
+	Collection<String> getPushProperties();
 
 	/**
-	 * Creates and returns an {@link YComponent} instance based on this information.
+	 * Returns the name of this component. Generally the same as the id.
 	 * 
-	 * @return {@link YComponent}
+	 * @return
 	 */
-	public <T extends YComponent> T createDefaultComponent() {
-		T result = null;
-		try {
-			result = (T) this.getImplementationClass().newInstance();
-			((AbstractYComponent) result).setId(this.id);
-		} catch (final Exception e) {
-			throw new YFacesException("Can't create " + YComponent.class.getName() + " instance ("
-					+ implClass + ")", e);
-		}
-		return result;
-	}
+	String getComponentName();
 
-	private void refreshWritableProperties() {
-		// refresh injectable properties
-		this.writableProperties = classToPropertiesMap.get(this.implClassName);
-		if (this.writableProperties == null) {
-			this.writableProperties = this.findWriteableProperties(implClass, AbstractYComponent.class);
-			classToPropertiesMap.put(this.implClassName, this.writableProperties);
-		}
-	}
+	URL getURL();
 
-	private Map<String, Method> findWriteableProperties(final Class<?> startClass,
-			final Class<?> endClass) {
-
-		final Map<String, Method> result = new HashMap<String, Method>();
-		try {
-			// find setter for attributes
-			final PropertyDescriptor[] descriptors = Introspector.getBeanInfo(startClass,
-					AbstractYComponent.class).getPropertyDescriptors();
-
-			for (final PropertyDescriptor descriptor : descriptors) {
-				final String name = descriptor.getName();
-				final Method writeMethod = descriptor.getWriteMethod();
-
-				if (writeMethod != null) {
-					result.put(name, writeMethod);
-				}
-
-				if (log.isDebugEnabled()) {
-					if (writeMethod != null) {
-						log.debug(this.id + " add property " + descriptor.getName() + " ("
-								+ descriptor.getWriteMethod() + ")");
-					} else {
-						log.debug(this.id + " skip property " + name + " (read only)");
-					}
-				}
-			}
-		} catch (final IntrospectionException e) {
-			e.printStackTrace();
-		}
-		return result;
-	}
-
-	private boolean assertSpecificationClassName() {
-		if (specClassName == null || specClassName.trim().length() == 0) {
-			this.errors.add(ErrorState.SPEC_IS_MISSING);
-		}
-		return this.errors.isEmpty();
-	}
+	String getNamespace();
 
 	/**
-	 * Asserts whether an implementation classname is available.<br/>
-	 * Does not assert whether class can be loaded.
+	 * Creates an instance of this component. Does no additional validity check, expects that an
+	 * implementation class is specified which is instantiable.
 	 * 
-	 * @return true when assertion succeeds
+	 * @return
 	 */
-	private boolean assertImplementationClassName() {
-		if (implClassName == null || implClassName.trim().length() == 0) {
-			this.errors.add(ErrorState.IMPL_IS_MISSING);
-		}
-		return this.errors.isEmpty();
-	}
+	YComponent createComponent();
 
 	/**
-	 * Asserts whether an ID and VAR value is available.
+	 * Creates a {@link YComponentValidator}.
 	 * 
-	 * @return true when assertion succeeds
+	 * @return {@link YComponentValidator}
 	 */
-	private boolean assertIdAndVarName() {
-		if (id == null || id.trim().length() == 0) {
-			this.errors.add(ErrorState.VIEW_ID_NOT_SPECIFIED);
-		}
+	YComponentValidator createValidator();
 
-		if (cmpVar == null || cmpVar.trim().length() == 0) {
-			this.errors.add(ErrorState.VIEW_VAR_NOT_SPECIFIED);
-		}
-
-		return this.errors.isEmpty();
-	}
-
-	private boolean assertSpecificationClass() {
-		if (this.specClass == null && !this.errors.contains(ErrorState.SPEC_IS_MISSING)) {
-			this.specClass = getClass(this.specClassName, ErrorState.SPEC_NOT_LOADABLE);
-		}
-
-		if (specClass != null) {
-			if (!specClass.isInterface()) {
-				this.errors.add(ErrorState.SPEC_IS_NO_INTERFACE);
-			}
-
-			if (!YComponent.class.isAssignableFrom(specClass)) {
-				this.errors.add(ErrorState.SPEC_IS_NO_YCMP);
-			}
-		}
-		return this.errors.isEmpty();
-	}
-
-	private void assertImplementationClass() {
-		if (this.implClass == null && !this.errors.contains(ErrorState.IMPL_IS_MISSING)) {
-			this.implClass = getClass(this.implClassName, ErrorState.IMPL_NOT_LOADABLE);
-		}
-
-		if (implClass != null) {
-			final Set<ErrorState> _implErrors = this.assertCustomImplementationClass(implClass);
-
-			if (!_implErrors.isEmpty()) {
-				this.implClass = null;
-				this.errors.addAll(_implErrors);
-			}
-		}
-	}
-
-	/**
-	 * Asserts the passed class whether it can be used with this component configuration.<br/>
-	 * 
-	 * Possible verification errors are:<br/> {@link ErrorState#IMPL_IS_INTERFACE}<br/>
-	 * {@link ErrorState#IMPL_IS_NO_YCMP}<br/> {@link ErrorState#IMPL_UNASSIGNABLE_TO_SPEC}<br/>
-	 * 
-	 * @param implClass
-	 * @return result
-	 */
-	public Set<ErrorState> assertCustomImplementationClass(final Class<?> implClass) {
-		final Set<ErrorState> result = EnumSet.noneOf(ErrorState.class);
-
-		if (implClass.isInterface()) {
-			result.add(ErrorState.IMPL_IS_INTERFACE);
-		}
-
-		if (!YComponent.class.isAssignableFrom(implClass)) {
-			result.add(ErrorState.IMPL_IS_NO_YCMP);
-		}
-
-		if (specClass != null && !specClass.isAssignableFrom(implClass)) {
-			result.add(ErrorState.IMPL_UNASSIGNABLE_TO_SPEC);
-		}
-		return result;
-
-	}
-
-	private boolean assertProperties() {
-		for (final String s : RESERVED_PROPERTY_NAMES) {
-			// if (this.writableProperties.containsKey(s))
-			// this.errors.add(ERROR_STATE.FORBIDDEN_PROPERTY);
-
-			if (this.injectableAttributes.contains(s)) {
-				this.errors.add(ErrorState.VIEW_INJECTABLE_PROP_FORBIDDEN);
-			}
-		}
-		return this.errors.isEmpty();
-	}
-
-	private <T> Class<T> getClass(final String classname, final ErrorState catchError) {
-		Class<T> result = null;
-		try {
-			//result = (Class<T>) Class.forName(classname);
-			result = (Class<T>) Thread.currentThread().getContextClassLoader().loadClass(classname);
-			this.errors.remove(catchError);
-		} catch (final Exception e) {
-			if (catchError != null) {
-				this.errors.add(catchError);
-			} else {
-				throw new YFacesException("Can't load class " + classname, e);
-			}
-		}
-		return result;
-	}
-
-	protected void setComponentName(final String name) {
-		this.cmpName = name;
-	}
-
-	public String getComponentName() {
-		return cmpName;
-	}
-
-	@Override
-	public String toString() {
-		//		final String result = "id:" + this.id + "; spec:" + this.specClassName + "; impl:"
-		//				+ this.implClassName + "; var:" + this.cmpVar + "; injects:"
-		//				+ this.injectableAttributes;
-		final String result = this.url.toExternalForm();
-		return result;
-	}
-
-	public URL getURL() {
-		return url;
-	}
-
-	protected void setURL(final URL url) {
-		this.url = url;
-	}
-
-	public String getNamespace() {
-		return this.namespace;
-	}
-
-	protected void setNamespace(final String ns) {
-		this.namespace = ns;
-	}
-
-	@Override
-	public boolean equals(final Object obj) {
-		return this.url.toExternalForm().equals(((YComponentInfo) obj).url.toExternalForm());
-	}
-
-	@Override
-	public int hashCode() {
-		return this.url.toExternalForm().hashCode();
-	}
+	void pushProperty(YComponent cmp, String propName, Object propValue);
 
 }

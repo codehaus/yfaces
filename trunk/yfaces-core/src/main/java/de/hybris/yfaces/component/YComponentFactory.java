@@ -29,7 +29,7 @@ import org.apache.commons.io.IOUtils;
 import de.hybris.yfaces.YFacesTaglib;
 
 /**
- * Factory class for {@link YComponentInfo} instances.
+ * Factory class for {@link YComponentInfoImpl} instances.
  * 
  * @author Denny Strietzbaum
  */
@@ -52,16 +52,19 @@ public class YComponentFactory {
 
 	// Searches for all component attributes as raw, unsplitted String
 	// <yf:component xxx > whereas xxx is the result)
-	private static final Pattern ALL_ATTRIBUTES = Pattern.compile("<"
-			+ YFacesTaglib.COMPONENT_NAME_FULL + "(.*?)" + ">", Pattern.DOTALL);
+	private static Pattern ALL_ATTRIBUTES;
 
-	public YComponentInfo createComponentInfo(final URL url, final String namespace) {
-		YComponentInfo result = null;
+	public YComponentFactory(final String cmpTagName) {
+		ALL_ATTRIBUTES = Pattern.compile("<" + cmpTagName + "(.*?)" + ">", Pattern.DOTALL);
+	}
+
+	public YComponentInfoImpl createComponentInfo(final URL url, final String namespace) {
+		YComponentInfoImpl result = null;
 		final Matcher tagNameMatcher = YFacesTaglib.COMPONENT_RESOURCE_PATTERN.matcher(url
 				.toExternalForm());
 
 		if (tagNameMatcher.matches()) {
-			result = new YComponentInfo();
+			result = new YComponentInfoImpl();
 			String content = null;
 			try {
 				final StringWriter writer = new StringWriter();
@@ -88,8 +91,8 @@ public class YComponentFactory {
 		return result;
 	}
 
-	public YComponentInfo createComponentInfo(final String content) {
-		YComponentInfo result = new YComponentInfo();
+	public YComponentInfoImpl createComponentInfo(final String content) {
+		YComponentInfoImpl result = new YComponentInfoImpl();
 		final boolean isComponent = this.initializeYComponentInfo(result, content);
 		if (!isComponent) {
 			result = null;
@@ -98,17 +101,17 @@ public class YComponentFactory {
 	}
 
 	/**
-	 * Initializes passed {@link YComponentInfo} instance. Uses and parses passed content for
+	 * Initializes passed {@link YComponentInfoImpl} instance. Uses and parses passed content for
 	 * component relevant properties. Returns false when content doesn't contain a ycomponent
 	 * declaration.
 	 * 
 	 * @param cmpInfo
-	 *          {@link YComponentInfo} instance which has to be configured
+	 *          {@link YComponentInfoImpl} instance which has to be configured
 	 * @param content
 	 *          content (e.g. from a URL)
 	 * @return false when passed content contains a ycomponent declaration
 	 */
-	private boolean initializeYComponentInfo(final YComponentInfo cmpInfo, final String content) {
+	private boolean initializeYComponentInfo(final YComponentInfoImpl cmpInfo, final String content) {
 
 		// component attributes
 		final Map<String, String> attributes = this.getYComponentAttributes(content);
@@ -116,15 +119,15 @@ public class YComponentFactory {
 
 		if (isYComponent) {
 			cmpInfo.setId(attributes.get(ATTR_ID));
-			cmpInfo.setVarName(attributes.get(ATTR_VAR));
-			cmpInfo.setImplementationClassName(attributes.get(ATTR_IMPL_CLASS));
-			cmpInfo.setSpecificationClassName(attributes.get(ATTR_SPEC_CLASS));
+			cmpInfo.setVariableName(attributes.get(ATTR_VAR));
+			cmpInfo.setImplementation(attributes.get(ATTR_IMPL_CLASS));
+			cmpInfo.setSpecification(attributes.get(ATTR_SPEC_CLASS));
 
 			// old style
 			for (final Map.Entry<String, String> entry : attributes.entrySet()) {
 				final Matcher injectableMatcher = SINGLE_EL_ATTRIBUTE.matcher(entry.getValue());
 				if (injectableMatcher.matches()) {
-					cmpInfo.addInjectableProperty(entry.getKey());
+					cmpInfo.addProperty(entry.getKey());
 				}
 			}
 
@@ -133,7 +136,7 @@ public class YComponentFactory {
 			final String injectable = attributes.get(ATTR_INJECTABLE);
 			if (injectable != null) {
 				final String properties[] = injectable.trim().split("\\s*,\\s*");
-				cmpInfo.addInjectableProperties(properties);
+				cmpInfo.addProperties(properties);
 			}
 		}
 
