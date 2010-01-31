@@ -58,7 +58,7 @@ public class SpringYRequestContextBuilder implements YRequestContextBuilder {
 		final ConfigurableWebApplicationContext result = new XmlWebApplicationContext();
 		result.setServletContext(servletCtx);
 
-		final URL defaultConfig = YFacesStartupListener.class.getResource(DEFAULT_YFACES_CTX);
+		final URL defaultConfig = SpringYRequestContextBuilder.class.getResource(DEFAULT_YFACES_CTX);
 		String[] configs = new String[] { defaultConfig.toExternalForm() };
 
 		try {

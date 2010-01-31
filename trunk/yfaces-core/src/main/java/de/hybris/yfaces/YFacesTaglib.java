@@ -51,6 +51,7 @@ import com.sun.facelets.tag.AbstractTagLibrary;
 
 import de.hybris.yfaces.component.YComponentFactory;
 import de.hybris.yfaces.component.YComponentInfo;
+import de.hybris.yfaces.component.YComponentInfoImpl;
 import de.hybris.yfaces.component.YComponentRegistry;
 import de.hybris.yfaces.component.html.HtmlYComponent;
 import de.hybris.yfaces.component.html.HtmlYComponentHandler;
@@ -69,7 +70,7 @@ import de.hybris.yfaces.component.html.HtmlYComponentHandler;
  * resources is configured as comma separated list.This is configured as value of deployment
  * parameter {@link #DEFAULT_COMPONENTS_DIR}. When a search path element ends with /** subfolders
  * are included. By default each resource gets registered under a default namespace
- * {@link YFacesTaglib#NAMESPACE_BASE}. However that namespace can be extended by either a custom
+ * {@link YFacesTaglib#NAMESPACE_FULL}. However that namespace can be extended by either a custom
  * value or the folders name where the resource is located. To do so the namespace suffix must be
  * added as search path prefix.
  * <p>
@@ -86,9 +87,9 @@ import de.hybris.yfaces.component.html.HtmlYComponentHandler;
  * </pre></code>
  * folder "components" and "components2" will be searched for. Additionally folder and all
  * subfolders of "components1" and "components3" will be searched for. Namespace for "components"
- * and "components1" (incl. subfolders) is {@link YFacesTaglib#NAMESPACE_BASE}.<br/>
- * Namespace for "component2" is {@link YFacesTaglib#NAMESPACE_BASE} plus "/cmp".<br/>
- * Namespace for "component3" is {@link YFacesTaglib#NAMESPACE_BASE} plus name of folder the
+ * and "components1" (incl. subfolders) is {@link YFacesTaglib#NAMESPACE_FULL}.<br/>
+ * Namespace for "component2" is {@link YFacesTaglib#NAMESPACE_FULL} plus "/cmp".<br/>
+ * Namespace for "component3" is {@link YFacesTaglib#NAMESPACE_FULL} plus name of folder the
  * component is located.<br/>
  * <p>
  * 
@@ -99,15 +100,14 @@ public class YFacesTaglib extends AbstractTagLibrary {
 	private static final Logger log = Logger.getLogger(YFacesTaglib.class);
 
 	/** namespace for all tags and components which are getting registered */
-	public static final String NAMESPACE_BASE = "http://hybris.com/jsf/yfaces";
+	private static final String NAMESPACE_FULL = "http://hybris.com/jsf/yfaces";
+	private static final String NAMESPACE_SHORT = "yf";
 
 	/** default search path for component view files */
-	public static final String DEFAULT_COMPONENTS_DIR = "/components";
+	private static final String DEFAULT_COMPONENTS_DIR = "/components";
 
 	/** tag name for {@link HtmlYComponent} */
-	public static final String COMPONENT_NAME = "component";
-
-	public static final String COMPONENT_NAME_FULL = "yf:component";
+	private static final String COMPONENT_TAG = "component";
 
 	/** deployment parameter for additional component search path elements */
 	public static final String PARAM_COMPONENT_DIRS = "yfaces.taglib.DIR";
@@ -130,7 +130,7 @@ public class YFacesTaglib extends AbstractTagLibrary {
 	 * Constructor. Gets invoked by Facelet framework.
 	 */
 	public YFacesTaglib() {
-		super(NAMESPACE_BASE);
+		super(NAMESPACE_FULL);
 
 		this.namespaceToTaglibMap = new HashMap<String, AbstractTagLibrary>();
 		this.namespaceToTaglibMap.put("", this);
@@ -142,7 +142,7 @@ public class YFacesTaglib extends AbstractTagLibrary {
 		this.registerElFunctions();
 
 		// register htmlycomponent
-		this.addComponent(COMPONENT_NAME, HtmlYComponent.COMPONENT_TYPE, null,
+		this.addComponent(COMPONENT_TAG, HtmlYComponent.COMPONENT_TYPE, null,
 				HtmlYComponentHandler.class);
 	}
 
@@ -186,7 +186,7 @@ public class YFacesTaglib extends AbstractTagLibrary {
 		});
 
 		// create componentinfo for each component resource and add to registry
-		final YComponentFactory cmpFac = new YComponentFactory();
+		final YComponentFactory cmpFac = new YComponentFactory(NAMESPACE_SHORT + ":" + COMPONENT_TAG);
 		for (YComponentInfo cmpInfo : cmpInfoList) {
 			cmpInfo = cmpFac.createComponentInfo(cmpInfo.getURL(), cmpInfo.getNamespace());
 			final boolean added = YComponentRegistry.getInstance().addComponent(cmpInfo);
@@ -235,9 +235,9 @@ public class YFacesTaglib extends AbstractTagLibrary {
 	}
 
 	/**
-	 * Recursive way of finding all component resources.Create a {@link YComponentInfo} instances with
-	 * appropriate namespaces and adda all to the {@link YComponentRegistry}. A namespace prefix may
-	 * be passed which extends the default namespace: {@link #NAMESPACE_BASE}
+	 * Recursive way of finding all component resources.Create a {@link YComponentInfoImpl} instances
+	 * with appropriate namespaces and adda all to the {@link YComponentRegistry}. A namespace prefix
+	 * may be passed which extends the default namespace: {@link #NAMESPACE_FULL}
 	 * 
 	 * @param extNamespace
 	 *          namespace prefix; extends default namespace for all components within passed base
@@ -274,8 +274,8 @@ public class YFacesTaglib extends AbstractTagLibrary {
 						if (ns.endsWith("/")) {
 							ns = ns.substring(0, ns.length() - 1);
 						}
-						ns = NAMESPACE_BASE + ns;
-						final YComponentInfo cmpInfo = new YComponentInfo(ns, url);
+						ns = NAMESPACE_FULL + ns;
+						final YComponentInfo cmpInfo = new YComponentInfoImpl(ns, url);
 						this.componentSet.add(cmpInfo);
 					} catch (final MalformedURLException e) {
 						log.error(e);
@@ -322,7 +322,7 @@ public class YFacesTaglib extends AbstractTagLibrary {
 		final Set<?> resources = ctx.getResourcePaths(DEFAULT_COMPONENTS_DIR);
 
 		pr.println("<ui:composition " + "xmlns=\"http://www.w3.org/1999/xhtml\" \n"
-				+ "xmlns:ui=\"http://java.sun.com/jsf/facelets\" \n" + "xmlns:yf=\"" + NAMESPACE_BASE
+				+ "xmlns:ui=\"http://java.sun.com/jsf/facelets\" \n" + "xmlns:yf=\"" + NAMESPACE_FULL
 				+ "\" >");
 		for (final Object obj : resources) {
 			// not sure whether this set can contain any other stuff than
