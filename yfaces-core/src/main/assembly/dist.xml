@@ -44,8 +44,8 @@
 		<dependencySet>
 			<outputDirectory>/lib</outputDirectory>
 			<excludes>
-				<exclude>javax.el:el-api</exclude>
-				<exclude>javax.servlet:servlet-api</exclude>
+				<exclude>org.springframework:spring</exclude>
+				<exclude>jboss:jboss-serialization</exclude>
 			</excludes>			
 		</dependencySet>
 	</dependencySets>	
