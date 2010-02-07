@@ -244,6 +244,8 @@ public class Chapter {
 		// ...retrieve all available resources inside that path
 		final Set<String> resources = ctx.getResourcePaths(this.chapterViewIdRoot);
 
+		YComponentInfoFactory cmpFac = new YComponentInfoFactory();
+
 		// iterate over resources...
 		for (final String resource : resources) {
 
@@ -257,23 +259,23 @@ public class Chapter {
 			if (resource.endsWith(".xhtml")) {
 				ChapterParticipiant p = this.createParticipiantFromXhtml(resource);
 
+				URL url = this.getResource(resource);
+				YComponentInfo cmpInfo = cmpFac.createComponentInfo(url, "namespace");
+
 				// handle ycomponent view file (find interface and implementation class)
-				if (YComponentInfoFactory.COMPONENT_RESOURCE_PATTERN.matcher(resource).matches()) {
+				if (cmpInfo != null) {
 
 					p.setFacesType(ChapterParticipiant.TYPE_CMPVIEW);
 					participantsMap.put(p.getFacesType(), p);
 
 					// fetch URL and register at component registry
-					URL url = this.getResource(resource);
-					YComponentInfoFactory cmpFac = new YComponentInfoFactory();
-					YComponentInfo info = cmpFac.createComponentInfo(url, null);
-					if (info.getImplementation() != null) {
-						p = this.createParticipiantFromClass(info.getImplementation());
+					if (cmpInfo.getImplementation() != null) {
+						p = this.createParticipiantFromClass(cmpInfo.getImplementation());
 						p.setFacesType(ChapterParticipiant.TYPE_CMPIMPL);
 						participantsMap.put(p.getFacesType(), p);
 					}
-					if (info.getSpecification() != null) {
-						p = this.createParticipiantFromClass(info.getSpecification());
+					if (cmpInfo.getSpecification() != null) {
+						p = this.createParticipiantFromClass(cmpInfo.getSpecification());
 						p.setFacesType(ChapterParticipiant.TYPE_CMPSPEC);
 						participantsMap.put(p.getFacesType(), p);
 					}
