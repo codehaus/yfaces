@@ -24,9 +24,8 @@ import javax.faces.context.FacesContext;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 
-import de.hybris.yfaces.YFacesTaglib;
-import de.hybris.yfaces.component.YComponentFactory;
 import de.hybris.yfaces.component.YComponentInfo;
+import de.hybris.yfaces.component.YComponentInfoFactory;
 import de.hybris.yfaces.component.YFrame;
 
 public class Chapter {
@@ -259,22 +258,22 @@ public class Chapter {
 				ChapterParticipiant p = this.createParticipiantFromXhtml(resource);
 
 				// handle ycomponent view file (find interface and implementation class)
-				if (YFacesTaglib.COMPONENT_RESOURCE_PATTERN.matcher(resource).matches()) {
+				if (YComponentInfoFactory.COMPONENT_RESOURCE_PATTERN.matcher(resource).matches()) {
 
 					p.setFacesType(ChapterParticipiant.TYPE_CMPVIEW);
 					participantsMap.put(p.getFacesType(), p);
 
 					// fetch URL and register at component registry
 					URL url = this.getResource(resource);
-					YComponentFactory cmpFac = new YComponentFactory();
+					YComponentInfoFactory cmpFac = new YComponentInfoFactory();
 					YComponentInfo info = cmpFac.createComponentInfo(url, null);
-					if (info.getImplementationClassName() != null) {
-						p = this.createParticipiantFromClass(info.getImplementationClassName());
+					if (info.getImplementation() != null) {
+						p = this.createParticipiantFromClass(info.getImplementation());
 						p.setFacesType(ChapterParticipiant.TYPE_CMPIMPL);
 						participantsMap.put(p.getFacesType(), p);
 					}
-					if (info.getSpecificationClassName() != null) {
-						p = this.createParticipiantFromClass(info.getSpecificationClassName());
+					if (info.getSpecification() != null) {
+						p = this.createParticipiantFromClass(info.getSpecification());
 						p.setFacesType(ChapterParticipiant.TYPE_CMPSPEC);
 						participantsMap.put(p.getFacesType(), p);
 					}

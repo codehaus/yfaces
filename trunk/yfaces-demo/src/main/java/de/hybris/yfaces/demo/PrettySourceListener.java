@@ -12,8 +12,8 @@ import javax.faces.event.PhaseId;
 import javax.faces.event.PhaseListener;
 import javax.servlet.http.HttpServletResponse;
 
-import de.str.prettysource.SourceFormat;
-import de.str.prettysource.html.JavaHtmlFormat;
+import de.str.prettysource.format.HtmlFormatFactory;
+import de.str.prettysource.output.HtmlOutputFormat;
 
 /**
  * {@link PhaseListener} which reads various non html based source files and formats it on-the-fly
@@ -29,14 +29,14 @@ public class PrettySourceListener implements PhaseListener {
 	private static final String TYPE_JAVA = "java";
 	private static final String TYPE_XML = "xml";
 
-	private JavaHtmlFormat javaSource = null;
-	private Xhtml2HtmlFormat xhtmlSource = null;
+	private HtmlOutputFormat javaSource = null;
+	private HtmlOutputFormat xhtmlSource = null;
 
 	private PrettySourceLoader resourceLoader = null;
 
 	public PrettySourceListener() {
-		this.javaSource = new JavaHtmlFormat();
-		this.xhtmlSource = new Xhtml2HtmlFormat();
+		this.javaSource = HtmlFormatFactory.javaToHtml();
+		this.xhtmlSource = Xhtml2HtmlFormatFactory.getXhtmlToHtmlFormat();
 		this.resourceLoader = new LocalPrettySourceLoader();
 	}
 
@@ -72,7 +72,7 @@ public class PrettySourceListener implements PhaseListener {
 			}
 		}
 
-		SourceFormat sourceFormat = null;
+		HtmlOutputFormat sourceFormat = null;
 		if (TYPE_JAVA.equals(type)) {
 			resource = "/../java/" + resource.replaceAll("\\.", "/") + ".java";
 			sourceFormat = this.javaSource;

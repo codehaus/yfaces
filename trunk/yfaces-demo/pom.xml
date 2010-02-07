@@ -42,14 +42,14 @@
 		<dependency>
 			<groupId>org.codehaus.yfaces</groupId>
 			<artifactId>yfaces-core</artifactId>
-			<version>0.2</version>
+			<version>0.5.1</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>net.sf.prettysource</groupId>
 			<artifactId>prettysource</artifactId>
-			<version>0.1</version>
+			<version>0.5</version>
 		</dependency>
 	</dependencies>
 </project>
