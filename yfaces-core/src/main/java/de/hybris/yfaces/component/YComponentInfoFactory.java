@@ -51,18 +51,25 @@ public class YComponentInfoFactory {
 	private static final Pattern SINGLE_ATTRIBUTE = Pattern.compile(
 			"\\s*(.*?)\\s*=\\s*\"\\s*(.*?)\\s*\"", Pattern.DOTALL);
 
-	//	// #{xxx} whereas xxx is the result of first group
+	// #{xxx} whereas xxx is the result of first group
 	private static final Pattern SINGLE_EL_ATTRIBUTE = Pattern.compile(
 			"\\s*#\\{\\s*(.*?)\\s*\\}\\s*", Pattern.DOTALL);
 
+	// extracts the namespace prefix from a namespace declaration
+	// e.g. xmlns:yf="http://yfaces.codehaus.org/taglib" returns as group 'yf'
 	private static Pattern NAMESPACE_PREFIX = Pattern.compile("xmlns:(.*?)\\s*=\\s*\""
 			+ YFacesTaglib.YFACES_NAMESPACE + "\"");
 
 	// matches when resource represents a component view
-	public static final Pattern COMPONENT_RESOURCE_PATTERN = Pattern
-			.compile(".*[/\\\\](.*)((?:Cmp)|(?:Tag))\\.xhtml");
+	//	private static final Pattern COMPONENT_RESOURCE_PATTERN = Pattern
+	//			.compile(".*[/\\\\](.*)((?:Cmp)|(?:Tag))\\.xhtml");
+	private static final Pattern COMPONENT_RESOURCE_PATTERN = Pattern
+			.compile(".*[/\\\\](.*)\\.xhtml");
+
+	private Map<String, Pattern> cmpAttributesPatternMap = null;
 
 	public YComponentInfoFactory() {
+		this.cmpAttributesPatternMap = new HashMap<String, Pattern>();
 	}
 
 	public YComponentInfo createComponentInfo(final URL url, final String namespace) {
@@ -161,8 +168,13 @@ public class YComponentInfoFactory {
 	private Map<String, String> getYComponentAttributes(final String nsPrefix, final String content) {
 		Map<String, String> result = null;
 
-		final Pattern attributesPattern = Pattern.compile("<" + nsPrefix + ":"
-				+ YFacesTaglib.YCOMPONENT_NAME + "(.*?)" + ">", Pattern.DOTALL);
+		// avoid multiple compilation of same Pattern
+		Pattern attributesPattern = this.cmpAttributesPatternMap.get(nsPrefix);
+		if (attributesPattern == null) {
+			attributesPattern = Pattern.compile("<" + nsPrefix + ":" + YFacesTaglib.YCOMPONENT_NAME
+					+ "(.*?)" + ">", Pattern.DOTALL);
+			this.cmpAttributesPatternMap.put(nsPrefix, attributesPattern);
+		}
 
 		// extract all attributes (raw string)
 		final Matcher allAttributesMatcher = attributesPattern.matcher(content);

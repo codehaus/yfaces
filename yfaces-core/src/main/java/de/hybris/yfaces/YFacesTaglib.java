@@ -119,15 +119,20 @@ public class YFacesTaglib extends AbstractTagLibrary {
 	public YFacesTaglib() {
 		super(YFACES_NAMESPACE);
 
+		// maps each namespace to a Facelet TagLibrary instance
+		// initially add this TagLibrary instance under yfaces default namespace 
 		this.namespaceToTaglibMap = new HashMap<String, AbstractTagLibrary>();
 		this.namespaceToTaglibMap.put(YFACES_NAMESPACE, this);
 
+		// a nameespace context extends namespace definitions of custom tags 
+		// e.g. http://yfaces.codehaus.org/taglib/myapptags to
+		//      http://yfaces.codehaus.org/taglib/myappname/myapptags to
 		this.namespaceContext = YFacesConfig.NAMESPACE_CONTEXT.getString();
-		if (!this.namespaceContext.startsWith("/")) {
+		if (this.namespaceContext.length() > 0 && !this.namespaceContext.startsWith("/")) {
 			this.namespaceContext = "/" + namespaceContext;
 		}
 
-		// search for component view files and register them as usertags
+		// search for ycomponent view files and register them as usertags
 		this.registerYComponents();
 
 		// search for general view files and register them as usertag
@@ -136,7 +141,7 @@ public class YFacesTaglib extends AbstractTagLibrary {
 		// register some functions
 		this.registerElFunctions();
 
-		// register htmlycomponent with statically defined namespace
+		// register htmlycomponent under default yfaces namespace
 		this.addComponent(YCOMPONENT_NAME, HtmlYComponent.COMPONENT_TYPE, null,
 				HtmlYComponentHandler.class);
 	}
@@ -152,6 +157,9 @@ public class YFacesTaglib extends AbstractTagLibrary {
 		((DefaultFaceletFactory) FaceletFactory.getInstance()).getCompiler().addTagLibrary(this);
 	}
 
+	/**
+	 * Finds and registers all custom tag files.
+	 */
 	private void registerTags() {
 
 		final Collection<String> pathEntries = this.getPathEntries(null, DEFAULT_FACELETS_DIR);
@@ -178,8 +186,7 @@ public class YFacesTaglib extends AbstractTagLibrary {
 	}
 
 	/**
-	 * Registers YComponents. Searches configured component paths, evaluates their resources whether
-	 * they are valid YComponent view files and registers them at a Facelet Tag-Library.
+	 * Finds and registers all YComponent view files.
 	 */
 	private void registerYComponents() {
 
@@ -253,6 +260,16 @@ public class YFacesTaglib extends AbstractTagLibrary {
 		}
 	}
 
+	/**
+	 * Returns a Collection of path entries which is read from a configuration source. Single path
+	 * entries are not validated, they are just a result of a string literal split.
+	 * 
+	 * @param initParamName
+	 *          name of init-parameter of web.xml which is read
+	 * @param defaultEntry
+	 *          a default path which gets added in every case
+	 * @return Collection of path entries
+	 */
 	private Collection<String> getPathEntries(final String initParamName, final String defaultEntry) {
 
 		final Set<String> pathEntries = new LinkedHashSet<String>();
@@ -275,7 +292,18 @@ public class YFacesTaglib extends AbstractTagLibrary {
 	}
 
 	/**
-	 * Finds any resource which might by a possible YCOmponent candidate.
+	 * Creates a Collection of {@link ResourceCollector} for each available path entry. Support path
+	 * entry format:
+	 * <ul>
+	 * <li>
+	 * 1. $folder:path/to/resources</li>
+	 * <li>2. path/to/resources/**</li>
+	 * </ul>
+	 * 1. '$folder' is used as dynamic variable which holds name of each directory subresource of
+	 * path/to/resource. Each subresources within '$folder' is registered under a namespace which
+	 * contains '$folder'. <br/>
+	 * <br/>
+	 * 2. '/**' just means search in subdirectories
 	 * 
 	 * @return Collection of {@link ResourceCollector}
 	 */
