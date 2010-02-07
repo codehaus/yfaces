@@ -143,15 +143,8 @@
 	
 
 	<listener>
-		<listener-class>
-			de.hybris.yfaces.YFacesStartupListener
-		</listener-class>
+		<listener-class>de.hybris.yfaces.YFacesRequestListener</listener-class>
 	</listener>
-	
-	<!--  ServletRequestListener for Spring -->
-	<listener>
-    	<listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
-	</listener> 
 	
 	
 	<!-- Faces Servlet -->
