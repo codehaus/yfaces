@@ -223,7 +223,8 @@ public class YFacesELResolver extends ELResolver {
 
 		// a map holds a threshold two reduce unnecessary operations 
 		// (context resolving is done multiple times within one request)  
-		final Map m = FacesContext.getCurrentInstance().getExternalContext().getRequestMap();
+		final Map<String, Object> m = FacesContext.getCurrentInstance().getExternalContext()
+				.getRequestMap();
 		boolean threshold = m.containsKey(ADD_FRAME_THRESHOLD);
 		if (!threshold) {
 			final YRequestContextImpl yctx = (YRequestContextImpl) YFaces.getRequestContext();

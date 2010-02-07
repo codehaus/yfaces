@@ -40,8 +40,8 @@ import de.hybris.yfaces.YFacesException;
  * 
  * @author Denny Strietzbaum
  */
-public class YComponentInfoImpl implements YComponentInfo {
-	private static final Logger LOG = Logger.getLogger(YComponentInfoImpl.class);
+public class DefaultYComponentInfo implements YComponentInfo {
+	private static final Logger LOG = Logger.getLogger(DefaultYComponentInfo.class);
 
 	// raw (unevaluated) attribute values
 	private String id = null;
@@ -60,14 +60,14 @@ public class YComponentInfoImpl implements YComponentInfo {
 	protected Class<?> implClass = null;
 	protected Class<?> specClass = null;
 
-	protected YComponentInfoImpl() {
+	protected DefaultYComponentInfo() {
 		this.viewProperties = Collections.emptySet();
 	}
 
 	/**
 	 * Constructor. Initializes this instance by parsing the url stream.
 	 */
-	public YComponentInfoImpl(final String id, final String varName, final String specClassname,
+	public DefaultYComponentInfo(final String id, final String varName, final String specClassname,
 			final String implClassName) {
 		this.id = id;
 		this.cmpVar = varName;
@@ -76,7 +76,7 @@ public class YComponentInfoImpl implements YComponentInfo {
 		this.viewProperties = Collections.emptySet();
 	}
 
-	public YComponentInfoImpl(final String namespace, final URL url) {
+	public DefaultYComponentInfo(final String namespace, final URL url) {
 		this.namespace = namespace;
 		this.url = url;
 	}
@@ -153,6 +153,10 @@ public class YComponentInfoImpl implements YComponentInfo {
 		}
 	}
 
+	protected void setProperties(final Collection<String> properties) {
+		this.viewProperties = new HashSet<String>(properties);
+	}
+
 	protected void setComponentName(final String name) {
 		this.cmpName = name;
 	}
@@ -188,7 +192,7 @@ public class YComponentInfoImpl implements YComponentInfo {
 
 	@Override
 	public boolean equals(final Object obj) {
-		return this.url.toExternalForm().equals(((YComponentInfoImpl) obj).url.toExternalForm());
+		return this.url.toExternalForm().equals(((DefaultYComponentInfo) obj).url.toExternalForm());
 	}
 
 	@Override
@@ -287,7 +291,7 @@ public class YComponentInfoImpl implements YComponentInfo {
 		if (LOG.isDebugEnabled()) {
 			final String _value = (value != null) ? value.toString() : "null";
 			String suffix = "";
-			if (value instanceof Collection) {
+			if (value instanceof Collection<?>) {
 				suffix = "(count:" + ((Collection<?>) value).size() + ")";
 			}
 

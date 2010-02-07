@@ -29,12 +29,16 @@ public enum YFacesConfig {
 	ENABLE_HTML_DEBUG("yfaces.ycomponent.enableHtmlDebug", "false"),
 
 	/** when true registers non-ycomponents as tag too */
-	ALSO_REGISTER_NON_YCMP("yfaces.tags.registerNonYComponents", "true"), ;
+	ALSO_REGISTER_NON_YCMP("yfaces.tags.registerNonYComponents", "true"),
 
-	static Map<String, String> properties = null;
+	NAMESPACE_CONTEXT("yfaces.taglib.namespace.context", ""), //
+	;
+
+	static Map properties = null;
 
 	private String key;
 	private String defaultValue;
+	private Object value;
 
 	private YFacesConfig(final String key) {
 		this.key = key;

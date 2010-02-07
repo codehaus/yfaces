@@ -76,15 +76,18 @@ public class DefaultYRequestContextBuilder implements YRequestContextBuilder {
 		}
 
 		// evaluate configuration
-		this.reqCtxClass = this.loadClass(propCfg, YFACES_REQCTXCLASS_KEY, YFACES_REQCTXCLASS_VALUE);
+		this.reqCtxClass = (Class) this.loadClass(propCfg, YFACES_REQCTXCLASS_KEY,
+				YFACES_REQCTXCLASS_VALUE);
 		log.debug("Using " + this.reqCtxClass.getName() + " for "
 				+ YRequestContext.class.getSimpleName());
 
-		this.sessCtxClass = this.loadClass(propCfg, YFACES_SESSCTXCLASS_KEY, YFACES_SESSCTXCLASS_VALUE);
+		this.sessCtxClass = (Class) this.loadClass(propCfg, YFACES_SESSCTXCLASS_KEY,
+				YFACES_SESSCTXCLASS_VALUE);
 		log.debug("Using " + this.sessCtxClass.getName() + " for "
 				+ YSessionContext.class.getSimpleName());
 
-		this.appCtxClass = this.loadClass(propCfg, YFACES_APPCTXCLASS_KEY, YFACES_APPCTXCLASS_VALUE);
+		this.appCtxClass = (Class) this.loadClass(propCfg, YFACES_APPCTXCLASS_KEY,
+				YFACES_APPCTXCLASS_VALUE);
 		log.debug("Using " + this.appCtxClass.getName() + " for "
 				+ YApplicationContext.class.getSimpleName());
 
@@ -99,7 +102,7 @@ public class DefaultYRequestContextBuilder implements YRequestContextBuilder {
 
 		final YSessionContext session = getYSessionContext(ctx.getSession());
 
-		final YRequestContextImpl result = getInstance(this.reqCtxClass);
+		final YRequestContextImpl result = (YRequestContextImpl) getInstance(this.reqCtxClass);
 		result.setErrorHandler(new YFacesErrorHandler());
 		result.setSessionContext(session);
 
@@ -135,24 +138,24 @@ public class DefaultYRequestContextBuilder implements YRequestContextBuilder {
 		return result;
 	}
 
-	private <T> T getInstance(final Class clazz) {
+	private <T> T getInstance(final Class<T> clazz) {
 		T result;
 		try {
-			result = (T) clazz.newInstance();
+			result = clazz.newInstance();
 		} catch (final Exception e) {
 			throw new YFacesException("Error instantiating class " + clazz, e);
 		}
 		return result;
 	}
 
-	private <T> Class<T> loadClass(final Properties cfg, final String keyName, final String defValue) {
+	private Class<?> loadClass(final Properties cfg, final String keyName, final String defValue) {
 		final String className = cfg.contains(keyName) ? ((String) cfg.get(keyName)).trim() : defValue;
-		final Class<T> result = loadClass(className);
+		final Class<?> result = loadClass(className);
 		return result;
 	}
 
-	private Class loadClass(final String className) {
-		Class result;
+	private Class<?> loadClass(final String className) {
+		Class<?> result;
 		try {
 			result = Thread.currentThread().getContextClassLoader().loadClass(className.trim());
 		} catch (final Exception e) {

@@ -39,10 +39,10 @@ import de.hybris.yfaces.component.AbstractYComponent;
 import de.hybris.yfaces.component.YComponent;
 import de.hybris.yfaces.component.YComponentBinding;
 import de.hybris.yfaces.component.YComponentInfo;
-import de.hybris.yfaces.component.YComponentInfoImpl;
+import de.hybris.yfaces.component.DefaultYComponentInfo;
 import de.hybris.yfaces.component.YComponentRegistry;
 import de.hybris.yfaces.component.YComponentValidator;
-import de.hybris.yfaces.component.YComponentValidator.ErrorState;
+import de.hybris.yfaces.component.YComponentValidator.YValidationAspekt;
 
 /**
  * Each {@link YComponent} must be enclosed by this {@link UIComponent}.<br/>
@@ -488,14 +488,14 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 	}
 
 	/**
-	 * Returns a {@link YComponentInfoImpl} which matches the {@link YComponent} bound to this
+	 * Returns a {@link DefaultYComponentInfo} which matches the {@link YComponent} bound to this
 	 * {@link UIComponent} instance.
 	 * 
-	 * @return {@link YComponentInfoImpl}
+	 * @return {@link DefaultYComponentInfo}
 	 */
 	private YComponentInfo getYComponentInfo() {
 		// validation
-		final YComponentInfo cmpInfo = new YComponentInfoImpl(getId(), getVarName(), this.getSpec(),
+		final YComponentInfo cmpInfo = new DefaultYComponentInfo(getId(), getVarName(), this.getSpec(),
 				this.getImpl());
 		return cmpInfo;
 
@@ -503,11 +503,11 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 
 	private void validateComponent(final YComponentValidator cmpValid) {
 
-		final Set<ErrorState> errors = new HashSet<ErrorState>(cmpValid.verifyComponent());
-		errors.remove(ErrorState.VIEW_ID_NOT_SPECIFIED);
-		errors.remove(ErrorState.SPEC_IS_MISSING);
+		final Set<YValidationAspekt> errors = new HashSet<YValidationAspekt>(cmpValid.verifyComponent());
+		errors.remove(YValidationAspekt.VIEW_ID_NOT_SPECIFIED);
+		errors.remove(YValidationAspekt.SPEC_IS_MISSING);
 
-		final String errorString = ErrorState.getFormattedErrorMessage(errors, cmpValid
+		final String errorString = YValidationAspekt.getFormattedErrorMessage(errors, cmpValid
 				.getYComponentInfo(), null);
 		if (errorString != null) {
 			throw new YFacesException(errorString);
@@ -532,9 +532,9 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 			// ValueBinding
 			this.setValue(cmp);
 		} else {
-			final Set<ErrorState> errors = cmpValid.assertCustomImplementationClass(_cmp.getClass());
+			final Set<YValidationAspekt> errors = cmpValid.assertCustomImplementationClass(_cmp.getClass());
 			if (!errors.isEmpty()) {
-				throw new YFacesException(ErrorState.getFormattedErrorMessage(errors, cmpInfo, _cmp
+				throw new YFacesException(YValidationAspekt.getFormattedErrorMessage(errors, cmpInfo, _cmp
 						.getClass()));
 			}
 

@@ -1,7 +1,9 @@
 package de.hybris.yfaces;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Properties;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletRequestEvent;
@@ -26,7 +28,11 @@ public class YFacesRequestListener implements ServletRequestListener {
 	// name of deployment parameter for an YRequestContextBuilder 
 	private static final String REQUEST_BUILDER = "yfaces-requestbuilder";
 
+	// default log4j properties
 	private static final String log4jCfg = "/WEB-INF/log4j.properties";
+
+	// core properties are taken as fallback for a log4j configuration file
+	private static final String yfacesCfg = "/WEB-INF/yfaces.properties";
 
 	private static YRequestContextBuilder builder = null;
 
@@ -38,9 +44,13 @@ public class YFacesRequestListener implements ServletRequestListener {
 	public void requestInitialized(final ServletRequestEvent arg0) {
 
 		// first call needs a builder initialization
+		// conditional block gets never executed a second time 
 		if (builder == null) {
 
-			// check if logging is configured
+			// setup yfaces configuration
+			this.configureYConfig(arg0.getServletContext());
+
+			// setup logging configuration
 			this.configureLogging(arg0.getServletContext());
 			// initialize Logger again
 			LOG = Logger.getLogger(YFacesRequestListener.class);
@@ -52,7 +62,7 @@ public class YFacesRequestListener implements ServletRequestListener {
 			if (builderName != null) {
 				try {
 					// ... instantiate
-					final Class builderClass = Thread.currentThread().getContextClassLoader().loadClass(
+					final Class<?> builderClass = Thread.currentThread().getContextClassLoader().loadClass(
 							builderName.trim());
 					builder = (YRequestContextBuilder) builderClass.newInstance();
 				} catch (final Exception e) {
@@ -69,11 +79,28 @@ public class YFacesRequestListener implements ServletRequestListener {
 
 		// take builder to create and set a YRequestContext
 		final YRequestContext ctx = builder.buildYRequestContext(arg0.getServletRequest());
+		// context is pushed into a ThreadLocal
 		YFaces.setRequestContext(ctx);
 	}
 
 	public void requestDestroyed(final ServletRequestEvent arg0) {
 		YFaces.removeRequestContext();
+	}
+
+	protected void configureYConfig(final ServletContext ctx) {
+		URL cfgUrl = null;
+		try {
+			cfgUrl = ctx.getResource(yfacesCfg);
+			final Properties p = new Properties();
+			p.load(cfgUrl.openStream());
+			YFacesConfig.properties = p;
+
+		} catch (final MalformedURLException e) {
+			e.printStackTrace();
+		} catch (final IOException e) {
+			LOG.error("Error reading " + yfacesCfg, e);
+		}
+
 	}
 
 	/**
@@ -83,13 +110,21 @@ public class YFacesRequestListener implements ServletRequestListener {
 
 		URL logCfg = null;
 		try {
+			// try default log-config
 			logCfg = ctx.getResource(log4jCfg);
 
+			// if no success, try fallback log-config 
+			if (logCfg == null) {
+				logCfg = ctx.getResource(yfacesCfg);
+			}
+
+			// configure Logger
 			if (logCfg != null) {
 				PropertyConfigurator.configure(logCfg);
 				LOG.debug("Successfully loaded " + log4jCfg);
 			}
 		} catch (final MalformedURLException e) {
+			// should never happens
 			e.printStackTrace();
 		}
 	}
