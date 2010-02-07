@@ -16,20 +16,14 @@
 
 package de.hybris.yfaces.component;
 
-import java.util.Collections;
-import java.util.EnumSet;
-import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Set;
 
 import org.apache.log4j.Logger;
 
-import de.hybris.yfaces.component.YComponentValidator.ErrorState;
-
 /**
  * A registry which holds meta information about registered YComponent. Components are registered
- * during startup. YComponent meta information are described as {@link YComponentInfoImpl}.
+ * during startup. YComponent meta information are described as {@link DefaultYComponentInfo}.
  * 
  * @author Denny Strietzbaum
  */
@@ -69,8 +63,6 @@ public class YComponentRegistry {
 	// ID to MetaComponent
 	private Map<String, YComponentInfo> idToCmpMap = null;
 
-	private Set<ErrorState> treatAsWarning = null;
-
 	private static YComponentRegistry singleton = new YComponentRegistry();
 
 	public static YComponentRegistry getInstance() {
@@ -79,7 +71,6 @@ public class YComponentRegistry {
 
 	public YComponentRegistry() {
 		this.idToCmpMap = new LinkedHashMap<String, YComponentInfo>();
-		this.treatAsWarning = EnumSet.of(ErrorState.VIEW_ID_NOT_SPECIFIED, ErrorState.SPEC_IS_MISSING);
 	}
 
 	/**
@@ -101,7 +92,7 @@ public class YComponentRegistry {
 	}
 
 	/**
-	 * Adds passed {@link YComponentInfoImpl} to the registry.
+	 * Adds passed {@link DefaultYComponentInfo} to the registry.
 	 * 
 	 * @param cmpInfo
 	 * @return true when successful
@@ -111,47 +102,20 @@ public class YComponentRegistry {
 		boolean result = false;
 
 		if (cmpInfo != null) {
+
 			final String id = cmpInfo.getId();
 
 			if (id != null) {
-				final YComponentValidator cmpBuilder = new YComponentValidator(cmpInfo);
-				Set<ErrorState> errors = cmpBuilder.verifyComponent();
-				Set<ErrorState> warnings = Collections.emptySet();
 
-				// when errors are thrown...
-				if (!errors.isEmpty()) {
-					// ...remove all who're declared as warning
-					errors = new HashSet<ErrorState>(errors);
-					warnings = new HashSet<ErrorState>(this.treatAsWarning);
-					// only keep warnings which are thrown as error
-					warnings.retainAll(errors);
-					// cleanup errors from warnings
-					errors.removeAll(warnings);
-				}
-
-				// we shouldn't have any errors now
-				if (errors.isEmpty()) {
-					// don't add components whose ID is already in use
-					if (this.idToCmpMap.containsKey(id)) {
-						log.error("Error adding component: " + cmpInfo.getURL());
-						log.error("Duplicate component ID: " + id + " (" + cmpInfo.getURL() + ")");
-					} else {
-						this.idToCmpMap.put(cmpInfo.getId(), cmpInfo);
-						result = true;
-						if (!warnings.isEmpty()) {
-							log.debug("Added component " + cmpInfo.getComponentName() + " with warnings:");
-							final String errorMsg = ErrorState.getFormattedErrorMessage(warnings, cmpInfo, null);
-							log.debug(errorMsg);
-						} else {
-							log.debug("Added component " + cmpInfo.getComponentName());
-						}
-					}
+				if (!this.idToCmpMap.containsKey(id)) {
+					this.idToCmpMap.put(cmpInfo.getId(), cmpInfo);
+					result = true;
 				} else {
 					log.error("Error adding component: " + cmpInfo.getURL());
-					log.error(ErrorState.getFormattedErrorMessage(errors, cmpInfo, null));
+					log.error("Duplicate component ID: " + id + " (" + cmpInfo.getURL() + ")");
 				}
 			} else {
-				log.error("Error adding component (no id): " + cmpInfo.getURL());
+				log.error("Error adding component: " + cmpInfo.getURL() + " (no ID)");
 			}
 		}
 		return result;

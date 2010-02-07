@@ -64,7 +64,7 @@ public class PropertyChangeListenerWrapper implements PropertyChangeListener {
 			method.invoke(listener, evt.getOldValue(), evt.getNewValue());
 		} catch (final Exception e) {
 			final String _method = method.getName();
-			final Class[] _ptypes = method.getParameterTypes();
+			final Class<?>[] _ptypes = method.getParameterTypes();
 			final String _listener = listener.getClass().getName() + "#" + _method + "("
 					+ _ptypes[0].getName() + "," + _ptypes[1].getName() + ")";
 			String error = null;

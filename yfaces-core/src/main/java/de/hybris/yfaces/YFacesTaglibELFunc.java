@@ -29,7 +29,8 @@ public class YFacesTaglibELFunc {
 	 * @throws Exception
 	 */
 	public static String getAllComponentsAsXHTMLFragment() throws Exception {
-		return YFacesTaglib.getAllComponentsAsXHTMLFragment();
+		//return YFacesTaglib.getAllComponentsAsXHTMLFragment();
+		return "";
 	}
 
 }
