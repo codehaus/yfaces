@@ -197,7 +197,14 @@ public class YFacesTaglib extends AbstractTagLibrary {
 		// create resource collectors for each path entry
 		final Collection<ResourceCollector> resCollectors = this.getResourceCollectors(pathEntries);
 
-		final YComponentInfoFactory cmpFac = new YComponentInfoFactory();
+		String base = "";
+		try {
+			final URL _url = FacesContext.getCurrentInstance().getExternalContext().getResource("/");
+			base = _url.getFile();
+		} catch (final Exception e) {
+			e.printStackTrace();
+		}
+		final YComponentInfoFactory cmpFac = new YComponentInfoFactory(base);
 
 		// for each ResourceCollector...
 		for (final ResourceCollector resCollector : resCollectors) {
@@ -221,25 +228,25 @@ public class YFacesTaglib extends AbstractTagLibrary {
 					final Set<YValidationAspekt> errors = cmpValidator.getValidationErrors();
 					final Set<YValidationAspekt> warnings = cmpValidator.getValidationWarnings();
 
-					// if validator finds no errors
-					if (errors.isEmpty()) {
-						// add that Component to a registry
-						final boolean added = YComponentRegistry.getInstance().addComponent(cmpInfo);
+					// add that Component to a registry
+					final boolean added = YComponentRegistry.getInstance().addComponent(cmpInfo);
 
-						// and if registry does not complain
-						if (added) {
-							// register component file at a Facelet Taglib as UserTag
-							final YFacesTaglib tagLib = getOrCreateTagLib(cmpInfo.getNamespace());
-							tagLib.addUserTag(cmpInfo.getComponentName(), cmpInfo.getURL());
-							if (warnings.isEmpty()) {
-								log.debug("Successfully added component: " + cmpInfo.getURL());
-							} else {
-								log.debug("Added component with warnings: " + cmpInfo.getURL());
-								log.debug(YValidationAspekt.getFormattedErrorMessage(warnings, cmpInfo, null));
-							}
+					// and if registry does not complain
+					if (added) {
+						// register component file at a Facelet Taglib as UserTag
+						final YFacesTaglib tagLib = getOrCreateTagLib(cmpInfo.getNamespace());
+						tagLib.addUserTag(cmpInfo.getComponentName(), cmpInfo.getURL());
+						if (warnings.isEmpty()) {
+							log.debug("Successfully added component: " + cmpInfo.getURL());
+						} else {
+							log.debug("Added component with warnings: " + cmpInfo.getURL());
+							log.debug(YValidationAspekt.getFormattedErrorMessage(warnings, cmpInfo, null));
 						}
-					} else {
-						log.error("Error adding component: " + cmpInfo.getURL());
+					}
+
+					// if errors were found print them out 
+					if (!errors.isEmpty()) {
+						log.error("Adding component: " + cmpInfo.getURL() + " with error(s)");
 						log.error(YValidationAspekt.getFormattedErrorMessage(errors, cmpInfo, null));
 					}
 				}
@@ -334,7 +341,7 @@ public class YFacesTaglib extends AbstractTagLibrary {
 				resCol.addResources(path, false);
 
 				// each directory represents it's own  namespace ...
-				for (final String resource : resCol.getDirResources()) {
+				for (final String resource : resCol.getDirLocations()) {
 					final ResourceCollector resources = new ResourceCollector(YFACES_NAMESPACE
 							+ this.namespaceContext + resource);
 					// ... which itself becomes a new ResourceCollector 

@@ -19,17 +19,15 @@ package de.hybris.yfaces.component;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-
-import javax.faces.context.FacesContext;
 
 import org.apache.log4j.Logger;
 
@@ -56,6 +54,7 @@ public class DefaultYComponentInfo implements YComponentInfo {
 
 	private String namespace = null;
 	private URL url = null;
+	private String location = null;
 
 	protected Class<?> implClass = null;
 	protected Class<?> specClass = null;
@@ -98,8 +97,16 @@ public class DefaultYComponentInfo implements YComponentInfo {
 	 * @param className
 	 *          classname
 	 */
-	protected void setSpecification(final String className) {
-		this.specClassName = className;
+	public void setSpecification(String className) {
+		if (className != null && (className = className.trim()).length() == 0) {
+			className = null;
+		}
+
+		if (className == null || !className.equals(this.specClassName)) {
+			this.specClassName = className;
+			this.specClass = null;
+		}
+
 	}
 
 	/**
@@ -116,15 +123,23 @@ public class DefaultYComponentInfo implements YComponentInfo {
 	 * 
 	 * @param className
 	 */
-	protected void setImplementation(final String className) {
-		this.implClassName = className;
+	public void setImplementation(String className) {
+		if (className != null && (className = className.trim()).length() == 0) {
+			className = null;
+		}
+
+		if (className == null || !className.equals(this.specClassName)) {
+			this.implClassName = className;
+			this.implClass = null;
+		}
+
 	}
 
 	public String getId() {
 		return this.id;
 	}
 
-	protected void setId(final String id) {
+	public void setId(final String id) {
 		this.id = id;
 	}
 
@@ -132,7 +147,7 @@ public class DefaultYComponentInfo implements YComponentInfo {
 		return this.cmpVar;
 	}
 
-	protected void setVariableName(final String varName) {
+	public void setVariableName(final String varName) {
 		this.cmpVar = varName;
 	}
 
@@ -140,29 +155,44 @@ public class DefaultYComponentInfo implements YComponentInfo {
 		return this.viewProperties;
 	}
 
-	protected void addProperty(final String property) {
+	public void addProperty(final String property) {
 		if (this.viewProperties == Collections.EMPTY_SET) {
 			this.viewProperties = new HashSet<String>();
 		}
 		this.viewProperties.add(property);
 	}
 
-	protected void addProperties(final String... properties) {
+	public void addProperties(final String... properties) {
 		for (final String property : properties) {
 			this.addProperty(property);
 		}
 	}
 
-	protected void setProperties(final Collection<String> properties) {
+	public void setProperties(final String properties) {
+		if (properties != null) {
+			final String[] props = properties.trim().split("\\s*,\\s*");
+			this.viewProperties = new HashSet<String>(Arrays.asList(props));
+		}
+	}
+
+	public void setProperties(final Collection<String> properties) {
 		this.viewProperties = new HashSet<String>(properties);
 	}
 
-	protected void setComponentName(final String name) {
+	public void setComponentName(final String name) {
 		this.cmpName = name;
 	}
 
 	public String getComponentName() {
 		return cmpName;
+	}
+
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(final String location) {
+		this.location = location;
 	}
 
 	@Override
@@ -205,18 +235,17 @@ public class DefaultYComponentInfo implements YComponentInfo {
 	 * 
 	 * @return
 	 */
-	protected Class<?> getImplementationClass() {
+	public Class<?> getImplementationClass() {
 
 		// lazy check whether class is already loaded 
 		if (this.implClass == null) {
 			try {
 				// if not just load without any validity check
-				final Class<?> clazz = Thread.currentThread().getContextClassLoader().loadClass(
+				this.implClass = Thread.currentThread().getContextClassLoader().loadClass(
 						this.implClassName);
-				this.implClass = (Class<?>) clazz.newInstance();
 			} catch (final Exception e) {
 				throw new YFacesException("Error loading component imlementation class: "
-						+ this.implClassName);
+						+ this.implClassName, e);
 			}
 		}
 		return this.implClass;
@@ -261,45 +290,45 @@ public class DefaultYComponentInfo implements YComponentInfo {
 		return this.availableCmpProperties;
 	}
 
-	public void pushProperty(final YComponent cmp, final String property, Object value) {
-		final Method method = getAllProperties().get(property);
-
-		try {
-
-			// JSF 1.2: do type coercion (e.g. String->Integer)
-			value = FacesContext.getCurrentInstance().getApplication().getExpressionFactory()
-					.coerceToType(value, method.getParameterTypes()[0]);
-
-			// invoke setter
-			method.invoke(cmp, value);
-
-		} catch (final Exception e) {
-			if (e instanceof IllegalArgumentException) {
-				LOG.error(this.id + " Error converting " + value.getClass().getName() + " to "
-						+ method.getParameterTypes()[0].getName());
-			} else {
-				if (e instanceof InvocationTargetException) {
-					LOG.error(id + " Error while executing setter for attribute '" + property + "'");
-				}
-			}
-			final String error = id + " Error setting attribute '" + property + "' at "
-					+ cmp.getClass().getSimpleName() + "(" + method + ")";
-			throw new YFacesException(error, e);
-		}
-
-		// some nice debug output for bughunting
-		if (LOG.isDebugEnabled()) {
-			final String _value = (value != null) ? value.toString() : "null";
-			String suffix = "";
-			if (value instanceof Collection<?>) {
-				suffix = "(count:" + ((Collection<?>) value).size() + ")";
-			}
-
-			LOG.debug(id + "injected Attribute " + property + " ("
-					+ (_value.length() < 30 ? _value : _value.substring(0, 29).concat("...")) + ")" + suffix);
-		}
-
-	}
+	//	public void pushProperty(final YComponent cmp, final String property, Object value) {
+	//		final Method method = getAllProperties().get(property);
+	//
+	//		try {
+	//
+	//			// JSF 1.2: do type coercion (e.g. String->Integer)
+	//			value = FacesContext.getCurrentInstance().getApplication().getExpressionFactory()
+	//					.coerceToType(value, method.getParameterTypes()[0]);
+	//
+	//			// invoke setter
+	//			method.invoke(cmp, value);
+	//
+	//		} catch (final Exception e) {
+	//			if (e instanceof IllegalArgumentException) {
+	//				LOG.error(this.id + " Error converting " + value.getClass().getName() + " to "
+	//						+ method.getParameterTypes()[0].getName());
+	//			} else {
+	//				if (e instanceof InvocationTargetException) {
+	//					LOG.error(id + " Error while executing setter for attribute '" + property + "'");
+	//				}
+	//			}
+	//			final String error = id + " Error setting attribute '" + property + "' at "
+	//					+ cmp.getClass().getSimpleName() + "(" + method + ")";
+	//			throw new YFacesException(error, e);
+	//		}
+	//
+	//		// some nice debug output for bughunting
+	//		if (LOG.isDebugEnabled()) {
+	//			final String _value = (value != null) ? value.toString() : "null";
+	//			String suffix = "";
+	//			if (value instanceof Collection<?>) {
+	//				suffix = "(count:" + ((Collection<?>) value).size() + ")";
+	//			}
+	//
+	//			LOG.debug(id + "injected Attribute " + property + " ("
+	//					+ (_value.length() < 30 ? _value : _value.substring(0, 29).concat("...")) + ")" + suffix);
+	//		}
+	//
+	//	}
 
 	private Map<String, Method> findWriteableProperties(final Class<?> startClass,
 			final Class<?> endClass) {

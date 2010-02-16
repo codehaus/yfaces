@@ -16,8 +16,15 @@
 
 package de.hybris.yfaces.component;
 
+import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.Collection;
+import java.util.Map;
+
+import com.sun.facelets.tag.Tag;
+
+import de.hybris.yfaces.component.html.HtmlYComponent;
+import de.hybris.yfaces.component.html.HtmlYComponentHandler;
 
 /**
  * Holds {@link YComponent} specific meta information.
@@ -25,6 +32,12 @@ import java.util.Collection;
  * @author Denny Strietzbaum
  */
 public interface YComponentInfo {
+
+	static final String VAR_ATTRIBUTE = "var";
+	static final String ID_ATTRIBUTE = "id";
+	static final String SPEC_ATTRIBUTE = "spec";
+	static final String IMPL_ATTRIBUTE = "impl";
+	static final String INJECTABLE_ATTRIBUTE = "injectable";
 
 	/**
 	 * Returns the specification for this component.
@@ -77,6 +90,19 @@ public interface YComponentInfo {
 
 	URL getURL();
 
+	/**
+	 * Returns the location for this component. This is an URI-fragment which is the relative path
+	 * based on webapplication root and which points to the Facelet xhtml resource represented by this
+	 * {@link YComponentInfo}.
+	 * <p/>
+	 * This location is identical to that one of {@link Tag#getLocation()} which is made available in
+	 * {@link HtmlYComponentHandler}. This is used to provide {@link HtmlYComponent} directly with the
+	 * {@link YComponentInfo} it currently works.
+	 * 
+	 * @return
+	 */
+	String getLocation();
+
 	String getNamespace();
 
 	/**
@@ -94,6 +120,8 @@ public interface YComponentInfo {
 	 */
 	YComponentValidator createValidator();
 
-	void pushProperty(YComponent cmp, String propName, Object propValue);
+	Map<String, Method> getAllProperties();
+
+	//void pushProperty(YComponent cmp, String propName, Object propValue);
 
 }
