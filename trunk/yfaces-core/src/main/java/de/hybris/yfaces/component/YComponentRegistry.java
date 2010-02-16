@@ -16,6 +16,7 @@
 
 package de.hybris.yfaces.component;
 
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -63,6 +64,9 @@ public class YComponentRegistry {
 	// ID to MetaComponent
 	private Map<String, YComponentInfo> idToCmpMap = null;
 
+	private Map<String, YComponentInfo> locationToCmpMap = null;
+
+	// for now a singleton, should be integrated intoe the yfaces-framework as part of application
 	private static YComponentRegistry singleton = new YComponentRegistry();
 
 	public static YComponentRegistry getInstance() {
@@ -71,6 +75,7 @@ public class YComponentRegistry {
 
 	public YComponentRegistry() {
 		this.idToCmpMap = new LinkedHashMap<String, YComponentInfo>();
+		this.locationToCmpMap = new HashMap<String, YComponentInfo>();
 	}
 
 	/**
@@ -82,6 +87,10 @@ public class YComponentRegistry {
 	 */
 	public YComponentInfo getComponent(final String id) {
 		return idToCmpMap.get(id);
+	}
+
+	public YComponentInfo getComponentByPath(final String location) {
+		return locationToCmpMap.get(location);
 	}
 
 	/**
@@ -109,6 +118,7 @@ public class YComponentRegistry {
 
 				if (!this.idToCmpMap.containsKey(id)) {
 					this.idToCmpMap.put(cmpInfo.getId(), cmpInfo);
+					this.locationToCmpMap.put(cmpInfo.getLocation(), cmpInfo);
 					result = true;
 				} else {
 					log.error("Error adding component: " + cmpInfo.getURL());

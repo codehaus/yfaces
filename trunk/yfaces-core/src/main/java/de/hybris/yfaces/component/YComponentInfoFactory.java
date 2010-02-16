@@ -40,13 +40,6 @@ import de.hybris.yfaces.YFacesTaglib;
  */
 public class YComponentInfoFactory {
 
-	// some attribute names
-	private static final String ATTR_ID = "id";
-	private static final String ATTR_VAR = "var";
-	private static final String ATTR_IMPL_CLASS = "impl";
-	private static final String ATTR_SPEC_CLASS = "spec";
-	private static final String ATTR_INJECTABLE = "injectable";
-
 	// Searches for a single Attribute within the attributes String
 	private static final Pattern SINGLE_ATTRIBUTE = Pattern.compile(
 			"\\s*(.*?)\\s*=\\s*\"\\s*(.*?)\\s*\"", Pattern.DOTALL);
@@ -68,8 +61,18 @@ public class YComponentInfoFactory {
 
 	private Map<String, Pattern> cmpAttributesPatternMap = null;
 
+	private String base = null;
+
 	public YComponentInfoFactory() {
+		this("");
+	}
+
+	public YComponentInfoFactory(String base) {
 		this.cmpAttributesPatternMap = new HashMap<String, Pattern>();
+		this.base = base;
+		if (!base.startsWith("/")) {
+			base = "/" + base;
+		}
 	}
 
 	public YComponentInfo createComponentInfo(final URL url, final String namespace) {
@@ -99,6 +102,7 @@ public class YComponentInfoFactory {
 				result.setComponentName(cmpName);
 				result.setURL(url);
 				result.setNamespace(namespace);
+				result.setLocation("/" + url.getFile().substring(this.base.length()));
 			}
 		}
 		return result;
@@ -122,10 +126,10 @@ public class YComponentInfoFactory {
 				// resource.openConnection().getLastModified();
 
 				// component name
-				result.setId(attributes.get(ATTR_ID));
-				result.setVariableName(attributes.get(ATTR_VAR));
-				result.setImplementation(attributes.get(ATTR_IMPL_CLASS));
-				result.setSpecification(attributes.get(ATTR_SPEC_CLASS));
+				result.setId(attributes.get(YComponentInfo.ID_ATTRIBUTE));
+				result.setVariableName(attributes.get(YComponentInfo.VAR_ATTRIBUTE));
+				result.setImplementation(attributes.get(YComponentInfo.IMPL_ATTRIBUTE));
+				result.setSpecification(attributes.get(YComponentInfo.SPEC_ATTRIBUTE));
 				final Collection<String> injectable = this.getComponentProperties(attributes);
 				result.setProperties(injectable);
 			}
@@ -147,7 +151,6 @@ public class YComponentInfoFactory {
 		final String result = (tagNameMatcher.matches()) ? tagNameMatcher.group(1) : null;
 
 		return result;
-
 	}
 
 	private String getYComponentNamespacePrefix(final String content) {
@@ -206,7 +209,7 @@ public class YComponentInfoFactory {
 			}
 		}
 
-		final String injectable = attributes.get(ATTR_INJECTABLE);
+		final String injectable = attributes.get(YComponentInfo.INJECTABLE_ATTRIBUTE);
 		if (injectable != null) {
 			final String _properties[] = injectable.trim().split("\\s*,\\s*");
 			result.addAll(Arrays.asList(_properties));

@@ -22,7 +22,8 @@ public class ResourceCollector {
 	private static final Pattern UNHIDDEN_DIRECTORY_PATTERN = Pattern.compile("[^\\.]*/?");
 
 	private Set<URL> fileResources = null;
-	private Set<String> dirResources = null;
+	private Set<String> filePaths = null;
+	private Set<String> dirPaths = null;
 	private String namespace = null;
 
 	/**
@@ -38,7 +39,8 @@ public class ResourceCollector {
 				return o1.getFile().compareTo(o2.getFile());
 			}
 		});
-		this.dirResources = new TreeSet<String>();
+		this.dirPaths = new TreeSet<String>();
+		this.filePaths = new TreeSet<String>();
 
 		// remove trailing slash if any
 		if (this.namespace.endsWith("/")) {
@@ -69,8 +71,12 @@ public class ResourceCollector {
 	 * 
 	 * @return Collection of resources
 	 */
-	public Collection<String> getDirResources() {
-		return this.dirResources;
+	public Collection<String> getDirLocations() {
+		return this.dirPaths;
+	}
+
+	public Collection<String> getFileLocations() {
+		return this.filePaths;
 	}
 
 	/**
@@ -95,7 +101,7 @@ public class ResourceCollector {
 
 				// ... check whether it is a 'directory'
 				if (isValidDirectory(resource)) {
-					this.dirResources.add(resource);
+					this.dirPaths.add(resource);
 					// ... and when recursive is enabled, dig a level deeper
 					if (recursive) {
 						addResources(resource, recursive);
@@ -107,6 +113,7 @@ public class ResourceCollector {
 							final URL url = FacesContext.getCurrentInstance().getExternalContext().getResource(
 									resource);
 							fileResources.add(url);
+							filePaths.add(resource);
 						} catch (final MalformedURLException e) {
 							LOG.error(e.getMessage(), e);
 						}

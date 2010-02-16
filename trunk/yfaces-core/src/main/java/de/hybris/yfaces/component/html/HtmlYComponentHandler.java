@@ -16,6 +16,9 @@
 package de.hybris.yfaces.component.html;
 
 import java.io.IOException;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.el.ELException;
 import javax.el.ValueExpression;
@@ -26,102 +29,227 @@ import org.apache.log4j.Logger;
 
 import com.sun.facelets.FaceletContext;
 import com.sun.facelets.tag.MetaRuleset;
+import com.sun.facelets.tag.Tag;
+import com.sun.facelets.tag.TagAttribute;
 import com.sun.facelets.tag.jsf.ComponentConfig;
 import com.sun.facelets.tag.jsf.ComponentHandler;
 
-import de.hybris.yfaces.component.YComponent;
+import de.hybris.yfaces.component.DefaultYComponentInfo;
+import de.hybris.yfaces.component.YComponentInfo;
+import de.hybris.yfaces.component.YComponentRegistry;
+import de.hybris.yfaces.component.YComponentValidator;
+import de.hybris.yfaces.component.YComponentValidator.YValidationAspekt;
 
 /**
- * This {@link ComponentHandler} works with an {@link YComponent}. It injects the value of a
- * possible "binding" attribute as well as values of attributes which are configured as being
- * injectable.
+ * A custom {@link ComponentHandler} which prepares {@link HtmlYComponent}
  * 
  * @author Denny Strietzbaum
  */
 public class HtmlYComponentHandler extends ComponentHandler {
 	private static final Logger log = Logger.getLogger(HtmlYComponentHandler.class);
-	private static final String VAR_BINDING = "binding";
+	private static final String BINDING_ATTRIBUTE = "binding";
 
 	//private final TagAttribute attributes;
 
+	// YComponentInfo gets newly created whenever facelet-file was changed
+	private DefaultYComponentInfo cmpInfo = null;
+	private boolean isValidateCmpInfo = false;
+
 	public HtmlYComponentHandler(final ComponentConfig config) {
 		super(config);
-		//this.attributes = super.getAttribute("value");
+
+		final String tagPath = config.getTag().getLocation().getPath();
+
+		this.cmpInfo = (DefaultYComponentInfo) YComponentRegistry.getInstance().getComponentByPath(
+				tagPath);
+
+		if (log.isDebugEnabled() && cmpInfo == null) {
+			log.error("No " + YComponentInfo.class.getSimpleName() + " for " + tagPath + " found");
+		}
+
+		if (cmpInfo != null) {
+			this.updateYComponentInfo(config.getTag());
+			final YComponentValidator cmpValid = cmpInfo.createValidator();
+			final Set<YValidationAspekt> errors = new HashSet<YValidationAspekt>(cmpValid
+					.verifyComponent());
+			errors.remove(YValidationAspekt.VIEW_ID_NOT_SPECIFIED);
+			errors.remove(YValidationAspekt.SPEC_IS_MISSING);
+
+			this.isValidateCmpInfo = !errors.isEmpty();
+
+			if (log.isDebugEnabled() && !errors.isEmpty()) {
+				log.debug("Component has validation errors" + errors);
+			}
+		}
+
 	}
 
-	@Override
-	protected MetaRuleset createMetaRuleset(final Class type) {
-		// called once after instanciation
-		return super.createMetaRuleset(type);
+	private void updateYComponentInfo(final Tag tag) {
+
+		log.debug("Updating " + YComponentInfo.class.getSimpleName() + " for " + cmpInfo.getLocation()
+				+ "...");
+
+		final String specClass = getAttributeValue(tag, YComponentInfo.SPEC_ATTRIBUTE);
+		final String implClass = getAttributeValue(tag, YComponentInfo.IMPL_ATTRIBUTE);
+		final String varName = getAttributeValue(tag, YComponentInfo.VAR_ATTRIBUTE);
+		final String id = getAttributeValue(tag, YComponentInfo.ID_ATTRIBUTE);
+		final String injectable = getAttributeValue(tag, YComponentInfo.INJECTABLE_ATTRIBUTE);
+
+		if (log.isDebugEnabled()) {
+			String updatedAttribs = "";
+			if (isModified(cmpInfo.getSpecification(), specClass)) {
+				updatedAttribs = updatedAttribs + YComponentInfo.SPEC_ATTRIBUTE + ",";
+			}
+			if (isModified(cmpInfo.getImplementation(), implClass)) {
+				updatedAttribs = updatedAttribs + YComponentInfo.IMPL_ATTRIBUTE + ",";
+			}
+			if (isModified(cmpInfo.getVariableName(), varName)) {
+				updatedAttribs = updatedAttribs + YComponentInfo.VAR_ATTRIBUTE + ",";
+			}
+			if (isModified(cmpInfo.getId(), id)) {
+				updatedAttribs = updatedAttribs + YComponentInfo.ID_ATTRIBUTE + ",";
+			}
+
+			// TODO: add 'injectable'
+
+			log.debug("...done updating: " + ((updatedAttribs.length() > 0) ? updatedAttribs : "none"));
+
+		}
+
+		cmpInfo.setSpecification(specClass);
+		cmpInfo.setImplementation(implClass);
+		cmpInfo.setVariableName(varName);
+		cmpInfo.setId(id);
+		cmpInfo.setProperties(injectable);
 	}
 
-	@Override
-	protected void applyNextHandler(final FaceletContext ctx, final UIComponent cmp)
-			throws IOException, FacesException, ELException {
-		// release binding
-		ctx.getVariableMapper().setVariable(VAR_BINDING, null);
+	/**
+	 * Returns the value of an {@link TagAttribute}.
+	 * 
+	 * @param tag
+	 *          Tag
+	 * @param name
+	 *          Attribute name
+	 * @return value
+	 */
+	private String getAttributeValue(final Tag tag, final String name) {
 
-		super.applyNextHandler(ctx, cmp);
+		final TagAttribute tagAttr = tag.getAttributes().get(name);
+		final String result = tagAttr != null ? tagAttr.getValue() : null;
+		return result;
 	}
 
-	@Override
-	protected void onComponentPopulated(final FaceletContext ctx, final UIComponent cmp,
-			final UIComponent uicomponent1) {
-		// TODO Auto-generated method stub
-		super.onComponentPopulated(ctx, cmp, uicomponent1);
+	private boolean isModified(String oldValue, String currentValue) {
+		if (oldValue == null) {
+			oldValue = "";
+		}
+
+		if (currentValue == null) {
+			currentValue = "";
+		}
+		final boolean changed = !oldValue.equals(currentValue);
+
+		//		final boolean changed = (oldValue == null) ? (currentValue != null) : !oldValue
+		//				.equals(currentValue);
+		return changed;
+
 	}
 
 	@Override
 	protected String getId(final FaceletContext ctx) {
-		// TODO Auto-generated method stub
 		return super.getId(ctx);
 	}
 
 	//
-	// METHODS ARE NOT CALLED AFTER A POST
+	// METHODS ARE NOT CALLED AFTER A POST (exception: Facelet file was modified)
 	//
+
+	// watched behavior:
+	// - GET: first hook-point
+	// - gets called to create UIComponent
 	@Override
 	protected UIComponent createComponent(final FaceletContext ctx) {
-		// TODO Auto-generated method stub
-		return super.createComponent(ctx);
+		final UIComponent result = super.createComponent(ctx);
+		return result;
 	}
 
+	// watched behavior:
+	// - GET: second hook-point
+	// - applies all MetaRules which were created in createMetaRuleset
 	@Override
 	protected void setAttributes(final FaceletContext ctx, final Object instance) {
-		// here the metarules from createMetaRuleset are affected
 		super.setAttributes(ctx, instance);
 	}
 
-	// private static final Pattern pattern = Pattern.compile("(\\w+),?");
+	// watched behavior:
+	// - gets invoked only one times between setAttribute and onComponentCreated  
+	// - defines some general rules which have to be executed (commands?)
+	@Override
+	protected MetaRuleset createMetaRuleset(final Class type) {
+		final MetaRuleset result = super.createMetaRuleset(type);
+		return result;
+	}
 
+	// watched behavior:
+	// - GET: third hook-point
 	@Override
 	protected void onComponentCreated(final FaceletContext ctx, final UIComponent cmp,
 			final UIComponent uicomponent1) {
-		// called after setAttributes()
 		super.onComponentCreated(ctx, cmp, uicomponent1);
 
-		final HtmlYComponent ycmp = (HtmlYComponent) cmp;
+		final HtmlYComponent htmlYCmp = (HtmlYComponent) cmp;
 
-		// inject ValueExpression "binding" into HtmlYComponent
-		// "binding" gets released within applyNextHandler (as values are
-		// inherited in child facelets)
-		final ValueExpression _binding = ctx.getVariableMapper().resolveVariable(VAR_BINDING);
-		ycmp.setYComponentBinding(_binding);
+		// publish ValueExpression for 'binding' into HtmlYComponent
+		// value of that expression is the YComponent instance
+		final ValueExpression _binding = ctx.getVariableMapper().resolveVariable(BINDING_ATTRIBUTE);
+		htmlYCmp.setYComponentBinding(_binding);
 
-		// inject ValueExpressions given as comma separated List with Attribute
-		// "injectable"
-		final String[] injectable = ycmp.getInjectableProperties();
+		// publish ValueExpression for push-properties into HtmlYComponent
+		// values of that expressions are injected/pushed into YComponent
+		final Collection<String> injectable = this.cmpInfo.getPushProperties();
 		if (injectable != null) {
+			// iterate over each supported push-property...
 			for (final String property : injectable) {
-				final ValueExpression binding = ctx.getVariableMapper().resolveVariable(property);
-				if (binding != null) {
-					ycmp.setValueExpression(property, binding);
+				// ... and try find a ValueExpression for this one
+				final ValueExpression valueExpr = ctx.getVariableMapper().resolveVariable(property);
+				// ... if a ValueExpression is available (property is set in facelet tag)
+				if (valueExpr != null) {
+					// ... publish that expression to HtmlYComponent
+					htmlYCmp.setValueExpression(property, valueExpr);
 					if (log.isDebugEnabled()) {
-						log.debug("Pass property " + property + "(" + binding.getExpressionString() + ") to "
-								+ ycmp.getId() + " (" + ycmp.hashCode() + ")");
+						log.debug("Publish ValueExpression " + property + "='"
+								+ valueExpr.getExpressionString() + "' to " + htmlYCmp.getId() + " ("
+								+ htmlYCmp.hashCode() + ")");
 					}
 				}
 			}
 		}
 	}
+
+	// watched behavior:
+	// - GET: fourth hook-point
+	// - POST: first hook-point
+	@Override
+	protected void applyNextHandler(final FaceletContext ctx, final UIComponent cmp)
+			throws IOException, FacesException, ELException {
+		// release binding for nested views:
+		// Facelet attributes are scoped to the facelet view and any included child
+		// This means 'bindig' attribute is shared through all nested HtmlYComponentHandlers/HtmlYComponents
+		// This is no problem, when nested elements have it's own binding (binding gets updated than)
+		// but it is a problem when they don't because then the parent binding will be taken
+		ctx.getVariableMapper().setVariable(BINDING_ATTRIBUTE, null);
+		super.applyNextHandler(ctx, cmp);
+	}
+
+	// watched behavior:
+	// - GET: fifth hook-point
+	// - POST: second hook-point
+	@Override
+	protected void onComponentPopulated(final FaceletContext ctx, final UIComponent cmp,
+			final UIComponent uicomponent1) {
+		super.onComponentPopulated(ctx, cmp, uicomponent1);
+		((HtmlYComponent) cmp).setValidateYComponentInfo(this.isValidateCmpInfo);
+		((HtmlYComponent) cmp).setComponentInfo(cmpInfo);
+	}
+
 }
