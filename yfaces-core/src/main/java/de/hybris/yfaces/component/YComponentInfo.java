@@ -16,14 +16,11 @@
 
 package de.hybris.yfaces.component;
 
-import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.Collection;
-import java.util.Map;
 
 import com.sun.facelets.tag.Tag;
 
-import de.hybris.yfaces.component.html.HtmlYComponent;
 import de.hybris.yfaces.component.html.HtmlYComponentHandler;
 
 /**
@@ -40,34 +37,32 @@ public interface YComponentInfo {
 	static final String INJECTABLE_ATTRIBUTE = "injectable";
 
 	/**
-	 * Returns the specification for this component.
-	 * <p/>
-	 * This is optional and if available always an interface-class literal.
+	 * Returns the 'id' which is unique within this components namespace. This value is set in
+	 * component view as Tag attribute. When empty an ID generated automatically.
+	 * 
+	 * @return id id of this component
+	 */
+	String getId();
+
+	/**
+	 * Return the model specification of this component. This value is set in component view as Tag
+	 * attribute. Can be empty.
 	 * 
 	 * @return name of interface
 	 */
 	String getSpecification();
 
 	/**
-	 * Returns the implementation for this component.
-	 * <p/>
-	 * This is mandatory and is the name of class which either is the implementation of the components
-	 * specification or, if no specification is available, just any kind of implementation.
+	 * Returns the default model implementation for this component. This value is set in component
+	 * view as Tag attribute. Mustn't be empty
 	 * 
 	 * @return class name
 	 */
 	String getImplementation();
 
 	/**
-	 * Returns the id of this component.
-	 * 
-	 * @return id
-	 */
-	String getId();
-
-	/**
-	 * Returns the name of the variable under which the component implementation instance is available
-	 * in the view layer.
+	 * Returns the name of the variable under which the component model is made available in view.
+	 * This value is set in component view as Tag attribute.
 	 * 
 	 * @return variable name
 	 */
@@ -75,43 +70,44 @@ public interface YComponentInfo {
 
 	/**
 	 * Returns component properties which are allowed to be "pushed" from view into current processed
-	 * component instance.
+	 * component instance. This value is set in component view as Tag attribute.
 	 * 
 	 * @return
 	 */
 	Collection<String> getPushProperties();
 
 	/**
-	 * Returns the name of this component. Generally the same as the id.
+	 * Returns the name of this component. This value is created based on the components URL/filename
 	 * 
-	 * @return
+	 * @return name of component
 	 */
 	String getName();
 
+	/**
+	 * Returns an URL for the component view. This value is detected and set automatically.
+	 * 
+	 * @return URL of component view
+	 */
 	URL getURL();
 
 	/**
-	 * Returns the location for this component. This is an URI-fragment which is the relative path
-	 * based on webapplication root and which points to the Facelet xhtml resource represented by this
-	 * {@link YComponentInfo}.
+	 * Returns the location for the component view. This URI is relative to webapplication root and
+	 * points to same target like {@link #getURL()}. This value gets detected and set automatically.
 	 * <p/>
-	 * This location is identical to that one of {@link Tag#getLocation()} which is made available in
-	 * {@link HtmlYComponentHandler}. This is used to provide {@link HtmlYComponent} directly with the
-	 * {@link YComponentInfo} it currently works.
+	 * Location is used, to have a mapping between {@link YComponentInfo} and Facelets managed view
+	 * files. This location is identical to that one of {@link Tag#getLocation()} which is made
+	 * available in {@link HtmlYComponentHandler}.
 	 * 
 	 * @return
 	 */
 	String getLocation();
 
-	String getNamespace();
-
 	/**
-	 * Creates an instance of this component. Does no additional validity check, expects that an
-	 * implementation class is specified which is instantiable.
+	 * Returns the namespace for this component.
 	 * 
 	 * @return
 	 */
-	YComponent createComponent();
+	String getNamespace();
 
 	/**
 	 * Creates a {@link YComponentValidator}.
@@ -119,7 +115,5 @@ public interface YComponentInfo {
 	 * @return {@link YComponentValidator}
 	 */
 	YComponentValidator createValidator();
-
-	Map<String, Method> getAllProperties();
 
 }

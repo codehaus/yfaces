@@ -51,6 +51,7 @@ public class DefaultYComponentInfo implements YComponentInfo {
 	private Set<String> pushProperties = Collections.emptySet();
 
 	private String cmpName = null;
+	private String uid = null;
 
 	private String namespace = null;
 	private URL url = null;
@@ -211,6 +212,14 @@ public class DefaultYComponentInfo implements YComponentInfo {
 
 	protected void setNamespace(final String ns) {
 		this.namespace = ns;
+	}
+
+	public String getUid() {
+		return uid;
+	}
+
+	public void setUid(final String uid) {
+		this.uid = uid;
 	}
 
 	@Override

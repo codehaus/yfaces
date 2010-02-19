@@ -202,16 +202,16 @@ public class HtmlYComponentHandler extends ComponentHandler {
 		final HtmlYComponent htmlYCmp = (HtmlYComponent) cmp;
 
 		// YFACES-46: prototype code; dynamic ID calculation
-		//		final TagAttribute attrib = getAttribute("id");
-		//		if (attrib == null) {
-		//			String id = this.cmpInfo.getComponentName();
-		//			final ValueExpression idValueExpr = ctx.getVariableMapper().resolveVariable("id");
-		//			if (idValueExpr != null) {
-		//				id = (String) idValueExpr.getValue(FacesContext.getCurrentInstance().getELContext());
-		//			}
-		//			cmp.setId(id);
-		//			log.debug("Setting component id: " + cmpInfo.getComponentName());
-		//		}
+		final TagAttribute attrib = getAttribute("id");
+		if (attrib == null) {
+			final String id = this.cmpInfo.getUid();
+			//			final ValueExpression idValueExpr = ctx.getVariableMapper().resolveVariable("id");
+			//			if (idValueExpr != null) {
+			//				id = (String) idValueExpr.getValue(FacesContext.getCurrentInstance().getELContext());
+			//			}
+			cmp.setId(id);
+			log.debug("Setting component id: " + cmpInfo.getId());
+		}
 
 		// publish ValueExpression for 'binding' into HtmlYComponent
 		// value of that expression is the YComponent instance
