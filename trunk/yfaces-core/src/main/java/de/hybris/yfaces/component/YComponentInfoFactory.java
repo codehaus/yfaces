@@ -133,11 +133,6 @@ public class YComponentInfoFactory {
 				result.setSpecification(attributes.get(YComponentInfo.SPEC_ATTRIBUTE));
 				final Collection<String> injectable = this.getComponentProperties(attributes);
 				result.setPushProperties(injectable);
-
-				// take 'name' for 'id' if necessary
-				if (result.getId() == null || result.getId().trim().length() == 0) {
-					result.setId(result.getName());
-				}
 			}
 		}
 		return result;

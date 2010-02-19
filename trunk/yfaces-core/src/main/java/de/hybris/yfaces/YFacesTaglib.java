@@ -41,7 +41,7 @@ import com.sun.facelets.FaceletFactory;
 import com.sun.facelets.impl.DefaultFaceletFactory;
 import com.sun.facelets.tag.AbstractTagLibrary;
 
-import de.hybris.yfaces.component.YComponentInfo;
+import de.hybris.yfaces.component.DefaultYComponentInfo;
 import de.hybris.yfaces.component.YComponentInfoFactory;
 import de.hybris.yfaces.component.YComponentRegistry;
 import de.hybris.yfaces.component.YComponentValidator;
@@ -206,6 +206,8 @@ public class YFacesTaglib extends AbstractTagLibrary {
 		}
 		final YComponentInfoFactory cmpFac = new YComponentInfoFactory(base);
 
+		final Map<String, Integer> dupIdCount = new HashMap<String, Integer>();
+
 		// for each ResourceCollector...
 		for (final ResourceCollector resCollector : resCollectors) {
 			final String namespace = resCollector.getNamespace();
@@ -216,10 +218,28 @@ public class YFacesTaglib extends AbstractTagLibrary {
 			for (final URL url : resCollector.getFileResources()) {
 
 				//...create component meta information
-				final YComponentInfo cmpInfo = cmpFac.createComponentInfo(url, namespace);
+				final DefaultYComponentInfo cmpInfo = (DefaultYComponentInfo) cmpFac.createComponentInfo(
+						url, namespace);
 
 				//...which is successful when it's really a YComponent and not only a simple file
 				if (cmpInfo != null) {
+
+					// take 'name' for 'id' if necessary
+					final String _uid = cmpInfo.getName() + "Cmp";
+
+					// create a short UID for every YComponentInfo
+					final Integer count = dupIdCount.get(_uid);
+					if (count == null) {
+						cmpInfo.setUid(_uid);
+						dupIdCount.put(_uid, Integer.valueOf(1));
+					} else {
+						cmpInfo.setUid(_uid + count);
+						dupIdCount.put(_uid, Integer.valueOf(count.intValue() + 1));
+					}
+
+					if (cmpInfo.getId() == null || cmpInfo.getId().trim().length() == 0) {
+						cmpInfo.setId(_uid);
+					}
 
 					// validate that YComponent
 					// reduce level for "missing specification" from ERROR to WARNING 

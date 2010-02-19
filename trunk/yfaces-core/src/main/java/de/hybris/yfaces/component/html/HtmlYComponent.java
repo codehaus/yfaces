@@ -75,7 +75,7 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 	private String[] injectableProperties = null;
 
 	// property is set by Facelets (HtmlYComponentHandler)
-	private transient YComponentInfo cmpInfo = null;
+	private transient DefaultYComponentInfo cmpInfo = null;
 	private transient boolean isValidateCmpInfo = false;
 
 	// other transient members
@@ -410,7 +410,7 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 		super.encodeBegin(context);
 
 		// get YComponentInfo for current processed component
-		final YComponentInfo cmpInfo = this.getYComponentInfo();
+		final DefaultYComponentInfo cmpInfo = this.getYComponentInfo();
 
 		// YComponentInfo must be validated when HtmlYComponentHandler detected a change in Facelet file
 		boolean isValidated = !this.isValidateYComponentInfo();
@@ -528,14 +528,14 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 	 * 
 	 * @return {@link YComponentInfo}
 	 */
-	protected YComponentInfo getYComponentInfo() {
+	protected DefaultYComponentInfo getYComponentInfo() {
 		if (cmpInfo == null) {
 			cmpInfo = new DefaultYComponentInfo(getId(), getVarName(), this.getSpec(), this.getImpl());
 		}
 		return cmpInfo;
 	}
 
-	protected void setComponentInfo(final YComponentInfo cmpInfo) {
+	protected void setComponentInfo(final DefaultYComponentInfo cmpInfo) {
 		this.cmpInfo = cmpInfo;
 	}
 
@@ -590,7 +590,7 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 		if (value == null) {
 
 			// ...create a default YComponent 
-			result = cmpInfo.createComponent();
+			result = ((DefaultYComponentInfo) cmpInfo).createComponent();
 
 			// ...and update ValueBinding (if any)
 			this.setValue(result);
@@ -736,7 +736,7 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 	 * @param cmp
 	 *          {@link YComponent}
 	 */
-	private void injectAttributes(final YComponent cmp, final YComponentInfo cmpInfo) {
+	private void injectAttributes(final YComponent cmp, final DefaultYComponentInfo cmpInfo) {
 
 		// attributes are given as comma separated list ("injectable"
 		// attribute)
@@ -762,7 +762,7 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 	}
 
 	public void pushProperty(final YComponent cmp, final String property, Object value,
-			final YComponentInfo cmpInfo) {
+			final DefaultYComponentInfo cmpInfo) {
 		final Method method = cmpInfo.getAllProperties().get(property);
 
 		try {
