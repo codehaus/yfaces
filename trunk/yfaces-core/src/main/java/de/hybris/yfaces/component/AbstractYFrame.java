@@ -86,7 +86,7 @@ public abstract class AbstractYFrame extends YManagedBean implements YFrame {
 	 * @see de.hybris.yfaces.YFrame#createComponentBinding()
 	 */
 	public <T extends YComponent> YComponentBinding<T> createComponentBinding() {
-		return this.createComponentBinding(null, null);
+		return this.createComponentBinding(null, null, null);
 	}
 
 	/*
@@ -95,7 +95,7 @@ public abstract class AbstractYFrame extends YManagedBean implements YFrame {
 	 * @see de.hybris.yfaces.YFrame#createComponentBinding(de.hybris.yfaces.YComponent )
 	 */
 	public <T extends YComponent> YComponentBinding<T> createComponentBinding(final T value) {
-		return this.createComponentBinding(null, value);
+		return this.createComponentBinding(null, null, value);
 	}
 
 	/*
@@ -103,13 +103,15 @@ public abstract class AbstractYFrame extends YManagedBean implements YFrame {
 	 * 
 	 * @see de.hybris.yfaces.YFrame#createComponentBinding(java.lang.String)
 	 */
-	public <T extends YComponent> YComponentBinding<T> createComponentBinding(final String componentId) {
-		return this.createComponentBinding(componentId, null);
+	public <T extends YComponent> YComponentBinding<T> createComponentBinding(final String cmpId) {
+		return this.createComponentBinding(null, cmpId, null);
 	}
 
-	private <T extends YComponent> YComponentBinding<T> createComponentBinding(final String id,
-			final T value) {
-		final YComponentBinding<T> result = new YComponentBinding<T>(id, super.createExpressionString());
+	private <T extends YComponent> YComponentBinding<T> createComponentBinding(final String ns,
+			final String id, final T value) {
+		final YComponentInfo cmpInfo = YComponentRegistry.getInstance().getComponent(ns, id);
+		final YComponentBinding<T> result = new YComponentBinding<T>(cmpInfo, super
+				.createExpressionString());
 		result.setValue(value);
 		this.componentBindings.add(result);
 		return result;

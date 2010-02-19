@@ -25,9 +25,9 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 
 import org.apache.log4j.Logger;
 
@@ -48,7 +48,7 @@ public class DefaultYComponentInfo implements YComponentInfo {
 	private String implClassName = null;
 
 	// Properties which gets evaluated and injected; specified by renderer
-	private Set<String> viewProperties = Collections.emptySet();
+	private Set<String> pushProperties = Collections.emptySet();
 
 	private String cmpName = null;
 
@@ -60,7 +60,7 @@ public class DefaultYComponentInfo implements YComponentInfo {
 	protected Class<?> specClass = null;
 
 	protected DefaultYComponentInfo() {
-		this.viewProperties = Collections.emptySet();
+		this.pushProperties = Collections.emptySet();
 	}
 
 	/**
@@ -72,7 +72,7 @@ public class DefaultYComponentInfo implements YComponentInfo {
 		this.cmpVar = varName;
 		this.specClassName = specClassname;
 		this.implClassName = implClassName;
-		this.viewProperties = Collections.emptySet();
+		this.pushProperties = Collections.emptySet();
 	}
 
 	public DefaultYComponentInfo(final String namespace, final URL url) {
@@ -152,38 +152,34 @@ public class DefaultYComponentInfo implements YComponentInfo {
 	}
 
 	public Collection<String> getPushProperties() {
-		return this.viewProperties;
+		return this.pushProperties;
 	}
 
-	public void addProperty(final String property) {
-		if (this.viewProperties == Collections.EMPTY_SET) {
-			this.viewProperties = new HashSet<String>();
+	public void addPushProperty(final String property) {
+		if (this.pushProperties == Collections.EMPTY_SET) {
+			this.pushProperties = new TreeSet<String>();
 		}
-		this.viewProperties.add(property);
+		this.pushProperties.add(property);
 	}
 
-	public void addProperties(final String... properties) {
-		for (final String property : properties) {
-			this.addProperty(property);
-		}
-	}
-
-	public void setProperties(final String properties) {
+	public void setPushProperties(final String properties) {
 		if (properties != null) {
 			final String[] props = properties.trim().split("\\s*,\\s*");
-			this.viewProperties = new HashSet<String>(Arrays.asList(props));
+			this.setPushProperties(Arrays.asList(props));
 		}
 	}
 
-	public void setProperties(final Collection<String> properties) {
-		this.viewProperties = new HashSet<String>(properties);
+	public void setPushProperties(final Collection<String> properties) {
+		for (final String property : properties) {
+			this.addPushProperty(property);
+		}
 	}
 
-	public void setComponentName(final String name) {
+	public void setName(final String name) {
 		this.cmpName = name;
 	}
 
-	public String getComponentName() {
+	public String getName() {
 		return cmpName;
 	}
 
@@ -197,9 +193,6 @@ public class DefaultYComponentInfo implements YComponentInfo {
 
 	@Override
 	public String toString() {
-		//		final String result = "id:" + this.id + "; spec:" + this.specClassName + "; impl:"
-		//				+ this.implClassName + "; var:" + this.cmpVar + "; injects:"
-		//				+ this.injectableAttributes;
 		final String result = this.url.toExternalForm();
 		return result;
 	}
@@ -260,7 +253,8 @@ public class DefaultYComponentInfo implements YComponentInfo {
 		YComponent result = null;
 		try {
 			result = (YComponent) this.getImplementationClass().newInstance();
-			((AbstractYComponent) result).setId(this.id);
+			//((AbstractYComponent) result).setId(this.id);
+			((AbstractYComponent) result).setYComponentInfo(this);
 		} catch (final Exception e) {
 			throw new YFacesException("Can't create " + YComponent.class.getName() + " instance ("
 					+ implClass + ")", e);
@@ -283,8 +277,8 @@ public class DefaultYComponentInfo implements YComponentInfo {
 		// refresh injectable properties
 		this.availableCmpProperties = classToPropertiesMap.get(this.implClassName);
 		if (this.availableCmpProperties == null) {
-			this.availableCmpProperties = this.findWriteableProperties(implClass,
-					AbstractYComponent.class);
+			this.availableCmpProperties = this
+					.findAllWriteProperties(implClass, AbstractYComponent.class);
 			classToPropertiesMap.put(implClassName, this.availableCmpProperties);
 		}
 		return this.availableCmpProperties;
@@ -330,7 +324,7 @@ public class DefaultYComponentInfo implements YComponentInfo {
 	//
 	//	}
 
-	private Map<String, Method> findWriteableProperties(final Class<?> startClass,
+	private Map<String, Method> findAllWriteProperties(final Class<?> startClass,
 			final Class<?> endClass) {
 
 		final Map<String, Method> result = new HashMap<String, Method>();
