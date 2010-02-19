@@ -86,7 +86,7 @@ public interface YComponentInfo {
 	 * 
 	 * @return
 	 */
-	String getComponentName();
+	String getName();
 
 	URL getURL();
 
@@ -121,7 +121,5 @@ public interface YComponentInfo {
 	YComponentValidator createValidator();
 
 	Map<String, Method> getAllProperties();
-
-	//void pushProperty(YComponent cmp, String propName, Object propValue);
 
 }

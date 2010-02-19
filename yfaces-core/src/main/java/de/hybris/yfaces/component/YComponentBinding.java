@@ -39,15 +39,16 @@ public class YComponentBinding<T extends YComponent> {
 	private String frameBinding = null;
 	private boolean resolved = false;
 
-	protected String id = null;
+	private String id = null;
+	private String ns = null;
 
 	// transient members
 	private transient T value = null;
 
 	/**
 	 * Constructor. Creates a general binding without any {@link YComponent} information. A concrete
-	 * {@link YComponent} instance can be set later programmatically. When no component instance is
-	 * set JSF does it when this binding is resolved for the first time.<br/>
+	 * {@link YComponent} instance can be set later programatically. When no component instance is set
+	 * JSF does it when this binding is resolved for the first time.<br/>
 	 */
 	public YComponentBinding() {
 
@@ -59,12 +60,15 @@ public class YComponentBinding<T extends YComponent> {
 	 * @param id
 	 *          component id
 	 */
-	public YComponentBinding(final String id) {
-		this.id = id;
+	public YComponentBinding(final YComponentInfo cmpInfo) {
+		this(cmpInfo, null);
 	}
 
-	protected YComponentBinding(final String id, final String frameBinding) {
-		this.id = id;
+	protected YComponentBinding(final YComponentInfo cmpInfo, final String frameBinding) {
+		if (cmpInfo != null) {
+			this.id = cmpInfo.getId();
+			this.ns = cmpInfo.getNamespace();
+		}
 		this.frameBinding = frameBinding;
 	}
 
@@ -76,7 +80,7 @@ public class YComponentBinding<T extends YComponent> {
 	public T getValue() {
 		// standard lookup
 		if (this.value == null && this.id != null) {
-			final YComponentInfo cmpd = YComponentRegistry.getInstance().getComponent(this.id);
+			final YComponentInfo cmpd = YComponentRegistry.getInstance().getComponent(this.ns, this.id);
 
 			if (cmpd == null) {
 				throw new YFacesException("There is no component with id '" + this.id + "' registered.");

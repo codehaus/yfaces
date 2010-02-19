@@ -76,6 +76,7 @@ public class YComponentInfoFactory {
 	}
 
 	public YComponentInfo createComponentInfo(final URL url, final String namespace) {
+
 		DefaultYComponentInfo result = null;
 
 		// get component name
@@ -99,7 +100,7 @@ public class YComponentInfoFactory {
 				// this.creationTime = resource.openConnection().getLastModified();
 
 				// component name
-				result.setComponentName(cmpName);
+				result.setName(cmpName);
 				result.setURL(url);
 				result.setNamespace(namespace);
 				result.setLocation("/" + url.getFile().substring(this.base.length()));
@@ -131,7 +132,12 @@ public class YComponentInfoFactory {
 				result.setImplementation(attributes.get(YComponentInfo.IMPL_ATTRIBUTE));
 				result.setSpecification(attributes.get(YComponentInfo.SPEC_ATTRIBUTE));
 				final Collection<String> injectable = this.getComponentProperties(attributes);
-				result.setProperties(injectable);
+				result.setPushProperties(injectable);
+
+				// take 'name' for 'id' if necessary
+				if (result.getId() == null || result.getId().trim().length() == 0) {
+					result.setId(result.getName());
+				}
 			}
 		}
 		return result;

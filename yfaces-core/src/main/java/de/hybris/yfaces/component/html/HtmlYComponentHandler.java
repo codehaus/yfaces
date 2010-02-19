@@ -16,9 +16,11 @@
 package de.hybris.yfaces.component.html;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.TreeSet;
 
 import javax.el.ELException;
 import javax.el.ValueExpression;
@@ -86,8 +88,8 @@ public class HtmlYComponentHandler extends ComponentHandler {
 
 	private void updateYComponentInfo(final Tag tag) {
 
-		log.debug("Updating " + YComponentInfo.class.getSimpleName() + " for " + cmpInfo.getLocation()
-				+ "...");
+		log.debug("Refreshing " + YComponentInfo.class.getSimpleName() + " for "
+				+ cmpInfo.getLocation() + "...");
 
 		final String specClass = getAttributeValue(tag, YComponentInfo.SPEC_ATTRIBUTE);
 		final String implClass = getAttributeValue(tag, YComponentInfo.IMPL_ATTRIBUTE);
@@ -110,9 +112,18 @@ public class HtmlYComponentHandler extends ComponentHandler {
 				updatedAttribs = updatedAttribs + YComponentInfo.ID_ATTRIBUTE + ",";
 			}
 
+			if (injectable != null) {
+				final String[] props = injectable.trim().split("\\s*,\\s*");
+				final Collection<String> push = new TreeSet<String>(Arrays.asList(props));
+				if (!push.equals(cmpInfo.getPushProperties())) {
+					updatedAttribs = updatedAttribs + YComponentInfo.INJECTABLE_ATTRIBUTE;
+				}
+			}
+
 			// TODO: add 'injectable'
 
-			log.debug("...done updating: " + ((updatedAttribs.length() > 0) ? updatedAttribs : "none"));
+			log.debug("...updated attributes: "
+					+ ((updatedAttribs.length() > 0) ? updatedAttribs : "[none]"));
 
 		}
 
@@ -120,7 +131,7 @@ public class HtmlYComponentHandler extends ComponentHandler {
 		cmpInfo.setImplementation(implClass);
 		cmpInfo.setVariableName(varName);
 		cmpInfo.setId(id);
-		cmpInfo.setProperties(injectable);
+		cmpInfo.setPushProperties(injectable);
 	}
 
 	/**
@@ -139,18 +150,9 @@ public class HtmlYComponentHandler extends ComponentHandler {
 		return result;
 	}
 
-	private boolean isModified(String oldValue, String currentValue) {
-		if (oldValue == null) {
-			oldValue = "";
-		}
-
-		if (currentValue == null) {
-			currentValue = "";
-		}
-		final boolean changed = !oldValue.equals(currentValue);
-
-		//		final boolean changed = (oldValue == null) ? (currentValue != null) : !oldValue
-		//				.equals(currentValue);
+	private boolean isModified(final String oldValue, final String currentValue) {
+		final boolean changed = (oldValue == null) ? (currentValue != null) : !oldValue
+				.equals(currentValue);
 		return changed;
 
 	}
@@ -199,6 +201,18 @@ public class HtmlYComponentHandler extends ComponentHandler {
 
 		final HtmlYComponent htmlYCmp = (HtmlYComponent) cmp;
 
+		// YFACES-46: prototype code; dynamic ID calculation
+		//		final TagAttribute attrib = getAttribute("id");
+		//		if (attrib == null) {
+		//			String id = this.cmpInfo.getComponentName();
+		//			final ValueExpression idValueExpr = ctx.getVariableMapper().resolveVariable("id");
+		//			if (idValueExpr != null) {
+		//				id = (String) idValueExpr.getValue(FacesContext.getCurrentInstance().getELContext());
+		//			}
+		//			cmp.setId(id);
+		//			log.debug("Setting component id: " + cmpInfo.getComponentName());
+		//		}
+
 		// publish ValueExpression for 'binding' into HtmlYComponent
 		// value of that expression is the YComponent instance
 		final ValueExpression _binding = ctx.getVariableMapper().resolveVariable(BINDING_ATTRIBUTE);
@@ -238,6 +252,10 @@ public class HtmlYComponentHandler extends ComponentHandler {
 		// This is no problem, when nested elements have it's own binding (binding gets updated than)
 		// but it is a problem when they don't because then the parent binding will be taken
 		ctx.getVariableMapper().setVariable(BINDING_ATTRIBUTE, null);
+
+		// XXX: whats with the other variables? pushProperties? id?
+		// why not reset the variables within onCOmponentCreated
+
 		super.applyNextHandler(ctx, cmp);
 	}
 

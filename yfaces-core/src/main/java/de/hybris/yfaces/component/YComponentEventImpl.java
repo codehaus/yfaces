@@ -77,7 +77,8 @@ public class YComponentEventImpl<T extends YComponent> implements YComponentEven
 
 		if (log.isDebugEnabled()) {
 			final YComponent cmp = getComponent();
-			String ctxPath = "event:" + this.getClass().getSimpleName() + "; componentId:" + cmp.getId();
+			String ctxPath = "event:" + this.getClass().getSimpleName() + "; componentId:"
+					+ cmp.getComponentInfo().getId();
 
 			if (cmp.getFrame() != null) {
 				ctxPath = ctxPath + "; frameId: " + cmp.getFrame().getId() + "; pageId:"

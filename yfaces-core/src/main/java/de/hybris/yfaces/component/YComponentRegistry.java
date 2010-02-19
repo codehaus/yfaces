@@ -22,6 +22,9 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 
+import de.hybris.yfaces.YFacesException;
+import de.hybris.yfaces.YFacesTaglib;
+
 /**
  * A registry which holds meta information about registered YComponent. Components are registered
  * during startup. YComponent meta information are described as {@link DefaultYComponentInfo}.
@@ -36,11 +39,6 @@ import org.apache.log4j.Logger;
 // - A Facelet recognizes View changes and gets recreated by the FaceletFactory
 // - FaceletFactory creates a Facelet on demand
 // 
-// YComponentRegistry/YComponentInfo
-// - Describes a view fragment
-// - YComponentInfo can't recognize view changes
-// - YComponentRegistry gets all YComponentInfo registered during startup
-// - YComponentInfo implements Validation rules
 //
 // A great deal would be if the Facelet implementation can be extended by an
 // additional
@@ -61,8 +59,9 @@ public class YComponentRegistry {
 
 	private static final Logger log = Logger.getLogger(YComponentRegistry.class);
 
-	// ID to MetaComponent
-	private Map<String, YComponentInfo> idToCmpMap = null;
+	// namespace + id are mapped to YComponentInfo
+	private Map<String, YComponentInfo> defaultNsCmpMap = null;
+	private Map<String, Map<String, YComponentInfo>> cmpMap = null;
 
 	private Map<String, YComponentInfo> locationToCmpMap = null;
 
@@ -74,37 +73,60 @@ public class YComponentRegistry {
 	}
 
 	public YComponentRegistry() {
-		this.idToCmpMap = new LinkedHashMap<String, YComponentInfo>();
 		this.locationToCmpMap = new HashMap<String, YComponentInfo>();
+
+		this.defaultNsCmpMap = new LinkedHashMap<String, YComponentInfo>();
+		this.cmpMap = new HashMap<String, Map<String, YComponentInfo>>();
+		this.cmpMap.put(YFacesTaglib.YFACES_NAMESPACE, defaultNsCmpMap);
 	}
 
 	/**
-	 * Returns a {@link YComponentInfo} by it's ID.
+	 * Looks for a registered {@link YComponentInfo} by ID and default namespace.
 	 * 
 	 * @param id
-	 *          ID
-	 * @return {@link YComponentInfo}
+	 *          ID of requested {@link YComponentInfo}
+	 * @return {@link YComponentInfo} or null
 	 */
 	public YComponentInfo getComponent(final String id) {
-		return idToCmpMap.get(id);
+		return defaultNsCmpMap.get(id);
 	}
 
+	/**
+	 * Looks for a registered {@link YComponentInfo} by namespace and ID.
+	 * 
+	 * @param namespace
+	 *          namespace (or null for default namespace) of requested {@link YComponentInfo}
+	 * @param id
+	 *          id of requested {@link YComponentInfo}
+	 * @return {@link YComponentInfo} or null
+	 */
+	public YComponentInfo getComponent(String namespace, final String id) {
+
+		if (namespace == null) {
+			namespace = YFacesTaglib.YFACES_NAMESPACE;
+		}
+		final Map<String, YComponentInfo> idToCmpMap = this.cmpMap.get(namespace);
+		final YComponentInfo result = idToCmpMap != null ? idToCmpMap.get(id) : null;
+		return result;
+	}
+
+	/**
+	 * Looks for a {@link YComponentInfo} by it's unique location.
+	 * 
+	 * @param location
+	 *          location of requested {@link YComponentInfo}
+	 * @return {@link YComponentInfo} or null
+	 */
 	public YComponentInfo getComponentByPath(final String location) {
 		return locationToCmpMap.get(location);
 	}
 
 	/**
-	 * @return all registered {@link YComponentInfo}
-	 */
-	public Map<String, YComponentInfo> getAllComponents() {
-		return this.idToCmpMap;
-	}
-
-	/**
-	 * Adds passed {@link DefaultYComponentInfo} to the registry.
+	 * Registers a new YComponent as {@link YComponentInfo} to this registry.
 	 * 
 	 * @param cmpInfo
-	 * @return true when successful
+	 *          {@link YComponentInfo}
+	 * @return true when successfully registered
 	 */
 	public boolean addComponent(final YComponentInfo cmpInfo) {
 
@@ -113,22 +135,41 @@ public class YComponentRegistry {
 		if (cmpInfo != null) {
 
 			final String id = cmpInfo.getId();
+			final String ns = cmpInfo.getNamespace();
 
-			if (id != null) {
+			// an ID should always be available (at least as fallback of 'name')
+			if (id == null) {
+				throw new YFacesException("No component ID: " + cmpInfo.getURL());
+			}
 
-				if (!this.idToCmpMap.containsKey(id)) {
-					this.idToCmpMap.put(cmpInfo.getId(), cmpInfo);
-					this.locationToCmpMap.put(cmpInfo.getLocation(), cmpInfo);
-					result = true;
-				} else {
-					log.error("Error adding component: " + cmpInfo.getURL());
-					log.error("Duplicate component ID: " + id + " (" + cmpInfo.getURL() + ")");
-				}
+			// same with namespace
+			if (ns == null) {
+				throw new YFacesException("No component namespace: " + cmpInfo.getURL());
+			}
+
+			// get namespace -> component mapping
+			Map<String, YComponentInfo> map = this.cmpMap.get(ns);
+
+			// create if necessary
+			if (map == null) {
+				cmpMap.put(ns, map = new LinkedHashMap<String, YComponentInfo>());
+			}
+
+			// assure another component is not already mapped with same id
+			// (can happen when custom IDs are used)
+			if (!map.containsKey(id)) {
+				// ... add to namesapce ,ap
+				map.put(cmpInfo.getId(), cmpInfo);
+				// ... add to global map
+				this.locationToCmpMap.put(cmpInfo.getLocation(), cmpInfo);
+				result = true;
+
+				// otherwise log as error
 			} else {
-				log.error("Error adding component: " + cmpInfo.getURL() + " (no ID)");
+				log.error("Error adding component: " + cmpInfo.getURL());
+				log.error("A component with same ID is already registered (" + map.get(id).getURL() + ")");
 			}
 		}
 		return result;
 	}
-
 }

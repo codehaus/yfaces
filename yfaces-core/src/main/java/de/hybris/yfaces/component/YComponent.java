@@ -26,13 +26,8 @@ import javax.faces.event.PhaseId;
  * @author Denny Strietzbaum
  */
 public interface YComponent extends /* Externalizable */Serializable {
-	/**
-	 * The id of this component. This is the same ID which is used within the components renderer
-	 * file.
-	 * 
-	 * @return component id
-	 */
-	public String getId();
+
+	YComponentInfo getComponentInfo();
 
 	/**
 	 * Returns a custom for general usage with the scope of this component.

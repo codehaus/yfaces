@@ -69,7 +69,7 @@ public class TestYComponentInfo extends TestCase {
 			log.info("Expected errors: " + this.expectedErrors);
 
 			//registry.processURL(url, this);
-			this.cmpInfo = cmpFac.createComponentInfo(url, null);
+			this.cmpInfo = cmpFac.createComponentInfo(url, "some.namespace");
 			this.wasAdded = registry.addComponent(cmpInfo);
 
 			if (this.wasAdded) {

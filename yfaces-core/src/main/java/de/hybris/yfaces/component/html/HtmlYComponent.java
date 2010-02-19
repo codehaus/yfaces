@@ -43,7 +43,6 @@ import de.hybris.yfaces.component.DefaultYComponentInfo;
 import de.hybris.yfaces.component.YComponent;
 import de.hybris.yfaces.component.YComponentBinding;
 import de.hybris.yfaces.component.YComponentInfo;
-import de.hybris.yfaces.component.YComponentRegistry;
 import de.hybris.yfaces.component.YComponentValidator;
 import de.hybris.yfaces.component.YComponentValidator.YValidationAspekt;
 
@@ -83,6 +82,7 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 	private transient String errorMsg = null;
 	private transient String logId = "[id]:";
 	private transient String debugHtmlOut = null;
+	private transient final String proposedId = null;
 
 	/**
 	 * Constructor.
@@ -128,6 +128,16 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 	 */
 	public void setSpec(final String interfaceClass) {
 		this.specClassName = interfaceClass;
+	}
+
+	@Override
+	public void setId(final String id) {
+		super.setId(id);
+	}
+
+	@Override
+	public String getId() {
+		return super.getId();
 	}
 
 	/**
@@ -197,8 +207,8 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 				if (YComponent.class.isAssignableFrom(vb.getType(elCtx))) {
 					vb.setValue(elCtx, cmp);
 				} else {
-					final YComponentBinding<YComponent> binding = new YComponentBinding<YComponent>(this
-							.getId());
+					final YComponentInfo cmpInfo = cmp.getComponentInfo();
+					final YComponentBinding<YComponent> binding = new YComponentBinding<YComponent>(cmpInfo);
 					vb.setValue(elCtx, binding);
 					binding.setValue(cmp);
 				}
@@ -599,12 +609,12 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 
 			result = (YComponent) value;
 
-			// When created via a Frame a YComponent has per default no ID
-			// in that case use UIComponent id (the unchanged one before
-			// duplicate check)
-			if (result.getId() == null) {
-				((AbstractYComponent) result).setId(getId());
-			}
+			//			// When created via a Frame a YComponent has per default no ID
+			//			// in that case use UIComponent id (the unchanged one before
+			//			// duplicate check)
+			//			if (result.getId() == null) {
+			//				((AbstractYComponent) result).setId(getId());
+			//			}
 
 			if (log.isDebugEnabled()) {
 				log.debug(logId + "found valid Component (" + result.getClass().getSimpleName() + ")");
@@ -803,7 +813,7 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 	 */
 	private void generateHtmlDebug(final YComponent cmp, final String prefix) {
 		if (this.debugHtmlOut == null) {
-			final YComponentInfo yInfo = YComponentRegistry.getInstance().getComponent(cmp.getId());
+			final YComponentInfo yInfo = cmp.getComponentInfo();
 			debugHtmlOut = "???";
 			if (yInfo != null) {
 				final String _file = yInfo.getURL().toExternalForm();

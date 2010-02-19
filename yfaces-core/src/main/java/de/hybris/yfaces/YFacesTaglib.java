@@ -235,7 +235,7 @@ public class YFacesTaglib extends AbstractTagLibrary {
 					if (added) {
 						// register component file at a Facelet Taglib as UserTag
 						final YFacesTaglib tagLib = getOrCreateTagLib(cmpInfo.getNamespace());
-						tagLib.addUserTag(cmpInfo.getComponentName(), cmpInfo.getURL());
+						tagLib.addUserTag(cmpInfo.getName(), cmpInfo.getURL());
 						if (warnings.isEmpty()) {
 							log.debug("Successfully added component: " + cmpInfo.getURL());
 						} else {

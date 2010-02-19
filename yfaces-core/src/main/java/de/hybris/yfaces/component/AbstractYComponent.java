@@ -43,29 +43,45 @@ public abstract class AbstractYComponent implements YComponent {
 	private Map<String, Object> attributes = null;
 	private String frameBinding = null;
 
-	private String id = null;// "[component]" + Math.random() ;
+	private String id = null;
+	private String ns = null;
+
 	private String uid = null;
 
 	private transient String logId = this.getClass().getSimpleName();
 	private transient String validationState = null;
+	private transient YComponentInfo cmpInfo = null;
 
 	public AbstractYComponent() {
 		this.uid = this.getClass().getName() + String.valueOf(Math.random());
 	}
 
-	public String getId() {
-		return this.id;
-	}
-
-	public void setId(final String id) {
-		this.id = id;
-	}
+	//	public String getId() {
+	//		return this.id;
+	//	}
+	//
+	//	public void setId(final String id) {
+	//		this.id = id;
+	//	}
 
 	public Map<String, Object> getAttributes() {
 		if (this.attributes == null) {
 			this.attributes = new HashMap<String, Object>();
 		}
 		return this.attributes;
+	}
+
+	public YComponentInfo getComponentInfo() {
+		if (this.cmpInfo == null) {
+			this.cmpInfo = YComponentRegistry.getInstance().getComponent(ns, id);
+		}
+		return this.cmpInfo;
+	}
+
+	void setYComponentInfo(final YComponentInfo info) {
+		this.id = info.getId();
+		this.ns = info.getNamespace();
+		this.cmpInfo = info;
 	}
 
 	/**
@@ -130,7 +146,11 @@ public abstract class AbstractYComponent implements YComponent {
 	}
 
 	public <T extends YComponent> T newInstance(final String id) {
-		return (T) YComponentRegistry.getInstance().getComponent(id).createComponent();
+		return this.newInstance(null, id);
+	}
+
+	public <T extends YComponent> T newInstance(final String ns, final String id) {
+		return (T) YComponentRegistry.getInstance().getComponent(ns, id).createComponent();
 	}
 
 	public <T extends YComponent> T newInstance(final T template) {
