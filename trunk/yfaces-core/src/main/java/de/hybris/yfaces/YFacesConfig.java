@@ -32,6 +32,9 @@ public enum YFacesConfig {
 	ALSO_REGISTER_NON_YCMP("yfaces.tags.registerNonYComponents", "true"),
 
 	NAMESPACE_CONTEXT("yfaces.taglib.namespace.context", ""), //
+
+	GENERATE_ID_SUFFIX("yfaces.component.generate.idSuffix", ""), //
+	GENERATE_VAR_SUFFIX("yfaces.component.generate.var", "Var"), //
 	;
 
 	static Map properties = null;

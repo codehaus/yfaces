@@ -207,6 +207,7 @@ public class YFacesTaglib extends AbstractTagLibrary {
 		final YComponentInfoFactory cmpFac = new YComponentInfoFactory(base);
 
 		final Map<String, Integer> dupIdCount = new HashMap<String, Integer>();
+		final String idSuffix = YFacesConfig.GENERATE_ID_SUFFIX.getString();
 
 		// for each ResourceCollector...
 		for (final ResourceCollector resCollector : resCollectors) {
@@ -225,7 +226,7 @@ public class YFacesTaglib extends AbstractTagLibrary {
 				if (cmpInfo != null) {
 
 					// take 'name' for 'id' if necessary
-					final String _uid = cmpInfo.getName() + "Cmp";
+					final String _uid = cmpInfo.getName() + idSuffix;
 
 					// create a short UID for every YComponentInfo
 					final Integer count = dupIdCount.get(_uid);
