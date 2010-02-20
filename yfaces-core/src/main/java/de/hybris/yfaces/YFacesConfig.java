@@ -28,13 +28,11 @@ public enum YFacesConfig {
 	/** Enable/Disable useful HTML comments */
 	ENABLE_HTML_DEBUG("yfaces.ycomponent.enableHtmlDebug", "false"),
 
-	/** when true registers non-ycomponents as tag too */
-	ALSO_REGISTER_NON_YCMP("yfaces.tags.registerNonYComponents", "true"),
-
 	NAMESPACE_CONTEXT("yfaces.taglib.namespace.context", ""), //
 
-	GENERATE_ID_SUFFIX("yfaces.component.generate.idSuffix", ""), //
-	GENERATE_VAR_SUFFIX("yfaces.component.generate.var", "Var"), //
+	GEN_CMP_ID_SUFFIX("yfaces.component.generate.idSuffix", ""), //
+	GEN_CMP_VARNAME_SUFFIX("yfaces.component.generate.varNameSuffix", "Var"), //
+	CMP_ERROR_HANDLING("yfaces.component.errorhandling", "debug"), //
 	;
 
 	static Map properties = null;

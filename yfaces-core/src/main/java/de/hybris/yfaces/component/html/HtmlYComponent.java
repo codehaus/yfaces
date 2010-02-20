@@ -38,7 +38,6 @@ import org.apache.log4j.Logger;
 import de.hybris.yfaces.YFacesConfig;
 import de.hybris.yfaces.YFacesELContext;
 import de.hybris.yfaces.YFacesException;
-import de.hybris.yfaces.component.AbstractYComponent;
 import de.hybris.yfaces.component.DefaultYComponentInfo;
 import de.hybris.yfaces.component.YComponent;
 import de.hybris.yfaces.component.YComponentBinding;
@@ -73,16 +72,18 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 	private String implClassName = null;
 	private String specClassName = null;
 	private String[] injectableProperties = null;
+	private String errorHandling = null;
 
-	// property is set by Facelets (HtmlYComponentHandler)
+	// properties are set by HtmlYComponentHandler ...
+	// ... the YComponentInfo for this UIComponent
 	private transient DefaultYComponentInfo cmpInfo = null;
+	// ... whether YComponentInfo needs validation (e.g. when view-file was modified)
 	private transient boolean isValidateCmpInfo = false;
 
 	// other transient members
-	private transient String errorMsg = null;
+	private transient Exception error = null;
 	private transient String logId = "[id]:";
 	private transient String debugHtmlOut = null;
-	private transient final String proposedId = null;
 
 	/**
 	 * Constructor.
@@ -138,6 +139,14 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 	@Override
 	public String getId() {
 		return super.getId();
+	}
+
+	public String getErrorHandling() {
+		return errorHandling;
+	}
+
+	public void setErrorHandling(final String errorHandling) {
+		this.errorHandling = errorHandling.toLowerCase();
 	}
 
 	/**
@@ -421,48 +430,49 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 				isValidated = true;
 			} catch (final YFacesException e) {
 				log.error("Validation error", e);
-				this.errorMsg = "Validation error";
+				this.error = e;
 			}
 		}
 
-		// get a YComponent instance
+		// if component is valid ...
 		YComponent cmp = null;
 		if (isValidated) {
 			try {
+				// ... get or create appropriate YComponent instance
 				cmp = this.getOrCreateYComponent(cmpInfo);
+
 			} catch (final YFacesException e) {
-				log.error("Creation error", e);
-				this.errorMsg = "Creation error";
+				log.error("Error creating " + YComponent.class.getSimpleName() + " ("
+						+ cmpInfo.getImplementation() + ")", e);
+				this.error = e;
 			}
 		}
 
+		// if a component is available...
 		if (cmp != null) {
 
-			// generate some html debug output when enabled
+			// ... generate html debug output when enabled
 			if (YFacesConfig.ENABLE_HTML_DEBUG.getBoolean()) {
 				this.generateHtmlDebug(cmp, "Start ");
 			}
 
-			((AbstractYComponent) cmp).setIllegalComponentState(null);
 			this.isValidateCmpInfo = false;
 
-			// inject attributes into component
+			// ... inject viewToModel attributes into component
 			try {
 				this.injectAttributes(cmp, cmpInfo);
 			} catch (final Exception e) {
 				log.error(logId + "Error injecting component attributes", e);
-				((AbstractYComponent) cmp).setIllegalComponentState(e.getClass().getSimpleName());
-				this.errorMsg = ((AbstractYComponent) cmp).getIllegalComponentState();
+				this.error = e;
 			}
 
-			// validate component
-			if (((AbstractYComponent) cmp).getIllegalComponentState() == null) {
+			// invoke phase: YComponent#validate
+			if (this.error == null) {
 				try {
 					cmp.validate();
 				} catch (final Exception e) {
 					log.error(logId + "Error while validating component", e);
-					((AbstractYComponent) cmp).setIllegalComponentState(e.getClass().getSimpleName());
-					this.errorMsg = ((AbstractYComponent) cmp).getIllegalComponentState();
+					this.error = e;
 				}
 			}
 
@@ -482,27 +492,43 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 	@Override
 	public void encodeChildren(final FacesContext context) throws IOException {
 
-		log
-				.error(logId
-						+ "has an invalid state (exception while injecting attributes, validating or refreshing component?)");
-
-		//		final String validationErrorMsg = ((AbstractYComponent) getYComponent())
-		//				.getIllegalComponentState();
-		final String validationErrorMsg = this.errorMsg;
-		if (validationErrorMsg == null) {
-			throw new YFacesException("Illegale state");
+		// an error is expected here, otherwise throw an exception
+		if (this.error == null) {
+			throw new YFacesException("Illegal " + HtmlYComponent.class.getSimpleName()
+					+ " state; error handling finds no error");
 		}
 		try {
-			final ResponseWriter writer = FacesContext.getCurrentInstance().getResponseWriter();
-			writer.startElement("div", this);
-			writer.writeAttribute("style", "color: red;font-weight:bold", null);
-			writer.writeText("Component error", null);
-			writer.startElement("div", this);
-			writer.writeAttribute("style", "color:red;font-style:italic;font-weight:normal", null);
-			writer.writeText("(" + validationErrorMsg + ")", null);
-			writer.endElement("div");
-			writer.endElement("div");
-			// ((AbstractYComponent) getYComponent()).setErrorMessage(null);
+			// work with requested errorHandling or take default configuration
+			String _errorHandling = this.errorHandling;
+			if (_errorHandling == null || _errorHandling.trim().length() == 0) {
+				_errorHandling = cmpInfo.getErrorHandling();
+			}
+
+			// only produce error message output when requested
+			if (!"none".equals(_errorHandling)) {
+
+				final ResponseWriter writer = FacesContext.getCurrentInstance().getResponseWriter();
+				writer.startElement("div", this);
+				writer.writeAttribute("style", "color: red;font-weight:bold", null);
+
+				if ("info".equals(_errorHandling)) {
+					writer.writeText("An error occured", null);
+				} else {
+					final String id = this.getYComponentInfo().getId();
+					writer.writeText("Error rendering '" + id + "'", null);
+					writer.startElement("div", this);
+					writer.writeAttribute("style", "color:red;font-style:italic;font-weight:normal", null);
+
+					final String msg = "debug".equals(_errorHandling) ? error.getClass().getSimpleName()
+							: error.getMessage();
+
+					writer.writeText("(" + msg + ")", null);
+					writer.endElement("div");
+				}
+
+				writer.endElement("div");
+				// ((AbstractYComponent) getYComponent()).setErrorMessage(null);
+			}
 		} catch (final Exception e) {
 			log.error("Error while generating HTML debug comment: " + e.getMessage());
 		}
@@ -514,11 +540,7 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 	@Override
 	public boolean getRendersChildren() {
 
-		//if (((AbstractYComponent) getYComponent()).getIllegalComponentState() != null) {
-		if (this.errorMsg == null) {
-			this.errorMsg = ((AbstractYComponent) getYComponent()).getIllegalComponentState();
-		}
-		final boolean result = (this.errorMsg != null) ? true : super.getRendersChildren();
+		final boolean result = (this.error != null) ? true : super.getRendersChildren();
 		return result;
 	}
 

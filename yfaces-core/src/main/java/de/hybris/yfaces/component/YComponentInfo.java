@@ -34,6 +34,7 @@ public interface YComponentInfo {
 	static final String ID_ATTRIBUTE = "id";
 	static final String SPEC_ATTRIBUTE = "spec";
 	static final String IMPL_ATTRIBUTE = "impl";
+	static final String ERROR_ATTRIBUTE = "errorHandling";
 	static final String INJECTABLE_ATTRIBUTE = "injectable";
 
 	/**
@@ -67,6 +68,8 @@ public interface YComponentInfo {
 	 * @return variable name
 	 */
 	String getVariableName();
+
+	public String getErrorHandling();
 
 	/**
 	 * Returns component properties which are allowed to be "pushed" from view into current processed

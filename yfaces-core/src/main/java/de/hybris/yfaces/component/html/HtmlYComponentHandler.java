@@ -96,6 +96,7 @@ public class HtmlYComponentHandler extends ComponentHandler {
 		final String varName = getAttributeValue(tag, YComponentInfo.VAR_ATTRIBUTE);
 		final String id = getAttributeValue(tag, YComponentInfo.ID_ATTRIBUTE);
 		final String injectable = getAttributeValue(tag, YComponentInfo.INJECTABLE_ATTRIBUTE);
+		final String errorHandling = getAttributeValue(tag, YComponentInfo.ERROR_ATTRIBUTE);
 
 		if (log.isDebugEnabled()) {
 			String updatedAttribs = "";
@@ -131,7 +132,10 @@ public class HtmlYComponentHandler extends ComponentHandler {
 		cmpInfo.setImplementation(implClass);
 		cmpInfo.setVariableName(varName);
 		cmpInfo.setId(id);
+		cmpInfo.setErrorHandling(errorHandling);
 		cmpInfo.setPushProperties(injectable);
+
+		cmpInfo.initialize();
 	}
 
 	/**
@@ -201,10 +205,10 @@ public class HtmlYComponentHandler extends ComponentHandler {
 
 		final HtmlYComponent htmlYCmp = (HtmlYComponent) cmp;
 
-		// YFACES-46: prototype code; dynamic ID calculation
 		final TagAttribute attrib = getAttribute("id");
 		if (attrib == null) {
-			final String id = this.cmpInfo.getUid();
+			//final String id = this.cmpInfo.getUid();
+			final String id = this.cmpInfo.getId();
 			//			final ValueExpression idValueExpr = ctx.getVariableMapper().resolveVariable("id");
 			//			if (idValueExpr != null) {
 			//				id = (String) idValueExpr.getValue(FacesContext.getCurrentInstance().getELContext());

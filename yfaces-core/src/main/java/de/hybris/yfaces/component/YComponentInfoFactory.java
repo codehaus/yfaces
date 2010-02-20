@@ -131,6 +131,7 @@ public class YComponentInfoFactory {
 				result.setVariableName(attributes.get(YComponentInfo.VAR_ATTRIBUTE));
 				result.setImplementation(attributes.get(YComponentInfo.IMPL_ATTRIBUTE));
 				result.setSpecification(attributes.get(YComponentInfo.SPEC_ATTRIBUTE));
+				result.setErrorHandling(attributes.get(YComponentInfo.ERROR_ATTRIBUTE));
 				final Collection<String> injectable = this.getComponentProperties(attributes);
 				result.setPushProperties(injectable);
 			}
