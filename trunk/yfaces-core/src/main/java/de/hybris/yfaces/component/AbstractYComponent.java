@@ -49,7 +49,6 @@ public abstract class AbstractYComponent implements YComponent {
 	private String uid = null;
 
 	private transient String logId = this.getClass().getSimpleName();
-	private transient String validationState = null;
 	private transient YComponentInfo cmpInfo = null;
 
 	public AbstractYComponent() {
@@ -166,14 +165,6 @@ public abstract class AbstractYComponent implements YComponent {
 					+ YComponent.class);
 		}
 		return result;
-	}
-
-	public void setIllegalComponentState(final String state) {
-		this.validationState = state;
-	}
-
-	public String getIllegalComponentState() {
-		return this.validationState;
 	}
 
 	/*

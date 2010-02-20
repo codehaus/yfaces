@@ -207,7 +207,7 @@ public class YFacesTaglib extends AbstractTagLibrary {
 		final YComponentInfoFactory cmpFac = new YComponentInfoFactory(base);
 
 		final Map<String, Integer> dupIdCount = new HashMap<String, Integer>();
-		final String idSuffix = YFacesConfig.GENERATE_ID_SUFFIX.getString();
+		final String idSuffix = YFacesConfig.GEN_CMP_ID_SUFFIX.getString();
 
 		// for each ResourceCollector...
 		for (final ResourceCollector resCollector : resCollectors) {
@@ -238,9 +238,7 @@ public class YFacesTaglib extends AbstractTagLibrary {
 						dupIdCount.put(_uid, Integer.valueOf(count.intValue() + 1));
 					}
 
-					if (cmpInfo.getId() == null || cmpInfo.getId().trim().length() == 0) {
-						cmpInfo.setId(_uid);
-					}
+					cmpInfo.initialize();
 
 					// validate that YComponent
 					// reduce level for "missing specification" from ERROR to WARNING 

@@ -31,6 +31,7 @@ import java.util.TreeSet;
 
 import org.apache.log4j.Logger;
 
+import de.hybris.yfaces.YFacesConfig;
 import de.hybris.yfaces.YFacesException;
 
 /**
@@ -46,6 +47,7 @@ public class DefaultYComponentInfo implements YComponentInfo {
 	private String cmpVar = null;
 	private String specClassName = null;
 	private String implClassName = null;
+	private String errorHandling = null;
 
 	// Properties which gets evaluated and injected; specified by renderer
 	private Set<String> pushProperties = Collections.emptySet();
@@ -150,6 +152,14 @@ public class DefaultYComponentInfo implements YComponentInfo {
 
 	public void setVariableName(final String varName) {
 		this.cmpVar = varName;
+	}
+
+	public String getErrorHandling() {
+		return errorHandling;
+	}
+
+	public void setErrorHandling(final String errorHandling) {
+		this.errorHandling = errorHandling;
 	}
 
 	public Collection<String> getPushProperties() {
@@ -262,7 +272,6 @@ public class DefaultYComponentInfo implements YComponentInfo {
 		YComponent result = null;
 		try {
 			result = (YComponent) this.getImplementationClass().newInstance();
-			//((AbstractYComponent) result).setId(this.id);
 			((AbstractYComponent) result).setYComponentInfo(this);
 		} catch (final Exception e) {
 			throw new YFacesException("Can't create " + YComponent.class.getName() + " instance ("
@@ -273,6 +282,34 @@ public class DefaultYComponentInfo implements YComponentInfo {
 
 	public YComponentValidator createValidator() {
 		return new YComponentValidator(this);
+	}
+
+	/**
+	 * Initializes missing values when possible.
+	 */
+	public void initialize() {
+
+		//if ID is missing, take UID 
+		if (isEmpty(this.id)) {
+			this.id = this.uid;
+			if (LOG.isDebugEnabled()) {
+				LOG.debug(this.cmpName + ": set missing '" + YComponentInfo.ID_ATTRIBUTE + "' to "
+						+ this.uid);
+			}
+		}
+
+		//if errorhandling is missing, take configured default
+		if (isEmpty(this.errorHandling)) {
+			this.errorHandling = YFacesConfig.CMP_ERROR_HANDLING.getString();
+			if (LOG.isDebugEnabled()) {
+				LOG.debug(this.cmpName + ": set missing '" + YComponentInfo.ERROR_ATTRIBUTE + "' to "
+						+ this.errorHandling);
+			}
+		}
+	}
+
+	private boolean isEmpty(final String value) {
+		return value == null || value.trim().length() == 0;
 	}
 
 	// Class to Methods lookup map.
@@ -292,46 +329,6 @@ public class DefaultYComponentInfo implements YComponentInfo {
 		}
 		return this.availableCmpProperties;
 	}
-
-	//	public void pushProperty(final YComponent cmp, final String property, Object value) {
-	//		final Method method = getAllProperties().get(property);
-	//
-	//		try {
-	//
-	//			// JSF 1.2: do type coercion (e.g. String->Integer)
-	//			value = FacesContext.getCurrentInstance().getApplication().getExpressionFactory()
-	//					.coerceToType(value, method.getParameterTypes()[0]);
-	//
-	//			// invoke setter
-	//			method.invoke(cmp, value);
-	//
-	//		} catch (final Exception e) {
-	//			if (e instanceof IllegalArgumentException) {
-	//				LOG.error(this.id + " Error converting " + value.getClass().getName() + " to "
-	//						+ method.getParameterTypes()[0].getName());
-	//			} else {
-	//				if (e instanceof InvocationTargetException) {
-	//					LOG.error(id + " Error while executing setter for attribute '" + property + "'");
-	//				}
-	//			}
-	//			final String error = id + " Error setting attribute '" + property + "' at "
-	//					+ cmp.getClass().getSimpleName() + "(" + method + ")";
-	//			throw new YFacesException(error, e);
-	//		}
-	//
-	//		// some nice debug output for bughunting
-	//		if (LOG.isDebugEnabled()) {
-	//			final String _value = (value != null) ? value.toString() : "null";
-	//			String suffix = "";
-	//			if (value instanceof Collection<?>) {
-	//				suffix = "(count:" + ((Collection<?>) value).size() + ")";
-	//			}
-	//
-	//			LOG.debug(id + "injected Attribute " + property + " ("
-	//					+ (_value.length() < 30 ? _value : _value.substring(0, 29).concat("...")) + ")" + suffix);
-	//		}
-	//
-	//	}
 
 	private Map<String, Method> findAllWriteProperties(final Class<?> startClass,
 			final Class<?> endClass) {
