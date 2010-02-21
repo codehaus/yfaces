@@ -27,7 +27,7 @@ import de.hybris.yfaces.YFacesTaglib;
 
 /**
  * A registry which holds meta information about registered YComponent. Components are registered
- * during startup. YComponent meta information are described as {@link DefaultYComponentInfo}.
+ * during startup. YComponent meta information are described as {@link YComponentInfoImpl}.
  * 
  * @author Denny Strietzbaum
  */
@@ -172,4 +172,5 @@ public class YComponentRegistry {
 		}
 		return result;
 	}
+
 }

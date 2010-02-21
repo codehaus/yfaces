@@ -32,10 +32,10 @@ public interface YComponentInfo {
 
 	static final String VAR_ATTRIBUTE = "var";
 	static final String ID_ATTRIBUTE = "id";
-	static final String SPEC_ATTRIBUTE = "spec";
-	static final String IMPL_ATTRIBUTE = "impl";
+	static final String SPEC_ATTRIBUTE = "model";
+	static final String IMPL_ATTRIBUTE = "default";
 	static final String ERROR_ATTRIBUTE = "errorHandling";
-	static final String INJECTABLE_ATTRIBUTE = "injectable";
+	static final String INJECTABLE_ATTRIBUTE = "passToModel";
 
 	/**
 	 * Returns the 'id' which is unique within this components namespace. This value is set in
@@ -69,7 +69,7 @@ public interface YComponentInfo {
 	 */
 	String getVariableName();
 
-	public String getErrorHandling();
+	String getErrorHandling();
 
 	/**
 	 * Returns component properties which are allowed to be "pushed" from view into current processed
@@ -118,5 +118,9 @@ public interface YComponentInfo {
 	 * @return {@link YComponentValidator}
 	 */
 	YComponentValidator createValidator();
+
+	YComponentProcessor getProcessor();
+
+	boolean isValid();
 
 }

@@ -40,10 +40,10 @@ public class YComponentValidator {
 	// placeholder: reserved properties (var, id, etc)
 	private static final String PLACEHOLDER_PROPERTIES = "properties";
 
-	private DefaultYComponentInfo cmpInfo = null;
+	private YComponentInfoImpl cmpInfo = null;
 
 	public YComponentValidator(final YComponentInfo cmpInfo) {
-		this.cmpInfo = (DefaultYComponentInfo) cmpInfo;
+		this.cmpInfo = (YComponentInfoImpl) cmpInfo;
 	}
 
 	/**
@@ -210,9 +210,6 @@ public class YComponentValidator {
 
 		this.assertProperties();
 
-		//			if (this.implClass != null) {
-		//				this.refreshWritableProperties();
-		//			}
 		return this.foundErrors;
 	}
 
@@ -291,7 +288,7 @@ public class YComponentValidator {
 		return isValid;
 	}
 
-	private void assertImplementationClass() {
+	private boolean assertImplementationClass() {
 		boolean isValid = true;
 
 		// lazy loading of implementation class
@@ -308,6 +305,8 @@ public class YComponentValidator {
 				this.addValidationProblem(problem);
 			}
 		}
+
+		return isValid;
 	}
 
 	/**

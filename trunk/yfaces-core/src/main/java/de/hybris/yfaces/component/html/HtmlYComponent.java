@@ -16,8 +16,6 @@
 package de.hybris.yfaces.component.html;
 
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
@@ -38,10 +36,11 @@ import org.apache.log4j.Logger;
 import de.hybris.yfaces.YFacesConfig;
 import de.hybris.yfaces.YFacesELContext;
 import de.hybris.yfaces.YFacesException;
-import de.hybris.yfaces.component.DefaultYComponentInfo;
 import de.hybris.yfaces.component.YComponent;
 import de.hybris.yfaces.component.YComponentBinding;
 import de.hybris.yfaces.component.YComponentInfo;
+import de.hybris.yfaces.component.YComponentInfoImpl;
+import de.hybris.yfaces.component.YComponentProcessor;
 import de.hybris.yfaces.component.YComponentValidator;
 import de.hybris.yfaces.component.YComponentValidator.YValidationAspekt;
 
@@ -76,9 +75,7 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 
 	// properties are set by HtmlYComponentHandler ...
 	// ... the YComponentInfo for this UIComponent
-	private transient DefaultYComponentInfo cmpInfo = null;
-	// ... whether YComponentInfo needs validation (e.g. when view-file was modified)
-	private transient boolean isValidateCmpInfo = false;
+	private transient YComponentInfo cmpInfo = null;
 
 	// other transient members
 	private transient Exception error = null;
@@ -419,15 +416,15 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 		super.encodeBegin(context);
 
 		// get YComponentInfo for current processed component
-		final DefaultYComponentInfo cmpInfo = this.getYComponentInfo();
+		final YComponentInfo cmpInfo = this.getYComponentInfo();
 
 		// YComponentInfo must be validated when HtmlYComponentHandler detected a change in Facelet file
-		boolean isValidated = !this.isValidateYComponentInfo();
-		if (!isValidated) {
+		//boolean isValidated = !this.isValidateYComponentInfo();
+		if (!cmpInfo.isValid()) {
 			final YComponentValidator cmpValid = cmpInfo.createValidator();
 			try {
 				this.validateComponentInfo(cmpValid);
-				isValidated = true;
+				((YComponentInfoImpl) cmpInfo).setValid(true);
 			} catch (final YFacesException e) {
 				log.error("Validation error", e);
 				this.error = e;
@@ -436,7 +433,7 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 
 		// if component is valid ...
 		YComponent cmp = null;
-		if (isValidated) {
+		if (cmpInfo.isValid()) {
 			try {
 				// ... get or create appropriate YComponent instance
 				cmp = this.getOrCreateYComponent(cmpInfo);
@@ -456,11 +453,9 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 				this.generateHtmlDebug(cmp, "Start ");
 			}
 
-			this.isValidateCmpInfo = false;
-
 			// ... inject viewToModel attributes into component
 			try {
-				this.injectAttributes(cmp, cmpInfo);
+				this.pushAttributesIntoModel(cmp, cmpInfo);
 			} catch (final Exception e) {
 				log.error(logId + "Error injecting component attributes", e);
 				this.error = e;
@@ -550,24 +545,24 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 	 * 
 	 * @return {@link YComponentInfo}
 	 */
-	protected DefaultYComponentInfo getYComponentInfo() {
+	protected YComponentInfo getYComponentInfo() {
 		if (cmpInfo == null) {
-			cmpInfo = new DefaultYComponentInfo(getId(), getVarName(), this.getSpec(), this.getImpl());
+			cmpInfo = new YComponentInfoImpl(getId(), getVarName(), this.getSpec(), this.getImpl());
 		}
 		return cmpInfo;
 	}
 
-	protected void setComponentInfo(final DefaultYComponentInfo cmpInfo) {
+	protected void setComponentInfo(final YComponentInfoImpl cmpInfo) {
 		this.cmpInfo = cmpInfo;
 	}
 
-	protected boolean isValidateYComponentInfo() {
-		return isValidateCmpInfo;
-	}
-
-	protected void setValidateYComponentInfo(final boolean isValidateCmpInfo) {
-		this.isValidateCmpInfo = isValidateCmpInfo;
-	}
+	//	protected boolean isValidateYComponentInfo() {
+	//		return isValidateCmpInfo;
+	//	}
+	//
+	//	protected void setValidateYComponentInfo(final boolean isValidateCmpInfo) {
+	//		this.isValidateCmpInfo = isValidateCmpInfo;
+	//	}
 
 	private void validateComponentInfo(final YComponentValidator cmpValid) {
 
@@ -612,14 +607,20 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 		if (value == null) {
 
 			// ...create a default YComponent 
-			result = ((DefaultYComponentInfo) cmpInfo).createComponent();
+			result = cmpInfo.getProcessor().createComponent();
 
 			// ...and update ValueBinding (if any)
 			this.setValue(result);
 
 			// if a YComponent instance is available...
 		} else {
-			// ...validate it
+
+			if (value instanceof YComponent && ((YComponent) value).getComponentInfo() == null) {
+				// ComponentInfo is empty whenever a YComponent is created via Constructor
+				cmpInfo.getProcessor().initializeComponent((YComponent) value);
+			}
+
+			// ...validate passed model 
 			final YComponentValidator cmpValid = cmpInfo.createValidator();
 			final Set<YValidationAspekt> errors = cmpValid.assertCustomImplementationClass(value
 					.getClass());
@@ -641,7 +642,6 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 			if (log.isDebugEnabled()) {
 				log.debug(logId + "found valid Component (" + result.getClass().getSimpleName() + ")");
 			}
-
 		}
 		return result;
 
@@ -758,16 +758,13 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 	 * @param cmp
 	 *          {@link YComponent}
 	 */
-	private void injectAttributes(final YComponent cmp, final DefaultYComponentInfo cmpInfo) {
+	private void pushAttributesIntoModel(final YComponent cmp, final YComponentInfo cmpInfo) {
 
-		// attributes are given as comma separated list ("injectable"
-		// attribute)
-		// e.g. <yf:component ... injectable="myProperty1,myProperty2"
-		//final String[] attributes = this.getInjectableProperties();
 		final Collection<String> attributes = cmpInfo.getPushProperties();
 
 		// now go through all attributes which shall be injected
 		if (attributes != null) {
+			final YComponentProcessor yProc = cmpInfo.getProcessor();
 			for (final String attribute : attributes) {
 
 				// attribute value may either be a ValueExpression or a Literal
@@ -777,52 +774,10 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 
 				// when a value can be found
 				if (value != null) {
-					this.pushProperty(cmp, attribute, value, cmpInfo);
+					yProc.setProperty(cmp, attribute, value);
 				}
 			}
 		}
-	}
-
-	public void pushProperty(final YComponent cmp, final String property, Object value,
-			final DefaultYComponentInfo cmpInfo) {
-		final Method method = cmpInfo.getAllProperties().get(property);
-
-		try {
-
-			// JSF 1.2: do type coercion (e.g. String->Integer)
-			value = FacesContext.getCurrentInstance().getApplication().getExpressionFactory()
-					.coerceToType(value, method.getParameterTypes()[0]);
-
-			// invoke setter
-			method.invoke(cmp, value);
-
-		} catch (final Exception e) {
-			if (e instanceof IllegalArgumentException) {
-				log.error(cmpInfo.getId() + " Error converting " + value.getClass().getName() + " to "
-						+ method.getParameterTypes()[0].getName());
-			} else {
-				if (e instanceof InvocationTargetException) {
-					log.error(cmpInfo.getId() + " Error while executing setter for attribute '" + property
-							+ "'");
-				}
-			}
-			final String error = cmpInfo.getId() + " Error setting attribute '" + property + "' at "
-					+ cmp.getClass().getSimpleName() + "(" + method + ")";
-			throw new YFacesException(error, e);
-		}
-
-		// some nice debug output for bughunting
-		if (log.isDebugEnabled()) {
-			final String _value = (value != null) ? value.toString() : "null";
-			String suffix = "";
-			if (value instanceof Collection<?>) {
-				suffix = "(count:" + ((Collection<?>) value).size() + ")";
-			}
-
-			log.debug(cmpInfo.getId() + "injected Attribute " + property + " ("
-					+ (_value.length() < 30 ? _value : _value.substring(0, 29).concat("...")) + ")" + suffix);
-		}
-
 	}
 
 	/**

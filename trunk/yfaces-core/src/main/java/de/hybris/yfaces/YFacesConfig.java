@@ -72,6 +72,14 @@ public enum YFacesConfig {
 		return getBoolean(properties);
 	}
 
+	public static Object getValue(final String key) {
+		return properties.get(key);
+	}
+
+	public static void setValue(final String key, final Object value) {
+		properties.put(key, value);
+	}
+
 	private String getString(final Map<String, String> properties) {
 		String result = properties != null ? (String) properties.get(key) : null;
 		if (result == null || result.trim().length() == 0) {

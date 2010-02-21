@@ -80,14 +80,13 @@ public class YComponentBinding<T extends YComponent> {
 	public T getValue() {
 		// standard lookup
 		if (this.value == null && this.id != null) {
-			final DefaultYComponentInfo cmpd = (DefaultYComponentInfo) YComponentRegistry.getInstance()
-					.getComponent(this.ns, this.id);
+			final YComponentInfo cmpInfo = YComponentRegistry.getInstance().getComponent(this.ns, this.id);
 
-			if (cmpd == null) {
+			if (cmpInfo == null) {
 				throw new YFacesException("There is no component with id '" + this.id + "' registered.");
 			}
 
-			this.value = (T) cmpd.createComponent();
+			this.value = (T) cmpInfo.getProcessor().createComponent();
 			((AbstractYComponent) value).setFrame(this.frameBinding);
 		}
 

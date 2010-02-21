@@ -41,7 +41,7 @@ import com.sun.facelets.FaceletFactory;
 import com.sun.facelets.impl.DefaultFaceletFactory;
 import com.sun.facelets.tag.AbstractTagLibrary;
 
-import de.hybris.yfaces.component.DefaultYComponentInfo;
+import de.hybris.yfaces.component.YComponentInfoImpl;
 import de.hybris.yfaces.component.YComponentInfoFactory;
 import de.hybris.yfaces.component.YComponentRegistry;
 import de.hybris.yfaces.component.YComponentValidator;
@@ -219,7 +219,7 @@ public class YFacesTaglib extends AbstractTagLibrary {
 			for (final URL url : resCollector.getFileResources()) {
 
 				//...create component meta information
-				final DefaultYComponentInfo cmpInfo = (DefaultYComponentInfo) cmpFac.createComponentInfo(
+				final YComponentInfoImpl cmpInfo = (YComponentInfoImpl) cmpFac.createComponentInfo(
 						url, namespace);
 
 				//...which is successful when it's really a YComponent and not only a simple file

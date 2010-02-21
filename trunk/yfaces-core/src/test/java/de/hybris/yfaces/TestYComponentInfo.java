@@ -14,7 +14,7 @@ import junit.framework.TestCase;
 
 import org.apache.log4j.Logger;
 
-import de.hybris.yfaces.component.DefaultYComponentInfo;
+import de.hybris.yfaces.component.YComponentInfoImpl;
 import de.hybris.yfaces.component.YComponentInfo;
 import de.hybris.yfaces.component.YComponentInfoFactory;
 import de.hybris.yfaces.component.YComponentRegistry;
@@ -109,18 +109,19 @@ public class TestYComponentInfo extends TestCase {
 
 		// test various whitespaces (space, tab etc)
 		final String[] cmps1 = new String[] {
-				"<yf:component id=\"id1\" impl=\"" + impl + "\" spec=\"" + spec + "\" var=\"" + var + "\">",
-				"<yf:component   id =\"id1\"  impl=\"" + impl + "\"   spec=	\"" + spec + "\"		var=\"" + var
-						+ "\" >",
-				"<yf:component	id	=	\"id1\"	impl	=	\"" + impl + "\"	spec=\"" + spec + "\"	var	=\"" + var
-						+ "\" >",
-				"<yf:component	id	= \" id1\"	impl=	\"		" + impl + "\"	spec=\"" + spec + "\" var=\"" + var
-						+ "	\" >", };
+				"<yf:component id=\"id1\" default=\"" + impl + "\" model=\"" + spec + "\" var=\"" + var
+						+ "\">",
+				"<yf:component   id =\"id1\"  default=\"" + impl + "\"   model=	\"" + spec + "\"		var=\""
+						+ var + "\" >",
+				"<yf:component	id	=	\"id1\"	default	=	\"" + impl + "\"	model=\"" + spec + "\"	var	=\""
+						+ var + "\" >",
+				"<yf:component	id	= \" id1\"	default=	\"		" + impl + "\"	model=\"" + spec + "\" var=\""
+						+ var + "	\" >", };
 
 		final YComponentInfoFactory cmpFac = new YComponentInfoFactory();
 		for (final String s : cmps1) {
 			// System.out.println(count++ + ": " + s);
-			final DefaultYComponentInfo cmpInfo = cmpFac.createComponentInfo(HEAD + s);
+			final YComponentInfoImpl cmpInfo = cmpFac.createComponentInfo(HEAD + s);
 			assertEquals(spec, cmpInfo.getSpecification());
 			assertEquals(impl, cmpInfo.getImplementation());
 			assertEquals(var, cmpInfo.getVariableName());
@@ -130,21 +131,21 @@ public class TestYComponentInfo extends TestCase {
 
 		// test 'injectable' properties (boths styles)
 		final String[] cmps2 = new String[] {
-				"<yf:component impl=\"" + impl + "\" injectable=\"prop1,prop2,prop3,prop4\">",
-				"<yf:component impl=\"" + impl + "\" injectable=\"	prop1 ,prop2	,prop3,	prop4\">",
-				"<yf:component impl=\"" + impl
+				"<yf:component default=\"" + impl + "\" passToModel=\"prop1,prop2,prop3,prop4\">",
+				"<yf:component default=\"" + impl + "\" passToModel=\"	prop1 ,prop2	,prop3,	prop4\">",
+				"<yf:component default=\"" + impl
 						+ "\" prop1=\"#{prop1}\" prop2=\"#{prop2}\" prop3=\"#{prop3}\" prop4=\"#{prop4}\">",
-				"<yf:component impl=\"" + impl
+				"<yf:component default=\"" + impl
 						+ "\" prop1=\"#{prop1}\" prop2=\"#{prop1}\" prop3=\"#{prop1}\" prop4=\"#{prop1}\">",
-				"<yf:component impl=\"" + impl
-						+ "\" injectable=\"prop1,prop2\" prop3=\"#{prop1}\" prop4=\"#{prop1}\">",
-				"<yf:component impl=\"" + impl
-						+ "\" injectable=\"prop1,prop2,prop3\" prop3=\"#{prop1}\" prop4=\"#{prop1}\">",
-				"<yf:component impl=\"" + impl
-						+ "\" injectable=\"prop1,prop2,prop3\" prop4 =	\" #{prop4}	\">", };
+				"<yf:component default=\"" + impl
+						+ "\" passToModel=\"prop1,prop2\" prop3=\"#{prop1}\" prop4=\"#{prop1}\">",
+				"<yf:component default=\"" + impl
+						+ "\" passToModel=\"prop1,prop2,prop3\" prop3=\"#{prop1}\" prop4=\"#{prop1}\">",
+				"<yf:component default=\"" + impl
+						+ "\" passToModel=\"prop1,prop2,prop3\" prop4 =	\" #{prop4}	\">", };
 		for (final String s : cmps2) {
 			// System.out.println(count++ + ": " + s);
-			final DefaultYComponentInfo cmpInfo = cmpFac.createComponentInfo(HEAD + s);
+			final YComponentInfoImpl cmpInfo = cmpFac.createComponentInfo(HEAD + s);
 			final Collection<String> props = cmpInfo.getPushProperties();
 			assertEquals(4, props.size());
 			assertTrue("Got properties " + props.toString(), props.containsAll(properties));
@@ -164,7 +165,7 @@ public class TestYComponentInfo extends TestCase {
 		final String spec = TEST_COMPONENT;
 		final String impl = TEST_COMPONENT_IMPL;
 		final String var = "adBannerCmpVar";
-		DefaultYComponentInfo cmpInfo = null;
+		YComponentInfoImpl cmpInfo = null;
 		final YComponentInfoFactory cmpFac = new YComponentInfoFactory();
 
 		// test various errors
@@ -174,36 +175,36 @@ public class TestYComponentInfo extends TestCase {
 			Collection<YValidationAspekt> expected = null;
 			switch (count) {
 			case 0:
-				cmp = "<yf:component impl=\"" + impl + "\"  spec=\"" + spec + "\" var=\"" + var + "\">";
+				cmp = "<yf:component default=\"" + impl + "\"  model=\"" + spec + "\" var=\"" + var + "\">";
 				expected = Arrays.asList(YValidationAspekt.VIEW_ID_NOT_SPECIFIED);
 				break;
 			case 1:
-				cmp = "<yf:component impl=\"" + impl + "\" >";
+				cmp = "<yf:component default=\"" + impl + "\" >";
 				expected = Arrays.asList(YValidationAspekt.VIEW_ID_NOT_SPECIFIED,
 						YValidationAspekt.VIEW_VAR_NOT_SPECIFIED, YValidationAspekt.SPEC_IS_MISSING);
 				break;
 			case 2:
-				cmp = "<yf:component id=\"id\" impl=\"java.util.List\" var=\"var\">";
+				cmp = "<yf:component id=\"id\" default=\"java.util.List\" var=\"var\">";
 				expected = Arrays.asList(YValidationAspekt.SPEC_IS_MISSING,
 						YValidationAspekt.IMPL_IS_INTERFACE, YValidationAspekt.IMPL_IS_NO_YCMP);
 				break;
 			case 3:
-				cmp = "<yf:component id=\"id\" impl=\"java.util.ArrayList\" var=\"var\">";
+				cmp = "<yf:component id=\"id\" default=\"java.util.ArrayList\" var=\"var\">";
 				expected = Arrays.asList(YValidationAspekt.SPEC_IS_MISSING,
 						YValidationAspekt.IMPL_IS_NO_YCMP);
 				break;
 			case 4:
-				cmp = "<yf:component id=\"id\" spec=\"java.util.List\" impl=\"java.util.ArrayList\" var=\"var\">";
+				cmp = "<yf:component id=\"id\" model=\"java.util.List\" default=\"java.util.ArrayList\" var=\"var\">";
 				expected = Arrays.asList(YValidationAspekt.SPEC_IS_NO_YCMP,
 						YValidationAspekt.IMPL_IS_NO_YCMP);
 				break;
 			case 5:
-				cmp = "<yf:component id=\"id\" spec=\"java.util.ArrayList\" impl=\"java.util.ArrayList\" var=\"var\">";
+				cmp = "<yf:component id=\"id\" model=\"java.util.ArrayList\" default=\"java.util.ArrayList\" var=\"var\">";
 				expected = Arrays.asList(YValidationAspekt.SPEC_IS_NO_INTERFACE,
 						YValidationAspekt.SPEC_IS_NO_YCMP, YValidationAspekt.IMPL_IS_NO_YCMP);
 				break;
 			case 6:
-				cmp = "<yf:component id=\"id\" spec=\"java.util.Listxxx\" impl=\"java.util.ArrayListxxx\" var=\"var\">";
+				cmp = "<yf:component id=\"id\" model=\"java.util.Listxxx\" default=\"java.util.ArrayListxxx\" var=\"var\">";
 				expected = Arrays.asList(YValidationAspekt.SPEC_NOT_LOADABLE,
 						YValidationAspekt.IMPL_NOT_LOADABLE);
 				break;
@@ -223,7 +224,7 @@ public class TestYComponentInfo extends TestCase {
 	}
 
 	/**
-	 * Tests {@link YComponentRegistry} and {@link DefaultYComponentInfo} validation. Additional does
+	 * Tests {@link YComponentRegistry} and {@link YComponentInfoImpl} validation. Additional does
 	 * enhanced text parsing as components are provided as external resources.
 	 */
 	public void testYComponentRegistry() {
