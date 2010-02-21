@@ -18,8 +18,6 @@ package de.hybris.yfaces.component.html;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.TreeSet;
 
 import javax.el.ELException;
@@ -36,11 +34,9 @@ import com.sun.facelets.tag.TagAttribute;
 import com.sun.facelets.tag.jsf.ComponentConfig;
 import com.sun.facelets.tag.jsf.ComponentHandler;
 
-import de.hybris.yfaces.component.DefaultYComponentInfo;
 import de.hybris.yfaces.component.YComponentInfo;
+import de.hybris.yfaces.component.YComponentInfoImpl;
 import de.hybris.yfaces.component.YComponentRegistry;
-import de.hybris.yfaces.component.YComponentValidator;
-import de.hybris.yfaces.component.YComponentValidator.YValidationAspekt;
 
 /**
  * A custom {@link ComponentHandler} which prepares {@link HtmlYComponent}
@@ -54,34 +50,38 @@ public class HtmlYComponentHandler extends ComponentHandler {
 	//private final TagAttribute attributes;
 
 	// YComponentInfo gets newly created whenever facelet-file was changed
-	private DefaultYComponentInfo cmpInfo = null;
-	private boolean isValidateCmpInfo = false;
+	private YComponentInfoImpl cmpInfo = null;
 
+	/**
+	 * Constructor.
+	 * <p/>
+	 * Watched behavior:<br/>
+	 * - gets newly constructed, whenever Facelet file was modified
+	 * 
+	 * @param config
+	 *          {@link ComponentConfig}
+	 */
 	public HtmlYComponentHandler(final ComponentConfig config) {
 		super(config);
 
 		final String tagPath = config.getTag().getLocation().getPath();
 
-		this.cmpInfo = (DefaultYComponentInfo) YComponentRegistry.getInstance().getComponentByPath(
-				tagPath);
+		this.cmpInfo = (YComponentInfoImpl) YComponentRegistry.getInstance()
+				.getComponentByPath(tagPath);
 
+		// should be considered, to make this an exception
 		if (log.isDebugEnabled() && cmpInfo == null) {
 			log.error("No " + YComponentInfo.class.getSimpleName() + " for " + tagPath + " found");
 		}
 
+		// a ComponentInfo is available for the 'location' (view file location) of this handler
 		if (cmpInfo != null) {
+
+			// refresh some attributes
 			this.updateYComponentInfo(config.getTag());
-			final YComponentValidator cmpValid = cmpInfo.createValidator();
-			final Set<YValidationAspekt> errors = new HashSet<YValidationAspekt>(cmpValid
-					.verifyComponent());
-			errors.remove(YValidationAspekt.VIEW_ID_NOT_SPECIFIED);
-			errors.remove(YValidationAspekt.SPEC_IS_MISSING);
 
-			this.isValidateCmpInfo = !errors.isEmpty();
-
-			if (log.isDebugEnabled() && !errors.isEmpty()) {
-				log.debug("Component has validation errors" + errors);
-			}
+			// force validation in HtmlYComponent
+			cmpInfo.setValid(false);
 		}
 
 	}
@@ -205,17 +205,17 @@ public class HtmlYComponentHandler extends ComponentHandler {
 
 		final HtmlYComponent htmlYCmp = (HtmlYComponent) cmp;
 
+		//		final String _id = (String) ctx.getAttribute("id");
+		//		if (_id == null) {
 		final TagAttribute attrib = getAttribute("id");
 		if (attrib == null) {
-			//final String id = this.cmpInfo.getUid();
 			final String id = this.cmpInfo.getId();
-			//			final ValueExpression idValueExpr = ctx.getVariableMapper().resolveVariable("id");
-			//			if (idValueExpr != null) {
-			//				id = (String) idValueExpr.getValue(FacesContext.getCurrentInstance().getELContext());
-			//			}
 			cmp.setId(id);
 			log.debug("Setting component id: " + cmpInfo.getId());
 		}
+		//		} else {
+		//			cmp.setId(_id);
+		//		}
 
 		// publish ValueExpression for 'binding' into HtmlYComponent
 		// value of that expression is the YComponent instance
@@ -224,18 +224,18 @@ public class HtmlYComponentHandler extends ComponentHandler {
 
 		// publish ValueExpression for push-properties into HtmlYComponent
 		// values of that expressions are injected/pushed into YComponent
-		final Collection<String> injectable = this.cmpInfo.getPushProperties();
-		if (injectable != null) {
+		final Collection<String> passToModelProps = this.cmpInfo.getPushProperties();
+		if (passToModelProps != null) {
 			// iterate over each supported push-property...
-			for (final String property : injectable) {
+			for (final String passToModelProp : passToModelProps) {
 				// ... and try find a ValueExpression for this one
-				final ValueExpression valueExpr = ctx.getVariableMapper().resolveVariable(property);
+				final ValueExpression valueExpr = ctx.getVariableMapper().resolveVariable(passToModelProp);
 				// ... if a ValueExpression is available (property is set in facelet tag)
 				if (valueExpr != null) {
 					// ... publish that expression to HtmlYComponent
-					htmlYCmp.setValueExpression(property, valueExpr);
+					htmlYCmp.setValueExpression(passToModelProp, valueExpr);
 					if (log.isDebugEnabled()) {
-						log.debug("Publish ValueExpression " + property + "='"
+						log.debug("Publish ValueExpression " + passToModelProp + "='"
 								+ valueExpr.getExpressionString() + "' to " + htmlYCmp.getId() + " ("
 								+ htmlYCmp.hashCode() + ")");
 					}
@@ -270,7 +270,6 @@ public class HtmlYComponentHandler extends ComponentHandler {
 	protected void onComponentPopulated(final FaceletContext ctx, final UIComponent cmp,
 			final UIComponent uicomponent1) {
 		super.onComponentPopulated(ctx, cmp, uicomponent1);
-		((HtmlYComponent) cmp).setValidateYComponentInfo(this.isValidateCmpInfo);
 		((HtmlYComponent) cmp).setComponentInfo(cmpInfo);
 	}
 

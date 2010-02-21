@@ -149,9 +149,9 @@ public abstract class AbstractYComponent implements YComponent {
 	}
 
 	public <T extends YComponent> T newInstance(final String ns, final String id) {
-		final DefaultYComponentInfo cmpInfo = (DefaultYComponentInfo) YComponentRegistry.getInstance()
-				.getComponent(ns, id);
-		return (T) cmpInfo.createComponent();
+
+		final YComponentInfo cmpInfo = YComponentRegistry.getInstance().getComponent(ns, id);
+		return (T) cmpInfo.getProcessor().createComponent();
 	}
 
 	public <T extends YComponent> T newInstance(final T template) {

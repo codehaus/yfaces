@@ -39,8 +39,8 @@ import de.hybris.yfaces.YFacesException;
  * 
  * @author Denny Strietzbaum
  */
-public class DefaultYComponentInfo implements YComponentInfo {
-	private static final Logger LOG = Logger.getLogger(DefaultYComponentInfo.class);
+public class YComponentInfoImpl implements YComponentInfo {
+	private static final Logger LOG = Logger.getLogger(YComponentInfoImpl.class);
 
 	// raw (unevaluated) attribute values
 	private String id = null;
@@ -62,23 +62,29 @@ public class DefaultYComponentInfo implements YComponentInfo {
 	protected Class<?> implClass = null;
 	protected Class<?> specClass = null;
 
-	protected DefaultYComponentInfo() {
+	private boolean isValid = false;
+
+	private YComponentProcessor cmpProcessor = null;
+
+	protected YComponentInfoImpl() {
 		this.pushProperties = Collections.emptySet();
+		this.cmpProcessor = new YComponentProcessorImpl(this);
 	}
 
 	/**
 	 * Constructor. Initializes this instance by parsing the url stream.
 	 */
-	public DefaultYComponentInfo(final String id, final String varName, final String specClassname,
+	public YComponentInfoImpl(final String id, final String varName, final String specClassname,
 			final String implClassName) {
+		this();
 		this.id = id;
 		this.cmpVar = varName;
 		this.specClassName = specClassname;
 		this.implClassName = implClassName;
-		this.pushProperties = Collections.emptySet();
 	}
 
-	public DefaultYComponentInfo(final String namespace, final URL url) {
+	public YComponentInfoImpl(final String namespace, final URL url) {
+		this();
 		this.namespace = namespace;
 		this.url = url;
 	}
@@ -234,7 +240,7 @@ public class DefaultYComponentInfo implements YComponentInfo {
 
 	@Override
 	public boolean equals(final Object obj) {
-		return this.url.toExternalForm().equals(((DefaultYComponentInfo) obj).url.toExternalForm());
+		return this.url.toExternalForm().equals(((YComponentInfoImpl) obj).url.toExternalForm());
 	}
 
 	@Override
@@ -263,25 +269,20 @@ public class DefaultYComponentInfo implements YComponentInfo {
 		return this.implClass;
 	}
 
-	/**
-	 * Creates and returns an {@link YComponent} instance based on this information.
-	 * 
-	 * @return {@link YComponent}
-	 */
-	public YComponent createComponent() {
-		YComponent result = null;
-		try {
-			result = (YComponent) this.getImplementationClass().newInstance();
-			((AbstractYComponent) result).setYComponentInfo(this);
-		} catch (final Exception e) {
-			throw new YFacesException("Can't create " + YComponent.class.getName() + " instance ("
-					+ implClass + ")", e);
-		}
-		return result;
+	public boolean isValid() {
+		return isValid;
+	}
+
+	public void setValid(final boolean isValid) {
+		this.isValid = isValid;
 	}
 
 	public YComponentValidator createValidator() {
 		return new YComponentValidator(this);
+	}
+
+	public YComponentProcessor getProcessor() {
+		return this.cmpProcessor;
 	}
 
 	/**

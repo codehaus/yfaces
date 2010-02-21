@@ -34,7 +34,7 @@ import org.apache.commons.io.IOUtils;
 import de.hybris.yfaces.YFacesTaglib;
 
 /**
- * Factory class for {@link DefaultYComponentInfo} instances.
+ * Factory class for {@link YComponentInfoImpl} instances.
  * 
  * @author Denny Strietzbaum
  */
@@ -77,7 +77,7 @@ public class YComponentInfoFactory {
 
 	public YComponentInfo createComponentInfo(final URL url, final String namespace) {
 
-		DefaultYComponentInfo result = null;
+		YComponentInfoImpl result = null;
 
 		// get component name
 		final String cmpName = this.getComponentName(url);
@@ -109,9 +109,9 @@ public class YComponentInfoFactory {
 		return result;
 	}
 
-	public DefaultYComponentInfo createComponentInfo(final String content) {
+	public YComponentInfoImpl createComponentInfo(final String content) {
 
-		DefaultYComponentInfo result = null;
+		YComponentInfoImpl result = null;
 
 		// get namespace prefix used for HtmlYCOmponent
 		final String nsPrefix = this.getYComponentNamespacePrefix(content);
@@ -121,7 +121,7 @@ public class YComponentInfoFactory {
 
 			if (attributes != null) {
 
-				result = new DefaultYComponentInfo();
+				result = new YComponentInfoImpl();
 
 				// this.creationTime =
 				// resource.openConnection().getLastModified();
