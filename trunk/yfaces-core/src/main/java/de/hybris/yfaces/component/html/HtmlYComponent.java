@@ -572,7 +572,7 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 
 		final Set<YValidationAspekt> errors = new HashSet<YValidationAspekt>(cmpValid.verifyComponent());
 		errors.remove(YValidationAspekt.VIEW_ID_NOT_SPECIFIED);
-		errors.remove(YValidationAspekt.MODEL_IS_MISSING);
+		errors.remove(YValidationAspekt.SPEC_IS_MISSING);
 
 		final String errorString = YValidationAspekt.getFormattedErrorMessage(errors, cmpValid
 				.getYComponentInfo(), null);
