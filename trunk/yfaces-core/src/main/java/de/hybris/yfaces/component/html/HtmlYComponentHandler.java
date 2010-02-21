@@ -91,20 +91,20 @@ public class HtmlYComponentHandler extends ComponentHandler {
 		log.debug("Refreshing " + YComponentInfo.class.getSimpleName() + " for "
 				+ cmpInfo.getLocation() + "...");
 
-		final String specClass = getAttributeValue(tag, YComponentInfo.SPEC_ATTRIBUTE);
-		final String implClass = getAttributeValue(tag, YComponentInfo.IMPL_ATTRIBUTE);
+		final String specClass = getAttributeValue(tag, YComponentInfo.MODEL_SPEC_ATTRIBUTE);
+		final String implClass = getAttributeValue(tag, YComponentInfo.MODEL_IMPL_ATTRIBUTE);
 		final String varName = getAttributeValue(tag, YComponentInfo.VAR_ATTRIBUTE);
 		final String id = getAttributeValue(tag, YComponentInfo.ID_ATTRIBUTE);
-		final String injectable = getAttributeValue(tag, YComponentInfo.INJECTABLE_ATTRIBUTE);
+		final String injectable = getAttributeValue(tag, YComponentInfo.PASS_TO_MODEL_ATTRIBUTE);
 		final String errorHandling = getAttributeValue(tag, YComponentInfo.ERROR_ATTRIBUTE);
 
 		if (log.isDebugEnabled()) {
 			String updatedAttribs = "";
-			if (isModified(cmpInfo.getSpecification(), specClass)) {
-				updatedAttribs = updatedAttribs + YComponentInfo.SPEC_ATTRIBUTE + ",";
+			if (isModified(cmpInfo.getModelSpecification(), specClass)) {
+				updatedAttribs = updatedAttribs + YComponentInfo.MODEL_SPEC_ATTRIBUTE + ",";
 			}
-			if (isModified(cmpInfo.getImplementation(), implClass)) {
-				updatedAttribs = updatedAttribs + YComponentInfo.IMPL_ATTRIBUTE + ",";
+			if (isModified(cmpInfo.getModelImplementation(), implClass)) {
+				updatedAttribs = updatedAttribs + YComponentInfo.MODEL_IMPL_ATTRIBUTE + ",";
 			}
 			if (isModified(cmpInfo.getVariableName(), varName)) {
 				updatedAttribs = updatedAttribs + YComponentInfo.VAR_ATTRIBUTE + ",";
@@ -117,7 +117,7 @@ public class HtmlYComponentHandler extends ComponentHandler {
 				final String[] props = injectable.trim().split("\\s*,\\s*");
 				final Collection<String> push = new TreeSet<String>(Arrays.asList(props));
 				if (!push.equals(cmpInfo.getPushProperties())) {
-					updatedAttribs = updatedAttribs + YComponentInfo.INJECTABLE_ATTRIBUTE;
+					updatedAttribs = updatedAttribs + YComponentInfo.PASS_TO_MODEL_ATTRIBUTE;
 				}
 			}
 
@@ -128,8 +128,8 @@ public class HtmlYComponentHandler extends ComponentHandler {
 
 		}
 
-		cmpInfo.setSpecification(specClass);
-		cmpInfo.setImplementation(implClass);
+		cmpInfo.setModelSpecification(specClass);
+		cmpInfo.setModelImplementation(implClass);
 		cmpInfo.setVariableName(varName);
 		cmpInfo.setId(id);
 		cmpInfo.setErrorHandling(errorHandling);

@@ -243,7 +243,7 @@ public class YFacesTaglib extends AbstractTagLibrary {
 					// validate that YComponent
 					// reduce level for "missing specification" from ERROR to WARNING 
 					final YComponentValidator cmpValidator = cmpInfo.createValidator();
-					cmpValidator.verifyComponent(YValidationAspekt.SPEC_IS_MISSING);
+					cmpValidator.verifyComponent(YValidationAspekt.MODEL_IS_MISSING);
 					final Set<YValidationAspekt> errors = cmpValidator.getValidationErrors();
 					final Set<YValidationAspekt> warnings = cmpValidator.getValidationWarnings();
 

@@ -53,17 +53,17 @@ public class YComponentValidator {
 	public static enum YValidationAspekt {
 
 		/** When no component interface (specification) is provided */
-		SPEC_IS_MISSING("No specification specified"),
-
-		/** When specification is not an interface */
-		SPEC_IS_NO_INTERFACE("Invalid specification {" + PLACEHOLDER_SPECCLASS + "} - no interface"),
-
-		/** When specification is not an YComponent */
-		SPEC_IS_NO_YCMP("Invalid specification {" + PLACEHOLDER_SPECCLASS + "} - no "
-				+ YComponent.class.getSimpleName()),
+		MODEL_IS_MISSING("No model specified"),
 
 		/** When specification is not loadable (classnotfound etc.) */
-		SPEC_NOT_LOADABLE("Can't load specification class {" + PLACEHOLDER_SPECCLASS + "}"),
+		MODEL_NOT_LOADABLE("Can't load specification class {" + PLACEHOLDER_SPECCLASS + "}"),
+
+		/** When a specification is used but specification is not an interface */
+		SPEC_IS_NO_INTERFACE("Invalid specification {" + PLACEHOLDER_SPECCLASS + "} - no interface"),
+
+		/** When a specification is used, but specification is not an YComponent */
+		SPEC_IS_NO_YCMP("Invalid specification {" + PLACEHOLDER_SPECCLASS + "} - no "
+				+ YComponent.class.getSimpleName()),
 
 		/** When no component class (implementation) is provided */
 		IMPL_IS_MISSING("No implementation specified"),
@@ -127,8 +127,7 @@ public class YComponentValidator {
 
 		/**
 		 * Returns a formatted error message based on the passed {@link YComponentValidator}. An
-		 * optional custom implementation is used instead of
-		 * {@link YComponentValidator#getImplementation()}
+		 * optional custom implementation is used instead of {@link YComponentValidator#getModelImplementation()}
 		 * 
 		 * @param cmpInfo
 		 *          {@link YComponentValidator}
@@ -146,10 +145,9 @@ public class YComponentValidator {
 			while (parameter.find()) {
 				String param = parameter.group(1);
 				if (param.equals(PLACEHOLDER_SPECCLASS)) {
-					param = cmpInfo.getSpecification();
+					param = cmpInfo.getModelSpecification();
 				} else if (param.equals(PLACEHOLDER_IMPLCLASS)) {
-					param = (customImplClass == null) ? cmpInfo.getImplementation() : customImplClass
-							.getName();
+					param = (customImplClass == null) ? cmpInfo.getModelImplementation() : customImplClass.getName();
 				} else if (param.equals(PLACEHOLDER_PROPERTIES)) {
 					param = Arrays.asList(RESERVED_PROPERTY_NAMES).toString();
 				}
@@ -196,19 +194,11 @@ public class YComponentValidator {
 		this.foundErrors = EnumSet.noneOf(YValidationAspekt.class);
 		this.foundWarnings = EnumSet.noneOf(YValidationAspekt.class);
 
-		final boolean validImplName = assertImplementationClassName();
-		final boolean validSpecName = assertSpecificationClassName();
+		assertModelSpecification();
+		assertModelImplementation();
+
 		assertIdAndVarName();
-
-		if (validSpecName) {
-			this.assertSpecificationClass();
-		}
-
-		if (validImplName) {
-			this.assertImplementationClass();
-		}
-
-		this.assertProperties();
+		assertProperties();
 
 		return this.foundErrors;
 	}
@@ -221,9 +211,32 @@ public class YComponentValidator {
 		return this.foundWarnings;
 	}
 
-	private boolean assertSpecificationClassName() {
-		final boolean isValid = assertNotEmpty(cmpInfo.getSpecification(),
-				YValidationAspekt.SPEC_IS_MISSING);
+	private boolean assertModelSpecification() {
+		boolean isValid = assertNotEmpty(cmpInfo.getModelSpecification(), YValidationAspekt.MODEL_IS_MISSING);
+		if (isValid) {
+			final Class modelSpec = assertLoadingClass(cmpInfo.getModelSpecification(),
+					YValidationAspekt.MODEL_NOT_LOADABLE);
+
+			if (isValid = (modelSpec != null)) {
+
+				if (!modelSpec.equals(cmpInfo.getModelSpecClass())) {
+					throw new IllegalStateException("Model specification class mismatch " + modelSpec
+							+ " vs " + cmpInfo.getModelSpecClass());
+				}
+
+				// check for interface
+				if (!modelSpec.isInterface()) {
+					this.addValidationProblem(YValidationAspekt.SPEC_IS_NO_INTERFACE);
+					isValid = false;
+				}
+
+				// check for YComponent type
+				if (!YComponent.class.isAssignableFrom(modelSpec)) {
+					this.addValidationProblem(YValidationAspekt.SPEC_IS_NO_YCMP);
+					isValid = false;
+				}
+			}
+		}
 		return isValid;
 	}
 
@@ -233,9 +246,27 @@ public class YComponentValidator {
 	 * 
 	 * @return true when assertion succeeds
 	 */
-	private boolean assertImplementationClassName() {
-		final boolean isValid = assertNotEmpty(cmpInfo.getImplementation(),
-				YValidationAspekt.IMPL_IS_MISSING);
+	private boolean assertModelImplementation() {
+		boolean isValid = assertNotEmpty(cmpInfo.getModelImplementation(), YValidationAspekt.IMPL_IS_MISSING);
+		if (isValid) {
+
+			final Class modelImpl = assertLoadingClass(cmpInfo.getModelImplementation(),
+					YValidationAspekt.IMPL_NOT_LOADABLE);
+
+			if (isValid = (modelImpl != null)) {
+
+				if (!modelImpl.equals(cmpInfo.getModelImplClass())) {
+					throw new IllegalStateException("Model implementation class mismatch");
+				}
+
+				final Set<YValidationAspekt> _implErrors = this.assertCustomImplementationClass(modelImpl);
+
+				for (final YValidationAspekt problem : _implErrors) {
+					this.addValidationProblem(problem);
+				}
+
+			}
+		}
 		return isValid;
 	}
 
@@ -254,59 +285,6 @@ public class YComponentValidator {
 		final boolean isValid = isValidId && isValidVar;
 		return isValid;
 
-	}
-
-	/**
-	 * Checks, whether specification class fulfills all conditions. Conditions are: loadable, an
-	 * interfaces and of type {@link YComponent}
-	 * 
-	 * @return true when specification class is valid
-	 */
-	private boolean assertSpecificationClass() {
-		boolean isValid = true;
-
-		// lazy loading of specification class
-		if (cmpInfo.specClass == null) {
-			isValid = (cmpInfo.specClass = assertLoadingClass(cmpInfo.getSpecification(),
-					YValidationAspekt.SPEC_NOT_LOADABLE)) != null;
-		}
-		final Class<?> specClass = cmpInfo.specClass;
-		if (specClass != null) {
-
-			// check for interface
-			if (!specClass.isInterface()) {
-				this.addValidationProblem(YValidationAspekt.SPEC_IS_NO_INTERFACE);
-				isValid = false;
-			}
-
-			// check for YComponent type
-			if (!YComponent.class.isAssignableFrom(specClass)) {
-				this.addValidationProblem(YValidationAspekt.SPEC_IS_NO_YCMP);
-				isValid = false;
-			}
-		}
-		return isValid;
-	}
-
-	private boolean assertImplementationClass() {
-		boolean isValid = true;
-
-		// lazy loading of implementation class
-		if (cmpInfo.implClass == null) {
-			isValid = (cmpInfo.implClass = assertLoadingClass(cmpInfo.getImplementation(),
-					YValidationAspekt.IMPL_NOT_LOADABLE)) != null;
-		}
-
-		final Class<?> implClass = cmpInfo.implClass;
-		if (implClass != null) {
-			final Set<YValidationAspekt> _implErrors = this.assertCustomImplementationClass(implClass);
-
-			for (final YValidationAspekt problem : _implErrors) {
-				this.addValidationProblem(problem);
-			}
-		}
-
-		return isValid;
 	}
 
 	/**
@@ -329,7 +307,7 @@ public class YComponentValidator {
 			result.add(YValidationAspekt.IMPL_IS_NO_YCMP);
 		}
 
-		final Class<?> specClass = cmpInfo.specClass;
+		final Class<?> specClass = cmpInfo.getModelSpecClass();
 		if (specClass != null && !specClass.isAssignableFrom(implClass)) {
 			result.add(YValidationAspekt.IMPL_UNASSIGNABLE_TO_SPEC);
 		}
@@ -357,11 +335,15 @@ public class YComponentValidator {
 	}
 
 	private boolean assertNotEmpty(final String stringToCheck, final YValidationAspekt errorType) {
-		final boolean isValid = (stringToCheck != null && stringToCheck.trim().length() > 0);
+		final boolean isValid = !isEmpty(stringToCheck);
 		if (!isValid) {
 			this.addValidationProblem(errorType);
 		}
 		return isValid;
+	}
+
+	private boolean isEmpty(final String value) {
+		return value == null || value.trim().length() == 0;
 	}
 
 	private <T> Class<T> assertLoadingClass(final String classname, final YValidationAspekt problem) {

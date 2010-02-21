@@ -129,11 +129,13 @@ public class YComponentInfoFactory {
 				// component name
 				result.setId(attributes.get(YComponentInfo.ID_ATTRIBUTE));
 				result.setVariableName(attributes.get(YComponentInfo.VAR_ATTRIBUTE));
-				result.setImplementation(attributes.get(YComponentInfo.IMPL_ATTRIBUTE));
-				result.setSpecification(attributes.get(YComponentInfo.SPEC_ATTRIBUTE));
+				result.setModelImplementation(attributes.get(YComponentInfo.MODEL_IMPL_ATTRIBUTE));
+				result.setModelSpecification(attributes.get(YComponentInfo.MODEL_SPEC_ATTRIBUTE));
 				result.setErrorHandling(attributes.get(YComponentInfo.ERROR_ATTRIBUTE));
 				final Collection<String> injectable = this.getComponentProperties(attributes);
 				result.setPushProperties(injectable);
+
+				result.initialize();
 			}
 		}
 		return result;
@@ -211,7 +213,7 @@ public class YComponentInfoFactory {
 			}
 		}
 
-		final String injectable = attributes.get(YComponentInfo.INJECTABLE_ATTRIBUTE);
+		final String injectable = attributes.get(YComponentInfo.PASS_TO_MODEL_ATTRIBUTE);
 		if (injectable != null) {
 			final String _properties[] = injectable.trim().split("\\s*,\\s*");
 			result.addAll(Arrays.asList(_properties));
