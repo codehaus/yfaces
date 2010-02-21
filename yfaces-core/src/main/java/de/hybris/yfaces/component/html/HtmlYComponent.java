@@ -622,7 +622,7 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 
 			// ...validate passed model 
 			final YComponentValidator cmpValid = cmpInfo.createValidator();
-			final Set<YValidationAspekt> errors = cmpValid.assertCustomImplementationClass(value
+			final Set<YValidationAspekt> errors = cmpValid.assertImplementationClass(value
 					.getClass());
 			//...and stop processing this component in case of any errors
 			if (!errors.isEmpty()) {

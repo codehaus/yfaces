@@ -263,7 +263,7 @@ public class YComponentValidator {
 					throw new IllegalStateException("Model implementation class mismatch");
 				}
 
-				final Set<YValidationAspekt> _implErrors = this.assertCustomImplementationClass(modelImpl);
+				final Set<YValidationAspekt> _implErrors = this.assertImplementationClass(modelImpl);
 
 				for (final YValidationAspekt problem : _implErrors) {
 					this.addValidationProblem(problem);
@@ -300,7 +300,7 @@ public class YComponentValidator {
 	 * @param implClass
 	 * @return result
 	 */
-	public Set<YValidationAspekt> assertCustomImplementationClass(final Class<?> implClass) {
+	public Set<YValidationAspekt> assertImplementationClass(final Class<?> implClass) {
 		final Set<YValidationAspekt> result = EnumSet.noneOf(YValidationAspekt.class);
 
 		if (implClass.isInterface()) {
