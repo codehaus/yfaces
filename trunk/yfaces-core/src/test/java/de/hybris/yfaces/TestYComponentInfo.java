@@ -88,7 +88,7 @@ public class TestYComponentInfo extends TestCase {
 				assertEquals(this.expId, cmpInfo.getId());
 				assertEquals(this.expVar, cmpInfo.getVariableName());
 				assertEquals(this.expInjectableAttributes, cmpInfo.getPushProperties());
-				assertEquals(this.cmpInfo.createValidator().verifyComponent(), this.expectedErrors);
+				assertEquals(this.cmpInfo.createValidator().validateComponent(), this.expectedErrors);
 			}
 		}
 
@@ -218,7 +218,7 @@ public class TestYComponentInfo extends TestCase {
 				log.info("Asserting: " + cmp);
 				log.info("Expecting: " + expected);
 				cmpInfo = cmpFac.createComponentInfo(HEAD + cmp);
-				final Set<YValidationAspekt> errors = cmpInfo.createValidator().verifyComponent();
+				final Set<YValidationAspekt> errors = cmpInfo.createValidator().validateComponent();
 				assertEquals(new HashSet<YValidationAspekt>(expected), errors);
 			}
 		}
