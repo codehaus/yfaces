@@ -14,9 +14,9 @@ import junit.framework.TestCase;
 
 import org.apache.log4j.Logger;
 
-import de.hybris.yfaces.component.YComponentInfoImpl;
 import de.hybris.yfaces.component.YComponentInfo;
 import de.hybris.yfaces.component.YComponentInfoFactory;
+import de.hybris.yfaces.component.YComponentInfoImpl;
 import de.hybris.yfaces.component.YComponentRegistry;
 import de.hybris.yfaces.component.YComponentValidator.YValidationAspekt;
 
@@ -83,8 +83,8 @@ public class TestYComponentInfo extends TestCase {
 			if (this.cmpInfo == null) {
 				assertNull(this.expectedErrors);
 			} else {
-				assertEquals(this.expSpecClassName, cmpInfo.getSpecification());
-				assertEquals(this.expImplClassName, cmpInfo.getImplementation());
+				assertEquals(this.expSpecClassName, cmpInfo.getModelSpecification());
+				assertEquals(this.expImplClassName, cmpInfo.getModelImplementation());
 				assertEquals(this.expId, cmpInfo.getId());
 				assertEquals(this.expVar, cmpInfo.getVariableName());
 				assertEquals(this.expInjectableAttributes, cmpInfo.getPushProperties());
@@ -109,21 +109,21 @@ public class TestYComponentInfo extends TestCase {
 
 		// test various whitespaces (space, tab etc)
 		final String[] cmps1 = new String[] {
-				"<yf:component id=\"id1\" default=\"" + impl + "\" model=\"" + spec + "\" var=\"" + var
+				"<yf:component id=\"id1\" model=\"" + impl + "\" modelspec=\"" + spec + "\" var=\"" + var
 						+ "\">",
-				"<yf:component   id =\"id1\"  default=\"" + impl + "\"   model=	\"" + spec + "\"		var=\""
+				"<yf:component   id =\"id1\"  model=\"" + impl + "\"   modelspec=	\"" + spec + "\"		var=\""
 						+ var + "\" >",
-				"<yf:component	id	=	\"id1\"	default	=	\"" + impl + "\"	model=\"" + spec + "\"	var	=\""
+				"<yf:component	id	=	\"id1\"	model	=	\"" + impl + "\"	modelspec=\"" + spec + "\"	var	=\""
 						+ var + "\" >",
-				"<yf:component	id	= \" id1\"	default=	\"		" + impl + "\"	model=\"" + spec + "\" var=\""
+				"<yf:component	id	= \" id1\"	model=	\"		" + impl + "\"	modelspec=\"" + spec + "\" var=\""
 						+ var + "	\" >", };
 
 		final YComponentInfoFactory cmpFac = new YComponentInfoFactory();
 		for (final String s : cmps1) {
 			// System.out.println(count++ + ": " + s);
 			final YComponentInfoImpl cmpInfo = cmpFac.createComponentInfo(HEAD + s);
-			assertEquals(spec, cmpInfo.getSpecification());
-			assertEquals(impl, cmpInfo.getImplementation());
+			assertEquals(spec, cmpInfo.getModelSpecification());
+			assertEquals(impl, cmpInfo.getModelImplementation());
 			assertEquals(var, cmpInfo.getVariableName());
 			assertEquals(id, cmpInfo.getId());
 			assertEquals(0, cmpInfo.getPushProperties().size());
@@ -131,17 +131,17 @@ public class TestYComponentInfo extends TestCase {
 
 		// test 'injectable' properties (boths styles)
 		final String[] cmps2 = new String[] {
-				"<yf:component default=\"" + impl + "\" passToModel=\"prop1,prop2,prop3,prop4\">",
-				"<yf:component default=\"" + impl + "\" passToModel=\"	prop1 ,prop2	,prop3,	prop4\">",
-				"<yf:component default=\"" + impl
+				"<yf:component model=\"" + impl + "\" passToModel=\"prop1,prop2,prop3,prop4\">",
+				"<yf:component model=\"" + impl + "\" passToModel=\"	prop1 ,prop2	,prop3,	prop4\">",
+				"<yf:component model=\"" + impl
 						+ "\" prop1=\"#{prop1}\" prop2=\"#{prop2}\" prop3=\"#{prop3}\" prop4=\"#{prop4}\">",
-				"<yf:component default=\"" + impl
+				"<yf:component model=\"" + impl
 						+ "\" prop1=\"#{prop1}\" prop2=\"#{prop1}\" prop3=\"#{prop1}\" prop4=\"#{prop1}\">",
-				"<yf:component default=\"" + impl
+				"<yf:component model=\"" + impl
 						+ "\" passToModel=\"prop1,prop2\" prop3=\"#{prop1}\" prop4=\"#{prop1}\">",
-				"<yf:component default=\"" + impl
+				"<yf:component model=\"" + impl
 						+ "\" passToModel=\"prop1,prop2,prop3\" prop3=\"#{prop1}\" prop4=\"#{prop1}\">",
-				"<yf:component default=\"" + impl
+				"<yf:component model=\"" + impl
 						+ "\" passToModel=\"prop1,prop2,prop3\" prop4 =	\" #{prop4}	\">", };
 		for (final String s : cmps2) {
 			// System.out.println(count++ + ": " + s);
@@ -175,37 +175,38 @@ public class TestYComponentInfo extends TestCase {
 			Collection<YValidationAspekt> expected = null;
 			switch (count) {
 			case 0:
-				cmp = "<yf:component default=\"" + impl + "\"  model=\"" + spec + "\" var=\"" + var + "\">";
+				cmp = "<yf:component modelspec=\"" + spec + "\" model=\"" + impl + "\"  var=\"" + var
+						+ "\">";
 				expected = Arrays.asList(YValidationAspekt.VIEW_ID_NOT_SPECIFIED);
 				break;
 			case 1:
-				cmp = "<yf:component default=\"" + impl + "\" >";
+				cmp = "<yf:component model=\"" + impl + "\" >";
 				expected = Arrays.asList(YValidationAspekt.VIEW_ID_NOT_SPECIFIED,
-						YValidationAspekt.VIEW_VAR_NOT_SPECIFIED, YValidationAspekt.SPEC_IS_MISSING);
+						YValidationAspekt.VIEW_VAR_NOT_SPECIFIED, YValidationAspekt.MODEL_IS_MISSING);
 				break;
 			case 2:
-				cmp = "<yf:component id=\"id\" default=\"java.util.List\" var=\"var\">";
-				expected = Arrays.asList(YValidationAspekt.SPEC_IS_MISSING,
+				cmp = "<yf:component id=\"id2\" model=\"java.util.List\" var=\"var\">";
+				expected = Arrays.asList(YValidationAspekt.MODEL_IS_MISSING,
 						YValidationAspekt.IMPL_IS_INTERFACE, YValidationAspekt.IMPL_IS_NO_YCMP);
 				break;
 			case 3:
-				cmp = "<yf:component id=\"id\" default=\"java.util.ArrayList\" var=\"var\">";
-				expected = Arrays.asList(YValidationAspekt.SPEC_IS_MISSING,
+				cmp = "<yf:component id=\"id3\" model=\"java.util.ArrayList\" var=\"var\">";
+				expected = Arrays.asList(YValidationAspekt.MODEL_IS_MISSING,
 						YValidationAspekt.IMPL_IS_NO_YCMP);
 				break;
 			case 4:
-				cmp = "<yf:component id=\"id\" model=\"java.util.List\" default=\"java.util.ArrayList\" var=\"var\">";
+				cmp = "<yf:component id=\"id4\" modelspec=\"java.util.List\" model=\"java.util.ArrayList\" var=\"var\">";
 				expected = Arrays.asList(YValidationAspekt.SPEC_IS_NO_YCMP,
 						YValidationAspekt.IMPL_IS_NO_YCMP);
 				break;
 			case 5:
-				cmp = "<yf:component id=\"id\" model=\"java.util.ArrayList\" default=\"java.util.ArrayList\" var=\"var\">";
+				cmp = "<yf:component id=\"id5\" modelspec=\"java.util.ArrayList\" model=\"java.util.ArrayList\" var=\"var\">";
 				expected = Arrays.asList(YValidationAspekt.SPEC_IS_NO_INTERFACE,
 						YValidationAspekt.SPEC_IS_NO_YCMP, YValidationAspekt.IMPL_IS_NO_YCMP);
 				break;
 			case 6:
-				cmp = "<yf:component id=\"id\" model=\"java.util.Listxxx\" default=\"java.util.ArrayListxxx\" var=\"var\">";
-				expected = Arrays.asList(YValidationAspekt.SPEC_NOT_LOADABLE,
+				cmp = "<yf:component id=\"id6\" modelspec=\"java.util.Listxxx\" model=\"java.util.ArrayListxxx\" var=\"var\">";
+				expected = Arrays.asList(YValidationAspekt.MODEL_NOT_LOADABLE,
 						YValidationAspekt.IMPL_NOT_LOADABLE);
 				break;
 
@@ -242,7 +243,7 @@ public class TestYComponentInfo extends TestCase {
 		test.run();
 
 		test = new AddSingleYComponentTest(reg, "validComponent1Tag.xhtml", true);
-		test.setExpectedErrors(YValidationAspekt.SPEC_IS_MISSING);
+		test.setExpectedErrors(YValidationAspekt.MODEL_IS_MISSING);
 		test.expImplClassName = TEST_COMPONENT_IMPL;
 		test.expId = "validComponent1";
 		test.expVar = "validComponent1Var";
@@ -256,7 +257,7 @@ public class TestYComponentInfo extends TestCase {
 		test.run();
 
 		test = new AddSingleYComponentTest(reg, "validComponent3Tag.xhtml", true);
-		test.setExpectedErrors(YValidationAspekt.SPEC_IS_MISSING);
+		test.setExpectedErrors(YValidationAspekt.MODEL_IS_MISSING);
 		test.expImplClassName = TEST_COMPONENT_IMPL;
 		test.expId = "validComponent3";
 		test.expVar = "validComponent3Var";
@@ -265,7 +266,7 @@ public class TestYComponentInfo extends TestCase {
 		test.run();
 
 		test = new AddSingleYComponentTest(reg, "validComponent4Tag.xhtml", true);
-		test.setExpectedErrors(YValidationAspekt.SPEC_IS_MISSING);
+		test.setExpectedErrors(YValidationAspekt.MODEL_IS_MISSING);
 		test.expImplClassName = TEST_COMPONENT_IMPL;
 		test.expId = "validComponent4";
 		test.expVar = "validComponent4Var";
@@ -276,6 +277,6 @@ public class TestYComponentInfo extends TestCase {
 
 	public static void main(final String argc[]) {
 		final TestYComponentInfo info = new TestYComponentInfo();
-		info.testYComponentRegistry();
+		info.testYComponentInfoValidation();
 	}
 }

@@ -32,10 +32,10 @@ public interface YComponentInfo {
 
 	static final String VAR_ATTRIBUTE = "var";
 	static final String ID_ATTRIBUTE = "id";
-	static final String SPEC_ATTRIBUTE = "model";
-	static final String IMPL_ATTRIBUTE = "default";
+	static final String MODEL_SPEC_ATTRIBUTE = "modelspec";
+	static final String MODEL_IMPL_ATTRIBUTE = "model";
 	static final String ERROR_ATTRIBUTE = "errorHandling";
-	static final String INJECTABLE_ATTRIBUTE = "passToModel";
+	static final String PASS_TO_MODEL_ATTRIBUTE = "passToModel";
 
 	/**
 	 * Returns the 'id' which is unique within this components namespace. This value is set in
@@ -51,7 +51,7 @@ public interface YComponentInfo {
 	 * 
 	 * @return name of interface
 	 */
-	String getSpecification();
+	String getModelSpecification();
 
 	/**
 	 * Returns the default model implementation for this component. This value is set in component
@@ -59,7 +59,7 @@ public interface YComponentInfo {
 	 * 
 	 * @return class name
 	 */
-	String getImplementation();
+	String getModelImplementation();
 
 	/**
 	 * Returns the name of the variable under which the component model is made available in view.

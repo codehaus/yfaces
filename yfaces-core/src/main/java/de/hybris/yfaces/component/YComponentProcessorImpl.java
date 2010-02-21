@@ -23,10 +23,10 @@ public class YComponentProcessorImpl implements YComponentProcessor {
 	public YComponent createComponent() {
 		YComponent result = null;
 		try {
-			result = (YComponent) cmpInfo.getImplementationClass().newInstance();
+			result = (YComponent) cmpInfo.getModelImplClass().newInstance();
 			this.initializeComponent(result);
 		} catch (final Exception e) {
-			throw new YFacesException("Can't create Component model " + cmpInfo.getImplementation(), e);
+			throw new YFacesException("Can't create Component model " + cmpInfo.getModelImplementation(), e);
 		}
 
 		//TODO instance handling

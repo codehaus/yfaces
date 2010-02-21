@@ -440,7 +440,7 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 
 			} catch (final YFacesException e) {
 				log.error("Error creating " + YComponent.class.getSimpleName() + " ("
-						+ cmpInfo.getImplementation() + ")", e);
+						+ cmpInfo.getModelImplementation() + ")", e);
 				this.error = e;
 			}
 		}
@@ -572,7 +572,7 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 
 		final Set<YValidationAspekt> errors = new HashSet<YValidationAspekt>(cmpValid.verifyComponent());
 		errors.remove(YValidationAspekt.VIEW_ID_NOT_SPECIFIED);
-		errors.remove(YValidationAspekt.SPEC_IS_MISSING);
+		errors.remove(YValidationAspekt.MODEL_IS_MISSING);
 
 		final String errorString = YValidationAspekt.getFormattedErrorMessage(errors, cmpValid
 				.getYComponentInfo(), null);

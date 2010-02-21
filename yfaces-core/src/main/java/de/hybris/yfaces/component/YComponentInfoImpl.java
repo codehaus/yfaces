@@ -32,7 +32,6 @@ import java.util.TreeSet;
 import org.apache.log4j.Logger;
 
 import de.hybris.yfaces.YFacesConfig;
-import de.hybris.yfaces.YFacesException;
 
 /**
  * Holds {@link YComponent} specific meta information.
@@ -45,11 +44,10 @@ public class YComponentInfoImpl implements YComponentInfo {
 	// raw (unevaluated) attribute values
 	private String id = null;
 	private String cmpVar = null;
-	private String specClassName = null;
-	private String implClassName = null;
+	private String modelSpecClassName = null;
+	private String modelImplClassName = null;
 	private String errorHandling = null;
 
-	// Properties which gets evaluated and injected; specified by renderer
 	private Set<String> pushProperties = Collections.emptySet();
 
 	private String cmpName = null;
@@ -59,8 +57,9 @@ public class YComponentInfoImpl implements YComponentInfo {
 	private URL url = null;
 	private String location = null;
 
-	protected Class<?> implClass = null;
-	protected Class<?> specClass = null;
+	// according configuration of model and default an impl class and optionally a spec can be loaded
+	private Class<?> modelSpecClass = null;
+	private Class<?> modelImplClass = null;
 
 	private boolean isValid = false;
 
@@ -74,13 +73,13 @@ public class YComponentInfoImpl implements YComponentInfo {
 	/**
 	 * Constructor. Initializes this instance by parsing the url stream.
 	 */
-	public YComponentInfoImpl(final String id, final String varName, final String specClassname,
-			final String implClassName) {
+	public YComponentInfoImpl(final String id, final String varName, final String modelSpecClass,
+			final String modelClass) {
 		this();
 		this.id = id;
 		this.cmpVar = varName;
-		this.specClassName = specClassname;
-		this.implClassName = implClassName;
+		this.modelSpecClassName = modelSpecClass;
+		this.modelImplClassName = modelClass;
 	}
 
 	public YComponentInfoImpl(final String namespace, final URL url) {
@@ -94,8 +93,8 @@ public class YComponentInfoImpl implements YComponentInfo {
 	 * 
 	 * @return classname
 	 */
-	public String getSpecification() {
-		return this.specClassName;
+	public String getModelSpecification() {
+		return this.modelSpecClassName;
 	}
 
 	/**
@@ -106,14 +105,14 @@ public class YComponentInfoImpl implements YComponentInfo {
 	 * @param className
 	 *          classname
 	 */
-	public void setSpecification(String className) {
+	public void setModelSpecification(String className) {
 		if (className != null && (className = className.trim()).length() == 0) {
 			className = null;
 		}
 
-		if (className == null || !className.equals(this.specClassName)) {
-			this.specClassName = className;
-			this.specClass = null;
+		if (className == null || !className.equals(this.modelSpecClassName)) {
+			this.modelSpecClassName = className;
+			this.modelSpecClass = null;
 		}
 
 	}
@@ -123,8 +122,8 @@ public class YComponentInfoImpl implements YComponentInfo {
 	 * 
 	 * @return classname
 	 */
-	public String getImplementation() {
-		return this.implClassName;
+	public String getModelImplementation() {
+		return this.modelImplClassName;
 	}
 
 	/**
@@ -132,14 +131,14 @@ public class YComponentInfoImpl implements YComponentInfo {
 	 * 
 	 * @param className
 	 */
-	public void setImplementation(String className) {
+	public void setModelImplementation(String className) {
 		if (className != null && (className = className.trim()).length() == 0) {
 			className = null;
 		}
 
-		if (className == null || !className.equals(this.specClassName)) {
-			this.implClassName = className;
-			this.implClass = null;
+		if (className == null || !className.equals(this.modelSpecClassName)) {
+			this.modelImplClassName = className;
+			this.modelImplClass = null;
 		}
 
 	}
@@ -248,33 +247,20 @@ public class YComponentInfoImpl implements YComponentInfo {
 		return this.url.toExternalForm().hashCode();
 	}
 
-	/**
-	 * Returns the implementation class.
-	 * 
-	 * @return
-	 */
-	public Class<?> getImplementationClass() {
-
-		// lazy check whether class is already loaded 
-		if (this.implClass == null) {
-			try {
-				// if not just load without any validity check
-				this.implClass = Thread.currentThread().getContextClassLoader().loadClass(
-						this.implClassName);
-			} catch (final Exception e) {
-				throw new YFacesException("Error loading component imlementation class: "
-						+ this.implClassName, e);
-			}
-		}
-		return this.implClass;
-	}
-
 	public boolean isValid() {
 		return isValid;
 	}
 
 	public void setValid(final boolean isValid) {
 		this.isValid = isValid;
+	}
+
+	public Class getModelSpecClass() {
+		return this.modelSpecClass;
+	}
+
+	public Class<?> getModelImplClass() {
+		return this.modelImplClass;
 	}
 
 	public YComponentValidator createValidator() {
@@ -286,7 +272,8 @@ public class YComponentInfoImpl implements YComponentInfo {
 	}
 
 	/**
-	 * Initializes missing values when possible.
+	 * Initializes missing values when possible. Goes no validation, swallows any error which may
+	 * occur.
 	 */
 	public void initialize() {
 
@@ -307,6 +294,23 @@ public class YComponentInfoImpl implements YComponentInfo {
 						+ this.errorHandling);
 			}
 		}
+
+		final ClassLoader loader = Thread.currentThread().getContextClassLoader();
+		try {
+			if (modelSpecClassName != null) {
+				this.modelSpecClass = loader.loadClass(this.modelSpecClassName);
+			}
+		} catch (final Exception e) {
+			//NOP, gets handled by a Validator
+		}
+		try {
+			if (modelImplClassName != null) {
+				this.modelImplClass = loader.loadClass(this.modelImplClassName);
+			}
+		} catch (final Exception e) {
+			//NOP, gets handled by a Validator
+		}
+
 	}
 
 	private boolean isEmpty(final String value) {
@@ -322,11 +326,11 @@ public class YComponentInfoImpl implements YComponentInfo {
 
 	public Map<String, Method> getAllProperties() {
 		// refresh injectable properties
-		this.availableCmpProperties = classToPropertiesMap.get(this.implClassName);
+		this.availableCmpProperties = classToPropertiesMap.get(this.modelImplClassName);
 		if (this.availableCmpProperties == null) {
-			this.availableCmpProperties = this
-					.findAllWriteProperties(implClass, AbstractYComponent.class);
-			classToPropertiesMap.put(implClassName, this.availableCmpProperties);
+			this.availableCmpProperties = this.findAllWriteProperties(modelImplClass,
+					AbstractYComponent.class);
+			classToPropertiesMap.put(modelImplClassName, this.availableCmpProperties);
 		}
 		return this.availableCmpProperties;
 	}
