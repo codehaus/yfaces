@@ -53,10 +53,10 @@ public class YComponentValidator {
 	public static enum YValidationAspekt {
 
 		/** When no component interface (specification) is provided */
-		MODEL_IS_MISSING("No model specified"),
+		SPEC_IS_MISSING("No model specification specified"),
 
 		/** When specification is not loadable (classnotfound etc.) */
-		MODEL_NOT_LOADABLE("Can't load specification class {" + PLACEHOLDER_SPECCLASS + "}"),
+		SPEC_NOT_LOADABLE("Can't load model specification class {" + PLACEHOLDER_SPECCLASS + "}"),
 
 		/** When a specification is used but specification is not an interface */
 		SPEC_IS_NO_INTERFACE("Invalid specification {" + PLACEHOLDER_SPECCLASS + "} - no interface"),
@@ -66,7 +66,7 @@ public class YComponentValidator {
 				+ YComponent.class.getSimpleName()),
 
 		/** When no component class (implementation) is provided */
-		IMPL_IS_MISSING("No implementation specified"),
+		IMPL_IS_MISSING("No default model implementation specified"),
 
 		/** Implementation is no implementation (but interface) */
 		IMPL_IS_INTERFACE("Invalid implementation; got interface but no class"),
@@ -127,7 +127,8 @@ public class YComponentValidator {
 
 		/**
 		 * Returns a formatted error message based on the passed {@link YComponentValidator}. An
-		 * optional custom implementation is used instead of {@link YComponentValidator#getModelImplementation()}
+		 * optional custom implementation is used instead of
+		 * {@link YComponentValidator#getModelImplementation()}
 		 * 
 		 * @param cmpInfo
 		 *          {@link YComponentValidator}
@@ -147,7 +148,8 @@ public class YComponentValidator {
 				if (param.equals(PLACEHOLDER_SPECCLASS)) {
 					param = cmpInfo.getModelSpecification();
 				} else if (param.equals(PLACEHOLDER_IMPLCLASS)) {
-					param = (customImplClass == null) ? cmpInfo.getModelImplementation() : customImplClass.getName();
+					param = (customImplClass == null) ? cmpInfo.getModelImplementation() : customImplClass
+							.getName();
 				} else if (param.equals(PLACEHOLDER_PROPERTIES)) {
 					param = Arrays.asList(RESERVED_PROPERTY_NAMES).toString();
 				}
@@ -212,10 +214,11 @@ public class YComponentValidator {
 	}
 
 	private boolean assertModelSpecification() {
-		boolean isValid = assertNotEmpty(cmpInfo.getModelSpecification(), YValidationAspekt.MODEL_IS_MISSING);
+		boolean isValid = assertNotEmpty(cmpInfo.getModelSpecification(),
+				YValidationAspekt.SPEC_IS_MISSING);
 		if (isValid) {
 			final Class modelSpec = assertLoadingClass(cmpInfo.getModelSpecification(),
-					YValidationAspekt.MODEL_NOT_LOADABLE);
+					YValidationAspekt.SPEC_NOT_LOADABLE);
 
 			if (isValid = (modelSpec != null)) {
 
@@ -247,7 +250,8 @@ public class YComponentValidator {
 	 * @return true when assertion succeeds
 	 */
 	private boolean assertModelImplementation() {
-		boolean isValid = assertNotEmpty(cmpInfo.getModelImplementation(), YValidationAspekt.IMPL_IS_MISSING);
+		boolean isValid = assertNotEmpty(cmpInfo.getModelImplementation(),
+				YValidationAspekt.IMPL_IS_MISSING);
 		if (isValid) {
 
 			final Class modelImpl = assertLoadingClass(cmpInfo.getModelImplementation(),

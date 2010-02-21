@@ -182,16 +182,16 @@ public class TestYComponentInfo extends TestCase {
 			case 1:
 				cmp = "<yf:component model=\"" + impl + "\" >";
 				expected = Arrays.asList(YValidationAspekt.VIEW_ID_NOT_SPECIFIED,
-						YValidationAspekt.VIEW_VAR_NOT_SPECIFIED, YValidationAspekt.MODEL_IS_MISSING);
+						YValidationAspekt.VIEW_VAR_NOT_SPECIFIED, YValidationAspekt.SPEC_IS_MISSING);
 				break;
 			case 2:
 				cmp = "<yf:component id=\"id2\" model=\"java.util.List\" var=\"var\">";
-				expected = Arrays.asList(YValidationAspekt.MODEL_IS_MISSING,
+				expected = Arrays.asList(YValidationAspekt.SPEC_IS_MISSING,
 						YValidationAspekt.IMPL_IS_INTERFACE, YValidationAspekt.IMPL_IS_NO_YCMP);
 				break;
 			case 3:
 				cmp = "<yf:component id=\"id3\" model=\"java.util.ArrayList\" var=\"var\">";
-				expected = Arrays.asList(YValidationAspekt.MODEL_IS_MISSING,
+				expected = Arrays.asList(YValidationAspekt.SPEC_IS_MISSING,
 						YValidationAspekt.IMPL_IS_NO_YCMP);
 				break;
 			case 4:
@@ -206,7 +206,7 @@ public class TestYComponentInfo extends TestCase {
 				break;
 			case 6:
 				cmp = "<yf:component id=\"id6\" modelspec=\"java.util.Listxxx\" model=\"java.util.ArrayListxxx\" var=\"var\">";
-				expected = Arrays.asList(YValidationAspekt.MODEL_NOT_LOADABLE,
+				expected = Arrays.asList(YValidationAspekt.SPEC_NOT_LOADABLE,
 						YValidationAspekt.IMPL_NOT_LOADABLE);
 				break;
 
@@ -243,7 +243,7 @@ public class TestYComponentInfo extends TestCase {
 		test.run();
 
 		test = new AddSingleYComponentTest(reg, "validComponent1Tag.xhtml", true);
-		test.setExpectedErrors(YValidationAspekt.MODEL_IS_MISSING);
+		test.setExpectedErrors(YValidationAspekt.SPEC_IS_MISSING);
 		test.expImplClassName = TEST_COMPONENT_IMPL;
 		test.expId = "validComponent1";
 		test.expVar = "validComponent1Var";
@@ -257,7 +257,7 @@ public class TestYComponentInfo extends TestCase {
 		test.run();
 
 		test = new AddSingleYComponentTest(reg, "validComponent3Tag.xhtml", true);
-		test.setExpectedErrors(YValidationAspekt.MODEL_IS_MISSING);
+		test.setExpectedErrors(YValidationAspekt.SPEC_IS_MISSING);
 		test.expImplClassName = TEST_COMPONENT_IMPL;
 		test.expId = "validComponent3";
 		test.expVar = "validComponent3Var";
@@ -266,7 +266,7 @@ public class TestYComponentInfo extends TestCase {
 		test.run();
 
 		test = new AddSingleYComponentTest(reg, "validComponent4Tag.xhtml", true);
-		test.setExpectedErrors(YValidationAspekt.MODEL_IS_MISSING);
+		test.setExpectedErrors(YValidationAspekt.SPEC_IS_MISSING);
 		test.expImplClassName = TEST_COMPONENT_IMPL;
 		test.expId = "validComponent4";
 		test.expVar = "validComponent4Var";
