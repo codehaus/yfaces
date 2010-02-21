@@ -556,26 +556,18 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 		this.cmpInfo = cmpInfo;
 	}
 
-	//	protected boolean isValidateYComponentInfo() {
-	//		return isValidateCmpInfo;
-	//	}
-	//
-	//	protected void setValidateYComponentInfo(final boolean isValidateCmpInfo) {
-	//		this.isValidateCmpInfo = isValidateCmpInfo;
-	//	}
-
 	private void validateComponentInfo(final YComponentValidator cmpValid) {
 
 		if (log.isDebugEnabled()) {
 			log.debug("Validating component " + getYComponentInfo().getLocation());
 		}
 
-		final Set<YValidationAspekt> errors = new HashSet<YValidationAspekt>(cmpValid.verifyComponent());
+		final Set<YValidationAspekt> errors = new HashSet<YValidationAspekt>(cmpValid.validateComponent());
 		errors.remove(YValidationAspekt.VIEW_ID_NOT_SPECIFIED);
 		errors.remove(YValidationAspekt.SPEC_IS_MISSING);
 
-		final String errorString = YValidationAspekt.getFormattedErrorMessage(errors, cmpValid
-				.getYComponentInfo(), null);
+		final String errorString = YValidationAspekt.getFormattedErrorMessage(errors,
+				getYComponentInfo(), null);
 		if (errorString != null) {
 			throw new YFacesException(errorString);
 		}
@@ -622,8 +614,7 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 
 			// ...validate passed model 
 			final YComponentValidator cmpValid = cmpInfo.createValidator();
-			final Set<YValidationAspekt> errors = cmpValid.assertImplementationClass(value
-					.getClass());
+			final Set<YValidationAspekt> errors = cmpValid.validateImplementationClass(value.getClass());
 			//...and stop processing this component in case of any errors
 			if (!errors.isEmpty()) {
 				throw new YFacesException(YValidationAspekt.getFormattedErrorMessage(errors, cmpInfo, value

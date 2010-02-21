@@ -18,33 +18,26 @@ package de.hybris.yfaces.component;
 
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.EnumSet;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.log4j.Logger;
-
 /**
  * @author Denny Strietzbaum
  */
-public class YComponentValidator {
-	private static final Logger LOG = Logger.getLogger(YComponentValidator.class);
+public interface YComponentValidator {
 
 	// various placeholders for error messages
 	// placeholder: specification class
-	private static final String PLACEHOLDER_SPECCLASS = "specClass";
+	static final String PLACEHOLDER_SPECCLASS = "specClass";
 	// placeholder: imlementation
-	private static final String PLACEHOLDER_IMPLCLASS = "implClass";
+	static final String PLACEHOLDER_IMPLCLASS = "implClass";
 	// placeholder: reserved properties (var, id, etc)
-	private static final String PLACEHOLDER_PROPERTIES = "properties";
+	static final String PLACEHOLDER_PROPERTIES = "properties";
 
-	private YComponentInfoImpl cmpInfo = null;
-
-	public YComponentValidator(final YComponentInfo cmpInfo) {
-		this.cmpInfo = (YComponentInfoImpl) cmpInfo;
-	}
+	// reserved (forbidden) attributes;
+	// their usage is not allowed as injectable component parameter
+	static final String[] RESERVED_PROPERTY_NAMES = new String[] { "facet" };
 
 	/**
 	 * Enumeration of possible error state. Supports placeholders whose values are extracted from a
@@ -165,131 +158,13 @@ public class YComponentValidator {
 
 	}
 
-	// reserved (forbidden) attributes;
-	// their usage is not allowed as injectable component parameter
-	private static final String[] RESERVED_PROPERTY_NAMES = new String[] { "facet" };
+	Set<YValidationAspekt> validateComponent(final YValidationAspekt... asWarningOnly);
 
-	// all errors which are detected after a verification
-	private Set<YValidationAspekt> foundErrors = null;
-	private Set<YValidationAspekt> foundWarnings = null;
+	public Set<YValidationAspekt> validateComponent();
 
-	private Set<YValidationAspekt> asWarnings = Collections.EMPTY_SET;
+	public Set<YValidationAspekt> getValidationErrors();
 
-	public YComponentInfo getYComponentInfo() {
-		return this.cmpInfo;
-	}
-
-	public Set<YValidationAspekt> verifyComponent(final YValidationAspekt... asWarningOnly) {
-		this.asWarnings = EnumSet.noneOf(YValidationAspekt.class);
-		for (final YValidationAspekt aspect : asWarningOnly) {
-			this.asWarnings.add(aspect);
-		}
-		return verifyComponent();
-	}
-
-	/**
-	 * Verifies the component.<br/>
-	 * Checks for specification, implementation, non-duplicate 'id' and 'var' values.<br/>
-	 * 
-	 */
-	public Set<YValidationAspekt> verifyComponent() {
-		this.foundErrors = EnumSet.noneOf(YValidationAspekt.class);
-		this.foundWarnings = EnumSet.noneOf(YValidationAspekt.class);
-
-		assertModelSpecification();
-		assertModelImplementation();
-
-		assertIdAndVarName();
-		assertProperties();
-
-		return this.foundErrors;
-	}
-
-	public Set<YValidationAspekt> getValidationErrors() {
-		return this.foundErrors;
-	}
-
-	public Set<YValidationAspekt> getValidationWarnings() {
-		return this.foundWarnings;
-	}
-
-	private boolean assertModelSpecification() {
-		boolean isValid = assertNotEmpty(cmpInfo.getModelSpecification(),
-				YValidationAspekt.SPEC_IS_MISSING);
-		if (isValid) {
-			final Class modelSpec = assertLoadingClass(cmpInfo.getModelSpecification(),
-					YValidationAspekt.SPEC_NOT_LOADABLE);
-
-			if (isValid = (modelSpec != null)) {
-
-				if (!modelSpec.equals(cmpInfo.getModelSpecClass())) {
-					throw new IllegalStateException("Model specification class mismatch " + modelSpec
-							+ " vs " + cmpInfo.getModelSpecClass());
-				}
-
-				// check for interface
-				if (!modelSpec.isInterface()) {
-					this.addValidationProblem(YValidationAspekt.SPEC_IS_NO_INTERFACE);
-					isValid = false;
-				}
-
-				// check for YComponent type
-				if (!YComponent.class.isAssignableFrom(modelSpec)) {
-					this.addValidationProblem(YValidationAspekt.SPEC_IS_NO_YCMP);
-					isValid = false;
-				}
-			}
-		}
-		return isValid;
-	}
-
-	/**
-	 * Asserts whether an implementation classname is available.<br/>
-	 * Does not assert whether class can be loaded.
-	 * 
-	 * @return true when assertion succeeds
-	 */
-	private boolean assertModelImplementation() {
-		boolean isValid = assertNotEmpty(cmpInfo.getModelImplementation(),
-				YValidationAspekt.IMPL_IS_MISSING);
-		if (isValid) {
-
-			final Class modelImpl = assertLoadingClass(cmpInfo.getModelImplementation(),
-					YValidationAspekt.IMPL_NOT_LOADABLE);
-
-			if (isValid = (modelImpl != null)) {
-
-				if (!modelImpl.equals(cmpInfo.getModelImplClass())) {
-					throw new IllegalStateException("Model implementation class mismatch");
-				}
-
-				final Set<YValidationAspekt> _implErrors = this.assertImplementationClass(modelImpl);
-
-				for (final YValidationAspekt problem : _implErrors) {
-					this.addValidationProblem(problem);
-				}
-
-			}
-		}
-		return isValid;
-	}
-
-	/**
-	 * Asserts whether an ID and VAR value is available.
-	 * 
-	 * @return true when assertion succeeds
-	 */
-	private boolean assertIdAndVarName() {
-		final boolean isValidId = assertNotEmpty(cmpInfo.getId(),
-				YValidationAspekt.VIEW_ID_NOT_SPECIFIED);
-
-		final boolean isValidVar = assertNotEmpty(cmpInfo.getVariableName(),
-				YValidationAspekt.VIEW_VAR_NOT_SPECIFIED);
-
-		final boolean isValid = isValidId && isValidVar;
-		return isValid;
-
-	}
+	public Set<YValidationAspekt> getValidationWarnings();
 
 	/**
 	 * Asserts the passed class whether it can be used with this component configuration.<br/>
@@ -300,65 +175,6 @@ public class YComponentValidator {
 	 * @param implClass
 	 * @return result
 	 */
-	public Set<YValidationAspekt> assertImplementationClass(final Class<?> implClass) {
-		final Set<YValidationAspekt> result = EnumSet.noneOf(YValidationAspekt.class);
-
-		if (implClass.isInterface()) {
-			result.add(YValidationAspekt.IMPL_IS_INTERFACE);
-		}
-
-		if (!YComponent.class.isAssignableFrom(implClass)) {
-			result.add(YValidationAspekt.IMPL_IS_NO_YCMP);
-		}
-
-		final Class<?> specClass = cmpInfo.getModelSpecClass();
-		if (specClass != null && !specClass.isAssignableFrom(implClass)) {
-			result.add(YValidationAspekt.IMPL_UNASSIGNABLE_TO_SPEC);
-		}
-		return result;
-	}
-
-	private boolean assertProperties() {
-		for (final String s : RESERVED_PROPERTY_NAMES) {
-			// if (this.writableProperties.containsKey(s))
-			// this.errors.add(ERROR_STATE.FORBIDDEN_PROPERTY);
-
-			if (cmpInfo.getPushProperties().contains(s)) {
-				this.addValidationProblem(YValidationAspekt.VIEW_INJECTABLE_PROP_FORBIDDEN);
-			}
-		}
-		return this.foundErrors.isEmpty();
-	}
-
-	private void addValidationProblem(final YValidationAspekt problem) {
-		if (asWarnings.contains(problem)) {
-			this.foundWarnings.add(problem);
-		} else {
-			this.foundErrors.add(problem);
-		}
-	}
-
-	private boolean assertNotEmpty(final String stringToCheck, final YValidationAspekt errorType) {
-		final boolean isValid = !isEmpty(stringToCheck);
-		if (!isValid) {
-			this.addValidationProblem(errorType);
-		}
-		return isValid;
-	}
-
-	private boolean isEmpty(final String value) {
-		return value == null || value.trim().length() == 0;
-	}
-
-	private <T> Class<T> assertLoadingClass(final String classname, final YValidationAspekt problem) {
-		Class<T> result = null;
-		try {
-			//result = (Class<T>) Class.forName(classname);
-			result = (Class<T>) Thread.currentThread().getContextClassLoader().loadClass(classname);
-		} catch (final Exception e) {
-			this.addValidationProblem(problem);
-		}
-		return result;
-	}
+	Set<YValidationAspekt> validateImplementationClass(final Class<?> implClass);
 
 }

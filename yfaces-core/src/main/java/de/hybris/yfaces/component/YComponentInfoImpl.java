@@ -264,7 +264,7 @@ public class YComponentInfoImpl implements YComponentInfo {
 	}
 
 	public YComponentValidator createValidator() {
-		return new YComponentValidator(this);
+		return new YComponentValidatorImpl(this);
 	}
 
 	public YComponentProcessor getProcessor() {
