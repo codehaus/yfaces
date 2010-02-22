@@ -31,8 +31,8 @@ public class YComponentValidatorImpl implements YComponentValidator {
 
 	private YComponentInfoImpl cmpInfo = null;
 
-	public YComponentValidatorImpl(final YComponentInfo cmpInfo) {
-		this.cmpInfo = (YComponentInfoImpl) cmpInfo;
+	public YComponentValidatorImpl(final YComponentInfoImpl cmpInfo) {
+		this.cmpInfo = cmpInfo;
 	}
 
 	// all errors which are detected after a verification

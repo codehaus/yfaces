@@ -119,8 +119,15 @@ public interface YComponentInfo {
 	 */
 	YComponentValidator createValidator();
 
-	YComponentProcessor getProcessor();
+	/**
+	 * Returns a Processor which is used to operate on the component model.
+	 * 
+	 * @return {@link ModelProcessor}
+	 */
+	ModelProcessor getModelProcessor();
 
-	boolean isValid();
+	boolean isValidated();
+
+	boolean isYComponent();
 
 }

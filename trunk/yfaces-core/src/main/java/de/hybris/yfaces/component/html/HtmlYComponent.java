@@ -36,11 +36,12 @@ import org.apache.log4j.Logger;
 import de.hybris.yfaces.YFacesConfig;
 import de.hybris.yfaces.YFacesELContext;
 import de.hybris.yfaces.YFacesException;
+import de.hybris.yfaces.component.ModelProcessor;
 import de.hybris.yfaces.component.YComponent;
 import de.hybris.yfaces.component.YComponentBinding;
 import de.hybris.yfaces.component.YComponentInfo;
 import de.hybris.yfaces.component.YComponentInfoImpl;
-import de.hybris.yfaces.component.YComponentProcessor;
+import de.hybris.yfaces.component.YComponentRegistry;
 import de.hybris.yfaces.component.YComponentValidator;
 import de.hybris.yfaces.component.YComponentValidator.YValidationAspekt;
 
@@ -68,13 +69,11 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 	private static final String ID_DUPLICATECHECK_KEY = HtmlYComponent.class.getName() + "idSet";
 
 	// properties are set by plain JSF 
-	private String implClassName = null;
-	private String specClassName = null;
-	private String[] injectableProperties = null;
 	private String errorHandling = null;
 
 	// properties are set by HtmlYComponentHandler ...
 	// ... the YComponentInfo for this UIComponent
+	private String viewLocation = null;
 	private transient YComponentInfo cmpInfo = null;
 
 	// other transient members
@@ -92,40 +91,6 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 	@Override
 	public String getFamily() {
 		return COMPONENT_FAMILY;
-	}
-
-	/**
-	 * @return value of 'impl' attribute
-	 */
-	public String getImpl() {
-		return this.implClassName;
-	}
-
-	/**
-	 * Sets value of 'impl' attribute.
-	 * 
-	 * @param value
-	 *          value to set
-	 */
-	public void setImpl(final String value) {
-		this.implClassName = value;
-	}
-
-	/**
-	 * @return value of 'spec' attribute
-	 */
-	public String getSpec() {
-		return this.specClassName;
-	}
-
-	/**
-	 * Sets value of 'spec' attribute.
-	 * 
-	 * @param value
-	 *          value to set
-	 */
-	public void setSpec(final String interfaceClass) {
-		this.specClassName = interfaceClass;
 	}
 
 	@Override
@@ -146,6 +111,10 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 		this.errorHandling = errorHandling.toLowerCase();
 	}
 
+	public void setViewLocation(final String view) {
+		this.viewLocation = view;
+	}
+
 	/**
 	 * @return value of 'varName' attribute
 	 */
@@ -159,25 +128,14 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 	 * @param component
 	 *          {@link YComponent}
 	 */
-	private void setVarValue(final YComponent component) {
+	private void setVarValue(final Object component) {
 		getFacesContext().getExternalContext().getRequestMap().put(getVarName(), component);
 	}
 
 	private void refreshVarValue() {
-		final YComponent component = getYComponent();
+		final Object component = getComponentModel();
 		getFacesContext().getExternalContext().getRequestMap().put(getVarName(), component);
 	}
-
-	//	/**
-	//	 * Returns the {@link ValueExpression} which binds a YComponent. Returns 'null' when no binding is
-	//	 * available.
-	//	 * 
-	//	 * @return {@link ValueExpression}
-	//	 */
-	//	private ValueExpression getYComponentBinding() {
-	//		final ValueExpression vb = getValueExpression(PARAM_YCMP_BINDING);
-	//		return vb;
-	//	}
 
 	//	/**
 	//	 * Sets the {@link ValueExpression} which binds a YComponent.
@@ -195,32 +153,46 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 	 * @param cmp
 	 *          {@link YComponent}
 	 */
-	private void setValue(final YComponent cmp) {
+	private void setValue(final Object model) {
 		final ValueExpression vb = getValueExpression(PARAM_YCMP_BINDING);
+
+		if (model == null) {
+			throw new NullPointerException();
+		}
 
 		if (vb != null) {
 			final ELContext elCtx = FacesContext.getCurrentInstance().getELContext();
-			final YFacesELContext yCtx = (YFacesELContext) FacesContext.getCurrentInstance()
-					.getELContext().getContext(YFacesELContext.class);
 
-			yCtx.setResolveYComponentBinding(false);
-			final Object value = vb.getValue(elCtx);
-			if (value instanceof YComponentBinding) {
-				((YComponentBinding<YComponent>) value).setValue(cmp);
-			}
+			// new (POJO models)
+			if (!getYComponentInfo().isYComponent()) {
+				vb.setValue(elCtx, model);
 
-			if (value == null) {
-				if (YComponent.class.isAssignableFrom(vb.getType(elCtx))) {
-					vb.setValue(elCtx, cmp);
-				} else {
-					final YComponentInfo cmpInfo = cmp.getComponentInfo();
-					final YComponentBinding<YComponent> binding = new YComponentBinding<YComponent>(cmpInfo);
-					vb.setValue(elCtx, binding);
-					binding.setValue(cmp);
+				// old
+			} else {
+				final YComponent cmp = (YComponent) model;
+
+				final YFacesELContext yCtx = (YFacesELContext) FacesContext.getCurrentInstance()
+						.getELContext().getContext(YFacesELContext.class);
+
+				yCtx.setResolveYComponentBinding(false);
+				final Object value = vb.getValue(elCtx);
+				if (value instanceof YComponentBinding) {
+					((YComponentBinding<YComponent>) value).setValue(cmp);
 				}
-			}
 
-			yCtx.setResolveYComponentBinding(true);
+				if (value == null) {
+					if (YComponent.class.isAssignableFrom(vb.getType(elCtx))) {
+						vb.setValue(elCtx, cmp);
+					} else {
+						final YComponentInfo cmpInfo = cmp.getComponentInfo();
+						final YComponentBinding<YComponent> binding = new YComponentBinding<YComponent>(cmpInfo);
+						vb.setValue(elCtx, binding);
+						binding.setValue(cmp);
+					}
+				}
+
+				yCtx.setResolveYComponentBinding(true);
+			}
 		}
 	}
 
@@ -230,14 +202,14 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 	 * 
 	 * @return {@link YComponent}
 	 */
-	public YComponent getYComponent() {
+	public Object getComponentModel() {
 		// it's possible that one HtmlYComponent instance is used with multiple YComponent instances
 		// example for that are loops like dataList, table etc..
 		// in that case UIComponents and YComponent instances are similar
 		// therefore the YComponent instance is mapped to the UIComponent instance via it's clientid
 		final String key = super.getClientId(getFacesContext());
 		final Map<String, Object> map = getStateMap();
-		final YComponent result = (YComponent) map.get(key + "_COMPONENT");
+		final Object result = map.get(key + "_COMPONENT");
 		return result;
 	}
 
@@ -246,13 +218,13 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 	 * Sets the final {@link YComponent} which shall be used.<br/>
 	 * Normally this is done after all passed {@link YComponent} Attributes are injected.<br/>
 	 * 
-	 * @param cmp
+	 * @param model
 	 *          {@link YComponent} to set.
 	 */
-	private void setYComponent(final YComponent cmp) {
+	private void setComponentModel(final Object model) {
 		final String clientId = super.getClientId(getFacesContext());
 		final Map<String, Object> map = getStateMap();
-		map.put(clientId + "_COMPONENT", cmp);
+		map.put(clientId + "_COMPONENT", model);
 	}
 
 	/**
@@ -310,9 +282,10 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 		int i = 0;
 		final Object values[] = new Object[4];
 		values[i++] = super.saveState(context);
-		values[i++] = this.specClassName;
-		values[i++] = this.implClassName;
-		values[i++] = this.injectableProperties;
+		//		values[i++] = this.specClassName;
+		//		values[i++] = this.implClassName;
+		//		values[i++] = this.injectableProperties;
+		values[i++] = this.viewLocation;
 
 		return values;
 	}
@@ -339,9 +312,10 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 		final Object values[] = (Object[]) state;
 
 		super.restoreState(context, values[i++]);
-		this.specClassName = (String) values[i++];
-		this.implClassName = (String) values[i++];
-		this.injectableProperties = (String[]) values[i++];
+		//		this.specClassName = (String) values[i++];
+		//		this.implClassName = (String) values[i++];
+		//		this.injectableProperties = (String[]) values[i++];
+		this.viewLocation = (String) values[i++];
 
 		// can't restore bindings here as the ViewRoot isn't completed yet
 		// which
@@ -356,22 +330,22 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 	 */
 	@Override
 	public void processDecodes(final FacesContext context) {
-		final YComponent restored = getYComponent();
+		final Object restoredModel = getComponentModel();
 
 		// it's possible that a previously unrenderable component can be renderable after a
 		// faces request, in that case a YComponent instance isn't available yet
-		if (restored != null) {
+		if (restoredModel != null) {
 
 			// set 'var' before any child processing starts
 			// this is necessary to assure that 'rendered' Attributes work properly
-			this.setVarValue(restored);
+			this.setVarValue(restoredModel);
 
 			// only has an affect when component is backed by a writable
 			// ValueBinding
 			// XXX 1.2 simulate old behavior that non-framed components aren't
 			// available
-			if (restored.getFrame() != null) {
-				this.setValue(restored);
+			if (restoredModel instanceof YComponent && ((YComponent) restoredModel).getFrame() != null) {
+				this.setValue(restoredModel);
 			}
 
 			// process childs
@@ -385,9 +359,9 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 	public void processUpdates(final FacesContext arg0) {
 		// set 'var' value again
 		// necessary when using this component within a loop
-		final YComponent restored = getYComponent();
-		if (restored != null) {
-			this.setVarValue(restored);
+		final Object restoredModel = getComponentModel();
+		if (restoredModel != null) {
+			this.setVarValue(restoredModel);
 			super.processUpdates(arg0);
 		}
 	}
@@ -396,7 +370,7 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 	public void processValidators(final FacesContext arg0) {
 		// set 'var' value again
 		// necessary when using this component within a loop
-		final YComponent restored = getYComponent();
+		final Object restored = getComponentModel();
 		if (restored != null) {
 			this.setVarValue(restored);
 			super.processValidators(arg0);
@@ -420,7 +394,7 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 
 		// YComponentInfo must be validated when HtmlYComponentHandler detected a change in Facelet file
 		//boolean isValidated = !this.isValidateYComponentInfo();
-		if (!cmpInfo.isValid()) {
+		if (!cmpInfo.isValidated()) {
 			final YComponentValidator cmpValid = cmpInfo.createValidator();
 			try {
 				this.validateComponentInfo(cmpValid);
@@ -432,11 +406,11 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 		}
 
 		// if component is valid ...
-		YComponent cmp = null;
-		if (cmpInfo.isValid()) {
+		Object cmp = null;
+		if (cmpInfo.isValidated()) {
 			try {
 				// ... get or create appropriate YComponent instance
-				cmp = this.getOrCreateYComponent(cmpInfo);
+				cmp = this.getOrCreateComponentModel(cmpInfo);
 
 			} catch (final YFacesException e) {
 				log.error("Error creating " + YComponent.class.getSimpleName() + " ("
@@ -450,7 +424,7 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 
 			// ... generate html debug output when enabled
 			if (YFacesConfig.ENABLE_HTML_DEBUG.getBoolean()) {
-				this.generateHtmlDebug(cmp, "Start ");
+				this.generateHtmlDebug("Start ");
 			}
 
 			// ... inject viewToModel attributes into component
@@ -464,7 +438,7 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 			// invoke phase: YComponent#validate
 			if (this.error == null) {
 				try {
-					cmp.validate();
+					cmpInfo.getModelProcessor().validateModel(cmp);
 				} catch (final Exception e) {
 					log.error(logId + "Error while validating component", e);
 					this.error = e;
@@ -474,7 +448,7 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 			this.verifyRenderTimeID();
 
 			// set YComponent
-			this.setYComponent(cmp);
+			this.setComponentModel(cmp);
 
 			// set var value
 			this.setVarValue(cmp);
@@ -546,8 +520,11 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 	 * @return {@link YComponentInfo}
 	 */
 	protected YComponentInfo getYComponentInfo() {
+		//		if (cmpInfo == null) {
+		//			cmpInfo = new YComponentInfoImpl(getId(), getVarName(), this.getSpec(), this.getImpl());
+		//		}
 		if (cmpInfo == null) {
-			cmpInfo = new YComponentInfoImpl(getId(), getVarName(), this.getSpec(), this.getImpl());
+			cmpInfo = YComponentRegistry.getInstance().getComponentByPath(this.viewLocation);
 		}
 		return cmpInfo;
 	}
@@ -562,7 +539,8 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 			log.debug("Validating component " + getYComponentInfo().getLocation());
 		}
 
-		final Set<YValidationAspekt> errors = new HashSet<YValidationAspekt>(cmpValid.validateComponent());
+		final Set<YValidationAspekt> errors = new HashSet<YValidationAspekt>(cmpValid
+				.validateComponent());
 		errors.remove(YValidationAspekt.VIEW_ID_NOT_SPECIFIED);
 		errors.remove(YValidationAspekt.SPEC_IS_MISSING);
 
@@ -586,8 +564,8 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 	 * 
 	 * @return {@link YComponent}
 	 */
-	private YComponent getOrCreateYComponent(final YComponentInfo cmpInfo) {
-		YComponent result = null;
+	private Object getOrCreateComponentModel(final YComponentInfo cmpInfo) {
+		Object result = null;
 
 		// 'binding' value expression which binds a YComponent instance
 		final ValueExpression binding = getValueExpression(PARAM_YCMP_BINDING);
@@ -598,18 +576,18 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 		// when no binding is available or 'binding' returned 'null' ...
 		if (value == null) {
 
-			// ...create a default YComponent 
-			result = cmpInfo.getProcessor().createComponent();
+			// ...create a default Model 
+			result = cmpInfo.getModelProcessor().createModel();
 
 			// ...and update ValueBinding (if any)
 			this.setValue(result);
 
-			// if a YComponent instance is available...
+			// if a Model instance is available...
 		} else {
 
 			if (value instanceof YComponent && ((YComponent) value).getComponentInfo() == null) {
 				// ComponentInfo is empty whenever a YComponent is created via Constructor
-				cmpInfo.getProcessor().initializeComponent((YComponent) value);
+				cmpInfo.getModelProcessor().initializeModel(value);
 			}
 
 			// ...validate passed model 
@@ -621,14 +599,7 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 						.getClass()));
 			}
 
-			result = (YComponent) value;
-
-			//			// When created via a Frame a YComponent has per default no ID
-			//			// in that case use UIComponent id (the unchanged one before
-			//			// duplicate check)
-			//			if (result.getId() == null) {
-			//				((AbstractYComponent) result).setId(getId());
-			//			}
+			result = value;
 
 			if (log.isDebugEnabled()) {
 				log.debug(logId + "found valid Component (" + result.getClass().getSimpleName() + ")");
@@ -694,7 +665,7 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 		vb.setValue(getFacesContext().getELContext(), null);
 
 		if (YFacesConfig.ENABLE_HTML_DEBUG.getBoolean()) {
-			this.generateHtmlDebug(getYComponent(), "End ");
+			this.generateHtmlDebug("End ");
 		}
 
 	}
@@ -749,13 +720,13 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 	 * @param cmp
 	 *          {@link YComponent}
 	 */
-	private void pushAttributesIntoModel(final YComponent cmp, final YComponentInfo cmpInfo) {
+	private void pushAttributesIntoModel(final Object cmp, final YComponentInfo cmpInfo) {
 
 		final Collection<String> attributes = cmpInfo.getPushProperties();
 
 		// now go through all attributes which shall be injected
 		if (attributes != null) {
-			final YComponentProcessor yProc = cmpInfo.getProcessor();
+			final ModelProcessor yProc = cmpInfo.getModelProcessor();
 			for (final String attribute : attributes) {
 
 				// attribute value may either be a ValueExpression or a Literal
@@ -779,15 +750,10 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 	 * @param prefix
 	 *          general prefix
 	 */
-	private void generateHtmlDebug(final YComponent cmp, final String prefix) {
+	private void generateHtmlDebug(final String prefix) {
 		if (this.debugHtmlOut == null) {
-			final YComponentInfo yInfo = cmp.getComponentInfo();
-			debugHtmlOut = "???";
-			if (yInfo != null) {
-				final String _file = yInfo.getURL().toExternalForm();
-				final String _frame = cmp.getFrame() != null ? cmp.getFrame().getId() : "unbound";
-				debugHtmlOut = "Component: " + _file + " (Frame:" + _frame + ")";
-			}
+			final YComponentInfo yInfo = getYComponentInfo();
+			debugHtmlOut = yInfo.getId() + ":" + yInfo.getLocation();
 		}
 		try {
 			FacesContext.getCurrentInstance().getResponseWriter().writeComment(

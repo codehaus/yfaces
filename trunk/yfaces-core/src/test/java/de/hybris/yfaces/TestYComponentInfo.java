@@ -187,22 +187,19 @@ public class TestYComponentInfo extends TestCase {
 			case 2:
 				cmp = "<yf:component id=\"id2\" model=\"java.util.List\" var=\"var\">";
 				expected = Arrays.asList(YValidationAspekt.SPEC_IS_MISSING,
-						YValidationAspekt.IMPL_IS_INTERFACE, YValidationAspekt.IMPL_IS_NO_YCMP);
+						YValidationAspekt.IMPL_IS_INTERFACE);
 				break;
 			case 3:
 				cmp = "<yf:component id=\"id3\" model=\"java.util.ArrayList\" var=\"var\">";
-				expected = Arrays.asList(YValidationAspekt.SPEC_IS_MISSING,
-						YValidationAspekt.IMPL_IS_NO_YCMP);
+				expected = Arrays.asList(YValidationAspekt.SPEC_IS_MISSING);
 				break;
 			case 4:
 				cmp = "<yf:component id=\"id4\" modelspec=\"java.util.List\" model=\"java.util.ArrayList\" var=\"var\">";
-				expected = Arrays.asList(YValidationAspekt.SPEC_IS_NO_YCMP,
-						YValidationAspekt.IMPL_IS_NO_YCMP);
+				expected = Arrays.asList();
 				break;
 			case 5:
 				cmp = "<yf:component id=\"id5\" modelspec=\"java.util.ArrayList\" model=\"java.util.ArrayList\" var=\"var\">";
-				expected = Arrays.asList(YValidationAspekt.SPEC_IS_NO_INTERFACE,
-						YValidationAspekt.SPEC_IS_NO_YCMP, YValidationAspekt.IMPL_IS_NO_YCMP);
+				expected = Arrays.asList(YValidationAspekt.SPEC_IS_NO_INTERFACE);
 				break;
 			case 6:
 				cmp = "<yf:component id=\"id6\" modelspec=\"java.util.Listxxx\" model=\"java.util.ArrayListxxx\" var=\"var\">";
