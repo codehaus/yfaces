@@ -5,10 +5,10 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ext-commerce"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/platform"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/yfaces-core"/>
 	<classpathentry kind="lib" path="web/webroot/WEB-INF/lib/jsf-facelets-1.1.15-b1.jar"/>
 	<classpathentry kind="lib" path="web/webroot/WEB-INF/lib/myfaces-api-1.2.6.jar"/>
 	<classpathentry kind="lib" path="web/webroot/WEB-INF/lib/myfaces-impl-1.2.6.jar"/>
 	<classpathentry kind="lib" path="web/webroot/WEB-INF/lib/tomahawk-1.1.6.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/yfaces-core"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
