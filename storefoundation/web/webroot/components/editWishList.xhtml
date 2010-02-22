@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" [<!ENTITY nbsp "&#160;">]>
+
+<!-- 
+edit wish list component
+edit the information of the given wish list
+-->
+
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:yf="http://yfaces.codehaus.org/taglib"
+	xmlns:sf="http://hybris.com/jsf/storefoundation"	
+	>
+
+	<yf:component
+		id="editWishListCmp"
+		modelspec="ystorefoundationpackage.yfaces.component.wishlist.EditWishListComponent"
+		model="ystorefoundationpackage.yfaces.component.wishlist.DefaultEditWishListComponent"
+		
+		var="editWishListCmpVar"
+		
+		passToModel="wishList"
+		>
+
+		<ui:param name="wishList" value="#{editWishListCmpVar.wishList}"/>
+		<t:div styleClass="editWishListCmp" rendered="#{wishList != null}">
+			<h:form id="editWishListForm" enctype="multipart/form-data" acceptcharset="utf-8">
+				<h:panelGrid columns="2">
+					<h:outputText value="#{msg['components.editWishListCmp.name']}: " styleClass="normal"/>
+					<h:inputText id="wishListName" value="#{wishList.name}"/>
+					<h:outputText value="#{msg['components.editWishListCmp.description']}: " styleClass="normal"/>
+					<h:inputText id="wishListDescription" value="#{wishList.description}"/>
+
+					<h:commandButton
+						id="saveWishList"
+						value="#{msg['components.editWishListCmp.saveWishList']}"
+						action="#{editWishListCmpVar.saveWishListEvent.action}"
+						actionListener="#{editWishListCmpVar.saveWishListEvent.actionListener}"
+						styleClass="submitBig"/>
+					<h:commandButton
+						id="cancelEditWishList"
+						value="#{msg['global.action.cancel']}"
+						action="#{editWishListCmpVar.cancelEditWishListEvent.action}"
+						actionListener="#{editWishListCmpVar.cancelEditWishListEvent.actionListener}"
+						styleClass="submitBig"/>
+				</h:panelGrid>
+			</h:form>
+
+			<br/>
+			<h:form id="moveWishListEntryForm" rendered="#{!empty editWishListCmpVar.wishList.entries}">
+				<t:dataTable 
+						id="entries" 
+						value="#{editWishListCmpVar.wishListTable.rows}" 
+						var="_row"
+						styleClass="general productlist">
+
+					<!-- checkBox -->
+					<t:column styleClass="selection" headerstyleClass="selection_header">
+						<f:facet name="header">
+						&nbsp;
+						</f:facet>
+						<h:selectBooleanCheckbox id="checkBox" value="#{_row['select'].value}"/>
+					</t:column>
+
+					<!-- product name -->
+					<t:column>
+						<f:facet name="header">
+							<h:outputText value="#{msg['components.editWishListCmp.productName']}"/>
+						</f:facet>
+						<sf:outputLink value="#{_row['products'].value}">
+							#{!empty _row['products'].value.name ? _row['products'].value.name : _row['products'].value.code}
+						</sf:outputLink>
+					</t:column>
+
+					<!-- product price -->
+					<t:column>
+						<f:facet name="header">
+							<h:outputText value="#{msg['components.editWishListCmp.productPrice']}"/>
+						</f:facet>
+						<yf:price
+							product="#{_row['price'].value}" 
+							priceMsgFormat="#{_row['price'].value.code != _row['products'].value.code ? msg['global.word.priceStartsFrom'] : ''} "
+							showOldPrice="true" 
+							showTaxes="false"
+							showPriceTable="false"/>
+					</t:column>
+				</t:dataTable>
+
+				<h:panelGrid id="buttons" columns="1">
+					<h:commandButton
+							id="addSelectedProductsToCart"
+							value="#{msg['components.editWishListCmp.addSelectedProductsToCart']}"
+							action="#{editWishListCmpVar.addSelectedProductsToCartEvent.action}"
+							actionListener="#{editWishListCmpVar.addSelectedProductsToCartEvent.actionListener}"
+							styleClass="submitBig"/>
+					<h:commandButton
+							id="deleteSelectedProducts"
+							value="#{msg['components.editWishListCmp.deleteSelectedProducts']}"
+							action="#{editWishListCmpVar.deleteSelectedProductsEvent.action}"
+							actionListener="#{editWishListCmpVar.deleteSelectedProductsEvent.actionListener}"
+							styleClass="submitBig"/>
+
+					<t:div id="copyOrMoveDiv" rendered="#{!empty editWishListCmpVar.otherWishLists}">
+						<br/>
+						<h:panelGrid id="copyOrMoveButtons" columns="2">
+							<h:commandButton
+									id="copySelectedProductsToAnotherWishList"
+									value="#{msg['components.editWishListCmp.copySelectedProductsToAnotherWishList']}"
+									action="#{editWishListCmpVar.copyToAnotherWishListEvent.action}"
+									actionListener="#{editWishListCmpVar.copyToAnotherWishListEvent.actionListener}"
+									styleClass="submitBig">
+								<f:attribute name="copyOrMove" value="COPY"/>
+							</h:commandButton>
+							<h:selectOneMenu id="copytoWishListForm" 
+								value="#{editWishListCmpVar.destWishList}" styleClass="" >									
+								<f:selectItems value="#{editWishListCmpVar.otherWishLists}" />
+							</h:selectOneMenu>
+							<h:commandButton
+									id="moveSelectedProductsToAnotherWishList"
+									value="#{msg['components.editWishListCmp.moveSelectedProductsToAnotherWishList']}"
+									action="#{editWishListCmpVar.copyToAnotherWishListEvent.action}"
+									actionListener="#{editWishListCmpVar.copyToAnotherWishListEvent.actionListener}"
+									styleClass="submitBig">
+								<f:attribute name="copyOrMove" value="MOVE"/>
+							</h:commandButton>
+						</h:panelGrid>
+					</t:div>
+				</h:panelGrid>
+
+			</h:form>
+		</t:div>
+
+		<t:div styleClass="editWishListCmp" rendered="#{wishList == null}">
+			<h:outputText value="->#{msg['components.editWishListCmp.wishListNotExists']}"/>
+		</t:div>
+
+	</yf:component>
+
+</ui:composition>

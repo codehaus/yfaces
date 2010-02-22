@@ -1,0 +1,23 @@
+<div 	xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:t="http://myfaces.apache.org/tomahawk"
+		xmlns:c="http://java.sun.com/jstl/core">
+
+<div class="#{item.cssClass.code}">
+   <div class="content">
+   <h:form id="formParagraphForm">
+   	<table>	
+	   	<c:forEach items="#{item.inputs}" var="input">
+	   		<ui:include src="#{input.template.code}" >
+	   			<ui:param name="item" value="#{input}" />
+	   		</ui:include>
+	   	</c:forEach>
+   	</table> 	
+	</h:form>
+   </div>	   
+
+</div>
+	
+	
+</div> 

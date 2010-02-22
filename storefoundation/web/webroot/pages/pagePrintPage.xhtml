@@ -1,0 +1,35 @@
+<!DOCTYPE type [<!ENTITY nbsp "&#160;">]>
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"	
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:yf="http://yfaces.codehaus.org/taglib"
+	
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://hybris.com/jsf/yfaces ../WEB-INF/yfaces-components.xsd 
+						http://java.sun.com/jsf/facelets ../WEB-INF/facelets.xsd"
+						
+	template="/templates/emptyLayout.xhtml"
+	>
+
+	<ui:define name="content">
+		<h:panelGrid columns="1">
+			<t:div styleClass="productDetailInfo">
+				<yf:productDetail 
+					binding="#{pagePrintFrame.productDetailComponentForPagePrint}"/>
+			</t:div>
+			<br/>
+			<h:form id="printPageForm">
+				<h:commandLink id="printPageLink" 
+						value="#{msg['frames.pagePrintFrame.print']}"
+						onclick="window.print()"
+						target="PrintPage"/>
+			</h:form>
+			<br/>
+		</h:panelGrid>
+	</ui:define>
+
+</ui:composition>

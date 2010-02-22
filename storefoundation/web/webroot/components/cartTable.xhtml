@@ -1,0 +1,137 @@
+<!DOCTYPE subview [<!ENTITY nbsp "&#160;">]>
+
+<!--
+CartTable Component.
+Displays cart products list with total sum, actions to update and remove items from cart
+
+-->
+
+<ui:composition
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:yf="http://yfaces.codehaus.org/taglib"
+	xmlns:sf="http://hybris.com/jsf/storefoundation"	
+	>
+	<yf:component
+		modelspec="ystorefoundationpackage.yfaces.component.cart.CartTableComponent"
+		model="ystorefoundationpackage.yfaces.component.cart.DefaultCartTableComponent" 
+		var="cartTableCmpVar"
+		>      
+
+		<t:div styleClass="cartTableCmp">
+			<h:form id="productsInCartForm">
+				<t:dataTable id="products"
+					value="#{cartTableCmpVar.cartTableEntries}" 
+					var="cartEntry"
+					styleClass="general"
+					rendered="#{!empty cartTableCmpVar.cartTableEntries}">
+					
+					<t:column>
+						<f:facet name="header">
+							<t:commandSortHeader 
+								action="#{cartTableCmpVar.sortCartTableEvent.action}" 
+								actionListener="#{cartTableCmpVar.sortCartTableEvent.actionListener}"
+								columnName="quantity" 
+								value="#{msg['frames.cartFrame.quantity']}" 
+								arrow="true"/>
+						</f:facet>
+						<h:inputText id="quantityInput" value="#{cartEntry.quantity}" size="2"/>
+					</t:column>
+					
+					<f:facet name="footer">
+						<h:panelGrid columns="2">
+							<h:commandButton 
+								id="updateQuantityButton"
+								value="#{msg['components.cartTableCmp.updateQuantities']}" 
+								styleClass="submitSmall" 
+								action="#{cartTableCmpVar.updateCartTableEntriesEvent.action}" 
+								actionListener="#{cartTableCmpVar.updateCartTableEntriesEvent.actionListener}" />
+							<h:panelGroup>
+								<t:outputText value="#{msg['components.cartTableCmp.subTotal']}"/>&nbsp;&nbsp;&nbsp;
+								<t:outputText value="#{cartTableCmpVar.formattedSubTotal}" />
+							</h:panelGroup>
+						</h:panelGrid>
+					</f:facet>
+					
+					<t:column>
+						<f:facet name="header">
+							<t:commandSortHeader 
+								action="#{cartTableCmpVar.sortCartTableEvent.action}" 
+								actionListener="#{cartTableCmpVar.sortCartTableEvent.actionListener}"
+								columnName="unit" 
+								value="#{msg['components.cartTableCmp.unit']}" 
+								arrow="true"/>
+						</f:facet>
+						<h:outputText value="#{!empty cartEntry.source.unit.name ? cartEntry.source.unit.name : cartEntry.source.unit.code }"/>
+					</t:column>
+					
+					<t:column>
+						<f:facet name="header">
+							<t:commandSortHeader
+								action="#{cartTableCmpVar.sortCartTableEvent.action}" 
+								actionListener="#{cartTableCmpVar.sortCartTableEvent.actionListener}"
+								columnName="name"
+								value="#{msg['components.cartTableCmp.product']}"
+								arrow="true"/>
+						</f:facet>
+						<sf:outputLink value="#{cartEntry.source.product}">	
+							<h:outputText value="#{cartEntry.source.product.name} ( #{cartEntry.source.product.code} )"/>
+							<t:dataList 
+								value="#{cartEntry.productVariantValues}" 
+								var="kv" 
+								rendered="#{!empty cartEntry.productVariantValues}"
+								layout="unorderedList">
+								<h:outputText value="#{kv.name}: #{kv.value}"/>
+							</t:dataList>
+						</sf:outputLink>
+					</t:column>
+					
+					<t:column >
+						<f:facet name="header">
+							<t:commandSortHeader
+								action="#{cartTableCmpVar.sortCartTableEvent.action}" 
+								actionListener="#{cartTableCmpVar.sortCartTableEvent.actionListener}"
+								columnName="basePrice" 
+								value="#{msg['components.cartTableCmp.basePrice']}" 
+								arrow="true"/>
+						</f:facet>
+						<h:outputText value="#{cartEntry.formattedBasePrice}"/>
+					</t:column>
+					
+					<t:column >
+						<f:facet name="header">
+							<t:commandSortHeader
+								action="#{cartTableCmpVar.sortCartTableEvent.action}" 
+								actionListener="#{cartTableCmpVar.sortCartTableEvent.actionListener}"
+								columnName="totalPrice" 
+								value="#{msg['components.cartTableCmp.totalPrice']}" 
+								arrow="true"/>
+						</f:facet>
+						<h:outputText value="#{cartEntry.formattedTotalPrice}"/>
+					</t:column>
+					
+					<t:column>
+						<h:commandLink
+							id="removeEntryLink" 
+							value="#{msg['components.cartTableCmp.delete']}"
+							action="#{cartTableCmpVar.removeCartTableEntryEvent.action}" 
+							actionListener="#{cartTableCmpVar.removeCartTableEntryEvent.actionListener}">
+							<f:attribute name="entryToRemove" value="#{cartEntry}"/>
+						</h:commandLink>
+					</t:column>
+				</t:dataTable>
+			</h:form>
+				
+			<h:outputText 
+				value="#{msg['components.cartTableCmp.cartIsEmpty']}" 
+				rendered="#{empty cartTableCmpVar.cartTableEntries}"
+				styleClass="h2" />
+		
+		</t:div>
+		
+	</yf:component>
+	
+</ui:composition>

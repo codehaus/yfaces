@@ -1,0 +1,151 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" [<!ENTITY nbsp "&#160;">]>
+
+<!-- 
+product detail component:
+display the complete description for the given product
+-->
+
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:yf="http://yfaces.codehaus.org/taglib"
+	xmlns:sf="http://hybris.com/jsf/storefoundation"	
+	>
+
+	<yf:component
+		id="productDetailCmp"
+		
+		modelspec="ystorefoundationpackage.yfaces.component.product.ProductDetailComponent"
+		model="ystorefoundationpackage.yfaces.component.product.DefaultProductDetailComponent"
+		
+		var="productDetailCmpVar"
+		
+		passToModel="product"
+		>
+
+	<ui:param name="product" value="#{productDetailCmpVar.product}"/>
+	<ui:param name="printPage" value="#{productDetailCmpVar.printPage}"/>
+
+	<t:div styleClass="productDetailCmp" rendered="#{product != null}">
+		<h:panelGrid columns="2" columnClasses="left, right" cellpadding="0" cellspacing="0">
+			<t:div styleClass="productPicture">
+				<sf:cmsItem item="#{product}">
+					<sf:graphicImage value="#{product.picture.url}" rendered="#{!empty product.picture.url}"/>
+				</sf:cmsItem>
+			</t:div>
+			<t:div styleClass="productDescription">
+
+				<h:outputText value="#{productDetailCmpVar.productName}" styleClass="productName" />
+
+				<h:outputText value="#{msg['frames.productFrame.code']}:&nbsp;&nbsp;" styleClass="productNumber"/>
+				<h:outputText value="#{product != null ? product.code : product.code}" styleClass="productCode"/>
+
+				<t:div styleClass="price">
+					<yf:price product="#{productDetailCmpVar.product}" showOldPrice="true"/>
+				</t:div>
+				
+				<t:div rendered="#{printPage == false}">
+					<f:subview id="chooseVariantCmp" rendered="#{productDetailCmpVar.variantsAvailable}">
+						<yf:chooseVariants
+							binding="#{productFrame.chooseVariantsComponent}"/>
+					</f:subview>
+				</t:div>
+				
+				<!-- display all variant products -->
+			<div class="variantProducts" id="variantProducts" style="display:none">
+				<t:div rendered="#{product != null}">
+				<f:subview id="variantProducts" rendered="#{productDetailCmpVar.variantsAvailable}">
+					<yf:showVariantProducts
+						binding="#{productFrame.showVariantProductsComponent}"
+						currentProduct="#{productDetailCmpVar.product}"
+						printPage="#{printPage}"/>
+				</f:subview>
+				</t:div>
+			</div>
+			
+			<!-- add to cart, and tell a friend form -->
+			<h:form id="productDetailAddToCartFor" styleClass="addToCart" rendered="#{printPage == false}">
+				<h:outputText value="#{msg['components.productDetailCmp.addToCart']}" />
+				<h:outputText value=" ( #{msg['components.productDetailCmp.addToCartMin']} #{productDetailCmpVar.pricing.defaultPricing.amount} ) "
+					rendered="#{productDetailCmpVar.pricing.lowestQuantityPrice.amount > 1}"/>
+					:&nbsp;
+				<h:inputText id="productQuantity" value="#{productDetailCmpVar.quantity}" size="1" required="true"/>
+				<h:inputText styleClass="hidden"/>
+				<h:commandButton id="addToCartButton" 
+					value="#{msg['components.productDetailCmp.add']}" 
+					action="#{productDetailCmpVar.addToCartEvent.action}" 
+					actionListener="#{productDetailCmpVar.addToCartEvent.actionListener}" 
+					styleClass="submitBig addToCartButton"/>
+	
+				<h:message for="productQuantity" styleClass="error"/>
+				<br/>
+	
+				<h:outputFormat value="#{msg['components.productDetailCmp.inCartAre']}" rendered="#{productDetailCmpVar.quantityInCart != '0'}" styleClass="quantityInCartMsg">
+					<f:param value="#{productDetailCmpVar.quantityInCart}" />
+				</h:outputFormat>
+				<h:outputFormat value="#{msg['components.productDetailCmp.oneInCart']}" escape="false" rendered="#{productDetailCmpVar.quantityInCart == 1}" />
+				
+				<h:commandButton id="addToWishListButton" 
+					value="#{msg['components.productDetailCmp.addToWishList']}"
+					action="#{productDetailCmpVar.addToWishListEvent.action}"
+					actionListener="#{productDetailCmpVar.addToWishListEvent.actionListener}"
+					styleClass="submitBig" />
+					
+				<h:commandButton id="createCustomerReviewButton" 
+					value="#{msg['components.productDetailCmp.createCustomerReview']}"
+					action="#{productDetailCmpVar.customerReviewEvent.action}"
+					actionListener="#{productDetailCmpVar.customerReviewEvent.actionListener}"
+					styleClass="submitBig" />
+					
+				<h:commandButton id="tellAFriendButton" 
+					value="#{msg['components.productDetailCmp.tellAFriend']}"
+					action="#{productDetailCmpVar.tellAFriendEvent.action}"
+					actionListener="#{productDetailCmpVar.tellAFriendEvent.actionListener}"
+					styleClass="submitBig" />
+				<br />
+				<h:commandLink id="printPageLink" 
+					value="#{msg['components.productDetailCmp.printPage']}"
+					action="#{productDetailCmpVar.printPageEvent.action}"
+					actionListener="#{productDetailCmpVar.printPageEvent.actionListener}"
+					styleClass="printPageLink"
+					onclick="window.open('', 'PrintPage', 'width=600,height=600,left=50,top=50, scrollbars=yes, resizable=yes')"
+					target="PrintPage"/>
+			</h:form>
+		
+		</t:div>
+		</h:panelGrid>
+		
+		<!-- feature -->
+		<t:div styleClass="productFeatures">
+			<h:outputText value="#{productDetailCmpVar.productDescription}" escape="false"/>
+			<br/><br/>
+			<f:subview id="productFeatures" rendered="#{productDetailCmpVar.features != null}">
+				<ui:include src="includes/classificationAttributes.xhtml">
+					<ui:param name="featureContainer" value="#{productDetailCmpVar.features}"/>
+				</ui:include>
+			</f:subview>
+		</t:div>
+		
+		<!-- display all customer reviews -->
+		<t:div id="customerReviews" rendered="#{printPage == false}">
+			<t:div rendered="#{product != null}">
+			<f:subview id="customerReview" rendered="#{productDetailCmpVar.customerReviewAvailable}">
+				<yf:customerReview
+					binding="#{productFrame.customerReviewComponent}"/>
+			</f:subview>
+			</t:div>
+		</t:div>
+
+	</t:div>
+
+	<t:div styleClass="productDetailCmp" rendered="#{product == null}">
+		<h:outputText value="->#{msg['components.productDetailCmp.productDetailNotExists']}"/>
+	</t:div>
+
+	</yf:component>
+
+</ui:composition>

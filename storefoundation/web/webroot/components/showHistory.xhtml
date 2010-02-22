@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" [<!ENTITY nbsp "&#160;">]>
+
+<!-- 
+show history component
+-->
+
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:yf="http://yfaces.codehaus.org/taglib"
+	xmlns:sf="http://hybris.com/jsf/storefoundation"	
+	>
+
+	<yf:component
+		id="showHistoryCmp"
+		
+		modelspec="ystorefoundationpackage.yfaces.component.history.ShowHistoryComponent"
+		model="ystorefoundationpackage.yfaces.component.history.DefaultShowHistoryComponent"
+		
+		var="showHistoryCmpVar"
+		
+		passToModel="historyEntrySize,enabledProduct,enabledCategory"
+		
+		transient="true"
+		>
+
+		
+	<t:div id="showHistoryCmp" styleClass="showHistoryCmp" rendered="#{!empty showHistoryCmpVar.historyEntries}">
+		<h:outputText value="#{msg['components.showHistoryCmp.lastseen']}:" styleClass="headline"/>
+		<t:div>
+			<ui:repeat value="#{showHistoryCmpVar.historyEntries}" var="_entry" id="showHistoryLoop">
+				<sf:outputLink id="historyLink" value="#{_entry}">
+					#{!empty _entry.name ? _entry.name : _entry.code}
+				</sf:outputLink>
+				<br/>
+			</ui:repeat>
+		</t:div>
+	</t:div>
+
+	</yf:component>
+	
+</ui:composition>

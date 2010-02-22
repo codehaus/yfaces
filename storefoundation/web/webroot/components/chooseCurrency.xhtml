@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" [<!ENTITY nbsp "&#160;">]>
+
+<!-- 
+choose currency component
+-->
+
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:yf="http://yfaces.codehaus.org/taglib">
+
+	<yf:component
+		modelspec="ystorefoundationpackage.yfaces.component.i18n.ChooseCurrencyComponent"
+		model="ystorefoundationpackage.yfaces.component.i18n.DefaultChooseCurrencyComponent"
+		
+		var="chooseCurrencyCmpVar"
+		>
+
+	<t:div id="chooseCurrencyCmp" styleClass="chooseCurrencyCmp">
+		<h:form id="chooseCurrencyForm">
+			<t:div styleClass="icon_currencyChooser"><img src="/images/transp.gif" width="12px" height="12px" /></t:div>
+			<h:outputText value="#{msg['components.chooseCurrencyCmp.currency']}"/>:<br/>
+			<h:panelGrid columns="2">
+				<h:selectOneMenu required="true" id="currencyForm" 
+						value="#{chooseCurrencyCmpVar.currency}" styleClass="selectCurrency" >									
+						<f:selectItems value="#{chooseCurrencyCmpVar.availableCurrencies}" />
+				</h:selectOneMenu>
+				<h:commandButton id="submitCurrencyButton" 
+					value="#{msg['components.chooseCurrencyCmp.currencysubmit']}" 
+					action="#{chooseCurrencyCmpVar.saveCurrencyEvent.action}" 
+					actionListener="#{chooseCurrencyCmpVar.saveCurrencyEvent.actionListener}" 
+					styleClass="submitChoice"/>
+			</h:panelGrid>
+		</h:form>
+	</t:div>
+
+	</yf:component>
+
+</ui:composition>

@@ -1,0 +1,92 @@
+<!DOCTYPE component [<!ENTITY nbsp "&#160;">]>
+
+<!-- 
+List Wish List Component
+display all wish lists of the user
+-->
+
+<ui:composition
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:yf="http://yfaces.codehaus.org/taglib">
+
+	<yf:component
+		id="listWishListCmp"
+		
+		modelspec="ystorefoundationpackage.yfaces.component.wishlist.ListWishListComponent"
+		model="ystorefoundationpackage.yfaces.component.wishlist.DefaultListWishListComponent"
+		
+		var="listWishListCmpVar"
+		>
+
+		<ui:param name="allWishLists" value="#{listWishListCmpVar.allWishLists}"/>
+		<t:div styleClass="listWishListCmp">
+			<h:form id="allWishListsForm">
+				<h:outputText value="#{msg['components.listWishListCmp.allWishLists']}" styleClass="allWishLists"/>
+				<ui:repeat value="#{allWishLists}" var="_wishList" id="wishListsLoop">
+						<h:panelGrid columns="4">
+							<t:div styleClass="wishListName">
+								<h:commandLink
+									id="wishListLink" 
+									value="#{_wishList.name}" 
+									action="#{listWishListCmpVar.selectWishListEvent.action}"
+									actionListener="#{listWishListCmpVar.selectWishListEvent.actionListener}">
+									<f:attribute name="selectedWishList" value="#{_wishList}"/>
+								</h:commandLink>
+								<h:outputText value=" (#{msg['components.listWishListCmp.emptyWishList']})" 
+											  rendered="#{empty _wishList.entries}"/>
+							</t:div>
+							<h:commandButton
+								id="editWishList"
+								value="#{msg['components.listWishListCmp.editWishList']}"
+								action="#{listWishListCmpVar.editWishListEvent.action}"
+								actionListener="#{listWishListCmpVar.editWishListEvent.actionListener}"
+								styleClass="submitBig">
+								<f:attribute name="editWishList" value="#{_wishList}"/>
+							</h:commandButton>
+							<h:commandButton
+								id="deleteWishList"
+								value="#{msg['components.listWishListCmp.deleteWishList']}"
+								action="#{listWishListCmpVar.deleteWishListEvent.action}"
+								actionListener="#{listWishListCmpVar.deleteWishListEvent.actionListener}"
+								styleClass="submitBig">
+								<f:attribute name="deleteWishList" value="#{_wishList}"/>
+							</h:commandButton>
+							<t:div>
+								<h:commandButton
+									id="makeNewDefaultWishList"
+									value="#{msg['components.listWishListCmp.makeNewDefaultWishList']}"
+									action="#{listWishListCmpVar.makeNewDefaultWishListEvent.action}"
+									actionListener="#{listWishListCmpVar.makeNewDefaultWishListEvent.actionListener}"
+									styleClass="submitBig"
+									rendered="#{_wishList.default == false}">
+									<f:attribute name="makeNewDefaultWishList" value="#{_wishList}"/>
+								</h:commandButton>
+								<h:outputText value="#{msg['components.listWishListCmp.defaultWishList']}"
+									rendered="#{_wishList.default == true}"/>
+							</t:div>
+						</h:panelGrid>
+				</ui:repeat>
+			</h:form>
+			<br/>
+			<h:form id="addWishListForm" enctype="multipart/form-data" acceptcharset="utf-8">
+				<h:panelGrid columns="2">
+					<t:div styleClass="wishListName">
+						<h:inputText id="wishListName" value="#{listWishListCmpVar.wishListName}"/>
+					</t:div>
+					<h:commandButton
+						id="addWishList"
+						value="#{msg['components.listWishListCmp.addWishList']}"
+						action="#{listWishListCmpVar.addWishListEvent.action}"
+						actionListener="#{listWishListCmpVar.addWishListEvent.actionListener}"
+						styleClass="submitBig"/>
+				</h:panelGrid>
+			</h:form>
+		</t:div>
+	
+	</yf:component>
+
+</ui:composition>

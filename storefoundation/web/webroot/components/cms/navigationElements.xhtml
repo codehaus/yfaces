@@ -1,0 +1,36 @@
+<!-- 
+	Renders a list of TextParagraphs.
+-->
+<ui:composition
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:yf="http://yfaces.codehaus.org/taglib"
+	>
+	<yf:component
+		id="navigationElementsCmp"
+		modelspec="ystorefoundationpackage.yfaces.component.cms.NavigationElementsComponent"
+		model="ystorefoundationpackage.yfaces.component.cms.DefaultNavigationElementsComponent" 
+		var="navElementsCmpVar"
+		
+		passToModel="
+			rootNavigationElementId,
+			rootNavigationElement,
+			navigationElements"
+		
+		transient="true"
+		>      
+
+		<ui:param name="navigationElementsCmpStyle" 
+			value="#{navElementsCmpVar.rootNavigationElement != null ? navElementsCmpVar.rootNavigationElement.code : 'general'}"/>
+		
+		<t:div styleClass="navigationElementsCmp #{navigationElementsCmpStyle}">
+			<t:dataList id="list" value="#{navElementsCmpVar.navigationElements}" var="navElement" layout="unorderedList" rendered="#{navElementsCmpVar.navigationElements != null}">
+				<yf:navigationElement navigationElement="#{navElement}"/>
+			</t:dataList>
+		</t:div>
+	</yf:component>
+</ui:composition>
+			

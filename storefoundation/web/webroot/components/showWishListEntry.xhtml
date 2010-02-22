@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" [<!ENTITY nbsp "&#160;">]>
+
+<!-- 
+show wish list entry component
+display the give wish list entry
+-->
+
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:yf="http://yfaces.codehaus.org/taglib">
+
+	<yf:component
+		id="showWishListEntryCmp"
+		modelspec="ystorefoundationpackage.yfaces.component.wishlist.ShowWishListEntryComponent"
+		model="ystorefoundationpackage.yfaces.component.wishlist.DefaultShowWishListEntryComponent"
+		var="showWishListEntryCmpVar"
+		
+		passToModel="wishListEntry"
+		>
+
+		<ui:param name="entry" value="#{showWishListEntryCmpVar.wishListEntry}"/>
+		<t:div styleClass="showWishListEntryCmp" rendered="#{entry != null}">
+			<h:form id="wishListEntry" enctype="multipart/form-data" acceptcharset="utf-8">
+				<h:panelGrid columns="2">
+					<t:div styleClass="productQuickView">
+						<yf:productQuickView product="#{entry.product}" createRandomProduct="#{false}"/>
+					</t:div>
+					<t:div id="entryContent">
+						<h:panelGrid columns="2" rendered="#{wishListFrame.anonymousUser == false}">
+							<h:outputText value="#{msg['components.showWishListEntryCmp.comment']}: " styleClass="normal"/>
+							<h:inputText id="comment" value="#{entry.comment}"/>
+							<h:outputText value="#{msg['components.showWishListEntryCmp.desired']}: " styleClass="normal"/>
+							<h:inputText id="desired" label="#{msg['components.showWishListEntryCmp.desired']}" 
+									value="#{entry.desired}" required="true">
+								<f:validateLongRange minimum="0"/>
+							</h:inputText>
+							<h:outputText value="#{msg['components.showWishListEntryCmp.received']}: " styleClass="normal"/>
+							<h:inputText id="received" label="#{msg['components.showWishListEntryCmp.received']}" 
+									value="#{entry.received}">
+								<f:validateLongRange minimum="0"/>
+							</h:inputText>
+							<h:outputText value="#{msg['components.showWishListEntryCmp.priority']}: " styleClass="normal"/>
+							<h:selectOneMenu required="true" id="selectPriority" 
+								value="#{showWishListEntryCmpVar.priority}" styleClass="selectPriority" >									
+								<f:selectItems value="#{showWishListEntryCmpVar.priorities}" />
+							</h:selectOneMenu>
+							<h:outputText value="#{msg['components.showWishListEntryCmp.addedDate']}: " styleClass="normal"/>
+							<h:outputText value="#{showWishListEntryCmpVar.addedDate}" styleClass="normal"/>
+						</h:panelGrid>
+						<h:panelGrid columns="3" rendered="#{wishListFrame.anonymousUser == false}">
+							<h:commandButton
+								id="saveWishListEntry"
+								value="#{msg['components.showWishListEntryCmp.saveWishListEntry']}"
+								action="#{showWishListEntryCmpVar.saveWishListEntryEvent.action}"
+								actionListener="#{showWishListEntryCmpVar.saveWishListEntryEvent.actionListener}"
+								styleClass="submitBig">
+								<f:attribute name="saveWishListEntry" value="#{entry}"/>
+							</h:commandButton>
+							<h:commandButton
+								id="removeWishListEntry"
+								value="#{msg['components.showWishListEntryCmp.removeWishListEntry']}"
+								immediate="true"
+								action="#{showWishListEntryCmpVar.removeWishListEntryEvent.action}"
+								actionListener="#{showWishListEntryCmpVar.removeWishListEntryEvent.actionListener}"
+								styleClass="submitBig">
+								<f:attribute name="removeWishListEntry" value="#{entry}"/>
+							</h:commandButton>
+							<h:commandButton
+								id="addProductToCart"
+								value="#{msg['components.showWishListEntryCmp.addProductToCart']}"
+								immediate="true"
+								action="#{showWishListEntryCmpVar.addProductToCartEvent.action}"
+								actionListener="#{showWishListEntryCmpVar.addProductToCartEvent.actionListener}"
+								styleClass="submitBig">
+								<f:attribute name="addProductToCart" value="#{entry}"/>
+							</h:commandButton>
+						</h:panelGrid>
+						<h:message for="desired" styleClass="error"/><br/>
+						<h:message for="received" styleClass="error"/>
+					</t:div>
+				</h:panelGrid>
+			</h:form>
+		</t:div>
+
+		<t:div styleClass="showWishListEntryCmp" rendered="#{entry == null}">
+			<h:outputText value="#{msg['components.showWishListEntryCmp.noEntryFound']}" styleClass="normal"/>
+		</t:div>
+	</yf:component>
+
+</ui:composition>

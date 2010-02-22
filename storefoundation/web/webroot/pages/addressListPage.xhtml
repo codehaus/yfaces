@@ -1,0 +1,33 @@
+<!DOCTYPE type [<!ENTITY nbsp "&#160;">]>
+
+<!--
+Shows available adresses and allows editing and activating.
+Used by CartJSFBean for setting payment/delivery adress
+
+tiles:	addressList
+-->
+
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:yf="http://yfaces.codehaus.org/taglib"
+	template="/templates/layout.xhtml"
+	
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://hybris.com/jsf/yfaces ../WEB-INF/yfaces-components.xsd 
+						http://java.sun.com/jsf/facelets ../WEB-INF/facelets.xsd"	
+	 >
+	
+	<ui:define name="contentTitle">#{msg['address.listAddressCmp.headline']}</ui:define>
+	
+	<ui:define name="content">
+		<yf:listAddresses 
+			binding="#{addressListFrame.listAddressComponent}" />
+	</ui:define>
+
+</ui:composition>
+			

@@ -1,0 +1,35 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<ui:composition
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:yf="http://yfaces.codehaus.org/taglib"
+	>
+	
+		<t:div styleClass="sidebar_boxes">
+			<ui:include src="/templates_cms/menu_box.xhtml"/>
+		</t:div>
+	
+		<t:div id="showWishListCmp" styleClass="sidebar_boxes">
+			<ui:include src="/templates_cms/wishListNavigationElement.xhtml"/>
+		</t:div>
+	
+
+		<t:div styleClass="sidebar_boxes">
+			<yf:adBanner binding="#{globalFrame.adBannerComponent}"/>
+		</t:div>
+	
+
+	<!-- Hybris footer -->
+	
+	<t:div styleClass="hybrisFooter">
+		<nobr>Copyright (c) 2000-2009 hybris AG</nobr>
+	</t:div>
+	
+	
+
+</ui:composition> 

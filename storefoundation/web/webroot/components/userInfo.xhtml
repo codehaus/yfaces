@@ -1,0 +1,44 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" [<!ENTITY nbsp "&#160;">]>
+
+<!-- 
+user info component
+-->
+
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:yf="http://yfaces.codehaus.org/taglib">
+
+	<yf:component
+		id="userInfoCmp"
+		modelspec="ystorefoundationpackage.yfaces.component.user.UserInfoComponent"
+		model="ystorefoundationpackage.yfaces.component.user.DefaultUserInfoComponent"
+		var="userInfoCmpVar"
+		>
+
+		<ui:param name="user" value="#{userInfoCmpVar.user}"/>
+		<t:div id="userInfoCmp" styleClass="userInfoCmp">
+			<h:form id="userInfoCmpForm">
+				<h:outputText value="#{msg['components.userInfoCmp.name']}:#{user.name}"/><br/>
+				<h:outputText value="#{msg['frames.loginFrame.login']}:#{user.uid}"/><br/>
+				<h:outputText value="#{msg['frames.loginFrame.password']} ("/>
+				<h:commandLink id="changePasswordLink"
+							styleClass="commandLink"
+							value="#{msg['frames.loginFrame.change']}"
+							actionListener="#{userInfoCmpVar.changePasswordEvent.actionListener}"
+							action="#{userInfoCmpVar.changePasswordEvent.action}"/>
+				<h:outputText value=")"/>
+				<br/><br/>
+				<h:commandLink id="orderHistoryLink"
+							styleClass="commandLink"
+							value="#{msg['components.userInfoCmp.orderHistory']}"
+							action="#{userInfoCmpVar.showOrderHistoryEvent.action}"/>
+			</h:form>
+		</t:div>
+	</yf:component>
+
+</ui:composition>

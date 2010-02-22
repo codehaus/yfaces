@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" [<!ENTITY nbsp "&#160;">]>
+
+
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:t="http://myfaces.apache.org/tomahawk"
+   xmlns:c="http://java.sun.com/jstl/core"
+   
+	xmlns:yf="http://yfaces.codehaus.org/taglib"
+	>
+
+	
+	<yf:component
+		id="featureValuesSelectorCmp"
+		modelspec="ystorefoundationpackage.yfaces.component.product.fv.FeatureValueSelectorComponent"
+		model="ystorefoundationpackage.yfaces.component.product.fv.DefaultFeatureValueSelectorComponent"
+		
+		var="fvSelectorCmpVar" 
+		
+		passToModel="funneMode, category, ignoreClassificationClass, featureValuesSelectorCount, productList"
+		>	
+		
+		<t:div styleClass="featureValuesSelectorCmp" rendered="#{!empty fvSelectorCmpVar.selectorList}">
+			<h:form id="form">
+				<t:dataTable id="dataTable" value="#{fvSelectorCmpVar.selectorList}" var="selector" newspaperColumns="2">
+					<t:column>
+						<t:outputText id="label" value="#{selector.label}" styleClass="label #{selector.disabled ? 'disabled' : 'enabled'}"/>
+
+						<!-- Render a SelectOne component -->
+						<t:selectOneListbox
+								id="selector"
+								value="#{selector.selectedValue}" 
+								size="1"
+								converter="#{selector.converter}"
+								validator="#{selector.validator.validate}"
+								required="false"
+								disabled="#{selector.disabled}"
+								styleClass="selector"
+								disabledClass="disabled" 
+								rendered="#{selector != null}">
+							<f:selectItems value="#{selector.selectItems}" />
+						</t:selectOneListbox>
+					</t:column>
+				</t:dataTable>
+	
+				<!-- Render CommandButtons -->
+				<t:div styleClass="buttons">
+					<h:commandButton 
+							id="submitButton"
+							value="#{msg['featureValuesSelectorCmp.action.submit']}" 
+							action="#{fvSelectorCmpVar.submitEvent.action}"
+							actionListener="#{fvSelectorCmpVar.submitEvent.actionListener}"
+							styleClass="submitSmall buttonApply" />
+							
+					<h:commandButton 
+							id="resetButton" 
+							value="#{msg['featureValuesSelectorCmp.action.reset']}"
+							action="#{fvSelectorCmpVar.resetEvent.action}"
+							actionListener="#{fvSelectorCmpVar.resetEvent.actionListener}"
+							rendered="#{fvSelectorCmpVar.funnelMode}"
+							styleClass="submitSmall buttonReset" />
+				</t:div>
+			</h:form>
+		</t:div>
+	
+	</yf:component>
+
+</ui:composition>

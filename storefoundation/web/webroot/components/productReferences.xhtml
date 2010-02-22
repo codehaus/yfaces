@@ -1,0 +1,49 @@
+<!DOCTYPE subview [<!ENTITY nbsp "&#160;">]>
+
+<!--
+ProductReferencesComponent.
+
+-->
+
+<ui:composition
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:yf="http://yfaces.codehaus.org/taglib"
+	>
+	<yf:component
+		id="productReferencesCmp"
+		modelspec="ystorefoundationpackage.yfaces.component.product.ProductReferencesComponent"
+		model="ystorefoundationpackage.yfaces.component.product.DefaultProductReferencesComponent" 
+		var="productReferencesCmpVar"
+		>   
+		
+		
+		
+		<t:div styleClass="productReferencesCmp">
+			<t:div styleClass="headline">
+				#{productReferencesCmpVar.headline}
+			</t:div>
+			<h:form id="form">
+				<ui:repeat id="loop" value="#{productReferencesCmpVar.productReferenceGroups}" var="productReferenceGroup">
+					<f:subview id="crossell" rendered="#{productReferencesCmpVar.layout == 1}">
+						<ui:include src="includes/productReferences_crossells.xhtml"/>
+					</f:subview>
+					<f:subview id="upsell" rendered="#{productReferencesCmpVar.layout == 2}">
+						<ui:include src="includes/productReferences_upsells.xhtml"/>
+					</f:subview>
+				</ui:repeat>
+		
+		
+				<h:commandButton id="submitAddToCart" styleClass="general"
+					value="#{msg['productReferencesCmp.action.addSelectionToCart']}"
+					action="#{productReferencesCmpVar.addSelectionToCartEvent.action}"
+					actionListener="#{productReferencesCmpVar.addSelectionToCartEvent.actionListener}"
+					rendered="#{productReferencesCmpVar.addSelectionToCartEvent.enabled}"/>
+			</h:form>
+		</t:div>
+		
+	</yf:component>
+</ui:composition>

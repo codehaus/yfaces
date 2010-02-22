@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" [<!ENTITY nbsp "&#160;">]>
+
+<!-- 
+product quick view component:
+display the short description for a certain product
+-->
+
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"	
+	xmlns:yf="http://yfaces.codehaus.org/taglib"
+	xmlns:sf="http://hybris.com/jsf/storefoundation"	
+	>
+
+	<yf:component
+		id="productQuickViewCmp"
+		
+		modelspec="ystorefoundationpackage.yfaces.component.product.ProductQuickViewComponent"
+		model="ystorefoundationpackage.yfaces.component.product.DefaultProductQuickViewComponent"
+		
+		passToModel="product, productCode, nothingFoundMsgFormat"
+		
+		var="productQuickViewCmpVar"
+		
+		transient="true"
+		>
+
+		
+		<sf:cmsItem item="#{product}">
+
+		<ui:param name="product" value="#{productQuickViewCmpVar.product}"/>
+		<t:div id="productQuickViewCmp" styleClass="productQuickViewCmp" rendered="#{product != null}">
+			<sf:outputLink value="#{product}">
+				<t:div id="productQuickViewCmpImg" styleClass="productQuickViewCmpImg">
+					<img  src="#{product.thumbnail.url}"/>
+				</t:div>
+				#{!empty product.name ? product.name : product.code}
+				<br/>
+			</sf:outputLink>
+			
+			<yf:price 
+				product="#{productQuickViewCmpVar.bestProduct}" 
+				showOldPrice="true" oldPriceMsgFormat="#{msg['global.phrase.oldPrice']}: "
+				showTaxes="false"
+				showPriceTable="false"/>
+			
+		</t:div>
+	
+		<t:div rendered="#{product == null}">
+			<h:outputFormat value="#{productQuickViewCmpVar.nothingFoundMsgFormat}">
+				<f:param value="#{productQuickViewCmpVar.productCode}"/>
+			</h:outputFormat>
+		</t:div>
+			
+	</sf:cmsItem>
+	</yf:component>
+
+</ui:composition>

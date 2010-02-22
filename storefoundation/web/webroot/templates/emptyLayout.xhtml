@@ -1,0 +1,40 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" [<!ENTITY nbsp "&#160;">]>
+
+<!--
+ Simple layout which defines only a content frame without default content
+ Useful for developing and debugging.
+-->
+
+<html
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:yf="http://yfaces.codehaus.org/taglib"
+	xmlns:sf="http://hybris.com/jsf/storefoundation"
+	>
+	<head profile="http://www.w3.org/2000/08/w3c-synd/#">
+		<title>
+			<ui:insert name="title">hybris StoreFoundation</ui:insert>
+		</title>
+		
+		<base href="#{requestBean.applicationPath}" />
+
+		<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+		<meta http-equiv="Content-Style-Type" content="text/css" />
+		
+		<ui:repeat value="#{requestBean.cssResources}" var="cssResource">
+			<link rel="stylesheet" href="#{cssResource}" />
+		</ui:repeat>
+	</head>  
+	
+	<body class="printBody">
+		<f:view>
+			<sf:loadBundle basename="ystorefoundationpackage.YStoreFoundation" var="msg" />
+			<ui:insert name="content">
+				No content defined
+			</ui:insert>
+		</f:view>
+	</body>
+</html>

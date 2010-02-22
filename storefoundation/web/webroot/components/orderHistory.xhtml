@@ -1,0 +1,123 @@
+<!DOCTYPE subview [<!ENTITY nbsp "&#160;">]>
+
+<!--
+OrderHistory Component.
+
+Displays a Selector for filter operations.
+Displays a table which shows a list of orders.
+-->
+
+<ui:composition
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:yf="http://yfaces.codehaus.org/taglib"
+	xmlns:sf="http://hybris.com/jsf/storefoundation"	
+	>
+
+
+	<yf:component
+		id="orderHistoryCmp"
+		
+		modelspec="ystorefoundationpackage.yfaces.component.order.OrderHistoryComponent"
+		model="ystorefoundationpackage.yfaces.component.order.DefaultOrderHistoryComponent" 
+		var="orderHistoryCmpVar"
+      	
+      	passToModel="user, orderList"
+		>      
+		
+		
+		<t:div styleClass="orderHistoryCmp">
+			<h:form id="form">
+				<ui:param name="selector" value="#{orderHistoryCmpVar.orderStateSelector}"/>
+				<h:panelGrid columns="2">
+					<h:outputText value="#{msg['components.orderHistoryCmp.number']}:"/>
+					<h:inputText id="inputText" value="#{orderHistoryCmpVar.orderCode}" required="false"/>
+					<h:outputText value="#{msg['components.orderHistoryCmp.status']}:"/>
+					<t:selectOneListbox
+						id="selector"
+						value="#{selector.selectedValue}" 
+						size="1"
+						converter="#{selector.converter}"
+						validator="#{selector.validator.validate}"
+						required="false"
+						disabled="#{selector.disabled}"
+						styleClass="selector"
+						disabledClass="disabled" 
+						rendered="#{selector != null}">
+						<f:selectItems value="#{selector.selectItems}" />
+					</t:selectOneListbox>
+					<h:outputText value=" "/>
+					<h:commandButton 
+						id="submitButton" 
+						value="#{msg['components.orderHistoryCmp.search']}"
+						action="#{orderHistoryCmpVar.orderStateSelectEvent.action}"
+						actionListener="#{orderHistoryCmpVar.orderStateSelectEvent.actionListener}"
+						/>
+				</h:panelGrid>
+				<br/>
+				
+				<t:dataTable id="table" value="#{orderHistoryCmpVar.orderHistoryTable.rows}" 
+					var="row" 
+					rowIndexVar="index"
+					preserveSort="false"
+					sortAscending="#{orderHistoryCmpVar.sortAscending}"
+					sortColumn="#{orderHistoryCmpVar.sortColumn}"
+					styleClass="general"
+					rendered="#{orderHistoryCmpVar.orderHistoryTable != null}">
+					<t:column>
+						<h:outputText value="#{index+1}"/>
+					</t:column>
+					<t:column>
+						<f:facet name="header">
+							<t:commandSortHeader
+								id="sortByDateCommand"
+								action="#{orderHistoryCmpVar.sortOrderHistoryTableEvent.action}" 
+								actionListener="#{orderHistoryCmpVar.sortOrderHistoryTableEvent.actionListener}"
+								columnName="#{orderHistoryCmpVar.orderHistoryTable.columns[0].id}" 
+								value="#{msg[orderHistoryCmpVar.orderHistoryTable.columns[0].title]}" 
+								arrow="true"/>
+						</f:facet>
+						<h:outputText value="#{row['date'].value.date}">
+							<f:convertDateTime type="both" dateStyle="medium" timeStyle="medium"/>
+						</h:outputText>
+					</t:column>
+					
+					<t:column>
+						<f:facet name="header">
+							<t:commandSortHeader
+								action="#{orderHistoryCmpVar.sortOrderHistoryTableEvent.action}" 
+								actionListener="#{orderHistoryCmpVar.sortOrderHistoryTableEvent.actionListener}"
+								columnName="#{orderHistoryCmpVar.orderHistoryTable.columns[1].id}" 
+								value="#{msg[orderHistoryCmpVar.orderHistoryTable.columns[1].title]}" 
+								arrow="true"/>
+						</f:facet>
+						<sf:outputLink id="productLink" value="#{row['code'].value}">
+							#{row['code'].value.code}
+						</sf:outputLink>
+					</t:column>
+					
+					<t:column>
+						<f:facet name="header">
+							<t:commandSortHeader
+								action="#{orderHistoryCmpVar.sortOrderHistoryTableEvent.action}" 
+								actionListener="#{orderHistoryCmpVar.sortOrderHistoryTableEvent.actionListener}"
+								columnName="#{orderHistoryCmpVar.orderHistoryTable.columns[2].id}" 
+								value="#{msg[orderHistoryCmpVar.orderHistoryTable.columns[2].title]}" 
+								arrow="true"/>
+						</f:facet>
+						#{row['state'].value}
+					</t:column>
+					
+					<t:column>
+						<f:facet name="header">
+							<h:outputText value="#{msg[orderHistoryCmpVar.orderHistoryTable.columns[3].title]}"/>
+						</f:facet>
+						#{row['price'].value.totalPrice}
+					</t:column>
+				</t:dataTable>
+			</h:form>
+		</t:div>
+	</yf:component>
+</ui:composition>

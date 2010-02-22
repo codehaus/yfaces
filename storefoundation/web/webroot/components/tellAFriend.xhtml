@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" [<!ENTITY nbsp "&#160;">]>
+
+<!-- 
+tell a friend component
+-->
+
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:yf="http://yfaces.codehaus.org/taglib">
+
+	<yf:component
+		id="tellAFriendCmp"
+		modelspec="ystorefoundationpackage.yfaces.component.product.tellfriend.TellAFriendComponent"
+		model="ystorefoundationpackage.yfaces.component.product.tellfriend.DefaultTellAFriendComponent"
+		var="tellAFriendCmpVar"
+		passToModel="product, comment"
+>
+
+		<t:div styleClass="tellAFriendCmp">
+			<t:div styleClass="info">
+				<h:panelGrid columns="2">
+					<img src="#{tellAFriendCmpVar.product.thumbnail.url}"/>
+					<h:outputText value="#{tellAFriendCmpVar.product.name}" styleClass="productName"/>
+				</h:panelGrid>
+			</t:div>
+
+			<h:form id="tellAFriendForm" styleClass="tellAFriendForm" 
+				enctype="multipart/form-data" acceptcharset="utf-8">
+				<h:outputFormat value="#{msg['components.tellAFriendCmp.introduction']}" escape="false">
+					<f:param value="#{tellAFriendCmpVar.product.name}"/>
+				</h:outputFormat><br/><br/>
+				<h:panelGrid columns="2">
+					<h:outputText value="#{msg['components.tellAFriendCmp.fromEmail']}"/>
+					<h:outputText value="#{tellAFriendCmpVar.user.name}"/>
+					<h:outputText value="#{msg['components.tellAFriendCmp.toEmail']}"/>
+					<h:inputText size="30" value="#{tellAFriendCmpVar.emailAddress}" id="emailAddress"/>
+					<h:outputText value="#{msg['components.tellAFriendCmp.comment']}:&nbsp;"/>
+					<h:inputTextarea rows="8" cols="35" value="#{tellAFriendCmpVar.comment}"/><br/><br/>
+					<h:commandButton id="sendEmailButton" 
+						value="#{msg['components.tellAFriendCmp.sendEmail']}"
+						action="#{tellAFriendCmpVar.sendEmailEvent.action}"
+						actionListener="#{tellAFriendCmpVar.sendEmailEvent.actionListener}"
+						styleClass="submitBig"/>
+				</h:panelGrid>
+			</h:form>
+		</t:div>
+
+	</yf:component>
+
+</ui:composition>

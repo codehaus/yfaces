@@ -1,0 +1,64 @@
+<!DOCTYPE subview [<!ENTITY nbsp "&#160;">]>
+
+<!--
+Quick Login Component.
+Displays a login form consisting of a login, a password textinput and a login button. 
+
+-->
+
+<ui:composition
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:yf="http://yfaces.codehaus.org/taglib"
+	>
+	<yf:component
+		id="quickLoginCmp"
+		modelspec="ystorefoundationpackage.yfaces.component.user.LoginComponent"
+		model="ystorefoundationpackage.yfaces.component.user.DefaultLoginComponent" 
+		var="quickLoginCmpVar"
+		>
+		<t:div styleClass="quickLoginCmp">
+			<h:form id="quickLoginForm">
+			
+				<h:outputText rendered="#{!quickLoginCmpVar.loggedIn}">
+					<!--  hidden input field to enable ENTER button for the search in IE -->
+					<h:inputText styleClass="hidden"/>
+					<h:outputText  value="#{msg['frames.loginFrame.login']}:&nbsp;&nbsp;" />
+					<h:inputText styleClass="login" id="login" value="#{quickLoginCmpVar.login}" />
+					<h:outputText value="&nbsp;#{msg['frames.loginFrame.password']}:&nbsp;&nbsp;" />
+					<h:inputSecret styleClass="login" id="password" value="#{quickLoginCmpVar.password}" />
+					<h:outputText value="&nbsp;&nbsp;" />
+					<h:commandButton id="loginCommand"
+						styleClass="commandLink" 
+						value="#{msg['frames.loginFrame.command']}" 
+						action="#{quickLoginCmpVar.loginEvent.action}" 
+						actionListener="#{quickLoginCmpVar.loginEvent.actionListener}" />
+				</h:outputText>
+				
+				
+				<h:outputText rendered="#{userSession.anonymousUser}">
+					<h:commandLink 
+						id="registrationCommand"
+						action="#{quickLoginCmpVar.registerEvent.action}"
+						actionListener="#{quickLoginCmpVar.registerEvent.actionListener}"  value="">
+							<span id="icon_registrierung" class="icon_registrierung"><img src="/images/transp.gif" width="12px" height="12px"/></span>
+						#{msg['components.quickLoginCmp.registration']}
+					</h:commandLink>
+				</h:outputText>
+
+				<h:outputText rendered="#{quickLoginCmpVar.loggedIn}">
+					<h:commandLink id="logoutCommand"
+						styleClass="commandLink" 
+						action="#{quickLoginCmpVar.logoutEvent.action}" 
+						actionListener="#{quickLoginCmpVar.logoutEvent.actionListener}">
+						<h:outputText value="#{msg['frames.loginFrame.logout']}" />
+					</h:commandLink>
+				</h:outputText>
+			</h:form>
+			
+		</t:div>
+	</yf:component>	
+</ui:composition>

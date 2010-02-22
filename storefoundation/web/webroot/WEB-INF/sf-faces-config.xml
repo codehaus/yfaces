@@ -1,0 +1,412 @@
+<?xml version='1.0' encoding='UTF-8'?>
+ 
+<faces-config
+	xmlns="http://java.sun.com/xml/ns/javaee"	version="1.2"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee/web-facesconfig_1_2.xsd">
+
+	<application>
+		<locale-config>
+			<default-locale>de</default-locale>
+			<supported-locale>de</supported-locale>
+			<supported-locale>en</supported-locale>
+		</locale-config>
+		<message-bundle>ystorefoundationpackage.YStoreFoundation</message-bundle>
+		
+		<el-resolver>ystorefoundationpackage.faces.SfELResolver</el-resolver>
+		
+	</application>
+	  
+	<lifecycle>
+		<phase-listener> ystorefoundationpackage.faces.ApplyQueryParamsPhaseListener </phase-listener>
+		<phase-listener> ystorefoundationpackage.faces.ApplyDebugParamsPhaseListener </phase-listener>
+	</lifecycle>
+
+
+	<!-- Globals (all available pages) -->
+	<navigation-rule>
+		<from-view-id>*</from-view-id>
+		<navigation-case>
+			<from-outcome>userDetailPage</from-outcome>
+			<to-view-id>/pages/userDetailPage.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>addressListPage</from-outcome>
+			<to-view-id>/pages/addressListPage.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>addressEditPage</from-outcome>
+			<to-view-id>/pages/addressEditPage.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>compareProductsPage</from-outcome>
+			<to-view-id>/pages/compareProductsPage.xhtml</to-view-id>
+		</navigation-case>
+      <navigation-case>
+          <from-outcome>cartPage</from-outcome>
+          <to-view-id>/pages/cartPage.xhtml</to-view-id>
+          <redirect />
+      </navigation-case>
+      <navigation-case>
+          <from-outcome>forgotPasswordPage</from-outcome>
+          <to-view-id>/pages/forgotPasswordPage.xhtml</to-view-id>
+      </navigation-case>
+      <navigation-case>
+          <from-outcome>forgotPasswordSendPage</from-outcome>
+          <to-view-id>/pages/forgotPasswordSendPage.xhtml</to-view-id>
+      </navigation-case>
+		<navigation-case>
+			<from-outcome>orderHistoryPage</from-outcome>
+			<to-view-id>/pages/orderHistoryPage.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>paymentEditPage</from-outcome>
+			<to-view-id>/pages/paymentEditPage.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>paymentListPage</from-outcome>
+			<to-view-id>/pages/paymentListPage.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>summaryPage</from-outcome>
+			<to-view-id>/pages/summaryPage.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>registrationPage</from-outcome>
+			<to-view-id>/pages/registrationPage.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>searchResultPage</from-outcome>
+			<to-view-id>/pages/searchResultPage.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>tellAFriendPage</from-outcome>
+			<to-view-id>/pages/tellAFriendPage.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>createCustomerReviewPage</from-outcome>
+			<to-view-id>/pages/createCustomerReviewPage.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>wishListPage</from-outcome>
+			<to-view-id>/pages/wishListPage.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>wishListEditPage</from-outcome>
+			<to-view-id>/pages/wishListEditPage.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>productDetailPage</from-outcome>
+			<to-view-id>/pages/productPage.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>pagePrintPage</from-outcome>
+			<to-view-id>/pages/pagePrintPage.xhtml</to-view-id>
+		</navigation-case>
+
+		<navigation-case>
+			<from-outcome>categoryPage</from-outcome>
+			<to-view-id>/pages/categoryPage.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>changePasswordPage</from-outcome>
+			<to-view-id>/pages/changePasswordPage.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>loginPage</from-outcome>
+			<to-view-id>/pages/loginPage.xhtml</to-view-id>
+		</navigation-case>
+      <navigation-case>
+          <from-outcome>welcome</from-outcome>
+          <to-view-id>/index.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+
+	<navigation-rule>
+		<from-view-id>/pages/tellAFriendPage.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>productDetailPageRedirect</from-outcome>
+			<to-view-id>/pages/productPage.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
+		<from-view-id>/pages/createCustomerReviewPage.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>productDetailPageRedirect</from-outcome>
+			<to-view-id>/pages/productPage.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+
+ 
+	<!--  
+		Frames are starting here
+	 -->
+	 
+	<!-- AddressListPage -->
+	<managed-bean>
+		<managed-bean-name>addressListFrame</managed-bean-name>
+		<managed-bean-class>
+			ystorefoundationpackage.yfaces.frame.AddressListFrame
+		</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+
+	<!-- AddressEditPage -->
+	<managed-bean>
+		<managed-bean-name>addressEditFrame</managed-bean-name>
+		<managed-bean-class>
+			ystorefoundationpackage.yfaces.frame.AddressEditFrame
+		</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+
+	<!-- CartPage -->
+	<managed-bean>
+		<managed-bean-name>cartFrame</managed-bean-name>
+		<managed-bean-class>
+			ystorefoundationpackage.yfaces.frame.CartFrame
+		</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+
+	<!-- CategoryPage -->
+	<managed-bean>
+		<managed-bean-name>categoryFrame</managed-bean-name>
+		<managed-bean-class>
+			ystorefoundationpackage.yfaces.frame.CategoryFrame
+		</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+
+	<!-- cmsPage -->
+	<managed-bean>
+		<managed-bean-name>cmsFrame</managed-bean-name>
+		<managed-bean-class>
+			ystorefoundationpackage.yfaces.frame.CmsFrame
+		</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+
+	<!-- ProductPage -->
+	<managed-bean>
+		<managed-bean-name>productFrame</managed-bean-name>
+		<managed-bean-class>
+			ystorefoundationpackage.yfaces.frame.ProductFrame
+		</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+
+	<!-- CreateCustomerReviewPage -->
+	<managed-bean>
+		<managed-bean-name>createCustomerReviewFrame</managed-bean-name>
+		<managed-bean-class>
+			ystorefoundationpackage.yfaces.frame.CreateCustomerReviewFrame
+		</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+
+	<!-- TellAFriendPage -->
+	<managed-bean>
+		<managed-bean-name>tellAFriendFrame</managed-bean-name>
+		<managed-bean-class>
+			ystorefoundationpackage.yfaces.frame.TellAFriendFrame
+		</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+
+	<!-- WishListPage -->
+	<managed-bean>
+		<managed-bean-name>wishListFrame</managed-bean-name>
+		<managed-bean-class>
+			ystorefoundationpackage.yfaces.frame.WishListFrame
+		</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+
+	<!-- PagePrintPage -->
+	<managed-bean>
+		<managed-bean-name>pagePrintFrame</managed-bean-name>
+		<managed-bean-class>
+			ystorefoundationpackage.yfaces.frame.PagePrintFrame
+		</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+
+	<!-- WishListEditPage -->
+	<managed-bean>
+		<managed-bean-name>wishListEditFrame</managed-bean-name>
+		<managed-bean-class>
+			ystorefoundationpackage.yfaces.frame.WishListEditFrame
+		</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+
+	<!-- CompareProductsPage -->
+	<managed-bean>
+		<managed-bean-name>compareProductsFrame</managed-bean-name>
+		<managed-bean-class>
+			ystorefoundationpackage.yfaces.frame.CompareProductsFrame
+		</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	
+	<!-- ForgotPasswordPage -->
+	<managed-bean>
+		<managed-bean-name>forgotPasswordFrame</managed-bean-name>
+		<managed-bean-class>
+			ystorefoundationpackage.yfaces.frame.ForgotPasswordFrame
+		</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+
+	<!-- OrderDetailPage -->
+	<managed-bean>
+		<managed-bean-name>orderDetailFrame</managed-bean-name>
+		<managed-bean-class>
+			ystorefoundationpackage.yfaces.frame.OrderDetailFrame
+		</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+
+	<!-- OrderHistoryPage -->
+	<managed-bean>
+		<managed-bean-name>orderHistoryFrame</managed-bean-name>
+		<managed-bean-class>
+			ystorefoundationpackage.yfaces.frame.OrderHistoryFrame
+		</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+
+	<!-- OrderThankYouPage -->
+	<managed-bean>
+		<managed-bean-name>orderThankYouFrame</managed-bean-name>
+		<managed-bean-class>
+			ystorefoundationpackage.yfaces.frame.OrderThankYouFrame
+		</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+
+
+	<!-- PaymentInfoEditPage -->
+	<managed-bean>
+		<managed-bean-name>paymentInfoEditFrame</managed-bean-name>
+		<managed-bean-class>
+			ystorefoundationpackage.yfaces.frame.PaymentInfoEditFrame
+		</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+
+	<managed-bean>
+		<managed-bean-name>paymentListFrame</managed-bean-name>
+		<managed-bean-class>
+			ystorefoundationpackage.yfaces.frame.PaymentListFrame
+		</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+
+
+	
+	<!-- GlobalPage -->
+	<managed-bean>
+		<managed-bean-name>globalFrame</managed-bean-name>
+		<managed-bean-class>
+			ystorefoundationpackage.yfaces.frame.GlobalFrame
+		</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+
+	<!-- LoginPage -->
+	<managed-bean>
+		<managed-bean-name>loginFrame</managed-bean-name>
+		<managed-bean-class>
+			ystorefoundationpackage.yfaces.frame.LoginFrame
+		</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+
+	<!-- UserDetailPage -->
+	<managed-bean>
+		<managed-bean-name>userDetailFrame</managed-bean-name>
+		<managed-bean-class>
+			ystorefoundationpackage.yfaces.frame.UserDetailFrame
+		</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+
+	<!-- SummaryPage -->
+	<managed-bean>
+		<managed-bean-name>summaryFrame</managed-bean-name>
+		<managed-bean-class>
+			ystorefoundationpackage.yfaces.frame.SummaryFrame
+		</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+
+	<!-- RegistrationPage -->
+	<managed-bean>
+		<managed-bean-name>registrationFrame</managed-bean-name>
+		<managed-bean-class>
+			ystorefoundationpackage.yfaces.frame.RegistrationFrame
+		</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+
+
+	<!-- SearchResultPage -->
+	<managed-bean>
+		<managed-bean-name>searchResultFrame</managed-bean-name>
+		<managed-bean-class>
+			ystorefoundationpackage.yfaces.frame.SearchResultFrame
+		</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+
+	<!-- WelomePage -->
+	<managed-bean>
+		<managed-bean-name>welcomeFrame</managed-bean-name>
+		<managed-bean-class>
+			ystorefoundationpackage.yfaces.frame.WelcomeFrame
+		</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	
+	<!-- Some general ManagedBeans are starting here -->
+	<managed-bean>
+		<managed-bean-name>requestBean</managed-bean-name>
+		<managed-bean-class>ystorefoundationpackage.faces.RequestBean</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope></managed-bean>
+	
+	<!-- CONVERTER -->
+	<converter>
+		<converter-for-class>de.hybris.platform.core.model.ItemModel</converter-for-class>
+		<converter-class>ystorefoundationpackage.faces.ItemModelConverter</converter-class>
+	</converter>
+	<converter>
+		<converter-for-class>de.hybris.platform.core.model.enumeration.EnumerationValueModel</converter-for-class>
+		<converter-class>ystorefoundationpackage.faces.EnumerationValueModelConverter</converter-class>
+	</converter>
+	<converter>
+		<converter-id>itemmodel</converter-id>
+		<converter-class>ystorefoundationpackage.faces.ItemModelConverter</converter-class>
+	</converter>
+
+
+	<component>
+		<component-type>hybris.HtmlYCmsItem</component-type>
+		<component-class>ystorefoundationpackage.faces.HtmlYCmsItem</component-class>
+	</component>   
+	
+	<component>
+		<component-type>javax.faces.hybris.HtmlOutputLink</component-type>
+		<component-class>ystorefoundationpackage.faces.HtmlYOutputLink</component-class>
+	</component>
+
+	<component>
+		<component-type>javax.faces.hybris.HtmlGraphicImage</component-type>
+		<component-class>ystorefoundationpackage.faces.HtmlYGraphicImage</component-class>
+	</component>
+	
+
+</faces-config>

@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" [<!ENTITY nbsp "&#160;">]>
+
+<!-- 
+create Customer Review component
+-->
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:yf="http://yfaces.codehaus.org/taglib"
+	xmlns:sf="http://hybris.com/jsf/storefoundation"	
+	>
+
+	<yf:component
+		modelspec="ystorefoundationpackage.yfaces.component.customerreview.CreateCustomerReviewComponent"
+		model="ystorefoundationpackage.yfaces.component.customerreview.DefaultCreateCustomerReviewComponent"
+		var="createCustomerReviewCmpVar"
+		
+		passToModel="comment"
+		>
+
+		<t:div styleClass="createCustomerReviewCmp">
+			<t:div styleClass="info" rendered="#{!empty createCustomerReviewCmpVar.product}">
+				<sf:outputLink value="#{createCustomerReviewCmpVar.product}">
+					<h:panelGrid columns="2">
+						<sf:graphicImage value="#{createCustomerReviewCmpVar.product.thumbnail.url}" />
+						<h:outputText value="#{createCustomerReviewCmpVar.product.name}" />
+					</h:panelGrid>
+				</sf:outputLink>
+			</t:div>
+			<br />
+
+			<ui:param name="customerReview" value="#{createCustomerReviewCmpVar.customerReview}"/>
+			<h:form styleClass="createCustomerReviewForm" id="form" 
+				enctype="multipart/form-data" acceptcharset="utf-8">
+				<h:panelGrid columns="1">
+					<h:outputText
+						value="#{msg['components.createCustomerReviewCmp.rating']}" />
+					<h:selectOneMenu id="ratingSelector" value="#{customerReview.rating}"
+						title="select rating">
+						<f:selectItem itemLabel="1" itemValue="1" />
+						<f:selectItem itemLabel="2" itemValue="2" />
+						<f:selectItem itemLabel="3" itemValue="3" />
+						<f:selectItem itemLabel="4" itemValue="4" />
+						<f:selectItem itemLabel="5" itemValue="5" />
+						<f:selectItem itemLabel="6" itemValue="6" />
+					</h:selectOneMenu>
+
+
+					<br />
+					<h:outputText
+						value="#{msg['components.createCustomerReviewCmp.headline']}" />
+					<h:inputText size="60" id="headline" maxlength="255"
+						value="#{customerReview.headline}" />
+					<br />
+					<h:outputText
+						value="#{msg['components.createCustomerReviewCmp.comment']}" />
+					<h:inputTextarea id="comment" rows="20" cols="60"
+						value="#{customerReview.comment}" />
+					<br />
+					<br />
+
+					<h:commandButton id="sendReviewButton"
+						value="#{msg['components.createCustomerReviewCmp.sendReviewEvent']}"
+						action="#{createCustomerReviewCmpVar.sendReviewEvent.action}"
+						actionListener="#{createCustomerReviewCmpVar.sendReviewEvent.actionListener}"
+						styleClass="submitBig" />
+				</h:panelGrid>
+			</h:form>
+		</t:div>
+
+	</yf:component>
+
+
+</ui:composition>

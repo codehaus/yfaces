@@ -1,0 +1,46 @@
+<!--
+Displays a Detailpage for a Product.
+
+Parameters:
+	          					: 
+	
+Assigned Styleclasses
+	table.productDetail		: 
+	 -> td.thumbnail			: Thumbnailcolumn (left)
+	 -> td.description		: Descriptioncolumn (right)
+	 -> td.variantsChooser	: VariantsChooser (right bottom) optional
+	
+-->
+<!DOCTYPE type [<!ENTITY nbsp "&#160;">]>
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"	
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:yf="http://yfaces.codehaus.org/taglib"
+	
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://hybris.com/jsf/yfaces ../WEB-INF/yfaces-components.xsd 
+						http://java.sun.com/jsf/facelets ../WEB-INF/facelets.xsd"
+						
+	template="/templates/layout.xhtml"
+	>
+
+	<ui:define name="contentTitle">
+		<yf:breadcrumb 
+			binding="#{productFrame.breadcrumbComponent}"/>
+	</ui:define>
+	
+	<ui:define name="content">
+		<yf:productDetail 
+			binding="#{productFrame.productDetailComponent}"/>
+
+		<ui:repeat id="loop" value="#{productFrame.productReferencesComponentList}" var="prodRefCmp">
+			<yf:productReferences 
+				binding="#{prodRefCmp}"/>
+		</ui:repeat>
+	</ui:define>
+
+</ui:composition>
