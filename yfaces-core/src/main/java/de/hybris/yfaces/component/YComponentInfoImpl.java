@@ -39,7 +39,7 @@ import de.hybris.yfaces.YFacesConfig;
  * @author Denny Strietzbaum
  */
 public class YComponentInfoImpl implements YComponentInfo {
-	private static final Logger LOG = Logger.getLogger(YComponentInfoImpl.class);
+	private static final Logger log = Logger.getLogger(YComponentInfoImpl.class);
 
 	// raw (unevaluated) attribute values
 	private String id = null;
@@ -62,12 +62,12 @@ public class YComponentInfoImpl implements YComponentInfo {
 	private Class<?> modelImplClass = null;
 
 	private boolean isValid = false;
+	private boolean isYComponent = false;
 
-	private YComponentProcessor cmpProcessor = null;
+	private ModelProcessor modelProcessor = null;
 
 	protected YComponentInfoImpl() {
 		this.pushProperties = Collections.emptySet();
-		this.cmpProcessor = new YComponentProcessorImpl(this);
 	}
 
 	/**
@@ -247,12 +247,16 @@ public class YComponentInfoImpl implements YComponentInfo {
 		return this.url.toExternalForm().hashCode();
 	}
 
-	public boolean isValid() {
+	public boolean isValidated() {
 		return isValid;
 	}
 
 	public void setValid(final boolean isValid) {
 		this.isValid = isValid;
+	}
+
+	public boolean isYComponent() {
+		return isYComponent;
 	}
 
 	public Class getModelSpecClass() {
@@ -264,11 +268,13 @@ public class YComponentInfoImpl implements YComponentInfo {
 	}
 
 	public YComponentValidator createValidator() {
-		return new YComponentValidatorImpl(this);
+		final YComponentValidator result = this.isYComponent ? new YComponentValidatorImpl(this)
+				: new PojoComponentValidator(this);
+		return result;
 	}
 
-	public YComponentProcessor getProcessor() {
-		return this.cmpProcessor;
+	public ModelProcessor getModelProcessor() {
+		return this.modelProcessor;
 	}
 
 	/**
@@ -280,8 +286,8 @@ public class YComponentInfoImpl implements YComponentInfo {
 		//if ID is missing, take UID 
 		if (isEmpty(this.id)) {
 			this.id = this.uid;
-			if (LOG.isDebugEnabled()) {
-				LOG.debug(this.cmpName + ": set missing '" + YComponentInfo.ID_ATTRIBUTE + "' to "
+			if (log.isDebugEnabled()) {
+				log.debug(this.cmpName + ": set missing '" + YComponentInfo.ID_ATTRIBUTE + "' to "
 						+ this.uid);
 			}
 		}
@@ -289,8 +295,8 @@ public class YComponentInfoImpl implements YComponentInfo {
 		//if errorhandling is missing, take configured default
 		if (isEmpty(this.errorHandling)) {
 			this.errorHandling = YFacesConfig.CMP_ERROR_HANDLING.getString();
-			if (LOG.isDebugEnabled()) {
-				LOG.debug(this.cmpName + ": set missing '" + YComponentInfo.ERROR_ATTRIBUTE + "' to "
+			if (log.isDebugEnabled()) {
+				log.debug(this.cmpName + ": set missing '" + YComponentInfo.ERROR_ATTRIBUTE + "' to "
 						+ this.errorHandling);
 			}
 		}
@@ -299,6 +305,9 @@ public class YComponentInfoImpl implements YComponentInfo {
 		try {
 			if (modelSpecClassName != null) {
 				this.modelSpecClass = loader.loadClass(this.modelSpecClassName);
+				if (modelSpecClass != null && YComponent.class.isAssignableFrom(modelSpecClass)) {
+					this.isYComponent = true;
+				}
 			}
 		} catch (final Exception e) {
 			//NOP, gets handled by a Validator
@@ -306,10 +315,22 @@ public class YComponentInfoImpl implements YComponentInfo {
 		try {
 			if (modelImplClassName != null) {
 				this.modelImplClass = loader.loadClass(this.modelImplClassName);
+
+				if (modelSpecClass == null && modelImplClass != null
+						&& YComponent.class.isAssignableFrom(modelImplClass)) {
+					this.isYComponent = true;
+				}
 			}
 		} catch (final Exception e) {
 			//NOP, gets handled by a Validator
 		}
+		if (log.isDebugEnabled()) {
+			log.debug(this.cmpName + ": model is declared as "
+					+ (isYComponent ? YComponent.class.getSimpleName() : "PoJo component"));
+		}
+
+		this.modelProcessor = this.isYComponent ? new YModelProcessor(this) : new PojoModelProcessor(
+				this);
 
 	}
 
@@ -341,8 +362,8 @@ public class YComponentInfoImpl implements YComponentInfo {
 		final Map<String, Method> result = new HashMap<String, Method>();
 		try {
 			// find setter for attributes
-			final PropertyDescriptor[] descriptors = Introspector.getBeanInfo(startClass,
-					AbstractYComponent.class).getPropertyDescriptors();
+			final PropertyDescriptor[] descriptors = Introspector.getBeanInfo(startClass, Object.class)
+					.getPropertyDescriptors();
 
 			for (final PropertyDescriptor descriptor : descriptors) {
 				final String name = descriptor.getName();
@@ -352,12 +373,12 @@ public class YComponentInfoImpl implements YComponentInfo {
 					result.put(name, writeMethod);
 				}
 
-				if (LOG.isDebugEnabled()) {
+				if (log.isDebugEnabled()) {
 					if (writeMethod != null) {
-						LOG.debug(this.id + " add property " + descriptor.getName() + " ("
+						log.debug(this.id + " add property " + descriptor.getName() + " ("
 								+ descriptor.getWriteMethod() + ")");
 					} else {
-						LOG.debug(this.id + " skip property " + name + " (read only)");
+						log.debug(this.id + " skip property " + name + " (read only)");
 					}
 				}
 			}

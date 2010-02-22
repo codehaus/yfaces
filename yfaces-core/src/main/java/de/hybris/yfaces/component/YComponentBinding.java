@@ -86,7 +86,7 @@ public class YComponentBinding<T extends YComponent> {
 				throw new YFacesException("There is no component with id '" + this.id + "' registered.");
 			}
 
-			this.value = (T) cmpInfo.getProcessor().createComponent();
+			this.value = (T) cmpInfo.getModelProcessor().createModel();
 			((AbstractYComponent) value).setFrame(this.frameBinding);
 		}
 

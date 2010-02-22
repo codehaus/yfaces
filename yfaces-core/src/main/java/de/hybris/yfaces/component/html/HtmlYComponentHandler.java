@@ -271,6 +271,7 @@ public class HtmlYComponentHandler extends ComponentHandler {
 			final UIComponent uicomponent1) {
 		super.onComponentPopulated(ctx, cmp, uicomponent1);
 		((HtmlYComponent) cmp).setComponentInfo(cmpInfo);
+		((HtmlYComponent) cmp).setViewLocation(cmpInfo.getLocation());
 	}
 
 }

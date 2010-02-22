@@ -4,51 +4,54 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Collection;
 
+import javax.el.ExpressionFactory;
 import javax.faces.context.FacesContext;
 
 import org.apache.log4j.Logger;
 
 import de.hybris.yfaces.YFacesException;
 
-public class YComponentProcessorImpl implements YComponentProcessor {
+public class PojoModelProcessor<T> implements ModelProcessor<T> {
 
-	private static final Logger log = Logger.getLogger(YComponentProcessorImpl.class);
+	private static final Logger log = Logger.getLogger(YModelProcessor.class);
 
-	private YComponentInfoImpl cmpInfo = null;
+	protected YComponentInfoImpl cmpInfo = null;
 
-	public YComponentProcessorImpl(final YComponentInfoImpl cmpInfo) {
+	public PojoModelProcessor(final YComponentInfoImpl cmpInfo) {
 		this.cmpInfo = cmpInfo;
 	}
 
-	public YComponent createComponent() {
-		YComponent result = null;
+	public T createModel() {
+		T result = null;
 		try {
-			result = (YComponent) cmpInfo.getModelImplClass().newInstance();
-			this.initializeComponent(result);
+			result = (T) cmpInfo.getModelImplClass().newInstance();
+			this.initializeModel(result);
 		} catch (final Exception e) {
-			throw new YFacesException("Can't create Component model " + cmpInfo.getModelImplementation(), e);
+			throw new YFacesException("Can't create Component model " + cmpInfo.getModelImplementation(),
+					e);
 		}
-
-		//TODO instance handling
 
 		return result;
 	}
 
-	public void initializeComponent(final YComponent cmp) {
-		if (cmp instanceof YComponent) {
-			((AbstractYComponent) cmp).setYComponentInfo(cmpInfo);
-		}
+	public void initializeModel(final T cmp) {
+		// nop
 	}
 
-	public void setProperty(final YComponent cmp, final String property, Object value) {
+	public void validateModel(final T model) {
+		// NOP
+	}
+
+	public void setProperty(final T cmp, final String property, Object value) {
 
 		final Method method = cmpInfo.getAllProperties().get(property);
 
 		try {
 
 			// JSF 1.2: do type coercion (e.g. String->Integer)
-			value = FacesContext.getCurrentInstance().getApplication().getExpressionFactory()
-					.coerceToType(value, method.getParameterTypes()[0]);
+			final ExpressionFactory ef = FacesContext.getCurrentInstance().getApplication()
+					.getExpressionFactory();
+			value = ef.coerceToType(value, method.getParameterTypes()[0]);
 
 			// invoke setter
 			method.invoke(cmp, value);
@@ -80,5 +83,4 @@ public class YComponentProcessorImpl implements YComponentProcessor {
 					+ (_value.length() < 30 ? _value : _value.substring(0, 29).concat("...")) + ")" + suffix);
 		}
 	}
-
 }

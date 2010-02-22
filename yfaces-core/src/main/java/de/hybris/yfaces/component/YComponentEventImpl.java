@@ -170,7 +170,7 @@ public class YComponentEventImpl<T extends YComponent> implements YComponentEven
 			// lookup for parent YComponent which holds the model
 			HtmlYComponent cmp = null;
 			if (result == null && (cmp = getActionHtmlYComponent()) != null) {
-				result = (T2) cmp.getYComponent();
+				result = (T2) cmp.getComponentModel();
 			}
 		} else {
 			throw new YFacesException(logId
