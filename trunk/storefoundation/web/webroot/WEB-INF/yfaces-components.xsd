@@ -1,0 +1,2179 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xs:schema
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:yf="http://hybris.com/jsf/yfaces"
+	
+	targetNamespace="http://hybris.com/jsf/yfaces"
+	
+	elementFormDefault="qualified"
+	attributeFormDefault="unqualified"
+	>
+
+		<xs:element name="productQuickView">
+		<xs:annotation>
+			<xs:documentation>
+			<![CDATA[
+				Visualizes a single Product.<br/>
+				<b>Spec:</b> ystorefoundationpackage.yfaces.component.product.ProductQuickViewComponent<br/>
+				<b>Impl:</b> ystorefoundationpackage.yfaces.component.product.DefaultProductQuickViewComponent<br/>
+				<b>Tag:</b> productQuickViewTag.xhtml<br/>
+				]]>
+			</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:attribute name="binding" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						Bounds this YComponents instance to another instance.<br/>
+						In general this should be an YFrame.
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		
+						<xs:attribute name="product" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						Sets the product which shall be displayed.<br/>
+						<b>Coerced to:</b>de.hybris.platform.webfoundation.bean.ProductBean<br/>
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+				</xs:attribute>
+						<xs:attribute name="productCode" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						Sets the requested product by its code.<br/>
+						<b>Coerced to:</b>java.lang.String<br/>
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+				</xs:attribute>
+						<xs:attribute name="nothingFoundMsgFormat" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						Sets the outputformat which is displayed when no product is available.<br/>
+ Supported placeholders: {0} = productcode.<br/><br/>
+						<b>Coerced to:</b>java.lang.String<br/>
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+				</xs:attribute>
+					</xs:complexType>
+	</xs:element>
+		<xs:element name="showCategory">
+		<xs:annotation>
+			<xs:documentation>
+			<![CDATA[
+				<br/>
+				<b>Spec:</b> ystorefoundationpackage.yfaces.component.category.ShowCategoryComponent<br/>
+				<b>Impl:</b> ystorefoundationpackage.yfaces.component.category.DefaultShowCategoryComponent<br/>
+				<b>Tag:</b> showCategoryTag.xhtml<br/>
+				]]>
+			</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:attribute name="binding" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						Bounds this YComponents instance to another instance.<br/>
+						In general this should be an YFrame.
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		
+						<xs:attribute name="categoryCode" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						<br/>
+						<b>Coerced to:</b>java.lang.String<br/>
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+				</xs:attribute>
+						<xs:attribute name="category" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						<br/>
+						<b>Coerced to:</b>de.hybris.platform.webfoundation.bean.CategoryBean<br/>
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+				</xs:attribute>
+					</xs:complexType>
+	</xs:element>
+		<xs:element name="listCategory">
+		<xs:annotation>
+			<xs:documentation>
+			<![CDATA[
+				<br/>
+				<b>Spec:</b> ystorefoundationpackage.yfaces.component.category.ListCategoryComponent<br/>
+				<b>Impl:</b> ystorefoundationpackage.yfaces.component.category.DefaultListCategoryComponent<br/>
+				<b>Tag:</b> listCategoryTag.xhtml<br/>
+				]]>
+			</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:attribute name="binding" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						Bounds this YComponents instance to another instance.<br/>
+						In general this should be an YFrame.
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		
+						<xs:attribute name="categoryList" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						<br/>
+						<b>Coerced to:</b>java.util.List<br/>
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+				</xs:attribute>
+					</xs:complexType>
+	</xs:element>
+		<xs:element name="quickLogin">
+		<xs:annotation>
+			<xs:documentation>
+			<![CDATA[
+				<br/>
+				<b>Spec:</b> ystorefoundationpackage.yfaces.component.user.LoginComponent<br/>
+				<b>Impl:</b> ystorefoundationpackage.yfaces.component.user.DefaultLoginComponent<br/>
+				<b>Tag:</b> quickLoginTag.xhtml<br/>
+				]]>
+			</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:attribute name="binding" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						Bounds this YComponents instance to another instance.<br/>
+						In general this should be an YFrame.
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		
+					</xs:complexType>
+	</xs:element>
+		<xs:element name="showWishList">
+		<xs:annotation>
+			<xs:documentation>
+			<![CDATA[
+				<br/>
+				<b>Spec:</b> ystorefoundationpackage.yfaces.component.wishlist.ShowWishListComponent<br/>
+				<b>Impl:</b> ystorefoundationpackage.yfaces.component.wishlist.DefaultShowWishListComponent<br/>
+				<b>Tag:</b> showWishListTag.xhtml<br/>
+				]]>
+			</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:attribute name="binding" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						Bounds this YComponents instance to another instance.<br/>
+						In general this should be an YFrame.
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		
+						<xs:attribute name="wishList" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						<br/>
+						<b>Coerced to:</b>de.hybris.platform.webfoundation.bean.WishListBean<br/>
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+				</xs:attribute>
+					</xs:complexType>
+	</xs:element>
+		<xs:element name="cartTable">
+		<xs:annotation>
+			<xs:documentation>
+			<![CDATA[
+				Tabular visualization of a {@link CartBean}.<br/>
+ Allows basic operations (update, delete) for each cart entry.<br/><br/>
+				<b>Spec:</b> ystorefoundationpackage.yfaces.component.cart.CartTableComponent<br/>
+				<b>Impl:</b> ystorefoundationpackage.yfaces.component.cart.DefaultCartTableComponent<br/>
+				<b>Tag:</b> cartTableTag.xhtml<br/>
+				]]>
+			</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:attribute name="binding" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						Bounds this YComponents instance to another instance.<br/>
+						In general this should be an YFrame.
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		
+					</xs:complexType>
+	</xs:element>
+		<xs:element name="showAddress">
+		<xs:annotation>
+			<xs:documentation>
+			<![CDATA[
+				<br/>
+				<b>Spec:</b> ystorefoundationpackage.yfaces.component.address.ShowAddressComponent<br/>
+				<b>Impl:</b> ystorefoundationpackage.yfaces.component.address.DefaultShowAddressComponent<br/>
+				<b>Tag:</b> showAddressTag.xhtml<br/>
+				]]>
+			</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:attribute name="binding" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						Bounds this YComponents instance to another instance.<br/>
+						In general this should be an YFrame.
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		
+						<xs:attribute name="owner" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						<br/>
+						<b>Coerced to:</b>de.hybris.platform.beanlayer.framework.Bean<br/>
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+				</xs:attribute>
+						<xs:attribute name="address" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						Sets the working address.<br/>
+						<b>Coerced to:</b>de.hybris.platform.webfoundation.bean.AddressBean<br/>
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+				</xs:attribute>
+					</xs:complexType>
+	</xs:element>
+		<xs:element name="userMessages">
+		<xs:annotation>
+			<xs:documentation>
+			<![CDATA[
+				<br/>
+				<b>Spec:</b> ystorefoundationpackage.yfaces.component.misc.UserMessagesComponent<br/>
+				<b>Impl:</b> ystorefoundationpackage.yfaces.component.misc.DefaultUserMessagesComponent<br/>
+				<b>Tag:</b> userMessagesTag.xhtml<br/>
+				]]>
+			</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:attribute name="binding" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						Bounds this YComponents instance to another instance.<br/>
+						In general this should be an YFrame.
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		
+						<xs:attribute name="messages" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						<br/>
+						<b>Coerced to:</b>java.util.List<br/>
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+				</xs:attribute>
+					</xs:complexType>
+	</xs:element>
+		<xs:element name="chooseCurrency">
+		<xs:annotation>
+			<xs:documentation>
+			<![CDATA[
+				<br/>
+				<b>Spec:</b> ystorefoundationpackage.yfaces.component.i18n.ChooseCurrencyComponent<br/>
+				<b>Impl:</b> ystorefoundationpackage.yfaces.component.i18n.DefaultChooseCurrencyComponent<br/>
+				<b>Tag:</b> chooseCurrencyTag.xhtml<br/>
+				]]>
+			</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:attribute name="binding" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						Bounds this YComponents instance to another instance.<br/>
+						In general this should be an YFrame.
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		
+					</xs:complexType>
+	</xs:element>
+		<xs:element name="productsQuickView">
+		<xs:annotation>
+			<xs:documentation>
+			<![CDATA[
+				<br/>
+				<b>Spec:</b> ystorefoundationpackage.yfaces.component.product.ProductsQuickViewComponent<br/>
+				<b>Impl:</b> ystorefoundationpackage.yfaces.component.product.DefaultProductsQuickViewComponent<br/>
+				<b>Tag:</b> productsQuickViewTag.xhtml<br/>
+				]]>
+			</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:attribute name="binding" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						Bounds this YComponents instance to another instance.<br/>
+						In general this should be an YFrame.
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		
+						<xs:attribute name="productList" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						<br/>
+						<b>Coerced to:</b>java.util.List<br/>
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+				</xs:attribute>
+						<xs:attribute name="
+			categoryCode" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						<br/>
+						<b>Coerced to:</b><br/>
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+				</xs:attribute>
+						<xs:attribute name="
+			category" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						<br/>
+						<b>Coerced to:</b><br/>
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+				</xs:attribute>
+						<xs:attribute name="
+			catalog" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						<br/>
+						<b>Coerced to:</b><br/>
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+				</xs:attribute>
+						<xs:attribute name="
+			title" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						<br/>
+						<b>Coerced to:</b><br/>
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+				</xs:attribute>
+						<xs:attribute name="
+			columns" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						<br/>
+						<b>Coerced to:</b><br/>
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+				</xs:attribute>
+						<xs:attribute name="
+			catalogCode" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						<br/>
+						<b>Coerced to:</b><br/>
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+				</xs:attribute>
+						<xs:attribute name="
+			productCount" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						<br/>
+						<b>Coerced to:</b><br/>
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+				</xs:attribute>
+						<xs:attribute name="
+			rows" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						<br/>
+						<b>Coerced to:</b><br/>
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+				</xs:attribute>
+					</xs:complexType>
+	</xs:element>
+		<xs:element name="navigationElement">
+		<xs:annotation>
+			<xs:documentation>
+			<![CDATA[
+				Renders a single {@link NavigationElementBean}.<br/>
+ 
+ See <code>navigationElementTag.xhtml</code>.<br/>
+				<b>Spec:</b> ystorefoundationpackage.yfaces.component.cms.NavigationElementComponent<br/>
+				<b>Impl:</b> ystorefoundationpackage.yfaces.component.cms.DefaultNavigationElementComponent<br/>
+				<b>Tag:</b> navigationElementTag.xhtml<br/>
+				]]>
+			</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:attribute name="binding" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						Bounds this YComponents instance to another instance.<br/>
+						In general this should be an YFrame.
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		
+						<xs:attribute name="navigationElementId" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						Sets the navigation element by its id.<br/>
+						<b>Coerced to:</b>java.lang.String<br/>
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+				</xs:attribute>
+						<xs:attribute name="navigationElement" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						Sets the navigation element which shall be rendered.<br/>
+						<b>Coerced to:</b>de.hybris.platform.webfoundation.bean.NavigationElementBean<br/>
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+				</xs:attribute>
+					</xs:complexType>
+	</xs:element>
+		<xs:element name="productTable">
+		<xs:annotation>
+			<xs:documentation>
+			<![CDATA[
+				<br/>
+				<b>Spec:</b> ystorefoundationpackage.yfaces.component.product.ProductTableComponent<br/>
+				<b>Impl:</b> ystorefoundationpackage.yfaces.component.product.DefaultProductTableComponent<br/>
+				<b>Tag:</b> productTableTag.xhtml<br/>
+				]]>
+			</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:attribute name="binding" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						Bounds this YComponents instance to another instance.<br/>
+						In general this should be an YFrame.
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		
+						<xs:attribute name="productList" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						<br/>
+						<b>Coerced to:</b>java.util.List<br/>
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+				</xs:attribute>
+						<xs:attribute name="
+			selectColumnEnabled" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						<br/>
+						<b>Coerced to:</b><br/>
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+				</xs:attribute>
+						<xs:attribute name="
+			nothingToDisplayKey" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						<br/>
+						<b>Coerced to:</b><br/>
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+				</xs:attribute>
+						<xs:attribute name="
+			priceColumnEnabled" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						<br/>
+						<b>Coerced to:</b><br/>
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+				</xs:attribute>
+						<xs:attribute name="
+			classificationColumnEnabled" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						<br/>
+						<b>Coerced to:</b><br/>
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+				</xs:attribute>
+						<xs:attribute name="
+			visibleRowCount" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						<br/>
+						<b>Coerced to:</b><br/>
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+				</xs:attribute>
+					</xs:complexType>
+	</xs:element>
+		<xs:element name="changePassword">
+		<xs:annotation>
+			<xs:documentation>
+			<![CDATA[
+				<br/>
+				<b>Spec:</b> ystorefoundationpackage.yfaces.component.user.ChangePasswordComponent<br/>
+				<b>Impl:</b> ystorefoundationpackage.yfaces.component.user.DefaultChangePasswordComponent<br/>
+				<b>Tag:</b> changePasswordTag.xhtml<br/>
+				]]>
+			</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:attribute name="binding" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						Bounds this YComponents instance to another instance.<br/>
+						In general this should be an YFrame.
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		
+						<xs:attribute name="user" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						<br/>
+						<b>Coerced to:</b>de.hybris.platform.webfoundation.bean.UserBean<br/>
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+				</xs:attribute>
+						<xs:attribute name="checkOldPassword" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						<br/>
+						<b>Coerced to:</b>java.lang.Boolean<br/>
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+				</xs:attribute>
+						<xs:attribute name="checkNewPasswordRepeat" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						<br/>
+						<b>Coerced to:</b>java.lang.Boolean<br/>
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+				</xs:attribute>
+					</xs:complexType>
+	</xs:element>
+		<xs:element name="voucher">
+		<xs:annotation>
+			<xs:documentation>
+			<![CDATA[
+				<br/>
+				<b>Spec:</b> ystorefoundationpackage.yfaces.component.voucher.VoucherComponent<br/>
+				<b>Impl:</b> ystorefoundationpackage.yfaces.component.voucher.DefaultVoucherComponent<br/>
+				<b>Tag:</b> voucherTag.xhtml<br/>
+				]]>
+			</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:attribute name="binding" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						Bounds this YComponents instance to another instance.<br/>
+						In general this should be an YFrame.
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		
+					</xs:complexType>
+	</xs:element>
+		<xs:element name="orderTable">
+		<xs:annotation>
+			<xs:documentation>
+			<![CDATA[
+				Displays an order.
+ This may either be a finalized order or a cart.<br/>
+				<b>Spec:</b> ystorefoundationpackage.yfaces.component.order.OrderTableComponent<br/>
+				<b>Impl:</b> ystorefoundationpackage.yfaces.component.order.DefaultOrderTableComponent<br/>
+				<b>Tag:</b> orderTableTag.xhtml<br/>
+				]]>
+			</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:attribute name="binding" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						Bounds this YComponents instance to another instance.<br/>
+						In general this should be an YFrame.
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		
+						<xs:attribute name="order" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						<br/>
+						<b>Coerced to:</b>de.hybris.platform.webfoundation.bean.OrderBean<br/>
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+				</xs:attribute>
+					</xs:complexType>
+	</xs:element>
+		<xs:element name="breadcrumb">
+		<xs:annotation>
+			<xs:documentation>
+			<![CDATA[
+				Displays the navigation path to a given value.
+ (Another meaning may be "click-path").<br/>
+				<b>Spec:</b> ystorefoundationpackage.yfaces.component.misc.BreadcrumbComponent<br/>
+				<b>Impl:</b> ystorefoundationpackage.yfaces.component.misc.DefaultBreadcrumbComponent<br/>
+				<b>Tag:</b> breadcrumbTag.xhtml<br/>
+				]]>
+			</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:attribute name="binding" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						Bounds this YComponents instance to another instance.<br/>
+						In general this should be an YFrame.
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		
+					</xs:complexType>
+	</xs:element>
+		<xs:element name="registration">
+		<xs:annotation>
+			<xs:documentation>
+			<![CDATA[
+				<br/>
+				<b>Spec:</b> ystorefoundationpackage.yfaces.component.user.RegistrationComponent<br/>
+				<b>Impl:</b> ystorefoundationpackage.yfaces.component.user.DefaultRegistrationComponent<br/>
+				<b>Tag:</b> registrationTag.xhtml<br/>
+				]]>
+			</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:attribute name="binding" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						Bounds this YComponents instance to another instance.<br/>
+						In general this should be an YFrame.
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		
+						<xs:attribute name="isAddressEnabled" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						<br/>
+						<b>Coerced to:</b>java.lang.Boolean<br/>
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+				</xs:attribute>
+					</xs:complexType>
+	</xs:element>
+		<xs:element name="adBanner">
+		<xs:annotation>
+			<xs:documentation>
+			<![CDATA[
+				<br/>
+				<b>Spec:</b> ystorefoundationpackage.yfaces.component.misc.AdBannerComponent<br/>
+				<b>Impl:</b> ystorefoundationpackage.yfaces.component.misc.DefaultAdBannerComponent<br/>
+				<b>Tag:</b> adBannerTag.xhtml<br/>
+				]]>
+			</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:attribute name="binding" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						Bounds this YComponents instance to another instance.<br/>
+						In general this should be an YFrame.
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		
+					</xs:complexType>
+	</xs:element>
+		<xs:element name="selectPaymentMode">
+		<xs:annotation>
+			<xs:documentation>
+			<![CDATA[
+				<br/>
+				<b>Spec:</b> ystorefoundationpackage.yfaces.component.cart.SelectPaymentModeComponent<br/>
+				<b>Impl:</b> ystorefoundationpackage.yfaces.component.cart.DefaultSelectPaymentModeComponent<br/>
+				<b>Tag:</b> selectPaymentModeTag.xhtml<br/>
+				]]>
+			</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:attribute name="binding" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						Bounds this YComponents instance to another instance.<br/>
+						In general this should be an YFrame.
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		
+						<xs:attribute name="cart" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						<br/>
+						<b>Coerced to:</b>de.hybris.platform.webfoundation.bean.CartBean<br/>
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+				</xs:attribute>
+					</xs:complexType>
+	</xs:element>
+		<xs:element name="quickAddToCart">
+		<xs:annotation>
+			<xs:documentation>
+			<![CDATA[
+				<br/>
+				<b>Spec:</b> ystorefoundationpackage.yfaces.component.cart.QuickAddToCartComponent<br/>
+				<b>Impl:</b> ystorefoundationpackage.yfaces.component.cart.DefaultQuickAddToCartComponent<br/>
+				<b>Tag:</b> quickAddToCartTag.xhtml<br/>
+				]]>
+			</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:attribute name="binding" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						Bounds this YComponents instance to another instance.<br/>
+						In general this should be an YFrame.
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		
+					</xs:complexType>
+	</xs:element>
+		<xs:element name="listAddresses">
+		<xs:annotation>
+			<xs:documentation>
+			<![CDATA[
+				<br/>
+				<b>Spec:</b> ystorefoundationpackage.yfaces.component.address.ListAddressComponent<br/>
+				<b>Impl:</b> ystorefoundationpackage.yfaces.component.address.DefaultListAddressComponent<br/>
+				<b>Tag:</b> listAddressesTag.xhtml<br/>
+				]]>
+			</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:attribute name="binding" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						Bounds this YComponents instance to another instance.<br/>
+						In general this should be an YFrame.
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		
+						<xs:attribute name="addressList" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						<br/>
+						<b>Coerced to:</b>java.util.List<br/>
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+				</xs:attribute>
+					</xs:complexType>
+	</xs:element>
+		<xs:element name="editWishList">
+		<xs:annotation>
+			<xs:documentation>
+			<![CDATA[
+				<br/>
+				<b>Spec:</b> ystorefoundationpackage.yfaces.component.wishlist.EditWishListComponent<br/>
+				<b>Impl:</b> ystorefoundationpackage.yfaces.component.wishlist.DefaultEditWishListComponent<br/>
+				<b>Tag:</b> editWishListTag.xhtml<br/>
+				]]>
+			</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:attribute name="binding" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						Bounds this YComponents instance to another instance.<br/>
+						In general this should be an YFrame.
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		
+						<xs:attribute name="wishList" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						<br/>
+						<b>Coerced to:</b>de.hybris.platform.webfoundation.bean.WishListBean<br/>
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+				</xs:attribute>
+					</xs:complexType>
+	</xs:element>
+		<xs:element name="customerReview">
+		<xs:annotation>
+			<xs:documentation>
+			<![CDATA[
+				<br/>
+				<b>Spec:</b> ystorefoundationpackage.yfaces.component.customerreview.CustomerReviewComponent<br/>
+				<b>Impl:</b> ystorefoundationpackage.yfaces.component.customerreview.DefaultCustomerReviewComponent<br/>
+				<b>Tag:</b> customerReviewTag.xhtml<br/>
+				]]>
+			</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:attribute name="binding" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						Bounds this YComponents instance to another instance.<br/>
+						In general this should be an YFrame.
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		
+					</xs:complexType>
+	</xs:element>
+		<xs:element name="featureValuesSelector">
+		<xs:annotation>
+			<xs:documentation>
+			<![CDATA[
+				<br/>
+				<b>Spec:</b> ystorefoundationpackage.yfaces.component.product.fv.FeatureValueSelectorComponent<br/>
+				<b>Impl:</b> ystorefoundationpackage.yfaces.component.product.fv.DefaultFeatureValueSelectorComponent<br/>
+				<b>Tag:</b> featureValuesSelectorTag.xhtml<br/>
+				]]>
+			</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:attribute name="binding" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						Bounds this YComponents instance to another instance.<br/>
+						In general this should be an YFrame.
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		
+						<xs:attribute name="productList" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						Sets the initial List of Products.<br/>
+						<b>Coerced to:</b>java.util.List<br/>
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+				</xs:attribute>
+						<xs:attribute name="featureValuesSelectorCount" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						<br/>
+						<b>Coerced to:</b>java.lang.Integer<br/>
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+				</xs:attribute>
+						<xs:attribute name="category" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						<br/>
+						<b>Coerced to:</b>de.hybris.platform.webfoundation.bean.CategoryBean<br/>
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+				</xs:attribute>
+						<xs:attribute name="ignoreClassificationClass" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						<br/>
+						<b>Coerced to:</b>java.lang.Boolean<br/>
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+				</xs:attribute>
+						<xs:attribute name="funneMode" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						<br/>
+						<b>Coerced to:</b><br/>
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+				</xs:attribute>
+					</xs:complexType>
+	</xs:element>
+		<xs:element name="price">
+		<xs:annotation>
+			<xs:documentation>
+			<![CDATA[
+				Displays a price.<br/>
+				<b>Spec:</b> ystorefoundationpackage.yfaces.component.misc.PriceComponent<br/>
+				<b>Impl:</b> ystorefoundationpackage.yfaces.component.misc.DefaultPriceComponent<br/>
+				<b>Tag:</b> priceTag.xhtml<br/>
+				]]>
+			</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:attribute name="binding" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						Bounds this YComponents instance to another instance.<br/>
+						In general this should be an YFrame.
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		
+						<xs:attribute name="product" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						Sets the products whose price shall be displayed.
+ Null permitted.
+ This method overrules {@link #setProductCode(String)}.<br/>
+						<b>Coerced to:</b>de.hybris.platform.webfoundation.bean.ProductBean<br/>
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+				</xs:attribute>
+						<xs:attribute name="productCode" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						Sets the product whose price shall be displayed 
+ implicitly by the products code.
+ {@link #setProduct(ProductBean)} overrules this method.<br/>
+						<b>Coerced to:</b>java.lang.String<br/>
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+				</xs:attribute>
+						<xs:attribute name="showTaxes" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						Set to true when taxes shall be displayed.<br/><br/>
+						<b>Coerced to:</b>boolean<br/>
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+				</xs:attribute>
+						<xs:attribute name="showPriceTable" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						Set to true when a table with allavailable Prices shall be displayed.<br/>
+ <br/><br/>
+						<b>Coerced to:</b>boolean<br/>
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+				</xs:attribute>
+						<xs:attribute name="showOldPrice" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						Sets whether an optional existing old price shall be displayed.<br/>
+						<b>Coerced to:</b>boolean<br/>
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+				</xs:attribute>
+						<xs:attribute name="priceMsgFormat" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						Sets the outputformat for the price.<br/>
+ See {@link #setOldPriceMsgFormat(String)} to learn more about the format String.<br/>
+ <br/><br/>
+						<b>Coerced to:</b>java.lang.String<br/>
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+				</xs:attribute>
+						<xs:attribute name="oldPriceMsgFormat" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						Sets the output format for an optional available old price.<br/>
+ Supported placeholders: {0} = old price (already localized)
+ When no placeholder is given it's position is assumed at the end of the String.<br/>
+ <br/>
+ examples:<br/>
+ outputformat = "price {0} is not available anymore"<br/>
+ outputformat = "old price: {0}"<br/>
+ outputformat = "old price:"<br/><br/>
+						<b>Coerced to:</b>java.lang.String<br/>
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+				</xs:attribute>
+					</xs:complexType>
+	</xs:element>
+		<xs:element name="showHistory">
+		<xs:annotation>
+			<xs:documentation>
+			<![CDATA[
+				<br/>
+				<b>Spec:</b> ystorefoundationpackage.yfaces.component.history.ShowHistoryComponent<br/>
+				<b>Impl:</b> ystorefoundationpackage.yfaces.component.history.DefaultShowHistoryComponent<br/>
+				<b>Tag:</b> showHistoryTag.xhtml<br/>
+				]]>
+			</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:attribute name="binding" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						Bounds this YComponents instance to another instance.<br/>
+						In general this should be an YFrame.
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		
+						<xs:attribute name="enabledProduct" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						<br/>
+						<b>Coerced to:</b>boolean<br/>
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+				</xs:attribute>
+						<xs:attribute name="enabledCategory" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						<br/>
+						<b>Coerced to:</b>boolean<br/>
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+				</xs:attribute>
+						<xs:attribute name="historyEntrySize" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						<br/>
+						<b>Coerced to:</b>int<br/>
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+				</xs:attribute>
+					</xs:complexType>
+	</xs:element>
+		<xs:element name="textParagraphs">
+		<xs:annotation>
+			<xs:documentation>
+			<![CDATA[
+				Displays a list of paragraphs page.<br/>
+ <br/> 
+ Used for <code>"textParagraphsComponentTag.xhtml".</code>
+ <br/><br/>
+				<b>Spec:</b> ystorefoundationpackage.yfaces.component.cms.TextParagraphsComponent<br/>
+				<b>Impl:</b> ystorefoundationpackage.yfaces.component.cms.DefaultTextParagraphsComponent<br/>
+				<b>Tag:</b> textParagraphsTag.xhtml<br/>
+				]]>
+			</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:attribute name="binding" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						Bounds this YComponents instance to another instance.<br/>
+						In general this should be an YFrame.
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		
+						<xs:attribute name="textParagraphPageId" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						Sets the text paragraph page by its id.
+ This value is ignored when a text paragraph page was already set
+ via {@link #setTextParagraphPage(ParagraphContentBean)}.<br/>
+						<b>Coerced to:</b>java.lang.String<br/>
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+				</xs:attribute>
+						<xs:attribute name="textParagraphs" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						Sets the list of paragraphs which shall be displayed.<br/>
+						<b>Coerced to:</b>java.util.List<br/>
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+				</xs:attribute>
+					</xs:complexType>
+	</xs:element>
+		<xs:element name="textParagraph">
+		<xs:annotation>
+			<xs:documentation>
+			<![CDATA[
+				Displays a single text paragraph.<br/>
+ CMS links are fully supported.<br/>
+ <br/> 
+ Used for <code>"textParagraphTag.xhtml".</code><br/>
+ <br/><br/>
+				<b>Spec:</b> ystorefoundationpackage.yfaces.component.cms.TextParagraphComponent<br/>
+				<b>Impl:</b> ystorefoundationpackage.yfaces.component.cms.DefaultTextParagraphComponent<br/>
+				<b>Tag:</b> textParagraphTag.xhtml<br/>
+				]]>
+			</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:attribute name="binding" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						Bounds this YComponents instance to another instance.<br/>
+						In general this should be an YFrame.
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		
+						<xs:attribute name="textParagraph" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						Sets the text paragraph.<br/>
+						<b>Coerced to:</b>de.hybris.platform.webfoundation.bean.TextParagraphBean<br/>
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+				</xs:attribute>
+						<xs:attribute name="textParagraphId" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						Sets the text paragraph by its id.<br/>
+						<b>Coerced to:</b>java.lang.String<br/>
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+				</xs:attribute>
+					</xs:complexType>
+	</xs:element>
+		<xs:element name="categoryTree">
+		<xs:annotation>
+			<xs:documentation>
+			<![CDATA[
+				<br/>
+				<b>Spec:</b> ystorefoundationpackage.yfaces.component.category.CategoryTreeComponent<br/>
+				<b>Impl:</b> ystorefoundationpackage.yfaces.component.category.DefaultCategoryTreeComponent<br/>
+				<b>Tag:</b> categoryTreeTag.xhtml<br/>
+				]]>
+			</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:attribute name="binding" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						Bounds this YComponents instance to another instance.<br/>
+						In general this should be an YFrame.
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		
+					</xs:complexType>
+	</xs:element>
+		<xs:element name="tellAFriend">
+		<xs:annotation>
+			<xs:documentation>
+			<![CDATA[
+				<br/>
+				<b>Spec:</b> ystorefoundationpackage.yfaces.component.product.tellfriend.TellAFriendComponent<br/>
+				<b>Impl:</b> ystorefoundationpackage.yfaces.component.product.tellfriend.DefaultTellAFriendComponent<br/>
+				<b>Tag:</b> tellAFriendTag.xhtml<br/>
+				]]>
+			</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:attribute name="binding" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						Bounds this YComponents instance to another instance.<br/>
+						In general this should be an YFrame.
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		
+						<xs:attribute name="product" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						<br/>
+						<b>Coerced to:</b><br/>
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+				</xs:attribute>
+						<xs:attribute name="comment" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						<br/>
+						<b>Coerced to:</b>java.lang.String<br/>
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+				</xs:attribute>
+					</xs:complexType>
+	</xs:element>
+		<xs:element name="orderHistory">
+		<xs:annotation>
+			<xs:documentation>
+			<![CDATA[
+				<br/>
+				<b>Spec:</b> ystorefoundationpackage.yfaces.component.order.OrderHistoryComponent<br/>
+				<b>Impl:</b> ystorefoundationpackage.yfaces.component.order.DefaultOrderHistoryComponent<br/>
+				<b>Tag:</b> orderHistoryTag.xhtml<br/>
+				]]>
+			</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:attribute name="binding" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						Bounds this YComponents instance to another instance.<br/>
+						In general this should be an YFrame.
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		
+						<xs:attribute name="user" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						Sets a user whose orderhistory shall be used.<br/>
+						<b>Coerced to:</b>de.hybris.platform.webfoundation.bean.UserBean<br/>
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+				</xs:attribute>
+						<xs:attribute name="orderList" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						Sets a list of orders who shall be used.
+ This orderlist overrules the list of an optionally set user.<br/>
+						<b>Coerced to:</b>java.util.List<br/>
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+				</xs:attribute>
+					</xs:complexType>
+	</xs:element>
+		<xs:element name="chooseCatalog">
+		<xs:annotation>
+			<xs:documentation>
+			<![CDATA[
+				<br/>
+				<b>Spec:</b> ystorefoundationpackage.yfaces.component.catalog.ChooseCatalogComponent<br/>
+				<b>Impl:</b> ystorefoundationpackage.yfaces.component.catalog.DefaultChooseCatalogComponent<br/>
+				<b>Tag:</b> chooseCatalogTag.xhtml<br/>
+				]]>
+			</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:attribute name="binding" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						Bounds this YComponents instance to another instance.<br/>
+						In general this should be an YFrame.
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		
+						<xs:attribute name="catalogs" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						<br/>
+						<b>Coerced to:</b>java.util.List<br/>
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+				</xs:attribute>
+					</xs:complexType>
+	</xs:element>
+		<xs:element name="listPayment">
+		<xs:annotation>
+			<xs:documentation>
+			<![CDATA[
+				<br/>
+				<b>Spec:</b> ystorefoundationpackage.yfaces.component.payment.ListPaymentComponent<br/>
+				<b>Impl:</b> ystorefoundationpackage.yfaces.component.payment.DefaultListPaymentComponent<br/>
+				<b>Tag:</b> listPaymentTag.xhtml<br/>
+				]]>
+			</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:attribute name="binding" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						Bounds this YComponents instance to another instance.<br/>
+						In general this should be an YFrame.
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		
+						<xs:attribute name="paymentInfoList" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						<br/>
+						<b>Coerced to:</b>java.util.List<br/>
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+				</xs:attribute>
+					</xs:complexType>
+	</xs:element>
+		<xs:element name="chooseLanguage">
+		<xs:annotation>
+			<xs:documentation>
+			<![CDATA[
+				<br/>
+				<b>Spec:</b> ystorefoundationpackage.yfaces.component.i18n.ChooseLanguageComponent<br/>
+				<b>Impl:</b> ystorefoundationpackage.yfaces.component.i18n.DefaultChooseLanguageComponent<br/>
+				<b>Tag:</b> chooseLanguageTag.xhtml<br/>
+				]]>
+			</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:attribute name="binding" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						Bounds this YComponents instance to another instance.<br/>
+						In general this should be an YFrame.
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		
+					</xs:complexType>
+	</xs:element>
+		<xs:element name="quickSearch">
+		<xs:annotation>
+			<xs:documentation>
+			<![CDATA[
+				<br/>
+				<b>Spec:</b> ystorefoundationpackage.yfaces.component.search.QuickSearchComponent<br/>
+				<b>Impl:</b> ystorefoundationpackage.yfaces.component.search.DefaultQuickSearchComponent<br/>
+				<b>Tag:</b> quickSearchTag.xhtml<br/>
+				]]>
+			</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:attribute name="binding" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						Bounds this YComponents instance to another instance.<br/>
+						In general this should be an YFrame.
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		
+					</xs:complexType>
+	</xs:element>
+		<xs:element name="showWishListEntry">
+		<xs:annotation>
+			<xs:documentation>
+			<![CDATA[
+				<br/>
+				<b>Spec:</b> ystorefoundationpackage.yfaces.component.wishlist.ShowWishListEntryComponent<br/>
+				<b>Impl:</b> ystorefoundationpackage.yfaces.component.wishlist.DefaultShowWishListEntryComponent<br/>
+				<b>Tag:</b> showWishListEntryTag.xhtml<br/>
+				]]>
+			</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:attribute name="binding" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						Bounds this YComponents instance to another instance.<br/>
+						In general this should be an YFrame.
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		
+						<xs:attribute name="wishListEntry" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						<br/>
+						<b>Coerced to:</b>de.hybris.platform.webfoundation.bean.WishListEntryBean<br/>
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+				</xs:attribute>
+					</xs:complexType>
+	</xs:element>
+		<xs:element name="listWishList">
+		<xs:annotation>
+			<xs:documentation>
+			<![CDATA[
+				<br/>
+				<b>Spec:</b> ystorefoundationpackage.yfaces.component.wishlist.ListWishListComponent<br/>
+				<b>Impl:</b> ystorefoundationpackage.yfaces.component.wishlist.DefaultListWishListComponent<br/>
+				<b>Tag:</b> listWishListTag.xhtml<br/>
+				]]>
+			</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:attribute name="binding" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						Bounds this YComponents instance to another instance.<br/>
+						In general this should be an YFrame.
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		
+					</xs:complexType>
+	</xs:element>
+		<xs:element name="showPayment">
+		<xs:annotation>
+			<xs:documentation>
+			<![CDATA[
+				<br/>
+				<b>Spec:</b> ystorefoundationpackage.yfaces.component.payment.ShowPaymentComponent<br/>
+				<b>Impl:</b> ystorefoundationpackage.yfaces.component.payment.DefaultShowPaymentComponent<br/>
+				<b>Tag:</b> showPaymentTag.xhtml<br/>
+				]]>
+			</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:attribute name="binding" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						Bounds this YComponents instance to another instance.<br/>
+						In general this should be an YFrame.
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		
+						<xs:attribute name="paymentInfo" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						Sets the {@link PaymentInfoBean} this model holds.<br/>
+						<b>Coerced to:</b>de.hybris.platform.webfoundation.bean.PaymentInfoBean<br/>
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+				</xs:attribute>
+					</xs:complexType>
+	</xs:element>
+		<xs:element name="quickViewCart">
+		<xs:annotation>
+			<xs:documentation>
+			<![CDATA[
+				Visualizes a Cart in a short manner.<br/>
+				<b>Spec:</b> ystorefoundationpackage.yfaces.component.cart.QuickViewCartComponent<br/>
+				<b>Impl:</b> ystorefoundationpackage.yfaces.component.cart.DefaultQuickViewCartComponent<br/>
+				<b>Tag:</b> quickViewCartTag.xhtml<br/>
+				]]>
+			</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:attribute name="binding" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						Bounds this YComponents instance to another instance.<br/>
+						In general this should be an YFrame.
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		
+					</xs:complexType>
+	</xs:element>
+		<xs:element name="productDetail">
+		<xs:annotation>
+			<xs:documentation>
+			<![CDATA[
+				<br/>
+				<b>Spec:</b> ystorefoundationpackage.yfaces.component.product.ProductDetailComponent<br/>
+				<b>Impl:</b> ystorefoundationpackage.yfaces.component.product.DefaultProductDetailComponent<br/>
+				<b>Tag:</b> productDetailTag.xhtml<br/>
+				]]>
+			</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:attribute name="binding" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						Bounds this YComponents instance to another instance.<br/>
+						In general this should be an YFrame.
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		
+						<xs:attribute name="product" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						<br/>
+						<b>Coerced to:</b>de.hybris.platform.webfoundation.bean.ProductBean<br/>
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+				</xs:attribute>
+					</xs:complexType>
+	</xs:element>
+		<xs:element name="showVariantProducts">
+		<xs:annotation>
+			<xs:documentation>
+			<![CDATA[
+				<br/>
+				<b>Spec:</b> ystorefoundationpackage.yfaces.component.product.ShowVariantProductsComponent<br/>
+				<b>Impl:</b> ystorefoundationpackage.yfaces.component.product.DefaultShowVariantProductsComponent<br/>
+				<b>Tag:</b> showVariantProductsTag.xhtml<br/>
+				]]>
+			</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:attribute name="binding" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						Bounds this YComponents instance to another instance.<br/>
+						In general this should be an YFrame.
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		
+						<xs:attribute name="currentProduct" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						<br/>
+						<b>Coerced to:</b>de.hybris.platform.webfoundation.bean.ProductBean<br/>
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+				</xs:attribute>
+						<xs:attribute name="variantProducts" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						<br/>
+						<b>Coerced to:</b><br/>
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+				</xs:attribute>
+						<xs:attribute name="printPage" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						<br/>
+						<b>Coerced to:</b>boolean<br/>
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+				</xs:attribute>
+					</xs:complexType>
+	</xs:element>
+		<xs:element name="compareProducts">
+		<xs:annotation>
+			<xs:documentation>
+			<![CDATA[
+				Compare products according given compare Attributes.
+ Provides a comparison table with some additional options (rotate)<br/> 
+ <br/>
+ Depends on: items (classification system)<br/>
+				<b>Spec:</b> ystorefoundationpackage.yfaces.component.product.CompareProductsComponent<br/>
+				<b>Impl:</b> ystorefoundationpackage.yfaces.component.product.DefaultCompareProductsComponent<br/>
+				<b>Tag:</b> compareProductsTag.xhtml<br/>
+				]]>
+			</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:attribute name="binding" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						Bounds this YComponents instance to another instance.<br/>
+						In general this should be an YFrame.
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		
+					</xs:complexType>
+	</xs:element>
+		<xs:element name="navigationElements">
+		<xs:annotation>
+			<xs:documentation>
+			<![CDATA[
+				Renders a List of navigation elements.<br/>
+ The elements may be passed in various ways.<br/>
+ <br/>
+ See <code>"navigationElementsComponentTag.xhtml".</code>
+ <br/><br/>
+				<b>Spec:</b> ystorefoundationpackage.yfaces.component.cms.NavigationElementsComponent<br/>
+				<b>Impl:</b> ystorefoundationpackage.yfaces.component.cms.DefaultNavigationElementsComponent<br/>
+				<b>Tag:</b> navigationElementsTag.xhtml<br/>
+				]]>
+			</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:attribute name="binding" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						Bounds this YComponents instance to another instance.<br/>
+						In general this should be an YFrame.
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		
+						<xs:attribute name="rootNavigationElementId" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						Sets the id of the root navigation element.<br/>
+ The children of the root element are used for this component.<br/>
+						<b>Coerced to:</b>java.lang.String<br/>
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+				</xs:attribute>
+						<xs:attribute name="
+			rootNavigationElement" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						<br/>
+						<b>Coerced to:</b><br/>
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+				</xs:attribute>
+						<xs:attribute name="
+			navigationElements" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						<br/>
+						<b>Coerced to:</b><br/>
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+				</xs:attribute>
+					</xs:complexType>
+	</xs:element>
+		<xs:element name="createCustomerReview">
+		<xs:annotation>
+			<xs:documentation>
+			<![CDATA[
+				Component used by the CreateCustomerReviewTag.xhtml<br/>
+				<b>Spec:</b> ystorefoundationpackage.yfaces.component.customerreview.CreateCustomerReviewComponent<br/>
+				<b>Impl:</b> ystorefoundationpackage.yfaces.component.customerreview.DefaultCreateCustomerReviewComponent<br/>
+				<b>Tag:</b> createCustomerReviewTag.xhtml<br/>
+				]]>
+			</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:attribute name="binding" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						Bounds this YComponents instance to another instance.<br/>
+						In general this should be an YFrame.
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		
+						<xs:attribute name="comment" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						<br/>
+						<b>Coerced to:</b><br/>
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+				</xs:attribute>
+					</xs:complexType>
+	</xs:element>
+		<xs:element name="userInfo">
+		<xs:annotation>
+			<xs:documentation>
+			<![CDATA[
+				<br/>
+				<b>Spec:</b> ystorefoundationpackage.yfaces.component.user.UserInfoComponent<br/>
+				<b>Impl:</b> ystorefoundationpackage.yfaces.component.user.DefaultUserInfoComponent<br/>
+				<b>Tag:</b> userInfoTag.xhtml<br/>
+				]]>
+			</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:attribute name="binding" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						Bounds this YComponents instance to another instance.<br/>
+						In general this should be an YFrame.
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		
+					</xs:complexType>
+	</xs:element>
+		<xs:element name="selectDeliveryMode">
+		<xs:annotation>
+			<xs:documentation>
+			<![CDATA[
+				<br/>
+				<b>Spec:</b> ystorefoundationpackage.yfaces.component.cart.SelectDeliveryModeComponent<br/>
+				<b>Impl:</b> ystorefoundationpackage.yfaces.component.cart.DefaultSelectDeliveryModeComponent<br/>
+				<b>Tag:</b> selectDeliveryModeTag.xhtml<br/>
+				]]>
+			</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:attribute name="binding" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						Bounds this YComponents instance to another instance.<br/>
+						In general this should be an YFrame.
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		
+						<xs:attribute name="cart" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						<br/>
+						<b>Coerced to:</b>de.hybris.platform.webfoundation.bean.CartBean<br/>
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+				</xs:attribute>
+					</xs:complexType>
+	</xs:element>
+		<xs:element name="chooseVariants">
+		<xs:annotation>
+			<xs:documentation>
+			<![CDATA[
+				<br/>
+				<b>Spec:</b> ystorefoundationpackage.yfaces.component.product.ChooseVariantsComponent<br/>
+				<b>Impl:</b> ystorefoundationpackage.yfaces.component.product.DefaultChooseVariantsComponent<br/>
+				<b>Tag:</b> chooseVariantsTag.xhtml<br/>
+				]]>
+			</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:attribute name="binding" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						Bounds this YComponents instance to another instance.<br/>
+						In general this should be an YFrame.
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		
+						<xs:attribute name="product" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						<br/>
+						<b>Coerced to:</b>de.hybris.platform.webfoundation.bean.ProductBean<br/>
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+				</xs:attribute>
+					</xs:complexType>
+	</xs:element>
+		<xs:element name="editAddress">
+		<xs:annotation>
+			<xs:documentation>
+			<![CDATA[
+				<br/>
+				<b>Spec:</b> ystorefoundationpackage.yfaces.component.address.EditAddressComponent<br/>
+				<b>Impl:</b> ystorefoundationpackage.yfaces.component.address.DefaultEditAddressComponent<br/>
+				<b>Tag:</b> editAddressTag.xhtml<br/>
+				]]>
+			</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:attribute name="binding" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						Bounds this YComponents instance to another instance.<br/>
+						In general this should be an YFrame.
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		
+						<xs:attribute name="availableCountries" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						Set available Countries for editing or creating a new Address<br/>
+						<b>Coerced to:</b>java.util.List<br/>
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+				</xs:attribute>
+						<xs:attribute name="address" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						<br/>
+						<b>Coerced to:</b>de.hybris.platform.webfoundation.bean.AddressBean<br/>
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+				</xs:attribute>
+					</xs:complexType>
+	</xs:element>
+		<xs:element name="productReferences">
+		<xs:annotation>
+			<xs:documentation>
+			<![CDATA[
+				<br/>
+				<b>Spec:</b> ystorefoundationpackage.yfaces.component.product.ProductReferencesComponent<br/>
+				<b>Impl:</b> ystorefoundationpackage.yfaces.component.product.DefaultProductReferencesComponent<br/>
+				<b>Tag:</b> productReferencesTag.xhtml<br/>
+				]]>
+			</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:attribute name="binding" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						Bounds this YComponents instance to another instance.<br/>
+						In general this should be an YFrame.
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		
+					</xs:complexType>
+	</xs:element>
+		<xs:element name="saveTempWishList">
+		<xs:annotation>
+			<xs:documentation>
+			<![CDATA[
+				<br/>
+				<b>Spec:</b> ystorefoundationpackage.yfaces.component.wishlist.SaveTempWishListComponent<br/>
+				<b>Impl:</b> ystorefoundationpackage.yfaces.component.wishlist.DefaultSaveTempWishListComponent<br/>
+				<b>Tag:</b> saveTempWishListTag.xhtml<br/>
+				]]>
+			</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:attribute name="binding" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						Bounds this YComponents instance to another instance.<br/>
+						In general this should be an YFrame.
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		
+					</xs:complexType>
+	</xs:element>
+		<xs:element name="editPayment">
+		<xs:annotation>
+			<xs:documentation>
+			<![CDATA[
+				<br/>
+				<b>Spec:</b> ystorefoundationpackage.yfaces.component.payment.EditPaymentComponent<br/>
+				<b>Impl:</b> ystorefoundationpackage.yfaces.component.payment.DefaultEditPaymentComponent<br/>
+				<b>Tag:</b> editPaymentTag.xhtml<br/>
+				]]>
+			</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:attribute name="binding" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						Bounds this YComponents instance to another instance.<br/>
+						In general this should be an YFrame.
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		
+						<xs:attribute name="paymentInfo" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						Sets the {@link PaymentInfoBean} this model holds.<br/>
+						<b>Coerced to:</b>de.hybris.platform.webfoundation.bean.PaymentInfoBean<br/>
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+				</xs:attribute>
+					</xs:complexType>
+	</xs:element>
+		<xs:element name="forgotPassword">
+		<xs:annotation>
+			<xs:documentation>
+			<![CDATA[
+				<br/>
+				<b>Spec:</b> ystorefoundationpackage.yfaces.component.user.ForgotPasswordComponent<br/>
+				<b>Impl:</b> ystorefoundationpackage.yfaces.component.user.DefaultForgotPasswordComponent<br/>
+				<b>Tag:</b> forgotPasswordTag.xhtml<br/>
+				]]>
+			</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:attribute name="binding" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						Bounds this YComponents instance to another instance.<br/>
+						In general this should be an YFrame.
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		
+						<xs:attribute name="user" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						<br/>
+						<b>Coerced to:</b><br/>
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+				</xs:attribute>
+					</xs:complexType>
+	</xs:element>
+	
+</xs:schema>

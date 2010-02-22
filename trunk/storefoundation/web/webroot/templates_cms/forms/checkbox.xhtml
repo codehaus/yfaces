@@ -1,0 +1,11 @@
+
+<tr 	xmlns:ui="http://java.sun.com/jsf/facelets"
+	   xmlns:h="http://java.sun.com/jsf/html"
+	   xmlns:f="http://java.sun.com/jsf/core"
+	   xmlns:t="http://myfaces.apache.org/tomahawk"
+	   xmlns:c="http://java.sun.com/jstl/core">
+		<td>#{input.name}:</td>
+		<td><input type="checkbox" id="forminput_#{input.pk}" jsfc="h:selectBooleanCheckbox" value="#{formBean[input.name]}" /></td>
+		<td><span class="error"><h:message for="forminput_#{input.pk}" /></span></td>		
+</tr>
+

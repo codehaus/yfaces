@@ -1,0 +1,76 @@
+<!--
+Shows a summary of the current cart before the cart will be submitted and
+allows various changes (voucher,delivery... )which affects the final order.
+
+tiles:	address,voucher,orderListComplete
+-->
+<!DOCTYPE type [<!ENTITY nbsp "&#160;">]>
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"	
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:yf="http://yfaces.codehaus.org/taglib"
+	
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://hybris.com/jsf/yfaces ../WEB-INF/yfaces-components.xsd 
+						http://java.sun.com/jsf/facelets ../WEB-INF/facelets.xsd"
+						
+	template="/templates/layout.xhtml"
+	>
+
+	<ui:define name="contentTitle">
+		<h:outputText value="#{msg['frames.summaryFrame.summary']}" />
+	</ui:define>
+	
+	
+	<ui:define name="content">
+		<h:panelGrid columns="2" cellpadding="0" cellspacing="0" styleClass="summaryPageTable">
+			
+			<h:panelGroup id="deliveryAddressPanel">
+				<f:subview id="delivery">
+					<yf:showAddress 
+						binding="#{summaryFrame.showDeliveryAddressComponent}" 						
+						headline="#{msg['frames.summaryFrame.deliveryAddress']}"/>
+				</f:subview>
+			</h:panelGroup>
+			
+			<h:panelGroup id="paymentAddressPanel">
+				<f:subview id="payment">
+					<yf:showAddress 
+						binding="#{summaryFrame.showPaymentAddressComponent}" 						
+						headline="#{msg['frames.summaryFrame.paymentAddress']}"/>
+				</f:subview>
+			</h:panelGroup>
+
+			<ui:param name="cart" value="#{userSession.cart}"/>
+			<h:panelGroup>
+				<yf:showPayment 
+					binding="#{summaryFrame.showPaymentComponent}"
+					cart="#{cart}"
+					headline="#{msg['frames.summaryFrame.paymentMode']}"/>
+			</h:panelGroup>
+	
+			<h:panelGroup>
+				<yf:selectDeliveryMode 
+					binding="#{summaryFrame.selectDeliveryModeComponent}"
+					cart="#{cart}"/>
+			</h:panelGroup>
+
+			<h:panelGroup>
+				<yf:voucher 
+					binding="#{summaryFrame.voucherComponent}"/>
+			</h:panelGroup>
+
+		</h:panelGrid>
+		<br/>
+		<yf:orderTable 
+			binding="#{summaryFrame.orderTableComponent}" 
+			order="#{cart}"/>
+		<br/>
+		
+	</ui:define>
+
+</ui:composition>

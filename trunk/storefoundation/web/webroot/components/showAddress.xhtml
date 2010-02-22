@@ -1,0 +1,117 @@
+
+<!--
+Address Component.
+Display Address and allow various but optional operations.
+
+Either the controller provides an address or an address must be passed.
+
+Parameters:
+	controller					: ShowAddressController (optional)
+	model							: ShowAddressModel (optional)
+	
+	Single model attributes (lower priorized)
+	address:						: address to use (optional);
+	owner:						: owner to use (optional);
+	
+-->
+
+<ui:composition
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:yf="http://yfaces.codehaus.org/taglib"
+	>
+	
+		<yf:component
+			id="showAddressCmp"
+			
+			modelspec="ystorefoundationpackage.yfaces.component.address.ShowAddressComponent"
+			model="ystorefoundationpackage.yfaces.component.address.DefaultShowAddressComponent" 
+			
+			var="showAddressCmpVar"
+			passToModel="owner, address"
+			>      
+
+
+		<t:div styleClass="showAddressCmp #{styleClass} new-and-clean" rendered="#{showAddressCmpVar.address != null}">
+
+			<h:form id="showAddressForm">
+				<ui:decorate template="/templates/contentBox.xhtml">
+					<ui:define name="headline">
+						<h:outputText value="#{headline}" rendered="#{headline != null}"/>
+					</ui:define>
+					
+					<ui:define name="boxcontent">
+						<t:div styleClass="content">
+							<h:panelGrid>
+								<h:outputText value="#{showAddressCmpVar.address.firstname} #{showAddressCmpVar.address.lastname}"/>
+								<h:outputText value="#{showAddressCmpVar.address.company}" rendered="#{!empty showAddressCmpVar.address.company}"/>
+								<h:outputText value="#{showAddressCmpVar.address.streetname} #{showAddressCmpVar.address.streetnumber}"/>
+								<h:outputText value="#{showAddressCmpVar.address.postalcode} #{showAddressCmpVar.address.town}"/>
+								<h:outputText value="#{showAddressCmpVar.address.country.name}"/>
+							</h:panelGrid>
+							<br/>
+							<h:panelGrid>
+							<t:div rendered="#{showAddressCmpVar.chooseAddressAsDeliveryEvent.enabled}">
+								<h:outputText rendered="#{showAddressCmpVar.defaultDeliveryAddress}">
+									#{msg['address.showAddressCmp.isDefaultDeliveryAddress']}</h:outputText>
+								<h:commandLink rendered="#{!showAddressCmpVar.defaultDeliveryAddress}"
+									id="doChooseAsDefDelivery"
+									styleClass="commandLink"
+									action="#{showAddressCmpVar.chooseAddressAsDeliveryEvent.action}"
+									actionListener="#{showAddressCmpVar.chooseAddressAsDeliveryEvent.actionListener}">
+									#{msg['address.showAddressCmp.action.chooseAsDelivery']}</h:commandLink>
+							</t:div>
+							<t:div rendered="#{showAddressCmpVar.chooseAddressAsPaymentEvent.enabled}">
+								<h:outputText rendered="#{showAddressCmpVar.defaultPaymentAddress}">
+									#{msg['address.showAddressCmp.isDefaultPaymentAddress']}</h:outputText>
+								<h:commandLink rendered="#{!showAddressCmpVar.defaultPaymentAddress}"
+									id="chooseAsDefPayment"
+									styleClass="commandLink"
+									action="#{showAddressCmpVar.chooseAddressAsPaymentEvent.action}"
+									actionListener="#{showAddressCmpVar.chooseAddressAsPaymentEvent.actionListener}">
+									#{msg['address.showAddressCmp.action.chooseAsPayment']}</h:commandLink>
+							</t:div>
+							</h:panelGrid>
+						</t:div>
+					</ui:define>
+
+
+
+					<!-- Standard Action operations 'edit' 'delete' -->
+					<ui:define name="footer-left">
+						<t:div rendered="#{showAddressCmpVar.editAddressEvent.enabled || showAddressCmpVar.deleteAddressEvent.enabled}">
+							<h:commandLink id="editAddrLink" 
+								rendered="#{showAddressCmpVar.editAddressEvent.enabled}" 
+								styleClass="commandLink"
+								value="#{msg['address.showAddressCmp.action.edit']}"
+								action="#{showAddressCmpVar.editAddressEvent.action}" 
+								actionListener="#{showAddressCmpVar.editAddressEvent.actionListener}" />
+							<h:commandLink id="deleteAddrLink"
+								rendered="#{showAddressCmpVar.deleteAddressEvent.enabled}" 
+								styleClass="commandLink"
+								value="#{msg['address.showAddressCmp.action.delete']}" 
+								action="#{showAddressCmpVar.deleteAddressEvent.action}" 
+								actionListener="#{showAddressCmpVar.deleteAddressEvent.actionListener}" />
+						</t:div>
+					</ui:define>
+
+
+					<!-- Extended Action operation 'custom' -->
+					<ui:define name="footer-right">
+						<h:commandLink id="chooseAddressLink"
+							styleClass="commandLink" 
+							rendered="#{showAddressCmpVar.customAddressEvent.enabled}" 
+							value="#{msg[showAddressCmpVar.customAddressEvent.name]}" 
+							action="#{showAddressCmpVar.customAddressEvent.action}"
+							actionListener="#{showAddressCmpVar.customAddressEvent.actionListener}"/>
+					</ui:define>
+				</ui:decorate>
+			</h:form>
+		</t:div>
+		
+		</yf:component>
+	
+</ui:composition>

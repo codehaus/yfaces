@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" [<!ENTITY nbsp "&#160;">]>
+
+<!--
+Datascroller
+Scroller for UIData components eg. dataTable
+
+Request scoped variables/parameters:
+ (String)uiData         : JSF id of a UIData component that this scroller will affect
+ (Boolean)showPageIndex : If true, additonal page information will be shown (e.g. 1-10 of 60)
+ (DataModel)dataModel   : The DataModel.
+
+-->
+
+<ui:component
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jstl/core">
+	
+	<t:dataScroller for="#{uiData}"
+		id="scroller"
+		rendered="#{true}"
+		fastStep="10"
+		paginator="true"
+		paginatorMaxPages="9"
+		paginatorColumnStyle="padding-top:2px;"
+		paginatorActiveColumnStyle="font-weight:bold; padding-top:2px;"
+		firstRowIndexVar="from"
+		lastRowIndexVar="to"
+		rowsCountVar="max"
+		styleClass="datascroller">
+		                
+		<f:facet name="first">I&#8249;</f:facet>
+		<f:facet name="fastrewind">&#171;</f:facet>
+		<f:facet name="previous">&#8249;</f:facet>
+		<f:facet name="next">&#8250;</f:facet>
+		<f:facet name="fastforward">&#187;</f:facet>
+		<f:facet name="last">&#8250;I&#x00A0;</f:facet>	 
+		
+		<t:div styleClass="datascrollerCounts">#{from} - #{to} #{msg['global.word.dataScrollerFrom']} #{max}</t:div>
+	</t:dataScroller>
+
+</ui:component>

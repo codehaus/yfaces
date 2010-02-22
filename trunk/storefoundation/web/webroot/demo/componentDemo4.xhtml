@@ -1,0 +1,42 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" [<!ENTITY nbsp "&#160;">]>
+
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:yf="http://yfaces.codehaus.org/taglib"
+	template="demoLayout.xhtml">
+
+	<ui:define name="title">
+		This page demonstrates:<br/>
+		- Extend/Change components action logic programmatically  <br/>
+	</ui:define>
+	
+	<ui:define name="content">
+
+			<h:outputText value="QuickSearchComponent linked with a ProductTableComponent" styleClass="h1"/>
+			Default searchaction uses registered ProductService (Flexible or Lucene)
+			<br/>
+
+<yf:quickSearch binding="#{componentDemo4.quickSearchComponent1}"/>
+<yf:productTable productList="#{componentDemo4.quickSearchComponent1.searchResultList}"/>
+			<hr/>
+			<h:outputText value="QuickSearchComponent linked with a ProductTableComponent and a custom searchaction" styleClass="h1"/>
+			The custom searchaction always uses Lucene
+			<br/>
+			
+<yf:quickSearch quickSearchComponent="#{componentDemo4.quickSearchComponent2}"/>
+<yf:productTable productList="#{componentDemo4.quickSearchComponent2.searchResultList}"/>
+
+	</ui:define>
+	
+	<ui:define name="summary">
+		<ul>
+			<li>It's not mandataory to have an own class for each action;<br/> instead the component may implement the action itself</li>
+			<li>Having action logic in separate action classes increases reusability</li>
+		</ul>
+	</ui:define>
+</ui:composition>

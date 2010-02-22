@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" [<!ENTITY nbsp "&#160;">]>
+
+<!-- 
+TODO
+-->
+
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:yf="http://yfaces.codehaus.org/taglib"
+	xmlns:sf="http://hybris.com/jsf/storefoundation"	
+	>
+	
+	
+	<ui:param name="columns" value="#{productReferenceGroup.table.columns}"/>
+	
+	
+	<t:div id="crossells" styleClass="crossells">
+		
+		<h:outputText 
+			value="#{productReferenceGroup.headline}" 
+			rendered="#{productReferenceGroup.headline != null}"
+			styleClass="groupHeadline"/>
+		
+		<t:dataTable id="table" value="#{productReferenceGroup.table.rows}" var="row">
+			<t:column rendered="#{productReferenceGroup.selectionEnabled}" styleClass="selection">
+				<h:selectBooleanCheckbox value="#{row[columns[0]].value}"/>
+			</t:column>
+			
+			<t:column styleClass="productId">
+				<sf:outputLink value="#{row[columns[1]].value}">
+					<h:outputText value="#{row[columns[1]].value.code}"/>
+				</sf:outputLink>
+			</t:column>
+			<t:column styleClass="productName">
+				<sf:outputLink value="#{row[columns[1]].value}">
+					<h:outputText value="#{row[columns[1]].value.name}"/>
+				</sf:outputLink>
+			</t:column>
+			<t:column styleClass="price">
+				<yf:price product="#{row[columns[1]].value}" showTaxes="false" showPriceTable="false" showOldPrice="false"/>
+			</t:column>
+		</t:dataTable>
+		
+	</t:div>
+
+</ui:composition>

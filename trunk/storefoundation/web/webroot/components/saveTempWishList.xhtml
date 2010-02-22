@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" [<!ENTITY nbsp "&#160;">]>
+
+<!-- 
+save temp wish list component
+save the temporary wish list for the anonymous user after he logs in
+-->
+
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:yf="http://yfaces.codehaus.org/taglib">
+
+	<yf:component
+		id="saveTempWishListCmp"
+		modelspec="ystorefoundationpackage.yfaces.component.wishlist.SaveTempWishListComponent"
+		model="ystorefoundationpackage.yfaces.component.wishlist.DefaultSaveTempWishListComponent"
+		
+		var="saveTempWishListCmpVar"
+		>
+
+	<ui:param name="tempWishListEntries" value="#{saveTempWishListCmpVar.tempEntries}"/>
+	<t:div styleClass="saveTempWishListCmp" rendered="#{tempWishListEntries != null}">
+		<h:form id="saveTempWishListForm" enctype="multipart/form-data" acceptcharset="utf-8">
+			<h:outputText value="#{msg['components.saveTempWishListCmp.tempWishList']}" /><br/><br/>
+
+			<!-- display all products -->
+			<ui:repeat value="#{tempWishListEntries}" var="_entry" id="wishListEntriesLoop">
+				<yf:productQuickView product="#{_entry.product}" createRandomProduct="#{false}"/>
+			</ui:repeat>
+			<br/>
+
+			<!-- save to a new wish list, save to an existed wish list, and discard the temporary wish list -->
+			<h:outputText value="#{msg['components.saveTempWishListCmp.hintsForUser']}" /><br/><br/>
+			<h:panelGrid columns="2">
+
+				<h:commandButton
+					id="createWishList"
+					value="#{msg['components.saveTempWishListCmp.createWishList']}"
+					action="#{saveTempWishListCmpVar.createWishListEvent.action}"
+					actionListener="#{saveTempWishListCmpVar.createWishListEvent.actionListener}"
+					styleClass="submitBig"/>
+				<h:inputText styleClass="wishListName" id="wishListName" 
+					value="#{saveTempWishListCmpVar.name}"/>
+
+				<h:commandButton id="saveToAnotherWishList" 
+					value="#{msg['components.saveTempWishListCmp.saveToAnotherWishList']}" 
+					action="#{saveTempWishListCmpVar.saveToAnotherWishListEvent.action}" 
+					actionListener="#{saveTempWishListCmpVar.saveToAnotherWishListEvent.actionListener}" 
+					styleClass="submitBig"/>
+				<h:selectOneMenu required="true" id="saveWishListForm" 
+						value="#{saveTempWishListCmpVar.wishList}" styleClass="" >									
+						<f:selectItems value="#{saveTempWishListCmpVar.existedWishLists}" />
+				</h:selectOneMenu>
+
+				<h:commandButton
+					id="discardTempWishList"
+					value="#{msg['components.saveTempWishListCmp.discardTempWishList']}"
+					action="#{saveTempWishListCmpVar.discardTempWishListEvent.action}"
+					actionListener="#{saveTempWishListCmpVar.discardTempWishListEvent.actionListener}"
+					styleClass="submitBig"/>
+			</h:panelGrid>
+		</h:form>
+		<br/>
+	</t:div>
+
+	<t:div styleClass="saveTempWishListCmp" rendered="#{tempWishListEntries == null}">
+		<h:outputText value="->#{msg['components.saveTempWishListCmp.tempWishListNotExists']}"/>
+	</t:div>
+
+	</yf:component>
+
+</ui:composition>

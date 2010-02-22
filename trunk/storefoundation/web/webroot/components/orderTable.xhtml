@@ -1,0 +1,143 @@
+<!DOCTYPE subview [<!ENTITY nbsp "&#160;">]>
+
+<!--
+CartTable Component.
+Displays cart products list with total sum, actions to update and remove items from cart
+
+-->
+
+<ui:composition
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:yf="http://yfaces.codehaus.org/taglib"
+	xmlns:sf="http://hybris.com/jsf/storefoundation"
+	>
+
+	<yf:component
+		id="orderTableCmp"
+		
+		modelspec="ystorefoundationpackage.yfaces.component.order.OrderTableComponent"
+		model="ystorefoundationpackage.yfaces.component.order.DefaultOrderTableComponent" 
+		var="orderTableCmpVar"
+		
+		passToModel="order"
+		>      
+
+		<t:div styleClass="orderTableCmp">
+			<t:div styleClass="orderTableBlock">
+				<t:dataTable id="table"
+					value="#{orderTableCmpVar.orderTableRows}" 
+					var="row"
+					rowIndexVar="index"
+					styleClass="orderTable"
+					headerClass="header">
+					
+					<t:column>
+						<f:facet name="header">
+							<h:outputText value="#"/>
+						</f:facet>
+						<h:outputText value="#{index+1}"/>
+					</t:column>
+	
+					<t:column>
+						<f:facet name="header">
+							<h:outputText value="#{msg['orderTableCmp.table.header.id']}"/>
+						</f:facet>
+						<sf:outputLink id="productLinkId" value="#{row.product}">
+							<h:outputText value="#{row.product.code}"/>
+						</sf:outputLink>
+					</t:column>
+	
+					<t:column>
+						<f:facet name="header">
+							<h:outputText value="#{msg['orderTableCmp.table.header.name']}"/>
+						</f:facet>
+						<sf:outputLink id="productLinkName" value="#{row.product}">
+							<h:outputText value="#{row.product.name}"/>
+						</sf:outputLink>							
+					</t:column>
+	
+					<t:column>
+						<f:facet name="header">
+							<h:outputText value="#{msg['orderTableCmp.table.header.quantity']}"/>
+						</f:facet>
+						<h:outputText value="#{row.quantity}"/>
+					</t:column>
+	
+					<t:column>
+						<f:facet name="header">
+							<h:outputText value="#{msg['orderTableCmp.table.header.unit']}"/>
+						</f:facet>
+						<h:outputText value="#{row.product.unit.name}"/>
+					</t:column>
+					
+					<t:column>
+						<f:facet name="header">
+							<h:outputText value="#{msg['orderTableCmp.table.header.vat']}"/>
+						</f:facet>
+						<h:outputText value="#{row.formattedTax}"/>
+					</t:column>
+
+					<t:column styleClass="orderTablePrice">
+						<f:facet name="header">
+							<h:outputText id="basePrice" value="#{msg['orderTableCmp.table.header.basePrice']}*"/>
+						</f:facet>
+						<h:outputText value="#{row.formattedBasePrice}"/>
+					</t:column>
+	
+					<t:column styleClass="orderTableTotalPrice">
+						<f:facet name="header">
+							<h:outputText id="totalPrice" value="#{msg['orderTableCmp.table.header.totalPrice']}*"/>
+						</f:facet>
+						<h:outputText value="#{row.formattedTotalPrice}"/>
+					</t:column>
+					
+				</t:dataTable>
+				
+				<h:panelGrid id="footerTable" columns="2" styleClass="footerTable" columnClasses="left, right" cellpaddin="0" cellspacing="0" >
+				
+					<h:outputText value="#{msg['orderTableCmp.subtotal']}"/>
+					<h:outputText value="#{orderTableCmpVar.formattedSubTotal}"/>
+				
+					<h:outputText value="#{msg['components.orderTableCmp.discounts']}" rendered="#{!empty orderTableCmpVar.formattedDiscounts}"/>
+					<t:dataList value="#{orderTableCmpVar.formattedDiscounts}" var="discount" rendered="#{!empty orderTableCmpVar.formattedDiscounts}">
+						<h:outputText value="#{discount}"/>
+					</t:dataList>
+				
+					<h:outputText value="#{msg['components.orderTableCmp.paymentcost']}" rendered="#{orderTableCmpVar.formattedPaymentTotal != null}"/>
+					<t:outputText value="#{orderTableCmpVar.formattedPaymentTotal}" rendered="#{orderTableCmpVar.formattedPaymentTotal != null}"/>
+
+					<h:outputText value="#{msg['components.orderTableCmp.deliverycost']}"/>
+					<h:outputText value="#{orderTableCmpVar.formattedDelivery}"/>
+				
+					<h:outputText value="#{orderTableCmpVar.order.net ? msg['orderTableCmp.taxesExcludedShort'] : msg['orderTableCmp.taxesIncludedShort']}"/>
+					<t:dataList value="#{orderTableCmpVar.formattedTaxes}" var="tax">
+						<h:outputText value="#{tax}"/>
+					</t:dataList>
+				
+					<h:outputText value="#{msg['orderTableCmp.total']}" styleClass="footerTotalLeft"/>
+					<h:outputText value="#{orderTableCmpVar.formattedTotal}" styleClass="footerTotalRight"/>
+				
+				</h:panelGrid>
+			</t:div>
+			
+			<h:outputText value="(*#{orderTableCmpVar.order.net ? msg['orderTableCmp.taxesExcludedLong'] : msg['orderTableCmp.taxesIncludedLong']})" styleClass="orderTableCmpTaxes"/>
+			
+		<h:form id="form" >
+			<h:commandLink 
+				id="submitOrder" 
+				value="#{msg['components.orderTableCmp.placeOrder']}"  
+				action="#{orderTableCmpVar.placeOrderEvent.action}"
+				actionListener="#{orderTableCmpVar.placeOrderEvent.actionListener}" 
+				rendered="#{orderTableCmpVar.placeOrderEvent.enabled}"
+				styleClass="actionBox"/>
+		</h:form>
+
+		</t:div>
+		
+	</yf:component>
+
+</ui:composition>

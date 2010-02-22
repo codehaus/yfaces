@@ -1,0 +1,181 @@
+body {
+	background-color: #eff7e0;
+	background-image: url(img/main_backgr.gif);
+	color:#2d3223;
+}
+
+div.borderLayout {
+	margin-top: 0;
+	background-image: url(img/borderLayout_back.gif);
+}
+
+div.borderLayout div.north a.logo {
+	background-color: #fff;
+	background-image: url(img/logo.gif);
+	height: 75px;
+}
+
+div.borderLayout div.north {
+	background-color: #fff;
+	background-image: url(img/header.gif);
+	height: 90px;
+}
+
+div.borderLayout div.north div.northNorth {
+	background-image: url(img/ecke_oben_r.gif);
+	padding: 0 15px 0 0;
+	color: #4e5c33;
+}
+
+div.borderLayout div.north a {
+	color: #4e5c33;
+}
+
+div.borderLayout div.north a:hover {
+	color: #E75219;
+}
+
+div.borderLayout div.northSouth {
+	background-image: url(img/header_bottom.gif);
+	background-color: #b5d27e;
+	padding-top: 8px;
+	height: 22px;
+	border-top: 1px dotted #c4e08d;
+}
+
+div.chooseCatalogCmp {
+	height: 22px;
+}
+
+div.borderLayout div.northSouth div.img_west {
+	background-image:url(img/reiter_l.gif);
+}
+
+div.borderLayout div.northSouth div.img_center {
+	background-image:url(img/reiter_m.gif);
+}
+
+div.borderLayout div.northSouth div.img_east {
+	background-image:url(img/reiter_r.gif);
+}
+
+div.borderLayout div.northSouth li {
+	padding-top: 3px;
+}
+
+div.borderLayout div.northSouth .meta li {
+	padding-top: 0;
+}
+
+div.borderLayout div.northSouth .mainactive a {
+	color: #395600;
+}
+
+form a.submitSmall {
+	background-color: #dae4c4;
+	background-image: url(img/button_back_superlightgrey.gif);
+	border: 1px solid #d2dcbd;
+	color: #818b6e;
+}
+
+.registrationLink {
+	background-color: #dae4c4;
+	background-image: url(img/button_back_superlightgrey.gif);
+	border: 1px solid #d2dcbd;
+	color: #818b6e;
+}
+
+form input.submitSmall {
+	background-color: #dae4c4;
+	background-image: url(img/button_back_superlightgrey.gif);
+	border: 1px solid #d2dcbd;
+	color: #818b6e;
+}
+
+form input.submitChoice {
+	background-color: #dae4c4;
+	background-image: url(img/button_back_superlightgrey.gif);
+	border: 1px solid #d2dcbd;
+	color: #818b6e;
+}
+
+input.commandLink {
+	background-color: #dae4c4;
+	background-image: url(img/button_back_lightgrey.gif);
+	border: 1px solid #85ac71;
+	color: #395600;
+}
+
+div.productDetailCmp form input.submitBig {
+	background-color: #dae4c4;
+	background-image: url(img/button_back_superlightgrey.gif);
+	border: 1px solid #d2dcbd;
+	color: #818b6e;
+}
+
+div.productDetailCmp .printPageLink {
+	background-color: #dae4c4;
+	background-image: url(img/button_back_superlightgrey.gif);
+	border: 1px solid #d2dcbd;
+	color: #818b6e;
+}
+
+div.productDetailCmp form input.submitBig.addToCartButton {
+	background-color: #375826;
+	background-image: url(img/button_back.gif);
+	border: 1px solid #5f9741;
+}
+
+div.sidebar_boxes {
+	background-color: #F9F9F7;
+	background-image: url(img/box_top.gif);
+	border: 1px solid #d2dcbd;
+}
+
+div.priceCmp {
+	color: #375826;
+}
+
+div.productTableCmp a.compareLink {
+	background-color: #375826;
+	background-image: url(img/button_back.gif);
+	border: 1px solid #5f9741;
+}
+
+div.createCustomerReviewCmp form input.submitBig {
+	background-color: #375826;
+	background-image: url(img/button_back.gif);
+	border: 1px solid #5f9741;
+}
+
+table.cartPageAdd .checkoutButton {
+	background-color: #375826;
+	background-image: url(img/button_back.gif);
+	border: 1px solid #5f9741;
+}
+
+form .actionBox {
+	background-color: #375826;
+	background-image: url(img/button_back.gif);
+	border: 1px solid #5f9741;
+}
+
+.icon_warenkorb {
+	background-image: url("img/icon_warenkorb.gif");
+}
+
+.icon_registrierung {
+	background-image: url("img/icon_registrierung.gif");
+}
+
+.icon_help {
+	background-image: url("img/icon_help.gif");
+}
+
+.icon_terms {
+	background-image: url("img/icon_terms.gif");
+}
+
+.icon_contact {
+	background-image: url("img/icon_contact.gif");
+}

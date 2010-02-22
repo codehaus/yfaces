@@ -1,0 +1,61 @@
+<!DOCTYPE subview [<!ENTITY nbsp "&#160;">]>
+
+<!--
+QuickAddToCart Component.
+Provides functionality of quick adding product to cart by its article number
+
+Either the controller provides an address or an address must be passed.
+
+Parameters:
+	controller					: QuickAddToCartController (optional)
+	model						: QuickAddToCartModel (optional)
+	
+-->
+
+<ui:composition
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:yf="http://yfaces.codehaus.org/taglib"
+	>
+		<yf:component
+			id="miniCartCmp"
+			
+			modelspec="ystorefoundationpackage.yfaces.component.cart.QuickAddToCartComponent"
+			model="ystorefoundationpackage.yfaces.component.cart.DefaultQuickAddToCartComponent" 
+			
+			var="quickAddToCartCmpVar"
+			>      
+
+			<t:div styleClass="quickAddToCartCmp">
+				<h:form id="quickAddToCartForm">
+				<table class="block">
+					<tr>
+						<td colspan="3"><h:outputText value="#{msg['components.miniCartCmp.quickaddtocart']}:" /></td>
+					</tr>
+					<tr>
+						<td><h:outputText value="#{msg['frames.productFrame.code']}" /></td>
+						<td colspan="2">
+							<h:inputText id="productCode" value="#{quickAddToCartCmpVar.productCode}" size="23" />
+						</td>
+					</tr>
+					<tr>
+						<td><h:outputText value="#{msg['frames.cartFrame.quantity']}" /></td>
+						<td><h:inputText id="productQuantity" value="#{quickAddToCartCmpVar.productQuantity}" size="2" required="true"/></td>
+						<td>
+							<h:commandButton id="quickAddButton"
+								value="#{msg['components.miniCartCmp.addshort']}" 
+								styleClass="submitSmall" 
+								action="#{quickAddToCartCmpVar.addProductByCodeEvent.action}" 
+								actionListener="#{quickAddToCartCmpVar.addProductByCodeEvent.actionListener}" />
+						</td>
+					</tr>
+				</table>
+				</h:form>
+			</t:div>
+
+		</yf:component>
+	
+</ui:composition>

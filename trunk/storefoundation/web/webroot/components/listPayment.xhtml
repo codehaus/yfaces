@@ -1,0 +1,62 @@
+<!DOCTYPE component [<!ENTITY nbsp "&#160;">]>
+
+<!--
+
+Parameters:
+
+	TODO
+
+-->
+
+<ui:composition
+	
+	xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:t="http://myfaces.apache.org/tomahawk"
+   xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:yf="http://yfaces.codehaus.org/taglib"
+	>
+
+	<yf:component
+		id="listPaymentInfoCmp"
+		
+		modelspec="ystorefoundationpackage.yfaces.component.payment.ListPaymentComponent"
+		model="ystorefoundationpackage.yfaces.component.payment.DefaultListPaymentComponent"
+		var="listPaymentCmpVar" 
+		
+		passToModel="paymentInfoList"
+		>
+
+		<t:div id="listPaymentInfoBlock" styleClass="listPaymentInfoCmp">
+			<h:outputText styleClass="h3" value="#{msg['payment.listPaymentCmp.headline']}"/>
+			<ui:repeat id="listPaymentInfoLoop" value="#{listPaymentCmpVar.paymentInfoList}" var="paymentInfo">
+				<yf:showPayment
+					binding="#{listPaymentCmpVar.showPaymentComponent}"
+					paymentInfo="#{paymentInfo}" />
+			</ui:repeat>
+		</t:div>
+		<t:div styleClass="createPaymentInfoBlock" 
+			rendered="#{listPaymentCmpVar.createCreditCardEvent.enabled || listPaymentCmpVar.createDebitEvent.enabled}">
+			
+			<h:form id="createPaymentInfoForm" styleClass="createPaymentInfoForm">
+				<h:panelGrid>
+					<h:outputText value="#{msg['payment.listPaymentCmp.createNewCreditCard']}"/>
+					<h:commandLink
+						id="createCreditCardLink" 
+						value="#{msg['payment.listPaymentCmp.action.createCreditCard']}" 
+						action="#{listPaymentCmpVar.createCreditCardEvent.action}"
+						actionListener="#{listPaymentCmpVar.createCreditCardEvent.actionListener}" />
+
+					<h:outputText value="#{msg['payment.listPaymentCmp.createNewDebit']}"/>
+					<h:commandLink
+						id="createDebitLink" 
+						value="#{msg['payment.listPaymentCmp.action.createDebit']}" 
+						action="#{listPaymentCmpVar.createDebitEvent.action}"
+						actionListener="#{listPaymentCmpVar.createDebitEvent.actionListener}" />
+				</h:panelGrid>
+			</h:form>
+		</t:div>
+	</yf:component>
+</ui:composition>

@@ -1,0 +1,37 @@
+<!DOCTYPE subview [<!ENTITY nbsp "&#160;">]>
+
+<!--
+QuickViewCart Component.
+Displays quickviewcart box with total cart sum and cart link
+-->
+
+<ui:composition
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:yf="http://yfaces.codehaus.org/taglib"
+	>
+	<yf:component
+		id="quickViewCartCmp"
+		modelspec="ystorefoundationpackage.yfaces.component.cart.QuickViewCartComponent"
+		model="ystorefoundationpackage.yfaces.component.cart.DefaultQuickViewCartComponent" 
+		var="quickViewCartCmpVar"
+		
+		transient="true"
+		 >
+			
+			<t:div styleClass="quickViewCartCmp">
+				<h:outputFormat value="#{msg[quickViewCartCmpVar.localizationKey]}">
+					<f:param value="#{quickViewCartCmpVar.total}"/>
+					<f:param value="#{quickViewCartCmpVar.count}"/>
+				</h:outputFormat>
+				<h:outputLink id="toCartLink" value="pages/cartPage.jsf" rendered="#{quickViewCartCmpVar.count &gt; 0}">
+				<h:outputText value="#{msg['quickViewCartCmp.toCart']}"/>
+				</h:outputLink>
+			</t:div>
+
+		</yf:component>
+	
+</ui:composition>

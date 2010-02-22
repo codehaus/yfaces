@@ -1,0 +1,132 @@
+/*
+ * [y] hybris Platform
+ *
+ * Copyright (c) 2000-2009 hybris AG
+ * All rights reserved.
+ *
+ * This software is the confidential and proprietary information of hybris
+ * ("Confidential Information"). You shall not disclose such Confidential
+ * Information and shall use it only in accordance with the terms of the
+ * license agreement you entered into with hybris.
+ */
+
+body { 
+	background-image: url(img/main_backgr.gif); 
+	background-repeat: repeat-x; 
+	background-color: #E9ECEE; 
+	color: #333; 
+	line-height: 110%; 
+	margin: 0; 
+	padding: 0; 
+}
+
+.printBody {
+	background-image: none;
+	background-color: #fff;
+	font-family:Arial,Helvetica,Verdana,sans-serif;
+	font-size:12px;
+	letter-spacing:0px;
+	line-height:110%;
+	margin: 10px auto;
+	padding: 0 0 5px 0;
+	border-style:none;
+}
+
+form, div, img { 
+	border: 0; 
+	margin: 0; 
+	padding: 0; 
+}
+
+div.borderLayout { 
+	background-color: #fff; 
+	background-image: url(img/borderLayout_back.gif); 
+	background-repeat: repeat-x;
+	background-position: bottom;
+	color: #333;
+}
+
+/* found only in cartNavigationElement.xhtml */
+.icon_warenkorb {
+	height: 12px;
+}
+
+.icon_warenkorb img {
+	height: 16px;
+}
+
+* html .icon_warenkorb {
+	background-position: 0px 4px;
+}
+
+/* found only in quickLoginTag.xhtml */
+.icon_registrierung {
+}
+
+.icon_registrierung img {
+	height: 16px;
+}
+
+* html .icon_registrierung {
+	background-position: 0px 4px;
+}
+
+/* found only in menu_meta.xhtml */
+.icon_help {
+	background-image: url("img/icon_help.gif");
+	background-repeat: no-repeat;
+	margin: 0 -1px 0 6px;
+	display: inline;
+	padding: 0;
+	width: 12px;
+	height: 12px;
+}
+
+* html .icon_help {
+	margin: 0 5px 0 3px;
+}
+
+/* found only in menu_meta.xhtml */
+.icon_terms {
+	background-image: url("img/icon_terms.gif");
+	background-repeat: no-repeat;
+	margin: 0 -3px 0 3px;
+	display: inline;
+	padding: 0;
+	width: 12px;
+	height: 12px;
+}
+
+* html .icon_terms {
+	margin: 0 2px 0 1px;
+}
+
+/* found only in menu_meta.xhtml */
+.icon_contact {
+	background-image: url("img/icon_contact.gif");
+	background-repeat: no-repeat;
+	background-position: 0px -1px;
+	margin: 0 1px 0 0;
+	display: inline;
+	padding: 0;
+	width: 12px;
+	height: 12px;
+}
+
+* html .icon_contact {
+	margin: 0 5px 0 0;
+}
+
+/* found only in error.xhtml */
+#content {
+	margin: 10px 225px 10px 225px;
+	padding: 10px 5px 5px 5px;
+	background-color: #fff;
+	background-image: url("img/content_top.gif");
+	background-repeat: repeat-x;
+}
+
+* html #content {
+	position: relative;
+	margin-right: 224px;
+}

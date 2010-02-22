@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" [<!ENTITY nbsp "&#160;">]>
+
+<!-- 
+products quick view component: 
+display the short description for some products
+-->
+
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:yf="http://yfaces.codehaus.org/taglib"
+	>
+
+	<yf:component
+		id="productsQuickViewCmp"
+		
+		modelspec="ystorefoundationpackage.yfaces.component.product.ProductsQuickViewComponent"
+		model="ystorefoundationpackage.yfaces.component.product.DefaultProductsQuickViewComponent"
+		var="productsQuickViewCmpVar"
+		
+		passToModel="
+			productList,
+			productCount,
+			category,
+			categoryCode,
+			catalog,
+			catalogCode,
+			title,
+			rows,
+			columns"
+		
+		transient="true"
+		>
+
+		<ui:param name="products" value="#{productsQuickViewCmpVar.productList}"/>
+		<ui:param name="tableModel" value="#{productsQuickViewCmpVar.productTable}"/>
+		<t:div styleClass="productsQuickViewCmp">
+			<h:outputText value="#{productsQuickViewCmpVar.title}" rendered="#{productsQuickViewCmpVar.title != null}" styleClass="boxHeadline" />
+			<t:dataTable id="dataTable" value="#{tableModel.rows}" var="rowValue" preserveSort="false" rendered="#{!empty tableModel}">
+				<t:columns value="#{tableModel.columns}" var="columnValue">
+					<yf:productQuickView
+						product="#{rowValue[columnValue].value}" 
+						createRandomProduct="#{false}"/>
+				</t:columns>
+			</t:dataTable>
+		</t:div>
+	</yf:component>
+
+</ui:composition>

@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" [<!ENTITY nbsp "&#160;">]>
+
+<!-- 
+voucher component
+-->
+
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:yf="http://yfaces.codehaus.org/taglib">
+
+
+	<yf:component
+		id="voucherCmp"
+		
+		modelspec="ystorefoundationpackage.yfaces.component.voucher.VoucherComponent"
+		model="ystorefoundationpackage.yfaces.component.voucher.DefaultVoucherComponent"
+		
+		var="voucherCmpVar"
+		>
+
+		<t:div styleClass="voucherCmp">
+			<h:form id="voucherCmpForm">
+				<ui:decorate template="/templates/contentBox.xhtml">
+					<ui:define name="headline"><h:outputText value="#{msg['components.voucherCmp.voucherTitle']}"/></ui:define>
+					<ui:define name="boxcontent">
+						<h:outputText value="#{msg['components.voucherCmp.voucherCode']}"/>:&nbsp;
+						<h:inputText size="15" value="#{voucherCmpVar.voucherCode}" id="voucherCode"/>
+						<t:div rendered="#{!empty voucherCmpVar.appliedVouchers}" styleClass="voucherList">
+							<h:outputText value="#{msg['components.voucherCmp.redeemedVouchers']}:"/>
+							<t:dataTable value="#{voucherCmpVar.appliedVouchers}" id="appliedVoucherCodeList" 
+									var="_voucher" rowClasses="eachVoucher">
+								<t:column>
+									<h:outputText value="#{_voucher.code} (#{_voucher.name}) "/>
+								</t:column>
+								<t:column>
+									<h:commandLink value="#{msg['components.voucherCmp.voucherDelete']}" id="deleteVoucher" 
+										actionListener="#{voucherCmpVar.releaseVoucherEvent.actionListener}">
+										<f:attribute name="selectedVoucher" value="#{_voucher.code}"/>
+									</h:commandLink>
+								</t:column>
+							</t:dataTable>
+						</t:div>
+						<br/>
+					</ui:define>
+					<ui:define name="footer-right">
+						<h:commandButton id="redeemButton" value="#{msg['components.voucherCmp.redeem']}" 
+							actionListener="#{voucherCmpVar.redeemVoucherEvent.actionListener}"/>
+					</ui:define>
+				</ui:decorate>
+			</h:form>
+		</t:div>
+
+	</yf:component>
+
+</ui:composition>

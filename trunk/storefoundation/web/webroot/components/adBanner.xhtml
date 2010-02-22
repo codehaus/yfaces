@@ -1,0 +1,56 @@
+<!DOCTYPE subview [<!ENTITY nbsp "&#160;">]>
+
+<ui:composition
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:yf="http://yfaces.codehaus.org/taglib"
+	xmlns:sf="http://hybris.com/jsf/storefoundation"
+	>
+	<yf:component
+		modelspec="ystorefoundationpackage.yfaces.component.misc.AdBannerComponent"
+		model="ystorefoundationpackage.yfaces.component.misc.DefaultAdBannerComponent" 
+		var="adBannerCmpVar"
+		transient="true"
+		>      
+		<t:div styleClass="adBannerCmp">
+			<t:dataList value="#{adBannerCmpVar.bannerList}" var="banner">
+			
+				<f:subview rendered="#{fn:startsWith(banner.mimeType, 'image')}">
+					<sf:outputLink id="bannerLink" value="#{banner.target}" styleClass="noTextDecoration">
+						<sf:graphicImage value="#{banner.source}"/>
+					</sf:outputLink>
+				</f:subview>
+				
+				<f:subview rendered="#{banner.mimeType == 'application/octet-stream'}">
+					<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" 
+					        codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0" 
+					        width="#{banner.parameters['width']}" 
+					        height="#{banner.parameters['height']}" 
+					        id="#{banner.parameters['name']}" 
+					        align="middle">
+					   <param name="allowScriptAccess" value="sameDomain" />
+					   <param name="movie" value="#{banner.source}" />
+					   <param name="quality" value="#{banner.parameters['quality']}" />
+					   <param name="bgcolor" value="#{banner.parameters['bgcolor']}" />
+					   <embed src="#{banner.source}" 
+					          quality="high" 
+					          bgcolor="#{banner.parameters['bgcolor']}" 
+					          width="#{banner.parameters['width']}" 
+					          height="#{banner.parameters['height']}" 
+					          name="#{banner.parameters['name']}" 
+					          align="middle" 
+					          allowScriptAccess="sameDomain" 
+					          type="application/x-shockwave-flash"
+					          pluginspage="http://www.macromedia.com/go/getflashplayer" />
+					</object>
+				</f:subview>
+
+			</t:dataList>
+		
+		</t:div>
+		
+	</yf:component>
+</ui:composition>

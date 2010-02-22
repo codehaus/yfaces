@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE urlrewrite	PUBLIC "-//tuckey.org//DTD UrlRewrite 3.0//EN"
+	"http://tuckey.org/res/dtds/urlrewrite3.0.dtd">
+
+<urlrewrite
+	use-query-string="false"
+	use-context="false">
+
+	<!--
+		Rule1:
+		- Remove _HYBRIS_ ad
+		- forward request into /pages
+		- extract parameter (between _HYBRIS_/ and /detail.jsf) and append 
+		  it as queryparameter 
+		e.g.
+		.../storefoundation/__HYBRIS__/product/hardware/HW1234/detail.jsf  
+		becomes
+		.../storefoundation/pages/productPage.jsf?productid=hardware/HW1234
+	-->
+<!-- 	<rule>
+		<name>REMOVE_AD__REWRITE_QUERYPARAM</name>
+		<from>^/__HYBRIS__/(product|catalog|category|cms)/(.*)/detail.jsf(?:\?(.*)|)</from>
+		<to last="true">/pages/$1Page.jsf?$1id=$2&amp;$3</to>
+		<set name="PRETTY_URL">$0</set>
+	</rule> -->
+	
+	<rule>
+		<name>REMOVE_AD_AND_EXTRACT_QUERY_PARAM</name>
+		<from>^/__HYBRIS__/(product|catalog|category|cms)/(.*)/detail.jsf</from>
+		<to last="true">/pages/$1Page.jsf?$1id=$2</to>
+		<set name="PRETTY_URL">$0</set>
+	</rule>
+	
+
+	<!-- 
+		Rule2:
+		- Remove _HYBRIS_ ad
+		- forward request into /pages
+	 -->
+	<rule>
+		<name>REMOVE_AD</name>
+		<from>/__HYBRIS__/(.*)</from>
+		<to last="true">/pages/$1</to>
+	</rule>
+
+	
+	<!-- Rule3:
+	     no direct access to xhtml files are allowed -->
+	<rule>
+		<name>SECURITY</name>
+		<from>/(.*)xhtml(.*)</from>
+		<to type="redirect">%{context-path}/index.jsf</to>
+	</rule>
+	
+
+	<!-- This rule is taken from: http://tuckey.org/urlrewrite/ -->
+	<!-- 
+		Hide the jsessionid from google to get a better ranking.
+		ATTENTION: hiding the sessionid from others than searchbots will cause
+		problems for every user with disabled cookies --> 
+	<!-- 
+		Group1, everything before ;jesessionid
+		Group2, everything after ;jesessionid=XXX starting with a ? (to get the query string) up to #
+		Group3, everything ;jesessionid=XXX and optionally ?XXX starting with a # (to get the target)
+	-->
+	<outbound-rule encodefirst="true">
+       <name>Strip URL Session ID</name>
+       <condition name="user-agent">googlebot</condition>
+       <from>^(.*?)(?:\;jsessionid=[^\?#]*)?(\?[^#]*)?(#.*)?$</from>
+       <to last="true">$1$2</to>
+	</outbound-rule> 
+	
+	
+	<!-- 
+		Create pretty URLs from non-pretty ones
+	 -->
+
+	<!--A) This rule doesn't match when a jsessionid is present -->
+	<outbound-rule encodefirst="false">
+		<name>PRETTY_HYPERLINK</name>
+		<from>/pages/(product|catalog|category|catalog|cms)Page.jsf\?\1id=(.*)</from>
+		<to encode="true" last="true">/__HYBRIS__/$1/$2/detail.jsf</to>
+	</outbound-rule>
+	
+	
+	<!-- B) This rule supports a jsessionid -->
+	<!--
+	<outbound-rule encodefirst="false">
+		<name>PRETTY_ID_BY_QUERYPARAM</name>
+		<from>/pages/(product|catalog|category|cms)Page.jsf(;jsessionid=[^\?#]*)?\?\1id=(.*)</from>
+		<to encode="true" last="true">/__HYBRIS__/$1/$3/detail.jsf$2</to>
+	</outbound-rule>
+	-->
+
+	<!-- Special handling for forms
+	     Similar to previous Rule but without query parameters
+	     Without this rule forms would work but submit action produces
+	     a neutral non-pretty target.
+	 -->
+	<outbound-rule encodefirst="false">
+		<name>PRETTY_FORMACTION</name>
+		<condition type="attribute" name="PRETTY_URL"/>
+		<from>/pages/(product|catalog|category|cms)Page.jsf</from>
+		<to encode="true" last="true">%{attribute:PRETTY_URL}</to>
+	</outbound-rule>
+	 
+ 
+</urlrewrite>

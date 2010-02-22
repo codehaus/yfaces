@@ -1,0 +1,34 @@
+<!-- 
+	Renders a NavigationElement
+-->
+<ui:composition
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:yf="http://yfaces.codehaus.org/taglib"
+	xmlns:sf="http://hybris.com/jsf/storefoundation"	
+	>
+	<yf:component
+		id="navigationElementCmp"
+		modelspec="ystorefoundationpackage.yfaces.component.cms.NavigationElementComponent"
+		model="ystorefoundationpackage.yfaces.component.cms.DefaultNavigationElementComponent" 
+		var="navElementCmpVar"
+		
+		passToModel="navigationElement, navigationElementId"
+		>      
+
+		<t:div styleClass="navigationElementCmp">
+			<sf:cmsItem item="#{navElementCmpVar.navigationElement}">
+				<sf:outputLink id="link" value="#{navElementCmpVar.target}">
+					<t:div styleClass="icon_#{navElementCmpVar.navigationElement.code}">
+						<t:graphicImage value="/images/transp.gif" width="15px" height="12px"/>
+					</t:div>
+					<h:outputText value="#{navElementCmpVar.navigationElement.name}"/>
+				</sf:outputLink>	
+			</sf:cmsItem>
+		</t:div>
+	</yf:component>
+</ui:composition>
+			

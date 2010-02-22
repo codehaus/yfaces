@@ -1,0 +1,111 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" [<!ENTITY nbsp "&#160;">]>
+
+
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:yf="http://yfaces.codehaus.org/taglib">
+
+
+	<yf:component
+		id="priceCmp"
+		
+		modelspec="ystorefoundationpackage.yfaces.component.misc.PriceComponent"
+		model="ystorefoundationpackage.yfaces.component.misc.DefaultPriceComponent"
+		
+		var="priceCmpVar"
+		
+		passToModel="product,productCode,priceMsgFormat,oldPriceMsgFormat,showOldPrice,showPriceTable,showTaxes"
+		
+		transient="true"
+		>
+
+		<t:div styleClass="priceCmp" rendered="#{priceCmpVar.pricings == null}">
+			<t:outputText value="#{msg['global.word.priceNotavailable']}" styleClass="error"/>		
+		</t:div>
+		
+		<t:div styleClass="priceCmp" rendered="#{priceCmpVar.pricings != null}">
+		
+			<!-- Display old price when available -->
+			<t:div rendered="#{priceCmpVar.showOldPrice &amp;&amp; priceCmpVar.defaultPrice.oldPricing != null}">
+				<t:buffer into="#{_oldPriceOutput}">
+					<h:outputText value="#{priceCmpVar.defaultPrice.oldPricing.priceValue}"
+						styleClass="oldPrice"
+						converter="#{priceCmpVar.priceConverter}"/>
+				</t:buffer>
+				<h:outputFormat value="#{priceCmpVar.oldPriceMsgFormat}" escape="false" title="old price" styleClass="oldPriceMsg">
+					<f:param value="#{_oldPriceOutput}"/>
+				</h:outputFormat>
+			</t:div>
+			
+			<!-- Display base price -->
+			<t:div>
+				<t:buffer into="#{_priceOutput}">
+					<h:outputText value="#{msg['global.word.priceStartsFrom']} " rendered="#{priceCmpVar.priceTable != null}"/>
+					<h:outputText value="#{priceCmpVar.defaultPrice.priceValue}" converter="#{priceCmpVar.priceConverter}"/>
+					<h:outputText value="*" rendered="#{priceCmpVar.showTaxes || !empty priceCmpVar.defaultPrice.discounts}"/>
+				</t:buffer>
+				<h:outputFormat value="#{priceCmpVar.priceMsgFormat}" escape="false" title="price">
+					<f:param value="#{_priceOutput}"/>
+				</h:outputFormat>
+			</t:div>
+
+			
+			<!-- Display multiple prices when available -->
+			<t:dataTable 
+				value="#{priceCmpVar.priceTable.rows}" 
+				var="row" 
+				styleClass="general" 
+				rendered="#{priceCmpVar.priceTable != null &amp;&amp; priceCmpVar.showPriceTable}">
+				
+				<t:column rendered="#{priceCmpVar.priceTable.XAxis.markerIdMap['quantity'].visible}" styleClass="quantity">
+					<f:facet name="header"> 
+						#{msg['global.word.europe1PricesParamQuantity']}
+					</f:facet>
+					<h:outputText value="#{row['quantity'].value.amount}"/>
+				</t:column>
+	
+				<t:column rendered="#{priceCmpVar.priceTable.XAxis.markerIdMap['daterange'].visible}">
+					<f:facet name="header">
+						#{msg['global.phrase.europe1PricesParamDateRange']}
+					</f:facet>
+					<h:outputText value="#{row['daterange'].value}" converter="#{priceCmpVar.dateRangeConverter}"/>
+				</t:column>
+				
+				<t:column rendered="#{priceCmpVar.priceTable.XAxis.markerIdMap['price'].visible}" styleClass="price">
+					<f:facet name="header">
+						#{msg['frames.productFrame.price']}
+					</f:facet>
+					<h:outputText value="#{row['price'].value.priceValue}" converter="#{priceCmpVar.priceConverter}"/>
+					<h:outputText value="*" rendered="#{priceCmpVar.showTaxes}"/>
+				</t:column>
+				
+			</t:dataTable>
+			
+			<!-- Display taxes -->
+			<t:div rendered="#{priceCmpVar.showTaxes}" styleClass="priceCmpTaxes">
+				<h:outputText value="* #{priceCmpVar.defaultPrice.net ? msg['global.phrase.netPrices'] : msg['global.phrase.grossPrices']}"/>
+				<h:outputText value="#{priceCmpVar.pricings.defaultPricing.taxes[0].value}">
+					<f:convertNumber integerOnly="true"/>
+				</h:outputText>
+				<h:outputText value=" %"/>
+			</t:div>
+			
+			<t:outputText rendered="#{!empty priceCmpVar.defaultPrice.discounts}">
+				<h:outputText value="* #{msg['global.phrase.includedDiscounts']}:"/>
+				<t:dataList value="#{priceCmpVar.defaultPrice.discounts}" var="discount" layout="unorderedList">
+					<ui:param name="_cur" value="#{discount.appliedCurrency != null ? discount.appliedCurrency.isocode : '???'}"/>
+					<h:outputText value="#{discount.name} : #{discount.value} #{discount.absolute ? _cur : '%'} = #{discount.appliedValue} #{_cur}"/>
+				</t:dataList>
+			</t:outputText>
+	
+
+		</t:div>
+
+	</yf:component>
+
+</ui:composition>

@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" [<!ENTITY nbsp "&#160;">]>
+
+<!-- 
+Paramaters:
+value:							Address to edit
+addressEditComponent:		
+
+-->
+
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:yf="http://yfaces.codehaus.org/taglib"
+	>
+	
+	<yf:component 
+		id="editAddressCmp"
+		
+		modelspec="ystorefoundationpackage.yfaces.component.address.EditAddressComponent"
+		model="ystorefoundationpackage.yfaces.component.address.DefaultEditAddressComponent" 
+		var="editAddressCmpVar"
+		
+		passToModel="address, availableCountries"
+		>
+		
+		<t:div styleClass="editAddressCmp new-and-clean">
+			<ui:param name="address" value="#{editAddressCmpVar.address}"/>
+			<h:form id="addressForm" enctype="multipart/form-data" acceptcharset="utf-8">
+
+				<h:panelGrid id="addressContent" columns="3">
+
+					<h:outputText value="#{msg['address.editAddressCmp.firstname']}:"/>
+					<h:inputText id="firstNameForm" value="#{address.firstname}" required="true" />
+					<h:message for="firstNameForm" styleClass="error"/>
+
+					<h:outputText value="#{msg['address.editAddressCmp.lastname']}:"/>
+					<h:inputText id="lastNameForm" value="#{address.lastname}" required="true" />
+					<h:message for="lastNameForm" styleClass="error"/>
+
+					<h:outputText value="#{msg['address.editAddressCmp.company']}:"/>
+					<h:inputText id="companyForm" value="#{address.company}"/>
+					<h:message for="companyForm" styleClass="error"/>
+
+					<h:outputText value="#{msg['address.editAddressCmp.street']}:"/>
+					<h:inputText id="streetForm" value="#{address.streetname}" required="true" />
+					<h:message for="streetForm" styleClass="error"/>
+
+					<h:outputText value="#{msg['address.editAddressCmp.streetNumber']}:"/>
+					<h:inputText id="streetNmbForm" value="#{address.streetnumber}" required="true" />
+					<h:message for="streetNmbForm" styleClass="error"/>
+
+					<h:outputText value="#{msg['address.editAddressCmp.postalcode']}:"/>
+					<h:inputText id="postalCodeForm" value="#{address.postalcode}" required="true" />
+					<h:message for="postalCodeForm" styleClass="error"/>
+
+					<h:outputText value="#{msg['address.editAddressCmp.town']}:"/>
+					<h:inputText id="townForm" value="#{address.town}" required="true" />
+					<h:message for="townForm" styleClass="error"/>
+
+					<h:outputText value="#{msg['address.editAddressCmp.mail']}:"/>
+					<h:inputText id="townEmail" value="#{address.email}" required="true" />
+					<h:message for="townEmail" styleClass="error"/>
+
+					<h:outputText value="#{msg['address.editAddressCmp.country']}" />
+					<h:selectOneMenu required="true" id="countryForm" value="#{address.country}"  >									
+						<f:selectItems value="#{editAddressCmpVar.availableCountries}" />
+					</h:selectOneMenu>
+					<h:message for="countryForm" styleClass="error"/>
+
+				</h:panelGrid>
+
+				<h:panelGrid columns="2">
+					<h:commandButton id="submitAddressButton" 
+						value="#{msg['address.editAddressCmp.action.save']}" 
+						action="#{editAddressCmpVar.saveAddressEvent.action}" 
+						actionListener="#{editAddressCmpVar.saveAddressEvent.actionListener}" 
+						styleClass="submitSmall"/>
+
+					<h:commandButton id="cancelEditAddressButton" 
+						value="#{msg['global.action.cancel']}" 
+						action="#{editAddressCmpVar.cancelEditAddressEvent.action}" 
+						actionListener="#{editAddressCmpVar.cancelEditAddressEvent.actionListener}" 
+						styleClass="submitSmall" immediate="true"/>
+				</h:panelGrid>
+
+		   </h:form>
+		</t:div>
+	</yf:component>
+</ui:composition>

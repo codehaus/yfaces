@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" [<!ENTITY nbsp "&#160;">]>
+
+<!-- 
+TODO
+-->
+
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:yf="http://yfaces.codehaus.org/taglib"	>
+	
+	<ui:param name="paymentInfo" value="#{editPaymentCmpVar.paymentInfo}"/>	
+	
+	<h:outputText value="#{msg['payment.editPaymentCmp.debit.title']}:"/>
+	<h:panelGrid id="grid" columns="3">
+		<h:outputText value="#{msg['payment.editPaymentCmp.debit.owner']}:"/>
+		<h:inputText id="ownerInput" value="#{paymentInfo.baOwner}" required="true" />
+		<h:message for="ownerInput" styleClass="error"/>
+	
+		<h:outputText value="#{msg['payment.editPaymentCmp.debit.accountNumber']}:"/>
+		<h:inputText id="accountNumberInput" value="#{paymentInfo.accountNumber}" required="true" />
+		<h:message for="accountNumberInput" styleClass="error"/>
+	
+		<h:outputText value="#{msg['payment.editPaymentCmp.debit.bankNumber']}:"/>
+		<h:inputText id="bankNumberInput" value="#{paymentInfo.bankIDNumber}" required="true" />
+		<h:message for="bankNumberInput" styleClass="error"/>
+	
+		<h:outputText value="#{msg['payment.editPaymentCmp.debit.bankName']}:"/>
+		<h:inputText id="bankNameInput" value="#{paymentInfo.bank}" required="true" />
+		<h:message for="bankNameInput" styleClass="error"/>
+	
+	</h:panelGrid>					
+
+</ui:composition>

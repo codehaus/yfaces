@@ -1,0 +1,46 @@
+<!DOCTYPE type [<!ENTITY nbsp "&#160;">]>
+
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:yf="http://yfaces.codehaus.org/taglib"
+	
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://hybris.com/jsf/yfaces ../WEB-INF/yfaces-components.xsd 
+						http://java.sun.com/jsf/facelets ../WEB-INF/facelets.xsd"
+						
+	template="/templates/layout.xhtml"
+	>
+	
+	<!-- ContentTitle -->
+	<ui:define name="contentTitle">
+		<yf:breadcrumb 
+			binding="#{categoryFrame.breadcrumbComponent}"/>
+	</ui:define>
+
+	<!-- Content -->
+	<ui:define name="content">
+
+		<t:div id="categoryDescription" rendered="#{!empty categoryFrame.categoryDescription}">
+			<h:outputText value="#{categoryFrame.categoryDescription}" escape="false"/>
+			<br/><br/>
+		</t:div>
+
+		<yf:listCategory
+			binding="#{categoryFrame.listCategoryComponent}"/>
+
+		<ui:param name="featureValueSelectorComponent" value="#{categoryFrame.featureValueSelectorComponent}"/>
+		<yf:featureValuesSelector
+			binding="#{featureValueSelectorComponent}"/>
+		
+		<yf:productTable 
+			binding="#{categoryFrame.productTableComponent}"
+			productList="#{featureValueSelectorComponent.filteredProductList}" 
+			selectColumnEnabled="#{!empty featureValueSelectorComponent.selectorList}" visibleRowCount="10"/>
+
+	</ui:define>
+
+</ui:composition>

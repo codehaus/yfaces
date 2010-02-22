@@ -1,0 +1,64 @@
+<!DOCTYPE component [<!ENTITY nbsp "&#160;">]>
+
+<!--
+
+Parameters:
+	controller					: ListAddressesController (optional)
+	model							: ListAddressesModel (optional)
+	
+	Single model attributes (lower priorized)
+	addressList:				: addresses to use (optional);
+	showAddressController	: ShowAddressJsfController to use (optional)
+
+-->
+
+<ui:composition
+	
+	xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:t="http://myfaces.apache.org/tomahawk"
+   xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:yf="http://yfaces.codehaus.org/taglib"
+	>
+
+		<yf:component
+			id="listAddressCmp"
+			
+			modelspec="ystorefoundationpackage.yfaces.component.address.ListAddressComponent"
+			model="ystorefoundationpackage.yfaces.component.address.DefaultListAddressComponent"
+			var="listAddressCmpVar"  
+			
+			passToModel="addressList"
+			 >
+
+		<t:div id="listAddressBlock" styleClass="listAddressCmp">
+			
+			<h:outputText styleClass="h3" value="#{msg['address.listAddressCmp.headline']}"/>
+			<ui:repeat value="#{listAddressCmpVar.addressList}" var="_address" id="listAddressLoop">
+				<yf:showAddress 
+					binding="#{listAddressCmpVar.showAddressComponent}"
+					address="#{_address}" />
+			</ui:repeat>
+
+			<t:div  id="createAddressBlock" styleClass="createAddressBlock" rendered="#{listAddressCmpVar.createAddressEvent.enabled}" >
+				<h:outputText id="createAddressText" value="#{msg['address.listAddressCmp.createNew']}"/>
+				<h:form id="createAddressForm" styleClass="createAddressForm">
+					<h:commandLink
+						id="createAddressLink" 
+						value="#{msg['address.listAddressCmp.action.create']}" 
+						action="#{listAddressCmpVar.createAddressEvent.action}"
+						actionListener="#{listAddressCmpVar.createAddressEvent.actionListener}" />
+						
+				</h:form>
+			</t:div>
+		</t:div>
+		
+
+	
+	</yf:component>
+
+
+
+</ui:composition>

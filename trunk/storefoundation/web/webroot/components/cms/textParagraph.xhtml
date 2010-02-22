@@ -1,0 +1,33 @@
+<!-- 
+	Renders a single TextParagraph.
+-->
+<ui:composition
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:yf="http://yfaces.codehaus.org/taglib"
+	xmlns:sf="http://hybris.com/jsf/storefoundation"	
+	>
+	<yf:component
+		id="textParagraphCmp"
+		modelspec="ystorefoundationpackage.yfaces.component.cms.TextParagraphComponent"
+		model="ystorefoundationpackage.yfaces.component.cms.DefaultTextParagraphComponent" 
+		var="textParagraphCmpVar"
+		
+		passToModel="textParagraphId,textParagraph"
+		>      
+
+
+		<t:div styleClass="textParagraphCmp">
+			<sf:cmsItem item="#{textParagraphCmpVar.textParagraph}">
+				<sf:graphicImage 
+					value="#{textParagraphCmpVar.textParagraph.picture.url}" 
+					rendered="#{textParagraphCmpVar.textParagraph.picture != null}"/>
+		   	<h:outputText escape="false" value="#{textParagraphCmpVar.textParagraphContent}"/>
+		   </sf:cmsItem>
+		</t:div>
+	</yf:component>
+</ui:composition>
+			

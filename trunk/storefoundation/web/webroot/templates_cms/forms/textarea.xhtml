@@ -1,0 +1,11 @@
+
+<tr 	xmlns:ui="http://java.sun.com/jsf/facelets"
+	   xmlns:h="http://java.sun.com/jsf/html"
+	   xmlns:f="http://java.sun.com/jsf/core"
+	   xmlns:t="http://myfaces.apache.org/tomahawk"
+	   xmlns:c="http://java.sun.com/jstl/core">
+		<td>#{input.name}:</td>
+			<td><h:inputTextarea id="forminput_#{input.pk}" cols="#{input.cols}" rows="#{input.rows}" value="#{formBean[input.name]}" required="#{input.required}" /></td>
+		<td><span class="error"><h:message for="forminput_#{input.pk}" /></span></td>
+</tr>
+

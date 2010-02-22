@@ -1,0 +1,42 @@
+/*
+ * [y] hybris Platform
+ *
+ * Copyright (c) 2000-2009 hybris AG
+ * All rights reserved.
+ *
+ * This software is the confidential and proprietary information of hybris
+ * ("Confidential Information"). You shall not disclose such Confidential
+ * Information and shall use it only in accordance with the terms of the
+ * license agreement you entered into with hybris.
+ * 
+ *  
+ */
+package ystorefoundationpackage.yfaces.frame;
+
+import de.hybris.yfaces.component.AbstractYFrame;
+import de.hybris.yfaces.component.YComponentBinding;
+
+import org.apache.log4j.Logger;
+
+import ystorefoundationpackage.yfaces.component.payment.EditPaymentComponent;
+
+
+/**
+ * Renders the page for the user to edit the selected payment information.
+ * 
+ */
+public class PaymentInfoEditFrame extends AbstractYFrame
+{
+	private static final long serialVersionUID = 4318010538297503458L;
+
+	private final YComponentBinding<EditPaymentComponent> editPaymentCmp = super.createComponentBinding();
+
+	@SuppressWarnings("unused")
+	private static final Logger log = Logger.getLogger(PaymentInfoEditFrame.class);
+
+	public YComponentBinding<EditPaymentComponent> getEditPaymentComponent()
+	{
+		return this.editPaymentCmp;
+	}
+
+}

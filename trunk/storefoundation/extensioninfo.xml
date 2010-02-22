@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!--
+ [y] hybris Platform
+
+ Copyright (c) 2000-2009 hybris AG
+ All rights reserved.
+
+ This software is the confidential and proprietary information of hybris
+ ("Confidential Information"). You shall not disclose such Confidential
+ Information and shall use it only in accordance with the terms of the
+ license agreement you entered into with hybris.
+
+  
+-->
+<extensioninfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="extensioninfo.xsd">
+	
+	<extension name="storefoundation"
+					abstractclassprefix="Generated"
+					classprefix="Storefoundation"
+					managername="StorefoundationManager">
+					
+		<!-- core extensions - see PLA-7642   					
+		<requires-extension name="category"/>
+		<requires-extension name="lucenesearch"/>
+		<requires-extension name="europe1"/>
+		<requires-extension name="variants"/>
+		<requires-extension name="impex"/>
+		<requires-extension name="catalog"/>
+		-->
+		
+		<!-- commerce extensions -->
+		<requires-extension name="cms"/>
+		<requires-extension name="voucher"/>
+		<requires-extension name="customerreview"/>
+		<requires-extension name="wishlist"/>
+
+		<webmodule webroot="/storefoundation"
+		           jspcompile="true"/>
+
+	</extension>
+	
+</extensioninfo>

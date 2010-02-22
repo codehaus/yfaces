@@ -1,0 +1,55 @@
+<!DOCTYPE subview [<!ENTITY nbsp "&#160;">]>
+
+<!-- 
+Show Category Component
+display the contents of the category 
+-->
+
+<ui:composition
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:yf="http://yfaces.codehaus.org/taglib"
+	xmlns:sf="http://hybris.com/jsf/storefoundation"	
+	>
+
+	<yf:component
+		id="showCategoryCmp"
+		
+		modelspec="ystorefoundationpackage.yfaces.component.category.ShowCategoryComponent"
+		model="ystorefoundationpackage.yfaces.component.category.DefaultShowCategoryComponent"
+		
+		var="showCategoryCmpVar"
+		passToModel="category, categoryCode"
+		>
+		
+	<ui:param name="category" value="#{showCategoryCmpVar.category}"/>
+	<t:div id="showCategoryCmp" styleClass="showCategoryCmp" rendered="#{category != null}">
+		<sf:cmsItem item="#{category}">	
+		<h:panelGrid columns="2">
+			<t:div styleClass="thumbnail">
+				<sf:outputLink id="subcatLink1" value="#{category}" rendered="#{category.thumbnail != null}">
+					<img src='#{category.thumbnail.url}'/>
+				</sf:outputLink>
+			</t:div>
+			<t:div styleClass="text">
+				<sf:outputLink id="subcatLink2" value="#{category}"  styleClass="headline">
+					<h:outputText value="#{category.name != null ? category.name : category.code} " />
+					<c:set var="count" value="#{showCategoryCmpVar.allProductsCount}"/>
+					<h:outputFormat value="(#{count == 1 ? msg['components.showCategoryCmp.oneProduct'] : msg['components.showCategoryCmp.manyProducts']})">
+						<f:param value="#{count}"/>
+					</h:outputFormat>
+				</sf:outputLink>
+				<sf:outputLink id="subcatLink3" value="#{category}" styleClass="description">
+					<h:outputText value="#{category.description}" escape="false"/>
+				</sf:outputLink>
+			</t:div>
+		</h:panelGrid>
+	</sf:cmsItem>
+	</t:div>
+
+	</yf:component>
+
+</ui:composition>

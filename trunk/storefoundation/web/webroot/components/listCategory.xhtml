@@ -1,0 +1,39 @@
+<!DOCTYPE component [<!ENTITY nbsp "&#160;">]>
+
+<!-- 
+List Category Component
+display the sub-categories of the selected category
+-->
+
+<ui:composition
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:yf="http://yfaces.codehaus.org/taglib">
+
+	<yf:component
+		id="listCategoryCmp"
+		
+		modelspec="ystorefoundationpackage.yfaces.component.category.ListCategoryComponent"
+		model="ystorefoundationpackage.yfaces.component.category.DefaultListCategoryComponent"
+		
+		var="listCategoryCmpVar"
+		
+		passToModel="categoryList"
+		
+		transient="true"
+		>
+		
+		<ui:param name="categoryList" value="#{listCategoryCmpVar.categoryList}"/>
+
+		<t:div id="listCategoryCmp" styleClass="listCategoryCmp">
+			<ui:repeat value="#{categoryList}" var="_category" id="listCategoryLoop">
+				<yf:showCategory category="#{_category}" />
+			</ui:repeat>
+		</t:div>
+
+	</yf:component>
+
+</ui:composition>

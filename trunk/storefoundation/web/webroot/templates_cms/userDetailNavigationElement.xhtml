@@ -1,0 +1,17 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" [<!ENTITY nbsp "&#160;">]>
+
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:t="http://myfaces.apache.org/tomahawk"
+    xmlns:c="http://java.sun.com/jstl/core">
+    
+    
+	<span>
+		<h:form id="userDataNavigationElementForm" rendered="#{!userSession.anonymousUser}">
+			<h:commandLink id="userDataLink" action="userDetailPage">
+				&nbsp; #{msg['frame.userDetail.title']} : #{userSession.user.name} &nbsp;
+			</h:commandLink>
+		</h:form>
+	</span>
+</ui:composition>

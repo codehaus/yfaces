@@ -1,0 +1,44 @@
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:yf="http://yfaces.codehaus.org/taglib"
+	>
+	
+	
+	<yf:component 
+		id="setPaymentModeCmp"
+		modelspec="ystorefoundationpackage.yfaces.component.cart.SelectPaymentModeComponent"
+		model="ystorefoundationpackage.yfaces.component.cart.DefaultSelectPaymentModeComponent" 
+		var="selectPaymentModeCmpVar"
+      	
+      	passToModel="cart"
+		>
+
+		<t:div styleClass="setPaymentModeCmp">
+			<h:outputText styleClass="h3" value="#{msg['components.setPaymentModeCmp.advanceAndInvoiceTitle']}"/>
+			
+			<h:form id="form">
+				<h:panelGrid>
+					<h:outputText styleClass="text" value="#{msg['components.setPaymentModeCmp.chooseAdvanceText']}"/>
+					<h:commandLink 
+						id="submitAdvance" 
+						value="#{msg['components.setPaymentModeCmp.chooseAdvance']}" 
+						action="#{selectPaymentModeCmpVar.chooseAdvanceEvent.action}"
+						actionListener="#{selectPaymentModeCmpVar.chooseAdvanceEvent.actionListener}" />
+					
+					<h:outputText styleClass="text" value="#{msg['components.setPaymentModeCmp.chooseInvoiceText']}"/>
+					<h:commandLink 
+						id="submitInvoice" 
+						value="#{msg['components.setPaymentModeCmp.chooseInvoice']}" 
+						action="#{selectPaymentModeCmpVar.chooseInvoiceEvent.action}"
+						actionListener="#{selectPaymentModeCmpVar.chooseInvoiceEvent.actionListener}" />
+				</h:panelGrid>
+			</h:form>
+		</t:div>
+		
+	</yf:component>
+</ui:composition>

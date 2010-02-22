@@ -1,0 +1,31 @@
+<!-- 
+	Renders a list of TextParagraphs.
+-->
+<ui:composition
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:yf="http://yfaces.codehaus.org/taglib"
+	>
+	<yf:component
+		id="textParagraphsCmp"
+		modelspec="ystorefoundationpackage.yfaces.component.cms.TextParagraphsComponent"
+		model="ystorefoundationpackage.yfaces.component.cms.DefaultTextParagraphsComponent" 
+		var="textParagraphsCmpVar"
+		
+		passToModel="textParagraphPageId,textParagraphs"
+		
+		transient="true"
+		>      
+
+
+		<t:div styleClass="textParagraphsCmp">
+			<ui:repeat value="#{textParagraphsCmpVar.textParagraphs}" var="paragraph" rendered="#{textParagraphsCmpVar.textParagraphs != null}" >
+				<yf:textParagraph textParagraph="#{paragraph}"/>
+			</ui:repeat>
+		</t:div>
+	</yf:component>
+</ui:composition>
+			
