@@ -1,4 +1,4 @@
-package de.hybris.yfaces.util.myfaces;
+package org.codehaus.yfaces.util.myfaces;
 
 import java.io.IOException;
 import java.io.InputStream;

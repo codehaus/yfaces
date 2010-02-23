@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.hybris.yfaces.util.myfaces;
+package org.codehaus.yfaces.util.myfaces;
 
 import javax.faces.context.FacesContext;
 
 import org.apache.log4j.Logger;
+import org.codehaus.yfaces.YFaces;
+import org.codehaus.yfaces.YFacesException;
+import org.codehaus.yfaces.util.YFacesErrorHandler;
 
-import de.hybris.yfaces.YFaces;
-import de.hybris.yfaces.YFacesException;
-import de.hybris.yfaces.util.YFacesErrorHandler;
 
 /**
  * This class is meant to be the myfaces error handler which must be declared as deployment
