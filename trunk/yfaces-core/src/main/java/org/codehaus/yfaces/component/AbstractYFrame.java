@@ -17,7 +17,9 @@
 package org.codehaus.yfaces.component;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.codehaus.yfaces.YFaces;
@@ -41,12 +43,16 @@ public abstract class AbstractYFrame extends YManagedBean implements YFrame {
 
 	private List<YModelBinding<?>> componentBindings = null;
 
+	private Map<String, Object> models = null;
+
 	/**
 	 * Constructor.
 	 */
 	public AbstractYFrame() {
 		super();
 		this.componentBindings = new ArrayList<YModelBinding<?>>();
+
+		this.models = new LinkedHashMap<String, Object>();
 	}
 
 	/*
@@ -62,13 +68,32 @@ public abstract class AbstractYFrame extends YManagedBean implements YFrame {
 					binding.getValue().refresh();
 				} catch (final Exception e) {
 					final AbstractYModel cmp = (AbstractYModel) binding.getValue();
-					//					cmp.setIllegalComponentState(e.getClass().getSimpleName());
 					log.error("Error refreshing component: " + cmp.getClass().getSimpleName() + " ("
 							+ this.getClass().getSimpleName() + ")", e);
 				}
 			}
 		}
+
+		this.refreshNew();
 	};
+
+	public void refreshNew() {
+		for (final Map.Entry<String, Object> entry : this.models.entrySet()) {
+			log.debug("Refreshing " + this.getClass().getSimpleName() + "." + entry.getKey());
+			try {
+
+				((AbstractYModel) entry.getValue()).refresh();
+			} catch (final Exception e) {
+				final AbstractYModel cmp = (AbstractYModel) entry.getValue();
+				log.error("Error refreshing component: " + cmp.getClass().getSimpleName() + " ("
+						+ this.getClass().getSimpleName() + ")", e);
+			}
+		}
+	};
+
+	protected void addYModel(final String property, final YModel model) {
+		this.models.put(property, model);
+	}
 
 	/*
 	 * (non-Javadoc)
