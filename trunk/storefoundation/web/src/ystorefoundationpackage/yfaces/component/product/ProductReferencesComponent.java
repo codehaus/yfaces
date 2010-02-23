@@ -18,8 +18,8 @@ import de.hybris.platform.core.model.product.ProductModel;
 import java.util.Collection;
 import java.util.List;
 
-import org.codehaus.yfaces.component.YComponent;
-import org.codehaus.yfaces.component.YComponentEventHandler;
+import org.codehaus.yfaces.component.YModel;
+import org.codehaus.yfaces.component.YEventHandler;
 
 import ystorefoundationpackage.datatable.ext.DataTableAxisModel;
 
@@ -28,7 +28,7 @@ import ystorefoundationpackage.datatable.ext.DataTableAxisModel;
 /**
  * This component displays the similar products of the selected product.
  */
-public interface ProductReferencesComponent extends YComponent
+public interface ProductReferencesComponent extends YModel
 {
 	public static final int TYPE_CROSSELLS = 1;
 	public static final int TYPE_UPSELLS = 2;
@@ -73,5 +73,5 @@ public interface ProductReferencesComponent extends YComponent
 
 	public Collection<ProductReferenceGroup> getProductReferenceGroups();
 
-	public YComponentEventHandler<ProductReferencesComponent> getAddSelectionToCartEvent();
+	public YEventHandler<ProductReferencesComponent> getAddSelectionToCartEvent();
 }

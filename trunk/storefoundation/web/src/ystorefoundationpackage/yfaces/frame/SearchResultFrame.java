@@ -14,7 +14,7 @@
 package ystorefoundationpackage.yfaces.frame;
 
 import org.codehaus.yfaces.component.AbstractYFrame;
-import org.codehaus.yfaces.component.YComponentBinding;
+import org.codehaus.yfaces.component.YModelBinding;
 
 import ystorefoundationpackage.YComponent;
 import ystorefoundationpackage.yfaces.component.product.ProductTableComponent;
@@ -29,7 +29,7 @@ public class SearchResultFrame extends AbstractYFrame
 
 	private static final long serialVersionUID = 57824365989445L;
 
-	private YComponentBinding<ProductTableComponent> productTableCmp = null;
+	private YModelBinding<ProductTableComponent> productTableCmp = null;
 
 	public SearchResultFrame()
 	{
@@ -38,9 +38,9 @@ public class SearchResultFrame extends AbstractYFrame
 	}
 
 	/**
-	 * @return {@link YComponentBinding} for {@link ProductTableComponent}
+	 * @return {@link YModelBinding} for {@link ProductTableComponent}
 	 */
-	public YComponentBinding<ProductTableComponent> getProductTableComponent()
+	public YModelBinding<ProductTableComponent> getProductTableComponent()
 	{
 		return this.productTableCmp;
 	}

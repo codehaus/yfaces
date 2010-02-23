@@ -21,11 +21,11 @@ import de.hybris.platform.servicelayer.model.ModelService;
 import java.util.Collection;
 
 import org.apache.log4j.Logger;
-import org.codehaus.yfaces.component.AbstractYComponent;
-import org.codehaus.yfaces.component.DefaultYComponentEventListener;
-import org.codehaus.yfaces.component.YComponent;
-import org.codehaus.yfaces.component.YComponentEvent;
-import org.codehaus.yfaces.component.YComponentEventHandler;
+import org.codehaus.yfaces.component.AbstractYModel;
+import org.codehaus.yfaces.component.DefaultYEventListener;
+import org.codehaus.yfaces.component.YModel;
+import org.codehaus.yfaces.component.YEvent;
+import org.codehaus.yfaces.component.YEventHandler;
 
 import ystorefoundationpackage.domain.SfRequestContext;
 import ystorefoundationpackage.domain.SfSessionContext;
@@ -35,16 +35,16 @@ import ystorefoundationpackage.domain.YStorefoundation;
 /**
  * Implementation of the <code>ShowAddressComponent</code> interface.
  */
-public class DefaultShowAddressComponent extends AbstractYComponent implements ShowAddressComponent
+public class DefaultShowAddressComponent extends AbstractYModel implements ShowAddressComponent
 {
 	@SuppressWarnings("unused")
 	private static final Logger LOG = Logger.getLogger(DefaultShowAddressComponent.class);
 
-	private YComponentEventHandler<ShowAddressComponent> ehEditAddr = null;
-	private YComponentEventHandler<ShowAddressComponent> ehDeleteAddr = null;
-	private YComponentEventHandler<ShowAddressComponent> ehAsDeliveryAddr = null;
-	private YComponentEventHandler<ShowAddressComponent> ehAsPaymentAddr = null;
-	private YComponentEventHandler<ShowAddressComponent> ehCustom = null;
+	private YEventHandler<ShowAddressComponent> ehEditAddr = null;
+	private YEventHandler<ShowAddressComponent> ehDeleteAddr = null;
+	private YEventHandler<ShowAddressComponent> ehAsDeliveryAddr = null;
+	private YEventHandler<ShowAddressComponent> ehAsPaymentAddr = null;
+	private YEventHandler<ShowAddressComponent> ehCustom = null;
 
 
 	private AddressModel addressBean = null;
@@ -56,7 +56,7 @@ public class DefaultShowAddressComponent extends AbstractYComponent implements S
 	/**
 	 * This event gets fired when the user tries to delete the selected address.
 	 */
-	public static class DeleteAddressEvent extends DefaultYComponentEventListener<ShowAddressComponent>
+	public static class DeleteAddressEvent extends DefaultYEventListener<ShowAddressComponent>
 	{
 		private static final long serialVersionUID = 5749625285432117567L;
 
@@ -68,7 +68,7 @@ public class DefaultShowAddressComponent extends AbstractYComponent implements S
 		}
 
 		@Override
-		public void actionListener(final YComponentEvent<ShowAddressComponent> event)
+		public void actionListener(final YEvent<ShowAddressComponent> event)
 		{
 			final ShowAddressComponent cmp = event.getComponent();
 			final AddressModel address = cmp.getAddress();
@@ -83,14 +83,14 @@ public class DefaultShowAddressComponent extends AbstractYComponent implements S
 	/**
 	 * This event gets fired when the user tries to set the selected address as the default payment address.
 	 */
-	public static class ChooseAsPaymentAddressEvent extends DefaultYComponentEventListener<ShowAddressComponent>
+	public static class ChooseAsPaymentAddressEvent extends DefaultYEventListener<ShowAddressComponent>
 	{
 		private static final long serialVersionUID = -5147823576659380171L;
 
 
 		@SuppressWarnings("unchecked")
 		@Override
-		public void actionListener(final YComponentEvent<ShowAddressComponent> event)
+		public void actionListener(final YEvent<ShowAddressComponent> event)
 		{
 			final ShowAddressComponent cmp = event.getComponent();
 			final Object owner = cmp.getOwner();
@@ -115,14 +115,14 @@ public class DefaultShowAddressComponent extends AbstractYComponent implements S
 	/**
 	 * This event gets fired when the user tries to set the selected address as the default delivery address.
 	 */
-	public static class ChooseAsDeliveryAddressEvent extends DefaultYComponentEventListener<ShowAddressComponent>
+	public static class ChooseAsDeliveryAddressEvent extends DefaultYEventListener<ShowAddressComponent>
 	{
 		private static final long serialVersionUID = -982874318133922258L;
 
 
 		@SuppressWarnings("unchecked")
 		@Override
-		public void actionListener(final YComponentEvent<ShowAddressComponent> event)
+		public void actionListener(final YEvent<ShowAddressComponent> event)
 		{
 			final SfRequestContext reqCtx = YStorefoundation.getRequestContext();
 			final ShowAddressComponent cmp = event.getComponent();
@@ -160,7 +160,7 @@ public class DefaultShowAddressComponent extends AbstractYComponent implements S
 	}
 
 
-	public DefaultShowAddressComponent(final YComponent template)
+	public DefaultShowAddressComponent(final YModel template)
 	{
 		super();
 		final ShowAddressComponent cmp = (ShowAddressComponent) template;
@@ -251,27 +251,27 @@ public class DefaultShowAddressComponent extends AbstractYComponent implements S
 	}
 
 
-	public YComponentEventHandler<ShowAddressComponent> getEditAddressEvent()
+	public YEventHandler<ShowAddressComponent> getEditAddressEvent()
 	{
 		return this.ehEditAddr;
 	}
 
-	public YComponentEventHandler<ShowAddressComponent> getDeleteAddressEvent()
+	public YEventHandler<ShowAddressComponent> getDeleteAddressEvent()
 	{
 		return this.ehDeleteAddr;
 	}
 
-	public YComponentEventHandler<ShowAddressComponent> getCustomAddressEvent()
+	public YEventHandler<ShowAddressComponent> getCustomAddressEvent()
 	{
 		return this.ehCustom;
 	}
 
-	public YComponentEventHandler<ShowAddressComponent> getChooseAddressAsDeliveryEvent()
+	public YEventHandler<ShowAddressComponent> getChooseAddressAsDeliveryEvent()
 	{
 		return this.ehAsDeliveryAddr;
 	}
 
-	public YComponentEventHandler<ShowAddressComponent> getChooseAddressAsPaymentEvent()
+	public YEventHandler<ShowAddressComponent> getChooseAddressAsPaymentEvent()
 	{
 		return this.ehAsPaymentAddr;
 	}

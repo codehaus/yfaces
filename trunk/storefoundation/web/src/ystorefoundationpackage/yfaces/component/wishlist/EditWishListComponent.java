@@ -21,8 +21,8 @@ import java.util.List;
 
 import javax.faces.model.SelectItem;
 
-import org.codehaus.yfaces.component.YComponent;
-import org.codehaus.yfaces.component.YComponentEventHandler;
+import org.codehaus.yfaces.component.YModel;
+import org.codehaus.yfaces.component.YEventHandler;
 
 import ystorefoundationpackage.datatable.ext.DataTableAxisModel;
 
@@ -30,7 +30,7 @@ import ystorefoundationpackage.datatable.ext.DataTableAxisModel;
 /**
  * This component makes it possible for the user to edit the wish list.
  */
-public interface EditWishListComponent extends YComponent
+public interface EditWishListComponent extends YModel
 {
 
 	public static final String ATTRIB_COPY_OR_MOVE = "copyOrMove";
@@ -51,16 +51,16 @@ public interface EditWishListComponent extends YComponent
 	public List<? extends SelectItem> getOtherWishLists();
 
 	//general events: save changes, and cancel to save changes
-	public YComponentEventHandler<EditWishListComponent> getSaveWishListEvent();
+	public YEventHandler<EditWishListComponent> getSaveWishListEvent();
 
-	public YComponentEventHandler<EditWishListComponent> getCancelEditWishListEvent();
+	public YEventHandler<EditWishListComponent> getCancelEditWishListEvent();
 
 	//events for selected products: add selected products to cart, 
 	//and copy(or move) selected products to another wish list
-	public YComponentEventHandler<EditWishListComponent> getAddSelectedProductsToCartEvent();
+	public YEventHandler<EditWishListComponent> getAddSelectedProductsToCartEvent();
 
-	public YComponentEventHandler<EditWishListComponent> getCopyToAnotherWishListEvent();
+	public YEventHandler<EditWishListComponent> getCopyToAnotherWishListEvent();
 
-	public YComponentEventHandler<EditWishListComponent> getDeleteSelectedProductsEvent();
+	public YEventHandler<EditWishListComponent> getDeleteSelectedProductsEvent();
 
 }

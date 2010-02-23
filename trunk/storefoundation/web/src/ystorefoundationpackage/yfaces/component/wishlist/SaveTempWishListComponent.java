@@ -21,8 +21,8 @@ import java.util.List;
 
 import javax.faces.model.SelectItem;
 
-import org.codehaus.yfaces.component.YComponent;
-import org.codehaus.yfaces.component.YComponentEventHandler;
+import org.codehaus.yfaces.component.YModel;
+import org.codehaus.yfaces.component.YEventHandler;
 
 
 /**
@@ -30,7 +30,7 @@ import org.codehaus.yfaces.component.YComponentEventHandler;
  * wish list, and after that the user logs in. Because the anonymous wish list is only valid in the session, the user is
  * now allowed to save it, delete it, or move all products to an existed wish list.
  */
-public interface SaveTempWishListComponent extends YComponent
+public interface SaveTempWishListComponent extends YModel
 {
 
 	//model
@@ -69,10 +69,10 @@ public interface SaveTempWishListComponent extends YComponent
 	public void removeAnonymousWishListEntries();
 
 	//event: create a new wish list, save all products in an existed wish list, and discard the temp wish list
-	public YComponentEventHandler<SaveTempWishListComponent> getCreateWishListEvent();
+	public YEventHandler<SaveTempWishListComponent> getCreateWishListEvent();
 
-	public YComponentEventHandler<SaveTempWishListComponent> getSaveToAnotherWishListEvent();
+	public YEventHandler<SaveTempWishListComponent> getSaveToAnotherWishListEvent();
 
-	public YComponentEventHandler<SaveTempWishListComponent> getDiscardTempWishListEvent();
+	public YEventHandler<SaveTempWishListComponent> getDiscardTempWishListEvent();
 
 }

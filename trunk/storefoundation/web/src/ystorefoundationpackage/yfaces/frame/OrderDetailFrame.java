@@ -20,7 +20,7 @@ import javax.faces.context.FacesContext;
 
 import org.codehaus.yfaces.YFacesException;
 import org.codehaus.yfaces.component.AbstractYFrame;
-import org.codehaus.yfaces.component.YComponentBinding;
+import org.codehaus.yfaces.component.YModelBinding;
 
 import ystorefoundationpackage.domain.YStorefoundation;
 import ystorefoundationpackage.yfaces.component.address.DefaultShowAddressComponent;
@@ -42,10 +42,10 @@ public class OrderDetailFrame extends AbstractYFrame
 		Delivery, Payment
 	}
 
-	private YComponentBinding<ShowAddressComponent> showDeliveryAddressCmp = null;
-	private YComponentBinding<ShowAddressComponent> showPaymentAddressCmp = null;
-	private YComponentBinding<ShowPaymentComponent> showPaymentCmp = null;
-	private YComponentBinding<OrderTableComponent> orderTableCmp = null;
+	private YModelBinding<ShowAddressComponent> showDeliveryAddressCmp = null;
+	private YModelBinding<ShowAddressComponent> showPaymentAddressCmp = null;
+	private YModelBinding<ShowPaymentComponent> showPaymentCmp = null;
+	private YModelBinding<OrderTableComponent> orderTableCmp = null;
 
 	public OrderDetailFrame()
 	{
@@ -64,22 +64,22 @@ public class OrderDetailFrame extends AbstractYFrame
 		return title;
 	}
 
-	public YComponentBinding<ShowAddressComponent> getDeliveryShowAddressComponent()
+	public YModelBinding<ShowAddressComponent> getDeliveryShowAddressComponent()
 	{
 		return this.showDeliveryAddressCmp;
 	}
 
-	public YComponentBinding<ShowAddressComponent> getPaymentShowAddressComponent()
+	public YModelBinding<ShowAddressComponent> getPaymentShowAddressComponent()
 	{
 		return this.showPaymentAddressCmp;
 	}
 
-	public YComponentBinding<ShowPaymentComponent> getShowPaymentComponent()
+	public YModelBinding<ShowPaymentComponent> getShowPaymentComponent()
 	{
 		return this.showPaymentCmp;
 	}
 
-	public YComponentBinding<OrderTableComponent> getOrderTableComponent()
+	public YModelBinding<OrderTableComponent> getOrderTableComponent()
 	{
 		return this.orderTableCmp;
 	}

@@ -17,7 +17,7 @@ import de.hybris.platform.cms.model.NavigationElementModel;
 
 import java.util.List;
 
-import org.codehaus.yfaces.component.YComponent;
+import org.codehaus.yfaces.component.YModel;
 
 
 /**
@@ -26,7 +26,7 @@ import org.codehaus.yfaces.component.YComponent;
  * <br/>
  * See <code>"navigationElementsComponentTag.xhtml"</code>.<br/>
  */
-public interface NavigationElementsComponent extends YComponent
+public interface NavigationElementsComponent extends YModel
 {
 	/**
 	 * Sets the id of the root navigation element.<br/>

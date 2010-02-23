@@ -14,7 +14,7 @@
 package ystorefoundationpackage.yfaces.frame;
 
 import org.codehaus.yfaces.component.AbstractYFrame;
-import org.codehaus.yfaces.component.YComponentBinding;
+import org.codehaus.yfaces.component.YModelBinding;
 
 import ystorefoundationpackage.yfaces.component.user.ForgotPasswordComponent;
 
@@ -25,7 +25,7 @@ import ystorefoundationpackage.yfaces.component.user.ForgotPasswordComponent;
  */
 public class ForgotPasswordFrame extends AbstractYFrame
 {
-	private YComponentBinding<ForgotPasswordComponent> forgotPwCmp = null;
+	private YModelBinding<ForgotPasswordComponent> forgotPwCmp = null;
 
 	public ForgotPasswordFrame()
 	{
@@ -33,7 +33,7 @@ public class ForgotPasswordFrame extends AbstractYFrame
 		this.forgotPwCmp = super.createComponentBinding();
 	}
 
-	public YComponentBinding<ForgotPasswordComponent> getForgotPasswordComponent()
+	public YModelBinding<ForgotPasswordComponent> getForgotPasswordComponent()
 	{
 		return this.forgotPwCmp;
 	}

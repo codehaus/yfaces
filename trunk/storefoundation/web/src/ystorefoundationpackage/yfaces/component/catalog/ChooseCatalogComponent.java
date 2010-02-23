@@ -17,13 +17,13 @@ import de.hybris.platform.catalog.model.CatalogModel;
 
 import java.util.List;
 
-import org.codehaus.yfaces.component.YComponent;
+import org.codehaus.yfaces.component.YModel;
 
 
 /**
  * This component makes it possible for the user to change the catalog.
  */
-public interface ChooseCatalogComponent extends YComponent
+public interface ChooseCatalogComponent extends YModel
 {
 
 	//no event for choose catalog component

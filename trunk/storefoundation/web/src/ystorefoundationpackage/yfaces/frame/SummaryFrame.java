@@ -25,9 +25,9 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.codehaus.yfaces.component.AbstractYFrame;
-import org.codehaus.yfaces.component.YComponentBinding;
-import org.codehaus.yfaces.component.YComponentEvent;
-import org.codehaus.yfaces.component.YComponentEventListener;
+import org.codehaus.yfaces.component.YModelBinding;
+import org.codehaus.yfaces.component.YEvent;
+import org.codehaus.yfaces.component.YEventListener;
 import org.codehaus.yfaces.context.YConversationContext;
 import org.codehaus.yfaces.context.YPageContext;
 
@@ -67,12 +67,12 @@ public class SummaryFrame extends AbstractYFrame
 	//showAddressModel shows a delivery or payment address 
 	private static final String MODEL_ATTRIB_ADRESSTYPE = "ADDRESS_TYPE";
 
-	private YComponentBinding<ShowAddressComponent> showDeliveryAddressCmp = null;
-	private YComponentBinding<ShowAddressComponent> showPaymentAddressCmp = null;
-	private YComponentBinding<ShowPaymentComponent> showPaymentCmp = null;
-	private YComponentBinding<OrderTableComponent> orderTableCmp = null;
-	private YComponentBinding<SelectDeliveryModeComponent> selectDeliveryModeCmp = null;
-	private YComponentBinding<VoucherComponent> voucherCmp = null;
+	private YModelBinding<ShowAddressComponent> showDeliveryAddressCmp = null;
+	private YModelBinding<ShowAddressComponent> showPaymentAddressCmp = null;
+	private YModelBinding<ShowPaymentComponent> showPaymentCmp = null;
+	private YModelBinding<OrderTableComponent> orderTableCmp = null;
+	private YModelBinding<SelectDeliveryModeComponent> selectDeliveryModeCmp = null;
+	private YModelBinding<VoucherComponent> voucherCmp = null;
 
 	private static final String PAYMENT_ADDRESS = "defaultPaymentAddress";
 	private static final String DELIVERY_ADDRESS = "defaultShipmentAddress";
@@ -92,7 +92,7 @@ public class SummaryFrame extends AbstractYFrame
 	/**
 	 * @return Binding for {@link ShowAddressComponent} (delivery address)
 	 */
-	public YComponentBinding<ShowAddressComponent> getShowDeliveryAddressComponent()
+	public YModelBinding<ShowAddressComponent> getShowDeliveryAddressComponent()
 	{
 		return this.showDeliveryAddressCmp;
 	}
@@ -100,7 +100,7 @@ public class SummaryFrame extends AbstractYFrame
 	/**
 	 * @return Binding for {@link ShowAddressComponent} (payment address)
 	 */
-	public YComponentBinding<ShowAddressComponent> getShowPaymentAddressComponent()
+	public YModelBinding<ShowAddressComponent> getShowPaymentAddressComponent()
 	{
 		return this.showPaymentAddressCmp;
 	}
@@ -108,7 +108,7 @@ public class SummaryFrame extends AbstractYFrame
 	/**
 	 * @return Binding for {@link SelectDeliveryModeComponent}
 	 */
-	public YComponentBinding<SelectDeliveryModeComponent> getSelectDeliveryModeComponent()
+	public YModelBinding<SelectDeliveryModeComponent> getSelectDeliveryModeComponent()
 	{
 		return this.selectDeliveryModeCmp;
 	}
@@ -116,7 +116,7 @@ public class SummaryFrame extends AbstractYFrame
 	/**
 	 * @return Binding for {@link ShowPaymentComponent}
 	 */
-	public YComponentBinding<ShowPaymentComponent> getShowPaymentComponent()
+	public YModelBinding<ShowPaymentComponent> getShowPaymentComponent()
 	{
 		return this.showPaymentCmp;
 	}
@@ -124,7 +124,7 @@ public class SummaryFrame extends AbstractYFrame
 	/**
 	 * @return Binding for {@link VoucherComponent}
 	 */
-	public YComponentBinding<VoucherComponent> getVoucherComponent()
+	public YModelBinding<VoucherComponent> getVoucherComponent()
 	{
 		return this.voucherCmp;
 	}
@@ -132,18 +132,18 @@ public class SummaryFrame extends AbstractYFrame
 	/**
 	 * @return binding for {@link OrderTableComponent}
 	 */
-	public YComponentBinding<OrderTableComponent> getOrderTableComponent()
+	public YModelBinding<OrderTableComponent> getOrderTableComponent()
 	{
 		return this.orderTableCmp;
 	}
 
 	/**
-	 * External {@link YComponentEventListener} for {@link ShowAddressComponent}
+	 * External {@link YEventListener} for {@link ShowAddressComponent}
 	 * 
 	 * @param event
-	 *           {@link YComponentEvent}
+	 *           {@link YEvent}
 	 */
-	public void doChangePayment(final YComponentEvent<ShowPaymentComponent> event)
+	public void doChangePayment(final YEvent<ShowPaymentComponent> event)
 	{
 		final PaymentListFrame payListFrame = this.getPaymentListFrame();
 
@@ -162,25 +162,25 @@ public class SummaryFrame extends AbstractYFrame
 		pmc.getChooseInvoiceEvent().getListener().setAction(NAV_THIS_PAGE);
 	}
 
-	public void doChooseAdvancedPayment(final YComponentEvent<SelectPaymentModeComponent> event)
+	public void doChooseAdvancedPayment(final YEvent<SelectPaymentModeComponent> event)
 	{
 		refreshPayment(PaymentModes.ADVANCE.getCode(), null);
 		recalculateCart();
 	}
 
-	public void doChooseInvoicePayment(final YComponentEvent<SelectPaymentModeComponent> event)
+	public void doChooseInvoicePayment(final YEvent<SelectPaymentModeComponent> event)
 	{
 		refreshPayment(PaymentModes.INVOICE.getCode(), null);
 		recalculateCart();
 	}
 
 	/**
-	 * External {@link YComponentEventListener} for {@link ShowAddressComponent}
+	 * External {@link YEventListener} for {@link ShowAddressComponent}
 	 * 
 	 * @param event
-	 *           {@link YComponentEvent}
+	 *           {@link YEvent}
 	 */
-	public void doChoosePayment(final YComponentEvent<ShowPaymentComponent> event)
+	public void doChoosePayment(final YEvent<ShowPaymentComponent> event)
 	{
 		refreshPayment(null, event.getComponent().getPaymentInfo());
 
@@ -200,12 +200,12 @@ public class SummaryFrame extends AbstractYFrame
 	}
 
 	/**
-	 * External {@link YComponentEventListener} for {@link ShowAddressComponent}
+	 * External {@link YEventListener} for {@link ShowAddressComponent}
 	 * 
 	 * @param event
-	 *           {@link YComponentEvent}
+	 *           {@link YEvent}
 	 */
-	public void doChangeAddress(final YComponentEvent<ShowAddressComponent> event)
+	public void doChangeAddress(final YEvent<ShowAddressComponent> event)
 	{
 		final ShowAddressComponent cmp = event.getComponent();
 		final String type = (String) cmp.getAttributes().get(MODEL_ATTRIB_ADRESSTYPE);
@@ -228,12 +228,12 @@ public class SummaryFrame extends AbstractYFrame
 	}
 
 	/**
-	 * External {@link YComponentEventListener} for {@link ShowAddressComponent}
+	 * External {@link YEventListener} for {@link ShowAddressComponent}
 	 * 
 	 * @param event
-	 *           {@link YComponentEvent}
+	 *           {@link YEvent}
 	 */
-	public void doChooseAddress(final YComponentEvent<ShowAddressComponent> event)
+	public void doChooseAddress(final YEvent<ShowAddressComponent> event)
 	{
 		final ShowAddressComponent cmp = event.getComponent();
 		final String type = (String) super.getAttributes().get(MODEL_ATTRIB_ADRESSTYPE);
@@ -297,12 +297,12 @@ public class SummaryFrame extends AbstractYFrame
 	}
 
 	/**
-	 * External {@link YComponentEventListener} for {@link OrderTableComponent}
+	 * External {@link YEventListener} for {@link OrderTableComponent}
 	 * 
 	 * @param event
-	 *           {@link YComponentEvent}
+	 *           {@link YEvent}
 	 */
-	public void doPlaceOrder(final YComponentEvent<OrderTableComponent> event)
+	public void doPlaceOrder(final YEvent<OrderTableComponent> event)
 	{
 		final PlaceOrderResult result = (PlaceOrderResult) event.getAttributes().get(PlaceOrderResult.class.getName());
 
@@ -410,7 +410,7 @@ public class SummaryFrame extends AbstractYFrame
 	private OrderTableComponent createOrderTableComponent()
 	{
 		final OrderTableComponent result = new DefaultOrderTableComponent();
-		final YComponentEventListener<OrderTableComponent> listener = super.createComponentEventListener("doPlaceOrder");
+		final YEventListener<OrderTableComponent> listener = super.createComponentEventListener("doPlaceOrder");
 		result.getPlaceOrderEvent().addCustomListener(listener);
 
 		return result;

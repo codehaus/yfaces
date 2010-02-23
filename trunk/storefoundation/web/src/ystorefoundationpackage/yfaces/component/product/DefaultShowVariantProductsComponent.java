@@ -23,7 +23,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.codehaus.yfaces.component.AbstractYComponent;
+import org.codehaus.yfaces.component.AbstractYModel;
 
 import ystorefoundationpackage.domain.FormattedAttribute;
 import ystorefoundationpackage.domain.YStorefoundation;
@@ -33,7 +33,7 @@ import ystorefoundationpackage.domain.YStorefoundation;
 /**
  * Implementation of the <code>ShowVariantProductsComponent</code> interface.
  */
-public class DefaultShowVariantProductsComponent extends AbstractYComponent implements ShowVariantProductsComponent
+public class DefaultShowVariantProductsComponent extends AbstractYModel implements ShowVariantProductsComponent
 {
 
 	private static final long serialVersionUID = 57992864848121918L;

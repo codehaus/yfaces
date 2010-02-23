@@ -22,9 +22,9 @@ import javax.faces.context.FacesContext;
 
 import org.apache.log4j.Logger;
 import org.codehaus.yfaces.component.AbstractYFrame;
-import org.codehaus.yfaces.component.YComponentBinding;
-import org.codehaus.yfaces.component.YComponentEvent;
-import org.codehaus.yfaces.component.YComponentEventListener;
+import org.codehaus.yfaces.component.YModelBinding;
+import org.codehaus.yfaces.component.YEvent;
+import org.codehaus.yfaces.component.YEventListener;
 import org.codehaus.yfaces.context.YConversationContext;
 import org.codehaus.yfaces.context.YPageContext;
 
@@ -56,10 +56,10 @@ public class WishListFrame extends AbstractYFrame
 	public static final String WISH_LIST_EDIT_PAGE = "wishListEditPage";
 	public static final String CART_LINK = "/pages/cartPage.jsf";
 
-	private YComponentBinding<ListWishListComponent> listWishListCmp = null;
-	private YComponentBinding<ShowWishListComponent> showWishListCmp = null;
-	private YComponentBinding<ShowWishListEntryComponent> showWishListEntryCmp = null;
-	private YComponentBinding<SaveTempWishListComponent> saveTempWishListCmp = null;
+	private YModelBinding<ListWishListComponent> listWishListCmp = null;
+	private YModelBinding<ShowWishListComponent> showWishListCmp = null;
+	private YModelBinding<ShowWishListEntryComponent> showWishListEntryCmp = null;
+	private YModelBinding<SaveTempWishListComponent> saveTempWishListCmp = null;
 
 	//default constructor
 	public WishListFrame()
@@ -75,19 +75,19 @@ public class WishListFrame extends AbstractYFrame
 	private ListWishListComponent createListWishListComponent()
 	{
 		final ListWishListComponent cmp = new DefaultListWishListComponent();
-		final YComponentEventListener<ListWishListComponent> editListener = cmp.getEditWishListEvent().getListener();
+		final YEventListener<ListWishListComponent> editListener = cmp.getEditWishListEvent().getListener();
 		editListener.setAction(WISH_LIST_EDIT_PAGE);
 		editListener.setActionListener(super.createExpressionString("doEditListWishList"));
 		return cmp;
 	}
 
 	/**
-	 * External {@link YComponentEventListener} for {@link ListWishListComponent}
+	 * External {@link YEventListener} for {@link ListWishListComponent}
 	 * 
 	 * @param event
-	 *           {@link YComponentEvent}
+	 *           {@link YEvent}
 	 */
-	public void doEditListWishList(final YComponentEvent<ListWishListComponent> event)
+	public void doEditListWishList(final YEvent<ListWishListComponent> event)
 	{
 		final Wishlist2Model wishList = (Wishlist2Model) event.getFacesEvent().getComponent().getAttributes().get(
 				ListWishListComponent.ATTRIB_EDIT_WISH_LIST);
@@ -107,22 +107,22 @@ public class WishListFrame extends AbstractYFrame
 		return frame;
 	}
 
-	public YComponentBinding<ListWishListComponent> getListWishListComponent()
+	public YModelBinding<ListWishListComponent> getListWishListComponent()
 	{
 		return this.listWishListCmp;
 	}
 
-	public YComponentBinding<ShowWishListComponent> getShowWishListComponent()
+	public YModelBinding<ShowWishListComponent> getShowWishListComponent()
 	{
 		return this.showWishListCmp;
 	}
 
-	public YComponentBinding<ShowWishListEntryComponent> getShowWishListEntryComponent()
+	public YModelBinding<ShowWishListEntryComponent> getShowWishListEntryComponent()
 	{
 		return this.showWishListEntryCmp;
 	}
 
-	public YComponentBinding<SaveTempWishListComponent> getSaveTempWishListComponent()
+	public YModelBinding<SaveTempWishListComponent> getSaveTempWishListComponent()
 	{
 		return this.saveTempWishListCmp;
 	}

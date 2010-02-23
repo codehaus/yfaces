@@ -26,12 +26,12 @@ import java.util.Set;
 import javax.faces.context.FacesContext;
 
 import org.apache.log4j.Logger;
-import org.codehaus.yfaces.component.AbstractYComponent;
+import org.codehaus.yfaces.component.AbstractYModel;
 
 
 
 
-public class DefaultShowHistoryComponent extends AbstractYComponent implements ShowHistoryComponent
+public class DefaultShowHistoryComponent extends AbstractYModel implements ShowHistoryComponent
 {
 
 	private static final long serialVersionUID = 4917636990440575619L;

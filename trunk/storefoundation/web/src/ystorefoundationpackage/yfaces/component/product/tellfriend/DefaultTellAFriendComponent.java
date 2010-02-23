@@ -26,10 +26,10 @@ import java.util.Iterator;
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.HtmlEmail;
 import org.apache.log4j.Logger;
-import org.codehaus.yfaces.component.AbstractYComponent;
-import org.codehaus.yfaces.component.DefaultYComponentEventListener;
-import org.codehaus.yfaces.component.YComponentEvent;
-import org.codehaus.yfaces.component.YComponentEventHandler;
+import org.codehaus.yfaces.component.AbstractYModel;
+import org.codehaus.yfaces.component.DefaultYEventListener;
+import org.codehaus.yfaces.component.YEvent;
+import org.codehaus.yfaces.component.YEventHandler;
 
 import ystorefoundationpackage.domain.SfRequestContext;
 import ystorefoundationpackage.domain.SfSessionContext;
@@ -38,7 +38,7 @@ import ystorefoundationpackage.domain.YStorefoundation;
 import ystorefoundationpackage.yfaces.frame.TellAFriendFrame;
 
 
-public class DefaultTellAFriendComponent extends AbstractYComponent implements TellAFriendComponent
+public class DefaultTellAFriendComponent extends AbstractYModel implements TellAFriendComponent
 {
 	private static final long serialVersionUID = 3542659820552240335L;
 
@@ -50,7 +50,7 @@ public class DefaultTellAFriendComponent extends AbstractYComponent implements T
 	private String emailAddress = null;
 	private String comment = null;
 
-	private YComponentEventHandler<TellAFriendComponent> ehSendMail = null;
+	private YEventHandler<TellAFriendComponent> ehSendMail = null;
 
 	/**
 	 * default constructor
@@ -83,12 +83,12 @@ public class DefaultTellAFriendComponent extends AbstractYComponent implements T
 		}
 	}
 
-	public YComponentEventHandler<TellAFriendComponent> getSendEmailEvent()
+	public YEventHandler<TellAFriendComponent> getSendEmailEvent()
 	{
 		return this.ehSendMail;
 	}
 
-	public static class SendEmailAction extends DefaultYComponentEventListener<TellAFriendComponent>
+	public static class SendEmailAction extends DefaultYEventListener<TellAFriendComponent>
 	{
 
 		private static final long serialVersionUID = -3294253669480502365L;
@@ -96,7 +96,7 @@ public class DefaultTellAFriendComponent extends AbstractYComponent implements T
 		private boolean emailSent = false;
 
 		@Override
-		public void actionListener(final YComponentEvent<TellAFriendComponent> event)
+		public void actionListener(final YEvent<TellAFriendComponent> event)
 		{
 			cmp = event.getComponent();
 

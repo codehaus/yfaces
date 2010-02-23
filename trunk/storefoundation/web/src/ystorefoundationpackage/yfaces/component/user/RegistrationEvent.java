@@ -26,8 +26,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
-import org.codehaus.yfaces.component.DefaultYComponentEventListener;
-import org.codehaus.yfaces.component.YComponentEvent;
+import org.codehaus.yfaces.component.DefaultYEventListener;
+import org.codehaus.yfaces.component.YEvent;
 import org.codehaus.yfaces.context.YPageContext;
 
 import ystorefoundationpackage.domain.MailManagement;
@@ -43,7 +43,7 @@ import ystorefoundationpackage.domain.YStorefoundation;
  * This event gets fired when the user tries to register. An Email will be sent to notify the user if the registration
  * is successful.
  */
-public class RegistrationEvent extends DefaultYComponentEventListener<RegistrationComponent>
+public class RegistrationEvent extends DefaultYEventListener<RegistrationComponent>
 {
 	private static final long serialVersionUID = 8712436172843689195L;
 
@@ -54,7 +54,7 @@ public class RegistrationEvent extends DefaultYComponentEventListener<Registrati
 	private transient RegistrationComponent cmp = null;
 
 	@Override
-	public void actionListener(final YComponentEvent<RegistrationComponent> event)
+	public void actionListener(final YEvent<RegistrationComponent> event)
 	{
 		final SfRequestContext reqCtx = YStorefoundation.getRequestContext();
 		cmp = event.getComponent();

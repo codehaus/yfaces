@@ -17,7 +17,7 @@ import de.hybris.platform.catalog.model.CatalogModel;
 
 import java.util.List;
 
-import org.codehaus.yfaces.component.AbstractYComponent;
+import org.codehaus.yfaces.component.AbstractYModel;
 
 import ystorefoundationpackage.domain.YStorefoundation;
 
@@ -27,7 +27,7 @@ import ystorefoundationpackage.domain.YStorefoundation;
 /**
  * Implementation of the <code>ChooseCatalogComponent</code> interface.
  */
-public class DefaultChooseCatalogComponent extends AbstractYComponent implements ChooseCatalogComponent
+public class DefaultChooseCatalogComponent extends AbstractYModel implements ChooseCatalogComponent
 {
 
 	private static final long serialVersionUID = 7066003570353102836L;

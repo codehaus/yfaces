@@ -16,7 +16,7 @@ package ystorefoundationpackage.yfaces.frame;
 
 import org.apache.log4j.Logger;
 import org.codehaus.yfaces.component.AbstractYFrame;
-import org.codehaus.yfaces.component.YComponentBinding;
+import org.codehaus.yfaces.component.YModelBinding;
 
 import ystorefoundationpackage.domain.YStorefoundation;
 import ystorefoundationpackage.yfaces.component.category.ListCategoryComponent;
@@ -38,10 +38,10 @@ public class CategoryFrame extends AbstractYFrame
 	@SuppressWarnings("unused")
 	private static final Logger log = Logger.getLogger(CategoryFrame.class);
 
-	private final YComponentBinding<FeatureValueSelectorComponent> fvCmp = super.createComponentBinding();
-	private final YComponentBinding<ListCategoryComponent> listCatgCmp = super.createComponentBinding();
-	private final YComponentBinding<ProductTableComponent> productTableCmp = super.createComponentBinding();
-	private final YComponentBinding<BreadcrumbComponent> breadcrumbCmp = super.createComponentBinding(this
+	private final YModelBinding<FeatureValueSelectorComponent> fvCmp = super.createComponentBinding();
+	private final YModelBinding<ListCategoryComponent> listCatgCmp = super.createComponentBinding();
+	private final YModelBinding<ProductTableComponent> productTableCmp = super.createComponentBinding();
+	private final YModelBinding<BreadcrumbComponent> breadcrumbCmp = super.createComponentBinding(this
 			.createBreadcrumbComponent());
 
 	private BreadcrumbComponent createBreadcrumbComponent()
@@ -51,22 +51,22 @@ public class CategoryFrame extends AbstractYFrame
 		return cmp;
 	}
 
-	public YComponentBinding<FeatureValueSelectorComponent> getFeatureValueSelectorComponent()
+	public YModelBinding<FeatureValueSelectorComponent> getFeatureValueSelectorComponent()
 	{
 		return this.fvCmp;
 	}
 
-	public YComponentBinding<ListCategoryComponent> getListCategoryComponent()
+	public YModelBinding<ListCategoryComponent> getListCategoryComponent()
 	{
 		return this.listCatgCmp;
 	}
 
-	public YComponentBinding<ProductTableComponent> getProductTableComponent()
+	public YModelBinding<ProductTableComponent> getProductTableComponent()
 	{
 		return this.productTableCmp;
 	}
 
-	public YComponentBinding<BreadcrumbComponent> getBreadcrumbComponent()
+	public YModelBinding<BreadcrumbComponent> getBreadcrumbComponent()
 	{
 		return this.breadcrumbCmp;
 	}

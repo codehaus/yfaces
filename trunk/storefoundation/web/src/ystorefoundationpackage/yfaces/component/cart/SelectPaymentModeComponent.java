@@ -13,8 +13,8 @@
  */
 package ystorefoundationpackage.yfaces.component.cart;
 
-import org.codehaus.yfaces.component.YComponent;
-import org.codehaus.yfaces.component.YComponentEventHandler;
+import org.codehaus.yfaces.component.YModel;
+import org.codehaus.yfaces.component.YEventHandler;
 
 import de.hybris.platform.core.model.order.CartModel;
 
@@ -23,15 +23,15 @@ import de.hybris.platform.core.model.order.CartModel;
 /**
  * The user can select one payment mode for the order with this component.
  */
-public interface SelectPaymentModeComponent extends YComponent
+public interface SelectPaymentModeComponent extends YModel
 {
 	CartModel getCart();
 
 	void setCart(CartModel cart);
 
 
-	YComponentEventHandler<SelectPaymentModeComponent> getChooseAdvanceEvent();
+	YEventHandler<SelectPaymentModeComponent> getChooseAdvanceEvent();
 
-	YComponentEventHandler<SelectPaymentModeComponent> getChooseInvoiceEvent();
+	YEventHandler<SelectPaymentModeComponent> getChooseInvoiceEvent();
 
 }

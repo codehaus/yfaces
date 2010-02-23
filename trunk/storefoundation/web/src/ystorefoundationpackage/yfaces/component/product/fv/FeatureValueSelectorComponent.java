@@ -18,8 +18,8 @@ import de.hybris.platform.core.model.product.ProductModel;
 
 import java.util.List;
 
-import org.codehaus.yfaces.component.YComponent;
-import org.codehaus.yfaces.component.YComponentEventHandler;
+import org.codehaus.yfaces.component.YModel;
+import org.codehaus.yfaces.component.YEventHandler;
 
 import ystorefoundationpackage.faces.SfSelectItemGroup;
 
@@ -28,7 +28,7 @@ import ystorefoundationpackage.faces.SfSelectItemGroup;
 /**
  * Similar to search function. The conditions are limited to the available features for the products.
  */
-public interface FeatureValueSelectorComponent extends YComponent
+public interface FeatureValueSelectorComponent extends YModel
 {
 
 	public void setCategory(CategoryModel category);
@@ -81,8 +81,8 @@ public interface FeatureValueSelectorComponent extends YComponent
 	 */
 	public void setFilteredProductList(List<ProductModel> productList);
 
-	public YComponentEventHandler<FeatureValueSelectorComponent> getSubmitEvent();
+	public YEventHandler<FeatureValueSelectorComponent> getSubmitEvent();
 
-	public YComponentEventHandler<FeatureValueSelectorComponent> getResetEvent();
+	public YEventHandler<FeatureValueSelectorComponent> getResetEvent();
 
 }

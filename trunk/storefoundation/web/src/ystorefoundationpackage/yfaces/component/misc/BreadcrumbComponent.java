@@ -17,14 +17,14 @@ import de.hybris.platform.category.model.CategoryModel;
 
 import java.util.List;
 
-import org.codehaus.yfaces.component.YComponent;
+import org.codehaus.yfaces.component.YModel;
 
 
 
 /**
  * This component displays the navigation path to a given value. (Another meaning may be "click-path").
  */
-public interface BreadcrumbComponent extends YComponent
+public interface BreadcrumbComponent extends YModel
 {
 
 	/**

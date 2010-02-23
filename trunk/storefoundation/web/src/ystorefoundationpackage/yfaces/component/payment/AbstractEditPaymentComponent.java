@@ -13,10 +13,10 @@
  */
 package ystorefoundationpackage.yfaces.component.payment;
 
-import org.codehaus.yfaces.component.AbstractYComponent;
-import org.codehaus.yfaces.component.DefaultYComponentEventListener;
-import org.codehaus.yfaces.component.YComponentEvent;
-import org.codehaus.yfaces.component.YComponentEventHandler;
+import org.codehaus.yfaces.component.AbstractYModel;
+import org.codehaus.yfaces.component.DefaultYEventListener;
+import org.codehaus.yfaces.component.YEvent;
+import org.codehaus.yfaces.component.YEventHandler;
 import org.codehaus.yfaces.context.YPageContext;
 
 import de.hybris.platform.core.model.order.payment.PaymentInfoModel;
@@ -28,7 +28,7 @@ import ystorefoundationpackage.domain.YStorefoundation;
 /**
  * General implementation for <code>EditPaymentComponent</code>
  */
-public abstract class AbstractEditPaymentComponent extends AbstractYComponent implements EditPaymentComponent
+public abstract class AbstractEditPaymentComponent extends AbstractYModel implements EditPaymentComponent
 {
 	private static final long serialVersionUID = 5769978947928383354L;
 
@@ -36,10 +36,10 @@ public abstract class AbstractEditPaymentComponent extends AbstractYComponent im
 	/**
 	 * This event gets fired when the user tries to save the changes for the selected payment mode.
 	 */
-	public static class SavePaymentInfoEvent extends DefaultYComponentEventListener<EditPaymentComponent>
+	public static class SavePaymentInfoEvent extends DefaultYEventListener<EditPaymentComponent>
 	{
 		@Override
-		public void actionListener(final YComponentEvent<EditPaymentComponent> event)
+		public void actionListener(final YEvent<EditPaymentComponent> event)
 		{
 			final EditPaymentComponent cmp = event.getComponent();
 			YStorefoundation.getRequestContext().getPlatformServices().getModelService().save(cmp.getPaymentInfo());
@@ -52,7 +52,7 @@ public abstract class AbstractEditPaymentComponent extends AbstractYComponent im
 	/**
 	 * This event gets fired when the user cancels the changes. The previous page will be loaded.
 	 */
-	public static class CancelEditPaymentInfoEvent extends DefaultYComponentEventListener<EditPaymentComponent>
+	public static class CancelEditPaymentInfoEvent extends DefaultYEventListener<EditPaymentComponent>
 	{
 
 		private static final long serialVersionUID = 6455652696810898534L;
@@ -73,8 +73,8 @@ public abstract class AbstractEditPaymentComponent extends AbstractYComponent im
 	}
 
 	private PaymentInfoModel paymentInfo;
-	private YComponentEventHandler<EditPaymentComponent> ehSave = null;
-	private YComponentEventHandler<EditPaymentComponent> ehCancelEdit = null;
+	private YEventHandler<EditPaymentComponent> ehSave = null;
+	private YEventHandler<EditPaymentComponent> ehCancelEdit = null;
 
 	public AbstractEditPaymentComponent()
 	{
@@ -83,12 +83,12 @@ public abstract class AbstractEditPaymentComponent extends AbstractYComponent im
 		this.ehCancelEdit = createEventHandler(new CancelEditPaymentInfoEvent());
 	}
 
-	public YComponentEventHandler<EditPaymentComponent> getSavePaymentInfoEvent()
+	public YEventHandler<EditPaymentComponent> getSavePaymentInfoEvent()
 	{
 		return this.ehSave;
 	}
 
-	public YComponentEventHandler<EditPaymentComponent> getCancelEditPaymentInfoEvent()
+	public YEventHandler<EditPaymentComponent> getCancelEditPaymentInfoEvent()
 	{
 		return this.ehCancelEdit;
 	}

@@ -19,7 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.codehaus.yfaces.component.AbstractYComponent;
+import org.codehaus.yfaces.component.AbstractYModel;
 
 import ystorefoundationpackage.domain.UserMessage;
 import ystorefoundationpackage.domain.YStorefoundation;
@@ -28,7 +28,7 @@ import ystorefoundationpackage.domain.YStorefoundation;
 /**
  * Implementation of the <code>UserMessagesComponent</code> interface.
  */
-public class DefaultUserMessagesComponent extends AbstractYComponent implements UserMessagesComponent
+public class DefaultUserMessagesComponent extends AbstractYModel implements UserMessagesComponent
 {
 	private List<UserMessage> messages = null;
 	private transient Map<String, List<UserMessage>> messageMap = null;

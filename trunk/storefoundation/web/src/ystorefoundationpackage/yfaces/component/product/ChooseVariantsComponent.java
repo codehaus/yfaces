@@ -17,8 +17,8 @@ import de.hybris.platform.core.model.product.ProductModel;
 
 import java.util.List;
 
-import org.codehaus.yfaces.component.YComponent;
-import org.codehaus.yfaces.component.YComponentEventHandler;
+import org.codehaus.yfaces.component.YModel;
+import org.codehaus.yfaces.component.YEventHandler;
 
 import ystorefoundationpackage.faces.SfSelectItemGroup;
 
@@ -26,7 +26,7 @@ import ystorefoundationpackage.faces.SfSelectItemGroup;
 /**
  * The user can choose a variant product with this component.
  */
-public interface ChooseVariantsComponent extends YComponent
+public interface ChooseVariantsComponent extends YModel
 {
 
 	//model
@@ -43,6 +43,6 @@ public interface ChooseVariantsComponent extends YComponent
 	public List<SfSelectItemGroup> getAttributesSelectorList();
 
 	//events: select the attributes of the variant product
-	public YComponentEventHandler<ChooseVariantsComponent> getShowVariantEvent();
+	public YEventHandler<ChooseVariantsComponent> getShowVariantEvent();
 
 }

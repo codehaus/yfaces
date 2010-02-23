@@ -17,15 +17,15 @@ import de.hybris.platform.core.model.order.payment.PaymentInfoModel;
 
 import java.util.List;
 
-import org.codehaus.yfaces.component.YComponent;
-import org.codehaus.yfaces.component.YComponentEventHandler;
+import org.codehaus.yfaces.component.YModel;
+import org.codehaus.yfaces.component.YEventHandler;
 
 
 
 /**
  * This component lists all payment ways of the user.
  */
-public interface ListPaymentComponent extends YComponent
+public interface ListPaymentComponent extends YModel
 {
 	public List<PaymentInfoModel> getPaymentInfoList();
 
@@ -35,8 +35,8 @@ public interface ListPaymentComponent extends YComponent
 
 	public ShowPaymentComponent getShowPaymentComponentTemplate();
 
-	public YComponentEventHandler<ListPaymentComponent> getCreateCreditCardEvent();
+	public YEventHandler<ListPaymentComponent> getCreateCreditCardEvent();
 
-	public YComponentEventHandler<ListPaymentComponent> getCreateDebitEvent();
+	public YEventHandler<ListPaymentComponent> getCreateDebitEvent();
 
 }

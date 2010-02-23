@@ -31,7 +31,7 @@ import org.apache.myfaces.custom.tree2.TreeModel;
 import org.apache.myfaces.custom.tree2.TreeNode;
 import org.apache.myfaces.custom.tree2.TreeNodeBase;
 import org.apache.myfaces.custom.tree2.TreeState;
-import org.codehaus.yfaces.component.AbstractYComponent;
+import org.codehaus.yfaces.component.AbstractYModel;
 
 import ystorefoundationpackage.domain.SfRequestContext;
 import ystorefoundationpackage.domain.SfSessionContext;
@@ -42,7 +42,7 @@ import ystorefoundationpackage.domain.YStorefoundation;
 /**
  * Implementation of the <code>CategoryTreeComponent</code> interface.
  */
-public class DefaultCategoryTreeComponent extends AbstractYComponent implements CategoryTreeComponent
+public class DefaultCategoryTreeComponent extends AbstractYModel implements CategoryTreeComponent
 {
 	@SuppressWarnings("unused")
 	private static final Logger LOG = Logger.getLogger(DefaultCategoryTreeComponent.class);

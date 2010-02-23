@@ -17,14 +17,14 @@ import de.hybris.platform.wishlist2.model.Wishlist2Model;
 
 import java.util.List;
 
-import org.codehaus.yfaces.component.YComponent;
-import org.codehaus.yfaces.component.YComponentEventHandler;
+import org.codehaus.yfaces.component.YModel;
+import org.codehaus.yfaces.component.YEventHandler;
 
 
 /**
  * This component lists all the wish lists for the user.
  */
-public interface ListWishListComponent extends YComponent
+public interface ListWishListComponent extends YModel
 {
 
 	public static final String ATTRIB_SELECT_WISH_LIST = "selectedWishList";
@@ -43,14 +43,14 @@ public interface ListWishListComponent extends YComponent
 
 	//event: select one wish list, and add a wish list, 
 	//delete a wish list, make the new default wish list, and edit a wish list
-	public YComponentEventHandler<ListWishListComponent> getSelectWishListEvent();
+	public YEventHandler<ListWishListComponent> getSelectWishListEvent();
 
-	public YComponentEventHandler<ListWishListComponent> getAddWishListEvent();
+	public YEventHandler<ListWishListComponent> getAddWishListEvent();
 
-	public YComponentEventHandler<ListWishListComponent> getDeleteWishListEvent();
+	public YEventHandler<ListWishListComponent> getDeleteWishListEvent();
 
-	public YComponentEventHandler<ListWishListComponent> getMakeNewDefaultWishListEvent();
+	public YEventHandler<ListWishListComponent> getMakeNewDefaultWishListEvent();
 
-	public YComponentEventHandler<ListWishListComponent> getEditWishListEvent();
+	public YEventHandler<ListWishListComponent> getEditWishListEvent();
 
 }

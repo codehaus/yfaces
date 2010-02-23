@@ -23,7 +23,7 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.codehaus.yfaces.component.AbstractYFrame;
-import org.codehaus.yfaces.component.YComponentBinding;
+import org.codehaus.yfaces.component.YModelBinding;
 import org.codehaus.yfaces.context.YConversationContext;
 import org.codehaus.yfaces.context.YPageContext;
 
@@ -52,12 +52,12 @@ public class ProductFrame extends AbstractYFrame
 	private static final long serialVersionUID = 8123237357574493529L;
 	private static final Logger log = Logger.getLogger(ProductFrame.class);
 
-	private YComponentBinding<ChooseVariantsComponent> chooseVariantsCmp = null;
-	private YComponentBinding<ShowVariantProductsComponent> showVariantProductsCmp = null;
-	private List<YComponentBinding<ProductReferencesComponent>> productReferencesCmpList = null;
-	private YComponentBinding<ProductDetailComponent> productDetailCmp = null;
-	private YComponentBinding<CustomerReviewComponent> customerReviewCmp = null;
-	private YComponentBinding<BreadcrumbComponent> breadcrumbCmp = null;
+	private YModelBinding<ChooseVariantsComponent> chooseVariantsCmp = null;
+	private YModelBinding<ShowVariantProductsComponent> showVariantProductsCmp = null;
+	private List<YModelBinding<ProductReferencesComponent>> productReferencesCmpList = null;
+	private YModelBinding<ProductDetailComponent> productDetailCmp = null;
+	private YModelBinding<CustomerReviewComponent> customerReviewCmp = null;
+	private YModelBinding<BreadcrumbComponent> breadcrumbCmp = null;
 
 	public ProductFrame()
 	{
@@ -71,32 +71,32 @@ public class ProductFrame extends AbstractYFrame
 
 	}
 
-	public YComponentBinding<ChooseVariantsComponent> getChooseVariantsComponent()
+	public YModelBinding<ChooseVariantsComponent> getChooseVariantsComponent()
 	{
 		return this.chooseVariantsCmp;
 	}
 
-	public YComponentBinding<ShowVariantProductsComponent> getShowVariantProductsComponent()
+	public YModelBinding<ShowVariantProductsComponent> getShowVariantProductsComponent()
 	{
 		return this.showVariantProductsCmp;
 	}
 
-	public YComponentBinding<ProductDetailComponent> getProductDetailComponent()
+	public YModelBinding<ProductDetailComponent> getProductDetailComponent()
 	{
 		return this.productDetailCmp;
 	}
 
-	public YComponentBinding<CustomerReviewComponent> getCustomerReviewComponent()
+	public YModelBinding<CustomerReviewComponent> getCustomerReviewComponent()
 	{
 		return this.customerReviewCmp;
 	}
 
-	public YComponentBinding<BreadcrumbComponent> getBreadcrumbComponent()
+	public YModelBinding<BreadcrumbComponent> getBreadcrumbComponent()
 	{
 		return this.breadcrumbCmp;
 	}
 
-	public List<YComponentBinding<ProductReferencesComponent>> getProductReferencesComponentList()
+	public List<YModelBinding<ProductReferencesComponent>> getProductReferencesComponentList()
 	{
 		if (this.productReferencesCmpList == null)
 		{
@@ -138,7 +138,7 @@ public class ProductFrame extends AbstractYFrame
 		return cmp;
 	}
 
-	private List<YComponentBinding<ProductReferencesComponent>> createProductReferenceComponentList()
+	private List<YModelBinding<ProductReferencesComponent>> createProductReferenceComponentList()
 	{
 		log.debug("Creating initial " + ProductReferencesComponent.class.getName());
 
@@ -150,7 +150,7 @@ public class ProductFrame extends AbstractYFrame
 				.getProductManagement().getAllProductReferences(product);
 
 
-		final List<YComponentBinding<ProductReferencesComponent>> result = new ArrayList<YComponentBinding<ProductReferencesComponent>>();
+		final List<YModelBinding<ProductReferencesComponent>> result = new ArrayList<YModelBinding<ProductReferencesComponent>>();
 
 		//iterate over all referencetypes...
 		for (final Map.Entry<EnumerationValueModel, List<ProductReferenceModel>> entry : refs.entrySet())
@@ -204,7 +204,7 @@ public class ProductFrame extends AbstractYFrame
 
 			//...create a binding for the component
 			//TODO: REAPLCE CASTS
-			final YComponentBinding<ProductReferencesComponent> binding = super
+			final YModelBinding<ProductReferencesComponent> binding = super
 					.createComponentBinding((ProductReferencesComponent) cmp);
 
 			binding.setValue(cmp);

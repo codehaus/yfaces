@@ -14,7 +14,7 @@
 package ystorefoundationpackage.yfaces.frame;
 
 import org.codehaus.yfaces.component.AbstractYFrame;
-import org.codehaus.yfaces.component.YComponentBinding;
+import org.codehaus.yfaces.component.YModelBinding;
 
 import ystorefoundationpackage.yfaces.component.user.DefaultLoginComponent;
 import ystorefoundationpackage.yfaces.component.user.LoginComponent;
@@ -26,7 +26,7 @@ import ystorefoundationpackage.yfaces.component.user.LoginComponent;
  */
 public class LoginFrame extends AbstractYFrame
 {
-	private YComponentBinding<LoginComponent> loginCmp = null;
+	private YModelBinding<LoginComponent> loginCmp = null;
 
 	public LoginFrame()
 	{
@@ -34,7 +34,7 @@ public class LoginFrame extends AbstractYFrame
 		this.loginCmp = super.createComponentBinding(this.createLoginComponent());
 	}
 
-	public YComponentBinding<LoginComponent> getLoginComponent()
+	public YModelBinding<LoginComponent> getLoginComponent()
 	{
 		return this.loginCmp;
 	}

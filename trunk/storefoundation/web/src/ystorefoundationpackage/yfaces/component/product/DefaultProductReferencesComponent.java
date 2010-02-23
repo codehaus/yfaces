@@ -25,10 +25,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.codehaus.yfaces.YFacesException;
-import org.codehaus.yfaces.component.AbstractYComponent;
-import org.codehaus.yfaces.component.DefaultYComponentEventListener;
-import org.codehaus.yfaces.component.YComponentEvent;
-import org.codehaus.yfaces.component.YComponentEventHandler;
+import org.codehaus.yfaces.component.AbstractYModel;
+import org.codehaus.yfaces.component.DefaultYEventListener;
+import org.codehaus.yfaces.component.YEvent;
+import org.codehaus.yfaces.component.YEventHandler;
 
 import ystorefoundationpackage.StorefoundationException;
 import ystorefoundationpackage.datatable.ColumnCollectionDataTableModel;
@@ -44,7 +44,7 @@ import ystorefoundationpackage.domain.OrderManagement.AddToCartResult;
 /**
  * Implementation of the <code>ProductReferencesComponent</code> interface.
  */
-public class DefaultProductReferencesComponent extends AbstractYComponent implements ProductReferencesComponent
+public class DefaultProductReferencesComponent extends AbstractYModel implements ProductReferencesComponent
 {
 	private static final String TO_CART_LINK = "/pages/cartPage.jsf";
 
@@ -55,7 +55,7 @@ public class DefaultProductReferencesComponent extends AbstractYComponent implem
 
 	private Map<Object, ProductReferenceGroup> productReferenceGroupMap = null;
 
-	private YComponentEventHandler<ProductReferencesComponent> ehAddSelectionToCart = null;
+	private YEventHandler<ProductReferencesComponent> ehAddSelectionToCart = null;
 
 
 	private class ProductReferenceGroupImpl implements ProductReferenceGroup, Serializable
@@ -200,10 +200,10 @@ public class DefaultProductReferencesComponent extends AbstractYComponent implem
 	 * This event gets fired when the user tries to add the selected products to the cart.
 	 */
 	@SuppressWarnings("PMD.TooFewBranchesForASwitchStatement")
-	public static class AddSelectionToCartEvent extends DefaultYComponentEventListener<ProductReferencesComponent>
+	public static class AddSelectionToCartEvent extends DefaultYEventListener<ProductReferencesComponent>
 	{
 		@Override
-		public void actionListener(final YComponentEvent<ProductReferencesComponent> event)
+		public void actionListener(final YEvent<ProductReferencesComponent> event)
 		{
 			final SfRequestContext reqCtx = YStorefoundation.getRequestContext();
 			final SfSessionContext sessCtx = reqCtx.getSessionContext();
@@ -324,7 +324,7 @@ public class DefaultProductReferencesComponent extends AbstractYComponent implem
 	}
 
 
-	public YComponentEventHandler<ProductReferencesComponent> getAddSelectionToCartEvent()
+	public YEventHandler<ProductReferencesComponent> getAddSelectionToCartEvent()
 	{
 		return this.ehAddSelectionToCart;
 	}

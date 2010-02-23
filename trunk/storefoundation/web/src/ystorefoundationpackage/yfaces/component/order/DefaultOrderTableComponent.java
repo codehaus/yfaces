@@ -25,10 +25,10 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.codehaus.yfaces.YFacesException;
-import org.codehaus.yfaces.component.AbstractYComponent;
-import org.codehaus.yfaces.component.DefaultYComponentEventListener;
-import org.codehaus.yfaces.component.YComponentEvent;
-import org.codehaus.yfaces.component.YComponentEventHandler;
+import org.codehaus.yfaces.component.AbstractYModel;
+import org.codehaus.yfaces.component.DefaultYEventListener;
+import org.codehaus.yfaces.component.YEvent;
+import org.codehaus.yfaces.component.YEventHandler;
 
 import ystorefoundationpackage.domain.MailManagement;
 import ystorefoundationpackage.domain.OrderInfoContext;
@@ -43,11 +43,11 @@ import ystorefoundationpackage.domain.OrderManagement.PlaceOrderResult;
 /**
  * Implementation of the <code>OrderTableComponent</code> interface.
  */
-public class DefaultOrderTableComponent extends AbstractYComponent implements OrderTableComponent
+public class DefaultOrderTableComponent extends AbstractYModel implements OrderTableComponent
 {
 	private AbstractOrderModel order = null;
 
-	private YComponentEventHandler<OrderTableComponent> ehPlaceOrder = null;
+	private YEventHandler<OrderTableComponent> ehPlaceOrder = null;
 
 	private transient List<OrderTableRow> tableRows = null;
 	private transient String formattedSubTotal = null;
@@ -122,13 +122,13 @@ public class DefaultOrderTableComponent extends AbstractYComponent implements Or
 	 * This event gets fired when the user tries to place the orders. If the process is successful, an confirmation email
 	 * with the order information in detail will be sent.
 	 */
-	public static class PlaceOrderEvent extends DefaultYComponentEventListener<OrderTableComponent>
+	public static class PlaceOrderEvent extends DefaultYEventListener<OrderTableComponent>
 	{
 
 		private static final Logger log = Logger.getLogger(PlaceOrderEvent.class);
 
 		@Override
-		public void actionListener(final YComponentEvent<OrderTableComponent> event)
+		public void actionListener(final YEvent<OrderTableComponent> event)
 		{
 			final SfRequestContext reqCtx = YStorefoundation.getRequestContext();
 			final SfSessionContext sessCtx = reqCtx.getSessionContext();
@@ -193,7 +193,7 @@ public class DefaultOrderTableComponent extends AbstractYComponent implements Or
 	}
 
 
-	public YComponentEventHandler<OrderTableComponent> getPlaceOrderEvent()
+	public YEventHandler<OrderTableComponent> getPlaceOrderEvent()
 	{
 		return this.ehPlaceOrder;
 	}

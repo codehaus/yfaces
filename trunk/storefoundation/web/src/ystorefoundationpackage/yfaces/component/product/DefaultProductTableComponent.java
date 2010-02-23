@@ -25,8 +25,8 @@ import java.util.Collections;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.codehaus.yfaces.component.AbstractYComponent;
-import org.codehaus.yfaces.component.YComponentEventHandler;
+import org.codehaus.yfaces.component.AbstractYModel;
+import org.codehaus.yfaces.component.YEventHandler;
 
 import ystorefoundationpackage.StorefoundationException;
 import ystorefoundationpackage.datatable.ColumnCollectionDataTableModel;
@@ -46,7 +46,7 @@ import ystorefoundationpackage.domain.util.list.LuceneSearchBufferedList;
 /**
  * Implementation of the <code>ProductTableComponent</code> interface.
  */
-public class DefaultProductTableComponent extends AbstractYComponent implements ProductTableComponent
+public class DefaultProductTableComponent extends AbstractYModel implements ProductTableComponent
 {
 	private static final Logger log = Logger.getLogger(DefaultProductTableComponent.class);
 
@@ -77,8 +77,8 @@ public class DefaultProductTableComponent extends AbstractYComponent implements 
 	private Boolean[] checkboxes = null;
 	private transient List<ProductModel> selecteProducts = null;
 
-	private YComponentEventHandler<ProductTableComponent> ehCompare = null;
-	private YComponentEventHandler<ProductTableComponent> ehSortByName = null;
+	private YEventHandler<ProductTableComponent> ehCompare = null;
+	private YEventHandler<ProductTableComponent> ehSortByName = null;
 
 	/**
 	 * Constructor.
@@ -221,12 +221,12 @@ public class DefaultProductTableComponent extends AbstractYComponent implements 
 	}
 
 
-	public YComponentEventHandler<ProductTableComponent> getCompareEvent()
+	public YEventHandler<ProductTableComponent> getCompareEvent()
 	{
 		return this.ehCompare;
 	}
 
-	public YComponentEventHandler<ProductTableComponent> getSortEvent()
+	public YEventHandler<ProductTableComponent> getSortEvent()
 	{
 		return this.ehSortByName;
 	}

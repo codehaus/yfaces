@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.codehaus.yfaces.component.AbstractYComponent;
+import org.codehaus.yfaces.component.AbstractYModel;
 
 import ystorefoundationpackage.domain.YStorefoundation;
 
@@ -31,7 +31,7 @@ import ystorefoundationpackage.domain.YStorefoundation;
 /**
  * Implementation of the <code>TextParagraphsComponent</code> interface.
  */
-public class DefaultTextParagraphsComponent extends AbstractYComponent implements TextParagraphsComponent
+public class DefaultTextParagraphsComponent extends AbstractYModel implements TextParagraphsComponent
 {
 	private String pageId = null;
 	private List<TextParagraphModel> paragraphs = null;

@@ -19,7 +19,7 @@ import de.hybris.platform.core.model.product.ProductModel;
 
 import java.util.List;
 
-import org.codehaus.yfaces.component.YComponent;
+import org.codehaus.yfaces.component.YModel;
 
 import ystorefoundationpackage.datatable.ext.DataTableAxisModel;
 
@@ -27,7 +27,7 @@ import ystorefoundationpackage.datatable.ext.DataTableAxisModel;
 /**
  * This component displays several products briefly. All products can be placed in the table form.
  */
-public interface ProductsQuickViewComponent extends YComponent
+public interface ProductsQuickViewComponent extends YModel
 {
 
 	public void setTitle(String title);

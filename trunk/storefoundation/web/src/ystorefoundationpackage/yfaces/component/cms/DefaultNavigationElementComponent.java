@@ -18,7 +18,7 @@ import de.hybris.platform.cms.model.NavigationElementModel;
 import de.hybris.platform.cms.model.WebsiteModel;
 
 import org.apache.log4j.Logger;
-import org.codehaus.yfaces.component.AbstractYComponent;
+import org.codehaus.yfaces.component.AbstractYModel;
 
 import ystorefoundationpackage.domain.YStorefoundation;
 
@@ -26,7 +26,7 @@ import ystorefoundationpackage.domain.YStorefoundation;
 /**
  * Implementation of the <code>NavigationElementComponent</code> interface.
  */
-public class DefaultNavigationElementComponent extends AbstractYComponent implements NavigationElementComponent
+public class DefaultNavigationElementComponent extends AbstractYModel implements NavigationElementComponent
 {
 	@SuppressWarnings("unused")
 	private static final Logger LOG = Logger.getLogger(DefaultNavigationElementComponent.class);

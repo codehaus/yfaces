@@ -13,7 +13,7 @@
  */
 package ystorefoundationpackage.yfaces.component.cms;
 
-import org.codehaus.yfaces.component.YComponent;
+import org.codehaus.yfaces.component.YModel;
 
 import de.hybris.platform.cms.model.NavigationElementModel;
 
@@ -24,7 +24,7 @@ import de.hybris.platform.cms.model.NavigationElementModel;
  * See <code>navigationElementTag.xhtml</code>.
  * 
  */
-public interface NavigationElementComponent extends YComponent
+public interface NavigationElementComponent extends YModel
 {
 	/**
 	 * Sets the navigation element by its id.

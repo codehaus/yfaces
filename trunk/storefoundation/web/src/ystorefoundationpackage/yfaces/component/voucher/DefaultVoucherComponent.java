@@ -25,10 +25,10 @@ import javax.faces.model.ArrayDataModel;
 import javax.faces.model.DataModel;
 
 import org.apache.log4j.Logger;
-import org.codehaus.yfaces.component.AbstractYComponent;
-import org.codehaus.yfaces.component.DefaultYComponentEventListener;
-import org.codehaus.yfaces.component.YComponentEvent;
-import org.codehaus.yfaces.component.YComponentEventHandler;
+import org.codehaus.yfaces.component.AbstractYModel;
+import org.codehaus.yfaces.component.DefaultYEventListener;
+import org.codehaus.yfaces.component.YEvent;
+import org.codehaus.yfaces.component.YEventHandler;
 
 import ystorefoundationpackage.domain.SfSessionContext;
 import ystorefoundationpackage.domain.YStorefoundation;
@@ -39,15 +39,15 @@ import ystorefoundationpackage.yfaces.frame.SummaryFrame;
 /**
  * Implementation of the <code>VoucherComponent</code> interface.
  */
-public class DefaultVoucherComponent extends AbstractYComponent implements VoucherComponent
+public class DefaultVoucherComponent extends AbstractYModel implements VoucherComponent
 {
 
 	private static final long serialVersionUID = 1883457799742145232L;
 
 	private String voucherCode = null;
 
-	private YComponentEventHandler<VoucherComponent> ehRedeem = null;
-	private YComponentEventHandler<VoucherComponent> ehRelease = null;
+	private YEventHandler<VoucherComponent> ehRedeem = null;
+	private YEventHandler<VoucherComponent> ehRelease = null;
 
 	//default constructor
 	public DefaultVoucherComponent()
@@ -58,12 +58,12 @@ public class DefaultVoucherComponent extends AbstractYComponent implements Vouch
 	}
 
 
-	public YComponentEventHandler<VoucherComponent> getRedeemVoucherEvent()
+	public YEventHandler<VoucherComponent> getRedeemVoucherEvent()
 	{
 		return this.ehRedeem;
 	}
 
-	public YComponentEventHandler<VoucherComponent> getReleaseVoucherEvent()
+	public YEventHandler<VoucherComponent> getReleaseVoucherEvent()
 	{
 		return this.ehRelease;
 	}
@@ -71,13 +71,13 @@ public class DefaultVoucherComponent extends AbstractYComponent implements Vouch
 	/**
 	 * This event gets fired when the user tries to redeem a voucher.
 	 */
-	public static class RedeemVoucherAction extends DefaultYComponentEventListener<VoucherComponent>
+	public static class RedeemVoucherAction extends DefaultYEventListener<VoucherComponent>
 	{
 
 		private static final long serialVersionUID = -6798481013719721264L;
 
 		@Override
-		public void actionListener(final YComponentEvent<VoucherComponent> event)
+		public void actionListener(final YEvent<VoucherComponent> event)
 		{
 			final VoucherComponent cmp = event.getComponent();
 			final SfSessionContext userSession = YStorefoundation.getRequestContext().getSessionContext();
@@ -103,7 +103,7 @@ public class DefaultVoucherComponent extends AbstractYComponent implements Vouch
 	/**
 	 * This event gets fired when the user tries to release a redeemed voucher.
 	 */
-	public static class ReleaseVoucherAction extends DefaultYComponentEventListener<VoucherComponent>
+	public static class ReleaseVoucherAction extends DefaultYEventListener<VoucherComponent>
 	{
 
 		private static final Logger log = Logger.getLogger(ReleaseVoucherAction.class);
@@ -111,7 +111,7 @@ public class DefaultVoucherComponent extends AbstractYComponent implements Vouch
 		private static final long serialVersionUID = -3006112371875768981L;
 
 		@Override
-		public void actionListener(final YComponentEvent<VoucherComponent> event)
+		public void actionListener(final YEvent<VoucherComponent> event)
 		{
 			final String voucherCode = (String) event.getFacesEvent().getComponent().getAttributes().get(ATTRIB_SELECT_VOUCHER);
 			final SfSessionContext userSession = YStorefoundation.getRequestContext().getSessionContext();

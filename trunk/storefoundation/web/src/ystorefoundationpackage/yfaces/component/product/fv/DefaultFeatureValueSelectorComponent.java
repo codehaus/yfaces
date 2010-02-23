@@ -31,8 +31,8 @@ import javax.faces.model.SelectItem;
 
 import org.apache.commons.lang.mutable.MutableInt;
 import org.apache.log4j.Logger;
-import org.codehaus.yfaces.component.AbstractYComponent;
-import org.codehaus.yfaces.component.YComponentEventHandler;
+import org.codehaus.yfaces.component.AbstractYModel;
+import org.codehaus.yfaces.component.YEventHandler;
 
 import ystorefoundationpackage.Localized;
 import ystorefoundationpackage.domain.FormattedAttribute;
@@ -47,7 +47,7 @@ import ystorefoundationpackage.faces.SfSelectItemGroup;
 /**
  * Implementation of the <code>FeatureValueSelectorComponent</code> interface.
  */
-public class DefaultFeatureValueSelectorComponent extends AbstractYComponent implements FeatureValueSelectorComponent
+public class DefaultFeatureValueSelectorComponent extends AbstractYModel implements FeatureValueSelectorComponent
 {
 	private static final Logger log = Logger.getLogger(DefaultFeatureValueSelectorComponent.class);
 
@@ -62,8 +62,8 @@ public class DefaultFeatureValueSelectorComponent extends AbstractYComponent imp
 
 	private transient List<SfSelectItemGroup> selectorList = null;
 
-	private YComponentEventHandler<FeatureValueSelectorComponent> ehSubmit = null;
-	private YComponentEventHandler<FeatureValueSelectorComponent> ehReset = null;
+	private YEventHandler<FeatureValueSelectorComponent> ehSubmit = null;
+	private YEventHandler<FeatureValueSelectorComponent> ehReset = null;
 
 	/**
 	 * Constructor.
@@ -240,7 +240,7 @@ public class DefaultFeatureValueSelectorComponent extends AbstractYComponent imp
 	 * 
 	 * @see ystorefoundationpackage.faces.components.selector.featureselector.FeatureSelectorControl#getSubmitEvent()
 	 */
-	public YComponentEventHandler<FeatureValueSelectorComponent> getSubmitEvent()
+	public YEventHandler<FeatureValueSelectorComponent> getSubmitEvent()
 	{
 		return this.ehSubmit;
 	}
@@ -250,7 +250,7 @@ public class DefaultFeatureValueSelectorComponent extends AbstractYComponent imp
 	 * 
 	 * @see ystorefoundationpackage.faces.components.selector.featureselector.FeatureSelectorControl#getResetEvent()
 	 */
-	public YComponentEventHandler<FeatureValueSelectorComponent> getResetEvent()
+	public YEventHandler<FeatureValueSelectorComponent> getResetEvent()
 	{
 		return this.ehReset;
 	}

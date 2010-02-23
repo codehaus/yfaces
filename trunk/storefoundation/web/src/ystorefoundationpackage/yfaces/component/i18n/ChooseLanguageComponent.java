@@ -19,14 +19,14 @@ import java.util.List;
 
 import javax.faces.model.SelectItem;
 
-import org.codehaus.yfaces.component.YComponent;
-import org.codehaus.yfaces.component.YComponentEventHandler;
+import org.codehaus.yfaces.component.YModel;
+import org.codehaus.yfaces.component.YEventHandler;
 
 
 /**
  * This component makes it possible for the user to change the language.
  */
-public interface ChooseLanguageComponent extends YComponent
+public interface ChooseLanguageComponent extends YModel
 {
 
 	//model
@@ -44,6 +44,6 @@ public interface ChooseLanguageComponent extends YComponent
 	void setAvailableLanguages(List<? extends SelectItem> languages);
 
 	//events
-	YComponentEventHandler<ChooseLanguageComponent> getSaveLanguageEvent();
+	YEventHandler<ChooseLanguageComponent> getSaveLanguageEvent();
 
 }

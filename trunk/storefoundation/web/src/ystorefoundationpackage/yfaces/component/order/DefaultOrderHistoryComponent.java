@@ -24,10 +24,10 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-import org.codehaus.yfaces.component.AbstractYComponent;
-import org.codehaus.yfaces.component.DefaultYComponentEventListener;
-import org.codehaus.yfaces.component.YComponentEvent;
-import org.codehaus.yfaces.component.YComponentEventHandler;
+import org.codehaus.yfaces.component.AbstractYModel;
+import org.codehaus.yfaces.component.DefaultYEventListener;
+import org.codehaus.yfaces.component.YEvent;
+import org.codehaus.yfaces.component.YEventHandler;
 
 import ystorefoundationpackage.Localized;
 import ystorefoundationpackage.datatable.ColumnCollectionDataTableModel;
@@ -47,7 +47,7 @@ import ystorefoundationpackage.faces.SfSelectItemGroup;
 /**
  * Implementation of the <code>OrderHistoryComponent</code> interface.
  */
-public class DefaultOrderHistoryComponent extends AbstractYComponent implements OrderHistoryComponent
+public class DefaultOrderHistoryComponent extends AbstractYModel implements OrderHistoryComponent
 {
 	//used Localization keys
 	private static final String LOCALIZATION_PRICE = Localized.WORD_PRICE.key;
@@ -74,10 +74,10 @@ public class DefaultOrderHistoryComponent extends AbstractYComponent implements 
 	/**
 	 * This event gets fired when the user tries to view the orders under the selected status.
 	 */
-	public static class OrderStateSelectEvent extends DefaultYComponentEventListener<OrderHistoryComponent>
+	public static class OrderStateSelectEvent extends DefaultYEventListener<OrderHistoryComponent>
 	{
 		@Override
-		public void actionListener(final YComponentEvent<OrderHistoryComponent> event)
+		public void actionListener(final YEvent<OrderHistoryComponent> event)
 		{
 			final OrderHistoryComponent cmp = event.getComponent();
 			final EnumerationValueModel selected = cmp.getOrderStateSelector().getSelectedValue();
@@ -90,11 +90,11 @@ public class DefaultOrderHistoryComponent extends AbstractYComponent implements 
 	/**
 	 * This event gets fired when the user tries to sort the order table.
 	 */
-	public static class SortOrderHistoryTableEvent extends DefaultYComponentEventListener<OrderHistoryComponent>
+	public static class SortOrderHistoryTableEvent extends DefaultYEventListener<OrderHistoryComponent>
 	{
 
 		@Override
-		public void actionListener(final YComponentEvent<OrderHistoryComponent> event)
+		public void actionListener(final YEvent<OrderHistoryComponent> event)
 		{
 			final OrderHistoryComponent cmp = event.getComponent();
 			((DefaultOrderHistoryComponent) cmp).table = null;
@@ -102,8 +102,8 @@ public class DefaultOrderHistoryComponent extends AbstractYComponent implements 
 		}
 	}
 
-	private YComponentEventHandler<OrderHistoryComponent> ehSelectOrderState = null;
-	private YComponentEventHandler<OrderHistoryComponent> ehSortOrderTable = null;
+	private YEventHandler<OrderHistoryComponent> ehSelectOrderState = null;
+	private YEventHandler<OrderHistoryComponent> ehSortOrderTable = null;
 
 	public DefaultOrderHistoryComponent()
 	{
@@ -208,12 +208,12 @@ public class DefaultOrderHistoryComponent extends AbstractYComponent implements 
 		}
 	}
 
-	public YComponentEventHandler<OrderHistoryComponent> getOrderStateSelectEvent()
+	public YEventHandler<OrderHistoryComponent> getOrderStateSelectEvent()
 	{
 		return this.ehSelectOrderState;
 	}
 
-	public YComponentEventHandler<OrderHistoryComponent> getSortOrderHistoryTableEvent()
+	public YEventHandler<OrderHistoryComponent> getSortOrderHistoryTableEvent()
 	{
 		return this.ehSortOrderTable;
 	}

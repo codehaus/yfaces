@@ -15,12 +15,12 @@ package ystorefoundationpackage.yfaces.component.product;
 
 
 import org.apache.log4j.Logger;
-import org.codehaus.yfaces.component.AbstractYComponent;
+import org.codehaus.yfaces.component.AbstractYModel;
 
 import ystorefoundationpackage.domain.YStorefoundation;
 
 
-public class DefaultScrollProductsComponent extends AbstractYComponent implements ScrollProductsComponent
+public class DefaultScrollProductsComponent extends AbstractYModel implements ScrollProductsComponent
 {
 
 	private static final long serialVersionUID = 1382126047164116553L;

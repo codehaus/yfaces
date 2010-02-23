@@ -18,10 +18,10 @@ import de.hybris.platform.wishlist2.model.Wishlist2Model;
 import java.util.Arrays;
 import java.util.List;
 
-import org.codehaus.yfaces.component.AbstractYComponent;
-import org.codehaus.yfaces.component.DefaultYComponentEventListener;
-import org.codehaus.yfaces.component.YComponentEvent;
-import org.codehaus.yfaces.component.YComponentEventHandler;
+import org.codehaus.yfaces.component.AbstractYModel;
+import org.codehaus.yfaces.component.DefaultYEventListener;
+import org.codehaus.yfaces.component.YEvent;
+import org.codehaus.yfaces.component.YEventHandler;
 
 import ystorefoundationpackage.domain.SfRequestContext;
 import ystorefoundationpackage.domain.SfSessionContext;
@@ -31,7 +31,7 @@ import ystorefoundationpackage.domain.YStorefoundation;
 /**
  * Implementation of the <code>ListWishListComponent</code> interface.
  */
-public class DefaultListWishListComponent extends AbstractYComponent implements ListWishListComponent
+public class DefaultListWishListComponent extends AbstractYModel implements ListWishListComponent
 {
 
 	private static final long serialVersionUID = 802271656227745924L;
@@ -39,11 +39,11 @@ public class DefaultListWishListComponent extends AbstractYComponent implements 
 	private List<Wishlist2Model> wishLists = null;
 	private String wishListName = null;
 
-	private YComponentEventHandler<ListWishListComponent> ehSelectList = null;
-	private YComponentEventHandler<ListWishListComponent> ehAddList = null;
-	private YComponentEventHandler<ListWishListComponent> ehDeleteList = null;
-	private YComponentEventHandler<ListWishListComponent> ehCreateNewDefault = null;
-	private YComponentEventHandler<ListWishListComponent> ehEditList = null;
+	private YEventHandler<ListWishListComponent> ehSelectList = null;
+	private YEventHandler<ListWishListComponent> ehAddList = null;
+	private YEventHandler<ListWishListComponent> ehDeleteList = null;
+	private YEventHandler<ListWishListComponent> ehCreateNewDefault = null;
+	private YEventHandler<ListWishListComponent> ehEditList = null;
 
 	//default constructor
 	public DefaultListWishListComponent()
@@ -90,13 +90,13 @@ public class DefaultListWishListComponent extends AbstractYComponent implements 
 	/**
 	 * This event gets fired when the user tries to manage the selected wish list. It will be set as the active one.
 	 */
-	public static class SelectWishListAction extends DefaultYComponentEventListener<ListWishListComponent>
+	public static class SelectWishListAction extends DefaultYEventListener<ListWishListComponent>
 	{
 
 		private static final long serialVersionUID = 3322419333099500345L;
 
 		@Override
-		public void actionListener(final YComponentEvent<ListWishListComponent> event)
+		public void actionListener(final YEvent<ListWishListComponent> event)
 		{
 			final Wishlist2Model wishList = (Wishlist2Model) event.getFacesEvent().getComponent().getAttributes().get(
 					ATTRIB_SELECT_WISH_LIST);
@@ -111,13 +111,13 @@ public class DefaultListWishListComponent extends AbstractYComponent implements 
 	 * This event gets fired when the user tries to create a new wish list. The new wish list will be set as the active
 	 * one at once, so that the user can easily manage it.
 	 */
-	public static class AddWishListAction extends DefaultYComponentEventListener<ListWishListComponent>
+	public static class AddWishListAction extends DefaultYEventListener<ListWishListComponent>
 	{
 
 		private static final long serialVersionUID = -7968598842889652604L;
 
 		@Override
-		public void actionListener(final YComponentEvent<ListWishListComponent> event)
+		public void actionListener(final YEvent<ListWishListComponent> event)
 		{
 			final SfRequestContext reqCtx = YStorefoundation.getRequestContext();
 			final SfSessionContext userSession = reqCtx.getSessionContext();
@@ -139,13 +139,13 @@ public class DefaultListWishListComponent extends AbstractYComponent implements 
 	 * This event gets fired when the user tries to delete the select wish list. If the default wish list is deleted,
 	 * then the first one of the other wish lists will be set as the default.
 	 */
-	public static class DeleteWishListAction extends DefaultYComponentEventListener<ListWishListComponent>
+	public static class DeleteWishListAction extends DefaultYEventListener<ListWishListComponent>
 	{
 
 		private static final long serialVersionUID = -5902834545922953825L;
 
 		@Override
-		public void actionListener(final YComponentEvent<ListWishListComponent> event)
+		public void actionListener(final YEvent<ListWishListComponent> event)
 		{
 			final SfRequestContext reqCtx = YStorefoundation.getRequestContext();
 			final SfSessionContext userSession = reqCtx.getSessionContext();
@@ -192,13 +192,13 @@ public class DefaultListWishListComponent extends AbstractYComponent implements 
 	/**
 	 * This event gets fired when the user tries to set the new default wish list.
 	 */
-	public static class MakeNewDefaultWishListAction extends DefaultYComponentEventListener<ListWishListComponent>
+	public static class MakeNewDefaultWishListAction extends DefaultYEventListener<ListWishListComponent>
 	{
 
 		private static final long serialVersionUID = 3602865892403612436L;
 
 		@Override
-		public void actionListener(final YComponentEvent<ListWishListComponent> event)
+		public void actionListener(final YEvent<ListWishListComponent> event)
 		{
 			final SfSessionContext userSession = YStorefoundation.getRequestContext().getSessionContext();
 
@@ -218,7 +218,7 @@ public class DefaultListWishListComponent extends AbstractYComponent implements 
 	/**
 	 * This event gets fired when the user tries to edit the information of the selected wish list.
 	 */
-	public static class EditWishListAction extends DefaultYComponentEventListener<ListWishListComponent>
+	public static class EditWishListAction extends DefaultYEventListener<ListWishListComponent>
 	{
 
 		private static final long serialVersionUID = 1009072425560365109L;
@@ -241,27 +241,27 @@ public class DefaultListWishListComponent extends AbstractYComponent implements 
 		this.wishLists = wishLists;
 	}
 
-	public YComponentEventHandler<ListWishListComponent> getSelectWishListEvent()
+	public YEventHandler<ListWishListComponent> getSelectWishListEvent()
 	{
 		return this.ehSelectList;
 	}
 
-	public YComponentEventHandler<ListWishListComponent> getAddWishListEvent()
+	public YEventHandler<ListWishListComponent> getAddWishListEvent()
 	{
 		return this.ehAddList;
 	}
 
-	public YComponentEventHandler<ListWishListComponent> getDeleteWishListEvent()
+	public YEventHandler<ListWishListComponent> getDeleteWishListEvent()
 	{
 		return this.ehDeleteList;
 	}
 
-	public YComponentEventHandler<ListWishListComponent> getMakeNewDefaultWishListEvent()
+	public YEventHandler<ListWishListComponent> getMakeNewDefaultWishListEvent()
 	{
 		return this.ehCreateNewDefault;
 	}
 
-	public YComponentEventHandler<ListWishListComponent> getEditWishListEvent()
+	public YEventHandler<ListWishListComponent> getEditWishListEvent()
 	{
 		return this.ehEditList;
 	}

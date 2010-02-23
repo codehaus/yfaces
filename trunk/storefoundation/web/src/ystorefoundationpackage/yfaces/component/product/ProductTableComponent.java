@@ -18,8 +18,8 @@ import de.hybris.platform.core.model.product.ProductModel;
 
 import java.util.List;
 
-import org.codehaus.yfaces.component.YComponent;
-import org.codehaus.yfaces.component.YComponentEventHandler;
+import org.codehaus.yfaces.component.YModel;
+import org.codehaus.yfaces.component.YEventHandler;
 
 import ystorefoundationpackage.datatable.ext.DataTableAxisModel;
 
@@ -28,7 +28,7 @@ import ystorefoundationpackage.datatable.ext.DataTableAxisModel;
 /**
  * This component lists the products in the table form.
  */
-public interface ProductTableComponent extends YComponent
+public interface ProductTableComponent extends YModel
 {
 	public List<ProductModel> getProductList();
 
@@ -73,8 +73,8 @@ public interface ProductTableComponent extends YComponent
 
 	//	public void setTableModel(DataTableAxisModel tableModel);
 
-	public YComponentEventHandler<ProductTableComponent> getCompareEvent();
+	public YEventHandler<ProductTableComponent> getCompareEvent();
 
-	public YComponentEventHandler<ProductTableComponent> getSortEvent();
+	public YEventHandler<ProductTableComponent> getSortEvent();
 
 }

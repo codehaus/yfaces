@@ -14,7 +14,7 @@
 package ystorefoundationpackage.yfaces.frame;
 
 import org.codehaus.yfaces.component.AbstractYFrame;
-import org.codehaus.yfaces.component.YComponentBinding;
+import org.codehaus.yfaces.component.YModelBinding;
 
 import ystorefoundationpackage.YComponent;
 import ystorefoundationpackage.yfaces.component.product.CompareProductsComponent;
@@ -26,7 +26,7 @@ import ystorefoundationpackage.yfaces.component.product.CompareProductsComponent
  */
 public class CompareProductsFrame extends AbstractYFrame
 {
-	private YComponentBinding<CompareProductsComponent> compareProductsCmp = null;
+	private YModelBinding<CompareProductsComponent> compareProductsCmp = null;
 
 	public CompareProductsFrame()
 	{
@@ -34,7 +34,7 @@ public class CompareProductsFrame extends AbstractYFrame
 		this.compareProductsCmp = super.createComponentBinding(YComponent.COMPARE_PRODUCTS.viewId);
 	}
 
-	public YComponentBinding<CompareProductsComponent> getCompareProductsComponent()
+	public YModelBinding<CompareProductsComponent> getCompareProductsComponent()
 	{
 		return this.compareProductsCmp;
 	}

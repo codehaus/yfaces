@@ -17,9 +17,9 @@ import de.hybris.platform.core.model.user.AddressModel;
 
 import org.apache.log4j.Logger;
 import org.codehaus.yfaces.component.AbstractYFrame;
-import org.codehaus.yfaces.component.YComponentBinding;
-import org.codehaus.yfaces.component.YComponentEvent;
-import org.codehaus.yfaces.component.YComponentEventListener;
+import org.codehaus.yfaces.component.YModelBinding;
+import org.codehaus.yfaces.component.YEvent;
+import org.codehaus.yfaces.component.YEventListener;
 import org.codehaus.yfaces.context.YConversationContext;
 import org.codehaus.yfaces.context.YPageContext;
 
@@ -44,7 +44,7 @@ public class AddressListFrame extends AbstractYFrame
 	private static final String NAV_ADDRESS_EDIT = "addressEditPage";
 	private static final String NAV_ADDRESS_LIST = "addressListPage";
 
-	private YComponentBinding<ListAddressComponent> listAddressCmp = null;
+	private YModelBinding<ListAddressComponent> listAddressCmp = null;
 
 	public AddressListFrame()
 	{
@@ -55,20 +55,20 @@ public class AddressListFrame extends AbstractYFrame
 	}
 
 	/**
-	 * @return {@link YComponentBinding} for {@link ListAddressComponent}
+	 * @return {@link YModelBinding} for {@link ListAddressComponent}
 	 */
-	public YComponentBinding<ListAddressComponent> getListAddressComponent()
+	public YModelBinding<ListAddressComponent> getListAddressComponent()
 	{
 		return this.listAddressCmp;
 	}
 
 	/**
-	 * External {@link YComponentEventListener} for {@link ShowAddressComponent}
+	 * External {@link YEventListener} for {@link ShowAddressComponent}
 	 * 
 	 * @param event
-	 *           {@link YComponentEvent}
+	 *           {@link YEvent}
 	 */
-	public void doEditAddress(final YComponentEvent<ShowAddressComponent> event)
+	public void doEditAddress(final YEvent<ShowAddressComponent> event)
 	{
 		//retrieve Address which shall be edited
 		final ShowAddressComponent cmp = event.getComponent();
@@ -84,12 +84,12 @@ public class AddressListFrame extends AbstractYFrame
 	}
 
 	/**
-	 * External {@link YComponentEventListener} for {@link ListAddressComponent}
+	 * External {@link YEventListener} for {@link ListAddressComponent}
 	 * 
 	 * @param event
-	 *           {@link YComponentEvent}
+	 *           {@link YEvent}
 	 */
-	public void doCreateAddress(final YComponentEvent<ListAddressComponent> event)
+	public void doCreateAddress(final YEvent<ListAddressComponent> event)
 	{
 		final EditAddressComponent editCmp = getAddressEditFrame().getEditAddressComponent().getValue();
 		editCmp.getSaveAddressEvent().getListener().setAction(NAV_ADDRESS_LIST);
@@ -102,11 +102,11 @@ public class AddressListFrame extends AbstractYFrame
 	private void configureListAddressComponent(final ListAddressComponent listAddressCmp)
 	{
 		final ShowAddressComponent showAddressCmp = listAddressCmp.getShowAddressComponentTemplate();
-		final YComponentEventListener<ShowAddressComponent> showAdrListener = showAddressCmp.getEditAddressEvent().getListener();
+		final YEventListener<ShowAddressComponent> showAdrListener = showAddressCmp.getEditAddressEvent().getListener();
 		showAdrListener.setAction(NAV_ADDRESS_EDIT);
 		showAdrListener.setActionListener(super.createExpressionString("doEditAddress"));
 
-		final YComponentEventListener<ListAddressComponent> crAdrListener = listAddressCmp.getCreateAddressEvent().getListener();
+		final YEventListener<ListAddressComponent> crAdrListener = listAddressCmp.getCreateAddressEvent().getListener();
 		crAdrListener.setAction(NAV_ADDRESS_EDIT);
 		crAdrListener.setActionListener(super.createExpressionString("doCreateAddress"));
 	}

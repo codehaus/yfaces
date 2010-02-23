@@ -19,8 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.codehaus.yfaces.component.AbstractYComponent;
-import org.codehaus.yfaces.component.YComponentEventHandler;
+import org.codehaus.yfaces.component.AbstractYModel;
+import org.codehaus.yfaces.component.YEventHandler;
 
 import ystorefoundationpackage.YComponent;
 import ystorefoundationpackage.domain.YStorefoundation;
@@ -30,7 +30,7 @@ import ystorefoundationpackage.domain.YStorefoundation;
 /**
  * Implementation of the <code>ListAddressComponent</code> interface.
  */
-public class DefaultListAddressComponent extends AbstractYComponent implements ListAddressComponent
+public class DefaultListAddressComponent extends AbstractYModel implements ListAddressComponent
 {
 	@SuppressWarnings("unused")
 	private static final Logger LOG = Logger.getLogger(DefaultListAddressComponent.class);
@@ -38,7 +38,7 @@ public class DefaultListAddressComponent extends AbstractYComponent implements L
 	private List<AddressModel> addressList = null;
 
 	private ShowAddressComponent showAddressCmpTemplate = null;
-	private YComponentEventHandler<ListAddressComponent> ehCreateAddr = null;
+	private YEventHandler<ListAddressComponent> ehCreateAddr = null;
 
 	/**
 	 * Constructor.
@@ -80,7 +80,7 @@ public class DefaultListAddressComponent extends AbstractYComponent implements L
 		return this.showAddressCmpTemplate;
 	}
 
-	public YComponentEventHandler<ListAddressComponent> getCreateAddressEvent()
+	public YEventHandler<ListAddressComponent> getCreateAddressEvent()
 	{
 		return this.ehCreateAddr;
 	}

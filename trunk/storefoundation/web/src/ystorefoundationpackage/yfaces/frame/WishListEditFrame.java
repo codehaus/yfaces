@@ -16,7 +16,7 @@ package ystorefoundationpackage.yfaces.frame;
 
 import org.apache.log4j.Logger;
 import org.codehaus.yfaces.component.AbstractYFrame;
-import org.codehaus.yfaces.component.YComponentBinding;
+import org.codehaus.yfaces.component.YModelBinding;
 
 import ystorefoundationpackage.yfaces.component.wishlist.EditWishListComponent;
 
@@ -34,9 +34,9 @@ public class WishListEditFrame extends AbstractYFrame
 	@SuppressWarnings("unused")
 	private static final Logger log = Logger.getLogger(WishListEditFrame.class);
 
-	private final YComponentBinding<EditWishListComponent> editWishlistCmp = super.createComponentBinding();
+	private final YModelBinding<EditWishListComponent> editWishlistCmp = super.createComponentBinding();
 
-	public YComponentBinding<EditWishListComponent> getEditWishListComponent()
+	public YModelBinding<EditWishListComponent> getEditWishListComponent()
 	{
 		return this.editWishlistCmp;
 	}

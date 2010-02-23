@@ -19,7 +19,7 @@ import de.hybris.platform.core.model.product.ProductModel;
 import java.util.Collections;
 import java.util.List;
 
-import org.codehaus.yfaces.component.AbstractYComponent;
+import org.codehaus.yfaces.component.AbstractYModel;
 
 import ystorefoundationpackage.domain.SfSessionContext;
 import ystorefoundationpackage.domain.YStorefoundation;
@@ -29,7 +29,7 @@ import ystorefoundationpackage.domain.YStorefoundation;
 /**
  * Implementation of the <code>BreadcrumbComponent</code> interface.
  */
-public class DefaultBreadcrumbComponent extends AbstractYComponent implements BreadcrumbComponent
+public class DefaultBreadcrumbComponent extends AbstractYModel implements BreadcrumbComponent
 {
 	private Object value = null;
 	private boolean linksEnabled = true;

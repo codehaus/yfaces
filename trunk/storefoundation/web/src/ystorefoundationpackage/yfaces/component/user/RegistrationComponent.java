@@ -19,15 +19,15 @@ import java.util.List;
 
 import javax.faces.model.SelectItem;
 
-import org.codehaus.yfaces.component.YComponent;
-import org.codehaus.yfaces.component.YComponentEventHandler;
+import org.codehaus.yfaces.component.YModel;
+import org.codehaus.yfaces.component.YEventHandler;
 
 
 
 /**
  * This component makes it possible for the user to register in StoreFoundation.
  */
-public interface RegistrationComponent extends YComponent
+public interface RegistrationComponent extends YModel
 {
 	public String getLogin();
 
@@ -57,5 +57,5 @@ public interface RegistrationComponent extends YComponent
 
 	public void setIsAddressEnabled(Boolean isAddressEnabled);
 
-	public YComponentEventHandler<RegistrationComponent> getRegisterEvent();
+	public YEventHandler<RegistrationComponent> getRegisterEvent();
 }

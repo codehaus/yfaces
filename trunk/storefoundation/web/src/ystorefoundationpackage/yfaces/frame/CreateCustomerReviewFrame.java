@@ -14,7 +14,7 @@
 package ystorefoundationpackage.yfaces.frame;
 
 import org.codehaus.yfaces.component.AbstractYFrame;
-import org.codehaus.yfaces.component.YComponentBinding;
+import org.codehaus.yfaces.component.YModelBinding;
 
 import ystorefoundationpackage.yfaces.component.customerreview.CreateCustomerReviewComponent;
 
@@ -28,7 +28,7 @@ public class CreateCustomerReviewFrame extends AbstractYFrame
 
 	private static final long serialVersionUID = 7865042503932068434L;
 
-	private YComponentBinding<CreateCustomerReviewComponent> customerReviewCmp = null;
+	private YModelBinding<CreateCustomerReviewComponent> customerReviewCmp = null;
 
 	public CreateCustomerReviewFrame()
 	{
@@ -36,7 +36,7 @@ public class CreateCustomerReviewFrame extends AbstractYFrame
 		this.customerReviewCmp = super.createComponentBinding();
 	}
 
-	public YComponentBinding<CreateCustomerReviewComponent> getCreateCustomerReviewComponent()
+	public YModelBinding<CreateCustomerReviewComponent> getCreateCustomerReviewComponent()
 	{
 		return this.customerReviewCmp;
 	}

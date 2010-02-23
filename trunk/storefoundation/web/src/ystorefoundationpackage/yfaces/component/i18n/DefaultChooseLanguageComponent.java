@@ -22,10 +22,10 @@ import java.util.List;
 
 import javax.faces.model.SelectItem;
 
-import org.codehaus.yfaces.component.AbstractYComponent;
-import org.codehaus.yfaces.component.DefaultYComponentEventListener;
-import org.codehaus.yfaces.component.YComponentEvent;
-import org.codehaus.yfaces.component.YComponentEventHandler;
+import org.codehaus.yfaces.component.AbstractYModel;
+import org.codehaus.yfaces.component.DefaultYEventListener;
+import org.codehaus.yfaces.component.YEvent;
+import org.codehaus.yfaces.component.YEventHandler;
 
 import ystorefoundationpackage.domain.SfSessionContext;
 import ystorefoundationpackage.domain.YStorefoundation;
@@ -36,7 +36,7 @@ import ystorefoundationpackage.faces.CompareSelectItemByLabel;
 /**
  * Implementation of the <code>ChooseLanguageComponent</code> interface.
  */
-public class DefaultChooseLanguageComponent extends AbstractYComponent implements ChooseLanguageComponent
+public class DefaultChooseLanguageComponent extends AbstractYModel implements ChooseLanguageComponent
 {
 
 	private static final long serialVersionUID = -5831970714189561288L;
@@ -44,7 +44,7 @@ public class DefaultChooseLanguageComponent extends AbstractYComponent implement
 	private LanguageModel languageModel = null;
 	private List<? extends SelectItem> languages = null;
 
-	private YComponentEventHandler<ChooseLanguageComponent> ehChooseLanguage = null;
+	private YEventHandler<ChooseLanguageComponent> ehChooseLanguage = null;
 
 	public DefaultChooseLanguageComponent()
 	{
@@ -99,7 +99,7 @@ public class DefaultChooseLanguageComponent extends AbstractYComponent implement
 		}
 	}
 
-	public YComponentEventHandler<ChooseLanguageComponent> getSaveLanguageEvent()
+	public YEventHandler<ChooseLanguageComponent> getSaveLanguageEvent()
 	{
 		return this.ehChooseLanguage;
 	}
@@ -108,13 +108,13 @@ public class DefaultChooseLanguageComponent extends AbstractYComponent implement
 	/**
 	 * This event gets fired when the user changes the language.
 	 */
-	public static class SaveLanguageAction extends DefaultYComponentEventListener<ChooseLanguageComponent>
+	public static class SaveLanguageAction extends DefaultYEventListener<ChooseLanguageComponent>
 	{
 
 		private static final long serialVersionUID = 5349888260508346870L;
 
 		@Override
-		public void actionListener(final YComponentEvent<ChooseLanguageComponent> event)
+		public void actionListener(final YEvent<ChooseLanguageComponent> event)
 		{
 			final SfSessionContext userSession = YStorefoundation.getRequestContext().getSessionContext();
 			userSession.setLanguage(event.getComponent().getLanguage());

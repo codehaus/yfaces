@@ -18,8 +18,8 @@ import de.hybris.platform.core.model.product.ProductModel;
 
 import java.util.List;
 
-import org.codehaus.yfaces.component.YComponent;
-import org.codehaus.yfaces.component.YComponentEventHandler;
+import org.codehaus.yfaces.component.YModel;
+import org.codehaus.yfaces.component.YEventHandler;
 
 
 
@@ -27,7 +27,7 @@ import org.codehaus.yfaces.component.YComponentEventHandler;
  * This component displays an order in table form. It includes much important information, such as tax,
  * discount(voucher), and delivery cost. This may be either a finalized order or a cart.
  */
-public interface OrderTableComponent extends YComponent
+public interface OrderTableComponent extends YModel
 {
 
 	/**
@@ -64,6 +64,6 @@ public interface OrderTableComponent extends YComponent
 
 	public List<OrderTableRow> getOrderTableRows();
 
-	public YComponentEventHandler<OrderTableComponent> getPlaceOrderEvent();
+	public YEventHandler<OrderTableComponent> getPlaceOrderEvent();
 
 }

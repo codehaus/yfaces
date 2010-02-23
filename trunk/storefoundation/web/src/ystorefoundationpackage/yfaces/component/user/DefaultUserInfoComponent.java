@@ -13,8 +13,8 @@
  */
 package ystorefoundationpackage.yfaces.component.user;
 
-import org.codehaus.yfaces.component.AbstractYComponent;
-import org.codehaus.yfaces.component.YComponentEventHandler;
+import org.codehaus.yfaces.component.AbstractYModel;
+import org.codehaus.yfaces.component.YEventHandler;
 
 import de.hybris.platform.core.model.user.UserModel;
 
@@ -24,15 +24,15 @@ import ystorefoundationpackage.domain.YStorefoundation;
 /**
  * Implementation of the <code>UserInfoComponent</code> interface.
  */
-public class DefaultUserInfoComponent extends AbstractYComponent implements UserInfoComponent
+public class DefaultUserInfoComponent extends AbstractYModel implements UserInfoComponent
 {
 
 	private static final long serialVersionUID = 8191493087187993625L;
 
 	private UserModel user = null;
 
-	private YComponentEventHandler<UserInfoComponent> ehChangePW = null;
-	private YComponentEventHandler<UserInfoComponent> ehOrderHistory = null;
+	private YEventHandler<UserInfoComponent> ehChangePW = null;
+	private YEventHandler<UserInfoComponent> ehOrderHistory = null;
 
 	@Override
 	public void validate()
@@ -61,12 +61,12 @@ public class DefaultUserInfoComponent extends AbstractYComponent implements User
 		this.user = user;
 	}
 
-	public YComponentEventHandler<UserInfoComponent> getChangePasswordEvent()
+	public YEventHandler<UserInfoComponent> getChangePasswordEvent()
 	{
 		return this.ehChangePW;
 	}
 
-	public YComponentEventHandler<UserInfoComponent> getShowOrderHistoryEvent()
+	public YEventHandler<UserInfoComponent> getShowOrderHistoryEvent()
 	{
 		return this.ehOrderHistory;
 	}

@@ -21,7 +21,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.codehaus.yfaces.component.AbstractYComponent;
+import org.codehaus.yfaces.component.AbstractYModel;
 
 import ystorefoundationpackage.domain.YStorefoundation;
 
@@ -29,7 +29,7 @@ import ystorefoundationpackage.domain.YStorefoundation;
 /**
  * Implementation of the <code>NavigationElementsComponent</code> interface.
  */
-public class DefaultNavigationElementsComponent extends AbstractYComponent implements NavigationElementsComponent
+public class DefaultNavigationElementsComponent extends AbstractYModel implements NavigationElementsComponent
 {
 	@SuppressWarnings("unused")
 	private static final Logger LOG = Logger.getLogger(DefaultNavigationElementsComponent.class);

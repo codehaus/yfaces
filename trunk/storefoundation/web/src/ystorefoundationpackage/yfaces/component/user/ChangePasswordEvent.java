@@ -15,8 +15,8 @@ package ystorefoundationpackage.yfaces.component.user;
 
 
 import org.apache.log4j.Logger;
-import org.codehaus.yfaces.component.DefaultYComponentEventListener;
-import org.codehaus.yfaces.component.YComponentEvent;
+import org.codehaus.yfaces.component.DefaultYEventListener;
+import org.codehaus.yfaces.component.YEvent;
 
 import ystorefoundationpackage.domain.ChangePasswordContext;
 import ystorefoundationpackage.domain.MailManagement;
@@ -29,7 +29,7 @@ import ystorefoundationpackage.domain.impl.JaloBridge;
  * This event gets fired when the user tries to change the password. An email will also be sent to notify the user if
  * the password is changed successfully.
  */
-public class ChangePasswordEvent extends DefaultYComponentEventListener<ChangePasswordComponent>
+public class ChangePasswordEvent extends DefaultYEventListener<ChangePasswordComponent>
 {
 
 	private static final Logger log = Logger.getLogger(ChangePasswordEvent.class);
@@ -54,7 +54,7 @@ public class ChangePasswordEvent extends DefaultYComponentEventListener<ChangePa
 
 
 	@Override
-	public void actionListener(final YComponentEvent<ChangePasswordComponent> event)
+	public void actionListener(final YEvent<ChangePasswordComponent> event)
 	{
 		this.error = null;
 		final ChangePasswordComponent cmp = event.getComponent();

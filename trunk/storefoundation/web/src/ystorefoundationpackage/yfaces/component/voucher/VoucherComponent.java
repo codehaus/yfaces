@@ -16,14 +16,14 @@ package ystorefoundationpackage.yfaces.component.voucher;
 
 import javax.faces.model.DataModel;
 
-import org.codehaus.yfaces.component.YComponent;
-import org.codehaus.yfaces.component.YComponentEventHandler;
+import org.codehaus.yfaces.component.YModel;
+import org.codehaus.yfaces.component.YEventHandler;
 
 
 /**
  * The user can redeem or release the vouchers with this component.
  */
-public interface VoucherComponent extends YComponent
+public interface VoucherComponent extends YModel
 {
 
 	public static final String ATTRIB_SELECT_VOUCHER = "selectedVoucher";
@@ -55,13 +55,13 @@ public interface VoucherComponent extends YComponent
 	 * 
 	 * @return the event handler for the redeem voucher event
 	 */
-	public YComponentEventHandler<VoucherComponent> getRedeemVoucherEvent();
+	public YEventHandler<VoucherComponent> getRedeemVoucherEvent();
 
 	/**
 	 * Returns the event handler for the release voucher event
 	 * 
 	 * @return the event handler for the release voucher event
 	 */
-	public YComponentEventHandler<VoucherComponent> getReleaseVoucherEvent();
+	public YEventHandler<VoucherComponent> getReleaseVoucherEvent();
 
 }

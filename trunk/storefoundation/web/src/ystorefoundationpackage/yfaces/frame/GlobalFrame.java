@@ -18,10 +18,10 @@ import java.util.Collections;
 
 import org.apache.log4j.Logger;
 import org.codehaus.yfaces.component.AbstractYFrame;
-import org.codehaus.yfaces.component.DefaultYComponentEventListener;
-import org.codehaus.yfaces.component.YComponentBinding;
-import org.codehaus.yfaces.component.YComponentEvent;
-import org.codehaus.yfaces.component.YComponentEventListener;
+import org.codehaus.yfaces.component.DefaultYEventListener;
+import org.codehaus.yfaces.component.YModelBinding;
+import org.codehaus.yfaces.component.YEvent;
+import org.codehaus.yfaces.component.YEventListener;
 
 import ystorefoundationpackage.NavigationOutcome;
 import ystorefoundationpackage.domain.SfSessionContext;
@@ -54,15 +54,15 @@ public class GlobalFrame extends AbstractYFrame
 	@SuppressWarnings("unused")
 	private static final Logger log = Logger.getLogger(GlobalFrame.class);
 
-	private YComponentBinding<CategoryTreeComponent> categoryTreeCmp = null;
-	private YComponentBinding<QuickSearchComponent> quickSearchCmp = null;
-	private YComponentBinding<ChooseLanguageComponent> chooseLanguageCmp = null;
-	private YComponentBinding<AdBannerComponent> adBannerCmp = null;
-	private YComponentBinding<LoginComponent> loginCmp = null;
-	private YComponentBinding<ChooseCurrencyComponent> chooseCurrencyCmp = null;
-	private YComponentBinding<ChooseCatalogComponent> chooseCatalogCmp = null;
-	private YComponentBinding<ShowHistoryComponent> showHistoryCmp = null;
-	private YComponentBinding<ProductsQuickViewComponent> productsQuickViewCmp = null;
+	private YModelBinding<CategoryTreeComponent> categoryTreeCmp = null;
+	private YModelBinding<QuickSearchComponent> quickSearchCmp = null;
+	private YModelBinding<ChooseLanguageComponent> chooseLanguageCmp = null;
+	private YModelBinding<AdBannerComponent> adBannerCmp = null;
+	private YModelBinding<LoginComponent> loginCmp = null;
+	private YModelBinding<ChooseCurrencyComponent> chooseCurrencyCmp = null;
+	private YModelBinding<ChooseCatalogComponent> chooseCatalogCmp = null;
+	private YModelBinding<ShowHistoryComponent> showHistoryCmp = null;
+	private YModelBinding<ProductsQuickViewComponent> productsQuickViewCmp = null;
 
 	public GlobalFrame()
 	{
@@ -79,73 +79,73 @@ public class GlobalFrame extends AbstractYFrame
 	}
 
 	/**
-	 * @return {@link YComponentBinding} for {@link ChooseLanguageComponent}
+	 * @return {@link YModelBinding} for {@link ChooseLanguageComponent}
 	 */
-	public YComponentBinding<ChooseLanguageComponent> getChooseLanguageComponent()
+	public YModelBinding<ChooseLanguageComponent> getChooseLanguageComponent()
 	{
 		return this.chooseLanguageCmp;
 	}
 
 	/**
-	 * @return {@link YComponentBinding} for {@link ChooseCurrencyComponent}
+	 * @return {@link YModelBinding} for {@link ChooseCurrencyComponent}
 	 */
-	public YComponentBinding<ChooseCurrencyComponent> getChooseCurrencyComponent()
+	public YModelBinding<ChooseCurrencyComponent> getChooseCurrencyComponent()
 	{
 		return this.chooseCurrencyCmp;
 	}
 
 	/**
-	 * @return {@link YComponentBinding} for {@link QuickSearchComponent}
+	 * @return {@link YModelBinding} for {@link QuickSearchComponent}
 	 */
-	public YComponentBinding<QuickSearchComponent> getQuickSearchComponent()
+	public YModelBinding<QuickSearchComponent> getQuickSearchComponent()
 	{
 		return this.quickSearchCmp;
 	}
 
 	/**
-	 * @return {@link YComponentBinding} for {@link AdBannerComponent}
+	 * @return {@link YModelBinding} for {@link AdBannerComponent}
 	 */
-	public YComponentBinding<AdBannerComponent> getAdBannerComponent()
+	public YModelBinding<AdBannerComponent> getAdBannerComponent()
 	{
 		return this.adBannerCmp;
 	}
 
 	/**
-	 * @return {@link YComponentBinding} for {@link LoginComponent}
+	 * @return {@link YModelBinding} for {@link LoginComponent}
 	 */
-	public YComponentBinding<LoginComponent> getLoginComponent()
+	public YModelBinding<LoginComponent> getLoginComponent()
 	{
 		return this.loginCmp;
 	}
 
 	/**
-	 * @return {@link YComponentBinding} for {@link ProductsQuickViewComponent}
+	 * @return {@link YModelBinding} for {@link ProductsQuickViewComponent}
 	 */
-	public YComponentBinding<ProductsQuickViewComponent> getProductsQuickViewComponent()
+	public YModelBinding<ProductsQuickViewComponent> getProductsQuickViewComponent()
 	{
 		return this.productsQuickViewCmp;
 	}
 
 	/**
-	 * @return {@link YComponentBinding} for {@link ShowHistoryComponent}
+	 * @return {@link YModelBinding} for {@link ShowHistoryComponent}
 	 */
-	public YComponentBinding<ShowHistoryComponent> getShowHistoryComponent()
+	public YModelBinding<ShowHistoryComponent> getShowHistoryComponent()
 	{
 		return this.showHistoryCmp;
 	}
 
 	/**
-	 * @return {@link YComponentBinding} for {@link ChooseCatalogComponent}
+	 * @return {@link YModelBinding} for {@link ChooseCatalogComponent}
 	 */
-	public YComponentBinding<ChooseCatalogComponent> getChooseCatalogComponent()
+	public YModelBinding<ChooseCatalogComponent> getChooseCatalogComponent()
 	{
 		return this.chooseCatalogCmp;
 	}
 
 	/**
-	 * @return {@link YComponentBinding} for {@link CategoryTreeComponent}
+	 * @return {@link YModelBinding} for {@link CategoryTreeComponent}
 	 */
-	public YComponentBinding<CategoryTreeComponent> getCategoryTreeComponent()
+	public YModelBinding<CategoryTreeComponent> getCategoryTreeComponent()
 	{
 		return this.categoryTreeCmp;
 	}
@@ -174,7 +174,7 @@ public class GlobalFrame extends AbstractYFrame
 		final QuickSearchComponent result = new DefaultQuickSearchComponent();
 
 		//a new listener is created; the default one does the search
-		final YComponentEventListener<QuickSearchComponent> listener = new DefaultYComponentEventListener<QuickSearchComponent>();
+		final YEventListener<QuickSearchComponent> listener = new DefaultYEventListener<QuickSearchComponent>();
 		listener.setAction("searchResultPage");
 		listener.setActionListener(super.createExpressionString("doQuickSearch"));
 
@@ -205,12 +205,12 @@ public class GlobalFrame extends AbstractYFrame
 	}
 
 	/**
-	 * External {@link YComponentEventListener} for {@link QuickSearchComponent}
+	 * External {@link YEventListener} for {@link QuickSearchComponent}
 	 * 
 	 * @param event
-	 *           {@link YComponentEvent}
+	 *           {@link YEvent}
 	 */
-	public void doQuickSearch(final YComponentEvent<QuickSearchComponent> event)
+	public void doQuickSearch(final YEvent<QuickSearchComponent> event)
 	{
 		final QuickSearchComponent cmp = event.getComponent();
 

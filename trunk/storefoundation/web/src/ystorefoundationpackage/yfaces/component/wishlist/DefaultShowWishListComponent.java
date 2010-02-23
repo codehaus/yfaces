@@ -21,10 +21,10 @@ import java.util.List;
 
 import javax.faces.context.FacesContext;
 
-import org.codehaus.yfaces.component.AbstractYComponent;
-import org.codehaus.yfaces.component.DefaultYComponentEventListener;
-import org.codehaus.yfaces.component.YComponentEvent;
-import org.codehaus.yfaces.component.YComponentEventHandler;
+import org.codehaus.yfaces.component.AbstractYModel;
+import org.codehaus.yfaces.component.DefaultYEventListener;
+import org.codehaus.yfaces.component.YEvent;
+import org.codehaus.yfaces.component.YEventHandler;
 
 import ystorefoundationpackage.domain.SfRequestContext;
 import ystorefoundationpackage.domain.SfSessionContext;
@@ -37,7 +37,7 @@ import ystorefoundationpackage.yfaces.frame.WishListFrame;
 /**
  * Implementation of the <code>ShowWishListComponent</code> interface.
  */
-public class DefaultShowWishListComponent extends AbstractYComponent implements ShowWishListComponent
+public class DefaultShowWishListComponent extends AbstractYModel implements ShowWishListComponent
 {
 
 	private static final long serialVersionUID = -5245128193717584352L;
@@ -45,7 +45,7 @@ public class DefaultShowWishListComponent extends AbstractYComponent implements 
 	private Wishlist2Model wishList = null;
 	private List<Wishlist2EntryModel> entries = null;
 
-	private YComponentEventHandler<ShowWishListComponent> ehAddListToCart = null;
+	private YEventHandler<ShowWishListComponent> ehAddListToCart = null;
 
 	//default constructor
 	public DefaultShowWishListComponent()
@@ -92,12 +92,12 @@ public class DefaultShowWishListComponent extends AbstractYComponent implements 
 	/**
 	 * This event gets fired when the user tries to add all products in the current wish list to cart.
 	 */
-	public static class AddAllProductsToCartAction extends DefaultYComponentEventListener<ShowWishListComponent>
+	public static class AddAllProductsToCartAction extends DefaultYEventListener<ShowWishListComponent>
 	{
 		private static final long serialVersionUID = 7388888426022245269L;
 
 		@Override
-		public void actionListener(final YComponentEvent<ShowWishListComponent> event)
+		public void actionListener(final YEvent<ShowWishListComponent> event)
 		{
 			final SfRequestContext reqCtx = YStorefoundation.getRequestContext();
 			final SfSessionContext sessCtx = reqCtx.getSessionContext();
@@ -144,7 +144,7 @@ public class DefaultShowWishListComponent extends AbstractYComponent implements 
 		return this.entries;
 	}
 
-	public YComponentEventHandler<ShowWishListComponent> getAddAllProductsToCartEvent()
+	public YEventHandler<ShowWishListComponent> getAddAllProductsToCartEvent()
 	{
 		return this.ehAddListToCart;
 	}
