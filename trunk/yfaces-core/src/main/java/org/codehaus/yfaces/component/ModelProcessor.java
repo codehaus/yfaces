@@ -17,10 +17,23 @@ public interface ModelProcessor<T> {
 	 */
 	T createModel();
 
-	void initializeModel(T cmp);
+	/**
+	 * Adds {@link YComponent} to passed {@link YModel}
+	 * 
+	 * @param cmp
+	 */
+	void setYComponent(T model);
+
+	/**
+	 * Adds {@link YFrame} to passed {@link YModel}
+	 * 
+	 * @param model
+	 * @param frame
+	 */
+	void setFrame(T model, YFrame frame);
 
 	void validateModel(T model);
 
-	void setProperty(T cmp, String property, Object value);
+	void setProperty(T model, String property, Object value);
 
 }

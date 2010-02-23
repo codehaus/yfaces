@@ -205,8 +205,8 @@ public class YManagedBean {
 	//
 	// Serialization
 	//
-	private void writeObject(final ObjectOutputStream aOutputStream) throws IOException {
-		aOutputStream.defaultWriteObject();
+	private void writeObject(final ObjectOutputStream out) throws IOException {
+		out.defaultWriteObject();
 		if (log.isDebugEnabled()) {
 			log.debug("SERIALIZE (save) instance [" + logId + "] (" + this.hashCode() + ")");
 		}

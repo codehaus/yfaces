@@ -1,6 +1,7 @@
 package org.codehaus.yfaces.component;
 
 import org.apache.log4j.Logger;
+import org.codehaus.yfaces.component.YFrameRegistry.YFrameContext;
 
 public class YModelProcessor extends PojoModelProcessor<YModel> {
 
@@ -16,8 +17,8 @@ public class YModelProcessor extends PojoModelProcessor<YModel> {
 	}
 
 	@Override
-	public void initializeModel(final YModel cmp) {
-		((AbstractYModel) cmp).setYComponent(cmpInfo);
+	public void setYComponent(final YModel model) {
+		((AbstractYModel) model).setYComponent(cmpInfo);
 	}
 
 	@Override
@@ -25,4 +26,9 @@ public class YModelProcessor extends PojoModelProcessor<YModel> {
 		model.validate();
 	}
 
+	@Override
+	public void setFrame(final YModel model, final YFrame frame) {
+		final YFrameContext frameCtx = YFrameRegistry.getInstance().getFrameContext(frame.getClass());
+		((AbstractYModel) model).setFrame("#{" + frameCtx.getBeanId() + "}");
+	}
 }

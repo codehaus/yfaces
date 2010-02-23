@@ -30,30 +30,7 @@ import org.codehaus.yfaces.YFacesTaglib;
  * 
  * @author Denny Strietzbaum
  */
-// 
-// This registry is a very similar construct to FaceletFactory.
-//
-// FaceletFactory/Facelets
-// - Describes a view fragment
-// - A Facelet recognizes View changes and gets recreated by the FaceletFactory
-// - FaceletFactory creates a Facelet on demand
-// 
-//
-// A great deal would be if the Facelet implementation can be extended by an
-// additional
-// one, lets name it YComponentFacelet which combines the advantages of a
-// Facelet with
-// the additional functions of a YComponentInfo.
-// 
-// What are the pitfalls:
-// - Facelets DefaultFaceletFactory always creates Facelets of type
-// DefaultFacelet
-// - DefaultFaceletFactory is final
-// - DefaultFacelet is final and package protected
-// - YComponentInfo can easily be integrated when getFacelet(URL) can be
-// overwritten; but this one belongs to final DefaultFaceletFactory
-// - FaceletFactory#getFacelet(String uri) gets only called once per request for
-// the current view id -> useless
+
 public class YComponentRegistry {
 
 	private static final Logger log = Logger.getLogger(YComponentRegistry.class);

@@ -265,7 +265,7 @@ public class HtmlYComponentHandler extends ComponentHandler {
 	protected void onComponentPopulated(final FaceletContext ctx, final UIComponent cmp,
 			final UIComponent uicomponent1) {
 		super.onComponentPopulated(ctx, cmp, uicomponent1);
-		((HtmlYComponent) cmp).setComponentInfo(cmpInfo);
+		((HtmlYComponent) cmp).setComponent(cmpInfo);
 		((HtmlYComponent) cmp).setViewLocation(cmpInfo.getViewLocation());
 	}
 

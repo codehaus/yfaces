@@ -29,9 +29,13 @@ import javax.faces.application.Application;
 import javax.faces.context.FacesContext;
 
 import org.apache.log4j.Logger;
+import org.codehaus.yfaces.component.AbstractYModel;
+import org.codehaus.yfaces.component.YComponent;
 import org.codehaus.yfaces.component.YFrame;
+import org.codehaus.yfaces.component.YFrameRegistry;
 import org.codehaus.yfaces.component.YModel;
 import org.codehaus.yfaces.component.YModelBinding;
+import org.codehaus.yfaces.component.YFrameRegistry.YFrameContext;
 import org.codehaus.yfaces.context.REQUEST_PHASE;
 import org.codehaus.yfaces.context.YPageContext;
 import org.codehaus.yfaces.context.YRequestContextImpl;
@@ -108,6 +112,13 @@ public class YFacesELResolver extends ELResolver {
 		// ... when value is a Frame: notify current YPage
 		if (result instanceof YFrame) {
 			this.addFrameToPageContext(context, (YFrame) result);
+
+			// gather frame information when not already done
+			final YFrameContext frameCtx = YFrameRegistry.getInstance()
+					.getFrameContext(result.getClass());
+			if (!frameCtx.isResolved()) {
+				frameCtx.setBeanId((String) property);
+			}
 		}
 
 		// ... when value is a YComponentBinding and resolving is enabled,
@@ -116,9 +127,18 @@ public class YFacesELResolver extends ELResolver {
 			result = ((YModelBinding<?>) result).getValue();
 		}
 
-		//		if (result instanceof YModel) {
-		//			log.debug("");
-		//		}
+		if (result instanceof YModel) {
+			final AbstractYModel model = (AbstractYModel) result;
+			if (model.getComponent() == null) {
+				final YComponent cmp = getYContext(context).getCmp();
+				cmp.getModelProcessor().setYComponent(model);
+			}
+
+			if (base instanceof YFrame && model.getFrameBinding() == null) {
+				final YComponent cmp = getYContext(context).getCmp();
+				cmp.getModelProcessor().setFrame((YModel) result, (YFrame) base);
+			}
+		}
 
 		return result;
 	}
@@ -147,6 +167,18 @@ public class YFacesELResolver extends ELResolver {
 				this.resolver.setValue(context, base, property, value);
 			}
 		} else {
+			if (value instanceof YModel) {
+				final AbstractYModel model = (AbstractYModel) value;
+				if (model.getComponent() == null) {
+					final YComponent cmp = getYContext(context).getCmp();
+					cmp.getModelProcessor().setYComponent(model);
+				}
+
+				if (base instanceof YFrame && model.getFrameBinding() == null) {
+					final YComponent cmp = getYContext(context).getCmp();
+					cmp.getModelProcessor().setFrame((YModel) value, (YFrame) base);
+				}
+			}
 			this.resolver.setValue(context, base, property, value);
 		}
 	}

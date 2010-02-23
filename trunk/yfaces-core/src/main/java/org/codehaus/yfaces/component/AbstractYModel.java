@@ -43,8 +43,7 @@ public abstract class AbstractYModel implements YModel {
 	private Map<String, Object> attributes = null;
 	private String frameBinding = null;
 
-	private String id = null;
-	private String ns = null;
+	private String viewLocation = null;
 
 	private String uid = null;
 
@@ -64,14 +63,13 @@ public abstract class AbstractYModel implements YModel {
 
 	public YComponent getComponent() {
 		if (this.cmpInfo == null) {
-			this.cmpInfo = YFaces.getYComponentRegistry().getComponent(ns, id);
+			this.cmpInfo = YFaces.getYComponentRegistry().getComponentByPath(viewLocation);
 		}
 		return this.cmpInfo;
 	}
 
 	void setYComponent(final YComponent info) {
-		this.id = info.getViewId();
-		this.ns = info.getNamespace();
+		this.viewLocation = info.getViewLocation();
 		this.cmpInfo = info;
 	}
 
@@ -131,6 +129,10 @@ public abstract class AbstractYModel implements YModel {
 			}
 		}
 		return result;
+	}
+
+	public String getFrameBinding() {
+		return this.frameBinding;
 	}
 
 	public <T extends YModel> T newInstance(final String id) {
