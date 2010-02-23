@@ -29,7 +29,6 @@ import javax.faces.context.FacesContext;
 import org.apache.log4j.Logger;
 import org.codehaus.yfaces.YFacesException;
 
-
 /**
  * @author Denny Strietzbaum
  * 
@@ -55,14 +54,6 @@ public abstract class AbstractYModel implements YModel {
 		this.uid = this.getClass().getName() + String.valueOf(Math.random());
 	}
 
-	//	public String getId() {
-	//		return this.id;
-	//	}
-	//
-	//	public void setId(final String id) {
-	//		this.id = id;
-	//	}
-
 	public Map<String, Object> getAttributes() {
 		if (this.attributes == null) {
 			this.attributes = new HashMap<String, Object>();
@@ -70,7 +61,7 @@ public abstract class AbstractYModel implements YModel {
 		return this.attributes;
 	}
 
-	public YComponent getComponentInfo() {
+	public YComponent getComponent() {
 		if (this.cmpInfo == null) {
 			this.cmpInfo = YComponentRegistry.getInstance().getComponent(ns, id);
 		}
@@ -84,8 +75,7 @@ public abstract class AbstractYModel implements YModel {
 	}
 
 	/**
-	 * Creates an {@link YEventHandler} whose default {@link YEventListener} does
-	 * nothing.
+	 * Creates an {@link YEventHandler} whose default {@link YEventListener} does nothing.
 	 * 
 	 * @return {@link YEventHandler}
 	 */
@@ -94,15 +84,13 @@ public abstract class AbstractYModel implements YModel {
 	}
 
 	/**
-	 * Creates an {@link YEventHandler} whose default {@link YEventListener} is the
-	 * passed one.
+	 * Creates an {@link YEventHandler} whose default {@link YEventListener} is the passed one.
 	 * 
 	 * @param listener
 	 *          {@link YEventListener} default listener
 	 * @return {@link YEventHandler}
 	 */
-	public <T extends YModel> YEventHandler<T> createEventHandler(
-			final YEventListener<T> listener) {
+	public <T extends YModel> YEventHandler<T> createEventHandler(final YEventListener<T> listener) {
 		final YEventHandler<T> result = new YEventHandlerImpl<T>(listener);
 		return result;
 	}
@@ -174,8 +162,7 @@ public abstract class AbstractYModel implements YModel {
 	 */
 	@Override
 	public boolean equals(final Object obj) {
-		return (obj.getClass().equals(this.getClass()))
-				&& ((AbstractYModel) obj).uid.equals(this.uid);
+		return (obj.getClass().equals(this.getClass())) && ((AbstractYModel) obj).uid.equals(this.uid);
 	}
 
 	/*

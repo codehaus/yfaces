@@ -1,6 +1,12 @@
 package org.codehaus.yfaces.component;
 
-
+/**
+ * Configuration settings for a {@link YComponent}. Generally given as attributes of 'ycomponent' in
+ * view file. These settings are taken, to calculate runtime properties of {@link YComponent}
+ * 
+ * @author Denny Strietzbaum
+ * 
+ */
 public interface YComponentConfiguration {
 
 	static final String VAR_ATTRIBUTE = "var";
@@ -11,42 +17,42 @@ public interface YComponentConfiguration {
 	static final String PASS_TO_MODEL_ATTRIBUTE = "passToModel";
 
 	/**
-	 * Returns the 'id' which is unique within this components namespace. This value is set in
-	 * component view as Tag attribute. When empty an ID generated automatically.
+	 * Component id
 	 * 
-	 * @return id id of this component
+	 * @return configured id
 	 */
 	String getId();
 
 	/**
-	 * Return the model specification of this component. This value is set in component view as Tag
-	 * attribute. Can be empty.
+	 * Returns the model specification as interface class literal.
 	 * 
 	 * @return name of interface
 	 */
 	String getModelSpecification();
 
 	/**
-	 * Returns the default model implementation for this component. This value is set in component
-	 * view as Tag attribute. Mustn't be empty
+	 * Returns the default model implementation as class literal.
 	 * 
 	 * @return class name
 	 */
 	String getModelImplementation();
 
 	/**
-	 * Returns the name of the variable under which the component model is made available in view.
-	 * This value is set in component view as Tag attribute.
+	 * Returns the variable name under which an {@link YComponent} instance is available in view.
 	 * 
 	 * @return variable name
 	 */
 	String getVariableName();
 
+	/**
+	 * Returns value for error handling (NONE,INFO,DEBUG,FINE)
+	 * 
+	 * @return
+	 */
 	String getErrorHandling();
 
 	/**
-	 * Returns component properties which are allowed to be "pushed" from view into current processed
-	 * component instance. This value is set in component view as Tag attribute.
+	 * Returns passToModel properties as comma separated string.
 	 * 
 	 * @return
 	 */

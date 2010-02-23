@@ -184,7 +184,7 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 					if (YModel.class.isAssignableFrom(vb.getType(elCtx))) {
 						vb.setValue(elCtx, cmp);
 					} else {
-						final YComponent cmpInfo = cmp.getComponentInfo();
+						final YComponent cmpInfo = cmp.getComponent();
 						final YModelBinding<YModel> binding = new YModelBinding<YModel>(cmpInfo);
 						vb.setValue(elCtx, binding);
 						binding.setValue(cmp);
@@ -585,7 +585,7 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 			// if a Model instance is available...
 		} else {
 
-			if (value instanceof YModel && ((YModel) value).getComponentInfo() == null) {
+			if (value instanceof YModel && ((YModel) value).getComponent() == null) {
 				// ComponentInfo is empty whenever a YComponent is created via Constructor
 				cmpInfo.getModelProcessor().initializeModel(value);
 			}

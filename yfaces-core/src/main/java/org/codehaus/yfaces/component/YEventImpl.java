@@ -78,7 +78,7 @@ public class YEventImpl<T extends YModel> implements YEvent<T> {
 		if (log.isDebugEnabled()) {
 			final YModel cmp = getComponent();
 			String ctxPath = "event:" + this.getClass().getSimpleName() + "; componentId:"
-					+ cmp.getComponentInfo().getViewId();
+					+ cmp.getComponent().getViewId();
 
 			if (cmp.getFrame() != null) {
 				ctxPath = ctxPath + "; frameId: " + cmp.getFrame().getId() + "; pageId:"

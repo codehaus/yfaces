@@ -120,7 +120,7 @@ public class YEventHandlerImpl<T extends YModel> implements YEventHandler<T> {
 				log.debug("Notify listener (actionListener) " + listener.getClass().getSimpleName());
 				((AbstractYEventListener<T>) listener).fireActionListener(_event);
 			} catch (final RuntimeException e) {
-				final String _id = _event.getComponent().getComponentInfo().getViewId();
+				final String _id = _event.getComponent().getComponent().getViewId();
 				final String msg = "Exception while processing ActionListener ("
 						+ YModel.class.getSimpleName() + ": " + _id + "; Event: "
 						+ listener.getClass().getSimpleName() + ")";
@@ -150,7 +150,7 @@ public class YEventHandlerImpl<T extends YModel> implements YEventHandler<T> {
 				log.debug("Notify listener (valueChangeListener) " + listener.getClass().getSimpleName());
 				((AbstractYEventListener<T>) listener).fireValueChangeListener(_event);
 			} catch (final RuntimeException e) {
-				final String _id = _event.getComponent().getComponentInfo().getViewId();
+				final String _id = _event.getComponent().getComponent().getViewId();
 
 				final String msg = "Exception while processing ValueChangeListener ("
 						+ YModel.class.getSimpleName() + ": " + _id + "; Event: "
