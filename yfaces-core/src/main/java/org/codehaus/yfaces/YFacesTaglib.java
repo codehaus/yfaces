@@ -219,7 +219,7 @@ public class YFacesTaglib extends AbstractTagLibrary {
 			for (final URL url : resCollector.getFileResources()) {
 
 				//...create component meta information
-				final YComponentImpl cmpInfo = (YComponentImpl) cmpFac.createComponentInfo(
+				final YComponentImpl cmpInfo = (YComponentImpl) cmpFac.createComponent(
 						url, namespace);
 
 				//...which is successful when it's really a YComponent and not only a simple file

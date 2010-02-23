@@ -16,9 +16,7 @@
 package org.codehaus.yfaces.component.html;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.TreeSet;
 
 import javax.el.ELException;
 import javax.el.ValueExpression;
@@ -27,6 +25,8 @@ import javax.faces.component.UIComponent;
 
 import org.apache.log4j.Logger;
 import org.codehaus.yfaces.component.YComponent;
+import org.codehaus.yfaces.component.YComponentConfiguration;
+import org.codehaus.yfaces.component.YComponentConfigurationImpl;
 import org.codehaus.yfaces.component.YComponentImpl;
 import org.codehaus.yfaces.component.YComponentRegistry;
 
@@ -65,8 +65,7 @@ public class HtmlYComponentHandler extends ComponentHandler {
 
 		final String tagPath = config.getTag().getLocation().getPath();
 
-		this.cmpInfo = (YComponentImpl) YComponentRegistry.getInstance()
-				.getComponentByPath(tagPath);
+		this.cmpInfo = (YComponentImpl) YComponentRegistry.getInstance().getComponentByPath(tagPath);
 
 		// should be considered, to make this an exception
 		if (log.isDebugEnabled() && cmpInfo == null) {
@@ -90,49 +89,46 @@ public class HtmlYComponentHandler extends ComponentHandler {
 		log.debug("Refreshing " + YComponent.class.getSimpleName() + " for "
 				+ cmpInfo.getViewLocation() + "...");
 
-		final String specClass = getAttributeValue(tag, YComponent.MODEL_SPEC_ATTRIBUTE);
-		final String implClass = getAttributeValue(tag, YComponent.MODEL_IMPL_ATTRIBUTE);
-		final String varName = getAttributeValue(tag, YComponent.VAR_ATTRIBUTE);
-		final String id = getAttributeValue(tag, YComponent.ID_ATTRIBUTE);
-		final String injectable = getAttributeValue(tag, YComponent.PASS_TO_MODEL_ATTRIBUTE);
-		final String errorHandling = getAttributeValue(tag, YComponent.ERROR_ATTRIBUTE);
+		final String specClass = getAttributeValue(tag, YComponentConfiguration.MODEL_SPEC_ATTRIBUTE);
+		final String implClass = getAttributeValue(tag, YComponentConfiguration.MODEL_IMPL_ATTRIBUTE);
+		final String varName = getAttributeValue(tag, YComponentConfiguration.VAR_ATTRIBUTE);
+		final String id = getAttributeValue(tag, YComponentConfiguration.ID_ATTRIBUTE);
+		final String injectable = getAttributeValue(tag,
+				YComponentConfiguration.PASS_TO_MODEL_ATTRIBUTE);
+		final String errorHandling = getAttributeValue(tag, YComponentConfiguration.ERROR_ATTRIBUTE);
+
+		final YComponentConfigurationImpl cmpCfg = (YComponentConfigurationImpl) cmpInfo
+				.getConfiguration();
 
 		if (log.isDebugEnabled()) {
 			String updatedAttribs = "";
-			if (isModified(cmpInfo.getConfiguredModelSpecification(), specClass)) {
-				updatedAttribs = updatedAttribs + YComponent.MODEL_SPEC_ATTRIBUTE + ",";
+			if (isModified(cmpCfg.getModelSpecification(), specClass)) {
+				updatedAttribs = updatedAttribs + YComponentConfiguration.MODEL_SPEC_ATTRIBUTE + ",";
 			}
-			if (isModified(cmpInfo.getConfiguredModelImplementation(), implClass)) {
-				updatedAttribs = updatedAttribs + YComponent.MODEL_IMPL_ATTRIBUTE + ",";
+			if (isModified(cmpCfg.getModelImplementation(), implClass)) {
+				updatedAttribs = updatedAttribs + YComponentConfiguration.MODEL_IMPL_ATTRIBUTE + ",";
 			}
-			if (isModified(cmpInfo.getVariableName(), varName)) {
-				updatedAttribs = updatedAttribs + YComponent.VAR_ATTRIBUTE + ",";
+			if (isModified(cmpCfg.getVariableName(), varName)) {
+				updatedAttribs = updatedAttribs + YComponentConfiguration.VAR_ATTRIBUTE + ",";
 			}
-			if (isModified(cmpInfo.getId(), id)) {
-				updatedAttribs = updatedAttribs + YComponent.ID_ATTRIBUTE + ",";
+			if (isModified(cmpCfg.getId(), id)) {
+				updatedAttribs = updatedAttribs + YComponentConfiguration.ID_ATTRIBUTE + ",";
 			}
-
-			if (injectable != null) {
-				final String[] props = injectable.trim().split("\\s*,\\s*");
-				final Collection<String> push = new TreeSet<String>(Arrays.asList(props));
-				if (!push.equals(cmpInfo.getPushProperties())) {
-					updatedAttribs = updatedAttribs + YComponent.PASS_TO_MODEL_ATTRIBUTE;
-				}
+			if (isModified(cmpCfg.getPushProperties(), injectable)) {
+				updatedAttribs = updatedAttribs + YComponentConfiguration.PASS_TO_MODEL_ATTRIBUTE + ",";
 			}
-
-			// TODO: add 'injectable'
 
 			log.debug("...updated attributes: "
 					+ ((updatedAttribs.length() > 0) ? updatedAttribs : "[none]"));
 
 		}
 
-		cmpInfo.setConfiguredModelSpecification(specClass);
-		cmpInfo.setConfiguredModelImplementation(implClass);
-		cmpInfo.setVariableName(varName);
-		cmpInfo.setId(id);
-		cmpInfo.setErrorHandling(errorHandling);
-		cmpInfo.setPushProperties(injectable);
+		cmpCfg.setModelSpecification(specClass);
+		cmpCfg.setModelImplementation(implClass);
+		cmpCfg.setVariableName(varName);
+		cmpCfg.setId(id);
+		cmpCfg.setErrorHandling(errorHandling);
+		cmpCfg.setPushProperties(injectable);
 
 		cmpInfo.initialize();
 	}

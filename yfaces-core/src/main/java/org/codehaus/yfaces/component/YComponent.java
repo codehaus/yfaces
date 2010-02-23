@@ -30,13 +30,6 @@ import com.sun.facelets.tag.Tag;
  */
 public interface YComponent {
 
-	static final String VAR_ATTRIBUTE = "var";
-	static final String ID_ATTRIBUTE = "id";
-	static final String MODEL_SPEC_ATTRIBUTE = "modelspec";
-	static final String MODEL_IMPL_ATTRIBUTE = "model";
-	static final String ERROR_ATTRIBUTE = "errorHandling";
-	static final String PASS_TO_MODEL_ATTRIBUTE = "passToModel";
-
 	/**
 	 * Returns the 'id' which is unique within this components namespace. This value is set in
 	 * component view as Tag attribute. When empty an ID generated automatically.
@@ -44,22 +37,6 @@ public interface YComponent {
 	 * @return id id of this component
 	 */
 	String getId();
-
-	/**
-	 * Return the model specification of this component. This value is set in component view as Tag
-	 * attribute. Can be empty.
-	 * 
-	 * @return name of interface
-	 */
-	String getConfiguredModelSpecification();
-
-	/**
-	 * Returns the default model implementation for this component. This value is set in component
-	 * view as Tag attribute. Mustn't be empty
-	 * 
-	 * @return class name
-	 */
-	String getConfiguredModelImplementation();
 
 	/**
 	 * Returns the name of the variable under which the component model is made available in view.
@@ -98,9 +75,9 @@ public interface YComponent {
 	 * points to same target like {@link #getViewURL()}. This value gets detected and set
 	 * automatically.
 	 * <p/>
-	 * Location is used, to have a mapping between {@link YComponent} and Facelets managed view
-	 * files. This location is identical to that one of {@link Tag#getLocation()} which is made
-	 * available in {@link HtmlYComponentHandler}.
+	 * Location is used, to have a mapping between {@link YComponent} and Facelets managed view files.
+	 * This location is identical to that one of {@link Tag#getLocation()} which is made available in
+	 * {@link HtmlYComponentHandler}.
 	 * 
 	 * @return
 	 */
@@ -130,6 +107,8 @@ public interface YComponent {
 	 * @return {@link ModelProcessor}
 	 */
 	ModelProcessor getModelProcessor();
+
+	YComponentConfiguration getConfiguration();
 
 	boolean isValidated();
 
