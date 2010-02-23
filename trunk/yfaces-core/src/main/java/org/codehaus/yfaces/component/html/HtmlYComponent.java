@@ -32,6 +32,7 @@ import javax.faces.event.AbortProcessingException;
 import javax.faces.event.FacesEvent;
 
 import org.apache.log4j.Logger;
+import org.codehaus.yfaces.YFaces;
 import org.codehaus.yfaces.YFacesConfig;
 import org.codehaus.yfaces.YFacesELContext;
 import org.codehaus.yfaces.YFacesException;
@@ -39,7 +40,6 @@ import org.codehaus.yfaces.component.ModelProcessor;
 import org.codehaus.yfaces.component.YComponent;
 import org.codehaus.yfaces.component.YComponentConfiguration;
 import org.codehaus.yfaces.component.YComponentImpl;
-import org.codehaus.yfaces.component.YComponentRegistry;
 import org.codehaus.yfaces.component.YComponentValidator;
 import org.codehaus.yfaces.component.YModel;
 import org.codehaus.yfaces.component.YModelBinding;
@@ -520,11 +520,8 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 	 * @return {@link YComponent}
 	 */
 	protected YComponent getYComponentInfo() {
-		//		if (cmpInfo == null) {
-		//			cmpInfo = new YComponentInfoImpl(getId(), getVarName(), this.getSpec(), this.getImpl());
-		//		}
 		if (cmpInfo == null) {
-			cmpInfo = YComponentRegistry.getInstance().getComponentByPath(this.viewLocation);
+			cmpInfo = YFaces.getYComponentRegistry().getComponentByPath(this.viewLocation);
 		}
 		return cmpInfo;
 	}

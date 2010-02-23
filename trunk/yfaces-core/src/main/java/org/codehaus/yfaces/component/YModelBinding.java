@@ -15,9 +15,9 @@
  */
 package org.codehaus.yfaces.component;
 
+import org.codehaus.yfaces.YFaces;
 import org.codehaus.yfaces.YFacesException;
 import org.codehaus.yfaces.component.html.HtmlYComponent;
-
 
 /**
  * A Binding for an {@link YModel} instance.<br/>
@@ -27,9 +27,8 @@ import org.codehaus.yfaces.component.html.HtmlYComponent;
  * Whereas managedBean is a ManagedBean which has a getter and a setter for a {@link HtmlYComponent} <br/>
  * YFaces provides another technique and introduces a thin meta-class which describes such a binding
  * for a {@link YModel} instance more particularly. Instead of returning the concrete component
- * instance an instance of {@link YModelBinding} can be returned. For the view nothing changes,
- * the binding attribute is used exactly like before. However, the programmer has some more choices
- * now.
+ * instance an instance of {@link YModelBinding} can be returned. For the view nothing changes, the
+ * binding attribute is used exactly like before. However, the programmer has some more choices now.
  * 
  * @author Denny Strietzbaum
  */
@@ -48,8 +47,8 @@ public class YModelBinding<T extends YModel> {
 
 	/**
 	 * Constructor. Creates a general binding without any {@link YModel} information. A concrete
-	 * {@link YModel} instance can be set later programatically. When no component instance is set
-	 * JSF does it when this binding is resolved for the first time.<br/>
+	 * {@link YModel} instance can be set later programatically. When no component instance is set JSF
+	 * does it when this binding is resolved for the first time.<br/>
 	 */
 	public YModelBinding() {
 
@@ -81,7 +80,7 @@ public class YModelBinding<T extends YModel> {
 	public T getValue() {
 		// standard lookup
 		if (this.value == null && this.id != null) {
-			final YComponent cmpInfo = YComponentRegistry.getInstance().getComponent(this.ns, this.id);
+			final YComponent cmpInfo = YFaces.getYComponentRegistry().getComponent(this.ns, this.id);
 
 			if (cmpInfo == null) {
 				throw new YFacesException("There is no component with id '" + this.id + "' registered.");

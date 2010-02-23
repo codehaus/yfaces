@@ -1,5 +1,6 @@
 package org.codehaus.yfaces;
 
+import org.codehaus.yfaces.component.YComponentRegistry;
 import org.codehaus.yfaces.context.YRequestContext;
 
 public class YFaces {
@@ -8,15 +9,21 @@ public class YFaces {
 
 	public static YRequestContext getRequestContext() {
 		return localCtx.get();
-		//		return (YRequestContext) YApplicationContext.getApplicationContext().getBean(
-		//				YRequestContext.class.getSimpleName());
 	}
 
-	static void setRequestContext(YRequestContext ctx) {
+	static void setRequestContext(final YRequestContext ctx) {
 		localCtx.set(ctx);
 	}
 
 	static void removeRequestContext() {
 		localCtx.remove();
 	}
+
+	// for now a singleton, should be integrated intoe the yfaces-framework as part of application
+	private static YComponentRegistry singleton = new YComponentRegistry();
+
+	public static YComponentRegistry getYComponentRegistry() {
+		return singleton;
+	}
+
 }

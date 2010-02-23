@@ -38,7 +38,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.codehaus.yfaces.component.YComponentFactory;
 import org.codehaus.yfaces.component.YComponentImpl;
-import org.codehaus.yfaces.component.YComponentRegistry;
 import org.codehaus.yfaces.component.YComponentValidator;
 import org.codehaus.yfaces.component.YComponentValidator.YValidationAspekt;
 import org.codehaus.yfaces.component.html.HtmlYComponent;
@@ -47,7 +46,6 @@ import org.codehaus.yfaces.component.html.HtmlYComponentHandler;
 import com.sun.facelets.FaceletFactory;
 import com.sun.facelets.impl.DefaultFaceletFactory;
 import com.sun.facelets.tag.AbstractTagLibrary;
-
 
 /**
  * A Facelet based Taglibrary which registers YComponent resources.
@@ -219,8 +217,7 @@ public class YFacesTaglib extends AbstractTagLibrary {
 			for (final URL url : resCollector.getFileResources()) {
 
 				//...create component meta information
-				final YComponentImpl cmpInfo = (YComponentImpl) cmpFac.createComponent(
-						url, namespace);
+				final YComponentImpl cmpInfo = (YComponentImpl) cmpFac.createComponent(url, namespace);
 
 				//...which is successful when it's really a YComponent and not only a simple file
 				if (cmpInfo != null) {
@@ -248,7 +245,7 @@ public class YFacesTaglib extends AbstractTagLibrary {
 					final Set<YValidationAspekt> warnings = cmpValidator.getValidationWarnings();
 
 					// add that Component to a registry
-					final boolean added = YComponentRegistry.getInstance().addComponent(cmpInfo);
+					final boolean added = YFaces.getYComponentRegistry().addComponent(cmpInfo);
 
 					// and if registry does not complain
 					if (added) {

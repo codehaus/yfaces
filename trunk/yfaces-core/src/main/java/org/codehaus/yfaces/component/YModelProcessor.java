@@ -17,7 +17,7 @@ public class YModelProcessor extends PojoModelProcessor<YModel> {
 
 	@Override
 	public void initializeModel(final YModel cmp) {
-		((AbstractYModel) cmp).setYComponentInfo(cmpInfo);
+		((AbstractYModel) cmp).setYComponent(cmpInfo);
 	}
 
 	@Override

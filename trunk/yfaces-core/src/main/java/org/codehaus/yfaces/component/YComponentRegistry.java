@@ -24,7 +24,6 @@ import org.apache.log4j.Logger;
 import org.codehaus.yfaces.YFacesException;
 import org.codehaus.yfaces.YFacesTaglib;
 
-
 /**
  * A registry which holds meta information about registered YComponent. Components are registered
  * during startup. YComponent meta information are described as {@link YComponentImpl}.
@@ -64,13 +63,6 @@ public class YComponentRegistry {
 	private Map<String, Map<String, YComponent>> cmpMap = null;
 
 	private Map<String, YComponent> locationToCmpMap = null;
-
-	// for now a singleton, should be integrated intoe the yfaces-framework as part of application
-	private static YComponentRegistry singleton = new YComponentRegistry();
-
-	public static YComponentRegistry getInstance() {
-		return singleton;
-	}
 
 	public YComponentRegistry() {
 		this.locationToCmpMap = new HashMap<String, YComponent>();
@@ -167,7 +159,8 @@ public class YComponentRegistry {
 				// otherwise log as error
 			} else {
 				log.error("Error adding component: " + cmpInfo.getViewURL());
-				log.error("A component with same ID is already registered (" + map.get(id).getViewURL() + ")");
+				log.error("A component with same ID is already registered (" + map.get(id).getViewURL()
+						+ ")");
 			}
 		}
 		return result;

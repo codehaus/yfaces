@@ -28,21 +28,21 @@ import javax.el.PropertyNotWritableException;
 import javax.faces.application.Application;
 import javax.faces.context.FacesContext;
 
+import org.apache.log4j.Logger;
+import org.codehaus.yfaces.component.YFrame;
 import org.codehaus.yfaces.component.YModel;
 import org.codehaus.yfaces.component.YModelBinding;
-import org.codehaus.yfaces.component.YFrame;
 import org.codehaus.yfaces.context.REQUEST_PHASE;
 import org.codehaus.yfaces.context.YPageContext;
 import org.codehaus.yfaces.context.YRequestContextImpl;
 
-
 /**
- * A custom {@link ELResolver} implementation which handles {@link YModelBinding} and
- * {@link YFrame} instances.Whenever a resolved value leads into one of these instances some pre- pr
+ * A custom {@link ELResolver} implementation which handles {@link YModelBinding} and {@link YFrame}
+ * instances.Whenever a resolved value leads into one of these instances some pre- pr
  * post-processing is done.
  * <ul>
- * <li> {@link YModelBinding}: automatically resolve it to {@link YModelBinding#getValue()}
- * except {@link YFacesELContext#isResolveYComponentBinding()} returns false</li>
+ * <li> {@link YModelBinding}: automatically resolve it to {@link YModelBinding#getValue()} except
+ * {@link YFacesELContext#isResolveYComponentBinding()} returns false</li>
  * <li> {@link YFrame}: notify current {@link YPageContext}</li>
  * </ul>
  * <p>
@@ -60,6 +60,8 @@ import org.codehaus.yfaces.context.YRequestContextImpl;
 public class YFacesELResolver extends ELResolver {
 
 	private static final String ADD_FRAME_THRESHOLD = YFacesELResolver.class.getName() + "_addFrame";
+
+	private static final Logger log = Logger.getLogger(YFacesELResolver.class);
 
 	private ELResolver resolver = null;
 
@@ -113,6 +115,10 @@ public class YFacesELResolver extends ELResolver {
 		if (getYContext(context).isResolveYComponentBinding() && result instanceof YModelBinding) {
 			result = ((YModelBinding<?>) result).getValue();
 		}
+
+		//		if (result instanceof YModel) {
+		//			log.debug("");
+		//		}
 
 		return result;
 	}
