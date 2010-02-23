@@ -1,11 +1,12 @@
-package de.hybris.yfaces.component.html;
+package org.codehaus.yfaces.component.html;
 
 import javax.faces.component.UIComponent;
 import javax.faces.event.FacesEvent;
 import javax.faces.event.FacesListener;
 import javax.faces.event.PhaseId;
 
-import de.hybris.yfaces.YFacesException;
+import org.codehaus.yfaces.YFacesException;
+
 
 /**
  * {@link HtmlYComponent} uses this {@link FacesEvent} just as a kind of marker. It is used to
