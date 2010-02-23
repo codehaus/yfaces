@@ -17,7 +17,7 @@ package org.codehaus.yfaces;
 
 import javax.el.ELContext;
 
-import org.codehaus.yfaces.component.YComponentBinding;
+import org.codehaus.yfaces.component.YModelBinding;
 import org.codehaus.yfaces.component.html.HtmlYComponent;
 
 
@@ -25,9 +25,9 @@ import org.codehaus.yfaces.component.html.HtmlYComponent;
  * When an {@link ELContext} gets created this YFaces specific context is added into it. The
  * {@link YFacesELContextListener} listens to {@link ELContext} creation and injects an instance of
  * this context into it. The {@link YFacesELResolver} extracts this context from {@link ELContext}
- * and asks each time when a {@link YComponentBinding} shall be resolved whether that binding has to
- * be resolved automatically. If so the result of {@link YComponentBinding#getValue() } is used for
- * further resolving instead of the {@link YComponentBinding} instance.
+ * and asks each time when a {@link YModelBinding} shall be resolved whether that binding has to
+ * be resolved automatically. If so the result of {@link YModelBinding#getValue() } is used for
+ * further resolving instead of the {@link YModelBinding} instance.
  * 
  * @see YFacesELContextListener
  * @see YFacesELResolver
@@ -39,7 +39,7 @@ public class YFacesELContext {
 	private boolean resolveComponentBinding = true;
 
 	/**
-	 * Sets auto-resolving of {@link YComponentBinding} instances.
+	 * Sets auto-resolving of {@link YModelBinding} instances.
 	 * 
 	 * @param enabled
 	 *          true when auto-resolving shall be enabled
@@ -49,7 +49,7 @@ public class YFacesELContext {
 	}
 
 	/**
-	 * Whether auto-resolving of {@link YComponentBinding} instances is enabled.
+	 * Whether auto-resolving of {@link YModelBinding} instances is enabled.
 	 * 
 	 * @return true when enabled
 	 */

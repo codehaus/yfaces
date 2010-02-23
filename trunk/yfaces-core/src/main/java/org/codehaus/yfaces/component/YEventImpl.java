@@ -34,9 +34,9 @@ import org.codehaus.yfaces.component.html.HtmlYComponent;
  * @author Denny Strietzbaum
  * 
  */
-public class YComponentEventImpl<T extends YComponent> implements YComponentEvent<T> {
-	private static final Logger log = Logger.getLogger(YComponentEventImpl.class);
-	private static final String YCOMPONENT_ACTION_PARAMETER = YComponent.class.getSimpleName();
+public class YEventImpl<T extends YModel> implements YEvent<T> {
+	private static final Logger log = Logger.getLogger(YEventImpl.class);
+	private static final String YCOMPONENT_ACTION_PARAMETER = YModel.class.getSimpleName();
 
 	// current ActionEvent, ActionForm and ActionComponent (autodetected)
 	private FacesEvent facesEventSource = null;
@@ -49,7 +49,7 @@ public class YComponentEventImpl<T extends YComponent> implements YComponentEven
 
 	private String logId = null;
 
-	public YComponentEventImpl(final FacesEvent source) {
+	public YEventImpl(final FacesEvent source) {
 		this.logId = this.getClass().getSimpleName();
 		this.facesEventSource = source;
 		this.attributes = new HashMap<String, Object>();
@@ -76,7 +76,7 @@ public class YComponentEventImpl<T extends YComponent> implements YComponentEven
 		}
 
 		if (log.isDebugEnabled()) {
-			final YComponent cmp = getComponent();
+			final YModel cmp = getComponent();
 			String ctxPath = "event:" + this.getClass().getSimpleName() + "; componentId:"
 					+ cmp.getComponentInfo().getId();
 
@@ -163,7 +163,7 @@ public class YComponentEventImpl<T extends YComponent> implements YComponentEven
 		return (UIForm) result;
 	}
 
-	private <T2 extends YComponent> T2 findComponent(final String attribute) {
+	private <T2 extends YModel> T2 findComponent(final String attribute) {
 		T2 result = null;
 
 		if (this.isInitialized()) {
@@ -179,7 +179,7 @@ public class YComponentEventImpl<T extends YComponent> implements YComponentEven
 
 		// finally throw exception when no component was found
 		if (result == null) {
-			throw new YFacesException(logId + ": can't find a " + YComponent.class.getSimpleName());
+			throw new YFacesException(logId + ": can't find a " + YModel.class.getSimpleName());
 		}
 
 		return result;

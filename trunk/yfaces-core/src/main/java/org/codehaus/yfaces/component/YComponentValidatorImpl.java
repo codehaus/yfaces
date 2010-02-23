@@ -160,7 +160,7 @@ public class YComponentValidatorImpl implements YComponentValidator {
 		}
 
 		// check for YComponent type
-		if (!YComponent.class.isAssignableFrom(specClass)) {
+		if (!YModel.class.isAssignableFrom(specClass)) {
 			result.add(YValidationAspekt.SPEC_IS_NO_YCMP);
 		}
 
@@ -183,7 +183,7 @@ public class YComponentValidatorImpl implements YComponentValidator {
 			result.add(YValidationAspekt.IMPL_IS_INTERFACE);
 		}
 
-		if (!YComponent.class.isAssignableFrom(implClass)) {
+		if (!YModel.class.isAssignableFrom(implClass)) {
 			result.add(YValidationAspekt.IMPL_IS_NO_YCMP);
 		}
 

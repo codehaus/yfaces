@@ -2,7 +2,7 @@ package org.codehaus.yfaces.component;
 
 import org.apache.log4j.Logger;
 
-public class YModelProcessor extends PojoModelProcessor<YComponent> {
+public class YModelProcessor extends PojoModelProcessor<YModel> {
 
 	private static final Logger log = Logger.getLogger(YModelProcessor.class);
 
@@ -11,17 +11,17 @@ public class YModelProcessor extends PojoModelProcessor<YComponent> {
 	}
 
 	@Override
-	public YComponent createModel() {
+	public YModel createModel() {
 		return super.createModel();
 	}
 
 	@Override
-	public void initializeModel(final YComponent cmp) {
-		((AbstractYComponent) cmp).setYComponentInfo(cmpInfo);
+	public void initializeModel(final YModel cmp) {
+		((AbstractYModel) cmp).setYComponentInfo(cmpInfo);
 	}
 
 	@Override
-	public void validateModel(final YComponent model) {
+	public void validateModel(final YModel model) {
 		model.validate();
 	}
 

@@ -28,14 +28,14 @@ import org.apache.log4j.Logger;
  * @author Denny Strietzbaum
  * 
  */
-public class YComponentEventHandlerImpl<T extends YComponent> implements YComponentEventHandler<T> {
+public class YEventHandlerImpl<T extends YModel> implements YEventHandler<T> {
 
 	private static final long serialVersionUID = 1L;
 
-	private static final Logger log = Logger.getLogger(YComponentEventHandlerImpl.class);
+	private static final Logger log = Logger.getLogger(YEventHandlerImpl.class);
 
 	// list of listeners
-	private List<YComponentEventListener<T>> listeners = null;
+	private List<YEventListener<T>> listeners = null;
 
 	// enable/disable handler
 	private boolean enabled = true;
@@ -45,24 +45,24 @@ public class YComponentEventHandlerImpl<T extends YComponent> implements YCompon
 
 	private transient FacesEvent eventSource = null;
 
-	public YComponentEventHandlerImpl() {
-		this(new DefaultYComponentEventListener<T>());
+	public YEventHandlerImpl() {
+		this(new DefaultYEventListener<T>());
 	}
 
-	protected YComponentEventHandlerImpl(final YComponentEventListener<T> listener) {
-		this.listeners = new LinkedList<YComponentEventListener<T>>();
+	protected YEventHandlerImpl(final YEventListener<T> listener) {
+		this.listeners = new LinkedList<YEventListener<T>>();
 		listeners.add(listener);
 	}
 
-	public void addCustomListener(final YComponentEventListener<T> listener) {
+	public void addCustomListener(final YEventListener<T> listener) {
 		this.listeners.add(listener);
 	}
 
-	public YComponentEventListener<T> getListener() {
+	public YEventListener<T> getListener() {
 		return this.listeners.get(0);
 	}
 
-	public void setListener(final YComponentEventListener<T> listener) {
+	public void setListener(final YEventListener<T> listener) {
 		this.listeners.set(0, listener);
 	}
 
@@ -78,10 +78,10 @@ public class YComponentEventHandlerImpl<T extends YComponent> implements YCompon
 		}
 
 		String result = null;
-		for (final YComponentEventListener<T> listener : this.listeners) {
+		for (final YEventListener<T> listener : this.listeners) {
 			try {
 				log.debug("Notify listener (action) " + listener.getClass().getSimpleName());
-				result = ((AbstractYComponentEventListener<T>) listener).fireAction();
+				result = ((AbstractYEventListener<T>) listener).fireAction();
 			} catch (final RuntimeException e) {
 				final String msg = "Exception while processing Action (" + "Event: "
 						+ listener.getClass().getSimpleName() + ")";
@@ -103,9 +103,9 @@ public class YComponentEventHandlerImpl<T extends YComponent> implements YCompon
 	 */
 	public void actionListener(final ActionEvent event) {
 		this.eventSource = event;
-		final YComponentEvent<T> _event = new YComponentEventImpl<T>(this.eventSource);
+		final YEvent<T> _event = new YEventImpl<T>(this.eventSource);
 
-		for (final YComponentEventListener<T> listener : this.listeners) {
+		for (final YEventListener<T> listener : this.listeners) {
 
 			// separate exception handling is included since jsf 1.2 (myfaces)
 			// catches any exception and wraps it into a
@@ -118,11 +118,11 @@ public class YComponentEventHandlerImpl<T extends YComponent> implements YCompon
 			// notification
 			try {
 				log.debug("Notify listener (actionListener) " + listener.getClass().getSimpleName());
-				((AbstractYComponentEventListener<T>) listener).fireActionListener(_event);
+				((AbstractYEventListener<T>) listener).fireActionListener(_event);
 			} catch (final RuntimeException e) {
 				final String _id = _event.getComponent().getComponentInfo().getId();
 				final String msg = "Exception while processing ActionListener ("
-						+ YComponent.class.getSimpleName() + ": " + _id + "; Event: "
+						+ YModel.class.getSimpleName() + ": " + _id + "; Event: "
 						+ listener.getClass().getSimpleName() + ")";
 
 				log.error(msg, e);
@@ -140,20 +140,20 @@ public class YComponentEventHandlerImpl<T extends YComponent> implements YCompon
 	 */
 	public void valueChangeListener(final ValueChangeEvent event) {
 		this.eventSource = event;
-		final YComponentEvent<T> _event = new YComponentEventImpl<T>(this.eventSource);
+		final YEvent<T> _event = new YEventImpl<T>(this.eventSource);
 
-		for (final YComponentEventListener<T> listener : this.listeners) {
+		for (final YEventListener<T> listener : this.listeners) {
 
 			// see #actionListener(...) for the reason of this exception
 			// handling
 			try {
 				log.debug("Notify listener (valueChangeListener) " + listener.getClass().getSimpleName());
-				((AbstractYComponentEventListener<T>) listener).fireValueChangeListener(_event);
+				((AbstractYEventListener<T>) listener).fireValueChangeListener(_event);
 			} catch (final RuntimeException e) {
 				final String _id = _event.getComponent().getComponentInfo().getId();
 
 				final String msg = "Exception while processing ValueChangeListener ("
-						+ YComponent.class.getSimpleName() + ": " + _id + "; Event: "
+						+ YModel.class.getSimpleName() + ": " + _id + "; Event: "
 						+ listener.getClass().getSimpleName() + ")";
 
 				log.error(msg, e);

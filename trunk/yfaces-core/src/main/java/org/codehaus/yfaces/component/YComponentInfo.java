@@ -24,7 +24,7 @@ import org.codehaus.yfaces.component.html.HtmlYComponentHandler;
 import com.sun.facelets.tag.Tag;
 
 /**
- * Holds {@link YComponent} specific meta information.
+ * Holds {@link YModel} specific meta information.
  * 
  * @author Denny Strietzbaum
  */

@@ -28,8 +28,8 @@ import javax.el.PropertyNotWritableException;
 import javax.faces.application.Application;
 import javax.faces.context.FacesContext;
 
-import org.codehaus.yfaces.component.YComponent;
-import org.codehaus.yfaces.component.YComponentBinding;
+import org.codehaus.yfaces.component.YModel;
+import org.codehaus.yfaces.component.YModelBinding;
 import org.codehaus.yfaces.component.YFrame;
 import org.codehaus.yfaces.context.REQUEST_PHASE;
 import org.codehaus.yfaces.context.YPageContext;
@@ -37,11 +37,11 @@ import org.codehaus.yfaces.context.YRequestContextImpl;
 
 
 /**
- * A custom {@link ELResolver} implementation which handles {@link YComponentBinding} and
+ * A custom {@link ELResolver} implementation which handles {@link YModelBinding} and
  * {@link YFrame} instances.Whenever a resolved value leads into one of these instances some pre- pr
  * post-processing is done.
  * <ul>
- * <li> {@link YComponentBinding}: automatically resolve it to {@link YComponentBinding#getValue()}
+ * <li> {@link YModelBinding}: automatically resolve it to {@link YModelBinding#getValue()}
  * except {@link YFacesELContext#isResolveYComponentBinding()} returns false</li>
  * <li> {@link YFrame}: notify current {@link YPageContext}</li>
  * </ul>
@@ -96,8 +96,8 @@ public class YFacesELResolver extends ELResolver {
 
 		// when base is a YComponentBinding (Components within components;
 		// component templates) then resolve to its value
-		if (base instanceof YComponentBinding) {
-			base = ((YComponentBinding<?>) base).getValue();
+		if (base instanceof YModelBinding) {
+			base = ((YModelBinding<?>) base).getValue();
 		}
 
 		// delegate to original resolver
@@ -110,8 +110,8 @@ public class YFacesELResolver extends ELResolver {
 
 		// ... when value is a YComponentBinding and resolving is enabled,
 		// resolve value to YComponentBindings value
-		if (getYContext(context).isResolveYComponentBinding() && result instanceof YComponentBinding) {
-			result = ((YComponentBinding<?>) result).getValue();
+		if (getYContext(context).isResolveYComponentBinding() && result instanceof YModelBinding) {
+			result = ((YModelBinding<?>) result).getValue();
 		}
 
 		return result;
@@ -131,12 +131,12 @@ public class YFacesELResolver extends ELResolver {
 		final Class<?> type = this.resolver.getType(context, base, property);
 
 		//special handling in case of YComponentBinding
-		if (YComponentBinding.class.equals(type)) {
+		if (YModelBinding.class.equals(type)) {
 			final boolean resolveBinding = getYContext(context).isResolveYComponentBinding();
 			if (resolveBinding) {
-				final YComponentBinding binding = (YComponentBinding) this.resolver.getValue(context, base,
+				final YModelBinding binding = (YModelBinding) this.resolver.getValue(context, base,
 						property);
-				binding.setValue((YComponent) value);
+				binding.setValue((YModel) value);
 			} else {
 				this.resolver.setValue(context, base, property, value);
 			}
@@ -169,8 +169,8 @@ public class YFacesELResolver extends ELResolver {
 		Class<?> result = this.resolver.getType(context, base, property);
 
 		// when enabled, resolve YComponentBinding to YComponent
-		if (getYContext(context).isResolveYComponentBinding() && YComponentBinding.class.equals(result)) {
-			result = YComponent.class;
+		if (getYContext(context).isResolveYComponentBinding() && YModelBinding.class.equals(result)) {
+			result = YModel.class;
 		}
 		return result;
 	}

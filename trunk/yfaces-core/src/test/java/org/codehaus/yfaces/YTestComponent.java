@@ -1,7 +1,7 @@
 package org.codehaus.yfaces;
 
-import org.codehaus.yfaces.component.YComponent;
+import org.codehaus.yfaces.component.YModel;
 
-public interface YTestComponent extends YComponent {
+public interface YTestComponent extends YModel {
 
 }

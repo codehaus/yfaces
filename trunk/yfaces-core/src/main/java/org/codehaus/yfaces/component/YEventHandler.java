@@ -23,10 +23,10 @@ import javax.faces.event.FacesEvent;
 import javax.faces.event.ValueChangeEvent;
 
 /**
- * An event handler for a {@link YComponent}.
+ * An event handler for a {@link YModel}.
  * <p>
  * Technically this handler catches a JSF event of type {@link FacesEvent}, wraps that event into a
- * {@link YComponentEvent} and notifies all {@link YComponentEventListener} which are registered at
+ * {@link YEvent} and notifies all {@link YEventListener} which are registered at
  * this handler.
  * <p>
  * To assure this handler gets notified when a {@link FacesEvent} is thrown this handler must be
@@ -40,31 +40,31 @@ import javax.faces.event.ValueChangeEvent;
  * 
  * @author Denny Strietzbaum
  */
-public interface YComponentEventHandler<T extends YComponent> extends Serializable {
+public interface YEventHandler<T extends YModel> extends Serializable {
 
 	/**
-	 * Adds a custom {@link YComponentEventListener}.<br/>
+	 * Adds a custom {@link YEventListener}.<br/>
 	 * This listener gets processed after the default one and after all previous set listeners.<br/>
 	 * 
 	 * @param listener
 	 *          listener to add.
 	 */
-	public void addCustomListener(YComponentEventListener<T> listener);
+	public void addCustomListener(YEventListener<T> listener);
 
 	/**
-	 * Returns the default {@link YComponentEventListener}.<br/>
+	 * Returns the default {@link YEventListener}.<br/>
 	 * 
-	 * @return {@link YComponentEventListener}
+	 * @return {@link YEventListener}
 	 */
-	public YComponentEventListener<T> getListener();
+	public YEventListener<T> getListener();
 
 	/**
-	 * Sets the default {@link YComponentEventListener}
+	 * Sets the default {@link YEventListener}
 	 * 
 	 * @param listener
 	 *          listener to set.
 	 */
-	public void setListener(YComponentEventListener<T> listener);
+	public void setListener(YEventListener<T> listener);
 
 	/**
 	 * Listens to an incoming JSF FacesEvent and notifies all listeners.<br/>
