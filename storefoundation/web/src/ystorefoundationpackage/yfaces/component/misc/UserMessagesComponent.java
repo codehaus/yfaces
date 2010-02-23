@@ -17,7 +17,7 @@ package ystorefoundationpackage.yfaces.component.misc;
 import java.util.List;
 import java.util.Map;
 
-import org.codehaus.yfaces.component.YComponent;
+import org.codehaus.yfaces.component.YModel;
 
 import ystorefoundationpackage.domain.UserMessage;
 
@@ -26,7 +26,7 @@ import ystorefoundationpackage.domain.UserMessage;
 /**
  * This component displays some messages to inform the user what has happened and/or what can be done.
  */
-public interface UserMessagesComponent extends YComponent
+public interface UserMessagesComponent extends YModel
 {
 	//
 	// Standard JSF FacesMessage:

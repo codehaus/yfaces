@@ -13,24 +13,24 @@
  */
 package demo;
 
-import org.codehaus.yfaces.component.AbstractYComponent;
-import org.codehaus.yfaces.component.DefaultYComponentEventListener;
-import org.codehaus.yfaces.component.YComponentEvent;
-import org.codehaus.yfaces.component.YComponentEventHandler;
+import org.codehaus.yfaces.component.AbstractYModel;
+import org.codehaus.yfaces.component.DefaultYEventListener;
+import org.codehaus.yfaces.component.YEvent;
+import org.codehaus.yfaces.component.YEventHandler;
 
 
 
-public class MyDemoComponentImpl extends AbstractYComponent implements MyDemoComponent
+public class MyDemoComponentImpl extends AbstractYModel implements MyDemoComponent
 {
 	private String formField = null;
 	private String result = null;
 
-	private YComponentEventHandler<MyDemoComponent> ehSubmit = null;
+	private YEventHandler<MyDemoComponent> ehSubmit = null;
 
-	public static class MyDemoComponentAction extends DefaultYComponentEventListener<MyDemoComponent>
+	public static class MyDemoComponentAction extends DefaultYEventListener<MyDemoComponent>
 	{
 		@Override
-		public void actionListener(final YComponentEvent<MyDemoComponent> event)
+		public void actionListener(final YEvent<MyDemoComponent> event)
 		{
 			final MyDemoComponent cmp = event.getComponent();
 			cmp.setResult(cmp.getFormField().toLowerCase());
@@ -54,7 +54,7 @@ public class MyDemoComponentImpl extends AbstractYComponent implements MyDemoCom
 		return this.result;
 	}
 
-	public YComponentEventHandler<MyDemoComponent> getSubmitEvent()
+	public YEventHandler<MyDemoComponent> getSubmitEvent()
 	{
 		return this.ehSubmit;
 	}

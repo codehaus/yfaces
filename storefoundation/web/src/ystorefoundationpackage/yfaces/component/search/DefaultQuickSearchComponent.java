@@ -21,10 +21,10 @@ import java.util.List;
 
 import javax.faces.context.FacesContext;
 
-import org.codehaus.yfaces.component.AbstractYComponent;
-import org.codehaus.yfaces.component.DefaultYComponentEventListener;
-import org.codehaus.yfaces.component.YComponentEvent;
-import org.codehaus.yfaces.component.YComponentEventHandler;
+import org.codehaus.yfaces.component.AbstractYModel;
+import org.codehaus.yfaces.component.DefaultYEventListener;
+import org.codehaus.yfaces.component.YEvent;
+import org.codehaus.yfaces.component.YEventHandler;
 
 import ystorefoundationpackage.domain.SfRequestContext;
 import ystorefoundationpackage.domain.YStorefoundation;
@@ -34,7 +34,7 @@ import ystorefoundationpackage.domain.YStorefoundation;
 /**
  * Implementation of the <code>QuickSearchComponent</code> interface.
  */
-public class DefaultQuickSearchComponent extends AbstractYComponent implements QuickSearchComponent
+public class DefaultQuickSearchComponent extends AbstractYModel implements QuickSearchComponent
 {
 
 	private static final long serialVersionUID = 8712436172983689453L;
@@ -42,11 +42,11 @@ public class DefaultQuickSearchComponent extends AbstractYComponent implements Q
 	/**
 	 * This event gets fired when the user tries to do a search.
 	 */
-	public static class QuickSearchEvent extends DefaultYComponentEventListener<QuickSearchComponent>
+	public static class QuickSearchEvent extends DefaultYEventListener<QuickSearchComponent>
 	{
 
 		@Override
-		public void actionListener(final YComponentEvent<QuickSearchComponent> event)
+		public void actionListener(final YEvent<QuickSearchComponent> event)
 		{
 			final QuickSearchComponent cmp = event.getComponent();
 			FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put(DefaultQuickSearchComponent.class.getName(),
@@ -67,7 +67,7 @@ public class DefaultQuickSearchComponent extends AbstractYComponent implements Q
 	private String sortOrder = null;
 	private List<ProductModel> searchResultList = null;
 
-	private YComponentEventHandler<QuickSearchComponent> ehSearch = null;
+	private YEventHandler<QuickSearchComponent> ehSearch = null;
 
 	public DefaultQuickSearchComponent()
 	{
@@ -129,7 +129,7 @@ public class DefaultQuickSearchComponent extends AbstractYComponent implements Q
 		this.searchResultList = searchResultList;
 	}
 
-	public YComponentEventHandler<QuickSearchComponent> getSearchEvent()
+	public YEventHandler<QuickSearchComponent> getSearchEvent()
 	{
 		return this.ehSearch;
 	}

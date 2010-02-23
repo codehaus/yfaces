@@ -13,10 +13,10 @@
  */
 package ystorefoundationpackage.yfaces.component.cart;
 
-import org.codehaus.yfaces.component.AbstractYComponent;
-import org.codehaus.yfaces.component.DefaultYComponentEventListener;
-import org.codehaus.yfaces.component.YComponentEvent;
-import org.codehaus.yfaces.component.YComponentEventHandler;
+import org.codehaus.yfaces.component.AbstractYModel;
+import org.codehaus.yfaces.component.DefaultYEventListener;
+import org.codehaus.yfaces.component.YEvent;
+import org.codehaus.yfaces.component.YEventHandler;
 
 import de.hybris.platform.core.model.order.CartModel;
 
@@ -27,17 +27,17 @@ import ystorefoundationpackage.domain.OrderManagement.PaymentModes;
 /**
  * Implementation of the <code>SelectPaymentModeComponent</code> interface.
  */
-public class DefaultSelectPaymentModeComponent extends AbstractYComponent implements SelectPaymentModeComponent
+public class DefaultSelectPaymentModeComponent extends AbstractYModel implements SelectPaymentModeComponent
 {
 
 	/**
 	 * This event gets fired when the user tries to choose the "Pay in Advance" as the payment mode.
 	 */
-	public static class ChooseAdvanceEvent extends DefaultYComponentEventListener<SelectPaymentModeComponent>
+	public static class ChooseAdvanceEvent extends DefaultYEventListener<SelectPaymentModeComponent>
 	{
 
 		@Override
-		public void actionListener(final YComponentEvent<SelectPaymentModeComponent> event)
+		public void actionListener(final YEvent<SelectPaymentModeComponent> event)
 		{
 			final SelectPaymentModeComponent cmp = event.getComponent();
 			final CartModel cart = cmp.getCart();
@@ -49,10 +49,10 @@ public class DefaultSelectPaymentModeComponent extends AbstractYComponent implem
 	/**
 	 * This event gets fired when the user tries to choose "Invoice" as the payment mode.
 	 */
-	public static class ChooseInvoiceEvent extends DefaultYComponentEventListener<SelectPaymentModeComponent>
+	public static class ChooseInvoiceEvent extends DefaultYEventListener<SelectPaymentModeComponent>
 	{
 		@Override
-		public void actionListener(final YComponentEvent<SelectPaymentModeComponent> event)
+		public void actionListener(final YEvent<SelectPaymentModeComponent> event)
 		{
 			final SelectPaymentModeComponent cmp = event.getComponent();
 			final CartModel cart = cmp.getCart();
@@ -62,8 +62,8 @@ public class DefaultSelectPaymentModeComponent extends AbstractYComponent implem
 
 	private CartModel cart = null;
 
-	private YComponentEventHandler<SelectPaymentModeComponent> ehChooseAdvance = null;
-	private YComponentEventHandler<SelectPaymentModeComponent> ehChooseInvoice = null;
+	private YEventHandler<SelectPaymentModeComponent> ehChooseAdvance = null;
+	private YEventHandler<SelectPaymentModeComponent> ehChooseInvoice = null;
 
 
 	/**
@@ -100,12 +100,12 @@ public class DefaultSelectPaymentModeComponent extends AbstractYComponent implem
 
 
 
-	public YComponentEventHandler<SelectPaymentModeComponent> getChooseAdvanceEvent()
+	public YEventHandler<SelectPaymentModeComponent> getChooseAdvanceEvent()
 	{
 		return this.ehChooseAdvance;
 	}
 
-	public YComponentEventHandler<SelectPaymentModeComponent> getChooseInvoiceEvent()
+	public YEventHandler<SelectPaymentModeComponent> getChooseInvoiceEvent()
 	{
 		return this.ehChooseInvoice;
 	}

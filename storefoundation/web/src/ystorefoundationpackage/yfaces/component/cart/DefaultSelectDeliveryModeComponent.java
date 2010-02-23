@@ -25,10 +25,10 @@ import java.util.Set;
 import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
 
-import org.codehaus.yfaces.component.AbstractYComponent;
-import org.codehaus.yfaces.component.DefaultYComponentEventListener;
-import org.codehaus.yfaces.component.YComponentEvent;
-import org.codehaus.yfaces.component.YComponentEventHandler;
+import org.codehaus.yfaces.component.AbstractYModel;
+import org.codehaus.yfaces.component.DefaultYEventListener;
+import org.codehaus.yfaces.component.YEvent;
+import org.codehaus.yfaces.component.YEventHandler;
 
 import ystorefoundationpackage.domain.SfRequestContext;
 import ystorefoundationpackage.domain.SfSessionContext;
@@ -41,7 +41,7 @@ import ystorefoundationpackage.faces.SfSelectItemGroup;
 /**
  * Implementation of the <code>SelectDeliveryModeComponent</code> interface.
  */
-public class DefaultSelectDeliveryModeComponent extends AbstractYComponent implements SelectDeliveryModeComponent
+public class DefaultSelectDeliveryModeComponent extends AbstractYModel implements SelectDeliveryModeComponent
 {
 
 	private List<DeliveryModeModel> deliveryModes = null;
@@ -55,10 +55,10 @@ public class DefaultSelectDeliveryModeComponent extends AbstractYComponent imple
 	/**
 	 * This event gets fired when the user tries to select the delivery mode for the order.
 	 */
-	public static class SelectDeliveryModeEvent extends DefaultYComponentEventListener<SelectDeliveryModeComponent>
+	public static class SelectDeliveryModeEvent extends DefaultYEventListener<SelectDeliveryModeComponent>
 	{
 		@Override
-		public void actionListener(final YComponentEvent<SelectDeliveryModeComponent> event)
+		public void actionListener(final YEvent<SelectDeliveryModeComponent> event)
 		{
 			final SfRequestContext reqCtx = YStorefoundation.getRequestContext();
 			final SfSessionContext userSession = YStorefoundation.getRequestContext().getSessionContext();
@@ -79,7 +79,7 @@ public class DefaultSelectDeliveryModeComponent extends AbstractYComponent imple
 		}
 
 		@Override
-		public void valueChangeListener(final YComponentEvent<SelectDeliveryModeComponent> event)
+		public void valueChangeListener(final YEvent<SelectDeliveryModeComponent> event)
 		{
 			final SelectDeliveryModeComponent cmp = event.getComponent();
 			final DeliveryModeModel selected = (DeliveryModeModel) ((ValueChangeEvent) event.getFacesEvent()).getNewValue();
@@ -89,7 +89,7 @@ public class DefaultSelectDeliveryModeComponent extends AbstractYComponent imple
 
 	}
 
-	private YComponentEventHandler<SelectDeliveryModeComponent> ehSelectMode = null;
+	private YEventHandler<SelectDeliveryModeComponent> ehSelectMode = null;
 
 	public DefaultSelectDeliveryModeComponent()
 	{
@@ -185,7 +185,7 @@ public class DefaultSelectDeliveryModeComponent extends AbstractYComponent imple
 		return this.selector;
 	}
 
-	public YComponentEventHandler<SelectDeliveryModeComponent> getSelectDeliveryModeEvent()
+	public YEventHandler<SelectDeliveryModeComponent> getSelectDeliveryModeEvent()
 	{
 		return this.ehSelectMode;
 	}

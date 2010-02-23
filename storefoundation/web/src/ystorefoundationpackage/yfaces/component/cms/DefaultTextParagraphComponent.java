@@ -22,7 +22,7 @@ import de.hybris.platform.core.model.ItemModel;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.codehaus.yfaces.component.AbstractYComponent;
+import org.codehaus.yfaces.component.AbstractYModel;
 
 import ystorefoundationpackage.domain.SfRequestContext;
 import ystorefoundationpackage.domain.YStorefoundation;
@@ -31,7 +31,7 @@ import ystorefoundationpackage.domain.YStorefoundation;
 /**
  * Implementation of the <code>TextParagraphComponent</code> interface.
  */
-public class DefaultTextParagraphComponent extends AbstractYComponent implements TextParagraphComponent
+public class DefaultTextParagraphComponent extends AbstractYModel implements TextParagraphComponent
 {
 	public static final Pattern pattern = Pattern.compile("href[ ]*=[ ]*\"(component://(.*?))\"");
 

@@ -17,8 +17,8 @@ import de.hybris.platform.core.model.product.ProductModel;
 
 import java.util.List;
 
-import org.codehaus.yfaces.component.DefaultYComponentEventListener;
-import org.codehaus.yfaces.component.YComponentEvent;
+import org.codehaus.yfaces.component.DefaultYEventListener;
+import org.codehaus.yfaces.component.YEvent;
 
 import ystorefoundationpackage.domain.YStorefoundation;
 import ystorefoundationpackage.yfaces.frame.CompareProductsFrame;
@@ -27,7 +27,7 @@ import ystorefoundationpackage.yfaces.frame.CompareProductsFrame;
 /**
  * This event gets fired when the user tries to compare the selected products.
  */
-public class ProductTableCompareEvent extends DefaultYComponentEventListener<ProductTableComponent>
+public class ProductTableCompareEvent extends DefaultYEventListener<ProductTableComponent>
 {
 	@Override
 	public String action()
@@ -36,7 +36,7 @@ public class ProductTableCompareEvent extends DefaultYComponentEventListener<Pro
 	}
 
 	@Override
-	public void actionListener(final YComponentEvent<ProductTableComponent> event)
+	public void actionListener(final YEvent<ProductTableComponent> event)
 	{
 		final ProductTableComponent pcmp = event.getComponent();
 		final CompareProductsFrame sec = pcmp.getFrame().getPage().getOrCreateFrame(CompareProductsFrame.class);

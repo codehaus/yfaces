@@ -17,15 +17,15 @@ import de.hybris.platform.core.model.product.ProductModel;
 
 import java.util.List;
 
-import org.codehaus.yfaces.component.YComponent;
-import org.codehaus.yfaces.component.YComponentEventHandler;
+import org.codehaus.yfaces.component.YModel;
+import org.codehaus.yfaces.component.YEventHandler;
 
 
 
 /**
  * This components provides the search function.
  */
-public interface QuickSearchComponent extends YComponent
+public interface QuickSearchComponent extends YModel
 {
 
 	public String getSearchTerm();
@@ -44,6 +44,6 @@ public interface QuickSearchComponent extends YComponent
 
 	public void setSearchResultList(List<ProductModel> searchResultList);
 
-	public YComponentEventHandler<QuickSearchComponent> getSearchEvent();
+	public YEventHandler<QuickSearchComponent> getSearchEvent();
 
 }

@@ -19,14 +19,14 @@ import java.util.List;
 
 import javax.faces.model.SelectItem;
 
-import org.codehaus.yfaces.component.YComponent;
-import org.codehaus.yfaces.component.YComponentEventHandler;
+import org.codehaus.yfaces.component.YModel;
+import org.codehaus.yfaces.component.YEventHandler;
 
 
 /**
  * This component makes it possible for the user to change the currency.
  */
-public interface ChooseCurrencyComponent extends YComponent
+public interface ChooseCurrencyComponent extends YModel
 {
 
 	//model
@@ -44,6 +44,6 @@ public interface ChooseCurrencyComponent extends YComponent
 	void setAvailableCurrencies(List<? extends SelectItem> currencies);
 
 	//events
-	YComponentEventHandler<ChooseCurrencyComponent> getSaveCurrencyEvent();
+	YEventHandler<ChooseCurrencyComponent> getSaveCurrencyEvent();
 
 }

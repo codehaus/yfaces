@@ -13,10 +13,10 @@
  */
 package ystorefoundationpackage.yfaces.component.user;
 
-import org.codehaus.yfaces.component.AbstractYComponent;
-import org.codehaus.yfaces.component.DefaultYComponentEventListener;
-import org.codehaus.yfaces.component.YComponentEvent;
-import org.codehaus.yfaces.component.YComponentEventHandler;
+import org.codehaus.yfaces.component.AbstractYModel;
+import org.codehaus.yfaces.component.DefaultYEventListener;
+import org.codehaus.yfaces.component.YEvent;
+import org.codehaus.yfaces.component.YEventHandler;
 import org.codehaus.yfaces.context.YConversationContext;
 import org.codehaus.yfaces.context.YPageContext;
 
@@ -36,7 +36,7 @@ import ystorefoundationpackage.yfaces.frame.LoginFrame;
 /**
  * Implementation of the <code>LoginComponent</code> interface.
  */
-public class DefaultLoginComponent extends AbstractYComponent implements LoginComponent
+public class DefaultLoginComponent extends AbstractYModel implements LoginComponent
 {
 	private String login = null;
 	private String password = null;
@@ -47,11 +47,11 @@ public class DefaultLoginComponent extends AbstractYComponent implements LoginCo
 	private int httpPort = 0;
 	private int sslPort = 0;
 
-	private YComponentEventHandler<LoginComponent> ehLogin = null;
-	private YComponentEventHandler<LoginComponent> ehLogout = null;
-	private YComponentEventHandler<LoginComponent> ehDemoLogin = null;
-	private YComponentEventHandler<LoginComponent> ehRegister = null;
-	private YComponentEventHandler<LoginComponent> ehForgotPW = null;
+	private YEventHandler<LoginComponent> ehLogin = null;
+	private YEventHandler<LoginComponent> ehLogout = null;
+	private YEventHandler<LoginComponent> ehDemoLogin = null;
+	private YEventHandler<LoginComponent> ehRegister = null;
+	private YEventHandler<LoginComponent> ehForgotPW = null;
 
 	/**
 	 * Constructor.
@@ -63,7 +63,7 @@ public class DefaultLoginComponent extends AbstractYComponent implements LoginCo
 		sslPort = Config.getInt("tomcat.ssl.port", 443);
 
 		this.ehDemoLogin = super.createEventHandler(new DemoLoginEvent());
-		this.ehForgotPW = super.createEventHandler(new DefaultYComponentEventListener(NavigationOutcome.FORGOT_PW_PAGE.id));
+		this.ehForgotPW = super.createEventHandler(new DefaultYEventListener(NavigationOutcome.FORGOT_PW_PAGE.id));
 		this.ehLogin = super.createEventHandler(new LoginEvent());
 		this.ehLogout = super.createEventHandler(new LogoutEvent());
 		this.ehRegister = super.createEventHandler(new RegisterEvent());
@@ -91,27 +91,27 @@ public class DefaultLoginComponent extends AbstractYComponent implements LoginCo
 	}
 
 
-	public YComponentEventHandler<LoginComponent> getLoginEvent()
+	public YEventHandler<LoginComponent> getLoginEvent()
 	{
 		return this.ehLogin;
 	}
 
-	public YComponentEventHandler<LoginComponent> getLogoutEvent()
+	public YEventHandler<LoginComponent> getLogoutEvent()
 	{
 		return this.ehLogout;
 	}
 
-	public YComponentEventHandler<LoginComponent> getDemoLoginEvent()
+	public YEventHandler<LoginComponent> getDemoLoginEvent()
 	{
 		return this.ehDemoLogin;
 	}
 
-	public YComponentEventHandler<LoginComponent> getRegisterEvent()
+	public YEventHandler<LoginComponent> getRegisterEvent()
 	{
 		return this.ehRegister;
 	}
 
-	public YComponentEventHandler<LoginComponent> getForgotPasswordEvent()
+	public YEventHandler<LoginComponent> getForgotPasswordEvent()
 	{
 		return this.ehForgotPW;
 	}
@@ -119,14 +119,14 @@ public class DefaultLoginComponent extends AbstractYComponent implements LoginCo
 	/**
 	 * This event gets fired when the user tries to log in.
 	 */
-	public static class LoginEvent extends DefaultYComponentEventListener<LoginComponent>
+	public static class LoginEvent extends DefaultYEventListener<LoginComponent>
 	{
 		private transient LoginComponent cmp = null;
 		private UserModel newUser = null;
 
 		@SuppressWarnings("unchecked")
 		@Override
-		public void actionListener(final YComponentEvent<LoginComponent> event)
+		public void actionListener(final YEvent<LoginComponent> event)
 		{
 			cmp = event.getComponent();
 			//request user by login values
@@ -215,13 +215,13 @@ public class DefaultLoginComponent extends AbstractYComponent implements LoginCo
 	/**
 	 * This event gets fired when the user logs out.
 	 */
-	public static class LogoutEvent extends DefaultYComponentEventListener<LoginComponent>
+	public static class LogoutEvent extends DefaultYEventListener<LoginComponent>
 	{
 		private String oldLangIso = null;
 
 		@SuppressWarnings("unchecked")
 		@Override
-		public void actionListener(final YComponentEvent<LoginComponent> event)
+		public void actionListener(final YEvent<LoginComponent> event)
 		{
 			final LoginComponent cmp = event.getComponent();
 			final SfSessionContext userSession = YStorefoundation.getRequestContext().getSessionContext();
@@ -244,10 +244,10 @@ public class DefaultLoginComponent extends AbstractYComponent implements LoginCo
 	/**
 	 * This event gets fired when the user wants to register.
 	 */
-	public static class RegisterEvent extends DefaultYComponentEventListener<LoginComponent>
+	public static class RegisterEvent extends DefaultYEventListener<LoginComponent>
 	{
 		@Override
-		public void actionListener(final YComponentEvent<LoginComponent> event)
+		public void actionListener(final YEvent<LoginComponent> event)
 		{
 			final YConversationContext convCtx = YStorefoundation.getRequestContext().getPageContext().getConversationContext();
 			convCtx.getOrCreateNextPage();
@@ -267,7 +267,7 @@ public class DefaultLoginComponent extends AbstractYComponent implements LoginCo
 	public static class DemoLoginEvent extends LoginEvent
 	{
 		@Override
-		public void actionListener(final YComponentEvent<LoginComponent> event)
+		public void actionListener(final YEvent<LoginComponent> event)
 		{
 			final LoginComponent cmp = event.getComponent();
 			cmp.setLogin("demo");

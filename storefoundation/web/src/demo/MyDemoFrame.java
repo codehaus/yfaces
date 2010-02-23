@@ -14,14 +14,14 @@
 package demo;
 
 import org.codehaus.yfaces.component.AbstractYFrame;
-import org.codehaus.yfaces.component.YComponentBinding;
+import org.codehaus.yfaces.component.YModelBinding;
 
 
 
 public class MyDemoFrame extends AbstractYFrame
 {
-	private YComponentBinding<MyDemoComponent> myDemoCmp = null;
-	private YComponentBinding<MyDemoComponentLW> myDemoCmpLW = null;
+	private YModelBinding<MyDemoComponent> myDemoCmp = null;
+	private YModelBinding<MyDemoComponentLW> myDemoCmpLW = null;
 
 	public MyDemoFrame()
 	{
@@ -30,12 +30,12 @@ public class MyDemoFrame extends AbstractYFrame
 		this.myDemoCmpLW = super.createComponentBinding();
 	}
 
-	public YComponentBinding<MyDemoComponent> getMyDemoComponent()
+	public YModelBinding<MyDemoComponent> getMyDemoComponent()
 	{
 		return this.myDemoCmp;
 	}
 
-	public YComponentBinding<MyDemoComponentLW> getMyDemoComponentLW()
+	public YModelBinding<MyDemoComponentLW> getMyDemoComponentLW()
 	{
 		return this.myDemoCmpLW;
 	}

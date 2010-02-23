@@ -14,9 +14,9 @@
 package ystorefoundationpackage.yfaces.frame;
 
 import org.codehaus.yfaces.component.AbstractYFrame;
-import org.codehaus.yfaces.component.YComponentBinding;
-import org.codehaus.yfaces.component.YComponentEvent;
-import org.codehaus.yfaces.component.YComponentEventListener;
+import org.codehaus.yfaces.component.YModelBinding;
+import org.codehaus.yfaces.component.YEvent;
+import org.codehaus.yfaces.component.YEventListener;
 import org.codehaus.yfaces.context.YConversationContext;
 import org.codehaus.yfaces.context.YPageContext;
 
@@ -60,9 +60,9 @@ public class UserDetailFrame extends AbstractYFrame
 	private static final String USER_INFO_CHANGE_PASSWORD_ACTION = "changePasswordPage";
 	private static final String USER_INFO_SHOW_ORDER_HISTORY_ACTION = "orderHistoryPage";
 
-	private YComponentBinding<ListAddressComponent> listAddressCmp = null;
-	private YComponentBinding<ListPaymentComponent> listPaymentCmp = null;
-	private YComponentBinding<UserInfoComponent> userInfoCmp = null;
+	private YModelBinding<ListAddressComponent> listAddressCmp = null;
+	private YModelBinding<ListPaymentComponent> listPaymentCmp = null;
+	private YModelBinding<UserInfoComponent> userInfoCmp = null;
 
 	public UserDetailFrame()
 	{
@@ -73,36 +73,36 @@ public class UserDetailFrame extends AbstractYFrame
 	}
 
 	/**
-	 * @return {@link YComponentBinding} for {@link ListAddressComponent}
+	 * @return {@link YModelBinding} for {@link ListAddressComponent}
 	 */
-	public YComponentBinding<ListAddressComponent> getListAddressComponent()
+	public YModelBinding<ListAddressComponent> getListAddressComponent()
 	{
 		return this.listAddressCmp;
 	}
 
 	/**
-	 * @return {@link YComponentBinding} for {@link ListPaymentComponent}
+	 * @return {@link YModelBinding} for {@link ListPaymentComponent}
 	 */
-	public YComponentBinding<ListPaymentComponent> getListPaymentComponent()
+	public YModelBinding<ListPaymentComponent> getListPaymentComponent()
 	{
 		return this.listPaymentCmp;
 	}
 
 	/**
-	 * @return {@link YComponentBinding} for {@link UserInfoComponent}
+	 * @return {@link YModelBinding} for {@link UserInfoComponent}
 	 */
-	public YComponentBinding<UserInfoComponent> getUserInfoComponent()
+	public YModelBinding<UserInfoComponent> getUserInfoComponent()
 	{
 		return this.userInfoCmp;
 	}
 
 	/**
-	 * External {@link YComponentEventListener} for {@link ListAddressComponent}
+	 * External {@link YEventListener} for {@link ListAddressComponent}
 	 * 
 	 * @param event
-	 *           {@link YComponentEvent}
+	 *           {@link YEvent}
 	 */
-	public void doCreateAddress(final YComponentEvent<ListAddressComponent> event)
+	public void doCreateAddress(final YEvent<ListAddressComponent> event)
 	{
 		//retrieve EditAddressComponent from AddressEditFrame...
 		final EditAddressComponent editCmp = getAddressEditFrame().getEditAddressComponent().getValue();
@@ -115,12 +115,12 @@ public class UserDetailFrame extends AbstractYFrame
 	}
 
 	/**
-	 * External {@link YComponentEventListener} for {@link ShowAddressComponent}
+	 * External {@link YEventListener} for {@link ShowAddressComponent}
 	 * 
 	 * @param event
-	 *           {@link YComponentEvent}
+	 *           {@link YEvent}
 	 */
-	public void doEditAddress(final YComponentEvent<ShowAddressComponent> event)
+	public void doEditAddress(final YEvent<ShowAddressComponent> event)
 	{
 		//retrieve Address which shall be edited
 		final ShowAddressComponent cmp = event.getComponent();
@@ -135,12 +135,12 @@ public class UserDetailFrame extends AbstractYFrame
 	}
 
 	/**
-	 * External {@link YComponentEventListener} for {@link ListPaymentComponent}
+	 * External {@link YEventListener} for {@link ListPaymentComponent}
 	 * 
 	 * @param event
-	 *           {@link YComponentEvent}
+	 *           {@link YEvent}
 	 */
-	public void doCreateCreditCardPaymentInfo(final YComponentEvent<ListPaymentComponent> event)
+	public void doCreateCreditCardPaymentInfo(final YEvent<ListPaymentComponent> event)
 	{
 		final EditPaymentComponent editCmp = new DefaultEditCreditCardPaymentComponent();
 		editCmp.getSavePaymentInfoEvent().getListener().setAction(NAV_USERDETAIL);
@@ -149,12 +149,12 @@ public class UserDetailFrame extends AbstractYFrame
 	}
 
 	/**
-	 * External {@link YComponentEventListener} for {@link ListPaymentComponent}
+	 * External {@link YEventListener} for {@link ListPaymentComponent}
 	 * 
 	 * @param event
-	 *           {@link YComponentEvent}
+	 *           {@link YEvent}
 	 */
-	public void doCreateDebitPaymentInfo(final YComponentEvent<ListPaymentComponent> event)
+	public void doCreateDebitPaymentInfo(final YEvent<ListPaymentComponent> event)
 	{
 		final EditPaymentComponent editCmp = new DefaultEditPaymentComponent();
 		editCmp.getSavePaymentInfoEvent().getListener().setAction(NAV_USERDETAIL);
@@ -163,12 +163,12 @@ public class UserDetailFrame extends AbstractYFrame
 	}
 
 	/**
-	 * External {@link YComponentEventListener} for {@link ShowPaymentComponent}
+	 * External {@link YEventListener} for {@link ShowPaymentComponent}
 	 * 
 	 * @param event
-	 *           {@link YComponentEvent}
+	 *           {@link YEvent}
 	 */
-	public void doEditPaymentInfo(final YComponentEvent<ShowPaymentComponent> event)
+	public void doEditPaymentInfo(final YEvent<ShowPaymentComponent> event)
 	{
 		final ShowPaymentComponent cmp = event.getComponent();
 		final PaymentInfoModel paymentInfo = cmp.getPaymentInfo();
@@ -180,7 +180,7 @@ public class UserDetailFrame extends AbstractYFrame
 		getPaymentInfoEditFrame().getEditPaymentComponent().setValue(editCmp);
 	}
 
-	public void doChangePassword(final YComponentEvent<DefaultUserInfoComponent> event)
+	public void doChangePassword(final YEvent<DefaultUserInfoComponent> event)
 	{
 		final ChangePasswordFrame frame = getChangePasswordFrame();
 		final ChangePasswordComponent cmp = new DefaultChangePasswordComponent();
@@ -246,7 +246,7 @@ public class UserDetailFrame extends AbstractYFrame
 	{
 		final UserInfoComponent userInfoCmp = new DefaultUserInfoComponent();
 
-		final YComponentEventListener<UserInfoComponent> chgPwListener = userInfoCmp.getChangePasswordEvent().getListener();
+		final YEventListener<UserInfoComponent> chgPwListener = userInfoCmp.getChangePasswordEvent().getListener();
 		chgPwListener.setAction(USER_INFO_CHANGE_PASSWORD_ACTION);
 		chgPwListener.setActionListener(super.createExpressionString("doChangePassword"));
 		userInfoCmp.getShowOrderHistoryEvent().getListener().setAction(USER_INFO_SHOW_ORDER_HISTORY_ACTION);

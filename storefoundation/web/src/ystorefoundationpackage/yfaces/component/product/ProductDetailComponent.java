@@ -13,8 +13,8 @@
  */
 package ystorefoundationpackage.yfaces.component.product;
 
-import org.codehaus.yfaces.component.YComponent;
-import org.codehaus.yfaces.component.YComponentEventHandler;
+import org.codehaus.yfaces.component.YModel;
+import org.codehaus.yfaces.component.YEventHandler;
 
 import de.hybris.platform.core.model.product.ProductModel;
 
@@ -26,7 +26,7 @@ import ystorefoundationpackage.domain.ProductManagement.ProductFeatures;
 /**
  * This component displays the product in detail.
  */
-public interface ProductDetailComponent extends YComponent
+public interface ProductDetailComponent extends YModel
 {
 	//model
 	public ProductModel getProduct();
@@ -54,14 +54,14 @@ public interface ProductDetailComponent extends YComponent
 	public void setPrintPage(boolean printPage);
 
 	//event: addToCart, and tellAFriend, and addToWishList, and printPage
-	public YComponentEventHandler<ProductDetailComponent> getAddToCartEvent();
+	public YEventHandler<ProductDetailComponent> getAddToCartEvent();
 
-	public YComponentEventHandler<ProductDetailComponent> getTellAFriendEvent();
+	public YEventHandler<ProductDetailComponent> getTellAFriendEvent();
 
-	public YComponentEventHandler<ProductDetailComponent> getCustomerReviewEvent();
+	public YEventHandler<ProductDetailComponent> getCustomerReviewEvent();
 
-	public YComponentEventHandler<ProductDetailComponent> getAddToWishListEvent();
+	public YEventHandler<ProductDetailComponent> getAddToWishListEvent();
 
-	public YComponentEventHandler<ProductDetailComponent> getPrintPageEvent();
+	public YEventHandler<ProductDetailComponent> getPrintPageEvent();
 
 }

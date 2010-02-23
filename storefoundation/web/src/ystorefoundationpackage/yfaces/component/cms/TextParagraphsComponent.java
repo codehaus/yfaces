@@ -18,7 +18,7 @@ import de.hybris.platform.cms.model.TextParagraphModel;
 
 import java.util.List;
 
-import org.codehaus.yfaces.component.YComponent;
+import org.codehaus.yfaces.component.YModel;
 
 
 /**
@@ -26,7 +26,7 @@ import org.codehaus.yfaces.component.YComponent;
  * <br/>
  * It is used for <code>"textParagraphsComponentTag.xhtml"</code>.<br/>
  */
-public interface TextParagraphsComponent extends YComponent
+public interface TextParagraphsComponent extends YModel
 {
 
 	/**

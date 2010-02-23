@@ -17,7 +17,7 @@ import de.hybris.platform.core.model.ItemModel;
 
 import java.util.List;
 
-import org.codehaus.yfaces.component.YComponent;
+import org.codehaus.yfaces.component.YModel;
 
 
 
@@ -25,7 +25,7 @@ import org.codehaus.yfaces.component.YComponent;
 /**
  * This component displays the recent products that the user views.
  */
-public interface ShowHistoryComponent extends YComponent
+public interface ShowHistoryComponent extends YModel
 {
 
 	//model

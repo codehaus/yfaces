@@ -13,7 +13,7 @@
  */
 package ystorefoundationpackage.yfaces.component.product;
 
-import org.codehaus.yfaces.component.YComponent;
+import org.codehaus.yfaces.component.YModel;
 
 import de.hybris.platform.core.model.product.ProductModel;
 
@@ -21,7 +21,7 @@ import de.hybris.platform.core.model.product.ProductModel;
 /**
  * This component displays one product briefly.
  */
-public interface ProductQuickViewComponent extends YComponent
+public interface ProductQuickViewComponent extends YModel
 {
 
 	/**

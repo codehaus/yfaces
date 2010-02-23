@@ -18,7 +18,7 @@ import de.hybris.platform.servicelayer.exceptions.AmbiguousIdentifierException;
 import de.hybris.platform.servicelayer.exceptions.UnknownIdentifierException;
 
 import org.apache.log4j.Logger;
-import org.codehaus.yfaces.component.AbstractYComponent;
+import org.codehaus.yfaces.component.AbstractYModel;
 
 import ystorefoundationpackage.domain.YStorefoundation;
 
@@ -26,7 +26,7 @@ import ystorefoundationpackage.domain.YStorefoundation;
 /**
  * Implementation of the <code>ProductQuickViewComponent</code> interface.
  */
-public class DefaultProductQuickViewComponent extends AbstractYComponent implements ProductQuickViewComponent
+public class DefaultProductQuickViewComponent extends AbstractYModel implements ProductQuickViewComponent
 {
 
 	private static final long serialVersionUID = -4245833325373759326L;

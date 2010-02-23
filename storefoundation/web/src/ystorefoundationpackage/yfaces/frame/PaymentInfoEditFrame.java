@@ -16,7 +16,7 @@ package ystorefoundationpackage.yfaces.frame;
 
 import org.apache.log4j.Logger;
 import org.codehaus.yfaces.component.AbstractYFrame;
-import org.codehaus.yfaces.component.YComponentBinding;
+import org.codehaus.yfaces.component.YModelBinding;
 
 import ystorefoundationpackage.yfaces.component.payment.EditPaymentComponent;
 
@@ -29,12 +29,12 @@ public class PaymentInfoEditFrame extends AbstractYFrame
 {
 	private static final long serialVersionUID = 4318010538297503458L;
 
-	private final YComponentBinding<EditPaymentComponent> editPaymentCmp = super.createComponentBinding();
+	private final YModelBinding<EditPaymentComponent> editPaymentCmp = super.createComponentBinding();
 
 	@SuppressWarnings("unused")
 	private static final Logger log = Logger.getLogger(PaymentInfoEditFrame.class);
 
-	public YComponentBinding<EditPaymentComponent> getEditPaymentComponent()
+	public YModelBinding<EditPaymentComponent> getEditPaymentComponent()
 	{
 		return this.editPaymentCmp;
 	}

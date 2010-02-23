@@ -13,13 +13,13 @@
  */
 package ystorefoundationpackage.yfaces.component.product.tellfriend;
 
-import org.codehaus.yfaces.component.YComponent;
+import org.codehaus.yfaces.component.YModel;
 
 import de.hybris.platform.core.model.product.ProductModel;
 import de.hybris.platform.core.model.user.UserModel;
 
 
-public interface TellAFriendComponent extends YComponent
+public interface TellAFriendComponent extends YModel
 {
 
 	//event: send email

@@ -13,10 +13,10 @@
  */
 package ystorefoundationpackage.yfaces.component.product;
 
-import org.codehaus.yfaces.component.YComponent;
+import org.codehaus.yfaces.component.YModel;
 
 
-public interface ScrollProductsComponent extends YComponent
+public interface ScrollProductsComponent extends YModel
 {
 
 	public int getScrollSize();

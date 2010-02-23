@@ -17,7 +17,7 @@ package ystorefoundationpackage.yfaces.frame;
 import javax.faces.context.FacesContext;
 
 import org.codehaus.yfaces.component.AbstractYFrame;
-import org.codehaus.yfaces.component.YComponentBinding;
+import org.codehaus.yfaces.component.YModelBinding;
 
 import ystorefoundationpackage.yfaces.component.cms.DefaultTextParagraphsComponent;
 import ystorefoundationpackage.yfaces.component.cms.TextParagraphsComponent;
@@ -29,7 +29,7 @@ import ystorefoundationpackage.yfaces.component.cms.TextParagraphsComponent;
  */
 public class CmsFrame extends AbstractYFrame
 {
-	private YComponentBinding<TextParagraphsComponent> textParagraphsCmp = null;
+	private YModelBinding<TextParagraphsComponent> textParagraphsCmp = null;
 
 	public CmsFrame()
 	{
@@ -37,7 +37,7 @@ public class CmsFrame extends AbstractYFrame
 		this.textParagraphsCmp = super.createComponentBinding(this.createTextParagraphsComponent());
 	}
 
-	public YComponentBinding<TextParagraphsComponent> getTextParagraphsComponent()
+	public YModelBinding<TextParagraphsComponent> getTextParagraphsComponent()
 	{
 		return this.textParagraphsCmp;
 	}

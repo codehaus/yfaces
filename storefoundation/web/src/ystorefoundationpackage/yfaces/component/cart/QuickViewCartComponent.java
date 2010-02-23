@@ -13,7 +13,7 @@
  */
 package ystorefoundationpackage.yfaces.component.cart;
 
-import org.codehaus.yfaces.component.YComponent;
+import org.codehaus.yfaces.component.YModel;
 
 import de.hybris.platform.core.model.order.CartModel;
 
@@ -22,7 +22,7 @@ import de.hybris.platform.core.model.order.CartModel;
 /**
  * This component makes it possible for the user to view the cart briefly.
  */
-public interface QuickViewCartComponent extends YComponent
+public interface QuickViewCartComponent extends YModel
 {
 
 	/**

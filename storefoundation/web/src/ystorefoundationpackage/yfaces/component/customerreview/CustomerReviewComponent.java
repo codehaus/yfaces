@@ -17,13 +17,13 @@ package ystorefoundationpackage.yfaces.component.customerreview;
 
 import java.util.List;
 
-import org.codehaus.yfaces.component.YComponent;
+import org.codehaus.yfaces.component.YModel;
 
 
 /**
  * This component lists all available reviews for the selected product.
  */
-public interface CustomerReviewComponent extends YComponent
+public interface CustomerReviewComponent extends YModel
 {
 
 	/**

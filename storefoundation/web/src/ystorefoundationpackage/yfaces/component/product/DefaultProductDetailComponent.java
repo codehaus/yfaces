@@ -36,10 +36,10 @@ import javax.faces.context.FacesContext;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.codehaus.yfaces.component.AbstractYComponent;
-import org.codehaus.yfaces.component.DefaultYComponentEventListener;
-import org.codehaus.yfaces.component.YComponentEvent;
-import org.codehaus.yfaces.component.YComponentEventHandler;
+import org.codehaus.yfaces.component.AbstractYModel;
+import org.codehaus.yfaces.component.DefaultYEventListener;
+import org.codehaus.yfaces.component.YEvent;
+import org.codehaus.yfaces.component.YEventHandler;
 import org.codehaus.yfaces.context.YConversationContext;
 import org.codehaus.yfaces.context.YPageContext;
 
@@ -59,7 +59,7 @@ import ystorefoundationpackage.yfaces.frame.WishListFrame;
 /**
  * Implementation of the <code>ProductDetailComponent</code> interface.
  */
-public class DefaultProductDetailComponent extends AbstractYComponent implements ProductDetailComponent
+public class DefaultProductDetailComponent extends AbstractYModel implements ProductDetailComponent
 {
 
 	@SuppressWarnings("unused")
@@ -80,11 +80,11 @@ public class DefaultProductDetailComponent extends AbstractYComponent implements
 	private boolean printPage = false;
 	private transient String quantityInCart = null;
 
-	private YComponentEventHandler<ProductDetailComponent> ehAddToCart = null;
-	private YComponentEventHandler<ProductDetailComponent> ehTellFriend = null;
-	private YComponentEventHandler<ProductDetailComponent> ehCustomerReview = null;
-	private YComponentEventHandler<ProductDetailComponent> ehAddToWishlist = null;
-	private YComponentEventHandler<ProductDetailComponent> ehPrint = null;
+	private YEventHandler<ProductDetailComponent> ehAddToCart = null;
+	private YEventHandler<ProductDetailComponent> ehTellFriend = null;
+	private YEventHandler<ProductDetailComponent> ehCustomerReview = null;
+	private YEventHandler<ProductDetailComponent> ehAddToWishlist = null;
+	private YEventHandler<ProductDetailComponent> ehPrint = null;
 
 	/**
 	 * Constructor.
@@ -164,22 +164,22 @@ public class DefaultProductDetailComponent extends AbstractYComponent implements
 		}
 	}
 
-	public YComponentEventHandler<ProductDetailComponent> getAddToCartEvent()
+	public YEventHandler<ProductDetailComponent> getAddToCartEvent()
 	{
 		return this.ehAddToCart;
 	}
 
-	public YComponentEventHandler<ProductDetailComponent> getTellAFriendEvent()
+	public YEventHandler<ProductDetailComponent> getTellAFriendEvent()
 	{
 		return this.ehTellFriend;
 	}
 
-	public YComponentEventHandler<ProductDetailComponent> getAddToWishListEvent()
+	public YEventHandler<ProductDetailComponent> getAddToWishListEvent()
 	{
 		return this.ehAddToWishlist;
 	}
 
-	public YComponentEventHandler<ProductDetailComponent> getPrintPageEvent()
+	public YEventHandler<ProductDetailComponent> getPrintPageEvent()
 	{
 		return this.ehPrint;
 	}
@@ -187,13 +187,13 @@ public class DefaultProductDetailComponent extends AbstractYComponent implements
 	/**
 	 * This event gets fired when the user tries to add the current product to the cart.
 	 */
-	public static class AddToCartAction extends DefaultYComponentEventListener<ProductDetailComponent>
+	public static class AddToCartAction extends DefaultYEventListener<ProductDetailComponent>
 	{
 
 		private static final long serialVersionUID = -1855223946408219115L;
 
 		@Override
-		public void actionListener(final YComponentEvent<ProductDetailComponent> event)
+		public void actionListener(final YEvent<ProductDetailComponent> event)
 		{
 			final SfRequestContext reqCtx = YStorefoundation.getRequestContext();
 			final SfSessionContext sessCtx = reqCtx.getSessionContext();
@@ -223,7 +223,7 @@ public class DefaultProductDetailComponent extends AbstractYComponent implements
 	/**
 	 * This event gets fired when the user tries to write a comment for the current product.
 	 */
-	public static class CustomerReviewAction extends DefaultYComponentEventListener<ProductDetailComponent>
+	public static class CustomerReviewAction extends DefaultYEventListener<ProductDetailComponent>
 	{
 		private static final long serialVersionUID = -7652937426656456727L;
 
@@ -248,13 +248,13 @@ public class DefaultProductDetailComponent extends AbstractYComponent implements
 	/**
 	 * This event gets fired when the user tries to add the current product to the active wish list.
 	 */
-	public static class AddToWishListAction extends DefaultYComponentEventListener<ProductDetailComponent>
+	public static class AddToWishListAction extends DefaultYEventListener<ProductDetailComponent>
 	{
 
 		private static final long serialVersionUID = 1758221267133494966L;
 
 		@Override
-		public void actionListener(final YComponentEvent<ProductDetailComponent> event)
+		public void actionListener(final YEvent<ProductDetailComponent> event)
 		{
 			final SfRequestContext sfCtx = YStorefoundation.getRequestContext();
 			final SfSessionContext userSession = sfCtx.getSessionContext();
@@ -327,7 +327,7 @@ public class DefaultProductDetailComponent extends AbstractYComponent implements
 	/**
 	 * This event gets fired when the user tries to print the current page.
 	 */
-	public static class PrintPageAction extends DefaultYComponentEventListener<ProductDetailComponent>
+	public static class PrintPageAction extends DefaultYEventListener<ProductDetailComponent>
 	{
 		private static final long serialVersionUID = 3602251250192322146L;
 
@@ -440,7 +440,7 @@ public class DefaultProductDetailComponent extends AbstractYComponent implements
 		//		return (number > 0);
 	}
 
-	public YComponentEventHandler<ProductDetailComponent> getCustomerReviewEvent()
+	public YEventHandler<ProductDetailComponent> getCustomerReviewEvent()
 	{
 		return this.ehCustomerReview;
 	}

@@ -18,8 +18,8 @@ import de.hybris.platform.core.model.product.ProductModel;
 
 import java.util.List;
 
-import org.codehaus.yfaces.component.YComponent;
-import org.codehaus.yfaces.component.YComponentEventHandler;
+import org.codehaus.yfaces.component.YModel;
+import org.codehaus.yfaces.component.YEventHandler;
 
 import ystorefoundationpackage.datatable.ext.DataTableAxisModel;
 
@@ -31,7 +31,7 @@ import ystorefoundationpackage.datatable.ext.DataTableAxisModel;
  * <br/>
  * Depends on: items (classification system)
  */
-public interface CompareProductsComponent extends YComponent
+public interface CompareProductsComponent extends YModel
 {
 	public List<ProductModel> getProductList();
 
@@ -47,5 +47,5 @@ public interface CompareProductsComponent extends YComponent
 
 	public DataTableAxisModel getCompareTable();
 
-	public YComponentEventHandler<CompareProductsComponent> getRotateTableEvent();
+	public YEventHandler<CompareProductsComponent> getRotateTableEvent();
 }

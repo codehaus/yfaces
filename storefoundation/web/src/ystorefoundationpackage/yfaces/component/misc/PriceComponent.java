@@ -13,7 +13,7 @@
  */
 package ystorefoundationpackage.yfaces.component.misc;
 
-import org.codehaus.yfaces.component.YComponent;
+import org.codehaus.yfaces.component.YModel;
 
 import de.hybris.platform.core.model.product.ProductModel;
 
@@ -24,7 +24,7 @@ import ystorefoundationpackage.domain.Price;
 /**
  * This component displays a price.
  */
-public interface PriceComponent extends YComponent
+public interface PriceComponent extends YModel
 {
 
 	/**

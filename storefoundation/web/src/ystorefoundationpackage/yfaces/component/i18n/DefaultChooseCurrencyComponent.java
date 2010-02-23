@@ -22,10 +22,10 @@ import java.util.List;
 
 import javax.faces.model.SelectItem;
 
-import org.codehaus.yfaces.component.AbstractYComponent;
-import org.codehaus.yfaces.component.DefaultYComponentEventListener;
-import org.codehaus.yfaces.component.YComponentEvent;
-import org.codehaus.yfaces.component.YComponentEventHandler;
+import org.codehaus.yfaces.component.AbstractYModel;
+import org.codehaus.yfaces.component.DefaultYEventListener;
+import org.codehaus.yfaces.component.YEvent;
+import org.codehaus.yfaces.component.YEventHandler;
 
 import ystorefoundationpackage.domain.SfSessionContext;
 import ystorefoundationpackage.domain.YStorefoundation;
@@ -36,7 +36,7 @@ import ystorefoundationpackage.faces.CompareSelectItemByLabel;
 /**
  * Implementation of the <code>ChooseCurrencyComponent</code> interface.
  */
-public class DefaultChooseCurrencyComponent extends AbstractYComponent implements ChooseCurrencyComponent
+public class DefaultChooseCurrencyComponent extends AbstractYModel implements ChooseCurrencyComponent
 {
 
 	private static final long serialVersionUID = -2062499590823570517L;
@@ -44,7 +44,7 @@ public class DefaultChooseCurrencyComponent extends AbstractYComponent implement
 	private CurrencyModel currencyBean = null;
 	private List<? extends SelectItem> currencies = null;
 
-	private YComponentEventHandler<ChooseCurrencyComponent> ehChooseCurrency = null;
+	private YEventHandler<ChooseCurrencyComponent> ehChooseCurrency = null;
 
 	/**
 	 * Constructor.
@@ -80,13 +80,13 @@ public class DefaultChooseCurrencyComponent extends AbstractYComponent implement
 
 
 
-	public static class SaveCurrencyAction extends DefaultYComponentEventListener<ChooseCurrencyComponent>
+	public static class SaveCurrencyAction extends DefaultYEventListener<ChooseCurrencyComponent>
 	{
 
 		private static final long serialVersionUID = 3092333836836254495L;
 
 		@Override
-		public void actionListener(final YComponentEvent<ChooseCurrencyComponent> event)
+		public void actionListener(final YEvent<ChooseCurrencyComponent> event)
 		{
 			final CurrencyModel selectedCurrency = event.getComponent().getCurrency();
 			YStorefoundation.getRequestContext().getSessionContext().setCurrency(selectedCurrency);
@@ -113,7 +113,7 @@ public class DefaultChooseCurrencyComponent extends AbstractYComponent implement
 		this.currencies = currencies;
 	}
 
-	public YComponentEventHandler<ChooseCurrencyComponent> getSaveCurrencyEvent()
+	public YEventHandler<ChooseCurrencyComponent> getSaveCurrencyEvent()
 	{
 		return this.ehChooseCurrency;
 	}

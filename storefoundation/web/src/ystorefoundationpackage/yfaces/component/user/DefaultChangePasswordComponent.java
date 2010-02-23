@@ -13,9 +13,9 @@
  */
 package ystorefoundationpackage.yfaces.component.user;
 
-import org.codehaus.yfaces.component.AbstractYComponent;
-import org.codehaus.yfaces.component.DefaultYComponentEventListener;
-import org.codehaus.yfaces.component.YComponentEventHandler;
+import org.codehaus.yfaces.component.AbstractYModel;
+import org.codehaus.yfaces.component.DefaultYEventListener;
+import org.codehaus.yfaces.component.YEventHandler;
 import org.codehaus.yfaces.context.YPageContext;
 
 import de.hybris.platform.core.model.user.UserModel;
@@ -28,7 +28,7 @@ import ystorefoundationpackage.domain.YStorefoundation;
 /**
  * Implementation of the <code>ChangePasswordComponent</code> interface.
  */
-public class DefaultChangePasswordComponent extends AbstractYComponent implements ChangePasswordComponent
+public class DefaultChangePasswordComponent extends AbstractYModel implements ChangePasswordComponent
 {
 	private UserModel user = null;
 	private String oldPW = null;
@@ -37,8 +37,8 @@ public class DefaultChangePasswordComponent extends AbstractYComponent implement
 	private Boolean isCheckCurrentPW = null;
 	private Boolean isCheckPWRepeat = null;
 
-	private YComponentEventHandler<ChangePasswordComponent> ehChangePW = null;
-	private YComponentEventHandler<ChangePasswordComponent> ehCancelChangePW = null;
+	private YEventHandler<ChangePasswordComponent> ehChangePW = null;
+	private YEventHandler<ChangePasswordComponent> ehCancelChangePW = null;
 
 	//constructor
 	public DefaultChangePasswordComponent()
@@ -139,12 +139,12 @@ public class DefaultChangePasswordComponent extends AbstractYComponent implement
 	}
 
 
-	public YComponentEventHandler<ChangePasswordComponent> getChangePasswordEvent()
+	public YEventHandler<ChangePasswordComponent> getChangePasswordEvent()
 	{
 		return this.ehChangePW;
 	}
 
-	public YComponentEventHandler<ChangePasswordComponent> getCancelChangePasswordEvent()
+	public YEventHandler<ChangePasswordComponent> getCancelChangePasswordEvent()
 	{
 		return this.ehCancelChangePW;
 	}
@@ -153,7 +153,7 @@ public class DefaultChangePasswordComponent extends AbstractYComponent implement
 	 * This event gets fired when the user cancels the change of the password. The previous page will be loaded after
 	 * that.
 	 */
-	public static class CancelChangePasswordEvent extends DefaultYComponentEventListener<ChangePasswordComponent>
+	public static class CancelChangePasswordEvent extends DefaultYEventListener<ChangePasswordComponent>
 	{
 
 		private static final long serialVersionUID = 277000831634724475L;

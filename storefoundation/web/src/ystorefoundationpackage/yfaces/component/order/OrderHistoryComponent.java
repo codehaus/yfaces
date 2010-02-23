@@ -19,8 +19,8 @@ import de.hybris.platform.core.model.user.UserModel;
 
 import java.util.List;
 
-import org.codehaus.yfaces.component.YComponent;
-import org.codehaus.yfaces.component.YComponentEventHandler;
+import org.codehaus.yfaces.component.YModel;
+import org.codehaus.yfaces.component.YEventHandler;
 
 import ystorefoundationpackage.datatable.ext.DataTableAxisModel;
 import ystorefoundationpackage.faces.SfSelectItemGroup;
@@ -29,7 +29,7 @@ import ystorefoundationpackage.faces.SfSelectItemGroup;
 /**
  * This component lists all the orders which the user has ordered.
  */
-public interface OrderHistoryComponent extends YComponent
+public interface OrderHistoryComponent extends YModel
 {
 	//used columnnames (these names are used as DAO searchattributes (for ordering))
 	public static final String COLUMN_CODE = "code";
@@ -99,8 +99,8 @@ public interface OrderHistoryComponent extends YComponent
 	public DataTableAxisModel getOrderHistoryTable();
 
 	//events
-	public YComponentEventHandler<OrderHistoryComponent> getSortOrderHistoryTableEvent();
+	public YEventHandler<OrderHistoryComponent> getSortOrderHistoryTableEvent();
 
-	public YComponentEventHandler<OrderHistoryComponent> getOrderStateSelectEvent();
+	public YEventHandler<OrderHistoryComponent> getOrderStateSelectEvent();
 
 }

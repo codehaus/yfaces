@@ -25,7 +25,7 @@ import javax.faces.convert.Converter;
 import javax.faces.convert.ConverterException;
 import javax.faces.convert.DateTimeConverter;
 
-import org.codehaus.yfaces.component.AbstractYComponent;
+import org.codehaus.yfaces.component.AbstractYModel;
 
 import ystorefoundationpackage.datatable.ext.DataTableAxisModel;
 import ystorefoundationpackage.datatable.ext.axes.DataTableAxis;
@@ -39,7 +39,7 @@ import ystorefoundationpackage.domain.SfRequestContext;
 import ystorefoundationpackage.domain.YStorefoundation;
 
 
-public class DefaultPriceComponent extends AbstractYComponent implements PriceComponent
+public class DefaultPriceComponent extends AbstractYModel implements PriceComponent
 {
 	private static final Converter PRICE_CONVERTER = new PriceFormatter();
 	private static final Converter DATERANGE_CONVERTER = new DatesFormatter();

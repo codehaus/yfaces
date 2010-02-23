@@ -13,7 +13,7 @@
  */
 package ystorefoundationpackage.yfaces.component.category;
 
-import org.codehaus.yfaces.component.AbstractYComponent;
+import org.codehaus.yfaces.component.AbstractYModel;
 
 import de.hybris.platform.category.model.CategoryModel;
 
@@ -26,7 +26,7 @@ import ystorefoundationpackage.domain.impl.JaloBridge;
 /**
  * Implementation of the <code>ShowCategoryComponent</code> interface.
  */
-public class DefaultShowCategoryComponent extends AbstractYComponent implements ShowCategoryComponent
+public class DefaultShowCategoryComponent extends AbstractYModel implements ShowCategoryComponent
 {
 
 	private static final long serialVersionUID = 5971805762714587607L;

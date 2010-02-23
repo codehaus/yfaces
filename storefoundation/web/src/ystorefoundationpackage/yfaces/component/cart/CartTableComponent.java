@@ -18,15 +18,15 @@ import de.hybris.platform.core.model.order.CartModel;
 
 import java.util.List;
 
-import org.codehaus.yfaces.component.YComponent;
-import org.codehaus.yfaces.component.YComponentEventHandler;
+import org.codehaus.yfaces.component.YModel;
+import org.codehaus.yfaces.component.YEventHandler;
 
 
 /**
  * This component provides the tabular visualization of a {@link CartModel}.<br/>
  * Basic operations (update, and delete) are allowed for each cart entry.<br/>
  */
-public interface CartTableComponent extends YComponent
+public interface CartTableComponent extends YModel
 {
 	String ATTRIB_REMOVE_ENTRY = "entryToRemove";
 
@@ -100,23 +100,23 @@ public interface CartTableComponent extends YComponent
 	/**
 	 * Eventhandler for updating all cart entries
 	 * 
-	 * @return {@link YComponentEventHandler}
+	 * @return {@link YEventHandler}
 	 */
-	YComponentEventHandler<CartTableComponent> getUpdateCartTableEntriesEvent();
+	YEventHandler<CartTableComponent> getUpdateCartTableEntriesEvent();
 
 	/**
 	 * Eventhandler for removing a cart entry.
 	 * 
-	 * @return {@link YComponentEventHandler}
+	 * @return {@link YEventHandler}
 	 */
-	YComponentEventHandler<CartTableComponent> getRemoveCartTableEntryEvent();
+	YEventHandler<CartTableComponent> getRemoveCartTableEntryEvent();
 
 	/**
 	 * Eventhandler for sorting the carttable by a selected column.
 	 * 
-	 * @return {@link YComponentEventHandler}
+	 * @return {@link YEventHandler}
 	 */
-	YComponentEventHandler<CartTableComponent> getSortCartTableEvent();
+	YEventHandler<CartTableComponent> getSortCartTableEvent();
 
 
 }

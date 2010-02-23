@@ -18,14 +18,14 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
-import org.codehaus.yfaces.component.YComponent;
+import org.codehaus.yfaces.component.YModel;
 
 
 
 /**
  * This components renders the advertisement banners.
  */
-public interface AdBannerComponent extends YComponent
+public interface AdBannerComponent extends YModel
 {
 
 	/**

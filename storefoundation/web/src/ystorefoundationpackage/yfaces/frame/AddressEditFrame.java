@@ -14,7 +14,7 @@
 package ystorefoundationpackage.yfaces.frame;
 
 import org.codehaus.yfaces.component.AbstractYFrame;
-import org.codehaus.yfaces.component.YComponentBinding;
+import org.codehaus.yfaces.component.YModelBinding;
 
 import ystorefoundationpackage.YComponent;
 import ystorefoundationpackage.yfaces.component.address.EditAddressComponent;
@@ -27,10 +27,10 @@ import ystorefoundationpackage.yfaces.component.address.EditAddressComponent;
 public class AddressEditFrame extends AbstractYFrame
 {
 
-	private final YComponentBinding<EditAddressComponent> editAddressCmp = super
+	private final YModelBinding<EditAddressComponent> editAddressCmp = super
 			.createComponentBinding(YComponent.EDIT_ADDRESS.viewId);
 
-	public YComponentBinding<EditAddressComponent> getEditAddressComponent()
+	public YModelBinding<EditAddressComponent> getEditAddressComponent()
 	{
 		return this.editAddressCmp;
 	}

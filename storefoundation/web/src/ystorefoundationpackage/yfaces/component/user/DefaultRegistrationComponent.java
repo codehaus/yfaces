@@ -22,8 +22,8 @@ import java.util.List;
 
 import javax.faces.model.SelectItem;
 
-import org.codehaus.yfaces.component.AbstractYComponent;
-import org.codehaus.yfaces.component.YComponentEventHandler;
+import org.codehaus.yfaces.component.AbstractYModel;
+import org.codehaus.yfaces.component.YEventHandler;
 
 import ystorefoundationpackage.domain.SfSessionContext;
 import ystorefoundationpackage.domain.YStorefoundation;
@@ -33,7 +33,7 @@ import ystorefoundationpackage.domain.YStorefoundation;
 /**
  * Implementation of the <code>RegistrationComponent</code> interface.
  */
-public class DefaultRegistrationComponent extends AbstractYComponent implements RegistrationComponent
+public class DefaultRegistrationComponent extends AbstractYModel implements RegistrationComponent
 {
 	private static final long serialVersionUID = 8712436172843689193L;
 
@@ -48,7 +48,7 @@ public class DefaultRegistrationComponent extends AbstractYComponent implements 
 	private Boolean isPasswordOnly = null;
 	private Boolean isAddressEnabled = null;
 
-	private YComponentEventHandler<RegistrationComponent> ehRegister = null;
+	private YEventHandler<RegistrationComponent> ehRegister = null;
 
 	/**
 	 * Constructor.
@@ -160,7 +160,7 @@ public class DefaultRegistrationComponent extends AbstractYComponent implements 
 
 
 
-	public YComponentEventHandler<RegistrationComponent> getRegisterEvent()
+	public YEventHandler<RegistrationComponent> getRegisterEvent()
 	{
 		return this.ehRegister;
 	}

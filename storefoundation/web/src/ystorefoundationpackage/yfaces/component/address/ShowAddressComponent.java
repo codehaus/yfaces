@@ -13,8 +13,8 @@
  */
 package ystorefoundationpackage.yfaces.component.address;
 
-import org.codehaus.yfaces.component.YComponent;
-import org.codehaus.yfaces.component.YComponentEventHandler;
+import org.codehaus.yfaces.component.YModel;
+import org.codehaus.yfaces.component.YEventHandler;
 
 import de.hybris.platform.core.model.user.AddressModel;
 
@@ -23,7 +23,7 @@ import de.hybris.platform.core.model.user.AddressModel;
 /**
  * This component displays the user address.
  */
-public interface ShowAddressComponent extends YComponent
+public interface ShowAddressComponent extends YModel
 {
 
 	/**
@@ -55,15 +55,15 @@ public interface ShowAddressComponent extends YComponent
 
 	void setDefaultPaymentAddress(Boolean isDefaultPayment);
 
-	YComponentEventHandler<ShowAddressComponent> getEditAddressEvent();
+	YEventHandler<ShowAddressComponent> getEditAddressEvent();
 
-	YComponentEventHandler<ShowAddressComponent> getDeleteAddressEvent();
+	YEventHandler<ShowAddressComponent> getDeleteAddressEvent();
 
-	YComponentEventHandler<ShowAddressComponent> getCustomAddressEvent();
+	YEventHandler<ShowAddressComponent> getCustomAddressEvent();
 
-	YComponentEventHandler<ShowAddressComponent> getChooseAddressAsDeliveryEvent();
+	YEventHandler<ShowAddressComponent> getChooseAddressAsDeliveryEvent();
 
-	YComponentEventHandler<ShowAddressComponent> getChooseAddressAsPaymentEvent();
+	YEventHandler<ShowAddressComponent> getChooseAddressAsPaymentEvent();
 
 
 }

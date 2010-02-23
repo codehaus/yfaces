@@ -20,10 +20,10 @@ import java.util.Collections;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.codehaus.yfaces.component.AbstractYComponent;
-import org.codehaus.yfaces.component.DefaultYComponentEventListener;
-import org.codehaus.yfaces.component.YComponentEvent;
-import org.codehaus.yfaces.component.YComponentEventHandler;
+import org.codehaus.yfaces.component.AbstractYModel;
+import org.codehaus.yfaces.component.DefaultYEventListener;
+import org.codehaus.yfaces.component.YEvent;
+import org.codehaus.yfaces.component.YEventHandler;
 
 import ystorefoundationpackage.YComponent;
 import ystorefoundationpackage.domain.SfSessionContext;
@@ -35,7 +35,7 @@ import ystorefoundationpackage.domain.util.ComparePaymentInfoByCode;
 /**
  * Implementation of the <code>ListPaymentComponent</code> interface.
  */
-public class DefaultListPaymentComponent extends AbstractYComponent implements ListPaymentComponent
+public class DefaultListPaymentComponent extends AbstractYModel implements ListPaymentComponent
 {
 	private static final Logger log = Logger.getLogger(DefaultListPaymentComponent.class);
 
@@ -45,12 +45,12 @@ public class DefaultListPaymentComponent extends AbstractYComponent implements L
 	/**
 	 * This event gets fired when the user tries to create a new credit card payment mode.
 	 */
-	public static class CreateCreditCardPaymentInfoEvent extends DefaultYComponentEventListener<ListPaymentComponent>
+	public static class CreateCreditCardPaymentInfoEvent extends DefaultYEventListener<ListPaymentComponent>
 	{
 		private static final long serialVersionUID = 2018905854746258167L;
 
 		@Override
-		public void actionListener(final YComponentEvent<ListPaymentComponent> event)
+		public void actionListener(final YEvent<ListPaymentComponent> event)
 		{
 			// DOCTODO Document reason, why this block is empty			
 		}
@@ -59,19 +59,19 @@ public class DefaultListPaymentComponent extends AbstractYComponent implements L
 	/**
 	 * This event gets fired when the user tries to create a new debit payment mode.
 	 */
-	public static class CreateDebitPaymentInfoEvent extends DefaultYComponentEventListener<ListPaymentComponent>
+	public static class CreateDebitPaymentInfoEvent extends DefaultYEventListener<ListPaymentComponent>
 	{
 		private static final long serialVersionUID = -8602941366977434262L;
 
 		@Override
-		public void actionListener(final YComponentEvent<ListPaymentComponent> event)
+		public void actionListener(final YEvent<ListPaymentComponent> event)
 		{
 			// DOCTODO Document reason, why this block is empty			
 		}
 	}
 
-	private YComponentEventHandler<ListPaymentComponent> ehCreateCreditCard = null;
-	private YComponentEventHandler<ListPaymentComponent> ehDebit = null;
+	private YEventHandler<ListPaymentComponent> ehCreateCreditCard = null;
+	private YEventHandler<ListPaymentComponent> ehDebit = null;
 
 	public DefaultListPaymentComponent()
 	{
@@ -126,12 +126,12 @@ public class DefaultListPaymentComponent extends AbstractYComponent implements L
 		return this.showPaymentComponentTemplate;
 	}
 
-	public YComponentEventHandler<ListPaymentComponent> getCreateCreditCardEvent()
+	public YEventHandler<ListPaymentComponent> getCreateCreditCardEvent()
 	{
 		return this.ehCreateCreditCard;
 	}
 
-	public YComponentEventHandler<ListPaymentComponent> getCreateDebitEvent()
+	public YEventHandler<ListPaymentComponent> getCreateDebitEvent()
 	{
 		return this.ehDebit;
 	}

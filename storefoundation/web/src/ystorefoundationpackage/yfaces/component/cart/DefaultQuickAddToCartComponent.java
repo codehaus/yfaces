@@ -18,10 +18,10 @@ import de.hybris.platform.servicelayer.exceptions.AmbiguousIdentifierException;
 import de.hybris.platform.servicelayer.exceptions.UnknownIdentifierException;
 
 import org.apache.commons.validator.GenericValidator;
-import org.codehaus.yfaces.component.AbstractYComponent;
-import org.codehaus.yfaces.component.DefaultYComponentEventListener;
-import org.codehaus.yfaces.component.YComponentEvent;
-import org.codehaus.yfaces.component.YComponentEventHandler;
+import org.codehaus.yfaces.component.AbstractYModel;
+import org.codehaus.yfaces.component.DefaultYEventListener;
+import org.codehaus.yfaces.component.YEvent;
+import org.codehaus.yfaces.component.YEventHandler;
 
 import ystorefoundationpackage.domain.SfRequestContext;
 import ystorefoundationpackage.domain.SfSessionContext;
@@ -32,19 +32,19 @@ import ystorefoundationpackage.domain.OrderManagement.AddToCartResult;
 /**
  * Implementation of the <code>QuickAddToCartComponent</code> interface.
  */
-public class DefaultQuickAddToCartComponent extends AbstractYComponent implements QuickAddToCartComponent
+public class DefaultQuickAddToCartComponent extends AbstractYModel implements QuickAddToCartComponent
 {
 	private static final long serialVersionUID = 8712436172843689183L;
 
 	/**
 	 * This event gets fired when the user tries to add the product using its code.
 	 */
-	public static class AddProductByCodeEvent extends DefaultYComponentEventListener<QuickAddToCartComponent>
+	public static class AddProductByCodeEvent extends DefaultYEventListener<QuickAddToCartComponent>
 	{
 		private static final long serialVersionUID = 8712436172843689185L;
 
 		@Override
-		public void actionListener(final YComponentEvent<QuickAddToCartComponent> event)
+		public void actionListener(final YEvent<QuickAddToCartComponent> event)
 		{
 			final SfRequestContext reqCtx = YStorefoundation.getRequestContext();
 			final SfSessionContext sessCtx = reqCtx.getSessionContext();
@@ -111,7 +111,7 @@ public class DefaultQuickAddToCartComponent extends AbstractYComponent implement
 	private String productCode;
 	private Integer productQuantity;
 
-	private YComponentEventHandler<QuickAddToCartComponent> ehAddProductByCode = null;
+	private YEventHandler<QuickAddToCartComponent> ehAddProductByCode = null;
 
 	public DefaultQuickAddToCartComponent()
 	{
@@ -140,7 +140,7 @@ public class DefaultQuickAddToCartComponent extends AbstractYComponent implement
 		this.productQuantity = productQuantity;
 	}
 
-	public YComponentEventHandler<QuickAddToCartComponent> getAddProductByCodeEvent()
+	public YEventHandler<QuickAddToCartComponent> getAddProductByCodeEvent()
 	{
 		return this.ehAddProductByCode;
 	}

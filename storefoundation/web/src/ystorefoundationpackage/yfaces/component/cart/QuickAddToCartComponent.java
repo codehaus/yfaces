@@ -13,14 +13,14 @@
  */
 package ystorefoundationpackage.yfaces.component.cart;
 
-import org.codehaus.yfaces.component.YComponent;
-import org.codehaus.yfaces.component.YComponentEventHandler;
+import org.codehaus.yfaces.component.YModel;
+import org.codehaus.yfaces.component.YEventHandler;
 
 
 /**
  * The user can add the product to cart using its code with this component.
  */
-public interface QuickAddToCartComponent extends YComponent
+public interface QuickAddToCartComponent extends YModel
 {
 	String getProductCode();
 
@@ -30,5 +30,5 @@ public interface QuickAddToCartComponent extends YComponent
 
 	void setProductQuantity(Integer productQuantity);
 
-	YComponentEventHandler<QuickAddToCartComponent> getAddProductByCodeEvent();
+	YEventHandler<QuickAddToCartComponent> getAddProductByCodeEvent();
 }

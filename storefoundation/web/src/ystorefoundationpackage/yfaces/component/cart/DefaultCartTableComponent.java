@@ -22,10 +22,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.codehaus.yfaces.component.AbstractYComponent;
-import org.codehaus.yfaces.component.DefaultYComponentEventListener;
-import org.codehaus.yfaces.component.YComponentEvent;
-import org.codehaus.yfaces.component.YComponentEventHandler;
+import org.codehaus.yfaces.component.AbstractYModel;
+import org.codehaus.yfaces.component.DefaultYEventListener;
+import org.codehaus.yfaces.component.YEvent;
+import org.codehaus.yfaces.component.YEventHandler;
 
 import ystorefoundationpackage.StorefoundationException;
 import ystorefoundationpackage.domain.FormattedAttribute;
@@ -36,15 +36,15 @@ import ystorefoundationpackage.domain.YStorefoundation;
 /**
  * Implementation of the <code>CartTableComponent</code> interface.
  */
-public class DefaultCartTableComponent extends AbstractYComponent implements CartTableComponent
+public class DefaultCartTableComponent extends AbstractYModel implements CartTableComponent
 {
 	@SuppressWarnings("unused")
 	private static final Logger log = Logger.getLogger(DefaultCartTableComponent.class);
 
 
-	private YComponentEventHandler<CartTableComponent> ehRemoveCartEntry = null;
-	private YComponentEventHandler<CartTableComponent> ehUpdateCartEntry = null;
-	private YComponentEventHandler<CartTableComponent> ehSortCartEntries = null;
+	private YEventHandler<CartTableComponent> ehRemoveCartEntry = null;
+	private YEventHandler<CartTableComponent> ehUpdateCartEntry = null;
+	private YEventHandler<CartTableComponent> ehSortCartEntries = null;
 
 
 	private static final long serialVersionUID = 8712436172843189173L;
@@ -115,12 +115,12 @@ public class DefaultCartTableComponent extends AbstractYComponent implements Car
 	 * This event gets fired when the user tries to update the quantity of all cart entries. The entry gets removed when
 	 * quantity is 0.
 	 */
-	public static class UpdateCartTableEntriesEvent extends DefaultYComponentEventListener<CartTableComponent>
+	public static class UpdateCartTableEntriesEvent extends DefaultYEventListener<CartTableComponent>
 	{
 		private static final long serialVersionUID = 8712436172143689175L;
 
 		@Override
-		public void actionListener(final YComponentEvent<CartTableComponent> event)
+		public void actionListener(final YEvent<CartTableComponent> event)
 		{
 			final SfRequestContext reqCtx = YStorefoundation.getRequestContext();
 			final CartTableComponent cmp = event.getComponent();
@@ -158,12 +158,12 @@ public class DefaultCartTableComponent extends AbstractYComponent implements Car
 	 * This event gets fired when the user tries to remove one entry from the cart. The entry is removed by its cart
 	 * entry index passed as parameter to cart table model.
 	 */
-	public static class RemoveCartTableEntryEvent extends DefaultYComponentEventListener<CartTableComponent>
+	public static class RemoveCartTableEntryEvent extends DefaultYEventListener<CartTableComponent>
 	{
 		private static final long serialVersionUID = 8712436172143689175L;
 
 		@Override
-		public void actionListener(final YComponentEvent<CartTableComponent> event)
+		public void actionListener(final YEvent<CartTableComponent> event)
 		{
 			final CartTableEntry entry = (CartTableEntry) event.getFacesEvent().getComponent().getAttributes().get(
 					ATTRIB_REMOVE_ENTRY);
@@ -178,10 +178,10 @@ public class DefaultCartTableComponent extends AbstractYComponent implements Car
 		}
 	}
 
-	public static class SortCartTableEvent extends DefaultYComponentEventListener<CartTableComponent>
+	public static class SortCartTableEvent extends DefaultYEventListener<CartTableComponent>
 	{
 		@Override
-		public void actionListener(final YComponentEvent<CartTableComponent> event)
+		public void actionListener(final YEvent<CartTableComponent> event)
 		{
 			//CartTableComponent cmp = event.getActionComponent();
 			log.error("Sorting is currently not supported");
@@ -229,7 +229,7 @@ public class DefaultCartTableComponent extends AbstractYComponent implements Car
 	 * 
 	 * @see ystorefoundationpackage.faces.components.cart.CartTableComponent#getUpdateEvent()
 	 */
-	public YComponentEventHandler<CartTableComponent> getUpdateCartTableEntriesEvent()
+	public YEventHandler<CartTableComponent> getUpdateCartTableEntriesEvent()
 	{
 		return this.ehUpdateCartEntry;
 	}
@@ -239,7 +239,7 @@ public class DefaultCartTableComponent extends AbstractYComponent implements Car
 	 * 
 	 * @see ystorefoundationpackage.faces.components.cart.CartTableComponent#getRemoveEvent()
 	 */
-	public YComponentEventHandler<CartTableComponent> getRemoveCartTableEntryEvent()
+	public YEventHandler<CartTableComponent> getRemoveCartTableEntryEvent()
 	{
 		return this.ehRemoveCartEntry;
 	}
@@ -250,7 +250,7 @@ public class DefaultCartTableComponent extends AbstractYComponent implements Car
 	 * 
 	 * @see ystorefoundationpackage.faces.components.cart.CartTableComponent#getSortCartTableEvent()
 	 */
-	public YComponentEventHandler<CartTableComponent> getSortCartTableEvent()
+	public YEventHandler<CartTableComponent> getSortCartTableEvent()
 	{
 		return this.ehSortCartEntries;
 	}

@@ -24,10 +24,10 @@ import java.util.List;
 import javax.faces.model.SelectItem;
 
 import org.apache.log4j.Logger;
-import org.codehaus.yfaces.component.AbstractYComponent;
-import org.codehaus.yfaces.component.DefaultYComponentEventListener;
-import org.codehaus.yfaces.component.YComponentEvent;
-import org.codehaus.yfaces.component.YComponentEventHandler;
+import org.codehaus.yfaces.component.AbstractYModel;
+import org.codehaus.yfaces.component.DefaultYEventListener;
+import org.codehaus.yfaces.component.YEvent;
+import org.codehaus.yfaces.component.YEventHandler;
 import org.codehaus.yfaces.context.YPageContext;
 
 import ystorefoundationpackage.domain.SfSessionContext;
@@ -37,7 +37,7 @@ import ystorefoundationpackage.domain.YStorefoundation;
 /**
  * Implementation of the <code>EditAddressComponent</code> interface.
  */
-public class DefaultEditAddressComponent extends AbstractYComponent implements EditAddressComponent
+public class DefaultEditAddressComponent extends AbstractYModel implements EditAddressComponent
 {
 	@SuppressWarnings("unused")
 	private static final Logger LOG = Logger.getLogger(DefaultEditAddressComponent.class);
@@ -45,20 +45,20 @@ public class DefaultEditAddressComponent extends AbstractYComponent implements E
 	private AddressModel address = null;
 	private List<? extends SelectItem> countries = null;
 
-	private YComponentEventHandler<EditAddressComponent> ehEditAddr = null;
-	private YComponentEventHandler<EditAddressComponent> ehCancelEditAddr = null;
+	private YEventHandler<EditAddressComponent> ehEditAddr = null;
+	private YEventHandler<EditAddressComponent> ehCancelEditAddr = null;
 
 
 	/**
 	 * This event gets fired when the user tries to save the address changes.
 	 */
-	public static class SaveAddressEventListener extends DefaultYComponentEventListener<EditAddressComponent>
+	public static class SaveAddressEventListener extends DefaultYEventListener<EditAddressComponent>
 	{
 
 		private static final long serialVersionUID = 888791411364716766L;
 
 		@Override
-		public void actionListener(final YComponentEvent<EditAddressComponent> event)
+		public void actionListener(final YEvent<EditAddressComponent> event)
 		{
 			final AddressModel address = event.getComponent().getAddress();
 			YStorefoundation.getRequestContext().getPlatformServices().getModelService().save(address);
@@ -71,7 +71,7 @@ public class DefaultEditAddressComponent extends AbstractYComponent implements E
 	/**
 	 * This event gets fired when the user cancels the change of the address. The previous page will be loaded.
 	 */
-	public static class CancelEditAddressEventListener extends DefaultYComponentEventListener<EditAddressComponent>
+	public static class CancelEditAddressEventListener extends DefaultYEventListener<EditAddressComponent>
 	{
 
 		private static final long serialVersionUID = -3073549927821788196L;
@@ -163,12 +163,12 @@ public class DefaultEditAddressComponent extends AbstractYComponent implements E
 	}
 
 
-	public YComponentEventHandler<EditAddressComponent> getSaveAddressEvent()
+	public YEventHandler<EditAddressComponent> getSaveAddressEvent()
 	{
 		return this.ehEditAddr;
 	}
 
-	public YComponentEventHandler<EditAddressComponent> getCancelEditAddressEvent()
+	public YEventHandler<EditAddressComponent> getCancelEditAddressEvent()
 	{
 		return this.ehCancelEditAddr;
 	}

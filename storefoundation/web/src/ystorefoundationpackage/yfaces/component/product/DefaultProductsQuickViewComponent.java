@@ -25,7 +25,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.codehaus.yfaces.component.AbstractYComponent;
+import org.codehaus.yfaces.component.AbstractYModel;
 
 import ystorefoundationpackage.datatable.ext.DataTableAxisModel;
 import ystorefoundationpackage.datatable.ext.axes.DataTableFactory;
@@ -37,7 +37,7 @@ import ystorefoundationpackage.domain.YStorefoundation;
 /**
  * Implementation of the <code>ProductsQuickViewComponent</code> interface.
  */
-public class DefaultProductsQuickViewComponent extends AbstractYComponent implements ProductsQuickViewComponent
+public class DefaultProductsQuickViewComponent extends AbstractYModel implements ProductsQuickViewComponent
 {
 
 	private static final long serialVersionUID = 318822258711448813L;

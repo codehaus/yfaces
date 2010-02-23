@@ -14,7 +14,7 @@
 package ystorefoundationpackage.yfaces.frame;
 
 import org.codehaus.yfaces.component.AbstractYFrame;
-import org.codehaus.yfaces.component.YComponentBinding;
+import org.codehaus.yfaces.component.YModelBinding;
 
 import ystorefoundationpackage.NavigationOutcome;
 import ystorefoundationpackage.yfaces.component.cart.CartTableComponent;
@@ -29,8 +29,8 @@ public class CartFrame extends AbstractYFrame
 {
 	private static final long serialVersionUID = 57824365959445L;
 
-	private YComponentBinding<LoginComponent> loginCmp = null;
-	private YComponentBinding<CartTableComponent> cartTableCmp = null;
+	private YModelBinding<LoginComponent> loginCmp = null;
+	private YModelBinding<CartTableComponent> cartTableCmp = null;
 
 	public CartFrame()
 	{
@@ -39,12 +39,12 @@ public class CartFrame extends AbstractYFrame
 		this.cartTableCmp = super.createComponentBinding();
 	}
 
-	public YComponentBinding<LoginComponent> getLoginComponent()
+	public YModelBinding<LoginComponent> getLoginComponent()
 	{
 		return this.loginCmp;
 	}
 
-	public YComponentBinding<CartTableComponent> getCartTableComponent()
+	public YModelBinding<CartTableComponent> getCartTableComponent()
 	{
 		return this.cartTableCmp;
 	}

@@ -22,10 +22,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.codehaus.yfaces.component.AbstractYComponent;
-import org.codehaus.yfaces.component.DefaultYComponentEventListener;
-import org.codehaus.yfaces.component.YComponentEvent;
-import org.codehaus.yfaces.component.YComponentEventHandler;
+import org.codehaus.yfaces.component.AbstractYModel;
+import org.codehaus.yfaces.component.DefaultYEventListener;
+import org.codehaus.yfaces.component.YEvent;
+import org.codehaus.yfaces.component.YEventHandler;
 
 import ystorefoundationpackage.StorefoundationException;
 import ystorefoundationpackage.datatable.DataTableModel;
@@ -45,14 +45,14 @@ import ystorefoundationpackage.domain.impl.JaloBridge;
 /**
  * Implementation of the <code>CompareProductsComponent</code> interface.
  */
-public class DefaultCompareProductsComponent extends AbstractYComponent implements CompareProductsComponent
+public class DefaultCompareProductsComponent extends AbstractYModel implements CompareProductsComponent
 {
 	private List<ProductModel> productList = null;
 	//private List<? super Item> attributes = null;
 	private List attributes = null;
 	private boolean rotated = false;
 
-	private YComponentEventHandler<CompareProductsComponent> ehRotateTable = null;
+	private YEventHandler<CompareProductsComponent> ehRotateTable = null;
 
 	private transient CategoryModel catg = null;
 	private transient DataTableAxisModel model = null;
@@ -60,10 +60,10 @@ public class DefaultCompareProductsComponent extends AbstractYComponent implemen
 	/**
 	 * This event gets fired when the user tries to rotate the table and view it.
 	 */
-	public static class RotateCompareTableEvent extends DefaultYComponentEventListener<CompareProductsComponent>
+	public static class RotateCompareTableEvent extends DefaultYEventListener<CompareProductsComponent>
 	{
 		@Override
-		public void actionListener(final YComponentEvent<CompareProductsComponent> event)
+		public void actionListener(final YEvent<CompareProductsComponent> event)
 		{
 			final CompareProductsComponent cmp = event.getComponent();
 			cmp.setRotated(cmp.getRotated() ^ true);
@@ -105,7 +105,7 @@ public class DefaultCompareProductsComponent extends AbstractYComponent implemen
 	}
 
 
-	public YComponentEventHandler<CompareProductsComponent> getRotateTableEvent()
+	public YEventHandler<CompareProductsComponent> getRotateTableEvent()
 	{
 		return this.ehRotateTable;
 	}

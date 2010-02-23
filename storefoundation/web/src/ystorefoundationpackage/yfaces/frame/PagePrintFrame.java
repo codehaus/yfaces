@@ -14,7 +14,7 @@
 package ystorefoundationpackage.yfaces.frame;
 
 import org.codehaus.yfaces.component.AbstractYFrame;
-import org.codehaus.yfaces.component.YComponentBinding;
+import org.codehaus.yfaces.component.YModelBinding;
 
 import ystorefoundationpackage.yfaces.component.product.DefaultProductDetailComponent;
 import ystorefoundationpackage.yfaces.component.product.ProductDetailComponent;
@@ -29,7 +29,7 @@ public class PagePrintFrame extends AbstractYFrame
 
 	private static final long serialVersionUID = -8774098273550197135L;
 
-	private YComponentBinding<ProductDetailComponent> productDetailCmp = null;
+	private YModelBinding<ProductDetailComponent> productDetailCmp = null;
 
 	public PagePrintFrame()
 	{
@@ -37,7 +37,7 @@ public class PagePrintFrame extends AbstractYFrame
 		this.productDetailCmp = super.createComponentBinding(this.createProductDetailComponentForPagePrint());
 	}
 
-	public YComponentBinding<ProductDetailComponent> getProductDetailComponentForPagePrint()
+	public YModelBinding<ProductDetailComponent> getProductDetailComponentForPagePrint()
 	{
 		return this.productDetailCmp;
 	}

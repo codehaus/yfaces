@@ -19,8 +19,8 @@ import java.util.List;
 
 import javax.faces.model.SelectItem;
 
-import org.codehaus.yfaces.component.YComponent;
-import org.codehaus.yfaces.component.YComponentEventHandler;
+import org.codehaus.yfaces.component.YModel;
+import org.codehaus.yfaces.component.YEventHandler;
 
 
 
@@ -28,7 +28,7 @@ import org.codehaus.yfaces.component.YComponentEventHandler;
 /**
  * The user can edit the address with this component.
  */
-public interface EditAddressComponent extends YComponent
+public interface EditAddressComponent extends YModel
 {
 
 	//model
@@ -51,8 +51,8 @@ public interface EditAddressComponent extends YComponent
 	void setAvailableCountries(List<? extends SelectItem> countries);
 
 
-	YComponentEventHandler<EditAddressComponent> getSaveAddressEvent();
+	YEventHandler<EditAddressComponent> getSaveAddressEvent();
 
-	YComponentEventHandler<EditAddressComponent> getCancelEditAddressEvent();
+	YEventHandler<EditAddressComponent> getCancelEditAddressEvent();
 
 }

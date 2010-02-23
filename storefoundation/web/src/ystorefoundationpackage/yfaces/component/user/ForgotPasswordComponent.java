@@ -13,14 +13,14 @@
  */
 package ystorefoundationpackage.yfaces.component.user;
 
-import org.codehaus.yfaces.component.YComponent;
-import org.codehaus.yfaces.component.YComponentEventHandler;
+import org.codehaus.yfaces.component.YModel;
+import org.codehaus.yfaces.component.YEventHandler;
 
 
 /**
  * This component sends the user a new password by Email if he/she forgets it.
  */
-public interface ForgotPasswordComponent extends YComponent
+public interface ForgotPasswordComponent extends YModel
 {
 	public String getEmail();
 
@@ -30,5 +30,5 @@ public interface ForgotPasswordComponent extends YComponent
 
 	public void setLogin(String name);
 
-	public YComponentEventHandler<ForgotPasswordComponent> getSendPasswordEvent();
+	public YEventHandler<ForgotPasswordComponent> getSendPasswordEvent();
 }

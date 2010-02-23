@@ -1,5 +1,5 @@
 /**
- * {@link de.hybris.yfaces.component.YComponent} implementation(s) for 'category'.
+ * {@link de.hybris.YModel.component.YComponent} implementation(s) for 'category'.
  */
 package ystorefoundationpackage.yfaces.component.category;
 

@@ -17,7 +17,7 @@ import de.hybris.platform.core.model.product.ProductModel;
 
 import java.util.List;
 
-import org.codehaus.yfaces.component.YComponent;
+import org.codehaus.yfaces.component.YModel;
 
 import ystorefoundationpackage.domain.FormattedAttribute;
 import ystorefoundationpackage.yfaces.component.product.DefaultShowVariantProductsComponent.SimpleVariantProduct;
@@ -26,7 +26,7 @@ import ystorefoundationpackage.yfaces.component.product.DefaultShowVariantProduc
 /**
  * This component displays all variant products of the current product.
  */
-public interface ShowVariantProductsComponent extends YComponent
+public interface ShowVariantProductsComponent extends YModel
 {
 
 	//no event for the showVariantProducts component

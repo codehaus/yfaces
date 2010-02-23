@@ -13,11 +13,11 @@
  */
 package ystorefoundationpackage.yfaces.component.payment;
 
-import org.codehaus.yfaces.component.AbstractYComponent;
-import org.codehaus.yfaces.component.DefaultYComponentEventListener;
-import org.codehaus.yfaces.component.YComponent;
-import org.codehaus.yfaces.component.YComponentEvent;
-import org.codehaus.yfaces.component.YComponentEventHandler;
+import org.codehaus.yfaces.component.AbstractYModel;
+import org.codehaus.yfaces.component.DefaultYEventListener;
+import org.codehaus.yfaces.component.YModel;
+import org.codehaus.yfaces.component.YEvent;
+import org.codehaus.yfaces.component.YEventHandler;
 
 import de.hybris.platform.core.enums.CreditCardType;
 import de.hybris.platform.core.model.enumeration.EnumerationValueModel;
@@ -35,13 +35,13 @@ import ystorefoundationpackage.domain.impl.JaloBridge;
 /**
  * Implementation of the <code>ShowPaymentComponent</code> interface.
  */
-public class DefaultShowPaymentComponent extends AbstractYComponent implements ShowPaymentComponent
+public class DefaultShowPaymentComponent extends AbstractYModel implements ShowPaymentComponent
 {
 
 	/**
 	 * This event gets fired when the user tries to remove the selected payment mode.
 	 */
-	public class DeletePaymentInfoEvent extends DefaultYComponentEventListener<ShowPaymentComponent>
+	public class DeletePaymentInfoEvent extends DefaultYEventListener<ShowPaymentComponent>
 	{
 		private static final long serialVersionUID = -9188215350741106605L;
 
@@ -53,7 +53,7 @@ public class DefaultShowPaymentComponent extends AbstractYComponent implements S
 		}
 
 		@Override
-		public void actionListener(final YComponentEvent<ShowPaymentComponent> event)
+		public void actionListener(final YEvent<ShowPaymentComponent> event)
 		{
 			final PaymentInfoModel paymentInfo = event.getComponent().getPaymentInfo();
 			YStorefoundation.getRequestContext().getPlatformServices().getModelService().remove(paymentInfo);
@@ -68,9 +68,9 @@ public class DefaultShowPaymentComponent extends AbstractYComponent implements S
 	private CartModel cart = null;
 	private EnumerationValueModel paymentInfoType = null;
 
-	private YComponentEventHandler<ShowPaymentComponent> ehDelete = null;
-	private YComponentEventHandler<ShowPaymentComponent> ehEdit = null;
-	private YComponentEventHandler<ShowPaymentComponent> ehCustom = null;
+	private YEventHandler<ShowPaymentComponent> ehDelete = null;
+	private YEventHandler<ShowPaymentComponent> ehEdit = null;
+	private YEventHandler<ShowPaymentComponent> ehCustom = null;
 
 
 	public DefaultShowPaymentComponent()
@@ -84,7 +84,7 @@ public class DefaultShowPaymentComponent extends AbstractYComponent implements S
 
 	}
 
-	public DefaultShowPaymentComponent(final YComponent template)
+	public DefaultShowPaymentComponent(final YModel template)
 	{
 		super();
 		final ShowPaymentComponent cmp = (ShowPaymentComponent) template;
@@ -136,17 +136,17 @@ public class DefaultShowPaymentComponent extends AbstractYComponent implements S
 		this.type = mode;
 	}
 
-	public YComponentEventHandler<ShowPaymentComponent> getCustomPaymentEvent()
+	public YEventHandler<ShowPaymentComponent> getCustomPaymentEvent()
 	{
 		return this.ehCustom;
 	}
 
-	public YComponentEventHandler<ShowPaymentComponent> getDeletePaymentEvent()
+	public YEventHandler<ShowPaymentComponent> getDeletePaymentEvent()
 	{
 		return this.ehDelete;
 	}
 
-	public YComponentEventHandler<ShowPaymentComponent> getEditPaymentEvent()
+	public YEventHandler<ShowPaymentComponent> getEditPaymentEvent()
 	{
 		return this.ehEdit;
 	}

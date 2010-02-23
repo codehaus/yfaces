@@ -14,7 +14,7 @@
 package ystorefoundationpackage.yfaces.frame;
 
 import org.codehaus.yfaces.component.AbstractYFrame;
-import org.codehaus.yfaces.component.YComponentBinding;
+import org.codehaus.yfaces.component.YModelBinding;
 
 import ystorefoundationpackage.yfaces.component.order.OrderHistoryComponent;
 
@@ -25,9 +25,9 @@ import ystorefoundationpackage.yfaces.component.order.OrderHistoryComponent;
  */
 public class OrderHistoryFrame extends AbstractYFrame
 {
-	private final YComponentBinding<OrderHistoryComponent> orderHistoryCmp = super.createComponentBinding();
+	private final YModelBinding<OrderHistoryComponent> orderHistoryCmp = super.createComponentBinding();
 
-	public YComponentBinding<OrderHistoryComponent> getOrderHistoryComponent()
+	public YModelBinding<OrderHistoryComponent> getOrderHistoryComponent()
 	{
 		return this.orderHistoryCmp;
 	}

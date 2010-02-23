@@ -13,7 +13,7 @@
  */
 package ystorefoundationpackage.yfaces.component.cart;
 
-import org.codehaus.yfaces.component.AbstractYComponent;
+import org.codehaus.yfaces.component.AbstractYModel;
 
 import de.hybris.platform.core.model.c2l.CurrencyModel;
 import de.hybris.platform.core.model.order.AbstractOrderEntryModel;
@@ -27,7 +27,7 @@ import ystorefoundationpackage.domain.YStorefoundation;
 /**
  * Implementation of the <code>QuickViewCartComponent</code> interface.
  */
-public class DefaultQuickViewCartComponent extends AbstractYComponent implements QuickViewCartComponent
+public class DefaultQuickViewCartComponent extends AbstractYModel implements QuickViewCartComponent
 {
 	private static final long serialVersionUID = 8712436172843689173L;
 

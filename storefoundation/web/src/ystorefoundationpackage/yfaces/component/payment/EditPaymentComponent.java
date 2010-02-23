@@ -13,8 +13,8 @@
  */
 package ystorefoundationpackage.yfaces.component.payment;
 
-import org.codehaus.yfaces.component.YComponent;
-import org.codehaus.yfaces.component.YComponentEventHandler;
+import org.codehaus.yfaces.component.YModel;
+import org.codehaus.yfaces.component.YEventHandler;
 
 import de.hybris.platform.core.model.order.payment.PaymentInfoModel;
 
@@ -23,7 +23,7 @@ import de.hybris.platform.core.model.order.payment.PaymentInfoModel;
 /**
  * This component makes it possible for the user to edit the payment information.
  */
-public interface EditPaymentComponent extends YComponent
+public interface EditPaymentComponent extends YModel
 {
 
 	/**
@@ -41,8 +41,8 @@ public interface EditPaymentComponent extends YComponent
 	 */
 	public void setPaymentInfo(PaymentInfoModel paymentInfo);
 
-	public YComponentEventHandler<EditPaymentComponent> getSavePaymentInfoEvent();
+	public YEventHandler<EditPaymentComponent> getSavePaymentInfoEvent();
 
-	public YComponentEventHandler<EditPaymentComponent> getCancelEditPaymentInfoEvent();
+	public YEventHandler<EditPaymentComponent> getCancelEditPaymentInfoEvent();
 
 }

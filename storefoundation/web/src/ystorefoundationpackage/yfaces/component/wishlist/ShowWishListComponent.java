@@ -19,14 +19,14 @@ import de.hybris.platform.wishlist2.model.Wishlist2Model;
 
 import java.util.List;
 
-import org.codehaus.yfaces.component.YComponent;
-import org.codehaus.yfaces.component.YComponentEventHandler;
+import org.codehaus.yfaces.component.YModel;
+import org.codehaus.yfaces.component.YEventHandler;
 
 
 /**
  * This component displays all the products in the current active wish list of the user.
  */
-public interface ShowWishListComponent extends YComponent
+public interface ShowWishListComponent extends YModel
 {
 
 	//model
@@ -41,6 +41,6 @@ public interface ShowWishListComponent extends YComponent
 	public List<Wishlist2EntryModel> getWishListEntries();
 
 	//events: add all products to cart
-	public YComponentEventHandler<ShowWishListComponent> getAddAllProductsToCartEvent();
+	public YEventHandler<ShowWishListComponent> getAddAllProductsToCartEvent();
 
 }

@@ -17,10 +17,10 @@ import de.hybris.platform.core.model.user.UserModel;
 import de.hybris.platform.servicelayer.exceptions.UnknownIdentifierException;
 
 import org.apache.commons.validator.GenericValidator;
-import org.codehaus.yfaces.component.AbstractYComponent;
-import org.codehaus.yfaces.component.DefaultYComponentEventListener;
-import org.codehaus.yfaces.component.YComponentEvent;
-import org.codehaus.yfaces.component.YComponentEventHandler;
+import org.codehaus.yfaces.component.AbstractYModel;
+import org.codehaus.yfaces.component.DefaultYEventListener;
+import org.codehaus.yfaces.component.YEvent;
+import org.codehaus.yfaces.component.YEventHandler;
 
 import ystorefoundationpackage.domain.SfRequestContext;
 import ystorefoundationpackage.domain.SfSessionContext;
@@ -30,23 +30,23 @@ import ystorefoundationpackage.domain.YStorefoundation;
 /**
  * Implementation of the <code>ForgotPasswordComponent</code> interface.
  */
-public class DefaultForgotPasswordComponent extends AbstractYComponent implements ForgotPasswordComponent
+public class DefaultForgotPasswordComponent extends AbstractYModel implements ForgotPasswordComponent
 {
 	private String email = null;
 	private String login = null;
 
-	private YComponentEventHandler<ForgotPasswordComponent> ehSendPW = null;
+	private YEventHandler<ForgotPasswordComponent> ehSendPW = null;
 
 	/**
 	 * This event gets fired when the user tries to get the new password by Email.
 	 */
-	public static class SendPasswordEvent extends DefaultYComponentEventListener<ForgotPasswordComponent>
+	public static class SendPasswordEvent extends DefaultYEventListener<ForgotPasswordComponent>
 	{
 		private String errorMessage;
 		private String errorParameter;
 
 		@Override
-		public void actionListener(final YComponentEvent<ForgotPasswordComponent> event)
+		public void actionListener(final YEvent<ForgotPasswordComponent> event)
 		{
 			final SfRequestContext reqCtx = YStorefoundation.getRequestContext();
 
@@ -157,7 +157,7 @@ public class DefaultForgotPasswordComponent extends AbstractYComponent implement
 	}
 
 
-	public YComponentEventHandler<ForgotPasswordComponent> getSendPasswordEvent()
+	public YEventHandler<ForgotPasswordComponent> getSendPasswordEvent()
 	{
 		return this.ehSendPW;
 	}

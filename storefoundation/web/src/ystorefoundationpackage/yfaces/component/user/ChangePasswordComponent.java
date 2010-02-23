@@ -13,8 +13,8 @@
  */
 package ystorefoundationpackage.yfaces.component.user;
 
-import org.codehaus.yfaces.component.YComponent;
-import org.codehaus.yfaces.component.YComponentEventHandler;
+import org.codehaus.yfaces.component.YModel;
+import org.codehaus.yfaces.component.YEventHandler;
 
 import de.hybris.platform.core.model.user.UserModel;
 
@@ -23,7 +23,7 @@ import de.hybris.platform.core.model.user.UserModel;
 /**
  * This component makes it possible for the user to change the password.
  */
-public interface ChangePasswordComponent extends YComponent
+public interface ChangePasswordComponent extends YModel
 {
 
 	public UserModel getUser();
@@ -50,8 +50,8 @@ public interface ChangePasswordComponent extends YComponent
 
 	public void setCheckNewPasswordRepeat(Boolean check);
 
-	public YComponentEventHandler<ChangePasswordComponent> getChangePasswordEvent();
+	public YEventHandler<ChangePasswordComponent> getChangePasswordEvent();
 
-	public YComponentEventHandler<ChangePasswordComponent> getCancelChangePasswordEvent();
+	public YEventHandler<ChangePasswordComponent> getCancelChangePasswordEvent();
 
 }

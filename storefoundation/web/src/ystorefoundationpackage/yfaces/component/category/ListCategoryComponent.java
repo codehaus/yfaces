@@ -19,13 +19,13 @@ import de.hybris.platform.category.model.CategoryModel;
 
 import java.util.List;
 
-import org.codehaus.yfaces.component.YComponent;
+import org.codehaus.yfaces.component.YModel;
 
 
 /**
  * This component lists all sub-categories of the selected category.
  */
-public interface ListCategoryComponent extends YComponent
+public interface ListCategoryComponent extends YModel
 {
 
 	List<CategoryModel> getCategoryList();

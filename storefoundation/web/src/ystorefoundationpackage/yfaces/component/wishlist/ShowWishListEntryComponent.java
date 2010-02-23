@@ -20,14 +20,14 @@ import java.util.List;
 
 import javax.faces.model.SelectItem;
 
-import org.codehaus.yfaces.component.YComponent;
-import org.codehaus.yfaces.component.YComponentEventHandler;
+import org.codehaus.yfaces.component.YModel;
+import org.codehaus.yfaces.component.YEventHandler;
 
 
 /**
  * This component displays one product in the wish list in detail.
  */
-public interface ShowWishListEntryComponent extends YComponent
+public interface ShowWishListEntryComponent extends YModel
 {
 
 	public static final String ATTRIB_SAVE_WISH_LIST_ENTRY = "saveWishListEntry";
@@ -49,10 +49,10 @@ public interface ShowWishListEntryComponent extends YComponent
 
 	//event: save a wish list entry, delete a wish list entry, 
 	//and add the product in the entry to cart
-	public YComponentEventHandler<ShowWishListEntryComponent> getSaveWishListEntryEvent();
+	public YEventHandler<ShowWishListEntryComponent> getSaveWishListEntryEvent();
 
-	public YComponentEventHandler<ShowWishListEntryComponent> getRemoveWishListEntryEvent();
+	public YEventHandler<ShowWishListEntryComponent> getRemoveWishListEntryEvent();
 
-	public YComponentEventHandler<ShowWishListEntryComponent> getAddProductToCartEvent();
+	public YEventHandler<ShowWishListEntryComponent> getAddProductToCartEvent();
 
 }

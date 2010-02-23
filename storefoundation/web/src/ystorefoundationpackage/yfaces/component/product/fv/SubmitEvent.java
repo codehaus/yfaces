@@ -20,8 +20,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.codehaus.yfaces.component.DefaultYComponentEventListener;
-import org.codehaus.yfaces.component.YComponentEvent;
+import org.codehaus.yfaces.component.DefaultYEventListener;
+import org.codehaus.yfaces.component.YEvent;
 
 import ystorefoundationpackage.domain.FormattedAttribute;
 import ystorefoundationpackage.domain.YStorefoundation;
@@ -32,7 +32,7 @@ import ystorefoundationpackage.faces.SfSelectItemGroup;
 /**
  *
  */
-public class SubmitEvent extends DefaultYComponentEventListener<FeatureValueSelectorComponent>
+public class SubmitEvent extends DefaultYEventListener<FeatureValueSelectorComponent>
 {
 
 	/*
@@ -43,7 +43,7 @@ public class SubmitEvent extends DefaultYComponentEventListener<FeatureValueSele
 	 * )
 	 */
 	@Override
-	public void actionListener(final YComponentEvent<FeatureValueSelectorComponent> event)
+	public void actionListener(final YEvent<FeatureValueSelectorComponent> event)
 	{
 		final FeatureValueSelectorComponent cmp = event.getComponent();
 		final List<ProductModel> filteredProducts = this.getFilteredProducts(cmp);

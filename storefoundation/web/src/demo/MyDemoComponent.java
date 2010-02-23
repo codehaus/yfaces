@@ -13,15 +13,15 @@
  */
 package demo;
 
-import org.codehaus.yfaces.component.YComponent;
-import org.codehaus.yfaces.component.YComponentEventHandler;
+import org.codehaus.yfaces.component.YModel;
+import org.codehaus.yfaces.component.YEventHandler;
 
 
 /**
  * 
  * 
  */
-public interface MyDemoComponent extends YComponent
+public interface MyDemoComponent extends YModel
 {
 	public String getFormField();
 
@@ -31,5 +31,5 @@ public interface MyDemoComponent extends YComponent
 
 	public void setResult(String result);
 
-	public YComponentEventHandler<MyDemoComponent> getSubmitEvent();
+	public YEventHandler<MyDemoComponent> getSubmitEvent();
 }

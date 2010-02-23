@@ -23,7 +23,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.codehaus.yfaces.component.AbstractYComponent;
+import org.codehaus.yfaces.component.AbstractYModel;
 
 import ystorefoundationpackage.StorefoundationException;
 import ystorefoundationpackage.domain.YStorefoundation;
@@ -32,7 +32,7 @@ import ystorefoundationpackage.domain.YStorefoundation;
 /**
  * Implementation of the <code>CustomerReviewComponent</code> interface.
  */
-public class DefaultCustomerReviewComponent extends AbstractYComponent implements CustomerReviewComponent
+public class DefaultCustomerReviewComponent extends AbstractYModel implements CustomerReviewComponent
 {
 	@SuppressWarnings("unused")
 	private static final Logger LOG = Logger.getLogger(DefaultCustomerReviewComponent.class);

@@ -17,7 +17,7 @@ import de.hybris.platform.category.model.CategoryModel;
 
 import java.util.List;
 
-import org.codehaus.yfaces.component.AbstractYComponent;
+import org.codehaus.yfaces.component.AbstractYModel;
 
 import ystorefoundationpackage.domain.YStorefoundation;
 
@@ -26,7 +26,7 @@ import ystorefoundationpackage.domain.YStorefoundation;
 /**
  * Implementation of the <code>ListCategoryComponent</code> interface.
  */
-public class DefaultListCategoryComponent extends AbstractYComponent implements ListCategoryComponent
+public class DefaultListCategoryComponent extends AbstractYModel implements ListCategoryComponent
 {
 
 	private static final long serialVersionUID = 4699534144233667854L;

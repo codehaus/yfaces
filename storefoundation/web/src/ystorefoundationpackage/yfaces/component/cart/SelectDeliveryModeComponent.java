@@ -18,8 +18,8 @@ import de.hybris.platform.core.model.order.delivery.DeliveryModeModel;
 
 import java.util.List;
 
-import org.codehaus.yfaces.component.YComponent;
-import org.codehaus.yfaces.component.YComponentEventHandler;
+import org.codehaus.yfaces.component.YModel;
+import org.codehaus.yfaces.component.YEventHandler;
 
 import ystorefoundationpackage.faces.SfSelectItemGroup;
 
@@ -27,7 +27,7 @@ import ystorefoundationpackage.faces.SfSelectItemGroup;
 /**
  * The user can select one delivery mode for the order with this component.
  */
-public interface SelectDeliveryModeComponent extends YComponent
+public interface SelectDeliveryModeComponent extends YModel
 {
 
 	DeliveryModeModel getSelectedDeliveryMode();
@@ -48,5 +48,5 @@ public interface SelectDeliveryModeComponent extends YComponent
 
 	SfSelectItemGroup<DeliveryModeModel> getDeliveryModeSelector();
 
-	YComponentEventHandler<SelectDeliveryModeComponent> getSelectDeliveryModeEvent();
+	YEventHandler<SelectDeliveryModeComponent> getSelectDeliveryModeEvent();
 }

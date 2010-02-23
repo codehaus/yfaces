@@ -19,10 +19,10 @@ import de.hybris.platform.customerreview.CustomerReviewService;
 import de.hybris.platform.customerreview.model.CustomerReviewModel;
 
 import org.apache.log4j.Logger;
-import org.codehaus.yfaces.component.AbstractYComponent;
-import org.codehaus.yfaces.component.DefaultYComponentEventListener;
-import org.codehaus.yfaces.component.YComponentEvent;
-import org.codehaus.yfaces.component.YComponentEventHandler;
+import org.codehaus.yfaces.component.AbstractYModel;
+import org.codehaus.yfaces.component.DefaultYEventListener;
+import org.codehaus.yfaces.component.YEvent;
+import org.codehaus.yfaces.component.YEventHandler;
 
 import ystorefoundationpackage.StorefoundationException;
 import ystorefoundationpackage.domain.SfRequestContext;
@@ -34,7 +34,7 @@ import ystorefoundationpackage.domain.YStorefoundation;
 /**
  * Implementation of the <code>CreateCustomerReviewComponent</code> interface.
  */
-public class DefaultCreateCustomerReviewComponent extends AbstractYComponent implements CreateCustomerReviewComponent
+public class DefaultCreateCustomerReviewComponent extends AbstractYModel implements CreateCustomerReviewComponent
 {
 	@SuppressWarnings("unused")
 	private static final Logger LOG = Logger.getLogger(DefaultCreateCustomerReviewComponent.class.getName());
@@ -45,7 +45,7 @@ public class DefaultCreateCustomerReviewComponent extends AbstractYComponent imp
 	private ProductModel product = null;
 	private CustomerReviewModel customerReview = null;
 
-	private YComponentEventHandler<CreateCustomerReviewComponent> ehSendReview = null;
+	private YEventHandler<CreateCustomerReviewComponent> ehSendReview = null;
 
 	@Override
 	public void validate()
@@ -103,19 +103,19 @@ public class DefaultCreateCustomerReviewComponent extends AbstractYComponent imp
 	/**
 	 * {@inheritDoc}
 	 */
-	public YComponentEventHandler<CreateCustomerReviewComponent> getSendReviewEvent()
+	public YEventHandler<CreateCustomerReviewComponent> getSendReviewEvent()
 	{
 		return this.ehSendReview;
 	}
 
-	public static class SendCustomerReviewAction extends DefaultYComponentEventListener<CreateCustomerReviewComponent>
+	public static class SendCustomerReviewAction extends DefaultYEventListener<CreateCustomerReviewComponent>
 	{
 		private static final long serialVersionUID = 3247537269817124773L;
 		private transient CustomerReviewModel customerReview = null;
 		private boolean inputError = false;
 
 		@Override
-		public void actionListener(final YComponentEvent<CreateCustomerReviewComponent> event)
+		public void actionListener(final YEvent<CreateCustomerReviewComponent> event)
 		{
 			final SfRequestContext reqCtx = YStorefoundation.getRequestContext();
 

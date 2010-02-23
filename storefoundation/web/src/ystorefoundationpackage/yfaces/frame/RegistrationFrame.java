@@ -14,7 +14,7 @@
 package ystorefoundationpackage.yfaces.frame;
 
 import org.codehaus.yfaces.component.AbstractYFrame;
-import org.codehaus.yfaces.component.YComponentBinding;
+import org.codehaus.yfaces.component.YModelBinding;
 
 import ystorefoundationpackage.yfaces.component.user.RegistrationComponent;
 
@@ -27,9 +27,9 @@ public class RegistrationFrame extends AbstractYFrame
 {
 	private static final long serialVersionUID = 57824365972845L;
 
-	private final YComponentBinding<RegistrationComponent> registrationCmp = super.createComponentBinding();
+	private final YModelBinding<RegistrationComponent> registrationCmp = super.createComponentBinding();
 
-	public YComponentBinding<RegistrationComponent> getRegistrationComponent()
+	public YModelBinding<RegistrationComponent> getRegistrationComponent()
 	{
 		return this.registrationCmp;
 	}

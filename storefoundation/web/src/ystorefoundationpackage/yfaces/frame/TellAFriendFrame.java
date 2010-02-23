@@ -14,7 +14,7 @@
 package ystorefoundationpackage.yfaces.frame;
 
 import org.codehaus.yfaces.component.AbstractYFrame;
-import org.codehaus.yfaces.component.YComponentBinding;
+import org.codehaus.yfaces.component.YModelBinding;
 
 import ystorefoundationpackage.yfaces.component.product.tellfriend.TellAFriendComponent;
 
@@ -28,7 +28,7 @@ public class TellAFriendFrame extends AbstractYFrame
 
 	private static final long serialVersionUID = 5064312503612109254L;
 
-	private YComponentBinding<TellAFriendComponent> tellFriendCmp = null;
+	private YModelBinding<TellAFriendComponent> tellFriendCmp = null;
 
 	public TellAFriendFrame()
 	{
@@ -36,7 +36,7 @@ public class TellAFriendFrame extends AbstractYFrame
 		this.tellFriendCmp = super.createComponentBinding();
 	}
 
-	public YComponentBinding<TellAFriendComponent> getTellAFriendComponent()
+	public YModelBinding<TellAFriendComponent> getTellAFriendComponent()
 	{
 		return this.tellFriendCmp;
 	}

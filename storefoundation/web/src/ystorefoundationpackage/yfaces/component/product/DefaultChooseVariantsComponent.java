@@ -28,10 +28,10 @@ import java.util.TreeSet;
 import javax.faces.model.SelectItem;
 
 import org.apache.log4j.Logger;
-import org.codehaus.yfaces.component.AbstractYComponent;
-import org.codehaus.yfaces.component.DefaultYComponentEventListener;
-import org.codehaus.yfaces.component.YComponentEvent;
-import org.codehaus.yfaces.component.YComponentEventHandler;
+import org.codehaus.yfaces.component.AbstractYModel;
+import org.codehaus.yfaces.component.DefaultYEventListener;
+import org.codehaus.yfaces.component.YEvent;
+import org.codehaus.yfaces.component.YEventHandler;
 
 import ystorefoundationpackage.domain.FormattedAttribute;
 import ystorefoundationpackage.domain.ProductManagement;
@@ -45,7 +45,7 @@ import ystorefoundationpackage.faces.SfSelectItemGroup;
 /**
  * Implementation of the <code>ChooseVariantsComponent</code> interface.
  */
-public class DefaultChooseVariantsComponent extends AbstractYComponent implements ChooseVariantsComponent
+public class DefaultChooseVariantsComponent extends AbstractYModel implements ChooseVariantsComponent
 {
 	private static final Logger log = Logger.getLogger(DefaultChooseVariantsComponent.class);
 
@@ -56,7 +56,7 @@ public class DefaultChooseVariantsComponent extends AbstractYComponent implement
 	private ProductModel baseProduct = null;
 	private List<SfSelectItemGroup> attributesSelectorList = null;
 
-	private YComponentEventHandler<ChooseVariantsComponent> ehChooseVariants = null;
+	private YEventHandler<ChooseVariantsComponent> ehChooseVariants = null;
 
 	//default constructor
 	public DefaultChooseVariantsComponent()
@@ -92,7 +92,7 @@ public class DefaultChooseVariantsComponent extends AbstractYComponent implement
 		this.attributesSelectorList = this.createAttributesSelectorList();
 	}
 
-	public YComponentEventHandler<ChooseVariantsComponent> getShowVariantEvent()
+	public YEventHandler<ChooseVariantsComponent> getShowVariantEvent()
 	{
 		return this.ehChooseVariants;
 	}
@@ -100,13 +100,13 @@ public class DefaultChooseVariantsComponent extends AbstractYComponent implement
 	/**
 	 * This event gets fired when the user tries to see the variant product with the selected attributes.
 	 */
-	public static class ShowVariantAction extends DefaultYComponentEventListener<ChooseVariantsComponent>
+	public static class ShowVariantAction extends DefaultYEventListener<ChooseVariantsComponent>
 	{
 
 		private static final long serialVersionUID = 8988049388662500863L;
 
 		@Override
-		public void actionListener(final YComponentEvent<ChooseVariantsComponent> event)
+		public void actionListener(final YEvent<ChooseVariantsComponent> event)
 		{
 			final ChooseVariantsComponent cmp = event.getComponent();
 			final ProductModel variantProduct = cmp.getCurrentVariantProduct();

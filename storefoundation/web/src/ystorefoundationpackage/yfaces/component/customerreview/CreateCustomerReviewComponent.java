@@ -13,8 +13,8 @@
  */
 package ystorefoundationpackage.yfaces.component.customerreview;
 
-import org.codehaus.yfaces.component.YComponent;
-import org.codehaus.yfaces.component.YComponentEventHandler;
+import org.codehaus.yfaces.component.YModel;
+import org.codehaus.yfaces.component.YEventHandler;
 
 import de.hybris.platform.core.model.product.ProductModel;
 import de.hybris.platform.customerreview.model.CustomerReviewModel;
@@ -23,7 +23,7 @@ import de.hybris.platform.customerreview.model.CustomerReviewModel;
 /**
  * This component allows the logged-in user to write review for the product.
  */
-public interface CreateCustomerReviewComponent extends YComponent
+public interface CreateCustomerReviewComponent extends YModel
 {
 	/**
 	 * Gets the comment from the user review
@@ -49,6 +49,6 @@ public interface CreateCustomerReviewComponent extends YComponent
 	 * 
 	 * @return A CreateCustomerReviewComponent
 	 */
-	YComponentEventHandler<CreateCustomerReviewComponent> getSendReviewEvent();
+	YEventHandler<CreateCustomerReviewComponent> getSendReviewEvent();
 
 }

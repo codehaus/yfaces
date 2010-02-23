@@ -14,9 +14,9 @@
 package ystorefoundationpackage.yfaces.frame;
 
 import org.codehaus.yfaces.component.AbstractYFrame;
-import org.codehaus.yfaces.component.YComponentBinding;
-import org.codehaus.yfaces.component.YComponentEvent;
-import org.codehaus.yfaces.component.YComponentEventListener;
+import org.codehaus.yfaces.component.YModelBinding;
+import org.codehaus.yfaces.component.YEvent;
+import org.codehaus.yfaces.component.YEventListener;
 import org.codehaus.yfaces.context.YConversationContext;
 import org.codehaus.yfaces.context.YPageContext;
 
@@ -48,8 +48,8 @@ public class PaymentListFrame extends AbstractYFrame
 	private static final String NAV_PAYMENT_EDIT = "paymentEditPage";
 	private static final String NAV_PAYMENT_LIST = "paymentListPage";
 
-	private YComponentBinding<ListPaymentComponent> listPaymentCmp = null;
-	private YComponentBinding<SelectPaymentModeComponent> selectPaymentModeCmp = null;
+	private YModelBinding<ListPaymentComponent> listPaymentCmp = null;
+	private YModelBinding<SelectPaymentModeComponent> selectPaymentModeCmp = null;
 
 	public PaymentListFrame()
 	{
@@ -60,28 +60,28 @@ public class PaymentListFrame extends AbstractYFrame
 	}
 
 	/**
-	 * @return {@link YComponentBinding} for {@link ListPaymentComponent}
+	 * @return {@link YModelBinding} for {@link ListPaymentComponent}
 	 */
-	public YComponentBinding<ListPaymentComponent> getListPaymentComponent()
+	public YModelBinding<ListPaymentComponent> getListPaymentComponent()
 	{
 		return this.listPaymentCmp;
 	}
 
 	/**
-	 * @return {@link YComponentBinding} for {@link SelectPaymentModeComponent}
+	 * @return {@link YModelBinding} for {@link SelectPaymentModeComponent}
 	 */
-	public YComponentBinding<SelectPaymentModeComponent> getSelectPaymentModeComponent()
+	public YModelBinding<SelectPaymentModeComponent> getSelectPaymentModeComponent()
 	{
 		return this.selectPaymentModeCmp;
 	}
 
 	/**
-	 * External {@link YComponentEventListener} for {@link ShowPaymentComponent}
+	 * External {@link YEventListener} for {@link ShowPaymentComponent}
 	 * 
 	 * @param event
-	 *           {@link YComponentEvent}
+	 *           {@link YEvent}
 	 */
-	public void doEditPaymentInfo(final YComponentEvent<ShowPaymentComponent> event)
+	public void doEditPaymentInfo(final YEvent<ShowPaymentComponent> event)
 	{
 		final ShowPaymentComponent cmp = event.getComponent();
 
@@ -94,12 +94,12 @@ public class PaymentListFrame extends AbstractYFrame
 	}
 
 	/**
-	 * External {@link YComponentEventListener} for {@link ListPaymentComponent}
+	 * External {@link YEventListener} for {@link ListPaymentComponent}
 	 * 
 	 * @param event
-	 *           {@link YComponentEvent}
+	 *           {@link YEvent}
 	 */
-	public void doCreateCreditCardPaymentInfo(final YComponentEvent<ListPaymentComponent> event)
+	public void doCreateCreditCardPaymentInfo(final YEvent<ListPaymentComponent> event)
 	{
 		final EditPaymentComponent editCmp = new DefaultEditCreditCardPaymentComponent();
 		getPaymentEditFrame().getEditPaymentComponent().setValue(editCmp);
@@ -107,12 +107,12 @@ public class PaymentListFrame extends AbstractYFrame
 	}
 
 	/**
-	 * External {@link YComponentEventListener} for {@link ListPaymentComponent}
+	 * External {@link YEventListener} for {@link ListPaymentComponent}
 	 * 
 	 * @param event
-	 *           {@link YComponentEvent}
+	 *           {@link YEvent}
 	 */
-	public void doCreateDebitPaymentInfo(final YComponentEvent<ListPaymentComponent> event)
+	public void doCreateDebitPaymentInfo(final YEvent<ListPaymentComponent> event)
 	{
 		final EditPaymentComponent editCmp = new DefaultEditPaymentComponent();
 		getPaymentEditFrame().getEditPaymentComponent().setValue(editCmp);
@@ -134,7 +134,7 @@ public class PaymentListFrame extends AbstractYFrame
 		result.getShowPaymentComponent().getEditPaymentEvent().getListener().setActionListener(
 				super.createExpressionString("doEditPaymentInfo"));
 
-		final YComponentEventListener<ListPaymentComponent> listener = result.getCreateCreditCardEvent().getListener();
+		final YEventListener<ListPaymentComponent> listener = result.getCreateCreditCardEvent().getListener();
 		listener.setAction(NAV_PAYMENT_EDIT);
 		listener.setActionListener(super.createExpressionString("doCreateCreditCardPaymentInfo"));
 

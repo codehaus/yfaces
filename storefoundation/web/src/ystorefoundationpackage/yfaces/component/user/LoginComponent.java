@@ -13,14 +13,14 @@
  */
 package ystorefoundationpackage.yfaces.component.user;
 
-import org.codehaus.yfaces.component.YComponent;
-import org.codehaus.yfaces.component.YComponentEventHandler;
+import org.codehaus.yfaces.component.YModel;
+import org.codehaus.yfaces.component.YEventHandler;
 
 
 /**
  * The user can log in with this component. SSL mode is optional.
  */
-public interface LoginComponent extends YComponent
+public interface LoginComponent extends YModel
 {
 	public String getLogin();
 
@@ -50,14 +50,14 @@ public interface LoginComponent extends YComponent
 	public void setSSLPort(int port);
 
 
-	public YComponentEventHandler<LoginComponent> getLoginEvent();
+	public YEventHandler<LoginComponent> getLoginEvent();
 
-	public YComponentEventHandler<LoginComponent> getLogoutEvent();
+	public YEventHandler<LoginComponent> getLogoutEvent();
 
-	public YComponentEventHandler<LoginComponent> getRegisterEvent();
+	public YEventHandler<LoginComponent> getRegisterEvent();
 
-	public YComponentEventHandler<LoginComponent> getDemoLoginEvent();
+	public YEventHandler<LoginComponent> getDemoLoginEvent();
 
-	public YComponentEventHandler<LoginComponent> getForgotPasswordEvent();
+	public YEventHandler<LoginComponent> getForgotPasswordEvent();
 
 }

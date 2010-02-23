@@ -17,15 +17,15 @@ import de.hybris.platform.core.model.user.AddressModel;
 
 import java.util.List;
 
-import org.codehaus.yfaces.component.YComponent;
-import org.codehaus.yfaces.component.YComponentEventHandler;
+import org.codehaus.yfaces.component.YModel;
+import org.codehaus.yfaces.component.YEventHandler;
 
 
 
 /**
  * This component lists all addresses for the user.
  */
-public interface ListAddressComponent extends YComponent
+public interface ListAddressComponent extends YModel
 {
 	List<AddressModel> getAddressList();
 
@@ -39,6 +39,6 @@ public interface ListAddressComponent extends YComponent
 
 	//	void setShowAddressComponentTemplate(ShowAddressComponent showAddressComponent);
 
-	YComponentEventHandler<ListAddressComponent> getCreateAddressEvent();
+	YEventHandler<ListAddressComponent> getCreateAddressEvent();
 
 }

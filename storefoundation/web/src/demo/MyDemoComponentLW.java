@@ -16,7 +16,7 @@ package demo;
 
 import javax.faces.event.ActionEvent;
 
-import org.codehaus.yfaces.component.AbstractYComponent;
+import org.codehaus.yfaces.component.AbstractYModel;
 
 
 
@@ -24,7 +24,7 @@ import org.codehaus.yfaces.component.AbstractYComponent;
  * 
  * 
  */
-public class MyDemoComponentLW extends AbstractYComponent
+public class MyDemoComponentLW extends AbstractYModel
 {
 	private String field = null;
 	private String result = null;

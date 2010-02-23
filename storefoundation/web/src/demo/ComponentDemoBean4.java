@@ -18,8 +18,8 @@ import de.hybris.platform.core.model.product.ProductModel;
 import java.util.List;
 
 import org.codehaus.yfaces.component.AbstractYFrame;
-import org.codehaus.yfaces.component.YComponentBinding;
-import org.codehaus.yfaces.component.YComponentEvent;
+import org.codehaus.yfaces.component.YModelBinding;
+import org.codehaus.yfaces.component.YEvent;
 
 import ystorefoundationpackage.domain.impl.LuceneByTermProductFinder;
 import ystorefoundationpackage.yfaces.component.search.DefaultQuickSearchComponent;
@@ -33,13 +33,13 @@ import ystorefoundationpackage.yfaces.component.search.DefaultQuickSearchCompone
  */
 public class ComponentDemoBean4 extends AbstractYFrame
 {
-	private YComponentBinding<QuickSearchComponent> quickSearchCmp1 = null;
-	private YComponentBinding<QuickSearchComponent> quickSearchCmp2 = null;
+	private YModelBinding<QuickSearchComponent> quickSearchCmp1 = null;
+	private YModelBinding<QuickSearchComponent> quickSearchCmp2 = null;
 
 	public static class CustomQuickSearchEvent2 extends QuickSearchEvent
 	{
 		@Override
-		public void actionListener(final YComponentEvent<QuickSearchComponent> event)
+		public void actionListener(final YEvent<QuickSearchComponent> event)
 		{
 			final QuickSearchComponent cmp = event.getComponent();
 			final LuceneByTermProductFinder ps = new LuceneByTermProductFinder();
@@ -62,12 +62,12 @@ public class ComponentDemoBean4 extends AbstractYFrame
 	}
 
 
-	public YComponentBinding<QuickSearchComponent> getQuickSearchComponent1()
+	public YModelBinding<QuickSearchComponent> getQuickSearchComponent1()
 	{
 		return this.quickSearchCmp1;
 	}
 
-	public YComponentBinding<QuickSearchComponent> getQuickSearchComponent2()
+	public YModelBinding<QuickSearchComponent> getQuickSearchComponent2()
 	{
 		return this.quickSearchCmp2;
 	}

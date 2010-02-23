@@ -26,10 +26,10 @@ import java.util.List;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
-import org.codehaus.yfaces.component.AbstractYComponent;
-import org.codehaus.yfaces.component.DefaultYComponentEventListener;
-import org.codehaus.yfaces.component.YComponentEvent;
-import org.codehaus.yfaces.component.YComponentEventHandler;
+import org.codehaus.yfaces.component.AbstractYModel;
+import org.codehaus.yfaces.component.DefaultYEventListener;
+import org.codehaus.yfaces.component.YEvent;
+import org.codehaus.yfaces.component.YEventHandler;
 
 import ystorefoundationpackage.domain.SfRequestContext;
 import ystorefoundationpackage.domain.SfSessionContext;
@@ -41,7 +41,7 @@ import ystorefoundationpackage.yfaces.frame.WishListFrame;
 /**
  * Implementation of the <code>SaveTempWishListComponent</code> interface.
  */
-public class DefaultSaveTempWishListComponent extends AbstractYComponent implements SaveTempWishListComponent
+public class DefaultSaveTempWishListComponent extends AbstractYModel implements SaveTempWishListComponent
 {
 
 	private static final long serialVersionUID = -4490451201616030178L;
@@ -51,9 +51,9 @@ public class DefaultSaveTempWishListComponent extends AbstractYComponent impleme
 	private List<? extends SelectItem> existedWishLists = null;
 	private String name = null;
 
-	private YComponentEventHandler<SaveTempWishListComponent> ehCreateAsNew = null;
-	private YComponentEventHandler<SaveTempWishListComponent> ehSaveToAnother = null;
-	private YComponentEventHandler<SaveTempWishListComponent> ehDiscard = null;
+	private YEventHandler<SaveTempWishListComponent> ehCreateAsNew = null;
+	private YEventHandler<SaveTempWishListComponent> ehSaveToAnother = null;
+	private YEventHandler<SaveTempWishListComponent> ehDiscard = null;
 
 	//default constructor
 	public DefaultSaveTempWishListComponent()
@@ -77,13 +77,13 @@ public class DefaultSaveTempWishListComponent extends AbstractYComponent impleme
 	/**
 	 * This event gets fired when the user tries to create a new wish list to save all products in the temporary one.
 	 */
-	public static class CreateWishListAction extends DefaultYComponentEventListener<SaveTempWishListComponent>
+	public static class CreateWishListAction extends DefaultYEventListener<SaveTempWishListComponent>
 	{
 
 		private static final long serialVersionUID = -6655651132222410232L;
 
 		@Override
-		public void actionListener(final YComponentEvent<SaveTempWishListComponent> event)
+		public void actionListener(final YEvent<SaveTempWishListComponent> event)
 		{
 			final String name = event.getComponent().getName();
 			final SfSessionContext userSession = YStorefoundation.getRequestContext().getSessionContext();
@@ -130,13 +130,13 @@ public class DefaultSaveTempWishListComponent extends AbstractYComponent impleme
 	/**
 	 * This event gets fired when the user tries to move all products in the temporary wish list to an existed one.
 	 */
-	public static class SaveToAnotherWishListAction extends DefaultYComponentEventListener<SaveTempWishListComponent>
+	public static class SaveToAnotherWishListAction extends DefaultYEventListener<SaveTempWishListComponent>
 	{
 
 		private static final long serialVersionUID = -962727992958999161L;
 
 		@Override
-		public void actionListener(final YComponentEvent<SaveTempWishListComponent> event)
+		public void actionListener(final YEvent<SaveTempWishListComponent> event)
 		{
 			final Wishlist2Model wishList = event.getComponent().getWishList();
 
@@ -180,13 +180,13 @@ public class DefaultSaveTempWishListComponent extends AbstractYComponent impleme
 	/**
 	 * This event gets fired when the user does not need to save the temporary wish list, and tries to discard it.
 	 */
-	public static class DiscardTempWishListAction extends DefaultYComponentEventListener<SaveTempWishListComponent>
+	public static class DiscardTempWishListAction extends DefaultYEventListener<SaveTempWishListComponent>
 	{
 
 		private static final long serialVersionUID = -7183245765359122712L;
 
 		@Override
-		public void actionListener(final YComponentEvent<SaveTempWishListComponent> event)
+		public void actionListener(final YEvent<SaveTempWishListComponent> event)
 		{
 			event.getComponent().removeAnonymousWishListEntries();
 		}
@@ -246,17 +246,17 @@ public class DefaultSaveTempWishListComponent extends AbstractYComponent impleme
 		this.name = name;
 	}
 
-	public YComponentEventHandler<SaveTempWishListComponent> getCreateWishListEvent()
+	public YEventHandler<SaveTempWishListComponent> getCreateWishListEvent()
 	{
 		return this.ehCreateAsNew;
 	}
 
-	public YComponentEventHandler<SaveTempWishListComponent> getSaveToAnotherWishListEvent()
+	public YEventHandler<SaveTempWishListComponent> getSaveToAnotherWishListEvent()
 	{
 		return this.ehSaveToAnother;
 	}
 
-	public YComponentEventHandler<SaveTempWishListComponent> getDiscardTempWishListEvent()
+	public YEventHandler<SaveTempWishListComponent> getDiscardTempWishListEvent()
 	{
 		return this.ehDiscard;
 	}

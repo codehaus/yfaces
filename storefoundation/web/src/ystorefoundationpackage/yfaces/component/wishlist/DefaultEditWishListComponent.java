@@ -26,10 +26,10 @@ import java.util.List;
 import javax.faces.model.SelectItem;
 
 import org.apache.log4j.Logger;
-import org.codehaus.yfaces.component.AbstractYComponent;
-import org.codehaus.yfaces.component.DefaultYComponentEventListener;
-import org.codehaus.yfaces.component.YComponentEvent;
-import org.codehaus.yfaces.component.YComponentEventHandler;
+import org.codehaus.yfaces.component.AbstractYModel;
+import org.codehaus.yfaces.component.DefaultYEventListener;
+import org.codehaus.yfaces.component.YEvent;
+import org.codehaus.yfaces.component.YEventHandler;
 import org.codehaus.yfaces.context.YPageContext;
 
 import ystorefoundationpackage.datatable.ColumnCollectionDataTableModel;
@@ -48,7 +48,7 @@ import ystorefoundationpackage.yfaces.frame.WishListFrame;
 /**
  * Implementation of the <code>EditWishListComponent</code> interface.
  */
-public class DefaultEditWishListComponent extends AbstractYComponent implements EditWishListComponent
+public class DefaultEditWishListComponent extends AbstractYModel implements EditWishListComponent
 {
 
 	private static final long serialVersionUID = -8318173017374116881L;
@@ -64,11 +64,11 @@ public class DefaultEditWishListComponent extends AbstractYComponent implements 
 
 	private List<? extends SelectItem> otherWishLists = null;
 
-	private YComponentEventHandler<EditWishListComponent> ehSave = null;
-	private YComponentEventHandler<EditWishListComponent> ehCancelSave = null;
-	private YComponentEventHandler<EditWishListComponent> ehAddSelectedProductsToCart = null;
-	private YComponentEventHandler<EditWishListComponent> ehCopyToAnotherWishList = null;
-	private YComponentEventHandler<EditWishListComponent> ehDeleteSelectedProducts = null;
+	private YEventHandler<EditWishListComponent> ehSave = null;
+	private YEventHandler<EditWishListComponent> ehCancelSave = null;
+	private YEventHandler<EditWishListComponent> ehAddSelectedProductsToCart = null;
+	private YEventHandler<EditWishListComponent> ehCopyToAnotherWishList = null;
+	private YEventHandler<EditWishListComponent> ehDeleteSelectedProducts = null;
 
 	//default constructor
 	public DefaultEditWishListComponent()
@@ -169,13 +169,13 @@ public class DefaultEditWishListComponent extends AbstractYComponent implements 
 	 * This event gets fired when the user wants to save the changes for the wish list. The main wish list page will be
 	 * loaded after the save action.
 	 */
-	public static class SaveWishListAction extends DefaultYComponentEventListener<EditWishListComponent>
+	public static class SaveWishListAction extends DefaultYEventListener<EditWishListComponent>
 	{
 
 		private static final long serialVersionUID = 2240734801024800639L;
 
 		@Override
-		public void actionListener(final YComponentEvent<EditWishListComponent> event)
+		public void actionListener(final YEvent<EditWishListComponent> event)
 		{
 			final SfSessionContext userSession = YStorefoundation.getRequestContext().getSessionContext();
 			YStorefoundation.getRequestContext().getPlatformServices().getModelService().save(event.getComponent().getWishList());
@@ -194,7 +194,7 @@ public class DefaultEditWishListComponent extends AbstractYComponent implements 
 	 * This event gets fired when the user cancels the changes for the wish list. The previous page will be loaded after
 	 * the cancel action.
 	 */
-	public static class CancelEditWishListAction extends DefaultYComponentEventListener<EditWishListComponent>
+	public static class CancelEditWishListAction extends DefaultYEventListener<EditWishListComponent>
 	{
 
 		private static final long serialVersionUID = 4450107034950586103L;
@@ -214,13 +214,13 @@ public class DefaultEditWishListComponent extends AbstractYComponent implements 
 		}
 	}
 
-	public static class AddSelectedProductsToCartAction extends DefaultYComponentEventListener<EditWishListComponent>
+	public static class AddSelectedProductsToCartAction extends DefaultYEventListener<EditWishListComponent>
 	{
 
 		private static final long serialVersionUID = -5470632557512302108L;
 
 		@Override
-		public void actionListener(final YComponentEvent<EditWishListComponent> event)
+		public void actionListener(final YEvent<EditWishListComponent> event)
 		{
 			final List<Wishlist2EntryModel> selectedEntries = event.getComponent().getSelectedEntries();
 			final SfRequestContext reqCtx = YStorefoundation.getRequestContext();
@@ -253,7 +253,7 @@ public class DefaultEditWishListComponent extends AbstractYComponent implements 
 
 	}
 
-	public static class CopyToAnotherWishListAction extends DefaultYComponentEventListener<EditWishListComponent>
+	public static class CopyToAnotherWishListAction extends DefaultYEventListener<EditWishListComponent>
 	{
 
 		private static final Logger log = Logger.getLogger(CopyToAnotherWishListAction.class);
@@ -261,7 +261,7 @@ public class DefaultEditWishListComponent extends AbstractYComponent implements 
 		private static final long serialVersionUID = 3835188757941423228L;
 
 		@Override
-		public void actionListener(final YComponentEvent<EditWishListComponent> event)
+		public void actionListener(final YEvent<EditWishListComponent> event)
 		{
 			final List<Wishlist2EntryModel> selectedEntries = event.getComponent().getSelectedEntries();
 			final Wishlist2Model destWishList = event.getComponent().getDestWishList();
@@ -369,13 +369,13 @@ public class DefaultEditWishListComponent extends AbstractYComponent implements 
 
 	}
 
-	public static class DeleteSelectedProducts extends DefaultYComponentEventListener<EditWishListComponent>
+	public static class DeleteSelectedProducts extends DefaultYEventListener<EditWishListComponent>
 	{
 
 		private static final long serialVersionUID = -5116166455045754780L;
 
 		@Override
-		public void actionListener(final YComponentEvent<EditWishListComponent> event)
+		public void actionListener(final YEvent<EditWishListComponent> event)
 		{
 			final List<Wishlist2EntryModel> selectedEntries = event.getComponent().getSelectedEntries();
 			if (selectedEntries != null && !selectedEntries.isEmpty())
@@ -418,27 +418,27 @@ public class DefaultEditWishListComponent extends AbstractYComponent implements 
 		this.wishList = wishList;
 	}
 
-	public YComponentEventHandler<EditWishListComponent> getSaveWishListEvent()
+	public YEventHandler<EditWishListComponent> getSaveWishListEvent()
 	{
 		return this.ehSave;
 	}
 
-	public YComponentEventHandler<EditWishListComponent> getCancelEditWishListEvent()
+	public YEventHandler<EditWishListComponent> getCancelEditWishListEvent()
 	{
 		return this.ehCancelSave;
 	}
 
-	public YComponentEventHandler<EditWishListComponent> getAddSelectedProductsToCartEvent()
+	public YEventHandler<EditWishListComponent> getAddSelectedProductsToCartEvent()
 	{
 		return this.ehAddSelectedProductsToCart;
 	}
 
-	public YComponentEventHandler<EditWishListComponent> getCopyToAnotherWishListEvent()
+	public YEventHandler<EditWishListComponent> getCopyToAnotherWishListEvent()
 	{
 		return this.ehCopyToAnotherWishList;
 	}
 
-	public YComponentEventHandler<EditWishListComponent> getDeleteSelectedProductsEvent()
+	public YEventHandler<EditWishListComponent> getDeleteSelectedProductsEvent()
 	{
 		return this.ehDeleteSelectedProducts;
 	}

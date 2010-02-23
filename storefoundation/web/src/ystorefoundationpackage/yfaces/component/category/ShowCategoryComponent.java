@@ -13,7 +13,7 @@
  */
 package ystorefoundationpackage.yfaces.component.category;
 
-import org.codehaus.yfaces.component.YComponent;
+import org.codehaus.yfaces.component.YModel;
 
 import de.hybris.platform.category.model.CategoryModel;
 
@@ -23,7 +23,7 @@ import de.hybris.platform.category.model.CategoryModel;
 /**
  * This component renders a single category in detail.
  */
-public interface ShowCategoryComponent extends YComponent
+public interface ShowCategoryComponent extends YModel
 {
 
 	//no events needed for ShowCategoryComponent

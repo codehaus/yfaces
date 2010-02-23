@@ -16,14 +16,14 @@ package ystorefoundationpackage.yfaces.component.category;
 import de.hybris.platform.category.model.CategoryModel;
 
 import org.apache.myfaces.custom.tree2.TreeModel;
-import org.codehaus.yfaces.component.YComponent;
+import org.codehaus.yfaces.component.YModel;
 
 
 
 /**
  * This component renders all categories of the selected catalog in the tree mode.
  */
-public interface CategoryTreeComponent extends YComponent
+public interface CategoryTreeComponent extends YModel
 {
 	CategoryModel getCategory();
 

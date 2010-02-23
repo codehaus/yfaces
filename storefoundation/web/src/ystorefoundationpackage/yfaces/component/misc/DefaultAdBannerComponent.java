@@ -22,13 +22,13 @@ import java.util.Map;
 
 import javax.activation.MimetypesFileTypeMap;
 
-import org.codehaus.yfaces.component.AbstractYComponent;
+import org.codehaus.yfaces.component.AbstractYModel;
 
 
 /**
  * Implementation of the <code>AdBannerComponent</code> interface.
  */
-public class DefaultAdBannerComponent extends AbstractYComponent implements AdBannerComponent
+public class DefaultAdBannerComponent extends AbstractYModel implements AdBannerComponent
 {
 	private Map<String, AdBannerMetaData> bannerMap = null;
 

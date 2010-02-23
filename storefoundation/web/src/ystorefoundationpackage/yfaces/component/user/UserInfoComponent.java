@@ -14,8 +14,8 @@
 package ystorefoundationpackage.yfaces.component.user;
 
 
-import org.codehaus.yfaces.component.YComponent;
-import org.codehaus.yfaces.component.YComponentEventHandler;
+import org.codehaus.yfaces.component.YModel;
+import org.codehaus.yfaces.component.YEventHandler;
 
 import de.hybris.platform.core.model.user.UserModel;
 
@@ -23,13 +23,13 @@ import de.hybris.platform.core.model.user.UserModel;
 /**
  * This component displays the general user information.
  */
-public interface UserInfoComponent extends YComponent
+public interface UserInfoComponent extends YModel
 {
 
 	//events
-	public YComponentEventHandler<UserInfoComponent> getChangePasswordEvent();
+	public YEventHandler<UserInfoComponent> getChangePasswordEvent();
 
-	public YComponentEventHandler<UserInfoComponent> getShowOrderHistoryEvent();
+	public YEventHandler<UserInfoComponent> getShowOrderHistoryEvent();
 
 	//model
 	public UserModel getUser();

@@ -22,8 +22,8 @@ import java.util.Comparator;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.codehaus.yfaces.component.DefaultYComponentEventListener;
-import org.codehaus.yfaces.component.YComponentEvent;
+import org.codehaus.yfaces.component.DefaultYEventListener;
+import org.codehaus.yfaces.component.YEvent;
 
 import ystorefoundationpackage.domain.OrderManagement;
 import ystorefoundationpackage.domain.Prices;
@@ -37,7 +37,7 @@ import ystorefoundationpackage.domain.YStorefoundation;
 /**
  * This event gets fired when the user tries to sort the listed products.
  */
-public class ProductTableSortEvent extends DefaultYComponentEventListener<ProductTableComponent>
+public class ProductTableSortEvent extends DefaultYEventListener<ProductTableComponent>
 {
 	@SuppressWarnings("unused")
 	private static final Logger log = Logger.getLogger(ProductTableSortEvent.class);
@@ -81,7 +81,7 @@ public class ProductTableSortEvent extends DefaultYComponentEventListener<Produc
 
 
 	@Override
-	public void actionListener(final YComponentEvent<ProductTableComponent> event)
+	public void actionListener(final YEvent<ProductTableComponent> event)
 	{
 		final ProductTableComponent cmp = event.getComponent();
 		List<ProductModel> result = null;

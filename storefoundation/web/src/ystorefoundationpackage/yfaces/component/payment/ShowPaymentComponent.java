@@ -13,8 +13,8 @@
  */
 package ystorefoundationpackage.yfaces.component.payment;
 
-import org.codehaus.yfaces.component.YComponent;
-import org.codehaus.yfaces.component.YComponentEventHandler;
+import org.codehaus.yfaces.component.YModel;
+import org.codehaus.yfaces.component.YEventHandler;
 
 import de.hybris.platform.core.model.order.CartModel;
 import de.hybris.platform.core.model.order.payment.PaymentInfoModel;
@@ -25,7 +25,7 @@ import de.hybris.platform.core.model.order.payment.PaymentModeModel;
 /**
  * This component displays the payment information in detail.
  */
-public interface ShowPaymentComponent extends YComponent
+public interface ShowPaymentComponent extends YModel
 {
 	public void setCart(CartModel cart);
 
@@ -53,10 +53,10 @@ public interface ShowPaymentComponent extends YComponent
 
 
 	//events
-	public YComponentEventHandler<ShowPaymentComponent> getCustomPaymentEvent();
+	public YEventHandler<ShowPaymentComponent> getCustomPaymentEvent();
 
-	public YComponentEventHandler<ShowPaymentComponent> getDeletePaymentEvent();
+	public YEventHandler<ShowPaymentComponent> getDeletePaymentEvent();
 
-	public YComponentEventHandler<ShowPaymentComponent> getEditPaymentEvent();
+	public YEventHandler<ShowPaymentComponent> getEditPaymentEvent();
 
 }

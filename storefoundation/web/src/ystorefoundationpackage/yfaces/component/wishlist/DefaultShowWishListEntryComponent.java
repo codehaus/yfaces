@@ -25,10 +25,10 @@ import java.util.Locale;
 import javax.faces.model.SelectItem;
 
 import org.apache.log4j.Logger;
-import org.codehaus.yfaces.component.AbstractYComponent;
-import org.codehaus.yfaces.component.DefaultYComponentEventListener;
-import org.codehaus.yfaces.component.YComponentEvent;
-import org.codehaus.yfaces.component.YComponentEventHandler;
+import org.codehaus.yfaces.component.AbstractYModel;
+import org.codehaus.yfaces.component.DefaultYEventListener;
+import org.codehaus.yfaces.component.YEvent;
+import org.codehaus.yfaces.component.YEventHandler;
 
 import ystorefoundationpackage.domain.SfRequestContext;
 import ystorefoundationpackage.domain.SfSessionContext;
@@ -41,7 +41,7 @@ import ystorefoundationpackage.yfaces.frame.WishListFrame;
 /**
  * Implementation of the <code>ShowWishListEntryComponent</code> interface.
  */
-public class DefaultShowWishListEntryComponent extends AbstractYComponent implements ShowWishListEntryComponent
+public class DefaultShowWishListEntryComponent extends AbstractYModel implements ShowWishListEntryComponent
 {
 
 	private static final Logger log = Logger.getLogger(DefaultShowWishListEntryComponent.class);
@@ -52,9 +52,9 @@ public class DefaultShowWishListEntryComponent extends AbstractYComponent implem
 	private Wishlist2EntryPriority priority = null;
 	private List<? extends SelectItem> priorities = null;
 
-	private YComponentEventHandler<ShowWishListEntryComponent> ehSaveEntry = null;
-	private YComponentEventHandler<ShowWishListEntryComponent> ehDeleteEntry = null;
-	private YComponentEventHandler<ShowWishListEntryComponent> ehAddEntryToCart = null;
+	private YEventHandler<ShowWishListEntryComponent> ehSaveEntry = null;
+	private YEventHandler<ShowWishListEntryComponent> ehDeleteEntry = null;
+	private YEventHandler<ShowWishListEntryComponent> ehAddEntryToCart = null;
 
 	//default constructor
 	public DefaultShowWishListEntryComponent()
@@ -92,12 +92,12 @@ public class DefaultShowWishListEntryComponent extends AbstractYComponent implem
 	/**
 	 * This event gets fired when the user tries to save the changes for the selected product.
 	 */
-	public static class SaveWishListEntryAction extends DefaultYComponentEventListener<ShowWishListEntryComponent>
+	public static class SaveWishListEntryAction extends DefaultYEventListener<ShowWishListEntryComponent>
 	{
 		private static final long serialVersionUID = -213619171752435928L;
 
 		@Override
-		public void actionListener(final YComponentEvent<ShowWishListEntryComponent> event)
+		public void actionListener(final YEvent<ShowWishListEntryComponent> event)
 		{
 			final Wishlist2EntryModel entry = (Wishlist2EntryModel) event.getFacesEvent().getComponent().getAttributes().get(
 					ATTRIB_SAVE_WISH_LIST_ENTRY);
@@ -110,12 +110,12 @@ public class DefaultShowWishListEntryComponent extends AbstractYComponent implem
 	/**
 	 * This event gets fired when the user tries to remove the selected product in the current wish list.
 	 */
-	public static class DeleteWishListEntryAction extends DefaultYComponentEventListener<ShowWishListEntryComponent>
+	public static class DeleteWishListEntryAction extends DefaultYEventListener<ShowWishListEntryComponent>
 	{
 		private static final long serialVersionUID = 4363471051604447023L;
 
 		@Override
-		public void actionListener(final YComponentEvent<ShowWishListEntryComponent> event)
+		public void actionListener(final YEvent<ShowWishListEntryComponent> event)
 		{
 			final SfSessionContext userSession = YStorefoundation.getRequestContext().getSessionContext();
 
@@ -148,12 +148,12 @@ public class DefaultShowWishListEntryComponent extends AbstractYComponent implem
 		}
 	}
 
-	public static class addProductToCartAction extends DefaultYComponentEventListener<ShowWishListEntryComponent>
+	public static class addProductToCartAction extends DefaultYEventListener<ShowWishListEntryComponent>
 	{
 		private static final long serialVersionUID = -3780547621031958408L;
 
 		@Override
-		public void actionListener(final YComponentEvent<ShowWishListEntryComponent> event)
+		public void actionListener(final YEvent<ShowWishListEntryComponent> event)
 		{
 			final SfRequestContext reqCtx = YStorefoundation.getRequestContext();
 			final SfSessionContext sessCtx = reqCtx.getSessionContext();
@@ -205,17 +205,17 @@ public class DefaultShowWishListEntryComponent extends AbstractYComponent implem
 		return format.format(this.entry.getAddedDate());
 	}
 
-	public YComponentEventHandler<ShowWishListEntryComponent> getSaveWishListEntryEvent()
+	public YEventHandler<ShowWishListEntryComponent> getSaveWishListEntryEvent()
 	{
 		return this.ehSaveEntry;
 	}
 
-	public YComponentEventHandler<ShowWishListEntryComponent> getRemoveWishListEntryEvent()
+	public YEventHandler<ShowWishListEntryComponent> getRemoveWishListEntryEvent()
 	{
 		return this.ehDeleteEntry;
 	}
 
-	public YComponentEventHandler<ShowWishListEntryComponent> getAddProductToCartEvent()
+	public YEventHandler<ShowWishListEntryComponent> getAddProductToCartEvent()
 	{
 		return this.ehAddEntryToCart;
 	}

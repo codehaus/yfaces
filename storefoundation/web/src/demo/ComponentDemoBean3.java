@@ -18,7 +18,7 @@ import de.hybris.platform.core.model.product.ProductModel;
 import java.util.List;
 
 import org.codehaus.yfaces.component.AbstractYFrame;
-import org.codehaus.yfaces.component.YComponentBinding;
+import org.codehaus.yfaces.component.YModelBinding;
 
 import ystorefoundationpackage.domain.SfRequestContext;
 import ystorefoundationpackage.domain.YStorefoundation;
@@ -28,8 +28,8 @@ import ystorefoundationpackage.yfaces.component.search.QuickSearchComponent;
 
 public class ComponentDemoBean3 extends AbstractYFrame
 {
-	private YComponentBinding<FeatureValueSelectorComponent> fvSelectorCmp = null;
-	private YComponentBinding<QuickSearchComponent> quickSearchCmp = null;
+	private YModelBinding<FeatureValueSelectorComponent> fvSelectorCmp = null;
+	private YModelBinding<QuickSearchComponent> quickSearchCmp = null;
 
 	public ComponentDemoBean3()
 	{
@@ -38,12 +38,12 @@ public class ComponentDemoBean3 extends AbstractYFrame
 		this.quickSearchCmp = super.createComponentBinding();
 	}
 
-	public YComponentBinding<FeatureValueSelectorComponent> getFeatureValueSelectorComponent()
+	public YModelBinding<FeatureValueSelectorComponent> getFeatureValueSelectorComponent()
 	{
 		return this.fvSelectorCmp;
 	}
 
-	public YComponentBinding<QuickSearchComponent> getQuickSearchComponent()
+	public YModelBinding<QuickSearchComponent> getQuickSearchComponent()
 	{
 		return this.quickSearchCmp;
 	}
