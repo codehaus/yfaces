@@ -24,35 +24,37 @@ import org.codehaus.yfaces.component.html.HtmlYComponentHandler;
 import com.sun.facelets.tag.Tag;
 
 /**
- * Holds {@link YModel} specific meta information.
+ * Runtime information about view and model for every YFaces managed component. Additionally
+ * {@link ModelProcessor} and {@link YComponentValidator}
  * 
  * @author Denny Strietzbaum
  */
 public interface YComponent {
 
 	/**
-	 * Returns the 'id' which is unique within this components namespace. This value is set in
-	 * component view as Tag attribute. When empty an ID generated automatically.
+	 * Returns the view 'id' which is unique within the same namespace. ID is taken from
+	 * {@link YComponentConfiguration} or, when not set, automatically generated.
 	 * 
-	 * @return id id of this component
+	 * @return id view id
 	 */
 	String getViewId();
 
 	/**
-	 * Returns the name of the variable under which the component model is made available in view.
-	 * This value is set in component view as Tag attribute.
+	 * Runtime value based on {@link YComponentConfiguration#getVariableName()}
 	 * 
 	 * @return variable name
 	 */
 	String getVariableName();
 
+	/**
+	 * Runtime value based on {@link YComponentConfiguration#getErrorHandling()}
+	 */
 	String getErrorHandling();
 
 	/**
-	 * Returns component properties which are allowed to be "pushed" from view into current processed
-	 * component instance. This value is set in component view as Tag attribute.
+	 * Runtime value based on {@link YComponentConfiguration#getPushProperties()}
 	 * 
-	 * @return
+	 * @return Collection of properties which are passed to model
 	 */
 	Collection<String> getPushProperties();
 
@@ -90,8 +92,18 @@ public interface YComponent {
 	 */
 	String getNamespace();
 
+	/**
+	 * Runtime value based on {@link YComponentConfiguration#getModelSpecification()}
+	 * 
+	 * @return model specification class
+	 */
 	public Class getModelSpecification();
 
+	/**
+	 * Runtime value based on {@link YComponentConfiguration#getModelImplementation()}
+	 * 
+	 * @return model implementation class
+	 */
 	public Class<?> getModelImplementation();
 
 	/**
@@ -108,6 +120,11 @@ public interface YComponent {
 	 */
 	ModelProcessor getModelProcessor();
 
+	/**
+	 * Returns the configuration which is used for this {@link YComponent}.
+	 * 
+	 * @return {@link YComponentConfiguration}
+	 */
 	YComponentConfiguration getConfiguration();
 
 	boolean isValidated();
