@@ -18,10 +18,11 @@ import de.hybris.platform.cms.CmsService;
 import de.hybris.platform.cms.model.TextParagraphModel;
 import de.hybris.platform.cms.model.WebsiteModel;
 import de.hybris.platform.core.model.ItemModel;
-import de.hybris.yfaces.component.AbstractYComponent;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.codehaus.yfaces.component.AbstractYComponent;
 
 import ystorefoundationpackage.domain.SfRequestContext;
 import ystorefoundationpackage.domain.YStorefoundation;

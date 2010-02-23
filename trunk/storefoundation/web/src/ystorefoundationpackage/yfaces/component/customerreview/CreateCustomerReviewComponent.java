@@ -13,10 +13,11 @@
  */
 package ystorefoundationpackage.yfaces.component.customerreview;
 
+import org.codehaus.yfaces.component.YComponent;
+import org.codehaus.yfaces.component.YComponentEventHandler;
+
 import de.hybris.platform.core.model.product.ProductModel;
 import de.hybris.platform.customerreview.model.CustomerReviewModel;
-import de.hybris.yfaces.component.YComponent;
-import de.hybris.yfaces.component.YComponentEventHandler;
 
 
 /**

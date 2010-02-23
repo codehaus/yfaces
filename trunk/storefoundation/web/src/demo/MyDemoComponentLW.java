@@ -13,9 +13,10 @@
  */
 package demo;
 
-import de.hybris.yfaces.component.AbstractYComponent;
 
 import javax.faces.event.ActionEvent;
+
+import org.codehaus.yfaces.component.AbstractYComponent;
 
 
 

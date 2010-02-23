@@ -15,9 +15,10 @@ package ystorefoundationpackage.yfaces.component.cms;
 
 import de.hybris.platform.cms.model.ParagraphContentModel;
 import de.hybris.platform.cms.model.TextParagraphModel;
-import de.hybris.yfaces.component.YComponent;
 
 import java.util.List;
+
+import org.codehaus.yfaces.component.YComponent;
 
 
 /**

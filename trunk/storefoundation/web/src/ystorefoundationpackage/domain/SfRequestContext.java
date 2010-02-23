@@ -13,7 +13,7 @@
  */
 package ystorefoundationpackage.domain;
 
-import de.hybris.yfaces.context.YRequestContext;
+import org.codehaus.yfaces.context.YRequestContext;
 
 
 

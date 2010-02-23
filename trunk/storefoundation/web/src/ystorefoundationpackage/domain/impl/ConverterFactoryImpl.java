@@ -14,13 +14,13 @@
 package ystorefoundationpackage.domain.impl;
 
 import de.hybris.platform.util.collections.ClassLookupMap;
-import de.hybris.yfaces.YFacesException;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.codehaus.yfaces.YFacesException;
 
 import ystorefoundationpackage.domain.ConverterFactory;
 import ystorefoundationpackage.domain.ObjectConverter;

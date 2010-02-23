@@ -13,9 +13,9 @@
  */
 package ystorefoundationpackage.yfaces.component.product;
 
-import de.hybris.yfaces.component.AbstractYComponent;
 
 import org.apache.log4j.Logger;
+import org.codehaus.yfaces.component.AbstractYComponent;
 
 import ystorefoundationpackage.domain.YStorefoundation;
 

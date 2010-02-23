@@ -16,9 +16,9 @@ package ystorefoundationpackage.yfaces.component.product;
 import de.hybris.platform.core.model.product.ProductModel;
 import de.hybris.platform.servicelayer.exceptions.AmbiguousIdentifierException;
 import de.hybris.platform.servicelayer.exceptions.UnknownIdentifierException;
-import de.hybris.yfaces.component.AbstractYComponent;
 
 import org.apache.log4j.Logger;
+import org.codehaus.yfaces.component.AbstractYComponent;
 
 import ystorefoundationpackage.domain.YStorefoundation;
 

@@ -14,13 +14,14 @@
 package ystorefoundationpackage.yfaces.component.product.fv;
 
 import de.hybris.platform.core.model.product.ProductModel;
-import de.hybris.yfaces.component.DefaultYComponentEventListener;
-import de.hybris.yfaces.component.YComponentEvent;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
+import org.codehaus.yfaces.component.DefaultYComponentEventListener;
+import org.codehaus.yfaces.component.YComponentEvent;
 
 import ystorefoundationpackage.domain.FormattedAttribute;
 import ystorefoundationpackage.domain.YStorefoundation;

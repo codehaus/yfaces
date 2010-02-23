@@ -24,13 +24,13 @@ import de.hybris.platform.jalo.JaloSession;
 import de.hybris.platform.util.HybrisInitFilter;
 import de.hybris.platform.util.Utilities;
 import de.hybris.platform.util.WebSessionFunctions;
-import de.hybris.yfaces.context.YSessionContext;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
+import org.codehaus.yfaces.context.YSessionContext;
 import org.springframework.context.support.AbstractApplicationContext;
 
 

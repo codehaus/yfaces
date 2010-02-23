@@ -13,7 +13,7 @@
  */
 package ystorefoundationpackage.yfaces.component.product;
 
-import de.hybris.yfaces.component.YComponent;
+import org.codehaus.yfaces.component.YComponent;
 
 
 public interface ScrollProductsComponent extends YComponent

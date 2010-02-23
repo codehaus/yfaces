@@ -17,8 +17,6 @@ import de.hybris.platform.catalog.model.classification.ClassAttributeAssignmentM
 import de.hybris.platform.catalog.model.classification.ClassificationAttributeModel;
 import de.hybris.platform.category.model.CategoryModel;
 import de.hybris.platform.core.model.product.ProductModel;
-import de.hybris.yfaces.component.AbstractYComponent;
-import de.hybris.yfaces.component.YComponentEventHandler;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,6 +25,8 @@ import java.util.Collections;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.codehaus.yfaces.component.AbstractYComponent;
+import org.codehaus.yfaces.component.YComponentEventHandler;
 
 import ystorefoundationpackage.StorefoundationException;
 import ystorefoundationpackage.datatable.ColumnCollectionDataTableModel;

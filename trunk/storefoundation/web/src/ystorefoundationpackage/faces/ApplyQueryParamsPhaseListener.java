@@ -18,7 +18,6 @@ import de.hybris.platform.category.model.CategoryModel;
 import de.hybris.platform.core.model.c2l.CurrencyModel;
 import de.hybris.platform.core.model.c2l.LanguageModel;
 import de.hybris.platform.core.model.product.ProductModel;
-import de.hybris.yfaces.YFacesException;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -27,6 +26,8 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseEvent;
 import javax.faces.event.PhaseId;
 import javax.faces.event.PhaseListener;
+
+import org.codehaus.yfaces.YFacesException;
 
 import ystorefoundationpackage.domain.ConverterFactory;
 import ystorefoundationpackage.domain.SfSessionContext;

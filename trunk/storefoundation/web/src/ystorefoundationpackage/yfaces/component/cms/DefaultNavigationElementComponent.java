@@ -16,9 +16,9 @@ package ystorefoundationpackage.yfaces.component.cms;
 import de.hybris.platform.cms.CmsService;
 import de.hybris.platform.cms.model.NavigationElementModel;
 import de.hybris.platform.cms.model.WebsiteModel;
-import de.hybris.yfaces.component.AbstractYComponent;
 
 import org.apache.log4j.Logger;
+import org.codehaus.yfaces.component.AbstractYComponent;
 
 import ystorefoundationpackage.domain.YStorefoundation;
 

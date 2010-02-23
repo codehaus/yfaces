@@ -14,10 +14,11 @@
 package ystorefoundationpackage.yfaces.component.search;
 
 import de.hybris.platform.core.model.product.ProductModel;
-import de.hybris.yfaces.component.YComponent;
-import de.hybris.yfaces.component.YComponentEventHandler;
 
 import java.util.List;
+
+import org.codehaus.yfaces.component.YComponent;
+import org.codehaus.yfaces.component.YComponentEventHandler;
 
 
 

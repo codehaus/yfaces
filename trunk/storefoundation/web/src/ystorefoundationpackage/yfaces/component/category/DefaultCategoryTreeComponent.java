@@ -16,7 +16,6 @@ package ystorefoundationpackage.yfaces.component.category;
 import de.hybris.platform.catalog.model.CatalogModel;
 import de.hybris.platform.catalog.model.CatalogVersionModel;
 import de.hybris.platform.category.model.CategoryModel;
-import de.hybris.yfaces.component.AbstractYComponent;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -32,6 +31,7 @@ import org.apache.myfaces.custom.tree2.TreeModel;
 import org.apache.myfaces.custom.tree2.TreeNode;
 import org.apache.myfaces.custom.tree2.TreeNodeBase;
 import org.apache.myfaces.custom.tree2.TreeState;
+import org.codehaus.yfaces.component.AbstractYComponent;
 
 import ystorefoundationpackage.domain.SfRequestContext;
 import ystorefoundationpackage.domain.SfSessionContext;

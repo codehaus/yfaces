@@ -14,10 +14,11 @@
 package ystorefoundationpackage.yfaces.component.product;
 
 import de.hybris.platform.core.model.product.ProductModel;
-import de.hybris.yfaces.component.DefaultYComponentEventListener;
-import de.hybris.yfaces.component.YComponentEvent;
 
 import java.util.List;
+
+import org.codehaus.yfaces.component.DefaultYComponentEventListener;
+import org.codehaus.yfaces.component.YComponentEvent;
 
 import ystorefoundationpackage.domain.YStorefoundation;
 import ystorefoundationpackage.yfaces.frame.CompareProductsFrame;

@@ -13,10 +13,10 @@
  */
 package demo;
 
-import de.hybris.yfaces.component.AbstractYComponent;
-import de.hybris.yfaces.component.DefaultYComponentEventListener;
-import de.hybris.yfaces.component.YComponentEvent;
-import de.hybris.yfaces.component.YComponentEventHandler;
+import org.codehaus.yfaces.component.AbstractYComponent;
+import org.codehaus.yfaces.component.DefaultYComponentEventListener;
+import org.codehaus.yfaces.component.YComponentEvent;
+import org.codehaus.yfaces.component.YComponentEventHandler;
 
 
 

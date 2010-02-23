@@ -15,7 +15,6 @@ package ystorefoundationpackage.yfaces.component.product;
 
 import de.hybris.platform.core.model.product.ProductModel;
 import de.hybris.platform.variants.model.VariantProductModel;
-import de.hybris.yfaces.component.AbstractYComponent;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -23,6 +22,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
+import org.codehaus.yfaces.component.AbstractYComponent;
 
 import ystorefoundationpackage.domain.FormattedAttribute;
 import ystorefoundationpackage.domain.YStorefoundation;

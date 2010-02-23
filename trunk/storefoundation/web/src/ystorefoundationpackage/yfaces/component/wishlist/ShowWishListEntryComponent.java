@@ -15,12 +15,13 @@ package ystorefoundationpackage.yfaces.component.wishlist;
 
 import de.hybris.platform.wishlist2.enums.Wishlist2EntryPriority;
 import de.hybris.platform.wishlist2.model.Wishlist2EntryModel;
-import de.hybris.yfaces.component.YComponent;
-import de.hybris.yfaces.component.YComponentEventHandler;
 
 import java.util.List;
 
 import javax.faces.model.SelectItem;
+
+import org.codehaus.yfaces.component.YComponent;
+import org.codehaus.yfaces.component.YComponentEventHandler;
 
 
 /**

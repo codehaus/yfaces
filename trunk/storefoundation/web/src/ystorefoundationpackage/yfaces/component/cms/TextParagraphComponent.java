@@ -13,8 +13,9 @@
  */
 package ystorefoundationpackage.yfaces.component.cms;
 
+import org.codehaus.yfaces.component.YComponent;
+
 import de.hybris.platform.cms.model.TextParagraphModel;
-import de.hybris.yfaces.component.YComponent;
 
 
 

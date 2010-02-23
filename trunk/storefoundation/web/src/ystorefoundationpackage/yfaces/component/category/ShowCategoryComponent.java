@@ -13,8 +13,9 @@
  */
 package ystorefoundationpackage.yfaces.component.category;
 
+import org.codehaus.yfaces.component.YComponent;
+
 import de.hybris.platform.category.model.CategoryModel;
-import de.hybris.yfaces.component.YComponent;
 
 
 

@@ -13,10 +13,10 @@
  */
 package ystorefoundationpackage.yfaces.frame;
 
-import de.hybris.yfaces.component.AbstractYFrame;
-import de.hybris.yfaces.component.YComponentBinding;
 
 import org.apache.log4j.Logger;
+import org.codehaus.yfaces.component.AbstractYFrame;
+import org.codehaus.yfaces.component.YComponentBinding;
 
 import ystorefoundationpackage.yfaces.component.cms.DefaultTextParagraphsComponent;
 import ystorefoundationpackage.yfaces.component.cms.TextParagraphsComponent;

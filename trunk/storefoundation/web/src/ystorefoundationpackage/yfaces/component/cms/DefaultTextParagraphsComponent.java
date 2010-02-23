@@ -18,11 +18,12 @@ import de.hybris.platform.cms.model.ParagraphContentModel;
 import de.hybris.platform.cms.model.ParagraphModel;
 import de.hybris.platform.cms.model.TextParagraphModel;
 import de.hybris.platform.cms.model.WebsiteModel;
-import de.hybris.yfaces.component.AbstractYComponent;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import org.codehaus.yfaces.component.AbstractYComponent;
 
 import ystorefoundationpackage.domain.YStorefoundation;
 

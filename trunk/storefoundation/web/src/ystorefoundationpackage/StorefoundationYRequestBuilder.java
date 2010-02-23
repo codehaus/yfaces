@@ -14,11 +14,11 @@
 package ystorefoundationpackage;
 
 
-import de.hybris.yfaces.SpringYRequestContextBuilder;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 
+import org.codehaus.yfaces.SpringYRequestContextBuilder;
 import org.springframework.web.context.ConfigurableWebApplicationContext;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;

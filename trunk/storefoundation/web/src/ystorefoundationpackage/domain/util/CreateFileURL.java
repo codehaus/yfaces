@@ -13,13 +13,13 @@
  */
 package ystorefoundationpackage.domain.util;
 
-import de.hybris.yfaces.YFacesException;
 
 import java.util.Map;
 
 import javax.faces.context.FacesContext;
 
 import org.apache.log4j.Logger;
+import org.codehaus.yfaces.YFacesException;
 
 import ystorefoundationpackage.domain.AbstractURLCreator;
 

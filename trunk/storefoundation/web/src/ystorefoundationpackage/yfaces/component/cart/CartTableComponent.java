@@ -15,10 +15,11 @@ package ystorefoundationpackage.yfaces.component.cart;
 
 import de.hybris.platform.core.model.order.AbstractOrderEntryModel;
 import de.hybris.platform.core.model.order.CartModel;
-import de.hybris.yfaces.component.YComponent;
-import de.hybris.yfaces.component.YComponentEventHandler;
 
 import java.util.List;
+
+import org.codehaus.yfaces.component.YComponent;
+import org.codehaus.yfaces.component.YComponentEventHandler;
 
 
 /**

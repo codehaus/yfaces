@@ -14,9 +14,10 @@
 package ystorefoundationpackage.yfaces.component.catalog;
 
 import de.hybris.platform.catalog.model.CatalogModel;
-import de.hybris.yfaces.component.AbstractYComponent;
 
 import java.util.List;
+
+import org.codehaus.yfaces.component.AbstractYComponent;
 
 import ystorefoundationpackage.domain.YStorefoundation;
 

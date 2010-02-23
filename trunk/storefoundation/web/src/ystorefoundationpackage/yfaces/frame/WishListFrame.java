@@ -15,18 +15,18 @@ package ystorefoundationpackage.yfaces.frame;
 
 import de.hybris.platform.wishlist2.model.Wishlist2EntryModel;
 import de.hybris.platform.wishlist2.model.Wishlist2Model;
-import de.hybris.yfaces.component.AbstractYFrame;
-import de.hybris.yfaces.component.YComponentBinding;
-import de.hybris.yfaces.component.YComponentEvent;
-import de.hybris.yfaces.component.YComponentEventListener;
-import de.hybris.yfaces.context.YConversationContext;
-import de.hybris.yfaces.context.YPageContext;
 
 import java.util.List;
 
 import javax.faces.context.FacesContext;
 
 import org.apache.log4j.Logger;
+import org.codehaus.yfaces.component.AbstractYFrame;
+import org.codehaus.yfaces.component.YComponentBinding;
+import org.codehaus.yfaces.component.YComponentEvent;
+import org.codehaus.yfaces.component.YComponentEventListener;
+import org.codehaus.yfaces.context.YConversationContext;
+import org.codehaus.yfaces.context.YPageContext;
 
 import ystorefoundationpackage.domain.YStorefoundation;
 import ystorefoundationpackage.domain.impl.JaloBridge;

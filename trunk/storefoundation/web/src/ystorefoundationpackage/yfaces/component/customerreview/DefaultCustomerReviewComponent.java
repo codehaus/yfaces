@@ -17,13 +17,13 @@ import de.hybris.platform.core.model.product.ProductModel;
 import de.hybris.platform.customerreview.CustomerReviewService;
 import de.hybris.platform.customerreview.constants.CustomerReviewConstants;
 import de.hybris.platform.customerreview.model.CustomerReviewModel;
-import de.hybris.yfaces.component.AbstractYComponent;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.codehaus.yfaces.component.AbstractYComponent;
 
 import ystorefoundationpackage.StorefoundationException;
 import ystorefoundationpackage.domain.YStorefoundation;

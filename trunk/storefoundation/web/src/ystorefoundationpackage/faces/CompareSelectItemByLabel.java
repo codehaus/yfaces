@@ -13,11 +13,12 @@
  */
 package ystorefoundationpackage.faces;
 
-import de.hybris.yfaces.YFacesException;
 
 import java.util.Comparator;
 
 import javax.faces.model.SelectItem;
+
+import org.codehaus.yfaces.YFacesException;
 
 
 /**

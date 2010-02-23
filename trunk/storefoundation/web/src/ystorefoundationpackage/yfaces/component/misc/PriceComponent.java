@@ -13,8 +13,9 @@
  */
 package ystorefoundationpackage.yfaces.component.misc;
 
+import org.codehaus.yfaces.component.YComponent;
+
 import de.hybris.platform.core.model.product.ProductModel;
-import de.hybris.yfaces.component.YComponent;
 
 import ystorefoundationpackage.datatable.ext.DataTableAxisModel;
 import ystorefoundationpackage.domain.Price;

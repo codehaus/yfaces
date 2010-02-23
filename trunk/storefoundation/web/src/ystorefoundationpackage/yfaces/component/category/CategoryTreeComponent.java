@@ -14,9 +14,9 @@
 package ystorefoundationpackage.yfaces.component.category;
 
 import de.hybris.platform.category.model.CategoryModel;
-import de.hybris.yfaces.component.YComponent;
 
 import org.apache.myfaces.custom.tree2.TreeModel;
+import org.codehaus.yfaces.component.YComponent;
 
 
 

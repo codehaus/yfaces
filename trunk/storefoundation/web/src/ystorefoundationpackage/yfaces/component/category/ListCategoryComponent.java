@@ -16,9 +16,10 @@ package ystorefoundationpackage.yfaces.component.category;
 
 
 import de.hybris.platform.category.model.CategoryModel;
-import de.hybris.yfaces.component.YComponent;
 
 import java.util.List;
+
+import org.codehaus.yfaces.component.YComponent;
 
 
 /**

@@ -15,9 +15,10 @@ package ystorefoundationpackage.yfaces.frame;
 
 import de.hybris.platform.core.model.order.OrderModel;
 import de.hybris.platform.core.model.user.UserModel;
-import de.hybris.yfaces.component.AbstractYFrame;
 
 import javax.faces.context.FacesContext;
+
+import org.codehaus.yfaces.component.AbstractYFrame;
 
 import ystorefoundationpackage.domain.YStorefoundation;
 

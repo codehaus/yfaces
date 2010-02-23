@@ -22,12 +22,6 @@ import de.hybris.platform.variants.model.VariantProductModel;
 import de.hybris.platform.wishlist2.enums.Wishlist2EntryPriority;
 import de.hybris.platform.wishlist2.model.Wishlist2EntryModel;
 import de.hybris.platform.wishlist2.model.Wishlist2Model;
-import de.hybris.yfaces.component.AbstractYComponent;
-import de.hybris.yfaces.component.DefaultYComponentEventListener;
-import de.hybris.yfaces.component.YComponentEvent;
-import de.hybris.yfaces.component.YComponentEventHandler;
-import de.hybris.yfaces.context.YConversationContext;
-import de.hybris.yfaces.context.YPageContext;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -42,6 +36,12 @@ import javax.faces.context.FacesContext;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.codehaus.yfaces.component.AbstractYComponent;
+import org.codehaus.yfaces.component.DefaultYComponentEventListener;
+import org.codehaus.yfaces.component.YComponentEvent;
+import org.codehaus.yfaces.component.YComponentEventHandler;
+import org.codehaus.yfaces.context.YConversationContext;
+import org.codehaus.yfaces.context.YPageContext;
 
 import ystorefoundationpackage.NavigationOutcome;
 import ystorefoundationpackage.domain.Prices;

@@ -13,7 +13,7 @@
  */
 package ystorefoundationpackage.domain.impl;
 
-import de.hybris.yfaces.context.YRequestContextImpl;
+import org.codehaus.yfaces.context.YRequestContextImpl;
 
 import ystorefoundationpackage.domain.ContentManagement;
 import ystorefoundationpackage.domain.ConverterFactory;

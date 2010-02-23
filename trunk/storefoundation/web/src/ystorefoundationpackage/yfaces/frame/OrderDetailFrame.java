@@ -15,11 +15,12 @@ package ystorefoundationpackage.yfaces.frame;
 
 import de.hybris.platform.core.model.order.OrderModel;
 import de.hybris.platform.core.model.user.UserModel;
-import de.hybris.yfaces.YFacesException;
-import de.hybris.yfaces.component.AbstractYFrame;
-import de.hybris.yfaces.component.YComponentBinding;
 
 import javax.faces.context.FacesContext;
+
+import org.codehaus.yfaces.YFacesException;
+import org.codehaus.yfaces.component.AbstractYFrame;
+import org.codehaus.yfaces.component.YComponentBinding;
 
 import ystorefoundationpackage.domain.YStorefoundation;
 import ystorefoundationpackage.yfaces.component.address.DefaultShowAddressComponent;
@@ -111,7 +112,7 @@ public class OrderDetailFrame extends AbstractYFrame
 	}
 
 	/**
-	 * Creates a {@link ShowPaymentComponent} for this {@link de.hybris.yfaces.component.YFrame}
+	 * Creates a {@link ShowPaymentComponent} for this {@link org.codehaus.yfaces.component.YFrame}
 	 * 
 	 * @return {@link ShowPaymentComponent}
 	 */
@@ -125,7 +126,7 @@ public class OrderDetailFrame extends AbstractYFrame
 	}
 
 	/**
-	 * Creates a {@link OrderTableComponent} for this {@link de.hybris.yfaces.component.YFrame}
+	 * Creates a {@link OrderTableComponent} for this {@link org.codehaus.yfaces.component.YFrame}
 	 * 
 	 * @return {@link OrderTableComponent}
 	 */

@@ -294,7 +294,7 @@
 	<!-- EOL: added start -->
 	<listener>
 		<listener-class>
-			de.hybris.yfaces.YFacesRequestListener
+			org.codehaus.yfaces.YFacesRequestListener
 		</listener-class>
 	</listener>
 	<!-- EOL: added end -->
