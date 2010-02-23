@@ -24,7 +24,7 @@ public class PojoModelProcessor<T> implements ModelProcessor<T> {
 		T result = null;
 		try {
 			result = (T) cmpInfo.getModelImplementation().newInstance();
-			this.initializeModel(result);
+			this.setYComponent(result);
 		} catch (final Exception e) {
 			throw new YFacesException("Can't create Component model " + cmpInfo.getModelImplementation(),
 					e);
@@ -33,11 +33,15 @@ public class PojoModelProcessor<T> implements ModelProcessor<T> {
 		return result;
 	}
 
-	public void initializeModel(final T cmp) {
+	public void setYComponent(final T model) {
 		// nop
 	}
 
 	public void validateModel(final T model) {
+		// NOP
+	}
+
+	public void setFrame(final T model, final YFrame frame) {
 		// NOP
 	}
 
@@ -61,8 +65,8 @@ public class PojoModelProcessor<T> implements ModelProcessor<T> {
 						+ method.getParameterTypes()[0].getName());
 			} else {
 				if (e instanceof InvocationTargetException) {
-					log.error(cmpInfo.getViewId() + " Error while executing setter for attribute '" + property
-							+ "'");
+					log.error(cmpInfo.getViewId() + " Error while executing setter for attribute '"
+							+ property + "'");
 				}
 			}
 			final String error = cmpInfo.getViewId() + " Error setting attribute '" + property + "' at "
