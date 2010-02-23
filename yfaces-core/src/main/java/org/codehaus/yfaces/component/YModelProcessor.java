@@ -17,18 +17,31 @@ public class YModelProcessor extends PojoModelProcessor<YModel> {
 	}
 
 	@Override
-	public void setYComponent(final YModel model) {
-		((AbstractYModel) model).setYComponent(cmpInfo);
-	}
-
-	@Override
 	public void validateModel(final YModel model) {
 		model.validate();
 	}
 
 	@Override
-	public void setFrame(final YModel model, final YFrame frame) {
-		final YFrameContext frameCtx = YFrameRegistry.getInstance().getFrameContext(frame.getClass());
-		((AbstractYModel) model).setFrame("#{" + frameCtx.getBeanId() + "}");
+	public void setYComponent(final YModel model) {
+		final AbstractYModel amodel = (AbstractYModel) model;
+		amodel.setYComponent(cmpInfo);
 	}
+
+	@Override
+	public void setYFrame(final YModel model, final YFrame frame, final String frameProperty) {
+		final AbstractYModel amodel = (AbstractYModel) model;
+		if (amodel.getFrameBinding() == null && frame != null) {
+			final YFrameContext frameCtx = YFrameRegistry.getInstance().getFrameContext(frame.getClass());
+			amodel.setFrame("#{" + frameCtx.getBeanId() + "}");
+
+			((AbstractYFrame) frame).addYModel(frameProperty, model);
+
+			if (log.isDebugEnabled()) {
+				final String bind = frameCtx.getBeanId() + "." + frameProperty;
+				log.debug("Resolved framebinding for model " + model.getClass().getSimpleName() + ": #{"
+						+ bind + "}");
+			}
+		}
+	}
+
 }

@@ -34,14 +34,14 @@ public class PojoModelProcessor<T> implements ModelProcessor<T> {
 	}
 
 	public void setYComponent(final T model) {
-		// nop
+
+	}
+
+	public void setYFrame(final T model, final YFrame frame, final String frameProperty) {
+
 	}
 
 	public void validateModel(final T model) {
-		// NOP
-	}
-
-	public void setFrame(final T model, final YFrame frame) {
 		// NOP
 	}
 

@@ -18,21 +18,18 @@ public interface ModelProcessor<T> {
 	T createModel();
 
 	/**
-	 * Adds {@link YComponent} to passed {@link YModel}
-	 * 
-	 * @param cmp
-	 */
-	void setYComponent(T model);
-
-	/**
 	 * Adds {@link YFrame} to passed {@link YModel}
 	 * 
 	 * @param model
 	 * @param frame
 	 */
-	void setFrame(T model, YFrame frame);
+	void setYFrame(T model, YFrame frame, String frameProperty);
+
+	void setYComponent(T model);
 
 	void validateModel(T model);
+
+	//void refreshModel(T model);
 
 	void setProperty(T model, String property, Object value);
 

@@ -29,7 +29,6 @@ import javax.faces.application.Application;
 import javax.faces.context.FacesContext;
 
 import org.apache.log4j.Logger;
-import org.codehaus.yfaces.component.AbstractYModel;
 import org.codehaus.yfaces.component.YComponent;
 import org.codehaus.yfaces.component.YFrame;
 import org.codehaus.yfaces.component.YFrameRegistry;
@@ -128,15 +127,12 @@ public class YFacesELResolver extends ELResolver {
 		}
 
 		if (result instanceof YModel) {
-			final AbstractYModel model = (AbstractYModel) result;
-			if (model.getComponent() == null) {
-				final YComponent cmp = getYContext(context).getCmp();
-				cmp.getModelProcessor().setYComponent(model);
-			}
-
-			if (base instanceof YFrame && model.getFrameBinding() == null) {
-				final YComponent cmp = getYContext(context).getCmp();
-				cmp.getModelProcessor().setFrame((YModel) result, (YFrame) base);
+			final YComponent cmp = getYContext(context).getCmp();
+			if (cmp != null) {
+				cmp.getModelProcessor().setYComponent(result);
+				if (base instanceof YFrame) {
+					cmp.getModelProcessor().setYFrame(result, (YFrame) base, (String) property);
+				}
 			}
 		}
 
@@ -168,15 +164,12 @@ public class YFacesELResolver extends ELResolver {
 			}
 		} else {
 			if (value instanceof YModel) {
-				final AbstractYModel model = (AbstractYModel) value;
-				if (model.getComponent() == null) {
-					final YComponent cmp = getYContext(context).getCmp();
-					cmp.getModelProcessor().setYComponent(model);
-				}
-
-				if (base instanceof YFrame && model.getFrameBinding() == null) {
-					final YComponent cmp = getYContext(context).getCmp();
-					cmp.getModelProcessor().setFrame((YModel) value, (YFrame) base);
+				final YComponent cmp = getYContext(context).getCmp();
+				if (cmp != null) {
+					cmp.getModelProcessor().setYComponent(value);
+					if (base instanceof YFrame) {
+						cmp.getModelProcessor().setYFrame(value, (YFrame) base, (String) property);
+					}
 				}
 			}
 			this.resolver.setValue(context, base, property, value);
