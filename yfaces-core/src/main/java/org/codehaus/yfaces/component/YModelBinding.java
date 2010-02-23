@@ -61,11 +61,11 @@ public class YModelBinding<T extends YModel> {
 	 * @param id
 	 *          component id
 	 */
-	public YModelBinding(final YComponentInfo cmpInfo) {
+	public YModelBinding(final YComponent cmpInfo) {
 		this(cmpInfo, null);
 	}
 
-	protected YModelBinding(final YComponentInfo cmpInfo, final String frameBinding) {
+	protected YModelBinding(final YComponent cmpInfo, final String frameBinding) {
 		if (cmpInfo != null) {
 			this.id = cmpInfo.getId();
 			this.ns = cmpInfo.getNamespace();
@@ -81,7 +81,7 @@ public class YModelBinding<T extends YModel> {
 	public T getValue() {
 		// standard lookup
 		if (this.value == null && this.id != null) {
-			final YComponentInfo cmpInfo = YComponentRegistry.getInstance().getComponent(this.ns, this.id);
+			final YComponent cmpInfo = YComponentRegistry.getInstance().getComponent(this.ns, this.id);
 
 			if (cmpInfo == null) {
 				throw new YFacesException("There is no component with id '" + this.id + "' registered.");

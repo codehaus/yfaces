@@ -13,9 +13,9 @@ import java.util.Set;
 import junit.framework.TestCase;
 
 import org.apache.log4j.Logger;
-import org.codehaus.yfaces.component.YComponentInfo;
-import org.codehaus.yfaces.component.YComponentInfoFactory;
-import org.codehaus.yfaces.component.YComponentInfoImpl;
+import org.codehaus.yfaces.component.YComponent;
+import org.codehaus.yfaces.component.YComponentFactory;
+import org.codehaus.yfaces.component.YComponentImpl;
 import org.codehaus.yfaces.component.YComponentRegistry;
 import org.codehaus.yfaces.component.YComponentValidator.YValidationAspekt;
 
@@ -36,7 +36,7 @@ public class TestYComponentInfo extends TestCase {
 	private class AddSingleYComponentTest {
 		private String componentFile = null;
 		private YComponentRegistry registry = null;
-		private final YComponentInfoFactory cmpFac = new YComponentInfoFactory();
+		private final YComponentFactory cmpFac = new YComponentFactory();
 
 		private boolean expectedToAdd = false;
 		private Set<YValidationAspekt> expectedErrors = Collections.emptySet();
@@ -46,7 +46,7 @@ public class TestYComponentInfo extends TestCase {
 		private String expVar = null;
 		private Collection<String> expInjectableAttributes = Collections.emptySet();
 
-		private YComponentInfo cmpInfo = null;
+		private YComponent cmpInfo = null;
 		private boolean wasAdded = false;
 
 		public AddSingleYComponentTest(final YComponentRegistry registry, final String file,
@@ -118,10 +118,10 @@ public class TestYComponentInfo extends TestCase {
 				"<yf:component	id	= \" id1\"	model=	\"		" + impl + "\"	modelspec=\"" + spec + "\" var=\""
 						+ var + "	\" >", };
 
-		final YComponentInfoFactory cmpFac = new YComponentInfoFactory();
+		final YComponentFactory cmpFac = new YComponentFactory();
 		for (final String s : cmps1) {
 			// System.out.println(count++ + ": " + s);
-			final YComponentInfoImpl cmpInfo = cmpFac.createComponentInfo(HEAD + s);
+			final YComponentImpl cmpInfo = cmpFac.createComponentInfo(HEAD + s);
 			assertEquals(spec, cmpInfo.getConfiguredModelSpecification());
 			assertEquals(impl, cmpInfo.getConfiguredModelImplementation());
 			assertEquals(var, cmpInfo.getVariableName());
@@ -145,7 +145,7 @@ public class TestYComponentInfo extends TestCase {
 						+ "\" passToModel=\"prop1,prop2,prop3\" prop4 =	\" #{prop4}	\">", };
 		for (final String s : cmps2) {
 			// System.out.println(count++ + ": " + s);
-			final YComponentInfoImpl cmpInfo = cmpFac.createComponentInfo(HEAD + s);
+			final YComponentImpl cmpInfo = cmpFac.createComponentInfo(HEAD + s);
 			final Collection<String> props = cmpInfo.getPushProperties();
 			assertEquals(4, props.size());
 			assertTrue("Got properties " + props.toString(), props.containsAll(properties));
@@ -165,8 +165,8 @@ public class TestYComponentInfo extends TestCase {
 		final String spec = TEST_COMPONENT;
 		final String impl = TEST_COMPONENT_IMPL;
 		final String var = "adBannerCmpVar";
-		YComponentInfoImpl cmpInfo = null;
-		final YComponentInfoFactory cmpFac = new YComponentInfoFactory();
+		YComponentImpl cmpInfo = null;
+		final YComponentFactory cmpFac = new YComponentFactory();
 
 		// test various errors
 		int count = -1;
@@ -222,7 +222,7 @@ public class TestYComponentInfo extends TestCase {
 	}
 
 	/**
-	 * Tests {@link YComponentRegistry} and {@link YComponentInfoImpl} validation. Additional does
+	 * Tests {@link YComponentRegistry} and {@link YComponentImpl} validation. Additional does
 	 * enhanced text parsing as components are provided as external resources.
 	 */
 	public void testYComponentRegistry() {

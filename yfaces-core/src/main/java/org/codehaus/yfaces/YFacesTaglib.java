@@ -36,8 +36,8 @@ import javax.faces.context.FacesContext;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.codehaus.yfaces.component.YComponentInfoFactory;
-import org.codehaus.yfaces.component.YComponentInfoImpl;
+import org.codehaus.yfaces.component.YComponentFactory;
+import org.codehaus.yfaces.component.YComponentImpl;
 import org.codehaus.yfaces.component.YComponentRegistry;
 import org.codehaus.yfaces.component.YComponentValidator;
 import org.codehaus.yfaces.component.YComponentValidator.YValidationAspekt;
@@ -204,7 +204,7 @@ public class YFacesTaglib extends AbstractTagLibrary {
 		} catch (final Exception e) {
 			e.printStackTrace();
 		}
-		final YComponentInfoFactory cmpFac = new YComponentInfoFactory(base);
+		final YComponentFactory cmpFac = new YComponentFactory(base);
 
 		final Map<String, Integer> dupIdCount = new HashMap<String, Integer>();
 		final String idSuffix = YFacesConfig.GEN_CMP_ID_SUFFIX.getString();
@@ -219,7 +219,7 @@ public class YFacesTaglib extends AbstractTagLibrary {
 			for (final URL url : resCollector.getFileResources()) {
 
 				//...create component meta information
-				final YComponentInfoImpl cmpInfo = (YComponentInfoImpl) cmpFac.createComponentInfo(
+				final YComponentImpl cmpInfo = (YComponentImpl) cmpFac.createComponentInfo(
 						url, namespace);
 
 				//...which is successful when it's really a YComponent and not only a simple file

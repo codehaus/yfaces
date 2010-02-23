@@ -26,8 +26,8 @@ import javax.faces.FacesException;
 import javax.faces.component.UIComponent;
 
 import org.apache.log4j.Logger;
-import org.codehaus.yfaces.component.YComponentInfo;
-import org.codehaus.yfaces.component.YComponentInfoImpl;
+import org.codehaus.yfaces.component.YComponent;
+import org.codehaus.yfaces.component.YComponentImpl;
 import org.codehaus.yfaces.component.YComponentRegistry;
 
 import com.sun.facelets.FaceletContext;
@@ -49,7 +49,7 @@ public class HtmlYComponentHandler extends ComponentHandler {
 	//private final TagAttribute attributes;
 
 	// YComponentInfo gets newly created whenever facelet-file was changed
-	private YComponentInfoImpl cmpInfo = null;
+	private YComponentImpl cmpInfo = null;
 
 	/**
 	 * Constructor.
@@ -65,12 +65,12 @@ public class HtmlYComponentHandler extends ComponentHandler {
 
 		final String tagPath = config.getTag().getLocation().getPath();
 
-		this.cmpInfo = (YComponentInfoImpl) YComponentRegistry.getInstance()
+		this.cmpInfo = (YComponentImpl) YComponentRegistry.getInstance()
 				.getComponentByPath(tagPath);
 
 		// should be considered, to make this an exception
 		if (log.isDebugEnabled() && cmpInfo == null) {
-			log.error("No " + YComponentInfo.class.getSimpleName() + " for " + tagPath + " found");
+			log.error("No " + YComponent.class.getSimpleName() + " for " + tagPath + " found");
 		}
 
 		// a ComponentInfo is available for the 'location' (view file location) of this handler
@@ -87,36 +87,36 @@ public class HtmlYComponentHandler extends ComponentHandler {
 
 	private void updateYComponentInfo(final Tag tag) {
 
-		log.debug("Refreshing " + YComponentInfo.class.getSimpleName() + " for "
+		log.debug("Refreshing " + YComponent.class.getSimpleName() + " for "
 				+ cmpInfo.getViewLocation() + "...");
 
-		final String specClass = getAttributeValue(tag, YComponentInfo.MODEL_SPEC_ATTRIBUTE);
-		final String implClass = getAttributeValue(tag, YComponentInfo.MODEL_IMPL_ATTRIBUTE);
-		final String varName = getAttributeValue(tag, YComponentInfo.VAR_ATTRIBUTE);
-		final String id = getAttributeValue(tag, YComponentInfo.ID_ATTRIBUTE);
-		final String injectable = getAttributeValue(tag, YComponentInfo.PASS_TO_MODEL_ATTRIBUTE);
-		final String errorHandling = getAttributeValue(tag, YComponentInfo.ERROR_ATTRIBUTE);
+		final String specClass = getAttributeValue(tag, YComponent.MODEL_SPEC_ATTRIBUTE);
+		final String implClass = getAttributeValue(tag, YComponent.MODEL_IMPL_ATTRIBUTE);
+		final String varName = getAttributeValue(tag, YComponent.VAR_ATTRIBUTE);
+		final String id = getAttributeValue(tag, YComponent.ID_ATTRIBUTE);
+		final String injectable = getAttributeValue(tag, YComponent.PASS_TO_MODEL_ATTRIBUTE);
+		final String errorHandling = getAttributeValue(tag, YComponent.ERROR_ATTRIBUTE);
 
 		if (log.isDebugEnabled()) {
 			String updatedAttribs = "";
 			if (isModified(cmpInfo.getConfiguredModelSpecification(), specClass)) {
-				updatedAttribs = updatedAttribs + YComponentInfo.MODEL_SPEC_ATTRIBUTE + ",";
+				updatedAttribs = updatedAttribs + YComponent.MODEL_SPEC_ATTRIBUTE + ",";
 			}
 			if (isModified(cmpInfo.getConfiguredModelImplementation(), implClass)) {
-				updatedAttribs = updatedAttribs + YComponentInfo.MODEL_IMPL_ATTRIBUTE + ",";
+				updatedAttribs = updatedAttribs + YComponent.MODEL_IMPL_ATTRIBUTE + ",";
 			}
 			if (isModified(cmpInfo.getVariableName(), varName)) {
-				updatedAttribs = updatedAttribs + YComponentInfo.VAR_ATTRIBUTE + ",";
+				updatedAttribs = updatedAttribs + YComponent.VAR_ATTRIBUTE + ",";
 			}
 			if (isModified(cmpInfo.getId(), id)) {
-				updatedAttribs = updatedAttribs + YComponentInfo.ID_ATTRIBUTE + ",";
+				updatedAttribs = updatedAttribs + YComponent.ID_ATTRIBUTE + ",";
 			}
 
 			if (injectable != null) {
 				final String[] props = injectable.trim().split("\\s*,\\s*");
 				final Collection<String> push = new TreeSet<String>(Arrays.asList(props));
 				if (!push.equals(cmpInfo.getPushProperties())) {
-					updatedAttribs = updatedAttribs + YComponentInfo.PASS_TO_MODEL_ATTRIBUTE;
+					updatedAttribs = updatedAttribs + YComponent.PASS_TO_MODEL_ATTRIBUTE;
 				}
 			}
 
