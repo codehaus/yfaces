@@ -91,55 +91,23 @@ public class YComponentImpl implements YComponent {
 		return this.cmpCfg;
 	}
 
-	public String getId() {
+	public String getViewId() {
 		return this.id;
 	}
-
-	//	public void setId(final String id) {
-	//		this.id = id;
-	//	}
 
 	public String getVariableName() {
 		return this.cmpVar;
 	}
 
-	//	public void setVariableName(final String varName) {
-	//		this.cmpVar = varName;
-	//	}
-
 	public String getErrorHandling() {
 		return errorHandling;
 	}
-
-	//	public void setErrorHandling(final String errorHandling) {
-	//		this.errorHandling = errorHandling;
-	//	}
 
 	public Collection<String> getPushProperties() {
 		return this.pushProperties;
 	}
 
-	//	public void addPushProperty(final String property) {
-	//		if (this.pushProperties == Collections.EMPTY_SET) {
-	//			this.pushProperties = new TreeSet<String>();
-	//		}
-	//		this.pushProperties.add(property);
-	//	}
-	//
-	//	public void setPushProperties(final String properties) {
-	//		if (properties != null) {
-	//			final String[] props = properties.trim().split("\\s*,\\s*");
-	//			this.setPushProperties(Arrays.asList(props));
-	//		}
-	//	}
-	//
-	//	public void setPushProperties(final Collection<String> properties) {
-	//		for (final String property : properties) {
-	//			this.addPushProperty(property);
-	//		}
-	//	}
-
-	public void setName(final String name) {
+	protected void setName(final String name) {
 		this.cmpName = name;
 	}
 
@@ -151,7 +119,7 @@ public class YComponentImpl implements YComponent {
 		return location;
 	}
 
-	public void setViewLocation(final String location) {
+	protected void setViewLocation(final String location) {
 		this.location = location;
 	}
 

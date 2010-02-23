@@ -57,15 +57,15 @@ public class PojoModelProcessor<T> implements ModelProcessor<T> {
 
 		} catch (final Exception e) {
 			if (e instanceof IllegalArgumentException) {
-				log.error(cmpInfo.getId() + " Error converting " + value.getClass().getName() + " to "
+				log.error(cmpInfo.getViewId() + " Error converting " + value.getClass().getName() + " to "
 						+ method.getParameterTypes()[0].getName());
 			} else {
 				if (e instanceof InvocationTargetException) {
-					log.error(cmpInfo.getId() + " Error while executing setter for attribute '" + property
+					log.error(cmpInfo.getViewId() + " Error while executing setter for attribute '" + property
 							+ "'");
 				}
 			}
-			final String error = cmpInfo.getId() + " Error setting attribute '" + property + "' at "
+			final String error = cmpInfo.getViewId() + " Error setting attribute '" + property + "' at "
 					+ cmp.getClass().getSimpleName() + "(" + method + ")";
 			throw new YFacesException(error, e);
 		}
@@ -78,7 +78,7 @@ public class PojoModelProcessor<T> implements ModelProcessor<T> {
 				suffix = "(count:" + ((Collection<?>) value).size() + ")";
 			}
 
-			log.debug(cmpInfo.getId() + "injected Attribute " + property + " ("
+			log.debug(cmpInfo.getViewId() + "injected Attribute " + property + " ("
 					+ (_value.length() < 30 ? _value : _value.substring(0, 29).concat("...")) + ")" + suffix);
 		}
 	}

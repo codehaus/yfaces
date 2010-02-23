@@ -483,7 +483,7 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 				if ("info".equals(_errorHandling)) {
 					writer.writeText("An error occured", null);
 				} else {
-					final String id = this.getYComponentInfo().getId();
+					final String id = this.getYComponentInfo().getViewId();
 					writer.writeText("Error rendering '" + id + "'", null);
 					writer.startElement("div", this);
 					writer.writeAttribute("style", "color:red;font-style:italic;font-weight:normal", null);
@@ -753,7 +753,7 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 	private void generateHtmlDebug(final String prefix) {
 		if (this.debugHtmlOut == null) {
 			final YComponent yInfo = getYComponentInfo();
-			debugHtmlOut = yInfo.getId() + ":" + yInfo.getViewLocation();
+			debugHtmlOut = yInfo.getViewId() + ":" + yInfo.getViewLocation();
 		}
 		try {
 			FacesContext.getCurrentInstance().getResponseWriter().writeComment(

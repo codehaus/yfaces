@@ -86,7 +86,7 @@ public class TestYComponentInfo /* extends TestCase */{
 						.getModelSpecification());
 				Assert.assertEquals(this.expImplClassName, cmpInfo.getConfiguration()
 						.getModelImplementation());
-				Assert.assertEquals(this.expId, cmpInfo.getId());
+				Assert.assertEquals(this.expId, cmpInfo.getViewId());
 				Assert.assertEquals(this.expVar, cmpInfo.getVariableName());
 				Assert.assertEquals(this.expInjectableAttributes, cmpInfo.getPushProperties());
 				Assert
@@ -128,7 +128,7 @@ public class TestYComponentInfo /* extends TestCase */{
 			Assert.assertEquals(spec, cmpInfo.getConfiguration().getModelSpecification());
 			Assert.assertEquals(impl, cmpInfo.getConfiguration().getModelImplementation());
 			Assert.assertEquals(var, cmpInfo.getVariableName());
-			Assert.assertEquals(id, cmpInfo.getId());
+			Assert.assertEquals(id, cmpInfo.getViewId());
 			Assert.assertEquals(0, cmpInfo.getPushProperties().size());
 		}
 
