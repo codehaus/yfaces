@@ -28,7 +28,7 @@ import com.sun.facelets.tag.Tag;
  * 
  * @author Denny Strietzbaum
  */
-public interface YComponentInfo {
+public interface YComponent {
 
 	static final String VAR_ATTRIBUTE = "var";
 	static final String ID_ATTRIBUTE = "id";
@@ -98,7 +98,7 @@ public interface YComponentInfo {
 	 * points to same target like {@link #getViewURL()}. This value gets detected and set
 	 * automatically.
 	 * <p/>
-	 * Location is used, to have a mapping between {@link YComponentInfo} and Facelets managed view
+	 * Location is used, to have a mapping between {@link YComponent} and Facelets managed view
 	 * files. This location is identical to that one of {@link Tag#getLocation()} which is made
 	 * available in {@link HtmlYComponentHandler}.
 	 * 

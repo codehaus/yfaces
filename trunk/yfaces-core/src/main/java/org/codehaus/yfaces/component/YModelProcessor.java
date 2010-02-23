@@ -6,7 +6,7 @@ public class YModelProcessor extends PojoModelProcessor<YModel> {
 
 	private static final Logger log = Logger.getLogger(YModelProcessor.class);
 
-	public YModelProcessor(final YComponentInfoImpl cmpInfo) {
+	public YModelProcessor(final YComponentImpl cmpInfo) {
 		super(cmpInfo);
 	}
 

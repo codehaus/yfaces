@@ -38,8 +38,8 @@ import org.codehaus.yfaces.YFacesConfig;
  * 
  * @author Denny Strietzbaum
  */
-public class YComponentInfoImpl implements YComponentInfo {
-	private static final Logger log = Logger.getLogger(YComponentInfoImpl.class);
+public class YComponentImpl implements YComponent {
+	private static final Logger log = Logger.getLogger(YComponentImpl.class);
 
 	// raw (unevaluated) attribute values
 	private String id = null;
@@ -66,14 +66,14 @@ public class YComponentInfoImpl implements YComponentInfo {
 
 	private ModelProcessor modelProcessor = null;
 
-	protected YComponentInfoImpl() {
+	protected YComponentImpl() {
 		this.pushProperties = Collections.emptySet();
 	}
 
 	/**
 	 * Constructor. Initializes this instance by parsing the url stream.
 	 */
-	public YComponentInfoImpl(final String id, final String varName, final String modelSpecClass,
+	public YComponentImpl(final String id, final String varName, final String modelSpecClass,
 			final String modelClass) {
 		this();
 		this.id = id;
@@ -82,7 +82,7 @@ public class YComponentInfoImpl implements YComponentInfo {
 		this.modelImplClassName = modelClass;
 	}
 
-	public YComponentInfoImpl(final String namespace, final URL url) {
+	public YComponentImpl(final String namespace, final URL url) {
 		this();
 		this.namespace = namespace;
 		this.url = url;
@@ -239,7 +239,7 @@ public class YComponentInfoImpl implements YComponentInfo {
 
 	@Override
 	public boolean equals(final Object obj) {
-		return this.url.toExternalForm().equals(((YComponentInfoImpl) obj).url.toExternalForm());
+		return this.url.toExternalForm().equals(((YComponentImpl) obj).url.toExternalForm());
 	}
 
 	@Override
@@ -287,7 +287,7 @@ public class YComponentInfoImpl implements YComponentInfo {
 		if (isEmpty(this.id)) {
 			this.id = this.uid;
 			if (log.isDebugEnabled()) {
-				log.debug(this.cmpName + ": set missing '" + YComponentInfo.ID_ATTRIBUTE + "' to "
+				log.debug(this.cmpName + ": set missing '" + YComponent.ID_ATTRIBUTE + "' to "
 						+ this.uid);
 			}
 		}
@@ -296,7 +296,7 @@ public class YComponentInfoImpl implements YComponentInfo {
 		if (isEmpty(this.errorHandling)) {
 			this.errorHandling = YFacesConfig.CMP_ERROR_HANDLING.getString();
 			if (log.isDebugEnabled()) {
-				log.debug(this.cmpName + ": set missing '" + YComponentInfo.ERROR_ATTRIBUTE + "' to "
+				log.debug(this.cmpName + ": set missing '" + YComponent.ERROR_ATTRIBUTE + "' to "
 						+ this.errorHandling);
 			}
 		}

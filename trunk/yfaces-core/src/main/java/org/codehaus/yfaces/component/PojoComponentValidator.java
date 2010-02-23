@@ -5,7 +5,7 @@ import java.util.Set;
 
 public class PojoComponentValidator extends YComponentValidatorImpl {
 
-	public PojoComponentValidator(final YComponentInfoImpl cmpInfo) {
+	public PojoComponentValidator(final YComponentImpl cmpInfo) {
 		super(cmpInfo);
 	}
 
@@ -29,7 +29,7 @@ public class PojoComponentValidator extends YComponentValidatorImpl {
 			result.add(YValidationAspekt.IMPL_IS_INTERFACE);
 		}
 
-		final Class<?> specClass = ((YComponentInfoImpl) getYComponentInfo()).getModelSpecification();
+		final Class<?> specClass = ((YComponentImpl) getYComponentInfo()).getModelSpecification();
 		if (specClass != null && !specClass.isAssignableFrom(implClass)) {
 			result.add(YValidationAspekt.IMPL_UNASSIGNABLE_TO_SPEC);
 		}

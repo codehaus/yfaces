@@ -49,7 +49,7 @@ public abstract class AbstractYModel implements YModel {
 	private String uid = null;
 
 	private transient String logId = this.getClass().getSimpleName();
-	private transient YComponentInfo cmpInfo = null;
+	private transient YComponent cmpInfo = null;
 
 	public AbstractYModel() {
 		this.uid = this.getClass().getName() + String.valueOf(Math.random());
@@ -70,14 +70,14 @@ public abstract class AbstractYModel implements YModel {
 		return this.attributes;
 	}
 
-	public YComponentInfo getComponentInfo() {
+	public YComponent getComponentInfo() {
 		if (this.cmpInfo == null) {
 			this.cmpInfo = YComponentRegistry.getInstance().getComponent(ns, id);
 		}
 		return this.cmpInfo;
 	}
 
-	void setYComponentInfo(final YComponentInfo info) {
+	void setYComponentInfo(final YComponent info) {
 		this.id = info.getId();
 		this.ns = info.getNamespace();
 		this.cmpInfo = info;
@@ -150,7 +150,7 @@ public abstract class AbstractYModel implements YModel {
 
 	public <T extends YModel> T newInstance(final String ns, final String id) {
 
-		final YComponentInfo cmpInfo = YComponentRegistry.getInstance().getComponent(ns, id);
+		final YComponent cmpInfo = YComponentRegistry.getInstance().getComponent(ns, id);
 		return (T) cmpInfo.getModelProcessor().createModel();
 	}
 

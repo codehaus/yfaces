@@ -27,7 +27,7 @@ import javax.faces.event.PhaseId;
  */
 public interface YModel extends /* Externalizable */Serializable {
 
-	YComponentInfo getComponentInfo();
+	YComponent getComponentInfo();
 
 	/**
 	 * Returns a custom for general usage with the scope of this component.

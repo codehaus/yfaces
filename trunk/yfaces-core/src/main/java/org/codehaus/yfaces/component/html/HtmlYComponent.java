@@ -38,8 +38,8 @@ import org.codehaus.yfaces.YFacesException;
 import org.codehaus.yfaces.component.ModelProcessor;
 import org.codehaus.yfaces.component.YModel;
 import org.codehaus.yfaces.component.YModelBinding;
-import org.codehaus.yfaces.component.YComponentInfo;
-import org.codehaus.yfaces.component.YComponentInfoImpl;
+import org.codehaus.yfaces.component.YComponent;
+import org.codehaus.yfaces.component.YComponentImpl;
 import org.codehaus.yfaces.component.YComponentRegistry;
 import org.codehaus.yfaces.component.YComponentValidator;
 import org.codehaus.yfaces.component.YComponentValidator.YValidationAspekt;
@@ -74,7 +74,7 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 	// properties are set by HtmlYComponentHandler ...
 	// ... the YComponentInfo for this UIComponent
 	private String viewLocation = null;
-	private transient YComponentInfo cmpInfo = null;
+	private transient YComponent cmpInfo = null;
 
 	// other transient members
 	private transient Exception error = null;
@@ -119,7 +119,7 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 	 * @return value of 'varName' attribute
 	 */
 	private String getVarName() {
-		return (String) super.getAttributes().get(YComponentInfo.VAR_ATTRIBUTE);
+		return (String) super.getAttributes().get(YComponent.VAR_ATTRIBUTE);
 	}
 
 	/**
@@ -184,7 +184,7 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 					if (YModel.class.isAssignableFrom(vb.getType(elCtx))) {
 						vb.setValue(elCtx, cmp);
 					} else {
-						final YComponentInfo cmpInfo = cmp.getComponentInfo();
+						final YComponent cmpInfo = cmp.getComponentInfo();
 						final YModelBinding<YModel> binding = new YModelBinding<YModel>(cmpInfo);
 						vb.setValue(elCtx, binding);
 						binding.setValue(cmp);
@@ -390,7 +390,7 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 		super.encodeBegin(context);
 
 		// get YComponentInfo for current processed component
-		final YComponentInfo cmpInfo = this.getYComponentInfo();
+		final YComponent cmpInfo = this.getYComponentInfo();
 
 		// YComponentInfo must be validated when HtmlYComponentHandler detected a change in Facelet file
 		//boolean isValidated = !this.isValidateYComponentInfo();
@@ -398,7 +398,7 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 			final YComponentValidator cmpValid = cmpInfo.createValidator();
 			try {
 				this.validateComponentInfo(cmpValid);
-				((YComponentInfoImpl) cmpInfo).setValid(true);
+				((YComponentImpl) cmpInfo).setValid(true);
 			} catch (final YFacesException e) {
 				log.error("Validation error", e);
 				this.error = e;
@@ -514,12 +514,12 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 	}
 
 	/**
-	 * Returns a {@link YComponentInfo} which provides YFaces specific meta-information for this
+	 * Returns a {@link YComponent} which provides YFaces specific meta-information for this
 	 * component.
 	 * 
-	 * @return {@link YComponentInfo}
+	 * @return {@link YComponent}
 	 */
-	protected YComponentInfo getYComponentInfo() {
+	protected YComponent getYComponentInfo() {
 		//		if (cmpInfo == null) {
 		//			cmpInfo = new YComponentInfoImpl(getId(), getVarName(), this.getSpec(), this.getImpl());
 		//		}
@@ -529,7 +529,7 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 		return cmpInfo;
 	}
 
-	protected void setComponentInfo(final YComponentInfoImpl cmpInfo) {
+	protected void setComponentInfo(final YComponentImpl cmpInfo) {
 		this.cmpInfo = cmpInfo;
 	}
 
@@ -560,11 +560,11 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 	 * If 'binding' is set, but returns null, a new {@link YModel} gets created and 'binding' gets
 	 * set.<br/>
 	 * If 'binding' returns a value, that value is taken, but validated whether it matches
-	 * {@link YComponentInfo} criteria.
+	 * {@link YComponent} criteria.
 	 * 
 	 * @return {@link YModel}
 	 */
-	private Object getOrCreateComponentModel(final YComponentInfo cmpInfo) {
+	private Object getOrCreateComponentModel(final YComponent cmpInfo) {
 		Object result = null;
 
 		// 'binding' value expression which binds a YComponent instance
@@ -720,7 +720,7 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 	 * @param cmp
 	 *          {@link YModel}
 	 */
-	private void pushAttributesIntoModel(final Object cmp, final YComponentInfo cmpInfo) {
+	private void pushAttributesIntoModel(final Object cmp, final YComponent cmpInfo) {
 
 		final Collection<String> attributes = cmpInfo.getPushProperties();
 
@@ -752,7 +752,7 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 	 */
 	private void generateHtmlDebug(final String prefix) {
 		if (this.debugHtmlOut == null) {
-			final YComponentInfo yInfo = getYComponentInfo();
+			final YComponent yInfo = getYComponentInfo();
 			debugHtmlOut = yInfo.getId() + ":" + yInfo.getViewLocation();
 		}
 		try {

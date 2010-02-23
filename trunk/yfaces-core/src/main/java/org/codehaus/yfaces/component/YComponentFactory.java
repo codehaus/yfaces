@@ -34,11 +34,11 @@ import org.codehaus.yfaces.YFacesTaglib;
 
 
 /**
- * Factory class for {@link YComponentInfoImpl} instances.
+ * Factory class for {@link YComponentImpl} instances.
  * 
  * @author Denny Strietzbaum
  */
-public class YComponentInfoFactory {
+public class YComponentFactory {
 
 	// Searches for a single Attribute within the attributes String
 	private static final Pattern SINGLE_ATTRIBUTE = Pattern.compile(
@@ -63,11 +63,11 @@ public class YComponentInfoFactory {
 
 	private String base = null;
 
-	public YComponentInfoFactory() {
+	public YComponentFactory() {
 		this("");
 	}
 
-	public YComponentInfoFactory(String base) {
+	public YComponentFactory(String base) {
 		this.cmpAttributesPatternMap = new HashMap<String, Pattern>();
 		this.base = base;
 		if (!base.startsWith("/")) {
@@ -75,9 +75,9 @@ public class YComponentInfoFactory {
 		}
 	}
 
-	public YComponentInfo createComponentInfo(final URL url, final String namespace) {
+	public YComponent createComponentInfo(final URL url, final String namespace) {
 
-		YComponentInfoImpl result = null;
+		YComponentImpl result = null;
 
 		// get component name
 		final String cmpName = this.getComponentName(url);
@@ -109,9 +109,9 @@ public class YComponentInfoFactory {
 		return result;
 	}
 
-	public YComponentInfoImpl createComponentInfo(final String content) {
+	public YComponentImpl createComponentInfo(final String content) {
 
-		YComponentInfoImpl result = null;
+		YComponentImpl result = null;
 
 		// get namespace prefix used for HtmlYCOmponent
 		final String nsPrefix = this.getYComponentNamespacePrefix(content);
@@ -121,17 +121,17 @@ public class YComponentInfoFactory {
 
 			if (attributes != null) {
 
-				result = new YComponentInfoImpl();
+				result = new YComponentImpl();
 
 				// this.creationTime =
 				// resource.openConnection().getLastModified();
 
 				// component name
-				result.setId(attributes.get(YComponentInfo.ID_ATTRIBUTE));
-				result.setVariableName(attributes.get(YComponentInfo.VAR_ATTRIBUTE));
-				result.setConfiguredModelImplementation(attributes.get(YComponentInfo.MODEL_IMPL_ATTRIBUTE));
-				result.setConfiguredModelSpecification(attributes.get(YComponentInfo.MODEL_SPEC_ATTRIBUTE));
-				result.setErrorHandling(attributes.get(YComponentInfo.ERROR_ATTRIBUTE));
+				result.setId(attributes.get(YComponent.ID_ATTRIBUTE));
+				result.setVariableName(attributes.get(YComponent.VAR_ATTRIBUTE));
+				result.setConfiguredModelImplementation(attributes.get(YComponent.MODEL_IMPL_ATTRIBUTE));
+				result.setConfiguredModelSpecification(attributes.get(YComponent.MODEL_SPEC_ATTRIBUTE));
+				result.setErrorHandling(attributes.get(YComponent.ERROR_ATTRIBUTE));
 				final Collection<String> injectable = this.getComponentProperties(attributes);
 				result.setPushProperties(injectable);
 
@@ -213,7 +213,7 @@ public class YComponentInfoFactory {
 			}
 		}
 
-		final String injectable = attributes.get(YComponentInfo.PASS_TO_MODEL_ATTRIBUTE);
+		final String injectable = attributes.get(YComponent.PASS_TO_MODEL_ATTRIBUTE);
 		if (injectable != null) {
 			final String _properties[] = injectable.trim().split("\\s*,\\s*");
 			result.addAll(Arrays.asList(_properties));

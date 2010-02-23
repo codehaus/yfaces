@@ -109,7 +109,7 @@ public abstract class AbstractYFrame extends YManagedBean implements YFrame {
 
 	private <T extends YModel> YModelBinding<T> createComponentBinding(final String ns,
 			final String id, final T value) {
-		final YComponentInfo cmpInfo = YComponentRegistry.getInstance().getComponent(ns, id);
+		final YComponent cmpInfo = YComponentRegistry.getInstance().getComponent(ns, id);
 		final YModelBinding<T> result = new YModelBinding<T>(cmpInfo, super
 				.createExpressionString());
 		result.setValue(value);
