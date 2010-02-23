@@ -21,14 +21,14 @@
 		UserSession handles session data and provides a listener system based on session changes
 	 -->
 	<bean id="YSessionContext"
-		class="de.hybris.yfaces.context.YSessionContextImpl"
+		class="org.codehaus.yfaces.context.YSessionContextImpl"
 		scope="session"/>
 
 	<!--  
 		ErrorHandler
 	 -->
 	<bean id="YFacesErrorHandler"
-		class="de.hybris.yfaces.util.YFacesErrorHandler"
+		class="org.codehaus.yfaces.util.YFacesErrorHandler"
 		scope="singleton"/>
 
 </beans>

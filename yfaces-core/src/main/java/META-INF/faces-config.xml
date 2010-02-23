@@ -10,16 +10,16 @@
 	</application>
 	   
 	<lifecycle>
-		<phase-listener> de.hybris.yfaces.context.YRequestContextPhaseListener </phase-listener>
+		<phase-listener> org.codehaus.yfaces.context.YRequestContextPhaseListener </phase-listener>
 		
 		<!-- for developing; nice logging (debug logger must be enabled)-->
-		<phase-listener> de.hybris.yfaces.util.DebugPhaseListener </phase-listener>
+		<phase-listener> org.codehaus.yfaces.util.DebugPhaseListener </phase-listener>
 	</lifecycle>
 	
 	
 	<component>
 		<component-type>hybris.YComponent</component-type>
-		<component-class>de.hybris.yfaces.component.html.HtmlYComponent</component-class>
+		<component-class>org.codehaus.yfaces.component.html.HtmlYComponent</component-class>
 	</component>
 
 
@@ -27,7 +27,7 @@
 	<!-- See Javadoc for more information                                         --> 
 	<converter>
 		<converter-id>parameterConverter</converter-id>
-		<converter-class>de.hybris.yfaces.util.ParameterConverter</converter-class>
+		<converter-class>org.codehaus.yfaces.util.ParameterConverter</converter-class>
 	</converter>
 
 
