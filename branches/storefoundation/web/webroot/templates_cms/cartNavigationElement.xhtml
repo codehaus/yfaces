@@ -1,0 +1,14 @@
+<span xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:t="http://myfaces.apache.org/tomahawk"
+    xmlns:c="http://java.sun.com/jstl/core">
+	
+	<h:form id="cartNavigationElementForm">
+		<h:commandLink action="cartPage" id="cartNavLink" value="" styleClass="cartNav">
+			<span id="icon_warenkorb" class="icon_warenkorb"><img src="/images/transp.gif" width="12px" height="12px"/></span>
+			#{msg['global.word.cart']}
+		</h:commandLink>
+	</h:form>
+	
+</span>

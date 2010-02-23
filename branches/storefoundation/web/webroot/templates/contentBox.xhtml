@@ -1,0 +1,51 @@
+<!--
+A Template (table) for a header,content, and a footer.
+
+Parameters:
+	styleClass					: 
+	style							: 
+	
+Content:
+	headline						: first row
+	boxcontent					: second row
+	footer-left					: third row, first column
+	footer-right				: third row, second column
+	
+Assigned Styleclasses
+	contentBox					: the parent table
+	default						: additional default styleclass for parenttable if no styleClass was passed
+	
+-->
+
+<ui:composition
+ 	xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:t="http://myfaces.apache.org/tomahawk"
+   xmlns:c="http://java.sun.com/jstl/core">
+   
+   <c:set var="styleClass" value="#{styleClass != null ? styleClass : 'default'}"/>
+   
+	<table class="contentBox #{styleClass}" style="#{style}">
+		<tr>
+			<td colspan="2">
+				<h2><ui:insert name="headline"/></h2>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2">
+				<ui:insert name="boxcontent" />
+			</td>
+		</tr>
+		<tr>
+			<td class="contentBoxBottomLeft">
+				<ui:insert name="footer-left" />
+			</td>
+			
+			<td class="contentBoxBottomRight">
+				<ui:insert name="footer-right" />
+			</td>
+		</tr>
+	</table>
+	
+</ui:composition>   

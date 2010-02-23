@@ -1,0 +1,44 @@
+<!--
+Description:
+	Tag which supports ClassificationAtributes.
+
+@param:
+	
+Variables:	
+	featureContainer: FeatureContainer
+-->
+
+<ui:composition
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:yf="http://yfaces.codehaus.org/taglib">
+
+		<t:dataTable value="#{featureContainer.attributesList}" var="feature" styleClass="features" columnClasses="featureDescription,featureValue"> 
+			<t:column>
+				<h:outputText value="#{feature.name}:"/> 
+			</t:column> 
+			<t:column> 
+				<h:outputText value="#{msg['n/a']}" rendered="#{empty feature.value}"/> 
+				<h:outputText escape="false" value="#{feature.value}"/> 
+			</t:column> 
+		</t:dataTable> 
+
+		<h:panelGrid 
+			columns="2" 
+			rendered="#{!empty featureContainer.featureGroups}" 
+			styleClass="classification" 
+			columnClasses="classificationDesc, classificationValue">
+			<t:div>
+				<h:outputText value="#{msg['global.word.classificationClasses']}"/><h:outputText value=":"/>
+			</t:div>
+			<t:div>
+			<ui:repeat value="#{featureContainer.featureGroups}" var="classname">
+				<h:outputText value="#{classname}"/><br/>
+			</ui:repeat>
+			</t:div>
+		</h:panelGrid>
+
+</ui:composition>

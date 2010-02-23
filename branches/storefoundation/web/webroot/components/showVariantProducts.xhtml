@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" [<!ENTITY nbsp "&#160;">]>
+
+<!-- 
+show variant products component: 
+display all variant products of a variant or base product
+-->
+
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:yf="http://yfaces.codehaus.org/taglib"
+	xmlns:sf="http://hybris.com/jsf/storefoundation"	
+	 >
+
+	<yf:component
+		id="showVariantProductsCmp"
+		modelspec="ystorefoundationpackage.yfaces.component.product.ShowVariantProductsComponent"
+		model="ystorefoundationpackage.yfaces.component.product.DefaultShowVariantProductsComponent"
+		
+		var="showVariantProductsCmpVar"
+		passToModel="currentProduct, variantProducts, printPage"
+		>
+
+	<ui:param name="currentProduct" value="#{showVariantProductsCmpVar.currentProduct}"/>
+	<ui:param name="variantProducts" value="#{showVariantProductsCmpVar.variantProducts}"/>
+	<ui:param name="printPage" value="#{showVariantProductsCmpVar.printPage}"/>
+
+	<t:div styleClass="showVariantProductsCmp">
+		<t:dataTable styleClass="general" value="#{variantProducts}" var="vProduct" rendered="#{printPage == false}">
+			<!-- Show VariantAttributeValues -->
+			<t:columns value="#{showVariantProductsCmpVar.variantAttributeDescriptors}"
+						var="attribute"
+						 styleClass="#{styleClass}">
+			<f:facet name="header">#{empty attribute.name ? attribute.id : attribute.name}</f:facet>
+				<sf:outputLink value="#{vProduct.product}" styleClass="noTextDecoration">
+					#{vProduct.variantAttributes[attribute.id].value}
+				</sf:outputLink>
+			</t:columns>
+
+			<!-- Show Price -->
+			<t:column styleClass="price #{styleClass}" headerstyleClass="price">
+				<f:facet name="header">#{msg['frames.productFrame.price']}</f:facet>
+				<sf:outputLink value="#{vProduct.product}">
+					<yf:price product="#{vProduct.product}" showTaxes="false" showPriceTable="false" />
+ 				</sf:outputLink>
+			</t:column>
+		</t:dataTable>
+
+		<!-- Show VariantAttributeValues for PrintPage -->
+		<t:dataTable styleClass="general" value="#{variantProducts}" var="vProduct" rendered="#{printPage == true}">
+			<!-- Show VariantAttributeValues -->
+			<t:columns value="#{showVariantProductsCmpVar.variantAttributeDescriptors}"
+						var="attribute"
+						 styleClass="#{styleClass}">
+			<f:facet name="header">#{empty attribute.name ? attribute.id : attribute.name}</f:facet>
+				#{vProduct.product[attribute.id]}
+			</t:columns>
+
+			<!-- Show Price -->
+			<t:column styleClass="price #{styleClass}" headerstyleClass="price">
+				<f:facet name="header">#{msg['frames.productFrame.price']}</f:facet>
+				<yf:price product="#{vProduct.product}" showTaxes="false" showPriceTable="false" />
+			</t:column>
+		</t:dataTable>
+	</t:div>
+
+	</yf:component>
+
+</ui:composition>

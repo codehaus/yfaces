@@ -1,0 +1,36 @@
+<!DOCTYPE type [<!ENTITY nbsp "&#160;">]>
+
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:yf="http://yfaces.codehaus.org/taglib"
+	
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://hybris.com/jsf/yfaces ../WEB-INF/yfaces-components.xsd 
+						http://java.sun.com/jsf/facelets ../WEB-INF/facelets.xsd"
+						
+	template="/templates/layout.xhtml"
+	>
+
+	
+	<ui:define name="contentTitle">
+		#{welcomeFrame.textParagraphsComponent.textParagraphPage.title}
+	</ui:define>
+	
+	<ui:define name="content">
+		<yf:textParagraphs binding="#{welcomeFrame.textParagraphsComponent}"/>
+		<t:div id="showRandomProductsCmp" styleClass="sidebar_boxes">
+			<yf:productsQuickView
+				columns="3"
+				rows="2"
+				categoryCode="specialoffers"
+				productCount="6"	/>
+		</t:div>
+	</ui:define>
+
+
+</ui:composition>
+

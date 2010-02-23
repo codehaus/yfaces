@@ -1,0 +1,58 @@
+<!DOCTYPE subview [<!ENTITY nbsp "&#160;">]>
+
+<!--
+
+-->
+
+<ui:composition
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:yf="http://yfaces.codehaus.org/taglib"
+	>
+
+	<yf:component
+		id="selectDeliveryModeCmp"
+		modelspec="ystorefoundationpackage.yfaces.component.cart.SelectDeliveryModeComponent"
+		model="ystorefoundationpackage.yfaces.component.cart.DefaultSelectDeliveryModeComponent" 
+		var="selectDeliveryModeCmpVar"
+     	passToModel="cart"
+		>      
+		
+		<t:div id="selectDeliveryModeBlock" styleClass="selectDeliveryModeCmp">
+			<h:form id="form">
+				<ui:decorate template="/templates/contentBox2.xhtml">
+
+					
+					<ui:define name="headline">
+						<h:outputText value="#{msg['components.selectDeliveryModeCmp.deliveryMode']}"/>
+					</ui:define>
+					
+					
+					<ui:define name="boxcontent">
+						<ui:param name="selector" value="#{selectDeliveryModeCmpVar.deliveryModeSelector}"/>
+						<t:selectOneRadio required="false" id="select" value="#{selector.selectedValue}"
+								converter="#{selector.converter}"
+							  layout="pageDirection" 
+							  onclick="javascript:submit()"
+							  valueChangeListener="#{selectDeliveryModeCmpVar.selectDeliveryModeEvent.valueChangeListener}"
+							  styleClass="selectMode" disabledClass="disabledOption" 
+							  immediate="true">
+							<f:selectItems value="#{selector.selectItems}" />
+						</t:selectOneRadio>&nbsp;
+					</ui:define>
+						
+					<!-- Standard Action operations 'edit' 'delete' -->
+					<ui:define name="footer-right">
+						<t:commandButton 
+							id="submitButton"
+							value="#{msg['components.selectDeliveryModeCmp.choose']}"
+							action="#{selectDeliveryModeCmpVar.selectDeliveryModeEvent.action}"
+							actionListener="#{selectDeliveryModeCmpVar.selectDeliveryModeEvent.actionListener}" />
+					</ui:define>
+				</ui:decorate>
+			</h:form>
+		</t:div>
+	</yf:component>
+</ui:composition>

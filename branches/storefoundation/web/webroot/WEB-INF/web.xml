@@ -1,0 +1,335 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+
+<web-app 	id="storefoundation"
+					xmlns="http://java.sun.com/xml/ns/javaee"
+					xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+					xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+					version="2.5">
+
+	<display-name>hybris StoreFoundation</display-name>
+
+
+	<context-param>
+     <param-name>org.jboss.jbossfaces.WAR_BUNDLES_JSF_IMPL</param-name>
+     <param-value>true</param-value>
+		<!--<description>
+		This will cause JBoss to ignore the built-in JSF implementation
+		</description>-->
+	</context-param> 
+	
+	<context-param>
+		<param-name>com.sun.faces.validateXml</param-name>
+		<param-value>true</param-value>
+		<!--<description>
+		Set this flag to true if you want the JavaServer Faces
+		Reference Implementation to validate the XML in your
+		faces-config.xml resources against the DTD.  Default
+		value is false.
+		</description>-->
+	</context-param>
+	
+	<context-param>
+		<param-name>com.sun.faces.verifyObjects</param-name>
+		<param-value>true</param-value>
+		<!--<description>
+		Set this flag to true if you want the JavaServer Faces
+		Reference Implementation to verify that all of the application
+		objects you have configured (components, converters,
+		renderers, and validators) can be successfully created.
+		Default value is false.
+		</description>-->
+	</context-param>
+	
+	<context-param>
+    	<param-name>org.apache.myfaces.NUMBER_OF_VIEWS_IN_SESSION</param-name>
+		<param-value>20</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>org.apache.myfaces.ALLOW_JAVASCRIPT</param-name>
+		<param-value>true</param-value>
+	</context-param>
+	
+	<!-- 
+	<context-param>
+		<param-name>org.apache.myfaces.ERROR_HANDLER</param-name>
+		<param-value>de.hybris.yfaces.util.MyFacesErrorHandler</param-value>
+	</context-param>  -->
+	
+	<!-- Performance:
+	     replaces DefaultAddResource (no response parsing [ReducedHtmlParser] anymore) -->
+	<context-param>
+    	<param-name>org.apache.myfaces.ADD_RESOURCE_CLASS</param-name>
+    	<param-value>org.apache.myfaces.component.html.util.StreamingAddResource</param-value>
+  	</context-param>
+  	 
+  	<!-- 
+	<context-param>
+		<param-name>org.apache.myfaces.SERIAL_FACTORY</param-name>
+		<param-value>de.hybris.yfaces.myfaces.JBossSerialFactory</param-value>
+	</context-param>  -->   	
+	
+	<!-- Additional faces-configs -->
+	<context-param>
+		<param-name>javax.faces.CONFIG_FILES</param-name>
+		<param-value>
+			/WEB-INF/sf-faces-config.xml,
+			/demo/faces-config-demo.xml
+		</param-value>
+	</context-param>
+	
+	<!-- JSF-Spec: 
+	1)/META-INF/faces-config.xml 
+	2)these parameter (comma separated) 
+	3)/WEB-INF/faces-config.xml -->
+	
+	<context-param>
+		<param-name>javax.faces.STATE_SAVING_METHOD</param-name>
+		<param-value>client</param-value>
+	</context-param>
+	
+	<!-- State compression: client -->
+	<context-param>
+		<param-name>org.apache.myfaces.COMPRESS_STATE_IN_CLIENT</param-name>
+		<param-value>true</param-value>
+	</context-param>
+	
+	<!-- State compression: server -->
+	<!--context-param>
+	<param-name>org.apache.myfaces.COMPRESS_STATE_IN_SESSION</param-name>
+	<param-value>false</param-value>
+	</context-param-->
+	
+	<!-- State serialization: server -->
+	<!--context-param>
+	<param-name>org.apache.myfaces.SERIALIZE_STATE_IN_SESSION</param-name>
+	<param-value>false</param-value>
+	</context-param-->
+	
+	<context-param>
+		<param-name>org.apache.myfaces.PRETTY_HTML</param-name>
+		<param-value>true</param-value>
+	</context-param>
+	
+	<context-param>
+		<param-name>org.apache.myfaces.DETECT_JAVASCRIPT</param-name>
+		<param-value>false</param-value>
+	</context-param>
+	
+	<context-param>
+		<param-name>org.apache.myfaces.AUTO_SCROLL</param-name>
+		<param-value>false</param-value>
+	</context-param>
+	
+	<context-param>
+		<param-name>javax.faces.DEFAULT_SUFFIX</param-name>
+		<param-value>.xhtml</param-value>
+	</context-param>
+	
+	<!-- Facelets Paramater -->
+	<context-param>
+		<param-name>facelets.LIBRARIES</param-name>
+		<param-value>
+			/WEB-INF/taglib/tomahawk.taglib.xml;
+			/WEB-INF/taglib/jsf-storefoundation.taglib.xml;
+		</param-value>
+	</context-param>
+	
+	<context-param>
+		<param-name>facelets.REFRESH_PERIOD</param-name>
+		<param-value>2</param-value>
+	</context-param>
+	
+	<!-- Set this to true when Facelets should handle exceptions and present them in a nice way.
+	     When this is false MyFaces error handling won't work anymore   -->
+	<context-param>
+		<param-name>facelets.DEVELOPMENT</param-name>
+		<param-value>false</param-value>
+	</context-param>
+	
+	<!-- YFaces Parameter -->
+	<context-param>
+		<param-name>yfaces.taglib.DIR</param-name>
+		<param-value>
+			/components,
+			/components/cms
+		</param-value>
+	</context-param>
+	
+	<context-param>
+		<param-name>yfaces-requestbuilder</param-name>
+		<!-- <param-value>de.hybris.yfaces.SpringYRequestContextBuilder</param-value> -->
+		<param-value>ystorefoundationpackage.StorefoundationYRequestBuilder</param-value>
+	</context-param>
+	
+	<!-- filters -->
+	<filter>
+		<filter-name>initfilter</filter-name>
+		<filter-class>
+			ystorefoundationpackage.YStoreFoundationInitFilter</filter-class>
+		<init-param>
+			<param-name>enable.compression</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+	
+	<filter>
+		<filter-name>MyFacesExtensionsFilter</filter-name>
+		
+		<!--<filter-class>org.apache.myfaces.component.html.util.ExtensionsFilter</filter-class>-->
+		<filter-class>
+			org.apache.myfaces.webapp.filter.ExtensionsFilter</filter-class>
+		<init-param>
+			<param-name>uploadMaxFileSize</param-name>
+			<param-value>100m</param-value>
+			<!--<description>Set the size limit for uploaded files.
+			Format: 10 - 10 bytes
+			10k - 10 KB
+			10m - 10 MB
+			1g - 1 GB
+			</description>-->
+		</init-param>
+		<init-param>
+			<param-name>uploadThresholdSize</param-name>
+			<param-value>100k</param-value>
+			<!--<description>Set the threshold size - files
+			below this limit are stored in memory, files above
+			this limit are stored on disk.
+			
+			Format: 10 - 10 bytes
+			10k - 10 KB
+			10m - 10 MB
+			1g - 1 GB
+			</description>-->
+		</init-param>
+		<!--    <init-param>
+		<param-name>uploadRepositoryPath</param-name>
+		<param-value>/temp</param-value>
+		<description>Set the path where the intermediary files will be stored.
+		</description>
+		</init-param>-->
+	</filter>
+	
+	<!-- URL Rewriting-->
+	<filter>
+		<filter-name>UrlRewriteFilter</filter-name>
+		<filter-class>
+			org.tuckey.web.filters.urlrewrite.UrlRewriteFilter</filter-class>
+		
+		<!-- amount of seconds the conf file will be checked for reload
+		can be a valid integer (0 denotes check every time,
+		empty/not set denotes no reload check) -->
+		<init-param>
+			<param-name>confReloadCheckInterval</param-name>
+			<param-value>5</param-value>
+		</init-param>
+		
+		<!-- can be: TRACE, DEBUG, INFO (default), WARN, ERROR, FATAL,
+		log4j, commons, sysout:{level} (ie, sysout:DEBUG) -->
+		<init-param>
+			<param-name>logLevel</param-name>
+			<param-value>log4j</param-value>
+		</init-param>
+		
+		<!-- enable/disable status page (default true) -->
+		<init-param>
+			<param-name>statusEnabled</param-name>
+			<param-value>true</param-value>
+		</init-param>
+		
+		<!-- status path (defaults to /rewrite-status), must start with / -->
+		<init-param>
+			<param-name>statusPath</param-name>
+			<param-value>/status</param-value>
+		</init-param>
+	</filter>
+	
+	<!-- filter mappings -->
+	<filter-mapping>
+		<filter-name>initfilter</filter-name>
+		<url-pattern>*.jsf</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>initfilter</filter-name>
+		<url-pattern>*.jsp</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>initfilter</filter-name>
+		<url-pattern>/specialOffersAjax</url-pattern>
+	</filter-mapping>
+	
+ 	<filter-mapping>
+		<filter-name>MyFacesExtensionsFilter</filter-name>
+		<url-pattern>*.jsf</url-pattern>
+	</filter-mapping> 
+	
+	<filter-mapping>
+		<filter-name>MyFacesExtensionsFilter</filter-name>
+		<url-pattern>/faces/myFacesExtensionResource/*</url-pattern>
+	</filter-mapping>
+	
+	
+	<filter-mapping>
+		<filter-name>UrlRewriteFilter</filter-name>
+		<!-- <url-pattern>/*</url-pattern> -->
+		<url-pattern>*.jsf</url-pattern>
+	</filter-mapping>
+
+	<!-- url rewriting filter for Specail Offers -->
+	<filter-mapping>
+		<filter-name>UrlRewriteFilter</filter-name>
+		<url-pattern>/specialOffersAjax</url-pattern>
+	</filter-mapping>
+
+	<!--  ServletContextListener for Spring -->
+	<listener>
+		<listener-class>de.hybris.platform.spring.HybrisContextLoaderListener</listener-class>
+	</listener>
+	
+	<!--  ServletRequestListener for Spring -->
+	<listener>
+    	<listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
+	</listener> 
+
+	<!-- EOL: added start -->
+	<listener>
+		<listener-class>
+			org.codehaus.yfaces.YFacesRequestListener
+		</listener-class>
+	</listener>
+	<!-- EOL: added end -->
+	
+	
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value> WEB-INF/storefoundation-web-spring.xml</param-value>
+	</context-param>
+	
+	
+	
+	<!-- Faces Servlet -->
+	<servlet>
+		<servlet-name>Faces Servlet</servlet-name>
+		<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+		<!--<load-on-startup>1</load-on-startup>-->
+	</servlet>
+
+	<!-- Special Offers Ajax Component -->
+	<servlet>
+		<servlet-name>specialOffersAjax</servlet-name>
+		<servlet-class>ystorefoundationpackage.yfaces.component.product.SpecialOffersAjax</servlet-class>
+	</servlet>
+
+	<!-- Faces Servlet Mapping -->
+	<servlet-mapping>
+		<servlet-name>Faces Servlet</servlet-name>
+		<url-pattern>*.jsf</url-pattern>
+	</servlet-mapping>
+
+	<!-- Special offers ajax url -->
+	<servlet-mapping>
+		<servlet-name>specialOffersAjax</servlet-name>
+		<url-pattern>/specialOffersAjax</url-pattern>
+	</servlet-mapping>	
+
+</web-app>

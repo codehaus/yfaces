@@ -1,0 +1,133 @@
+<!DOCTYPE subview [<!ENTITY nbsp "&#160;">]>
+
+<!--
+Registration Component.
+Provides functionality of new user registration
+
+Either the controller provides an address or an address must be passed.
+
+Parameters:
+	controller					: RegistrationController (optional)
+	model						: RegistrationModel (optional)
+	
+-->
+
+<ui:composition
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:yf="http://yfaces.codehaus.org/taglib"
+	>
+		<yf:component
+			id="registrationCmp"
+			
+			modelspec="ystorefoundationpackage.yfaces.component.user.RegistrationComponent"
+			model="ystorefoundationpackage.yfaces.component.user.DefaultRegistrationComponent" 
+			var="registrationCmpVar"
+			
+			passToModel="isAddressEnabled"
+			>      
+
+			<t:div styleClass="registrationCmp">
+				<h:form id="form" >
+
+					<!-- Login part -->
+					<t:div id="loginDataBlock">
+						<h:outputText value="#{msg['components.registrationCmp.loginData']}"/>
+						<h:panelGrid id="userNameTable" columns="2" styleClass="registration" columnClasses="firstColumn, secondColumn">
+							<h:outputText value="#{msg['frames.loginFrame.login']}*"/>
+							<t:div>
+								<h:inputText value="#{registrationCmpVar.login}" id="login" required="true"/>
+								<h:message for="login" styleClass="error"/>
+							</t:div>
+						</h:panelGrid>
+							
+						<h:panelGrid id="passwordTable" columns="2" styleClass="registration" columnClasses="firstColumn, secondColumn" rendered="#{registrationCmpVar.isPasswordEnabled}">
+							<h:outputText value="#{msg['frames.loginFrame.password']}*"/>
+							<t:div>
+								<h:inputSecret value="#{registrationCmpVar.password}" id="password" required="true"/>
+								<h:message for="passwordRepeat" styleClass="error"/>
+							</t:div>
+	
+							<h:outputText value="#{msg['frames.loginFrame.passwordRepeat']}*"/>
+							<t:div>
+								<h:inputSecret value="#{registrationCmpVar.passwordRepeat}" id="passwordRepeat" required="true"/>
+								<h:message for="passwordRepeat" styleClass="error"/>
+							</t:div>
+						</h:panelGrid>
+					</t:div>
+
+					<!-- Address part -->
+					<t:div id="addressBlock" rendered="#{registrationCmpVar.isAddressEnabled}">
+						<h:outputText value="#{msg['components.registrationCmp.personalData']}"/>
+						<h:panelGrid id="addressDataTable" columns="2" styleClass="registration" columnClasses="firstColumn, secondColumn">
+							<h:outputText value="#{msg['components.registrationCmp.firstName']}*"/>
+							<t:div>
+								<h:inputText value="#{registrationCmpVar.address.firstname}" id="firstName" required="true"/>
+								<h:message for="firstName" styleClass="error"/>
+							</t:div>
+	
+							<h:outputText value="#{msg['components.registrationCmp.lastName']}*"/>
+							<t:div>
+								<h:inputText value="#{registrationCmpVar.address.lastname}" id="surname" required="true"/>
+								<h:message for="surname" styleClass="error"/>
+							</t:div>
+			
+							<h:outputText value="#{msg['components.registrationCmp.company']}"/>
+							<t:div>
+								<h:inputText value="#{registrationCmpVar.address.company}" id="company"/>
+							</t:div>
+	
+							<h:outputText value="#{msg['components.registrationCmp.street']}*"/>
+							<t:div>
+								<h:inputText value="#{registrationCmpVar.address.streetname}" id="streetname" required="true"/>
+								<h:message for="streetname" styleClass="error"/>
+							</t:div>
+	
+							<h:outputText value="#{msg['components.registrationCmp.streetNumber']}*"/>
+							<t:div>
+								<h:inputText value="#{registrationCmpVar.address.streetnumber}" id="streetnumber" required="true"/>
+								<h:message for="streetnumber" styleClass="error" />
+							</t:div>
+	
+							<h:outputText value="#{msg['components.registrationCmp.postalCode']}*"/>
+							<t:div>
+								<h:inputText value="#{registrationCmpVar.address.postalcode}" id="postalcode" required="true"/>
+								<h:message for="postalcode" styleClass="error"/>
+							</t:div>
+			
+							<h:outputText value="#{msg['components.registrationCmp.town']}*"/>
+							<t:div>
+								<h:inputText value="#{registrationCmpVar.address.town}" id="town" required="true"/>
+								<h:message for="town" styleClass="error"/>
+							</t:div>
+	
+							<h:outputText value="#{msg['components.registrationCmp.email']}*"/>
+							<t:div>
+								<h:inputText value="#{registrationCmpVar.address.email}" id="email" required="true"/>
+								<h:message for="email" styleClass="error"/>
+							</t:div>
+	
+							<h:outputText value="#{msg['components.registrationCmp.country']}"/>
+							<t:div>
+								<h:selectOneMenu required="true" id="country" value="#{registrationCmpVar.address.country}"  >
+									<f:selectItems value="#{registrationCmpVar.countries}" />
+								</h:selectOneMenu>
+							</t:div>
+						</h:panelGrid>
+					</t:div>
+					<h:commandButton
+						id="registrationButton" 
+						value="#{msg['components.registrationCmp.register']}" 
+						styleClass="submitSmall" 
+						action="#{registrationCmpVar.registerEvent.action}" 
+						actionListener="#{registrationCmpVar.registerEvent.actionListener}" />
+				</h:form>
+			<t:div>*  #{msg['components.registrationCmp.required']} </t:div>
+		</t:div>
+
+	</yf:component>
+	
+</ui:composition>

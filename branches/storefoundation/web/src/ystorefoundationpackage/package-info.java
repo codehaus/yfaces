@@ -1,0 +1,5 @@
+/**
+ * Base package. 
+ */
+package ystorefoundationpackage;
+

@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" [<!ENTITY nbsp "&#160;">]>
+
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+ 	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:cms="http://hybris.com/cms"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:yf="http://yfaces.codehaus.org/taglib">
+
+	<yf:component
+		modelspec="ystorefoundationpackage.yfaces.component.product.CompareProductsComponent"
+		model="ystorefoundationpackage.yfaces.component.product.DefaultCompareProductsComponent"
+
+		var="compareProductsCmpVar"
+		>
+
+		<t:div styleClass="compareProductsCmp">
+			<ui:param name="model" value="#{compareProductsCmpVar.compareTable}"/>
+			<h:form id="compareForm" rendered="#{!empty model}">
+				<t:dataTable
+					id="compareTable"
+					value="#{model.rows}"
+					var="row"
+					preserveSort="false"
+					styleClass="compareTable"
+					headerClass="compareHeader"
+					rowClasses="compareValue_odd,compareValue_even">
+					
+					<t:column>
+						<h:outputText escape="false" value="#{row.title}"/>
+					</t:column>
+	
+					<t:columns value="#{model.columns}" var="column">
+						<f:facet name="header">
+							<h:outputText escape="false" value="#{column.title}"/>
+						</f:facet>
+						<h:outputText escape="false" value="#{row[column].value}"/>
+					</t:columns>
+				</t:dataTable>
+				
+				<h:commandLink
+					id="rotateTable"
+					value="Tabelle drehen" 
+					action="#{compareProductsCmpVar.rotateTableEvent.action}" 
+					actionListener="#{compareProductsCmpVar.rotateTableEvent.actionListener}"
+					immediate="true"/>
+			</h:form>
+		</t:div>
+	</yf:component>
+	
+</ui:composition>

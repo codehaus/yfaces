@@ -1,0 +1,59 @@
+##
+## Velocity Template.
+## Used to create an XSD representation of all YComponents.
+## Don't touch or remove.
+## 
+<?xml version="1.0" encoding="UTF-8" ?>
+<xs:schema
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:yf="http://hybris.com/jsf/yfaces"
+	
+	targetNamespace="http://hybris.com/jsf/yfaces"
+	
+	elementFormDefault="qualified"
+	attributeFormDefault="unqualified"
+	>
+
+	#foreach ($element in $elements)
+	<xs:element name="$element.name">
+		<xs:annotation>
+			<xs:documentation>
+			<![CDATA[
+				$!element.comment<br/>
+				<b>Spec:</b> $element.componentInfo.specificationClassName<br/>
+				<b>Impl:</b> $element.componentInfo.implementationClassName<br/>
+				<b>Tag:</b> $element.rendererName<br/>
+				]]>
+			</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:attribute name="binding" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						Bounds this YComponents instance to another instance.<br/>
+						In general this should be an YFrame.
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			
+			#foreach ($attribute in $element.attributes)
+			<xs:attribute name="$attribute.name" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+					<![CDATA[
+						$!attribute.description<br/>
+						<b>Coerced to:</b>$!attribute.type<br/>
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+				</xs:attribute>
+			#end
+		</xs:complexType>
+	</xs:element>
+	#end
+
+</xs:schema>

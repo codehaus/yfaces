@@ -1,0 +1,44 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" [<!ENTITY nbsp "&#160;">]>
+
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:yf="http://yfaces.codehaus.org/taglib"
+	template="demoLayout.xhtml">
+
+	<ui:define name="title">
+		This page demonstrates:<br/>
+		- Creating own components <br/>
+	</ui:define>
+	
+	<ui:define name="content">
+
+			<h:outputText value="DemoComponent; full reuseable (total: componentclass, actionclass, interface, xhtml file" styleClass="h1"/>
+			<ul>
+			<li>action forwards can be programmatically changed</li>
+			<li>action logic can be programmatically changed (replaced or intercepted)</li>
+			<li>different componentclasses can be used with one renderer</li>
+			<li>for reference?</li>
+			</ul>
+			<br/>
+
+<yf:myDemoComponent myDemoComponent="#{myDemoFrame.myDemoComponent}"/>
+
+			<hr/>
+			<h:outputText value="DemoComponent without Interface and ActionClass (total: one componentclass, one xhtml file" styleClass="h1"/>
+			<ul>
+			<li>faster written</li>
+			<li>weak reuseability</li>
+			<li>for projects?</li>
+			</ul>
+			<br/>
+
+<yf:myDemoComponentLW myDemoComponentLW="#{myDemoFrame.myDemoComponentLW}"/>
+
+	</ui:define>
+	
+</ui:composition>

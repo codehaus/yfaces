@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ [y] hybris Platform
+
+ Copyright (c) 2000-2009 hybris AG
+ All rights reserved.
+
+ This software is the confidential and proprietary information of hybris
+ ("Confidential Information"). You shall not disclose such Confidential
+ Information and shall use it only in accordance with the terms of the
+ license agreement you entered into with hybris.
+-->
+
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/aop
+           http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+
+
+
+	<bean class="org.springframework.beans.factory.config.CustomScopeConfigurer">
+        <property name="scopes">
+            <map>
+                <entry key="tenant"><bean class="de.hybris.platform.spring.TenantScope"/></entry>
+            </map>
+        </property>
+    </bean>
+
+	<!-- 
+		Storefoundation specific configuration
+	-->
+
+	<bean id="sfPlatformServices" class="ystorefoundationpackage.domain.impl.PlatformServicesImpl" scope="tenant">
+		<property name="cartService" ref="cartService"/>
+		<property name="catalogService" ref="catalogService"/>
+		<property name="categoryService" ref="categoryService"/>
+		<property name="cmsService" ref="cmsService"/>		
+		<property name="customerReviewService" ref="customerReviewService"/>
+		<property name="flexibleSearchService" ref="flexibleSearchService"/>
+		<property name="i18NService" ref="i18nService"/>
+		<property name="localizationService" ref="localizationService"/>
+		<property name="modelService" ref="modelService"/>
+		<property name="orderService" ref="orderService"/>
+		<property name="productService" ref="productService"/>
+		<property name="typeService" ref="typeService"/>
+		<property name="userService" ref="userService"/>
+		<property name="voucherService" ref="voucherService"/>		
+		<property name="wishlistService" ref="wishlistService"/>
+		<property name="classificationService" ref="classificationService"/>
+	</bean>
+	
+	<!-- 
+		Provide and configure a ConverterFactory implementation.
+	-->	
+	<bean id="ConverterFactory" class="ystorefoundationpackage.domain.impl.ConverterFactoryImpl" scope="tenant">
+		<property name="configuration">
+			<list>
+				<!-- model converter -->
+				<bean class="ystorefoundationpackage.domain.impl.ConverterConfig">
+					<property name="id" value="itemModel"/>
+					<property name="forClass">
+						<value type="java.lang.Class">de.hybris.platform.core.model.ItemModel</value>
+					</property>
+					<property name="converterClass">
+						<value type="java.lang.Class">ystorefoundationpackage.domain.util.ConvertItemModel</value>
+					</property>
+				</bean>
+				<bean class="ystorefoundationpackage.domain.impl.ConverterConfig">
+					<property name="id" value="catalogModel"/>
+					<property name="forClass">
+						<value type="java.lang.Class">de.hybris.platform.catalog.model.CatalogModel</value>
+					</property>
+					<property name="converterClass">
+						<value type="java.lang.Class">ystorefoundationpackage.domain.util.ConvertCatalogModel</value>
+					</property>
+				</bean>
+				<bean class="ystorefoundationpackage.domain.impl.ConverterConfig">
+					<property name="id" value="categoryModel"/>
+					<property name="forClass">
+						<value type="java.lang.Class">de.hybris.platform.category.model.CategoryModel</value>
+					</property>
+					<property name="converterClass">
+						<value type="java.lang.Class">ystorefoundationpackage.domain.util.ConvertCategoryModel</value>
+					</property>
+				</bean>
+				<bean class="ystorefoundationpackage.domain.impl.ConverterConfig">
+					<property name="id" value="productModel"/>
+					<property name="forClass">
+						<value type="java.lang.Class">de.hybris.platform.core.model.product.ProductModel</value>
+					</property>
+					<property name="converterClass">
+						<value type="java.lang.Class">ystorefoundationpackage.domain.util.ConvertProductModel</value>
+					</property>
+				</bean>
+				<bean class="ystorefoundationpackage.domain.impl.ConverterConfig">
+					<property name="id" value="pagecontentModel"/>
+					<property name="forClass">
+						<value type="java.lang.Class">de.hybris.platform.cms.model.ParagraphContentModel</value>
+					</property>
+					<property name="converterClass">
+						<value type="java.lang.Class">ystorefoundationpackage.domain.util.ConvertCmsPageModel</value>
+					</property>
+				</bean>
+
+			</list>
+		</property>
+	</bean>
+
+	<!--
+		Provide and configure an URLCreator implementation 
+	 -->
+	<bean id="URLFactory" class="ystorefoundationpackage.domain.impl.URLFactoryImpl" scope="tenant">
+		<property name="configuration">
+			<list>
+				<bean class="ystorefoundationpackage.domain.impl.URLCreatorConfig">
+					<property name="id" value="file"/>
+					<property name="forClass"><value type="java.lang.Class">java.lang.String</value></property>
+					<property name="URLCreator">
+						<bean class="ystorefoundationpackage.domain.util.CreateFileURL"/>
+					</property>
+				</bean>
+				<bean class="ystorefoundationpackage.domain.impl.URLCreatorConfig">
+					<property name="id" value="order"/>
+					<property name="forClass"><value type="java.lang.Class">de.hybris.platform.core.model.order.OrderModel</value></property>
+					<property name="URLCreator">
+						<bean class="ystorefoundationpackage.domain.util.CreateModelURL">
+							<property name="target" value="pages/orderDetailPage.jsf?orderid="/>
+						</bean>
+					</property>
+				</bean>
+				<bean class="ystorefoundationpackage.domain.impl.URLCreatorConfig">
+					<property name="id" value="orderstate"/>
+					<property name="URLCreator">
+						<bean class="ystorefoundationpackage.domain.util.CreateModelURL">
+							<property name="target" value="pages/orderThankYouPage.jsf?orderid="/>
+						</bean>
+					</property>
+				</bean>
+
+				<!-- model converter url -->
+				<bean class="ystorefoundationpackage.domain.impl.URLCreatorConfig">
+					<property name="id" value="catalogModel"/>
+					<property name="forClass"><value type="java.lang.Class">de.hybris.platform.catalog.model.CatalogModel</value></property>
+					<property name="URLCreator">
+						<bean class="ystorefoundationpackage.domain.util.CreateModelURL">
+							<property name="target" value="pages/catalogPage.jsf?catalogid="/>
+						</bean>
+					</property>
+				</bean>
+				<bean class="ystorefoundationpackage.domain.impl.URLCreatorConfig">
+					<property name="id" value="categoryModel"/>
+					<property name="forClass"><value type="java.lang.Class">de.hybris.platform.category.model.CategoryModel</value></property>
+					<property name="URLCreator">
+						<bean class="ystorefoundationpackage.domain.util.CreateModelURL">
+							<property name="target" value="pages/categoryPage.jsf?categoryid="/>
+						</bean>
+					</property>
+				</bean>
+				<bean class="ystorefoundationpackage.domain.impl.URLCreatorConfig">
+					<property name="id" value="productModel"/>
+					<property name="forClass"><value type="java.lang.Class">de.hybris.platform.core.model.product.ProductModel</value></property>
+					<property name="URLCreator">
+						<bean class="ystorefoundationpackage.domain.util.CreateModelURL">
+							<property name="target" value="pages/productPage.jsf?productid="/>
+						</bean>
+					</property>
+				</bean>
+				<bean class="ystorefoundationpackage.domain.impl.URLCreatorConfig">
+					<property name="id" value="paragraphcontentModel"/>
+					<property name="forClass"><value type="java.lang.Class">de.hybris.platform.cms.model.ParagraphContentModel</value></property>
+					<property name="URLCreator">
+						<bean class="ystorefoundationpackage.domain.util.CreateModelURL">
+							<property name="target" value="pages/cmsPage.jsf?cmsid="/>
+						</bean>
+					</property>
+				</bean>
+
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="sfDefaultValues" class="ystorefoundationpackage.domain.impl.DefaultValuesImpl" scope="tenant"/>
+	<bean id="sfMailManagement" class="ystorefoundationpackage.domain.impl.MailManagementImpl" scope="tenant"/>
+	<bean id="sfProductManagement" class="ystorefoundationpackage.domain.impl.ProductManagementImpl" scope="tenant" init-method="init">
+		<property name="platformServices" ref="sfPlatformServices"/> 
+	</bean>
+	<bean id="sfContentManagement" class="ystorefoundationpackage.domain.impl.ContentManagementImpl" scope="tenant"/>
+	<bean id="sfOrderManagement" class="ystorefoundationpackage.domain.impl.OrderManagementImpl" scope="tenant"/>
+	
+	<!-- 
+		YFaces specific configuration.
+		Storefoundation specifc beans are just added.
+	-->
+	<bean id="YRequestContext" 
+		class="ystorefoundationpackage.domain.impl.SfRequestContextImpl"
+		scope="request">
+		<property name="sessionContext" ref="YSessionContext" />
+		<property name="errorHandler" ref="YFacesErrorHandler"/>
+		
+		<property name="platformServices" ref="sfPlatformServices"/>
+		<property name="mailManagement" ref="sfMailManagement"/>
+		<property name="defaultValues" ref="sfDefaultValues"/>
+		<property name="URLFactory" ref="URLFactory"/>
+		<property name="converterFactory" ref="ConverterFactory"/>
+		<property name="productManagement" ref="sfProductManagement"/>
+		<property name="contentManagement" ref="sfContentManagement"/>
+		<property name="orderManagement" ref="sfOrderManagement"/>
+	</bean> 
+
+	<bean id="YSessionContext"
+		class="ystorefoundationpackage.domain.impl.SfSessionContextImpl"
+		scope="session">
+	</bean>
+
+	<!--  
+		ErrorHandler
+	 -->
+	<bean id="YFacesErrorHandler"
+		class="org.codehaus.yfaces.util.YFacesErrorHandler"
+		scope="singleton"/>
+	
+</beans>

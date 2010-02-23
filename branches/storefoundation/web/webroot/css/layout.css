@@ -1,0 +1,237 @@
+
+/*
+ * [y] hybris Platform
+ *
+ * Copyright (c) 2000-2009 hybris AG
+ * All rights reserved.
+ *
+ * This software is the confidential and proprietary information of hybris
+ * ("Confidential Information"). You shall not disclose such Confidential
+ * Information and shall use it only in accordance with the terms of the
+ * license agreement you entered into with hybris.
+ */
+
+/* ******************************************************************************** */
+/* Define Layout : BORDERLAYOUT
+ * We use a table as floated divs aren't so powerful (e.g. vertical-align)
+ *
+ * 		NORTH
+ * WEST	CENTER EAST
+ * 		SOUTH
+/* ******************************************************************************** */
+
+div.borderLayout {
+	font-family:Arial,Helvetica,Verdana,sans-serif;
+	font-size:12px;
+	letter-spacing:0px;
+	line-height:110%;
+	margin: 10px auto;
+	padding: 0 0 5px 0;
+	border-style:none;
+	position: relative;
+	overflow: hidden;
+	width:991px;
+}
+
+/* storefoundation header */
+div.borderLayout div.north {
+	background-color:#033067;
+	background-image:url(style1/img/header.gif);
+	height:75px;
+	margin:0;
+	padding:0pt;
+	position:relative;
+	text-align:left;
+	top:0;
+}
+
+div.borderLayout div.north div.northNorth {
+	background-image:url(style1/img/ecke_oben_r.gif);
+	background-position:right top;
+	background-repeat:no-repeat;
+	color:#FFFFFF;
+	height:103px;
+	margin:0pt;
+	padding:0pt 11px 0pt 0pt;
+	text-align:right;
+}
+
+div.borderLayout div.north div.northNorth {	height:10px; }
+
+div.borderLayout div.north a {
+	color:#FFFFFF;
+	text-decoration:none;
+}
+
+div.borderLayout div.north a:hover {
+	color:#E75219;
+	text-decoration:none;
+}
+
+div.borderLayout div.north a.logo {
+	font-size: 22px;
+	line-height: 34px;
+	font-weight: normal; 
+	font-family: tahoma; 
+	color: #fff;
+	margin: 0;
+	padding: 10px 0 0 10px;
+	background-image: url(style1/img/logo.gif);
+	background-repeat: no-repeat;
+	background-color: #033067;
+	float: left;
+	height: 65px;
+	width: 350px;
+}
+
+div.borderLayout div.north ul {
+	list-style-image:none;
+	list-style-position:outside;
+	list-style-type:none;
+	margin:0pt;
+	padding:0pt;
+}
+
+div.borderLayout div.north li {
+	border:0pt none;
+	float:right;
+	line-height:22px;
+	list-style-image:none;
+	list-style-position:outside;
+	list-style-type:none;
+	margin:0pt;
+	padding:8px 0px 0pt 15px;
+	white-space:nowrap;
+}
+
+/* main navigation */
+div.borderLayout div.northSouth {
+	background-image:url(style1/img/header_bottom.gif);
+	background-repeat: repeat-x;
+	border:0pt none;
+	color:#FFFFFF;
+	height:28px;
+	letter-spacing:1px;
+	margin:0;
+	padding: 0 6px 0 10px;
+	position:relative;
+	top:0;
+	z-index:3;
+}	
+
+div.borderLayout div.northSouth div.img_west {
+	background-image:url(style1/img/reiter_l.gif);
+	border:0pt none;
+	display:inline;
+	height:100%;
+	margin:0pt;
+	overflow:hidden;
+	padding:0pt;
+	float:left;
+	width: 7px;
+}
+
+div.borderLayout div.northSouth div.img_center {
+	background-image:url(style1/img/reiter_m.gif);
+	background-repeat:repeat-x;
+	border:0pt none;
+	display:inline;
+	height:100%;
+	margin:0pt;
+	padding:0pt;
+	float:left;
+}
+
+div.borderLayout div.northSouth div.img_east {
+	background-image:url(style1/img/reiter_r.gif);
+	border:0pt none;
+	display:inline;
+	height:100%;
+	margin:0pt;
+	overflow:hidden;
+	padding:0pt;
+	width:10px;
+	float:left;
+}
+
+div.borderLayout div.northSouth ul {
+	list-style-image:none;
+	list-style-position:outside;
+	list-style-type:none;
+	margin:0pt;
+	padding:0pt;
+}
+
+div.borderLayout div.northSouth li {
+	border:0pt none;
+	float:left;
+	list-style-image:none;
+	list-style-position:outside;
+	list-style-type:none;
+	margin:0pt;
+	padding:8px 5px 0 6px;
+	white-space:nowrap;
+}
+
+div.borderLayout div.northSouth ul a {
+	color:#FFFFFF;
+	text-decoration:none;
+}
+
+div.borderLayout div.northSouth a:hover {
+	color:#E75219;
+	text-decoration:none;
+}
+
+div.borderLayout div.northSouth .mainactive a {
+	color:#E75219;
+	text-decoration:none;
+}
+
+
+/* left side-bar*/
+div.borderLayout div.west {
+	background-color:#FFFFFF;
+	float:left;
+	margin: 10px 0 10px 10px;
+	padding: 10px 5px 5px 0;
+	width: 210px;
+	overflow: hidden;
+}
+
+*html div.borderLayout div.west { margin: 10px 0 10px 5px; }
+
+/* right side-bar */
+div.borderLayout div.east {
+	background-color:#FFFFFF;
+	margin: 10px 10px 10px 0;
+	padding: 10px 0 5px 0;
+	float: right;
+	width: 210px;
+	overflow: hidden;
+}
+
+*html div.borderLayout div.east { margin: 10px 4px 10px 0; }
+
+/* main content */
+div.borderLayout div.center {
+	background-color:#FFFFFF;
+	margin: 10px 5px;
+	padding: 10px 0 5px 0;
+	overflow: hidden;
+	width: 532px;
+}
+
+*html div.borderLayout div.center { margin: 10px 225px 10px 225px; }
+
+div.borderLayout div.center div.contentTitle {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size:15px;
+	font-weight:bold;
+	padding-top:7px;
+	padding-bottom:10px;
+	float:none;
+	text-decoration:none;
+	color: #13162c;
+}
+

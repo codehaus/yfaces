@@ -1,0 +1,30 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:t="http://myfaces.apache.org/tomahawk"
+    xmlns:c="http://java.sun.com/jstl/core"
+    xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+    class="#{styleclass}">
+
+		<c:choose>
+			<c:when test="#{!empty item.bannerHTMLSrc}">
+				<h:outputText value="#{item.bannerHTMLSrc}" escape="false"/>
+			</c:when>
+			
+			<c:when test="#{!empty item.bannerMedia}">
+				<c:choose>
+				<c:when test="#{item.openInNewWindow == true}">
+					<h:outputLink value="#{item.bannerTargetURL}" styleClass="noTextDecoration" target="_blank">
+						<img src="#{item.bannerMedia.URL}"/>
+					</h:outputLink>
+				</c:when>
+				<c:otherwise>
+					<h:outputLink value="#{item.bannerTargetURL}" styleClass="noTextDecoration">
+						<img src="#{item.bannerMedia.URL}"/>
+					</h:outputLink>
+				</c:otherwise>	
+				</c:choose>
+			</c:when>
+		</c:choose>
+
+</div>

@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE faces-config PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.1//EN" "http://java.sun.com/dtd/web-facesconfig_1_1.dtd">
+<faces-config xmlns="http://java.sun.com/JSF/Configuration">
+	
+	<application>
+		<message-bundle>ystorefoundationpackage.YStoreFoundation</message-bundle>
+	</application>
+	
+	<managed-bean>
+		<managed-bean-name>flexTestBean</managed-bean-name>
+		<managed-bean-class>demo.FlexibleSearchTestJsfBean</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+
+
+	<!-- value vs. valuebinding -->
+	<managed-bean>
+		<managed-bean-name>pitBean1</managed-bean-name>
+		<managed-bean-class>demo.PitfallsBean1</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+	</managed-bean>
+
+	<!-- compiletime vs. rendertime / coretags vs. component tags-->
+	<managed-bean>
+		<managed-bean-name>pitBean2</managed-bean-name>
+		<managed-bean-class>demo.PitfallsBean2</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+	</managed-bean>
+
+	
+	<managed-bean>
+		<managed-bean-name>componentDemo1</managed-bean-name>
+		<managed-bean-class>demo.ComponentDemoBean1</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+
+	<managed-bean>
+		<managed-bean-name>componentDemo2</managed-bean-name>
+		<managed-bean-class>demo.ComponentDemoBean2</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+
+	<managed-bean>
+		<managed-bean-name>componentDemo3</managed-bean-name>
+		<managed-bean-class>demo.ComponentDemoBean3</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+
+	<managed-bean>
+		<managed-bean-name>componentDemo4</managed-bean-name>
+		<managed-bean-class>demo.ComponentDemoBean4</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+
+	<managed-bean>
+		<managed-bean-name>myDemoFrame</managed-bean-name>
+		<managed-bean-class>demo.MyDemoFrame</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+
+	
+
+</faces-config>

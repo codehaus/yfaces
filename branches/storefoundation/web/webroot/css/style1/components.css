@@ -1,0 +1,1404 @@
+/*
+ * [y] hybris Platform
+ *
+ * Copyright (c) 2000-2009 hybris AG
+ * All rights reserved.
+ *
+ * This software is the confidential and proprietary information of hybris
+ * ("Confidential Information"). You shall not disclose such Confidential
+ * Information and shall use it only in accordance with the terms of the
+ * license agreement you entered into with hybris.
+ */
+
+/*
+	Developer notes:
+	
+	Underscore Hack: CSS Attributes starting with an underscore are only interpreted by IE
+	                 (in general CSS Attributes starting with an unknown character)
+*/
+
+
+/* ************************************************ */
+/* Components.css									*/
+/* Use this file for the component styles.			*/
+/* ************************************************ */
+
+/* ************************************************ */
+/* general styles for all components				*/
+/* ************************************************ */
+
+
+/* ************************************************ */
+/* general styles for the input filed				*/
+/* ************************************************ */
+input {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size:11px;
+	color: #666;
+	border: 1px solid #b4b4b4;
+	background-color: #fff;
+	margin: 0;
+	list-style:none;
+	padding: 1px;
+}
+
+input.submitBig {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	color: #666;
+	border: 1px solid #a2a2a2;
+	background-color: #999;
+	background-image: url(img/button_back_superlightgrey.gif);
+	margin: 0 2px;
+	list-style:none;
+	padding: 2px 6px;
+}
+
+textarea {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size:11px;
+	color: #666;
+	border: 1px solid #b4b4b4;
+	background-color: #fff;
+	margin: 0;
+	list-style:none;
+	padding: 1px;
+}
+
+select {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size:11px;
+	color: #666;
+	border: 1px solid #959799;
+	background-color: #fff;
+	margin: 0;
+	list-style:none;
+	padding: 0 0 0 2px;
+}
+
+input.general {
+	font-family: Arial, Helvetica, sans-serif;
+	color: #ffffff;
+	border: 1px solid #959799;
+	background-color: #033067;
+	margin: 3px 0 0 0;
+	padding: 2px;
+}
+
+input.hidden {
+	display: none;
+}
+
+/* ************************************************ */
+/* general styles for the table						*/
+/* ************************************************ */
+table.general {
+	margin: 0px;
+	border: 1px solid #EAEAEA;
+	border-collapse: collapse;
+	width: 100%;
+	border-spacing: 0px;
+	text-decoration: none;
+	text-align: left;
+}
+
+*html table.general { width: 98%; }
+
+table.general th {
+	padding: 3px;
+	border-top: 1px solid #fff;
+	background-color: #F9F9F7;
+	background-image: url(img/productlist_top.gif);
+	background-repeat: repeat-x;
+}
+
+table.general td {
+	padding: 3px;
+	border-top: 1px solid #fff;
+	background-color: #F9F9F7;
+	background-image: url(img/productlist_back.gif);
+	background-repeat: repeat-x;
+}
+
+/* ************************************************ */
+/* general styles for the form						*/
+/* ************************************************ */
+form .actionBox {
+	background-color:#04397A;
+	background-image:url(img/button_back.gif);
+	border:1px solid #4572A8;
+	color:#FFFFFF;
+	font-family:Arial,Helvetica,sans-serif;
+	font-size:13px;
+	font-weight:bold;
+	list-style-image:none;
+	list-style-position:outside;
+	list-style-type:none;
+	margin:2px 0pt 12px;
+	padding:2px 6px;
+}
+
+form input.submitChoice {
+	width: 48px;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size:11px;
+	color: #666;
+	border: 1px solid #b4b4b4;
+	background-color: #caccce;
+	background-image: url(img/button_back_superlightgrey.gif);
+	background-repeat: repeat-x;
+	background-position: top;
+	margin: 0 2px;
+	list-style:none;
+	padding: 1px;
+}
+
+*html form input.submitChoice { padding: 0; }
+
+input.commandLink {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size:11px;
+	color: #fff;
+	color: #666;
+	border: 1px solid #b4b4b4;
+	background-color: #caccce;
+	background-image: url(img/button_back_superlightgrey.gif);
+	margin: 0 2px;
+	list-style:none;
+	padding: 1px;
+}
+
+.quickLoginCmp input { margin-right: 6px; }
+.quickLoginCmp input.commandLink { margin-right: 12px; }
+
+form input.submitSmall {
+	background-color:#CACCCE;
+	background-image:url(img/button_back_superlightgrey.gif);
+	border:1px solid #B4B4B4;
+	color:#666666;
+	font-family:Arial,Helvetica,sans-serif;
+	font-size:11px;
+	padding: 2px;
+}
+
+form a.submitSmall {
+	background-color:#CACCCE;
+	background-image:url(img/button_back_superlightgrey.gif);
+	border:1px solid #B4B4B4;
+	color:#666666;
+	font-family:Arial,Helvetica,sans-serif;
+	font-size:11px;
+	padding: 2px 4px;
+}
+
+form a:link.actionBox {
+	color: #ffffff;
+	text-decoration:none;
+}
+
+form a:visited.actionBox {
+	color: #ffffff;
+	text-decoration:none;
+}
+
+form a:hover.actionBox {
+	color: #e75219;
+	text-decoration:none;
+}
+
+form a:active.actionBox {
+	color: #ffffff;
+	text-decoration:none;
+}
+
+/* ************************************************ */
+/* general styles for the font elements				*/
+/* ************************************************ */
+.h1 {
+	font-weight: normal; 
+	font-size: 18px;
+	color: #13162c;
+	margin: 0 0 15px 0;
+	line-height: 20px;
+	display: block;
+}
+
+.h2 {
+	font-weight: bold; 
+	font-size: 14px;
+	color: #13162c;
+	margin: 0 0 4px 0;
+	display: block;
+}
+
+.h3 {
+	font-weight: bold; 
+	font-size: 12px;
+	color: #13162c;
+	margin: 3px 0 3px 0;
+	display: block;
+}
+
+/* ************************************************ */
+/* general styles for the link						*/
+/* ************************************************ */
+a.noTextDecoration {
+	text-decoration: none;
+}
+
+a:link { 
+	text-decoration: none;
+	color: #333;
+}
+
+a:visited { 
+	text-decoration: none;
+	color: #333;
+}
+
+a:hover {
+	text-decoration: none;
+	color: #e75219;
+}
+
+a:active {
+	color: #BA2E05;
+	text-decoration: none;
+}
+
+/* ************************************************ */
+/* general styles for the error messages			*/
+/* ************************************************ */
+.error {
+	color: #e75219;
+}
+
+/* ************************************************ */
+/* general styles for the content box				*/
+/* ************************************************ */
+.contentBox {
+	background-color:#F9F9F7;
+	background-image:url(img/box_top.gif);
+	background-repeat:repeat-x;
+	border:1px solid #D9D9D9;
+	margin: 0 0 6px 0;
+	padding: 8px 5px;
+}
+
+.contentBox.default {
+	height: 160px;
+	width: 230px;	
+}
+
+.contentBox h2 {
+	margin: 0;
+	font-size: 14px;
+}
+
+.contentBox.payment {
+	height: 130px;
+	width: 160px;	
+}
+
+/* ************************************************ */
+/* icon for language chooser						*/
+/* ************************************************ */
+div.icon_languageChooser {
+	display: none;
+}
+
+/* ************************************************ */
+/* general styles for the link in paragraphPage		*/
+/* ************************************************ */
+.paragraphPage a:link { text-decoration: underline; color: #666; }
+
+.textParagraphCmp a:link { text-decoration: underline; color: #666; }
+
+/* ************************************************ */
+/* pagePrintPage.xhtml								*/
+/* ************************************************ */
+div.productDetailInfo div.productDescription {
+	max-width: 300px;
+}
+
+/* ************************************************ */
+/* general styles for the link in sidebar_boxes		*/
+/* ************************************************ */
+.sidebar_boxes a:link {
+	text-decoration: none;
+}
+
+/* ************************************************ */
+/* general styles for images						*/
+/* ************************************************ */
+img {
+	border: 0;
+}
+
+img.thumbnail {
+	padding: 7px;
+}
+
+/* ************************************************ */
+/* general styles for sidebar_box					*/
+/* ************************************************ */
+div.sidebar_boxes {
+	background-image: url("img/box_top.gif");
+	background-repeat: repeat-x;
+	margin: 0 0 6px 0;
+	padding: 8px 5px;
+	border: 1px solid #EAEAEA;
+	background-color: #F9F9F7;
+	overflow: hidden;
+	height: 1%;
+}
+
+div.sidebar_boxes div.sidebar_boxes_pack {
+	margin: 0;
+	padding: 3px 0 8px 0;
+	border: 0;
+	border-bottom: 1px;
+	border-style: solid;
+	border-color: #8ea4bf;
+}
+
+div.searchCmp { margin-bottom: 8px; }
+div.chooseLanguageCmp { margin-bottom: 8px; }
+
+/* ************************************************ */
+/* for the "Copyright (c) 2000-2009 hybris AG" text				*/
+/* ************************************************ */
+div.hybrisFooter {
+	position: relative;
+	margin: 6px 0 6px 0;
+	padding: 0 5px 0 0;
+	text-align:right;
+	font-size: 10px;
+}
+
+/* ************************************************ */
+/* The first element of each component is a DIV.
+/* This DIV always has a Styleclass named after a generic pattern:
+/* <div styleClass=[componentName]Cmp>
+/*
+/* example: ShowAddressComponent starts with <div styleClass="showAddressCmp"
+/*
+/* ************************************************ */
+
+/* ************************************************ */
+/*    breadcrumbTag.xhtml                           */
+/* ************************************************ */
+div.breadcrumbCmp {
+	font-size: 10px;
+	font-weight: normal;
+}
+
+div.breadcrumbCmp ul.breadcrumbs {
+	list-style: none;
+	margin: 0px;
+	padding-left:0px;
+}
+
+div.breadcrumbCmp ul.breadcrumbs li {
+	margin-top: 3px;
+}
+
+/* ************************************************ */
+/*    cartTableTag.xhtml                            */
+/* ************************************************ */
+div.cartTableCmp ul {
+	margin: 2px 0;
+	list-style: none;
+	font-size: 11px;
+	color: #666;
+	padding-left: 0;
+}
+
+table.cartPageAdd {
+	margin-top: 10px;
+}
+
+table.cartPageAdd td {
+	vertical-align: top;
+	padding: 0 0 10px 0;
+}
+
+table.cartPageAdd td td { padding-bottom: 0; }
+
+table.cartPageAdd .loginCmp {
+	margin-top: 6px;
+}
+
+#sslCheckBox { border: 0; }
+
+table.cartPageAdd .loginCmp table {
+	margin-bottom: 0;
+}
+
+table.cartPageAdd .loginCmp td {
+	vertical-align: middle;
+}
+
+table.cartPageAdd .loginCmp td input {
+	margin: 2px 1px;
+}
+
+.forgotPasswordLoginLink {
+	font-size: 11px;
+	color: #666;
+	display: block;
+	margin-bottom: 18px;
+}
+
+.userDataLink {
+	font-size: 11px;
+	color: #666;
+	display: block;
+	margin-top: 12px;
+}
+
+.demoLoginLink {
+	font-size: 11px;
+	color: #666;
+	display: block;
+	margin-bottom: 12px;
+}
+
+.registrationLink {
+	background-color: #CACCCE;
+	background-image: url(img/button_back_superlightgrey.gif);
+	border: 1px solid #B4B4B4;
+	color: #666666;
+	font-family: Arial,Helvetica,sans-serif;
+	font-size: 11px;
+	padding: 2px 4px;
+}
+
+.registrationLink { width: 40px; display: block; }
+
+table.cartPageAdd .checkoutButton {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 13px;
+	font-weight: bold;
+	color: #fff;
+	border: 1px solid #4572a8;
+	background-color: #04397a;
+	background-image: url(img/button_back.gif);
+	margin: 2px 0 12px 0;
+	display: block;
+	list-style:none;
+	padding: 2px 6px;
+}
+
+div.quickAddToCartCmp table.block {
+	background-color: #F9F9F7;
+	background-image: url(img/box_top.gif);
+	background-repeat: repeat-x;
+	padding: 8px 5px;
+	border: 1px solid #EAEAEA;
+	width: 285px;
+	margin-right: 24px;
+}
+
+/* ************************************************ */
+/*    chooseCatalogTag.xhtml                        */
+/* ************************************************ */
+div.chooseCatalogCmp {
+	width: 70%;
+	height: 28px;
+	float:left;
+}
+
+/* IE6 needs a width **/
+div.chooseCatalogCmp .catalog {
+	height: 100%;
+	_width:1px;
+}
+
+div.chooseCatalogCmp .mainactive a {
+	color: #1246C8; 
+	text-decoration: none; 
+}
+
+div.chooseCatalogCmp .inactive a {
+	color: #fff; 
+	text-decoration: none; 
+}
+
+/* ************************************************ */
+/*    chooseCurrencyTag.xhtml                       */
+/* ************************************************ */
+div.chooseCurrencyCmp select.selectCurrency {
+	width: 138px;
+}
+
+div.chooseCurrencyCmp div.icon_currencyChooser {
+	display: none;
+}
+
+/* ************************************************ */
+/*    chooseLanguageTag.xhtml                       */
+/* ************************************************ */
+div.chooseLanguageCmp select.selectLanguage {
+	width: 138px;
+}
+
+
+/* ************************************************ */
+/*    chooseVariantsTag.xhtml                       */
+/* ************************************************ */
+div.chooseVariantsCmp td.description {
+	width: 50px;
+}
+
+div.chooseVariantsCmp table.leftBlank {
+	margin-left: 50px;
+}
+
+div.chooseVariantsCmp table.block {
+}
+
+/* ************************************************ */
+/* compareProductsTag.xhtml							*/
+/* ************************************************ */
+div.compareProductsCmp table.compareTable {
+	background-image: url("img/box_top.gif");
+	background-repeat: repeat-x;
+	margin: 30px 30px 30px 30px;
+	border: 1px;
+	border-style: solid;
+	border-color: #8ea4bf;
+	border-collapse: collapse;
+	text-align: center;
+}
+
+div.compareProductsCmp table th.compareHeader {
+	background-color: #ffffff;
+	color: black;
+	border-right-style: solid;
+	border-right-color: #8ea4bf;
+	border-right-width: 1px;
+	font-weight: bold;
+}
+
+div.compareProductsCmp table tr.compareValue_even td {
+	border-right-style: solid;
+	border-right-color: #8ea4bf;
+	border-right-width: 1px;
+	background-color: none;
+}
+
+div.compareProductsCmp table tr.compareValue_odd td {
+	border-right-style: solid;
+	border-right-color: #8ea4bf;
+	border-right-width: 1px;
+	color: #ffffff;
+	background-color: #8ea4bf; 
+}
+
+/* ************************************************ */
+/*    featureValuesSelectorTag.xhtml                 */
+/* ************************************************ */
+div.featureValuesSelectorCmp {
+	padding: 5px;
+	margin-bottom: 10px;
+	border-bottom: 1px dotted #999;
+}
+
+div.featureValuesSelectorCmp table {
+	width: 95%;
+}
+
+div.featureValuesSelectorCmp td {
+	padding-right: 25px;
+	white-space: nowrap;
+}
+
+div.featureValuesSelectorCmp .label {
+	display: block;
+	width: 64%;
+	float: left;
+}
+
+div.featureValuesSelectorCmp .selector {
+	width: 34%;
+}
+
+div.featureValuesSelectorCmp .label.disabled {
+	color: #cccccc;
+}
+
+div.featureValuesSelectorCmp .buttons input {
+	margin: 4px 10px 0 0;
+}
+
+
+/* ************************************************ */
+/*    createCustomerReviewTag.xhtml                    */
+/* ************************************************ */
+div.createCustomerReviewCmp form input.submitBig {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	color: #fff;
+	border: 1px solid #4572a8;
+	background-color: #04397a;
+	background-image: url(img/button_back.gif);
+	margin: 0 2px;
+	list-style:none;
+	padding: 2px 6px;
+}
+
+.customerReviewComment { font-size: 11px; padding-bottom: 16px; display: block; }
+.customerReviewHeadline { font-weight: bold; }
+.customerReviewMeta { font-size: 11px; color: #666; }
+
+/* ************************************************ */
+/*    listAddressTag.xhtml                          */
+/* ************************************************ */
+div.listAddressCmp {
+}
+
+div.listAddressCmp .createAddressBlock {
+	clear: left;
+	padding: 10px 0;
+}
+
+div.listAddressCmp .createAddressBlock a {
+	font-weight: bold;
+	color: #E75219;
+}
+
+div.listAddressCmp div.showAddressCmp {
+	float: left;
+	margin-right: 6px;
+}
+
+/* ************************************************ */
+/*    listCategoryTag.xhtml                         */
+/* ************************************************ */
+div.listCategoryCmp {
+	overflow: hidden;
+	margin-bottom: 24px;
+	_height: 1%;
+}
+
+div.listCategoryCmp div.showCategoryCmp { float: left; }
+
+div.listCategoryCmp div.showCategoryCmp td { vertical-align: top; }
+
+/* ************************************************ */
+/*    listPaymentInfoTag.xhtml                          */
+/* ************************************************ */
+div.listPaymentInfoCmp {
+	overflow: hidden;
+	_height: 1%;
+}
+
+div.createPaymentInfoBlock { 
+	margin: 12px 0;
+}
+
+div.createPaymentInfoBlock a { 
+	margin: 12px 0;
+	font-weight: bold;
+	color: #E75219;
+}
+
+div.setPaymentModeCmp a { 
+	font-weight: bold;
+	color: #E75219;
+}
+
+div.listPaymentInfoCmp div.showPaymentInfoCmp {
+	float: left;
+	margin: 0 8px 8px 0;
+}
+
+div.listPaymentInfoCmp div.showPaymentInfoCmp a {
+	color: #E75219;
+}
+
+/* ************************************************ */
+/* loginTag.xhtml									*/
+/* ************************************************ */
+div.loginCmp input.login {
+	width: 9em;
+}
+
+/* ************************************************ */
+/* navigationElementsTag.xhtml							 */
+/* ************************************************ */
+
+/*this is for 'meta' navigation only */
+div.navigationElementsCmp.meta{
+	float:right;
+}
+
+
+
+
+/* ************************************************ */
+/*    orderTableTag.xhtml                           */
+/* ************************************************ */
+div.orderTableCmp {
+	padding-bottom: 10px;
+	overflow: hidden;
+	_height: 1%;
+}
+
+div.orderTableCmp table.orderTable {
+	border: 1px solid #EAEAEA;
+	border-collapse: collapse;
+	width: 100%;
+}
+
+div.orderTableCmp table.orderTable th {
+	background-color:#F9F9F7;
+	background-image:url(img/productlist_top.gif);
+	background-repeat:repeat-x;
+	border-top:1px solid #FFFFFF;
+	padding: 3px;
+}
+
+div.orderTableCmp table.orderTable .header {
+	text-align:left;
+}
+
+div.orderTableCmp table.orderTable td {
+	background-color:#F9F9F7;
+	background-image:url(img/productlist_back.gif);
+	background-repeat:repeat-x;
+	border-top:1px solid #FFFFFF;
+	padding:3px;
+	font-size: 11px;
+}
+
+div.orderTableCmp table.orderTable td.orderTablePrice {
+	white-space: nowrap;
+}
+
+div.orderTableCmp table.orderTable td.orderTableTotalPrice {
+	white-space: nowrap;
+	font-weight: bold;
+}
+
+div.orderTableCmp table.footerTable {
+	width: 100%;
+	border: 1px solid #EAEAEA;
+	border-top: 2px solid #EAEAEA;	
+	border-collapse: collapse;
+	margin-bottom: 4px
+}
+
+div.orderTableCmp table.footerTable td {
+	background-color:#F9F9F7;
+	background-image:url(img/productlist_back.gif);
+	background-repeat:repeat-x;
+	border-top: 1px solid #FFFFFF;
+	padding:3px;
+}
+
+div.orderTableCmp table.footerTable .left {
+	text-align: left;
+}
+
+div.orderTableCmp table.footerTable .right {
+	text-align: right;
+}
+
+div.orderTableCmp table.footerTable .footerTotalLeft{
+	font-weight: bold;
+}
+
+div.orderTableCmp table.footerTable .footerTotalRight{
+	font-weight: bold;
+}
+
+.orderTableCmpTaxes {
+	font-size: 11px;
+	color: #666;
+	display: block;
+	margin-bottom: 24px;
+}
+
+.summaryPageTable td {
+	vertical-align: top;
+	width: 265px;
+}
+
+.summaryPageTable td td {
+	width: 100%;
+}
+
+.summaryPageTable .contentBox a {
+	background-color:#FFFFFF;
+	background-image:url(img/textinput_back.gif);
+	border:1px solid #B4B4B4;
+	color:#E75219;
+	font-family:Arial,Helvetica,sans-serif;
+	font-size:11px;
+	list-style-image:none;
+	list-style-position:outside;
+	list-style-type:none;
+	margin:0pt;
+	padding: 2px 4px;
+}
+
+.contentBox .contentBoxBottomRight {
+	vertical-align: bottom;
+	text-align: right;
+	padding: 1px 0;
+}
+
+*html .contentBox .contentBoxBottomRight { padding: 4px 0; }
+*+html .contentBox .contentBoxBottomRight { padding: 4px 0; }
+
+.contentBox input {
+	color:#E75219;
+}
+
+.contentBox .contentBoxBottomLeft {
+	vertical-align: bottom;
+	text-align: left;
+}
+
+/* ************************************************ */
+/*    productQuickViewTag.xhtml                   	*/
+/* ************************************************ */
+div.productQuickViewCmp  {
+	width: 100%;
+	text-align: center;
+}
+
+div.productQuickViewCmp a { cursor: pointer !important; overflow: hidden; height: 1%; }
+
+/* ************************************************ */
+/*    productDetailTag.xhtml                        */
+/* ************************************************ */
+div.productDetailCmp { margin-top: 12px; }
+
+div.productDetailCmp td { vertical-align: top; }
+
+div.productDetailCmp td.left div.productPicture { 
+	background-color: #FFFFFF; 
+	border: 1px solid #EAEAEA; 
+	margin: 0 5px 0 0; 
+	padding: 3px 2px; 
+	width: 240px; 
+	overflow: hidden;
+	text-align: center;
+}
+
+div.productDetailCmp div.productDescription {
+	width: 278px;
+	background-color: #F9F9F7;
+	background-image: url(img/box_top.gif);
+	background-repeat: no-repeat;
+	padding: 4px 4px 8px 4px;
+	border: 1px solid #EAEAEA;
+	overflow: hidden;
+}
+
+*html div.productDetailCmp div.productDescription { width: 273px; height: 1%; }
+
+div.productDetailCmp div.productDescription .productNumber {
+	font-weight: bold;
+	font-size: 11px;
+	color: #666;
+}
+
+div.productDetailCmp div.productDescription .productCode {
+	font-size: 11px;
+	color: #666;
+}
+
+div.productDetailCmp div.productDescription .productName {
+	font-weight: bold;
+	font-size: 14px;
+	display: block;
+	margin-bottom: 6px;
+}
+
+div.productDetailCmp table.features {
+	margin:0px;
+	padding:0px;
+	border:0px;
+	border-collapse: collapse;
+}
+
+div.productDetailCmp table.features td.featureDescription {
+	font-weight: bold;
+}
+
+div.productDetailCmp table.features td.featureValue {
+	padding-left:5px;
+}
+
+div.productDetailCmp div.productFeatures {
+	margin: 10px 0;
+	padding-left: 3px;
+}
+
+div.productDetailCmp div.productFeatures table.classification td.classificationDesc {
+	font-weight: bold;
+}
+
+div.productDetailCmp form.addToCart {
+	text-align: left;
+}
+
+div.productDetailCmp div.price div.priceCmp { margin: 12px 0; font-size: 16px; }
+
+div.productDetailCmp div.price div.priceCmp .priceCmpTaxes { 
+	font-weight: normal; 
+	font-size: 11px;
+	color: #666;
+	margin-top: 2px;
+}
+
+div.productDetailCmp div.price div.priceCmp table.general { margin: 6px 0; }
+div.productDetailCmp div.price div.priceCmp table.general th { font-size: 11px; }
+div.productDetailCmp div.price div.priceCmp table.general td { font-size: 11px; }
+
+div.productDetailCmp div.price div.priceCmp table.general td.quantity { width: 50px; font-size: 11px; font-weight: normal; }
+
+div.productDetailCmp div.price div.priceCmp table.general td.price { width: 60px; font-size: 11px; }
+
+.quantityInCartMsg {
+	font-weight: bold;
+	color: #E75219;
+	display: block;
+	margin-bottom: 10px;
+}
+
+div.productDetailCmp form input.submitBig {
+	background-color: #CACCCE;
+	background-image: url(img/button_back_superlightgrey.gif);
+	border: 1px solid #B4B4B4;
+	color: #666666;
+	font-family: Arial,Helvetica,sans-serif;
+	font-size: 11px;
+	margin: 0 0 6px 0;
+	padding: 1px;
+	display: block;
+	cursor: pointer;
+}
+
+div.productDetailCmp form input.submitBig.addToCartButton {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	font-weight: bold;
+	color: #fff;
+	border: 1px solid #4572a8;
+	background-color: #04397a;
+	background-image: url(img/button_back.gif);
+	background-repeat: repeat-x;
+	margin: 10px 0;
+	padding: 2px 6px;
+	cursor: pointer;
+}
+
+div.productDetailCmp .printPageLink {
+	background-color: #CACCCE;
+	background-image: url(img/button_back_superlightgrey.gif);
+	border: 1px solid #B4B4B4;
+	color: #666666;
+	font-family: Arial,Helvetica,sans-serif;
+	font-size: 11px;
+	padding: 2px 4px;
+}
+
+div.productDetailCmp a:hover.printPageLink { color: #666666; }
+
+div.productDetailCmp .variantProducts { margin: 10px 0; }
+
+div.productDetailCmp .variantProducts .general td { font-size: 11px; padding: 1px 3px; }
+
+div.productDetailCmp .variantProducts .general td .priceCmp { font-size: 11px; margin-top: 0px; }
+
+div.productDetailCmp .variantProducts .general th.price { text-align: right; }
+
+.refreshVariantProducts { margin: 2px 0 16px 0; }
+
+.refreshVariantProducts input.submitSmall { padding: 0 1px; }
+
+.refreshVariantProducts .toggleVariantProducts { font-size: 10px; padding-left: 4px; }
+
+/* ************************************************ */
+/*    priceTag.xhtml                                */
+/* ************************************************ */
+div.priceCmp {
+	font-weight: bold;
+	color: #223e5f;
+	font-size: 13px;
+	margin-top: 4px;
+}
+
+.oldPrice {
+	text-decoration: line-through;
+	font-size: 12px;
+	color: #e75219;
+	font-weight: normal;
+}
+
+.oldPriceMsg {
+	font-size: 12px;
+	color: #333;
+	font-weight: normal;
+}
+
+/* ************************************************ */
+/*    productReferencesTag.xhtml                    */
+/* ************************************************ */
+div.productReferencesCmp {
+	background-color: #F9F9F7;
+	background-image: url(img/box_top.gif);
+	background-repeat: no-repeat;
+	border: 1px solid #EAEAEA;
+	padding: 4px;
+}
+
+div.productReferencesCmp .headline {
+	font-size: 13px;
+	font-weight: bold;
+	margin: 4px 0;
+}
+
+div.productReferencesCmp .groupHeadline {
+	display: block;
+	margin-top: 5px;
+	font-weight: bold;
+}
+
+div.productReferencesCmp table {
+	width: 100%;
+	border-style: none;
+}
+
+div.productReferencesCmp div.crossells table td {
+	background-color: #F9F9F7;
+	background-image: url(img/productlist_back.gif);
+	background-repeat: repeat-x;
+	border-top: 1px solid #FFFFFF;
+	padding: 3px 0;
+}
+div.productReferencesCmp table td.selection{
+	width: 30px;
+}
+
+div.productReferencesCmp table td.productId {
+	width: 20%;
+}
+
+div.productReferencesCmp table td.price {
+	width: 20%;
+	text-align: right;
+}
+
+div.productReferencesCmp table td.thumbnail {
+	width: 10%; 
+}
+
+div.productReferencesCmp table td.thumbnail img{
+	height: 30px;
+}
+
+/* ************************************************ */
+/* productTableTag.xhtml					             */
+/* ************************************************ */
+div.productTableCmp td.name span.productCode {
+	font-size: smaller;
+	white-space: nowrap;
+}
+
+div.productTableCmp a.compareLink {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	color: #fff;
+	border: 1px solid #4572a8;
+	background-color: #04397a;
+	background-image: url(img/button_back.gif);
+	margin: 0 2px;
+	list-style:none;
+	padding: 2px 6px;
+}
+
+div.productTableCmp table.general th {
+	font-size: 11px;
+}
+
+div.productTableCmp table.datascroller {
+	float: right;
+	margin: 8px 0 12px 12px;
+	font-size: 14px;
+}
+
+div.productTableCmp table.datascroller td { padding: 0 2px; }
+
+div.productTableCmp .datascrollerCounts {
+	float: right;
+	margin: 12px 0 12px 12px;
+}
+
+div.productTableCmp table.general .quantity {
+	width: 50px;
+}
+
+div.productTableCmp table.general th.price {
+	text-align: right;
+}
+
+div.productTableCmp table.general td.price {
+	text-align: right;
+	white-space: nowrap;
+}
+
+table.general.productlist th { padding: 6px 3px; }
+
+table.general.productlist td { vertical-align: top; padding: 2px; }
+
+table.general.productlist .thumbsImg { 
+	background-color: #FFFFFF;
+	border: 1px solid #EAEAEA;
+	margin: 0 2px 18px 4px;
+	padding: 4px;
+}
+
+table.general.productlist .thumbs { padding-left: 0; }
+table.general.productlist .price { padding-right: 3px; padding-left: 8px; }
+table.general.productlist .selection { width: 22px; text-align: center; }
+table.general.productlist .selection_header { background-image: url(img/arrow_back_down.gif); background-repeat: no-repeat; background-position: 9px 7px; background-color: #eeeeeb; }
+table.general.productlist .selection input { border: 0; background-color: transparent; background-image: none; }
+
+/* ************************************************ */
+/* quickLoginTag.xhtml								*/
+/* ************************************************ */
+div.quickLoginCmp input.login {
+	width: 5em;
+}
+
+/* ************************************************ */
+/* quickSearchTag.xhtml								*/
+/* ************************************************ */
+div.searchCmp input.search {
+	width: 138px;
+}
+
+div.searchCmp div.icon_search {
+	display: none;
+}
+
+/* ************************************************ */
+/*    quickViewCartTag.xhtml                        */
+/* ************************************************ */
+div.quickViewCartCmp a {
+	display: block;
+}
+
+div.borderLayout div.north a.cartNav {
+	text-transform: uppercase;
+	font-size: 12px;
+	font-weight: bold;
+	color: #e75219;
+}
+
+/* ************************************************ */
+/* registrationTag.xhtml							*/
+/* ************************************************ */
+div.registrationCmp table.registration {
+	width: 90%;
+}
+
+div.registrationCmp table.registration td.firstColumn {
+	width: 120px;
+}
+
+div.registrationCmp table.registration td.secondColumn {
+}
+
+/* ************************************************ */
+/* selectDeliveryModeTag.xhtml                      */
+/* ************************************************ */
+div.selectDeliveryModeCmp input.selectMode {
+	border: 0px;
+	background-color: transparent;
+	background-image: none;
+}
+
+div.selectDeliveryModeCmp form .disabledOption {
+	color: #AAAAAA;
+}
+
+
+/* ************************************************ */
+/*    showAddressTag.xhtml                          */
+/* ************************************************ */
+div.showAddressCmp a.commandLink {
+	margin-right: 4px;
+	color: #E75219;
+}
+
+/* ************************************************ */
+/*    showCategoryTag.xhtml                         */
+/* ************************************************ */
+div.showCategoryCmp {
+	width: 261px;
+	margin: 0;
+	background-color:#F9F9F7;
+	background-image: none;
+	background-repeat:repeat-x;
+	border: 0px solid #EAEAEA;
+	padding: 4px;
+}
+
+div.showCategoryCmp { width: 258px; }
+
+div.showCategoryCmp table td .thumbnail {
+	float: left;
+	background-color: #FFFFFF;
+	border: 1px solid #EAEAEA;
+	height: 125px;
+	padding: 2px;
+}
+
+div.showCategoryCmp table td .text {
+	display: block;
+}
+
+div.showCategoryCmp a.headline {
+	display: block;
+	font-weight: bold;
+	padding-bottom: 5px;
+}
+
+div.sidebar_boxes .boxHeadline { font-size: 12px; font-weight: bold; }
+div.sidebar_boxes .headline { font-size: 12px; font-weight: bold; }
+
+/* ************************************************ */
+/*    showHistoryTag.xhtml                          */
+/* ************************************************ */
+div.showHistoryCmp {
+	font-size: 11px;
+	list-style-type: circle;
+}
+div.showHistoryCmp .headline {
+	font-size: 12px;
+	font-weight: bold;
+}
+
+/* ************************************************ */
+/*    showPaymentInfoTag.xhtml                      */
+/* ************************************************ */
+div.showPaymentInfoCmp a.commandLink {
+	padding: 2px;
+}
+
+/* ************************************************ */
+/* showVariantProductsTag.xhtml						*/
+/* ************************************************ */
+div.showVariantProductsCmp table.general.productlist th.price {
+	text-align: right;
+}
+
+div.showVariantProductsCmp table.general td.price {
+	text-align: right;
+}
+
+/* ************************************************ */
+/* tellAFriendTag.xhtml								*/
+/* ************************************************ */
+div.tellAFriendCmp div.info {
+	padding-top: 5px;
+	padding-bottom: 10px;
+}
+
+div.tellAFriendCmp div.info span.productName {
+	padding-left: 5px;
+	font-weight: bold;
+	font-size: 15px;
+}
+
+
+/* ************************************************ */
+/*    userMessagesTag.xhtml                         */
+/* ************************************************ */
+div.userMessagesCmp {
+	background-color: #eee;
+	border: 1px solid #999;
+	padding: 4px;
+	margin: 10px 0;
+	color: #494949;
+}
+
+div.userMessagesCmp a {
+	color: #E75219;
+	text-decoration: underline;
+}
+
+/* ************************************************ */
+/* listWishListTag.xhtml							*/
+/* ************************************************ */
+div.listWishListCmp span.allWishLists {
+	font-weight: bold;
+}
+
+div.listWishListCmp div.wishListName {
+	width: 180px;
+}
+
+.allWishLists { display: none; }
+
+/* ************************************************ */
+/* showWishListTag.xhtml							*/
+/* ************************************************ */
+div.showWishListCmp span.wishListName {
+	font-weight: bold;
+}
+
+/* ************************************************ */
+/* editWishListTag.xhtml							*/
+/* ************************************************ */
+div.editWishListCmp span.normal {
+	font-weight: bold;
+}
+
+/* ************************************************ */
+/* showWishListEntryTag.xhtml						*/
+/* ************************************************ */
+div.showWishListEntryCmp .productQuickView {
+	width: 200px;
+}
+
+/* ************************************************ */
+/* voucherTag.xhtml									*/
+/* ************************************************ */
+div.voucherCmp div.voucherList {
+	width: 90%;
+}
+
+div.voucherCmp div.voucherList tr.eachVoucher td {
+	line-height: 150%;
+}
+
+/* ************************************************ */
+/* adBannerTag.xhtml							*/
+/* ************************************************ */
+.adBannerCmp img, .adBannerCmp embed, .adBannerCmp object { margin-bottom: 7px; }
+
+/* ************************************************ */
+/* productQuickView.xhtml							*/
+/* ************************************************ */
+.productsQuickViewCmp td { vertical-align: top; }
+
+.productQuickViewCmpImg { 
+	border: 1px solid #EAEAEA;
+	padding: 4px 0;
+	background-color: #fff;
+	margin: 4px 0;
+	/*height: 150px;*/
+	vertical-align: 50%;
+}
+
+.productQuickViewCmpImg img { 
+	vertical-align: 50%;
+}

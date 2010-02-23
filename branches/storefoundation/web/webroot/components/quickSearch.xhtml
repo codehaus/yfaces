@@ -1,0 +1,54 @@
+<!DOCTYPE subview [<!ENTITY nbsp "&#160;">]>
+
+<!--
+Search Component.
+Displays search box and performs lucene or flexible search
+Resulting ListDataModel is injected into specified attribute
+
+Either the controller provides an address or an address must be passed.
+
+Parameters:
+	controller					: SearchController (optional)
+	model						: SearchModel (optional)
+	
+-->
+
+<ui:composition
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:yf="http://yfaces.codehaus.org/taglib"
+	>
+		<yf:component
+			id="searchCmp"
+			
+			modelspec="ystorefoundationpackage.yfaces.component.search.QuickSearchComponent"
+			model="ystorefoundationpackage.yfaces.component.search.DefaultQuickSearchComponent" 
+			var="quickSearchCmpVar"
+			>      
+
+			<t:div styleClass="searchCmp">
+			
+				<h:form id="searchForm">
+					<div class="icon_search"><img src="/images/transp.gif" width="12px" height="12px"/></div>
+					<h:outputText value="#{msg['components.searchCmp.search']}"  />:<br/>
+					<div class="right">
+						
+						<!--  hidden input field to enable ENTER button for the search in IE -->
+						<h:inputText styleClass="hidden"/>
+			
+						<h:inputText styleClass="search" id="searchTerm" value="#{quickSearchCmpVar.searchTerm}" />&#x00A0;
+						<h:commandButton id="searchCommand"
+							value="#{msg['components.searchCmp.search']}" 
+							styleClass="submitChoice" 
+							action="#{quickSearchCmpVar.searchEvent.action}" 
+							actionListener="#{quickSearchCmpVar.searchEvent.actionListener}" />
+					</div>
+				</h:form>
+			</t:div>
+
+		</yf:component>
+	
+</ui:composition>

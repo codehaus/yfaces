@@ -1,0 +1,153 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" [<!ENTITY nbsp "&#160;">]>
+
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:yf="http://yfaces.codehaus.org/taglib"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:sf="http://hybris.com/jsf/storefoundation"	
+	>
+
+	<yf:component
+		id="productTableCmp"
+		
+		modelspec="ystorefoundationpackage.yfaces.component.product.ProductTableComponent"
+		model="ystorefoundationpackage.yfaces.component.product.DefaultProductTableComponent"
+
+		var="productTableCmpVar"
+		
+		passToModel="
+			productList,
+			visibleRowCount,
+			priceColumnEnabled,
+			classificationColumnEnabled,
+			selectColumnEnabled"
+		>	
+
+		<t:div styleClass="productTableCmp">
+
+			<ui:param name="tableModel" value="#{productTableCmpVar.tableModel}"/>
+
+			<h:outputText value="#{msg['components.productTableCmp.nothingToDisplayKey']}" rendered="#{tableModel.columnCount == 0}"/>
+
+			<h:form id="form" rendered="#{tableModel.columnCount > 0}">
+				<t:dataTable
+					id="dataTable" 
+					value="#{tableModel.rows}"
+					var="row"
+					rows="#{productTableCmpVar.visibleRowCount}" 
+					
+					preserveSort="false"
+					sortAscending="#{productTableCmpVar.sortAscending}"
+					sortColumn="#{productTableCmpVar.sortColumn}"
+					styleClass="general productlist">
+
+					<!-- score column -->
+					<t:column rendered="#{tableModel.XAxis.markerIdMap['score'] != null}">
+						<f:facet name="header">
+							<t:commandSortHeader 
+								columnName="score"
+								propertyName="_dummy"
+								value="#{msg['components.productTableCmp.score']}" 
+								arrow="true"
+								action="#{productTableCmpVar.sortEvent.action}" 
+								actionListener="#{productTableCmpVar.sortEvent.actionListener}"/>
+						</f:facet>
+						<h:outputText value="#{row['score'].value}"/>
+					</t:column>
+
+					<!-- checkbox column -->
+					<t:column styleClass="selection" rendered="#{productTableCmpVar.selectColumnEnabled}" headerstyleClass="selection_header">
+						<f:facet name="header">
+						&nbsp;
+						</f:facet>
+						<h:selectBooleanCheckbox id="checkbox" value="#{row['select'].value}"/>
+					</t:column>
+
+					<!-- thumbnail column -->
+					<t:column headerstyleClass="thumbs">
+						<f:facet name="header">
+							<h:commandLink 
+								id="compareLink"
+								rendered="#{productTableCmpVar.compareEvent.enabled}"
+								value="#{msg['components.productTableCmp.compare']}" 
+								action="#{productTableCmpVar.compareEvent.action}" 
+								actionListener="#{productTableCmpVar.compareEvent.actionListener}"
+								styleClass="compareLink" 
+								onclick="window.open('', 'Compare', 'width=800,height=600,left=50,top=50, scrollbars=yes, resizable=yes')"
+								target="Compare"/>
+						</f:facet>
+						<ui:param name="value" value="#{row['products'].value}"/>
+				   		<sf:outputLink id="productLink" value="#{value}" title="#{value.name}" rendered="#{value.thumbnail.url != null}">
+				   			<sf:cmsItem item="#{value}">
+				   				<sf:graphicImage value="#{value.thumbnail.url}"/>
+				   			</sf:cmsItem>
+				   		</sf:outputLink>
+					</t:column>
+
+					<!-- name/code column -->
+					<t:column headerstyleClass="name" styleClass="name">
+						<f:facet name="header">
+							<t:commandSortHeader 
+								columnName="name"
+								propertyName="_dummy" 
+								value="#{msg['components.productTableCmp.name']}" 
+								arrow="true" 
+								action="#{productTableCmpVar.sortEvent.action}" 
+								actionListener="#{productTableCmpVar.sortEvent.actionListener}"/>
+						</f:facet>
+					
+				   	<sf:outputLink id="productDetailLink" value="#{value}">
+				   		#{value.name}&nbsp;
+				   	</sf:outputLink>
+				   	<h:outputText value="(#{value.code})" styleClass="productCode"/>
+					</t:column>
+
+					<!-- feature columns -->
+					<t:columns value="#{tableModel.XAxis.markerGroupMap['features']}" rendered="#{tableModel.XAxis.markerGroupMap['features'] != null}" var="featureColumn">
+						<ui:param name="value" value="#{row[featureColumn].value}"/>
+						<f:facet name="header">
+							#{featureColumn.title}
+						</f:facet>
+						#{value}
+					</t:columns>
+
+					<!-- price column -->
+					<t:column headerstyleClass="price" styleClass="price">
+						<ui:param name="value" value="#{row['price'].value}"/>
+						<f:facet name="header">
+							<t:commandSortHeader 
+								columnName="price" 
+								propertyName="_dummy"
+								value="#{msg['frames.productFrame.price']}" 
+								arrow="true"
+								action="#{productTableCmpVar.sortEvent.action}" 
+								actionListener="#{productTableCmpVar.sortEvent.actionListener}"							
+								/>
+						</f:facet>
+						
+						<yf:price
+							product="#{row['price'].value}" 
+							priceMsgFormat="#{row['price'].value.code != row['products'].value.code ? msg['global.word.priceStartsFrom'] : ''} "
+							showOldPrice="true" 
+							showTaxes="false"
+							showPriceTable="false"/>
+
+					</t:column>
+
+				</t:dataTable>
+
+				<ui:include src="includes/datascroller.xhtml" >
+					<ui:param name="uiData" value="dataTable"/>
+				</ui:include>
+
+			</h:form>
+
+		</t:div>
+	</yf:component>
+
+</ui:composition>

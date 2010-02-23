@@ -1,0 +1,33 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" [<!ENTITY nbsp "&#160;">]>
+
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:yf="http://yfaces.codehaus.org/taglib"
+	template="demoLayout.xhtml">
+
+	<ui:define name="title">
+		This page demonstrates:<br/>
+		- Using complex components multiple times with different paramaters
+		- example component: FeatureValueSelectorComponent
+	</ui:define>
+	
+	<ui:define name="content">
+	
+			<h:outputText value="FVSCmp initialized with a Category (Photography)" styleClass="h1"/>
+			Collect all FeatureValues from all Products within the given Category.<br/>
+			<br/>
+<yf:featureValuesSelector classAttributeAssignments="#{componentDemo2.demoClassAttributeAssignments}"/>
+	</ui:define>
+	
+	<ui:define name="summary">
+		<ul>
+		<li>Components can't be ManagedBeans as this would disallow multiple component instances.</li>
+		<li>Components have input and output parameters;<br/>FVSCmp can have several inputs and has one output: filteredProductList</li>
+		</ul>
+	</ui:define>
+</ui:composition>

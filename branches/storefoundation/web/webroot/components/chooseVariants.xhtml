@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" [<!ENTITY nbsp "&#160;">]>
+
+<!-- 
+choose variants component: 
+choose a variant from all variants of a product, or display the list of all variants
+-->
+
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:yf="http://yfaces.codehaus.org/taglib" >
+
+	<yf:component
+		modelspec="ystorefoundationpackage.yfaces.component.product.ChooseVariantsComponent"
+		model="ystorefoundationpackage.yfaces.component.product.DefaultChooseVariantsComponent"
+		
+		var="chooseVariantsCmpVar"
+		
+		passToModel="product"
+		>
+
+		<ui:param name="currentProduct" value="#{chooseVariantsCmpVar.product}"/>
+		<t:div styleClass="chooseVariantsCmp">
+
+		<script language="javascript">
+			function toggleVariantProducts() 
+			{
+			    if( document.getElementById("variantProducts").style.display == 'none' )
+			    	document.getElementById("variantProducts").style.display = '';
+			    else
+				    document.getElementById("variantProducts").style.display = 'none';
+			}
+		</script>
+
+
+			<h:form id="chooseVariantsForm" enctype="multipart/form-data" acceptcharset="utf-8">
+				<h:panelGrid columns="1" styleClass="block" width="250px">
+					<t:dataList id="datalist_easy" value="#{chooseVariantsCmpVar.attributesSelectorList}" var="entry" rowIndexVar="counter">
+						<h:panelGrid columns="2" columnClasses="description, ">
+							<t:div>
+								<h:outputText value="#{entry.label}" width="150px"/>
+							</t:div>
+							<h:selectOneMenu id="selectVariantAttribute_easy" required="true" value="#{entry.selectedValue}">
+								<f:selectItems value="#{entry.selectItems}" />
+							</h:selectOneMenu>
+						</h:panelGrid>
+					</t:dataList>
+					
+					<t:div styleClass="leftBlank refreshVariantProducts">
+						<h:commandButton id="selectVariantButton" 
+							value="#{msg['components.chooseVariantsCmp.showvariant']}" 
+							action="#{chooseVariantsCmpVar.showVariantEvent.action}"
+							actionListener="#{chooseVariantsCmpVar.showVariantEvent.actionListener}" 
+							styleClass="submitSmall"/>
+							<h:commandLink id="showAllVariantsLink" 
+								value="(#{msg['components.chooseVariantsCmp.toggleVariantsList']}) "
+								onclick="toggleVariantProducts();return false;"
+								styleClass="toggleVariantProducts"/>
+					</t:div>
+					
+				</h:panelGrid>
+			</h:form>
+		</t:div>
+
+	</yf:component>
+
+</ui:composition>

@@ -1,0 +1,107 @@
+<!DOCTYPE subview [<!ENTITY nbsp "&#160;">]>
+
+<!--
+PaymentInfo Component.
+Display PaymentInfo and allow various but optional operations.
+
+Either the controller provides a paymentinfo or a paymentinfo must be passed.
+
+Parameters:
+
+ TODO	
+
+-->
+
+<ui:composition
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:yf="http://yfaces.codehaus.org/taglib"
+	>
+
+	<yf:component
+		id="showPaymentCmp"
+		modelspec="ystorefoundationpackage.yfaces.component.payment.ShowPaymentComponent"
+		model="ystorefoundationpackage.yfaces.component.payment.DefaultShowPaymentComponent" 
+		var="showPaymentCmpVar"
+     	passToModel="paymentInfo"
+		>      
+		
+		<t:div id="showPaymentInfoBlock" styleClass="showPaymentInfoCmp" rendered="#{showPaymentCmpVar.paymentMode != null}">
+			<h:form id="form">
+				<ui:decorate template="/templates/contentBox.xhtml">
+					
+					<ui:define name="headline">
+						<h:outputText value="#{headline}"/>
+					</ui:define>
+					
+					<ui:define name="boxcontent">
+						<t:div styleClass="content">
+							<h:panelGrid rendered="#{showPaymentCmpVar.paymentMode.code == 'debitentry'}" columns="2">
+								<h:outputText styleClass="h3" value="#{msg['payment.showPaymentCmp.debit']}:" />
+								&nbsp;
+								<h:outputText value="#{msg['payment.showPaymentCmp.debit.owner']}:"/>
+								<h:outputText value="#{showPaymentCmpVar.paymentInfo.baOwner}"/>
+								<h:outputText value="#{msg['payment.showPaymentCmp.debit.accountNumber']}:"/>
+								<h:outputText value="#{showPaymentCmpVar.paymentInfo.accountNumber}"/>
+								<h:outputText value="#{msg['payment.showPaymentCmp.debit.bankNumber']}:"/>
+								<h:outputText value="#{showPaymentCmpVar.paymentInfo.bankIDNumber}"/>
+								<h:outputText value="#{msg['payment.showPaymentCmp.debit.bankName']}:"/>
+								<h:outputText value="#{showPaymentCmpVar.paymentInfo.bank}"/>
+							</h:panelGrid>						
+
+							<h:panelGrid rendered="#{showPaymentCmpVar.paymentMode.code == 'creditcard'}" columns="2" >
+								<h:outputText styleClass="h3" value="#{msg['payment.showPaymentCmp.creditcard']}:" />
+								&nbsp;
+								<h:outputText value="#{msg['payment.showPaymentCmp.creditcard.owner']}:"/>
+								<h:outputText value="#{showPaymentCmpVar.paymentInfo.ccOwner}"/>
+								<h:outputText value="#{msg['payment.showPaymentCmp.creditcard.number']}:"/>
+								<h:outputText value="#{showPaymentCmpVar.paymentInfo.number}"/>
+								<h:outputText value="#{msg['payment.showPaymentCmp.creditcard.validUntil']}:"/>
+								<h:outputText value="#{showPaymentCmpVar.paymentInfo.validToMonth}/#{showPaymentCmpVar.paymentInfo.validToYear}"/>
+								<h:outputText value="#{msg['payment.showPaymentCmp.creditcard.type']}:"/>
+								<h:outputText value="#{showPaymentCmpVar.paymentInfoType.name}"/>
+							</h:panelGrid>						
+							
+							<h:outputText rendered="#{showPaymentCmpVar.paymentMode.code=='advance'}" value="#{msg['payment.showPaymentCmp.advance']}"/>
+							<h:outputText rendered="#{showPaymentCmpVar.paymentMode.code=='invoice'}" value="#{msg['payment.showPaymentCmp.invoice']}"/>
+							
+						</t:div>
+					</ui:define>
+						
+					<!-- Standard Action operations 'edit' 'delete' -->
+					<ui:define name="footer-left">
+						<t:div rendered="#{showPaymentCmpVar.editPaymentEvent.enabled || showPaymentCmpVar.deletePaymentEvent.enabled}">
+							<h:commandLink id="editCommand" 
+								styleClass="commandLink"
+								rendered="#{showPaymentCmpVar.editPaymentEvent.enabled}" 
+								value="#{msg['global.action.edit']}" 
+								action="#{showPaymentCmpVar.editPaymentEvent.action}" 
+								actionListener="#{showPaymentCmpVar.editPaymentEvent.actionListener}"  />
+
+							<h:commandLink id="deleteCommand"
+								styleClass="commandLink"
+								rendered="#{showPaymentCmpVar.deletePaymentEvent.enabled}" 
+								value="#{msg['global.action.delete']}" 
+								action="#{showPaymentCmpVar.deletePaymentEvent.action}" 
+								actionListener="#{showPaymentCmpVar.deletePaymentEvent.actionListener}" />
+						</t:div>
+					</ui:define>
+				
+					<!-- Extended Action operation 'custom' -->
+					<ui:define name="footer-right">
+						<h:commandLink 
+							id="customCommand"
+							styleClass="commandLink" 
+							rendered="#{showPaymentCmpVar.customPaymentEvent.enabled}" 
+							value="#{msg[showPaymentCmpVar.customPaymentEvent.name]}" 
+							action="#{showPaymentCmpVar.customPaymentEvent.action}"
+							actionListener="#{showPaymentCmpVar.customPaymentEvent.actionListener}"/>
+					</ui:define>
+				
+				</ui:decorate>
+			</h:form>
+		</t:div>
+	</yf:component>
+</ui:composition>

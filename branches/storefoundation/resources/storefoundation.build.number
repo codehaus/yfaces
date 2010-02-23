@@ -1,0 +1,11 @@
+#Ant properties
+#Wed Oct 07 11:53:00 CEST 2009
+builddate=20091007 1127
+description=storefoundation
+module=ext-templates
+name=storefoundation
+releasedate=20091007 1127
+revision=35350
+type=extension
+vendor=hybris
+version=4.0.2.0

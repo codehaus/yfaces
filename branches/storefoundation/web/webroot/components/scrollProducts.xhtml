@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" [<!ENTITY nbsp "&#160;">]>
+
+<!-- 
+scroll products component:
+display several products at one time, and can be scrolled
+-->
+
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:yf="http://yfaces.codehaus.org/taglib"
+	>
+
+	<yf:component 
+		id="scrollProductsCmp" 
+		modelspec="ystorefoundationpackage.yfaces.component.product.ScrollProductsComponent"
+		model="ystorefoundationpackage.yfaces.component.product.DefaultScrollProductsComponent" 
+		var="scrollProductsCmpVar"
+
+		passToModel="scrollSize, categoryName, auto, title"
+		>
+
+		<!-- scrolling products -->
+		<script type="text/javascript">
+			jQuery(document).ready(function() {
+			    jQuery('#randomProducts').jcarousel({
+				   scroll: #{scrollProductsCmpVar.scrollSize},
+				   auto: #{scrollProductsCmpVar.auto},
+			    	itemLoadCallback: randomProducts_itemLoadCallback
+			    });
+			});
+
+			function randomProducts_itemLoadCallback(carousel, stage)
+			{
+				//Remove the last visible pictures
+				if(carousel.prevFirst != null)
+				{
+					for(var i = carousel.prevFirst; i != carousel.prevLast + 1; i++)
+					{
+						//carousel.remove(i);
+					}
+				}
+
+				//this method is not always called by IE(with Vista), 
+				//it seems that IE has cache for the "data", even when the data is "dirty"
+				var catName = document.getElementById("scrollProductsCmp:categoryName").value;
+			   jQuery.get('specialOffersAjax', {'first':carousel.first, 'last':carousel.last, 'categoryName':catName}, 
+				    function(data) {randomProducts_itemAddCallback(carousel, carousel.first, carousel.last, data);
+			   });
+			};
+
+			function randomProducts_itemAddCallback(carousel, first, last, data)
+			{
+				var startIndex = first - 1;
+
+			    //Add new items
+			    var items = data.split('|');
+			    var size = parseInt(items[0]);
+			    for(var i = 1, j = 1; i != last - first + 2; i++, j = j + 2, startIndex++)
+			    {
+			    	carousel.add(startIndex + 1, randomProducts_getItemHTML(items[j], items[j + 1]));
+			    }
+			    carousel.size(size);
+			};
+
+			/**
+			 * Item html creation helper.
+			 */
+			function randomProducts_getItemHTML(imgUrl, productUrl)
+			{
+				//setting the size of pictures
+				var imgSrc = '<img src="' + imgUrl + '" width="120" height="120" alt="" />'
+				return '<a href="' + productUrl + '">' + imgSrc + '</a>';;
+			};
+		</script>
+
+		<t:div styleClass="scrollProductsCmp">
+			<h:outputText id="title" value="#{scrollProductsCmpVar.title}" styleClass="boxHeadline"/>
+			<h:inputHidden id="categoryName" value="#{scrollProductsCmpVar.categoryName}"/>
+			<br/>
+			<div id="randomProducts" class="jcarousel-skin-offers">
+				<ul>
+				</ul>
+			</div>
+		</t:div>
+
+	</yf:component>
+</ui:composition>

@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" [<!ENTITY nbsp "&#160;">]>
+<!--
+	COM-1425:
+	DataTable needs valid ValueBindings already within RestoreView (Phase1).
+	This will always produce an exception when the ValueBinding isn't available yet.
+	This example demonstrates a use-case.
+	
+	Ths JSF spec. doesn't say clearly whether this is allowed or not.
+	But no JSF standard component does it.
+ -->
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:yf="http://yfaces.codehaus.org/taglib"
+	template="/templates/emptyLayout.xhtml" >
+
+	
+	<ui:define name="content">
+	
+	<h:form>
+		<ui:repeat value="#{demoBean1.tableData}" var="loop">
+			<t:dataTable value="#{loop}" var="entry" sortColumn="#{demoBean1.sortOrder}">
+				<t:column>
+					<f:facet name="header">
+						<t:commandSortHeader columnName="column1" value="column1" arrow="true"/>
+					</f:facet>
+					->#{entry}
+				</t:column>
+				<t:column>
+					<f:facet name="header">
+						<t:commandSortHeader columnName="column2" value="column2-static" arrow="true"/>
+					</f:facet>
+					static
+				</t:column>
+				
+			</t:dataTable>
+			<br/>
+		</ui:repeat>
+	</h:form>	
+	
+	</ui:define>
+
+</ui:composition>
+			

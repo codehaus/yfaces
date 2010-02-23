@@ -1,0 +1,15 @@
+<span xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:c="http://java.sun.com/jstl/core">
+	
+	<h:form id="wishListNavigationElementForm">
+		<h:commandLink action="wishListPage" id="wishListNavLink" value="">
+			<!-- TODO the image of the wish list -->
+			<span id="icon_wishList" class="icon_wishList"><img src="/images/transp.gif" width="12px" height="12px"/></span>
+			#{msg['global.phrase.wishList']}
+		</h:commandLink>
+	</h:form>
+
+</span>

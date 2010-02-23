@@ -1,0 +1,26 @@
+
+<tr 	xmlns:ui="http://java.sun.com/jsf/facelets"
+	   xmlns:h="http://java.sun.com/jsf/html"
+	   xmlns:f="http://java.sun.com/jsf/core"
+	   xmlns:t="http://myfaces.apache.org/tomahawk"
+	   xmlns:c="http://java.sun.com/jstl/core">
+		<td>#{input.name}:</td>
+		<c:if test="#{!input.multiple}">
+			<td><h:selectOneMenu id="forminput_#{input.pk}"  value="#{formBean[input.name]}"  required="#{input.required}" >
+					<c:forEach items="#{input.options}" var="option">
+						<f:selectItem itemLabel="#{option}" itemValue="#{option}"/>
+					</c:forEach>
+				 </h:selectOneMenu>
+			</td>
+		</c:if>
+		<c:if test="#{input.multiple}">
+			<td><h:selectManyListbox id="forminput_#{input.pk}" size="#{input.size}" value="#{formBean.lists[input.name]}"  required="#{input.required}" >
+					<c:forEach items="#{input.options}" var="option">
+						<f:selectItem itemLabel="#{option}" itemValue="#{option}"/>
+					</c:forEach>
+				 </h:selectManyListbox>
+			</td>
+		</c:if>
+		<td><span class="error"><h:message for="forminput_#{input.pk}" /></span></td>		
+</tr>
+

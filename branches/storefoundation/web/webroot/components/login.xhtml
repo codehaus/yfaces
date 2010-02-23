@@ -1,0 +1,132 @@
+<!DOCTYPE subview [<!ENTITY nbsp "&#160;">]>
+<!--
+Login Component.
+Displays a login form consisting of a login, a password textinput and a login button. 
+
+-->
+
+<ui:composition
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:yf="http://yfaces.codehaus.org/taglib"
+	>
+	<yf:component 
+		id="loginCmp" 
+		modelspec="ystorefoundationpackage.yfaces.component.user.LoginComponent"
+		model="ystorefoundationpackage.yfaces.component.user.DefaultLoginComponent" 
+		var="loginCmpVar"
+		>
+		      
+		<script>
+			var serverName = '<f:verbatim>#{request.serverName}</f:verbatim>';
+			var httpPort =  #{loginCmpVar.HTTPPort};
+			var sslPort =  #{loginCmpVar.SSLPort};
+
+			var unsecure;
+			if(httpPort == 80)
+			{
+				unsecure = "http://" + serverName;
+			}
+			else
+			{
+				unsecure = "http://" + serverName + ":" + httpPort;
+			}
+			var secure;
+			if(sslPort == 443)
+			{
+				secure = "https://" + serverName;
+			}
+			else
+			{
+				secure = "https://" + serverName + ":" + sslPort;
+			}
+
+			function switchSecureMode(checkbox) 
+			{
+				var action = checkbox.form.action;
+				if (action.indexOf("https") == 0) { action = action.substr(secure.length); };
+				if (action.indexOf("http") == 0) { action = action.substr(unsecure.length); };
+				action = (checkbox.checked) ? secure + action : unsecure + action;
+				//alert( 'useSSL: ' + checkbox.checked + 'HTTP: ' + unsecure + ' / SSL: ' + secure + ' / Action: ' + action );
+				checkbox.form.action = action;
+			}
+		</script>
+		
+		<t:div styleClass="loginCmp">
+			<h:form id="loginForm" enctype="multipart/form-data" acceptcharset="utf-8" rendered="#{!loginCmpVar.loggedIn}">
+				<h:panelGrid columns="2">
+					<h:panelGroup>
+						<h:outputText value="#{msg['frames.loginFrame.login']}:"/><br/>
+						<h:message for="login"/>
+					</h:panelGroup>
+					<h:inputText styleClass="login" id="login" value="#{loginCmpVar.login}" required="true" />
+					<h:panelGroup>
+						<h:outputText  value="#{msg['frames.loginFrame.password']}:" /><br/>
+						<h:message for="password"/>
+					</h:panelGroup>
+					<h:inputSecret styleClass="login" id="password" value="#{loginCmpVar.password}" required="true" />
+					<h:panelGroup>
+					
+						<input id="sslCheckBox" type="checkbox" onclick="switchSecureMode(this);"/>
+						#{title}
+						<h:outputText rendered="#{empty title}" value="#{msg['components.loginCmp.useSSL']}"/>
+					</h:panelGroup>
+					<h:commandButton id="loginCommand"
+							styleClass="commandLink" 
+							value="#{msg['frames.loginFrame.command']}" 
+							action="#{loginCmpVar.loginEvent.action}" 
+							actionListener="#{loginCmpVar.loginEvent.actionListener}" />
+				</h:panelGrid>			
+			</h:form>
+			
+			<h:form id="loginLinks">
+				<h:commandLink
+					id="forgotPasswordLoginLink"
+					styleClass="forgotPasswordLoginLink"
+					action="#{loginCmpVar.forgotPasswordEvent.action}"
+					actionListener="#{loginCmpVar.forgotPasswordEvent.actionListener}"
+					rendered="#{!loginCmpVar.loggedIn}" >
+					<h:outputText value="#{msg['components.loginCmp.forgotPassword']}"/>
+				</h:commandLink>
+				<h:commandLink	
+					id="registrationLink" 
+					styleClass="registrationLink" 
+					actionListener="#{loginCmpVar.registerEvent.actionListener}" 
+					action="#{loginCmpVar.registerEvent.action}" 
+					rendered="#{!loginCmpVar.loggedIn}" >
+					#{msg['components.loginCmp.registration']}<br/>
+				</h:commandLink>
+				<h:commandLink 
+					id="userDataLink"
+					styleClass="userDataLink"  
+					action="userDetailPage" 
+					rendered="#{!loginCmpVar.loggedIn}">
+					#{msg['components.loginCmp.userDetail']}<br/>
+				</h:commandLink>
+				<h:commandLink
+					id="demoLoginLink"
+					styleClass="demoLoginLink"
+					action="#{loginCmpVar.demoLoginEvent.action}" 
+					actionListener="#{loginCmpVar.demoLoginEvent.actionListener}" 
+					rendered="#{!loginCmpVar.loggedIn}" >
+					<h:outputText value="#{msg['components.loginCmp.demoLogin']}"/><br/>
+				</h:commandLink>
+			</h:form>
+			
+			<h:form id="logoutForm" rendered="#{loginCmpVar.loggedIn}">
+				<h:commandLink id="loginCommand"
+					styleClass="commandLink" 
+					action="#{loginCmpVar.logoutEvent.action}" 
+					actionListener="#{loginCmpVar.logoutEvent.actionListener}">
+					<h:outputText value="#{msg['frames.loginFrame.logout']}"/>
+				</h:commandLink>
+			</h:form>
+		</t:div>
+		<script>
+			switchSecureMode(document.getElementById('sslCheckBox'));
+		</script>
+	</yf:component>
+</ui:composition>

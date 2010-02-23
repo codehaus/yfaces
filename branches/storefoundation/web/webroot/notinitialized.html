@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:t="http://myfaces.apache.org/tomahawk"
+      xmlns:c="http://java.sun.com/jstl/core"
+      >
+<head profile="http://www.w3.org/2000/08/w3c-synd/#">
+	<title>hybris StoreFoundation</title>
+	
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+	<meta http-equiv="Content-Style-Type" content="text/css" />
+	<link rel="stylesheet" href="css/style1/basics.css" />
+
+</head>  
+<body>
+
+<div id="window">
+
+	<div id="header">
+		
+		<!-- Logo and/or Text are enabled/disabled via CSS -->
+		<!--<h:commandLink id="logo" action="welcome"/>
+	 	<h:commandLink id="logo_text" action="welcome">Storefoundation</h:commandLink>-->
+
+		<a id="logo" href="."/>
+	 	<a id="logo_text" action="welcome">Storefoundation</a>
+
+		
+		<!-- login bar from CMS engine (login, registration, cart) -->
+		<!--<c:if test="#{!empty cmsBean.loginBar.template.code}">
+			<cms:editable item="#{cmsBean.loginBar}" template="#{cmsBean.loginBar.template.code}" id="navItem_#{cmsBean.loginBar.pk}">
+				<div id="TopNav">
+					<f:subview id="topnavi">
+						<ui:include src="#{cmsBean.loginBar.template.code}">
+							<ui:param name="item" value="#{cmsBean.loginBar}"/>
+						</ui:include>
+					</f:subview>
+				</div>
+			</cms:editable>
+		</c:if>-->
+	</div>
+
+	<div id="MainNav">
+	
+		<!-- catalog list ( no CMS )-->
+		<div id="MainNav_img_l">&nbsp;</div>
+			<div id="MainNav_img"><ul><li>[no catalogs found]</li></ul></div>
+		<div id="MainNav_img_r">&nbsp;</div>
+		
+		<!-- pages menu from CMS -->
+		<div id="MetaNav">
+			[no navigations found]
+		</div>
+	</div>
+	
+	
+	<!-- sidebar left from CMS -->
+	<div id="sidebar">
+		<div id="minibox" class="sidebar_boxes">
+			<br/><br/><br/><br/>
+		</div>
+	</div>
+
+	<!-- sidebar right from CMS -->
+	
+	<div id="sidebar_r">
+		
+		<div id="minibox" class="sidebar_boxes">
+			<br/><br/><br/><br/>
+		</div>
+	</div>
+
+	<div id="content" style="text-align:center" >
+		<div id="contentTitle">
+			System not initialized
+		</div>
+		
+			Please initialize your System first.
+	</div>
+
+</div>
+
+</body>
+</html>

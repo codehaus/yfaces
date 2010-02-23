@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" [<!ENTITY nbsp "&#160;">]>
+
+<!-- 
+choose language component
+-->
+
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:yf="http://yfaces.codehaus.org/taglib" >
+
+	<yf:component
+		modelspec="ystorefoundationpackage.yfaces.component.i18n.ChooseLanguageComponent"
+		model="ystorefoundationpackage.yfaces.component.i18n.DefaultChooseLanguageComponent"
+		var="chooseLanguageCmpVar"
+		>
+
+	<t:div id="chooseLanguageCmp" styleClass="chooseLanguageCmp">
+		<h:form id="chooseLanguageForm">
+			<t:div styleClass="icon_languageChooser"><img src="/images/transp.gif" width="12px" height="12px"/></t:div>
+			<h:outputText value="#{msg['components.chooseLanguageCmp.language']}"/>:<br/>
+			<h:panelGrid columns="2">
+				<h:selectOneMenu required="true" id="languageForm" 
+						value="#{chooseLanguageCmpVar.language}" styleClass="selectLanguage" >									
+						<f:selectItems value="#{chooseLanguageCmpVar.availableLanguages}" />
+				</h:selectOneMenu>
+				<h:commandButton id="submitLanguageButton" 
+					value="#{msg['components.chooseLanguageCmp.languageSubmit']}" 
+					action="#{chooseLanguageCmpVar.saveLanguageEvent.action}" 
+					actionListener="#{chooseLanguageCmpVar.saveLanguageEvent.actionListener}" 
+					styleClass="submitChoice"/>
+			</h:panelGrid>
+		</h:form>
+	</t:div>
+
+	</yf:component>
+
+</ui:composition>
+

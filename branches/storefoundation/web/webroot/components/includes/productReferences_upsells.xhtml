@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" [<!ENTITY nbsp "&#160;">]>
+
+<!-- 
+TODO
+-->
+
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:yf="http://yfaces.codehaus.org/taglib"
+	xmlns:sf="http://hybris.com/jsf/storefoundation"	
+	>
+	
+	
+	<ui:param name="columns" value="#{productReferenceGroup.table.columns}"/>
+	
+	<t:div id="upsells" styleClass="upsells">
+		<t:dataTable id="table" value="#{productReferenceGroup.table.rows}" var="row">
+		
+			<t:column styleClass="thumbnail">
+				<sf:graphicImage value="#{row[columns[1]].value.thumbnail.url}" />
+			</t:column>
+			
+			<t:column>
+				<ui:param name="delta" value="#{row[columns[3]].value}"/>
+
+				<h:outputFormat value="#{msg['productReferencesCmp.upselling.buyForMore']}" rendered="#{delta &gt; 0}">
+		           <f:param value="#{row[columns[4]].value}"/>
+				</h:outputFormat>
+
+<ui:remove>
+				<h:outputFormat value="#{msg['productReferencesCmp.upselling.buyForLess']}" rendered="#{delta &lt; 0}">
+		           <f:param value="#{row[columns[2]].value.primaryPrice}"/>
+				</h:outputFormat>
+</ui:remove>				
+
+				<sf:outputLink value="#{row[columns[1]].value}">
+					<h:outputText value="#{row[columns[1]].value.name}"/>
+				</sf:outputLink>
+				
+			</t:column>
+
+		</t:dataTable>
+	</t:div>
+
+</ui:composition>

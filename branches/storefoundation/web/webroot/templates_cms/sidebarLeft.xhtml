@@ -1,0 +1,39 @@
+
+<ui:composition
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:yf="http://yfaces.codehaus.org/taglib">
+
+
+	
+		<t:div styleClass="sidebar_boxes">
+			<yf:quickViewCart/>
+		</t:div>
+	
+	
+		
+		<t:div styleClass="sidebar_boxes">
+			<yf:categoryTree binding="#{globalFrame.categoryTreeComponent}" />
+		</t:div>
+	
+	
+		<t:div styleClass="sidebar_boxes">
+			<yf:showHistory
+				binding="#{globalFrame.showHistoryComponent}"
+				enabledProduct="true"
+				enabledCategory="false"
+				historyEntrySize="5"/>
+		</t:div>
+	
+
+	
+		<t:div id="showTopSellerCmp" styleClass="sidebar_boxes">
+			<yf:productsQuickView
+				binding="#{globalFrame.productsQuickViewComponent}"/>
+		</t:div>
+	
+
+</ui:composition> 

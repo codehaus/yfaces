@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="web/src"/>
+	<classpathentry kind="lib" path="web/webroot/WEB-INF/lib/urlrewrite-3.1.0-y.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ext-commerce"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/platform"/>
+	<classpathentry kind="lib" path="web/webroot/WEB-INF/lib/jsf-facelets-1.1.15-b1.jar"/>
+	<classpathentry kind="lib" path="web/webroot/WEB-INF/lib/myfaces-api-1.2.6.jar"/>
+	<classpathentry kind="lib" path="web/webroot/WEB-INF/lib/myfaces-impl-1.2.6.jar"/>
+	<classpathentry kind="lib" path="web/webroot/WEB-INF/lib/tomahawk-1.1.6.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/yfaces-core"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

@@ -1,0 +1,34 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" [<!ENTITY nbsp "&#160;">]>
+
+			<!-- Show global messages, we don't use the corresponding messages-tag
+			     since it still doesn't allow escaping characters -->
+
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:c="http://java.sun.com/jstl/core"
+	
+	xmlns:yf="http://yfaces.codehaus.org/taglib"
+	>
+
+	<yf:component
+		id="userMessagesCmp"
+		
+		modelspec="ystorefoundationpackage.yfaces.component.misc.UserMessagesComponent"
+		model="ystorefoundationpackage.yfaces.component.misc.DefaultUserMessagesComponent"
+
+		var="userMessagesCmpVar"
+		passToModel="messages"
+		>
+		
+		<t:div styleClass="userMessagesCmp" rendered="#{!empty userMessagesCmpVar.messages}">
+			<ui:repeat value="#{userMessagesCmpVar.messages}" var="message" >
+				<h:outputText value="#{message.summary}" escape="false" /><br/>
+			</ui:repeat>
+		</t:div>
+	</yf:component>
+	
+</ui:composition>

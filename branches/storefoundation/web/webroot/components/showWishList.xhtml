@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" [<!ENTITY nbsp "&#160;">]>
+
+<!-- 
+show wish list component
+display all products in the selected wish list, or the default wish list if none list is selected
+-->
+
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:yf="http://yfaces.codehaus.org/taglib">
+
+	<yf:component
+		id="showWishListCmp"
+		modelspec="ystorefoundationpackage.yfaces.component.wishlist.ShowWishListComponent"
+		model="ystorefoundationpackage.yfaces.component.wishlist.DefaultShowWishListComponent"
+		
+		var="showWishListCmpVar"
+		passToModel="wishList"
+		>
+
+		<ui:param name="currentList" value="#{showWishListCmpVar.wishList}"/>
+		<t:div styleClass="showWishListCmp">
+			<h:panelGrid columns="2">
+				<h:panelGrid columns="2">
+					<h:outputText value="#{msg['components.showWishListCmp.activeWishList']}: " rendered="#{wishListFrame.anonymousUser == false}"/>  
+					<h:outputText value="#{currentList.name}" styleClass="wishListName"/>
+					<h:outputText value="#{msg['components.showWishListCmp.wishListDescription']}: " 
+						rendered="#{showWishListCmpVar.wishListDescriptionEmpty == false}"/>  
+					<h:outputText value="#{currentList.description}" styleClass="wishListDescription"/>
+				</h:panelGrid>
+			</h:panelGrid>
+			<h:form id="addAllProductsToCartForm" rendered="#{wishListFrame.anonymousUser == false}">
+				<h:commandButton
+					id="addAllProductsToCart"
+					value="#{msg['components.showWishListCmp.addAllProductsToCart']}"
+					action="#{showWishListCmpVar.addAllProductsToCartEvent.action}"
+					actionListener="#{showWishListCmpVar.addAllProductsToCartEvent.actionListener}"
+					styleClass="submitBig"
+					rendered="#{showWishListCmpVar.wishListEmpty == false}">
+				</h:commandButton>
+			</h:form>
+			<br/>
+
+			<ui:repeat value="#{showWishListCmpVar.wishListEntries}" var="_entry" id="entriesLoop">
+				<yf:showWishListEntry wishListEntry="#{_entry}"/>
+			</ui:repeat>
+		</t:div>
+
+	</yf:component>
+
+</ui:composition>

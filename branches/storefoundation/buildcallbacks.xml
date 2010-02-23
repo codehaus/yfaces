@@ -1,0 +1,103 @@
+<?xml version="1.0"?>
+<!--
+ [y] hybris Platform
+
+ Copyright (c) 2000-2009 hybris AG
+ All rights reserved.
+
+ This software is the confidential and proprietary information of hybris
+ ("Confidential Information"). You shall not disclose such Confidential
+ Information and shall use it only in accordance with the terms of the
+ license agreement you entered into with hybris.
+
+  
+-->
+
+<project name="storefoundation_buildcallbacks" >
+	
+	<macrodef name="storefoundation_before_compile_web">
+		<sequential>
+			<!--<copy file="${ext.cms.path}/web/webroot/WEB-INF/tld/cms.tld" todir="${ext.storefoundation.path}/web/webroot/WEB-INF"/>-->
+			<copy todir="${ext.storefoundation.path}/web/webroot/WEB-INF/classes" overwrite="true">
+				<fileset dir="${ext.cms.path}/web/webroot/WEB-INF/classes" includes="**" />
+			</copy>
+		</sequential>
+	</macrodef>
+
+	<!-- Compile doclet classes (depending on tools.jar) -->
+	<!--
+	<macrodef name="storefoundation_after_compile_web">
+		<sequential>
+			<yjavac srcdir="${ext.storefoundation.path}/doclet" destdir="${ext.storefoundation.path}/doclet" source="1.6" target="1.6">
+				<classpath>
+					<fileset dir="${platformhome}/ext/core/lib">
+						<include name="*.jar" />
+					</fileset>							
+					<fileset dir="${ext.storefoundation.path}/web/webroot/WEB-INF/lib">
+						<include name="*.jar" />
+					</fileset>
+					<dirset dir="${ext.storefoundation.path}/web/webroot/WEB-INF/classes"/>
+				</classpath>
+			</yjavac>
+		</sequential>
+	</macrodef>
+	-->
+	
+	<macrodef name="storefoundation_after_clean">
+		<sequential>
+		   <delete file="${ext.storefoundation.path}/web/webroot/WEB-INF/cms.tld"/>
+		</sequential>
+	</macrodef>
+
+
+
+
+	<!-- ${ear.path}: 			path to ear
+	     ${ear.libs.path}: 		path to libs inside ear (as default this comes to ear.path/libs)
+	     ${ear.resources.path}:	path to resources inside ear (as default this comes to ear.path/resources)
+	 -->
+	<macrodef name="storefoundation_before_ear">
+		<sequential>
+
+			<!-- we need the el-api inside the storefoundation war for websphere-->
+
+			<if>
+				<or>
+					<!--<equals arg1="${ear.target.appserver}" arg2="weblogic"/>-->
+					<equals arg1="${ear.target.appserver}" arg2="websphere"/>
+				</or>
+				<then>
+					<echo message="storefoundation buildcallbacks.xml: copying el-api.jar to ${ear.libs.path}..."/>
+
+					<jar update="true"
+						destfile="${ear.path}/storefoundation.war">
+						<zipfileset dir="${bundled.tomcat.home}/lib" includes="el-api.jar" fullpath="WEB-INF/lib/el-api.jar"/>
+					</jar>
+				
+				</then>
+			</if>
+			
+			<!-- we need jasper-el.jar for jboss -->
+			<if>
+				<or>
+					<equals arg1="${ear.target.appserver}" arg2="jboss"/>
+				</or>
+				<then>
+					<echo message="storefoundation buildcallbacks.xml: copying jasper-el.jar to ${ear.libs.path}..."/>
+
+					<jar update="true"
+						destfile="${ear.path}/storefoundation.war">
+						<zipfileset dir="${bundled.tomcat.home}/lib" includes="jasper-el.jar" fullpath="WEB-INF/lib/jasper-el.jar"/>
+					</jar>
+				
+				</then>
+			</if>
+
+
+
+			
+		</sequential>
+	</macrodef>
+		
+		
+</project>

@@ -1,0 +1,35 @@
+
+<!-- 
+Each Navigationelement must have an corresponding stylesheet
+definition of the following format:
+
+.icon_[CodeOfNavigationelement]
+
+#pageLink_[CodeOfNavigationelement]
+
+-->
+
+<span xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:t="http://myfaces.apache.org/tomahawk"
+    xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:yf="http://yfaces.codehaus.org/taglib"
+	xmlns:sf="http://hybris.com/jsf/storefoundation"	
+	>
+    
+	<sf:outputLink value="#{item.content}" id="pageLink_#{item.code}">
+		<div id="icon_#{item.code}" class="icon_#{item.code}">
+			<img src="/images/transp.gif" width="12px" height="12px"/>
+		</div>
+		
+		<c:choose>
+			<c:when test="#{empty item.name}">
+				<span class="error"> [ #{item.code} ] </span>
+			</c:when>
+			<c:otherwise> #{item.name} </c:otherwise>
+		</c:choose>
+		
+	</sf:outputLink>	
+
+</span>
