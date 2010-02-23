@@ -83,8 +83,8 @@ public class TestYComponentInfo extends TestCase {
 			if (this.cmpInfo == null) {
 				assertNull(this.expectedErrors);
 			} else {
-				assertEquals(this.expSpecClassName, cmpInfo.getModelSpecification());
-				assertEquals(this.expImplClassName, cmpInfo.getModelImplementation());
+				assertEquals(this.expSpecClassName, cmpInfo.getConfiguredModelSpecification());
+				assertEquals(this.expImplClassName, cmpInfo.getConfiguredModelImplementation());
 				assertEquals(this.expId, cmpInfo.getId());
 				assertEquals(this.expVar, cmpInfo.getVariableName());
 				assertEquals(this.expInjectableAttributes, cmpInfo.getPushProperties());
@@ -122,8 +122,8 @@ public class TestYComponentInfo extends TestCase {
 		for (final String s : cmps1) {
 			// System.out.println(count++ + ": " + s);
 			final YComponentInfoImpl cmpInfo = cmpFac.createComponentInfo(HEAD + s);
-			assertEquals(spec, cmpInfo.getModelSpecification());
-			assertEquals(impl, cmpInfo.getModelImplementation());
+			assertEquals(spec, cmpInfo.getConfiguredModelSpecification());
+			assertEquals(impl, cmpInfo.getConfiguredModelImplementation());
 			assertEquals(var, cmpInfo.getVariableName());
 			assertEquals(id, cmpInfo.getId());
 			assertEquals(0, cmpInfo.getPushProperties().size());

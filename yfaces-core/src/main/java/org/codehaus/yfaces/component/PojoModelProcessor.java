@@ -24,10 +24,10 @@ public class PojoModelProcessor<T> implements ModelProcessor<T> {
 	public T createModel() {
 		T result = null;
 		try {
-			result = (T) cmpInfo.getModelImplClass().newInstance();
+			result = (T) cmpInfo.getModelImplementation().newInstance();
 			this.initializeModel(result);
 		} catch (final Exception e) {
-			throw new YFacesException("Can't create Component model " + cmpInfo.getModelImplementation(),
+			throw new YFacesException("Can't create Component model " + cmpInfo.getConfiguredModelImplementation(),
 					e);
 		}
 

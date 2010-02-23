@@ -29,7 +29,7 @@ public class PojoComponentValidator extends YComponentValidatorImpl {
 			result.add(YValidationAspekt.IMPL_IS_INTERFACE);
 		}
 
-		final Class<?> specClass = ((YComponentInfoImpl) getYComponentInfo()).getModelSpecClass();
+		final Class<?> specClass = ((YComponentInfoImpl) getYComponentInfo()).getModelSpecification();
 		if (specClass != null && !specClass.isAssignableFrom(implClass)) {
 			result.add(YValidationAspekt.IMPL_UNASSIGNABLE_TO_SPEC);
 		}

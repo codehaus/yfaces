@@ -93,7 +93,7 @@ public class YComponentInfoImpl implements YComponentInfo {
 	 * 
 	 * @return classname
 	 */
-	public String getModelSpecification() {
+	public String getConfiguredModelSpecification() {
 		return this.modelSpecClassName;
 	}
 
@@ -105,7 +105,7 @@ public class YComponentInfoImpl implements YComponentInfo {
 	 * @param className
 	 *          classname
 	 */
-	public void setModelSpecification(String className) {
+	public void setConfiguredModelSpecification(String className) {
 		if (className != null && (className = className.trim()).length() == 0) {
 			className = null;
 		}
@@ -122,7 +122,7 @@ public class YComponentInfoImpl implements YComponentInfo {
 	 * 
 	 * @return classname
 	 */
-	public String getModelImplementation() {
+	public String getConfiguredModelImplementation() {
 		return this.modelImplClassName;
 	}
 
@@ -131,7 +131,7 @@ public class YComponentInfoImpl implements YComponentInfo {
 	 * 
 	 * @param className
 	 */
-	public void setModelImplementation(String className) {
+	public void setConfiguredModelImplementation(String className) {
 		if (className != null && (className = className.trim()).length() == 0) {
 			className = null;
 		}
@@ -199,11 +199,11 @@ public class YComponentInfoImpl implements YComponentInfo {
 		return cmpName;
 	}
 
-	public String getLocation() {
+	public String getViewLocation() {
 		return location;
 	}
 
-	public void setLocation(final String location) {
+	public void setViewLocation(final String location) {
 		this.location = location;
 	}
 
@@ -213,11 +213,11 @@ public class YComponentInfoImpl implements YComponentInfo {
 		return result;
 	}
 
-	public URL getURL() {
+	public URL getViewURL() {
 		return url;
 	}
 
-	protected void setURL(final URL url) {
+	protected void setViewURL(final URL url) {
 		this.url = url;
 	}
 
@@ -259,11 +259,11 @@ public class YComponentInfoImpl implements YComponentInfo {
 		return isYComponent;
 	}
 
-	public Class getModelSpecClass() {
+	public Class getModelSpecification() {
 		return this.modelSpecClass;
 	}
 
-	public Class<?> getModelImplClass() {
+	public Class<?> getModelImplementation() {
 		return this.modelImplClass;
 	}
 

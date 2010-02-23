@@ -139,12 +139,12 @@ public class YComponentRegistry {
 
 			// an ID should always be available (at least as fallback of 'name')
 			if (id == null) {
-				throw new YFacesException("No component ID: " + cmpInfo.getURL());
+				throw new YFacesException("No component ID: " + cmpInfo.getViewURL());
 			}
 
 			// same with namespace
 			if (ns == null) {
-				throw new YFacesException("No component namespace: " + cmpInfo.getURL());
+				throw new YFacesException("No component namespace: " + cmpInfo.getViewURL());
 			}
 
 			// get namespace -> component mapping
@@ -161,13 +161,13 @@ public class YComponentRegistry {
 				// ... add to namesapce ,ap
 				map.put(cmpInfo.getId(), cmpInfo);
 				// ... add to global map
-				this.locationToCmpMap.put(cmpInfo.getLocation(), cmpInfo);
+				this.locationToCmpMap.put(cmpInfo.getViewLocation(), cmpInfo);
 				result = true;
 
 				// otherwise log as error
 			} else {
-				log.error("Error adding component: " + cmpInfo.getURL());
-				log.error("A component with same ID is already registered (" + map.get(id).getURL() + ")");
+				log.error("Error adding component: " + cmpInfo.getViewURL());
+				log.error("A component with same ID is already registered (" + map.get(id).getViewURL() + ")");
 			}
 		}
 		return result;

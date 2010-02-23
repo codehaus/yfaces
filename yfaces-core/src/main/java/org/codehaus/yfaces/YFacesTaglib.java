@@ -254,18 +254,18 @@ public class YFacesTaglib extends AbstractTagLibrary {
 					if (added) {
 						// register component file at a Facelet Taglib as UserTag
 						final YFacesTaglib tagLib = getOrCreateTagLib(cmpInfo.getNamespace());
-						tagLib.addUserTag(cmpInfo.getName(), cmpInfo.getURL());
+						tagLib.addUserTag(cmpInfo.getName(), cmpInfo.getViewURL());
 						if (warnings.isEmpty()) {
-							log.debug("Successfully added component: " + cmpInfo.getURL());
+							log.debug("Successfully added component: " + cmpInfo.getViewURL());
 						} else {
-							log.debug("Added component with warnings: " + cmpInfo.getURL());
+							log.debug("Added component with warnings: " + cmpInfo.getViewURL());
 							log.debug(YValidationAspekt.getFormattedErrorMessage(warnings, cmpInfo, null));
 						}
 					}
 
 					// if errors were found print them out 
 					if (!errors.isEmpty()) {
-						log.error("Adding component: " + cmpInfo.getURL() + " with error(s)");
+						log.error("Adding component: " + cmpInfo.getViewURL() + " with error(s)");
 						log.error(YValidationAspekt.getFormattedErrorMessage(errors, cmpInfo, null));
 					}
 				}
