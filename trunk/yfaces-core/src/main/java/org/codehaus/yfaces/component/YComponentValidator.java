@@ -121,7 +121,7 @@ public interface YComponentValidator {
 		/**
 		 * Returns a formatted error message based on the passed {@link YComponentValidator}. An
 		 * optional custom implementation is used instead of
-		 * {@link YComponentValidator#getModelImplementation()}
+		 * {@link YComponentValidator#getConfiguredModelImplementation()}
 		 * 
 		 * @param cmpInfo
 		 *          {@link YComponentValidator}
@@ -139,9 +139,9 @@ public interface YComponentValidator {
 			while (parameter.find()) {
 				String param = parameter.group(1);
 				if (param.equals(PLACEHOLDER_SPECCLASS)) {
-					param = cmpInfo.getModelSpecification();
+					param = cmpInfo.getConfiguredModelSpecification();
 				} else if (param.equals(PLACEHOLDER_IMPLCLASS)) {
-					param = (customImplClass == null) ? cmpInfo.getModelImplementation() : customImplClass
+					param = (customImplClass == null) ? cmpInfo.getConfiguredModelImplementation() : customImplClass
 							.getName();
 				} else if (param.equals(PLACEHOLDER_PROPERTIES)) {
 					param = Arrays.asList(RESERVED_PROPERTY_NAMES).toString();

@@ -23,7 +23,6 @@ import org.codehaus.yfaces.component.html.HtmlYComponentHandler;
 
 import com.sun.facelets.tag.Tag;
 
-
 /**
  * Holds {@link YComponent} specific meta information.
  * 
@@ -52,7 +51,7 @@ public interface YComponentInfo {
 	 * 
 	 * @return name of interface
 	 */
-	String getModelSpecification();
+	String getConfiguredModelSpecification();
 
 	/**
 	 * Returns the default model implementation for this component. This value is set in component
@@ -60,7 +59,7 @@ public interface YComponentInfo {
 	 * 
 	 * @return class name
 	 */
-	String getModelImplementation();
+	String getConfiguredModelImplementation();
 
 	/**
 	 * Returns the name of the variable under which the component model is made available in view.
@@ -92,11 +91,12 @@ public interface YComponentInfo {
 	 * 
 	 * @return URL of component view
 	 */
-	URL getURL();
+	URL getViewURL();
 
 	/**
 	 * Returns the location for the component view. This URI is relative to webapplication root and
-	 * points to same target like {@link #getURL()}. This value gets detected and set automatically.
+	 * points to same target like {@link #getViewURL()}. This value gets detected and set
+	 * automatically.
 	 * <p/>
 	 * Location is used, to have a mapping between {@link YComponentInfo} and Facelets managed view
 	 * files. This location is identical to that one of {@link Tag#getLocation()} which is made
@@ -104,7 +104,7 @@ public interface YComponentInfo {
 	 * 
 	 * @return
 	 */
-	String getLocation();
+	String getViewLocation();
 
 	/**
 	 * Returns the namespace for this component.
@@ -112,6 +112,10 @@ public interface YComponentInfo {
 	 * @return
 	 */
 	String getNamespace();
+
+	public Class getModelSpecification();
+
+	public Class<?> getModelImplementation();
 
 	/**
 	 * Creates a {@link YComponentValidator}.

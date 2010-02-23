@@ -88,7 +88,7 @@ public class HtmlYComponentHandler extends ComponentHandler {
 	private void updateYComponentInfo(final Tag tag) {
 
 		log.debug("Refreshing " + YComponentInfo.class.getSimpleName() + " for "
-				+ cmpInfo.getLocation() + "...");
+				+ cmpInfo.getViewLocation() + "...");
 
 		final String specClass = getAttributeValue(tag, YComponentInfo.MODEL_SPEC_ATTRIBUTE);
 		final String implClass = getAttributeValue(tag, YComponentInfo.MODEL_IMPL_ATTRIBUTE);
@@ -99,10 +99,10 @@ public class HtmlYComponentHandler extends ComponentHandler {
 
 		if (log.isDebugEnabled()) {
 			String updatedAttribs = "";
-			if (isModified(cmpInfo.getModelSpecification(), specClass)) {
+			if (isModified(cmpInfo.getConfiguredModelSpecification(), specClass)) {
 				updatedAttribs = updatedAttribs + YComponentInfo.MODEL_SPEC_ATTRIBUTE + ",";
 			}
-			if (isModified(cmpInfo.getModelImplementation(), implClass)) {
+			if (isModified(cmpInfo.getConfiguredModelImplementation(), implClass)) {
 				updatedAttribs = updatedAttribs + YComponentInfo.MODEL_IMPL_ATTRIBUTE + ",";
 			}
 			if (isModified(cmpInfo.getVariableName(), varName)) {
@@ -127,8 +127,8 @@ public class HtmlYComponentHandler extends ComponentHandler {
 
 		}
 
-		cmpInfo.setModelSpecification(specClass);
-		cmpInfo.setModelImplementation(implClass);
+		cmpInfo.setConfiguredModelSpecification(specClass);
+		cmpInfo.setConfiguredModelImplementation(implClass);
 		cmpInfo.setVariableName(varName);
 		cmpInfo.setId(id);
 		cmpInfo.setErrorHandling(errorHandling);
@@ -270,7 +270,7 @@ public class HtmlYComponentHandler extends ComponentHandler {
 			final UIComponent uicomponent1) {
 		super.onComponentPopulated(ctx, cmp, uicomponent1);
 		((HtmlYComponent) cmp).setComponentInfo(cmpInfo);
-		((HtmlYComponent) cmp).setViewLocation(cmpInfo.getLocation());
+		((HtmlYComponent) cmp).setViewLocation(cmpInfo.getViewLocation());
 	}
 
 }

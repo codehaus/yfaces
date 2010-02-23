@@ -101,9 +101,9 @@ public class YComponentInfoFactory {
 
 				// component name
 				result.setName(cmpName);
-				result.setURL(url);
+				result.setViewURL(url);
 				result.setNamespace(namespace);
-				result.setLocation("/" + url.getFile().substring(this.base.length()));
+				result.setViewLocation("/" + url.getFile().substring(this.base.length()));
 			}
 		}
 		return result;
@@ -129,8 +129,8 @@ public class YComponentInfoFactory {
 				// component name
 				result.setId(attributes.get(YComponentInfo.ID_ATTRIBUTE));
 				result.setVariableName(attributes.get(YComponentInfo.VAR_ATTRIBUTE));
-				result.setModelImplementation(attributes.get(YComponentInfo.MODEL_IMPL_ATTRIBUTE));
-				result.setModelSpecification(attributes.get(YComponentInfo.MODEL_SPEC_ATTRIBUTE));
+				result.setConfiguredModelImplementation(attributes.get(YComponentInfo.MODEL_IMPL_ATTRIBUTE));
+				result.setConfiguredModelSpecification(attributes.get(YComponentInfo.MODEL_SPEC_ATTRIBUTE));
 				result.setErrorHandling(attributes.get(YComponentInfo.ERROR_ATTRIBUTE));
 				final Collection<String> injectable = this.getComponentProperties(attributes);
 				result.setPushProperties(injectable);

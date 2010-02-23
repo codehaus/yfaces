@@ -414,7 +414,7 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 
 			} catch (final YFacesException e) {
 				log.error("Error creating " + YComponent.class.getSimpleName() + " ("
-						+ cmpInfo.getModelImplementation() + ")", e);
+						+ cmpInfo.getConfiguredModelImplementation() + ")", e);
 				this.error = e;
 			}
 		}
@@ -536,7 +536,7 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 	private void validateComponentInfo(final YComponentValidator cmpValid) {
 
 		if (log.isDebugEnabled()) {
-			log.debug("Validating component " + getYComponentInfo().getLocation());
+			log.debug("Validating component " + getYComponentInfo().getViewLocation());
 		}
 
 		final Set<YValidationAspekt> errors = new HashSet<YValidationAspekt>(cmpValid
@@ -753,7 +753,7 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 	private void generateHtmlDebug(final String prefix) {
 		if (this.debugHtmlOut == null) {
 			final YComponentInfo yInfo = getYComponentInfo();
-			debugHtmlOut = yInfo.getId() + ":" + yInfo.getLocation();
+			debugHtmlOut = yInfo.getId() + ":" + yInfo.getViewLocation();
 		}
 		try {
 			FacesContext.getCurrentInstance().getResponseWriter().writeComment(

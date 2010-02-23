@@ -80,17 +80,17 @@ public class YComponentValidatorImpl implements YComponentValidator {
 	}
 
 	private boolean assertModelSpecification() {
-		boolean isValid = assertNotEmpty(cmpInfo.getModelSpecification(),
+		boolean isValid = assertNotEmpty(cmpInfo.getConfiguredModelSpecification(),
 				YValidationAspekt.SPEC_IS_MISSING);
 		if (isValid) {
-			final Class modelSpec = assertLoadingClass(cmpInfo.getModelSpecification(),
+			final Class modelSpec = assertLoadingClass(cmpInfo.getConfiguredModelSpecification(),
 					YValidationAspekt.SPEC_NOT_LOADABLE);
 
 			if (isValid = (modelSpec != null)) {
 
-				if (!modelSpec.equals(cmpInfo.getModelSpecClass())) {
+				if (!modelSpec.equals(cmpInfo.getModelSpecification())) {
 					throw new IllegalStateException("Model specification class mismatch " + modelSpec
-							+ " vs " + cmpInfo.getModelSpecClass());
+							+ " vs " + cmpInfo.getModelSpecification());
 				}
 
 				final Set<YValidationAspekt> _specErrors = this.validateSpecificationClass(modelSpec);
@@ -110,16 +110,16 @@ public class YComponentValidatorImpl implements YComponentValidator {
 	 * @return true when assertion succeeds
 	 */
 	private boolean assertModelImplementation() {
-		boolean isValid = assertNotEmpty(cmpInfo.getModelImplementation(),
+		boolean isValid = assertNotEmpty(cmpInfo.getConfiguredModelImplementation(),
 				YValidationAspekt.IMPL_IS_MISSING);
 		if (isValid) {
 
-			final Class modelImpl = assertLoadingClass(cmpInfo.getModelImplementation(),
+			final Class modelImpl = assertLoadingClass(cmpInfo.getConfiguredModelImplementation(),
 					YValidationAspekt.IMPL_NOT_LOADABLE);
 
 			if (isValid = (modelImpl != null)) {
 
-				if (!modelImpl.equals(cmpInfo.getModelImplClass())) {
+				if (!modelImpl.equals(cmpInfo.getModelImplementation())) {
 					throw new IllegalStateException("Model implementation class mismatch");
 				}
 
@@ -187,7 +187,7 @@ public class YComponentValidatorImpl implements YComponentValidator {
 			result.add(YValidationAspekt.IMPL_IS_NO_YCMP);
 		}
 
-		final Class<?> specClass = cmpInfo.getModelSpecClass();
+		final Class<?> specClass = cmpInfo.getModelSpecification();
 		if (specClass != null && !specClass.isAssignableFrom(implClass)) {
 			result.add(YValidationAspekt.IMPL_UNASSIGNABLE_TO_SPEC);
 		}
