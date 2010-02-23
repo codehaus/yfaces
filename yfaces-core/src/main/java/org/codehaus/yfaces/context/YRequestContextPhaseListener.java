@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.hybris.yfaces.context;
+package org.codehaus.yfaces.context;
 
 import javax.faces.FactoryFinder;
 import javax.faces.application.Application;
@@ -25,9 +25,10 @@ import javax.faces.event.PhaseId;
 import javax.faces.event.PhaseListener;
 import javax.servlet.ServletContextListener;
 
-import de.hybris.yfaces.YFaces;
-import de.hybris.yfaces.YFacesApplication;
-import de.hybris.yfaces.YFacesException;
+import org.codehaus.yfaces.YFaces;
+import org.codehaus.yfaces.YFacesApplication;
+import org.codehaus.yfaces.YFacesException;
+
 
 /**
  * This {@link PhaseListener} is mandatory for a properly work with the {@link YConversationContext}

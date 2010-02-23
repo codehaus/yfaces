@@ -13,13 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.hybris.yfaces.context;
+package org.codehaus.yfaces.context;
 
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import de.hybris.yfaces.util.YFacesErrorHandler;
+import org.codehaus.yfaces.util.YFacesErrorHandler;
+
 
 /**
  * A context object whose scope and lifetime is bound to {@link HttpServletRequest}.

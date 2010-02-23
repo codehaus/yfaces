@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.hybris.yfaces.context;
+package org.codehaus.yfaces.context;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,12 +25,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.log4j.Logger;
+import org.codehaus.yfaces.YFacesException;
+import org.codehaus.yfaces.YManagedBean;
+import org.codehaus.yfaces.component.AbstractYFrame;
+import org.codehaus.yfaces.component.YComponent;
+import org.codehaus.yfaces.component.YFrame;
 
-import de.hybris.yfaces.YFacesException;
-import de.hybris.yfaces.YManagedBean;
-import de.hybris.yfaces.component.AbstractYFrame;
-import de.hybris.yfaces.component.YComponent;
-import de.hybris.yfaces.component.YFrame;
 
 /**
  * A context object whose scope and lifetime is bound to a Page. A page lays between
