@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.hybris.yfaces.context;
+package org.codehaus.yfaces.context;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -25,12 +25,12 @@ import javax.faces.render.ResponseStateManager;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
+import org.codehaus.yfaces.YFaces;
+import org.codehaus.yfaces.YFacesException;
+import org.codehaus.yfaces.YManagedBean;
+import org.codehaus.yfaces.component.YFrame;
+import org.codehaus.yfaces.util.YFacesErrorHandler;
 
-import de.hybris.yfaces.YFaces;
-import de.hybris.yfaces.YFacesException;
-import de.hybris.yfaces.YManagedBean;
-import de.hybris.yfaces.component.YFrame;
-import de.hybris.yfaces.util.YFacesErrorHandler;
 
 /**
  * {@link YRequestContext} implementation which gives additional configuration for IOC containers.

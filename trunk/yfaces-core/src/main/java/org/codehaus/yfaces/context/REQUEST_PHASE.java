@@ -1,4 +1,4 @@
-package de.hybris.yfaces.context;
+package org.codehaus.yfaces.context;
 
 public enum REQUEST_PHASE {
 	/**

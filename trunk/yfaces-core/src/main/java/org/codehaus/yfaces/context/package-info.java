@@ -1,4 +1,4 @@
 /**
  * Various Context specifications and implementations
  */
-package de.hybris.yfaces.context;
+package org.codehaus.yfaces.context;

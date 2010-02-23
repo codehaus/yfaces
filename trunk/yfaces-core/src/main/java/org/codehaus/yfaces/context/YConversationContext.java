@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.hybris.yfaces.context;
+package org.codehaus.yfaces.context;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -21,9 +21,9 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.codehaus.yfaces.YFaces;
+import org.codehaus.yfaces.YFacesException;
 
-import de.hybris.yfaces.YFaces;
-import de.hybris.yfaces.YFacesException;
 
 /**
  * A context object whose scope and lifetime is bound to a Conversation. A conversation lays between

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.hybris.yfaces.context;
+package org.codehaus.yfaces.context;
 
 import java.util.Map;
 
