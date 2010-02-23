@@ -1,4 +1,4 @@
 /**
  * Various classes depending on MyFaces. 
  */
-package de.hybris.yfaces.util.myfaces;
+package org.codehaus.yfaces.util.myfaces;
