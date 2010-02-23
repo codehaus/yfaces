@@ -92,7 +92,7 @@ public interface YComponentValidator {
 				final YComponent cmpInfo, final Class<?> customImplClass) {
 			String result = null;
 			if (!errors.isEmpty()) {
-				result = cmpInfo.getId() != null ? cmpInfo.getId() : "";
+				result = cmpInfo.getViewId() != null ? cmpInfo.getViewId() : "";
 				for (final YValidationAspekt error : errors) {
 					result = result + "," + error.getFormattedErrorMessage(cmpInfo);
 				}

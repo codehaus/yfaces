@@ -78,7 +78,7 @@ public abstract class AbstractYModel implements YModel {
 	}
 
 	void setYComponentInfo(final YComponent info) {
-		this.id = info.getId();
+		this.id = info.getViewId();
 		this.ns = info.getNamespace();
 		this.cmpInfo = info;
 	}

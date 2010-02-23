@@ -36,7 +36,7 @@ public interface YComponent {
 	 * 
 	 * @return id id of this component
 	 */
-	String getId();
+	String getViewId();
 
 	/**
 	 * Returns the name of the variable under which the component model is made available in view.

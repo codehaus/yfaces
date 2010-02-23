@@ -204,9 +204,9 @@ public class HtmlYComponentHandler extends ComponentHandler {
 		//		if (_id == null) {
 		final TagAttribute attrib = getAttribute("id");
 		if (attrib == null) {
-			final String id = this.cmpInfo.getId();
+			final String id = this.cmpInfo.getViewId();
 			cmp.setId(id);
-			log.debug("Setting component id: " + cmpInfo.getId());
+			log.debug("Setting component id: " + cmpInfo.getViewId());
 		}
 		//		} else {
 		//			cmp.setId(_id);

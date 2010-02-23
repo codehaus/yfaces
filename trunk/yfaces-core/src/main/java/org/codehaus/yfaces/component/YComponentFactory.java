@@ -92,7 +92,6 @@ public class YComponentFactory {
 			result = this.createComponent(content);
 
 			if (result != null) {
-				// this.creationTime = resource.openConnection().getLastModified();
 
 				// component name
 				result.setName(cmpName);

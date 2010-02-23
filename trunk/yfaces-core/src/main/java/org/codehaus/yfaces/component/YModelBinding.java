@@ -67,7 +67,7 @@ public class YModelBinding<T extends YModel> {
 
 	protected YModelBinding(final YComponent cmpInfo, final String frameBinding) {
 		if (cmpInfo != null) {
-			this.id = cmpInfo.getId();
+			this.id = cmpInfo.getViewId();
 			this.ns = cmpInfo.getNamespace();
 		}
 		this.frameBinding = frameBinding;

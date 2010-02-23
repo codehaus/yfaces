@@ -134,7 +134,7 @@ public class YComponentRegistry {
 
 		if (cmpInfo != null) {
 
-			final String id = cmpInfo.getId();
+			final String id = cmpInfo.getViewId();
 			final String ns = cmpInfo.getNamespace();
 
 			// an ID should always be available (at least as fallback of 'name')
@@ -159,7 +159,7 @@ public class YComponentRegistry {
 			// (can happen when custom IDs are used)
 			if (!map.containsKey(id)) {
 				// ... add to namesapce ,ap
-				map.put(cmpInfo.getId(), cmpInfo);
+				map.put(cmpInfo.getViewId(), cmpInfo);
 				// ... add to global map
 				this.locationToCmpMap.put(cmpInfo.getViewLocation(), cmpInfo);
 				result = true;
