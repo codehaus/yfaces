@@ -17,23 +17,23 @@
 package org.codehaus.yfaces.component;
 
 /**
- * Default implementation for an {@link YComponentEventListener}.<br/>
+ * Default implementation for an {@link YEventListener}.<br/>
  * Does nothing when an event occurs.<br/>
  * 
  * @author Denny Strietzbaum
  */
-public class DefaultYComponentEventListener<T extends YComponent> extends
-		AbstractYComponentEventListener<T> {
+public class DefaultYEventListener<T extends YModel> extends
+		AbstractYEventListener<T> {
 
 	private static final long serialVersionUID = 1L;
 
 	//private static final Logger log = Logger.getLogger(DefaultYComponentEventListener.class);
 
-	public DefaultYComponentEventListener() {
+	public DefaultYEventListener() {
 
 	}
 
-	public DefaultYComponentEventListener(final String action) {
+	public DefaultYEventListener(final String action) {
 		super.setAction(action);
 	}
 
@@ -55,7 +55,7 @@ public class DefaultYComponentEventListener<T extends YComponent> extends
 	 * (storefoundation.yfaces.YComponentEvent)
 	 */
 	@Override
-	public void actionListener(final YComponentEvent<T> event) {
+	public void actionListener(final YEvent<T> event) {
 		// NOP
 	}
 
@@ -66,7 +66,7 @@ public class DefaultYComponentEventListener<T extends YComponent> extends
 	 * (storefoundation.yfaces.YComponentEvent)
 	 */
 	@Override
-	public void valueChangeListener(final YComponentEvent<T> event) {
+	public void valueChangeListener(final YEvent<T> event) {
 		// NOP
 	}
 

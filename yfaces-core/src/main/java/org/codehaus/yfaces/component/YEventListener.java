@@ -18,11 +18,11 @@ package org.codehaus.yfaces.component;
 import java.io.Serializable;
 
 /**
- * A Listener which must be registered at and gets called from an {@link YComponentEventHandler}.
+ * A Listener which must be registered at and gets called from an {@link YEventHandler}.
  * 
  * @author Denny Strietzbaum
  */
-public interface YComponentEventListener<T extends YComponent> extends Serializable {
+public interface YEventListener<T extends YModel> extends Serializable {
 	/**
 	 * Process action logic.
 	 * 
@@ -34,17 +34,17 @@ public interface YComponentEventListener<T extends YComponent> extends Serializa
 	 * Process actionListener logic.
 	 * 
 	 * @param event
-	 *          {@link YComponentEvent}
+	 *          {@link YEvent}
 	 */
-	public void actionListener(YComponentEvent<T> event);
+	public void actionListener(YEvent<T> event);
 
 	/**
 	 * Process valueChangeListener logic.
 	 * 
 	 * @param event
-	 *          {@link YComponentEvent}
+	 *          {@link YEvent}
 	 */
-	public void valueChangeListener(YComponentEvent<T> event);
+	public void valueChangeListener(YEvent<T> event);
 
 	/**
 	 * Sets a binding for an action.<br/>
@@ -57,7 +57,7 @@ public interface YComponentEventListener<T extends YComponent> extends Serializa
 
 	/**
 	 * Sets a binding for an actionListener<br/>
-	 * This binding overrules {@link #actionListener(YComponentEvent)}
+	 * This binding overrules {@link #actionListener(YEvent)}
 	 * 
 	 * @param binding
 	 *          a valid expression string
@@ -66,7 +66,7 @@ public interface YComponentEventListener<T extends YComponent> extends Serializa
 
 	/**
 	 * Sets a binding for a valueChangeListener.<br/>
-	 * This binding overrules {@link #valueChangeListener(YComponentEvent)}
+	 * This binding overrules {@link #valueChangeListener(YEvent)}
 	 * 
 	 * @param binding
 	 *          valid expression string

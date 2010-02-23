@@ -29,8 +29,8 @@ import org.codehaus.yfaces.YFacesException;
  * @author Denny Strietzbaum
  * 
  */
-public abstract class AbstractYComponentEventListener<T extends YComponent> implements
-		YComponentEventListener<T> {
+public abstract class AbstractYEventListener<T extends YModel> implements
+		YEventListener<T> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -42,9 +42,9 @@ public abstract class AbstractYComponentEventListener<T extends YComponent> impl
 
 	public abstract String action();
 
-	public abstract void actionListener(YComponentEvent<T> event);
+	public abstract void actionListener(YEvent<T> event);
 
-	public abstract void valueChangeListener(YComponentEvent<T> event);
+	public abstract void valueChangeListener(YEvent<T> event);
 
 	protected String fireAction() {
 		String result = null;
@@ -67,7 +67,7 @@ public abstract class AbstractYComponentEventListener<T extends YComponent> impl
 
 	}
 
-	protected void fireActionListener(final YComponentEvent<T> event) {
+	protected void fireActionListener(final YEvent<T> event) {
 		if (this.actionListener != null) {
 			this.invokeYComponentListener(this.actionListener, event);
 		} else {
@@ -75,7 +75,7 @@ public abstract class AbstractYComponentEventListener<T extends YComponent> impl
 		}
 	}
 
-	protected void fireValueChangeListener(final YComponentEvent<T> event) {
+	protected void fireValueChangeListener(final YEvent<T> event) {
 		if (this.valueChangeListener != null) {
 			this.invokeYComponentListener(this.valueChangeListener, event);
 		} else {
@@ -124,14 +124,14 @@ public abstract class AbstractYComponentEventListener<T extends YComponent> impl
 		}
 	}
 
-	private Object invokeYComponentListener(final String binding, final YComponentEvent<?> event) {
+	private Object invokeYComponentListener(final String binding, final YEvent<?> event) {
 		MethodExpression me = null;
 
 		final ExpressionFactory elFac = FacesContext.getCurrentInstance().getApplication()
 				.getExpressionFactory();
 		final ELContext elCtx = FacesContext.getCurrentInstance().getELContext();
 
-		me = elFac.createMethodExpression(elCtx, binding, null, new Class[] { YComponentEvent.class });
+		me = elFac.createMethodExpression(elCtx, binding, null, new Class[] { YEvent.class });
 		try {
 			me.getMethodInfo(elCtx);
 		} catch (final MethodNotFoundException e1) {
@@ -139,9 +139,9 @@ public abstract class AbstractYComponentEventListener<T extends YComponent> impl
 				me = elFac.createMethodExpression(elCtx, binding, null, new Class[] { event.getClass() });
 				me.getMethodInfo(elCtx);
 			} catch (final MethodNotFoundException e2) {
-				final String error1 = "binding(" + YComponentEvent.class.getName() + ")";
+				final String error1 = "binding(" + YEvent.class.getName() + ")";
 				final String error2 = "binding(" + event.getClass() + ")";
-				final String error = "Invalid " + YComponentEventListener.class.getName()
+				final String error = "Invalid " + YEventListener.class.getName()
 						+ "; there's neither a " + error1 + " nor a" + error2;
 				throw new YFacesException(error);
 			}

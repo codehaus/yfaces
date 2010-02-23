@@ -34,7 +34,7 @@ import org.codehaus.yfaces.YFacesConfig;
 
 
 /**
- * Holds {@link YComponent} specific meta information.
+ * Holds {@link YModel} specific meta information.
  * 
  * @author Denny Strietzbaum
  */
@@ -305,7 +305,7 @@ public class YComponentInfoImpl implements YComponentInfo {
 		try {
 			if (modelSpecClassName != null) {
 				this.modelSpecClass = loader.loadClass(this.modelSpecClassName);
-				if (modelSpecClass != null && YComponent.class.isAssignableFrom(modelSpecClass)) {
+				if (modelSpecClass != null && YModel.class.isAssignableFrom(modelSpecClass)) {
 					this.isYComponent = true;
 				}
 			}
@@ -317,7 +317,7 @@ public class YComponentInfoImpl implements YComponentInfo {
 				this.modelImplClass = loader.loadClass(this.modelImplClassName);
 
 				if (modelSpecClass == null && modelImplClass != null
-						&& YComponent.class.isAssignableFrom(modelImplClass)) {
+						&& YModel.class.isAssignableFrom(modelImplClass)) {
 					this.isYComponent = true;
 				}
 			}
@@ -326,7 +326,7 @@ public class YComponentInfoImpl implements YComponentInfo {
 		}
 		if (log.isDebugEnabled()) {
 			log.debug(this.cmpName + ": model is declared as "
-					+ (isYComponent ? YComponent.class.getSimpleName() : "PoJo component"));
+					+ (isYComponent ? YModel.class.getSimpleName() : "PoJo component"));
 		}
 
 		this.modelProcessor = this.isYComponent ? new YModelProcessor(this) : new PojoModelProcessor(
@@ -350,7 +350,7 @@ public class YComponentInfoImpl implements YComponentInfo {
 		this.availableCmpProperties = classToPropertiesMap.get(this.modelImplClassName);
 		if (this.availableCmpProperties == null) {
 			this.availableCmpProperties = this.findAllWriteProperties(modelImplClass,
-					AbstractYComponent.class);
+					AbstractYModel.class);
 			classToPropertiesMap.put(modelImplClassName, this.availableCmpProperties);
 		}
 		return this.availableCmpProperties;

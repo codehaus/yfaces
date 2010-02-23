@@ -34,11 +34,11 @@ import org.codehaus.yfaces.YFacesException;
  * @author Denny Strietzbaum
  * 
  */
-public abstract class AbstractYComponent implements YComponent {
+public abstract class AbstractYModel implements YModel {
 
 	private static final long serialVersionUID = 1L;
 
-	private static final Logger log = Logger.getLogger(AbstractYComponent.class);
+	private static final Logger log = Logger.getLogger(AbstractYModel.class);
 
 	private Map<String, Object> attributes = null;
 	private String frameBinding = null;
@@ -51,7 +51,7 @@ public abstract class AbstractYComponent implements YComponent {
 	private transient String logId = this.getClass().getSimpleName();
 	private transient YComponentInfo cmpInfo = null;
 
-	public AbstractYComponent() {
+	public AbstractYModel() {
 		this.uid = this.getClass().getName() + String.valueOf(Math.random());
 	}
 
@@ -84,26 +84,26 @@ public abstract class AbstractYComponent implements YComponent {
 	}
 
 	/**
-	 * Creates an {@link YComponentEventHandler} whose default {@link YComponentEventListener} does
+	 * Creates an {@link YEventHandler} whose default {@link YEventListener} does
 	 * nothing.
 	 * 
-	 * @return {@link YComponentEventHandler}
+	 * @return {@link YEventHandler}
 	 */
-	public <T extends YComponent> YComponentEventHandler<T> createEventHandler() {
-		return this.createEventHandler(new DefaultYComponentEventListener<T>());
+	public <T extends YModel> YEventHandler<T> createEventHandler() {
+		return this.createEventHandler(new DefaultYEventListener<T>());
 	}
 
 	/**
-	 * Creates an {@link YComponentEventHandler} whose default {@link YComponentEventListener} is the
+	 * Creates an {@link YEventHandler} whose default {@link YEventListener} is the
 	 * passed one.
 	 * 
 	 * @param listener
-	 *          {@link YComponentEventListener} default listener
-	 * @return {@link YComponentEventHandler}
+	 *          {@link YEventListener} default listener
+	 * @return {@link YEventHandler}
 	 */
-	public <T extends YComponent> YComponentEventHandler<T> createEventHandler(
-			final YComponentEventListener<T> listener) {
-		final YComponentEventHandler<T> result = new YComponentEventHandlerImpl<T>(listener);
+	public <T extends YModel> YEventHandler<T> createEventHandler(
+			final YEventListener<T> listener) {
+		final YEventHandler<T> result = new YEventHandlerImpl<T>(listener);
 		return result;
 	}
 
@@ -144,25 +144,25 @@ public abstract class AbstractYComponent implements YComponent {
 		return result;
 	}
 
-	public <T extends YComponent> T newInstance(final String id) {
+	public <T extends YModel> T newInstance(final String id) {
 		return this.newInstance(null, id);
 	}
 
-	public <T extends YComponent> T newInstance(final String ns, final String id) {
+	public <T extends YModel> T newInstance(final String ns, final String id) {
 
 		final YComponentInfo cmpInfo = YComponentRegistry.getInstance().getComponent(ns, id);
 		return (T) cmpInfo.getModelProcessor().createModel();
 	}
 
-	public <T extends YComponent> T newInstance(final T template) {
+	public <T extends YModel> T newInstance(final T template) {
 		T result = null;
 		final Class<T> clazz = (Class) template.getClass();
 		try {
-			final Constructor<T> c = clazz.getConstructor(YComponent.class);
+			final Constructor<T> c = clazz.getConstructor(YModel.class);
 			result = c.newInstance(template);
 		} catch (final Exception e) {
 			throw new YFacesException(clazz + " can't be created; missing Constructor which accepts "
-					+ YComponent.class);
+					+ YModel.class);
 		}
 		return result;
 	}
@@ -175,7 +175,7 @@ public abstract class AbstractYComponent implements YComponent {
 	@Override
 	public boolean equals(final Object obj) {
 		return (obj.getClass().equals(this.getClass()))
-				&& ((AbstractYComponent) obj).uid.equals(this.uid);
+				&& ((AbstractYModel) obj).uid.equals(this.uid);
 	}
 
 	/*

@@ -28,7 +28,7 @@ import org.codehaus.yfaces.context.YPageContext;
 /**
  * Abstract base class for every YFrame.<br/>
  * Each {@link YPageContext} manages one or more {@link YFrame} instances.<br/>
- * Each {@link YFrame} manages one ore more {@link YComponent} instances. <br/>
+ * Each {@link YFrame} manages one ore more {@link YModel} instances. <br/>
  * A YFrame is a ManagedBean and must declared in a faces configuration file.<br/>
  * 
  * @author Denny Strietzbaum
@@ -40,14 +40,14 @@ public abstract class AbstractYFrame extends YManagedBean implements YFrame {
 
 	private static final Logger log = Logger.getLogger(AbstractYFrame.class);
 
-	private List<YComponentBinding<?>> componentBindings = null;
+	private List<YModelBinding<?>> componentBindings = null;
 
 	/**
 	 * Constructor.
 	 */
 	public AbstractYFrame() {
 		super();
-		this.componentBindings = new ArrayList<YComponentBinding<?>>();
+		this.componentBindings = new ArrayList<YModelBinding<?>>();
 	}
 
 	/*
@@ -56,13 +56,13 @@ public abstract class AbstractYFrame extends YManagedBean implements YFrame {
 	 * @see de.hybris.yfaces.component.YFrame#refresh()
 	 */
 	public void refresh() {
-		for (final YComponentBinding<?> binding : this.componentBindings) {
+		for (final YModelBinding<?> binding : this.componentBindings) {
 			if (binding.isResolved() && binding.getValue() != null) {
 				log.debug("Refreshing component: " + binding.getValue().getClass().getSimpleName());
 				try {
 					binding.getValue().refresh();
 				} catch (final Exception e) {
-					final AbstractYComponent cmp = (AbstractYComponent) binding.getValue();
+					final AbstractYModel cmp = (AbstractYModel) binding.getValue();
 					//					cmp.setIllegalComponentState(e.getClass().getSimpleName());
 					log.error("Error refreshing component: " + cmp.getClass().getSimpleName() + " ("
 							+ this.getClass().getSimpleName() + ")", e);
@@ -85,7 +85,7 @@ public abstract class AbstractYFrame extends YManagedBean implements YFrame {
 	 * 
 	 * @see de.hybris.yfaces.YFrame#createComponentBinding()
 	 */
-	public <T extends YComponent> YComponentBinding<T> createComponentBinding() {
+	public <T extends YModel> YModelBinding<T> createComponentBinding() {
 		return this.createComponentBinding(null, null, null);
 	}
 
@@ -94,7 +94,7 @@ public abstract class AbstractYFrame extends YManagedBean implements YFrame {
 	 * 
 	 * @see de.hybris.yfaces.YFrame#createComponentBinding(de.hybris.yfaces.YComponent )
 	 */
-	public <T extends YComponent> YComponentBinding<T> createComponentBinding(final T value) {
+	public <T extends YModel> YModelBinding<T> createComponentBinding(final T value) {
 		return this.createComponentBinding(null, null, value);
 	}
 
@@ -103,14 +103,14 @@ public abstract class AbstractYFrame extends YManagedBean implements YFrame {
 	 * 
 	 * @see de.hybris.yfaces.YFrame#createComponentBinding(java.lang.String)
 	 */
-	public <T extends YComponent> YComponentBinding<T> createComponentBinding(final String cmpId) {
+	public <T extends YModel> YModelBinding<T> createComponentBinding(final String cmpId) {
 		return this.createComponentBinding(null, cmpId, null);
 	}
 
-	private <T extends YComponent> YComponentBinding<T> createComponentBinding(final String ns,
+	private <T extends YModel> YModelBinding<T> createComponentBinding(final String ns,
 			final String id, final T value) {
 		final YComponentInfo cmpInfo = YComponentRegistry.getInstance().getComponent(ns, id);
-		final YComponentBinding<T> result = new YComponentBinding<T>(cmpInfo, super
+		final YModelBinding<T> result = new YModelBinding<T>(cmpInfo, super
 				.createExpressionString());
 		result.setValue(value);
 		this.componentBindings.add(result);
@@ -136,15 +136,15 @@ public abstract class AbstractYFrame extends YManagedBean implements YFrame {
 	}
 
 	/**
-	 * Creates an {@link YComponentEventListener} for this {@link YFrame} based on the passed method.<br/>
+	 * Creates an {@link YEventListener} for this {@link YFrame} based on the passed method.<br/>
 	 * 
 	 * @param frameMethod
 	 *          method of this frame which shall listen to
-	 * @return {@link YComponentEventListener}
+	 * @return {@link YEventListener}
 	 */
-	public <T extends YComponent> YComponentEventListener<T> createComponentEventListener(
+	public <T extends YModel> YEventListener<T> createComponentEventListener(
 			final String frameMethod) {
-		final YComponentEventListener<T> result = new DefaultYComponentEventListener<T>();
+		final YEventListener<T> result = new DefaultYEventListener<T>();
 		result.setActionListener(super.createExpressionString(frameMethod));
 		return result;
 	}

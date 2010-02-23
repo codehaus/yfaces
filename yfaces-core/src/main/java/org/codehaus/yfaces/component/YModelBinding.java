@@ -20,20 +20,20 @@ import org.codehaus.yfaces.component.html.HtmlYComponent;
 
 
 /**
- * A Binding for an {@link YComponent} instance.<br/>
+ * A Binding for an {@link YModel} instance.<br/>
  * Generally JSF doesn't use a "binding instance" when a binding attribute is used but
  * injects/retrieves the bound value directly from the parent instance. <br/>
  * example: <code>&lt;h:outputText binding="#{managedBean.textComponent}"/&gt; </code><br/>
  * Whereas managedBean is a ManagedBean which has a getter and a setter for a {@link HtmlYComponent} <br/>
  * YFaces provides another technique and introduces a thin meta-class which describes such a binding
- * for a {@link YComponent} instance more particularly. Instead of returning the concrete component
- * instance an instance of {@link YComponentBinding} can be returned. For the view nothing changes,
+ * for a {@link YModel} instance more particularly. Instead of returning the concrete component
+ * instance an instance of {@link YModelBinding} can be returned. For the view nothing changes,
  * the binding attribute is used exactly like before. However, the programmer has some more choices
  * now.
  * 
  * @author Denny Strietzbaum
  */
-public class YComponentBinding<T extends YComponent> {
+public class YModelBinding<T extends YModel> {
 
 	//private static final Logger log = Logger.getLogger(YComponentBinding.class);
 
@@ -47,25 +47,25 @@ public class YComponentBinding<T extends YComponent> {
 	private transient T value = null;
 
 	/**
-	 * Constructor. Creates a general binding without any {@link YComponent} information. A concrete
-	 * {@link YComponent} instance can be set later programatically. When no component instance is set
+	 * Constructor. Creates a general binding without any {@link YModel} information. A concrete
+	 * {@link YModel} instance can be set later programatically. When no component instance is set
 	 * JSF does it when this binding is resolved for the first time.<br/>
 	 */
-	public YComponentBinding() {
+	public YModelBinding() {
 
 	}
 
 	/**
-	 * Constructor. Bounds this binding to a {@link YComponent} which is given by its ID.<br/>
+	 * Constructor. Bounds this binding to a {@link YModel} which is given by its ID.<br/>
 	 * 
 	 * @param id
 	 *          component id
 	 */
-	public YComponentBinding(final YComponentInfo cmpInfo) {
+	public YModelBinding(final YComponentInfo cmpInfo) {
 		this(cmpInfo, null);
 	}
 
-	protected YComponentBinding(final YComponentInfo cmpInfo, final String frameBinding) {
+	protected YModelBinding(final YComponentInfo cmpInfo, final String frameBinding) {
 		if (cmpInfo != null) {
 			this.id = cmpInfo.getId();
 			this.ns = cmpInfo.getNamespace();
@@ -76,7 +76,7 @@ public class YComponentBinding<T extends YComponent> {
 	/**
 	 * Returns the component which is bound to this binding.<br/>
 	 * 
-	 * @return {@link YComponent}
+	 * @return {@link YModel}
 	 */
 	public T getValue() {
 		// standard lookup
@@ -88,7 +88,7 @@ public class YComponentBinding<T extends YComponent> {
 			}
 
 			this.value = (T) cmpInfo.getModelProcessor().createModel();
-			((AbstractYComponent) value).setFrame(this.frameBinding);
+			((AbstractYModel) value).setFrame(this.frameBinding);
 		}
 
 		this.resolved = true;
@@ -97,13 +97,13 @@ public class YComponentBinding<T extends YComponent> {
 	}
 
 	/**
-	 * Sets the {@link YComponent} for this binding.
+	 * Sets the {@link YModel} for this binding.
 	 */
 	public void setValue(final T value) {
 		this.value = value;
 		if (value != null) {
 			// inject the frame
-			((AbstractYComponent) value).setFrame(this.frameBinding);
+			((AbstractYModel) value).setFrame(this.frameBinding);
 
 		}
 		// resolved=false what be accurate here

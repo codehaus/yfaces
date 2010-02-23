@@ -16,7 +16,7 @@
 
 package org.codehaus.yfaces;
 
-import org.codehaus.yfaces.component.YComponent;
+import org.codehaus.yfaces.component.YModel;
 
 /**
  * Generic exception which deals with YFaces issues.
@@ -27,7 +27,7 @@ public class YFacesException extends RuntimeException {
 
 	private static final long serialVersionUID = 1L;
 
-	public YFacesException(final YComponent cmp) {
+	public YFacesException(final YModel cmp) {
 		super(createMessage(cmp, ""));
 	}
 
@@ -43,15 +43,15 @@ public class YFacesException extends RuntimeException {
 		super(msg, cause);
 	}
 
-	public YFacesException(final YComponent cmp, final String message) {
+	public YFacesException(final YModel cmp, final String message) {
 		super(createMessage(cmp, message));
 	}
 
-	public YFacesException(final YComponent cmp, final String message, final Throwable cause) {
+	public YFacesException(final YModel cmp, final String message, final Throwable cause) {
 		super(createMessage(cmp, message), cause);
 	}
 
-	private static String createMessage(final YComponent cmp, final String subMessage) {
+	private static String createMessage(final YModel cmp, final String subMessage) {
 		return subMessage + " (" + cmp.getComponentInfo().getId() + ")";
 	}
 

@@ -23,16 +23,16 @@ import javax.faces.component.UIForm;
 import javax.faces.event.FacesEvent;
 
 /**
- * Common event which gets thrown by a {@link YComponent}<br/>
+ * Common event which gets thrown by a {@link YModel}<br/>
  * <br/>
  * Or more detailed:<br/>
- * This type of event gets created and thrown from within a {@link YComponentEventHandler}<br/>
- * The {@link YComponentEventHandler} takes the FacesEvent which was thrown by JSF, wraps it into
- * this event and notifies each registered {@link YComponentEventListener}<br/>
+ * This type of event gets created and thrown from within a {@link YEventHandler}<br/>
+ * The {@link YEventHandler} takes the FacesEvent which was thrown by JSF, wraps it into
+ * this event and notifies each registered {@link YEventListener}<br/>
  * 
  * @author Denny Strietzbaum
  */
-public interface YComponentEvent<T extends YComponent> {
+public interface YEvent<T extends YModel> {
 	/**
 	 * Returns the nearest enclosing {@link UIForm} of the {@link UICommand} who fired this action.<br/>
 	 * 
@@ -48,9 +48,9 @@ public interface YComponentEvent<T extends YComponent> {
 	public UIComponent getUIComponent();
 
 	/**
-	 * The {@link YComponent} which was responsible for this event.
+	 * The {@link YModel} which was responsible for this event.
 	 * 
-	 * @return {@link YComponent}
+	 * @return {@link YModel}
 	 */
 	public T getComponent();
 
@@ -62,8 +62,8 @@ public interface YComponentEvent<T extends YComponent> {
 	public FacesEvent getFacesEvent();
 
 	/**
-	 * A map of custom attributes. These are useful when a queue of {@link YComponentEventListener}
-	 * are registered at a {@link YComponentEventHandler}. Using these attributes are a possibility to
+	 * A map of custom attributes. These are useful when a queue of {@link YEventListener}
+	 * are registered at a {@link YEventHandler}. Using these attributes are a possibility to
 	 * pass additional parameters (processing results etc.) to following listeners which are getting
 	 * executed next.
 	 * 
