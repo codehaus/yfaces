@@ -24,7 +24,6 @@ import org.codehaus.yfaces.YFaces;
 import org.codehaus.yfaces.YManagedBean;
 import org.codehaus.yfaces.context.YPageContext;
 
-
 /**
  * Abstract base class for every YFrame.<br/>
  * Each {@link YPageContext} manages one or more {@link YFrame} instances.<br/>
@@ -109,9 +108,8 @@ public abstract class AbstractYFrame extends YManagedBean implements YFrame {
 
 	private <T extends YModel> YModelBinding<T> createComponentBinding(final String ns,
 			final String id, final T value) {
-		final YComponent cmpInfo = YComponentRegistry.getInstance().getComponent(ns, id);
-		final YModelBinding<T> result = new YModelBinding<T>(cmpInfo, super
-				.createExpressionString());
+		final YComponent cmpInfo = YFaces.getYComponentRegistry().getComponent(ns, id);
+		final YModelBinding<T> result = new YModelBinding<T>(cmpInfo, super.createExpressionString());
 		result.setValue(value);
 		this.componentBindings.add(result);
 		return result;
@@ -142,8 +140,7 @@ public abstract class AbstractYFrame extends YManagedBean implements YFrame {
 	 *          method of this frame which shall listen to
 	 * @return {@link YEventListener}
 	 */
-	public <T extends YModel> YEventListener<T> createComponentEventListener(
-			final String frameMethod) {
+	public <T extends YModel> YEventListener<T> createComponentEventListener(final String frameMethod) {
 		final YEventListener<T> result = new DefaultYEventListener<T>();
 		result.setActionListener(super.createExpressionString(frameMethod));
 		return result;

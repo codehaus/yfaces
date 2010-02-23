@@ -27,6 +27,7 @@ import javax.el.ValueExpression;
 import javax.faces.context.FacesContext;
 
 import org.apache.log4j.Logger;
+import org.codehaus.yfaces.YFaces;
 import org.codehaus.yfaces.YFacesException;
 
 /**
@@ -63,12 +64,12 @@ public abstract class AbstractYModel implements YModel {
 
 	public YComponent getComponent() {
 		if (this.cmpInfo == null) {
-			this.cmpInfo = YComponentRegistry.getInstance().getComponent(ns, id);
+			this.cmpInfo = YFaces.getYComponentRegistry().getComponent(ns, id);
 		}
 		return this.cmpInfo;
 	}
 
-	void setYComponentInfo(final YComponent info) {
+	void setYComponent(final YComponent info) {
 		this.id = info.getViewId();
 		this.ns = info.getNamespace();
 		this.cmpInfo = info;
@@ -138,7 +139,7 @@ public abstract class AbstractYModel implements YModel {
 
 	public <T extends YModel> T newInstance(final String ns, final String id) {
 
-		final YComponent cmpInfo = YComponentRegistry.getInstance().getComponent(ns, id);
+		final YComponent cmpInfo = YFaces.getYComponentRegistry().getComponent(ns, id);
 		return (T) cmpInfo.getModelProcessor().createModel();
 	}
 
