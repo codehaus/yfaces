@@ -10,7 +10,6 @@ import javax.faces.context.FacesContext;
 import org.apache.log4j.Logger;
 import org.codehaus.yfaces.YFacesException;
 
-
 public class PojoModelProcessor<T> implements ModelProcessor<T> {
 
 	private static final Logger log = Logger.getLogger(YModelProcessor.class);
@@ -27,7 +26,7 @@ public class PojoModelProcessor<T> implements ModelProcessor<T> {
 			result = (T) cmpInfo.getModelImplementation().newInstance();
 			this.initializeModel(result);
 		} catch (final Exception e) {
-			throw new YFacesException("Can't create Component model " + cmpInfo.getConfiguredModelImplementation(),
+			throw new YFacesException("Can't create Component model " + cmpInfo.getModelImplementation(),
 					e);
 		}
 

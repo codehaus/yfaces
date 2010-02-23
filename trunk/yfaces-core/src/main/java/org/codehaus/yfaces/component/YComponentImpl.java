@@ -25,13 +25,12 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeSet;
 
 import org.apache.log4j.Logger;
 import org.codehaus.yfaces.YFacesConfig;
-
 
 /**
  * Holds {@link YModel} specific meta information.
@@ -44,8 +43,6 @@ public class YComponentImpl implements YComponent {
 	// raw (unevaluated) attribute values
 	private String id = null;
 	private String cmpVar = null;
-	private String modelSpecClassName = null;
-	private String modelImplClassName = null;
 	private String errorHandling = null;
 
 	private Set<String> pushProperties = Collections.emptySet();
@@ -65,9 +62,11 @@ public class YComponentImpl implements YComponent {
 	private boolean isYComponent = false;
 
 	private ModelProcessor modelProcessor = null;
+	private YComponentConfigurationImpl cmpCfg = null;
 
 	protected YComponentImpl() {
 		this.pushProperties = Collections.emptySet();
+		this.cmpCfg = new YComponentConfigurationImpl(this);
 	}
 
 	/**
@@ -76,10 +75,10 @@ public class YComponentImpl implements YComponent {
 	public YComponentImpl(final String id, final String varName, final String modelSpecClass,
 			final String modelClass) {
 		this();
-		this.id = id;
-		this.cmpVar = varName;
-		this.modelSpecClassName = modelSpecClass;
-		this.modelImplClassName = modelClass;
+		cmpCfg.setId(id);
+		cmpCfg.setVariableName(varName);
+		cmpCfg.setModelSpecification(modelSpecClass);
+		cmpCfg.setModelImplementation(modelClass);
 	}
 
 	public YComponentImpl(final String namespace, final URL url) {
@@ -88,108 +87,57 @@ public class YComponentImpl implements YComponent {
 		this.url = url;
 	}
 
-	/**
-	 * Returns the classname of the interface/ specification class.
-	 * 
-	 * @return classname
-	 */
-	public String getConfiguredModelSpecification() {
-		return this.modelSpecClassName;
-	}
-
-	/**
-	 * Sets the classname of the interface/specification class.<br/>
-	 * Nullifies an already (optional) created instance of the implementation class.<br/>
-	 * Does no verification at all.<br/>
-	 * 
-	 * @param className
-	 *          classname
-	 */
-	public void setConfiguredModelSpecification(String className) {
-		if (className != null && (className = className.trim()).length() == 0) {
-			className = null;
-		}
-
-		if (className == null || !className.equals(this.modelSpecClassName)) {
-			this.modelSpecClassName = className;
-			this.modelSpecClass = null;
-		}
-
-	}
-
-	/**
-	 * Returns the classname of the implementation class.
-	 * 
-	 * @return classname
-	 */
-	public String getConfiguredModelImplementation() {
-		return this.modelImplClassName;
-	}
-
-	/**
-	 * Sets the classname of the implementation class.
-	 * 
-	 * @param className
-	 */
-	public void setConfiguredModelImplementation(String className) {
-		if (className != null && (className = className.trim()).length() == 0) {
-			className = null;
-		}
-
-		if (className == null || !className.equals(this.modelSpecClassName)) {
-			this.modelImplClassName = className;
-			this.modelImplClass = null;
-		}
-
+	public YComponentConfiguration getConfiguration() {
+		return this.cmpCfg;
 	}
 
 	public String getId() {
 		return this.id;
 	}
 
-	public void setId(final String id) {
-		this.id = id;
-	}
+	//	public void setId(final String id) {
+	//		this.id = id;
+	//	}
 
 	public String getVariableName() {
 		return this.cmpVar;
 	}
 
-	public void setVariableName(final String varName) {
-		this.cmpVar = varName;
-	}
+	//	public void setVariableName(final String varName) {
+	//		this.cmpVar = varName;
+	//	}
 
 	public String getErrorHandling() {
 		return errorHandling;
 	}
 
-	public void setErrorHandling(final String errorHandling) {
-		this.errorHandling = errorHandling;
-	}
+	//	public void setErrorHandling(final String errorHandling) {
+	//		this.errorHandling = errorHandling;
+	//	}
 
 	public Collection<String> getPushProperties() {
 		return this.pushProperties;
 	}
 
-	public void addPushProperty(final String property) {
-		if (this.pushProperties == Collections.EMPTY_SET) {
-			this.pushProperties = new TreeSet<String>();
-		}
-		this.pushProperties.add(property);
-	}
-
-	public void setPushProperties(final String properties) {
-		if (properties != null) {
-			final String[] props = properties.trim().split("\\s*,\\s*");
-			this.setPushProperties(Arrays.asList(props));
-		}
-	}
-
-	public void setPushProperties(final Collection<String> properties) {
-		for (final String property : properties) {
-			this.addPushProperty(property);
-		}
-	}
+	//	public void addPushProperty(final String property) {
+	//		if (this.pushProperties == Collections.EMPTY_SET) {
+	//			this.pushProperties = new TreeSet<String>();
+	//		}
+	//		this.pushProperties.add(property);
+	//	}
+	//
+	//	public void setPushProperties(final String properties) {
+	//		if (properties != null) {
+	//			final String[] props = properties.trim().split("\\s*,\\s*");
+	//			this.setPushProperties(Arrays.asList(props));
+	//		}
+	//	}
+	//
+	//	public void setPushProperties(final Collection<String> properties) {
+	//		for (final String property : properties) {
+	//			this.addPushProperty(property);
+	//		}
+	//	}
 
 	public void setName(final String name) {
 		this.cmpName = name;
@@ -263,8 +211,16 @@ public class YComponentImpl implements YComponent {
 		return this.modelSpecClass;
 	}
 
+	protected void setModelSpecification(final Class spec) {
+		this.modelSpecClass = spec;
+	}
+
 	public Class<?> getModelImplementation() {
 		return this.modelImplClass;
+	}
+
+	protected void setModelImplementation(final Class impl) {
+		this.modelImplClass = impl;
 	}
 
 	public YComponentValidator createValidator() {
@@ -283,28 +239,41 @@ public class YComponentImpl implements YComponent {
 	 */
 	public void initialize() {
 
-		//if ID is missing, take UID 
+		//configure id 
+		this.id = cmpCfg.getId();
 		if (isEmpty(this.id)) {
 			this.id = this.uid;
 			if (log.isDebugEnabled()) {
-				log.debug(this.cmpName + ": set missing '" + YComponent.ID_ATTRIBUTE + "' to "
+				log.debug(this.cmpName + ": set missing '" + YComponentConfiguration.ID_ATTRIBUTE + "' to "
 						+ this.uid);
 			}
 		}
 
-		//if errorhandling is missing, take configured default
+		// configure varname
+		this.cmpVar = cmpCfg.getVariableName();
+
+		//configure errorhandling
+		this.errorHandling = cmpCfg.getErrorHandling();
 		if (isEmpty(this.errorHandling)) {
 			this.errorHandling = YFacesConfig.CMP_ERROR_HANDLING.getString();
 			if (log.isDebugEnabled()) {
-				log.debug(this.cmpName + ": set missing '" + YComponent.ERROR_ATTRIBUTE + "' to "
-						+ this.errorHandling);
+				log.debug(this.cmpName + ": set missing '" + YComponentConfiguration.ERROR_ATTRIBUTE
+						+ "' to " + this.errorHandling);
 			}
 		}
 
+		// configure push properties
+		final String props = cmpCfg.getPushProperties();
+		if (!isEmpty(props)) {
+			final String[] propsList = cmpCfg.getPushProperties().trim().split("\\s*,\\s*");
+			this.pushProperties = new LinkedHashSet<String>(Arrays.asList(propsList));
+		}
+
+		// load spec and impl class
 		final ClassLoader loader = Thread.currentThread().getContextClassLoader();
 		try {
-			if (modelSpecClassName != null) {
-				this.modelSpecClass = loader.loadClass(this.modelSpecClassName);
+			if (cmpCfg.getModelSpecification() != null) {
+				this.modelSpecClass = loader.loadClass(cmpCfg.getModelSpecification());
 				if (modelSpecClass != null && YModel.class.isAssignableFrom(modelSpecClass)) {
 					this.isYComponent = true;
 				}
@@ -313,8 +282,8 @@ public class YComponentImpl implements YComponent {
 			//NOP, gets handled by a Validator
 		}
 		try {
-			if (modelImplClassName != null) {
-				this.modelImplClass = loader.loadClass(this.modelImplClassName);
+			if (cmpCfg.getModelImplementation() != null) {
+				this.modelImplClass = loader.loadClass(cmpCfg.getModelImplementation());
 
 				if (modelSpecClass == null && modelImplClass != null
 						&& YModel.class.isAssignableFrom(modelImplClass)) {
@@ -339,7 +308,7 @@ public class YComponentImpl implements YComponent {
 	}
 
 	// Class to Methods lookup map.
-	private static Map<String, Map<String, Method>> classToPropertiesMap = new HashMap<String, Map<String, Method>>();
+	private static Map<Class, Map<String, Method>> classToPropertiesMap = new HashMap<Class, Map<String, Method>>();
 
 	// runtime detected properties
 	// Properties which can be injected; specified by component class
@@ -347,11 +316,11 @@ public class YComponentImpl implements YComponent {
 
 	public Map<String, Method> getAllProperties() {
 		// refresh injectable properties
-		this.availableCmpProperties = classToPropertiesMap.get(this.modelImplClassName);
+		this.availableCmpProperties = classToPropertiesMap.get(this.modelImplClass);
 		if (this.availableCmpProperties == null) {
 			this.availableCmpProperties = this.findAllWriteProperties(modelImplClass,
 					AbstractYModel.class);
-			classToPropertiesMap.put(modelImplClassName, this.availableCmpProperties);
+			classToPropertiesMap.put(modelImplClass, this.availableCmpProperties);
 		}
 		return this.availableCmpProperties;
 	}

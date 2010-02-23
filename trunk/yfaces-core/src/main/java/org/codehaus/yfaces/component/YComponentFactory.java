@@ -20,18 +20,13 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StringWriter;
 import java.net.URL;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.io.IOUtils;
 import org.codehaus.yfaces.YFacesTaglib;
-
 
 /**
  * Factory class for {@link YComponentImpl} instances.
@@ -44,9 +39,9 @@ public class YComponentFactory {
 	private static final Pattern SINGLE_ATTRIBUTE = Pattern.compile(
 			"\\s*(.*?)\\s*=\\s*\"\\s*(.*?)\\s*\"", Pattern.DOTALL);
 
-	// #{xxx} whereas xxx is the result of first group
-	private static final Pattern SINGLE_EL_ATTRIBUTE = Pattern.compile(
-			"\\s*#\\{\\s*(.*?)\\s*\\}\\s*", Pattern.DOTALL);
+	//	// #{xxx} whereas xxx is the result of first group
+	//	private static final Pattern SINGLE_EL_ATTRIBUTE = Pattern.compile(
+	//			"\\s*#\\{\\s*(.*?)\\s*\\}\\s*", Pattern.DOTALL);
 
 	// extracts the namespace prefix from a namespace declaration
 	// e.g. xmlns:yf="http://yfaces.codehaus.org/taglib" returns as group 'yf'
@@ -75,7 +70,7 @@ public class YComponentFactory {
 		}
 	}
 
-	public YComponent createComponentInfo(final URL url, final String namespace) {
+	public YComponent createComponent(final URL url, final String namespace) {
 
 		YComponentImpl result = null;
 
@@ -94,7 +89,7 @@ public class YComponentFactory {
 				e.printStackTrace();
 			}
 
-			result = this.createComponentInfo(content);
+			result = this.createComponent(content);
 
 			if (result != null) {
 				// this.creationTime = resource.openConnection().getLastModified();
@@ -109,7 +104,7 @@ public class YComponentFactory {
 		return result;
 	}
 
-	public YComponentImpl createComponentInfo(final String content) {
+	public YComponentImpl createComponent(final String content) {
 
 		YComponentImpl result = null;
 
@@ -123,17 +118,15 @@ public class YComponentFactory {
 
 				result = new YComponentImpl();
 
-				// this.creationTime =
-				// resource.openConnection().getLastModified();
-
 				// component name
-				result.setId(attributes.get(YComponent.ID_ATTRIBUTE));
-				result.setVariableName(attributes.get(YComponent.VAR_ATTRIBUTE));
-				result.setConfiguredModelImplementation(attributes.get(YComponent.MODEL_IMPL_ATTRIBUTE));
-				result.setConfiguredModelSpecification(attributes.get(YComponent.MODEL_SPEC_ATTRIBUTE));
-				result.setErrorHandling(attributes.get(YComponent.ERROR_ATTRIBUTE));
-				final Collection<String> injectable = this.getComponentProperties(attributes);
-				result.setPushProperties(injectable);
+				final YComponentConfigurationImpl cmpCfg = (YComponentConfigurationImpl) result
+						.getConfiguration();
+				cmpCfg.setId(attributes.get(YComponentConfiguration.ID_ATTRIBUTE));
+				cmpCfg.setVariableName(attributes.get(YComponentConfiguration.VAR_ATTRIBUTE));
+				cmpCfg.setModelImplementation(attributes.get(YComponentConfiguration.MODEL_IMPL_ATTRIBUTE));
+				cmpCfg.setModelSpecification(attributes.get(YComponentConfiguration.MODEL_SPEC_ATTRIBUTE));
+				cmpCfg.setErrorHandling(attributes.get(YComponentConfiguration.ERROR_ATTRIBUTE));
+				cmpCfg.setPushProperties(attributes.get(YComponentConfiguration.PASS_TO_MODEL_ATTRIBUTE));
 
 				result.initialize();
 			}
@@ -202,23 +195,4 @@ public class YComponentFactory {
 		return result;
 	}
 
-	private Collection<String> getComponentProperties(final Map<String, String> attributes) {
-		final Set<String> result = new HashSet<String>();
-
-		// old style
-		for (final Map.Entry<String, String> entry : attributes.entrySet()) {
-			final Matcher injectableMatcher = SINGLE_EL_ATTRIBUTE.matcher(entry.getValue());
-			if (injectableMatcher.matches()) {
-				result.add(entry.getKey());
-			}
-		}
-
-		final String injectable = attributes.get(YComponent.PASS_TO_MODEL_ATTRIBUTE);
-		if (injectable != null) {
-			final String _properties[] = injectable.trim().split("\\s*,\\s*");
-			result.addAll(Arrays.asList(_properties));
-		}
-		return result;
-
-	}
 }

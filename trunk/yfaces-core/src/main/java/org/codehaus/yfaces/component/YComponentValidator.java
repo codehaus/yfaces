@@ -129,8 +129,7 @@ public interface YComponentValidator {
 		 *          Class
 		 * @return String
 		 */
-		public String getFormattedErrorMessage(final YComponent cmpInfo,
-				final Class<?> customImplClass) {
+		public String getFormattedErrorMessage(final YComponent cmpInfo, final Class<?> customImplClass) {
 			String result = "";
 			final String msg = this.msg;
 
@@ -139,10 +138,10 @@ public interface YComponentValidator {
 			while (parameter.find()) {
 				String param = parameter.group(1);
 				if (param.equals(PLACEHOLDER_SPECCLASS)) {
-					param = cmpInfo.getConfiguredModelSpecification();
+					param = cmpInfo.getConfiguration().getModelSpecification();
 				} else if (param.equals(PLACEHOLDER_IMPLCLASS)) {
-					param = (customImplClass == null) ? cmpInfo.getConfiguredModelImplementation() : customImplClass
-							.getName();
+					param = (customImplClass == null) ? cmpInfo.getConfiguration().getModelImplementation()
+							: customImplClass.getName();
 				} else if (param.equals(PLACEHOLDER_PROPERTIES)) {
 					param = Arrays.asList(RESERVED_PROPERTY_NAMES).toString();
 				}

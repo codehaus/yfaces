@@ -30,9 +30,11 @@ public class YComponentValidatorImpl implements YComponentValidator {
 	private static final Logger log = Logger.getLogger(YComponentValidator.class);
 
 	private YComponentImpl cmpInfo = null;
+	private YComponentConfiguration cmpCfg = null;
 
 	public YComponentValidatorImpl(final YComponentImpl cmpInfo) {
 		this.cmpInfo = cmpInfo;
+		this.cmpCfg = cmpInfo.getConfiguration();
 	}
 
 	// all errors which are detected after a verification
@@ -80,10 +82,10 @@ public class YComponentValidatorImpl implements YComponentValidator {
 	}
 
 	private boolean assertModelSpecification() {
-		boolean isValid = assertNotEmpty(cmpInfo.getConfiguredModelSpecification(),
+		boolean isValid = assertNotEmpty(cmpCfg.getModelSpecification(),
 				YValidationAspekt.SPEC_IS_MISSING);
 		if (isValid) {
-			final Class modelSpec = assertLoadingClass(cmpInfo.getConfiguredModelSpecification(),
+			final Class modelSpec = assertLoadingClass(cmpCfg.getModelSpecification(),
 					YValidationAspekt.SPEC_NOT_LOADABLE);
 
 			if (isValid = (modelSpec != null)) {
@@ -110,11 +112,11 @@ public class YComponentValidatorImpl implements YComponentValidator {
 	 * @return true when assertion succeeds
 	 */
 	private boolean assertModelImplementation() {
-		boolean isValid = assertNotEmpty(cmpInfo.getConfiguredModelImplementation(),
+		boolean isValid = assertNotEmpty(cmpCfg.getModelImplementation(),
 				YValidationAspekt.IMPL_IS_MISSING);
 		if (isValid) {
 
-			final Class modelImpl = assertLoadingClass(cmpInfo.getConfiguredModelImplementation(),
+			final Class modelImpl = assertLoadingClass(cmpCfg.getModelImplementation(),
 					YValidationAspekt.IMPL_NOT_LOADABLE);
 
 			if (isValid = (modelImpl != null)) {
@@ -140,10 +142,10 @@ public class YComponentValidatorImpl implements YComponentValidator {
 	 * @return true when assertion succeeds
 	 */
 	private boolean assertIdAndVarName() {
-		final boolean isValidId = assertNotEmpty(cmpInfo.getId(),
+		final boolean isValidId = assertNotEmpty(cmpCfg.getId(),
 				YValidationAspekt.VIEW_ID_NOT_SPECIFIED);
 
-		final boolean isValidVar = assertNotEmpty(cmpInfo.getVariableName(),
+		final boolean isValidVar = assertNotEmpty(cmpCfg.getVariableName(),
 				YValidationAspekt.VIEW_VAR_NOT_SPECIFIED);
 
 		final boolean isValid = isValidId && isValidVar;

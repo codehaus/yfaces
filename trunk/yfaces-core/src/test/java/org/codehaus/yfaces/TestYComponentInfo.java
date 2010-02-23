@@ -10,21 +10,20 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-import junit.framework.TestCase;
-
 import org.apache.log4j.Logger;
 import org.codehaus.yfaces.component.YComponent;
 import org.codehaus.yfaces.component.YComponentFactory;
 import org.codehaus.yfaces.component.YComponentImpl;
 import org.codehaus.yfaces.component.YComponentRegistry;
 import org.codehaus.yfaces.component.YComponentValidator.YValidationAspekt;
-
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * @author Denny.Strietzbaum
  * 
  */
-public class TestYComponentInfo extends TestCase {
+public class TestYComponentInfo /* extends TestCase */{
 
 	private static final Logger log = Logger.getLogger(TestYComponentInfo.class);
 
@@ -69,26 +68,29 @@ public class TestYComponentInfo extends TestCase {
 			log.info("Expected errors: " + this.expectedErrors);
 
 			//registry.processURL(url, this);
-			this.cmpInfo = cmpFac.createComponentInfo(url, "some.namespace");
+			this.cmpInfo = cmpFac.createComponent(url, "some.namespace");
 			this.wasAdded = registry.addComponent(cmpInfo);
 
 			if (this.wasAdded) {
 				log.info("...added");
-				assertTrue("Component was added but must be skipped:", expectedToAdd);
+				Assert.assertTrue("Component was added but must be skipped:", expectedToAdd);
 			} else {
 				log.info("...skipped");
-				assertFalse("Component was skipped but must be added:", expectedToAdd);
+				Assert.assertFalse("Component was skipped but must be added:", expectedToAdd);
 			}
 
 			if (this.cmpInfo == null) {
-				assertNull(this.expectedErrors);
+				Assert.assertNull(this.expectedErrors);
 			} else {
-				assertEquals(this.expSpecClassName, cmpInfo.getConfiguredModelSpecification());
-				assertEquals(this.expImplClassName, cmpInfo.getConfiguredModelImplementation());
-				assertEquals(this.expId, cmpInfo.getId());
-				assertEquals(this.expVar, cmpInfo.getVariableName());
-				assertEquals(this.expInjectableAttributes, cmpInfo.getPushProperties());
-				assertEquals(this.cmpInfo.createValidator().validateComponent(), this.expectedErrors);
+				Assert.assertEquals(this.expSpecClassName, cmpInfo.getConfiguration()
+						.getModelSpecification());
+				Assert.assertEquals(this.expImplClassName, cmpInfo.getConfiguration()
+						.getModelImplementation());
+				Assert.assertEquals(this.expId, cmpInfo.getId());
+				Assert.assertEquals(this.expVar, cmpInfo.getVariableName());
+				Assert.assertEquals(this.expInjectableAttributes, cmpInfo.getPushProperties());
+				Assert
+						.assertEquals(this.cmpInfo.createValidator().validateComponent(), this.expectedErrors);
 			}
 		}
 
@@ -97,6 +99,7 @@ public class TestYComponentInfo extends TestCase {
 	/**
 	 * Tests parsing (whitespaces, etc.)
 	 */
+	@Test
 	public void testComponentInfoParser() {
 
 		// some predefined attribute values
@@ -121,34 +124,23 @@ public class TestYComponentInfo extends TestCase {
 		final YComponentFactory cmpFac = new YComponentFactory();
 		for (final String s : cmps1) {
 			// System.out.println(count++ + ": " + s);
-			final YComponentImpl cmpInfo = cmpFac.createComponentInfo(HEAD + s);
-			assertEquals(spec, cmpInfo.getConfiguredModelSpecification());
-			assertEquals(impl, cmpInfo.getConfiguredModelImplementation());
-			assertEquals(var, cmpInfo.getVariableName());
-			assertEquals(id, cmpInfo.getId());
-			assertEquals(0, cmpInfo.getPushProperties().size());
+			final YComponentImpl cmpInfo = cmpFac.createComponent(HEAD + s);
+			Assert.assertEquals(spec, cmpInfo.getConfiguration().getModelSpecification());
+			Assert.assertEquals(impl, cmpInfo.getConfiguration().getModelImplementation());
+			Assert.assertEquals(var, cmpInfo.getVariableName());
+			Assert.assertEquals(id, cmpInfo.getId());
+			Assert.assertEquals(0, cmpInfo.getPushProperties().size());
 		}
 
-		// test 'injectable' properties (boths styles)
+		// test 'injectable' properties 
 		final String[] cmps2 = new String[] {
 				"<yf:component model=\"" + impl + "\" passToModel=\"prop1,prop2,prop3,prop4\">",
-				"<yf:component model=\"" + impl + "\" passToModel=\"	prop1 ,prop2	,prop3,	prop4\">",
-				"<yf:component model=\"" + impl
-						+ "\" prop1=\"#{prop1}\" prop2=\"#{prop2}\" prop3=\"#{prop3}\" prop4=\"#{prop4}\">",
-				"<yf:component model=\"" + impl
-						+ "\" prop1=\"#{prop1}\" prop2=\"#{prop1}\" prop3=\"#{prop1}\" prop4=\"#{prop1}\">",
-				"<yf:component model=\"" + impl
-						+ "\" passToModel=\"prop1,prop2\" prop3=\"#{prop1}\" prop4=\"#{prop1}\">",
-				"<yf:component model=\"" + impl
-						+ "\" passToModel=\"prop1,prop2,prop3\" prop3=\"#{prop1}\" prop4=\"#{prop1}\">",
-				"<yf:component model=\"" + impl
-						+ "\" passToModel=\"prop1,prop2,prop3\" prop4 =	\" #{prop4}	\">", };
+				"<yf:component model=\"" + impl + "\" passToModel=\"	prop1 ,prop2	,prop3,	prop4\">", };
 		for (final String s : cmps2) {
-			// System.out.println(count++ + ": " + s);
-			final YComponentImpl cmpInfo = cmpFac.createComponentInfo(HEAD + s);
+			final YComponentImpl cmpInfo = cmpFac.createComponent(HEAD + s);
 			final Collection<String> props = cmpInfo.getPushProperties();
-			assertEquals(4, props.size());
-			assertTrue("Got properties " + props.toString(), props.containsAll(properties));
+			Assert.assertEquals(4, props.size());
+			Assert.assertTrue("Got properties " + props.toString(), props.containsAll(properties));
 		}
 	}
 
@@ -156,6 +148,7 @@ public class TestYComponentInfo extends TestCase {
 	 * Tests various validation errors which can occur. YComponent definition is given as simple
 	 * String.
 	 */
+	@Test
 	public void testYComponentInfoValidation() {
 
 		log.info("---------------------------------");
@@ -214,9 +207,9 @@ public class TestYComponentInfo extends TestCase {
 			if (count >= 0) {
 				log.info("Asserting: " + cmp);
 				log.info("Expecting: " + expected);
-				cmpInfo = cmpFac.createComponentInfo(HEAD + cmp);
+				cmpInfo = cmpFac.createComponent(HEAD + cmp);
 				final Set<YValidationAspekt> errors = cmpInfo.createValidator().validateComponent();
-				assertEquals(new HashSet<YValidationAspekt>(expected), errors);
+				Assert.assertEquals(new HashSet<YValidationAspekt>(expected), errors);
 			}
 		}
 	}
@@ -225,6 +218,7 @@ public class TestYComponentInfo extends TestCase {
 	 * Tests {@link YComponentRegistry} and {@link YComponentImpl} validation. Additional does
 	 * enhanced text parsing as components are provided as external resources.
 	 */
+	@Test
 	public void testYComponentRegistry() {
 
 		log.info("---------------------------------");
@@ -273,7 +267,7 @@ public class TestYComponentInfo extends TestCase {
 	}
 
 	public static void main(final String argc[]) {
-		final TestYComponentInfo info = new TestYComponentInfo();
-		info.testYComponentInfoValidation();
+		final TestYComponentInfo test = new TestYComponentInfo();
+		test.testYComponentInfoValidation();
 	}
 }

@@ -36,19 +36,19 @@ import org.codehaus.yfaces.YFacesConfig;
 import org.codehaus.yfaces.YFacesELContext;
 import org.codehaus.yfaces.YFacesException;
 import org.codehaus.yfaces.component.ModelProcessor;
-import org.codehaus.yfaces.component.YModel;
-import org.codehaus.yfaces.component.YModelBinding;
 import org.codehaus.yfaces.component.YComponent;
+import org.codehaus.yfaces.component.YComponentConfiguration;
 import org.codehaus.yfaces.component.YComponentImpl;
 import org.codehaus.yfaces.component.YComponentRegistry;
 import org.codehaus.yfaces.component.YComponentValidator;
+import org.codehaus.yfaces.component.YModel;
+import org.codehaus.yfaces.component.YModelBinding;
 import org.codehaus.yfaces.component.YComponentValidator.YValidationAspekt;
-
 
 /**
  * Each {@link YModel} must be enclosed by this {@link UIComponent}.<br/>
- * The enclosed {@link YModel} must be either passed or, when null, gets automatically
- * instantiated via the <code>default</code> Attribute.<br/>
+ * The enclosed {@link YModel} must be either passed or, when null, gets automatically instantiated
+ * via the <code>default</code> Attribute.<br/>
  * An undefined amount of additional attributes can be defined.<br/>
  * Each of such attribute must be available as property (setter) at the {@link YModel} instance.<br/>
  * When such attributes are passed then the value gets injected into the {@link YModel}. <br/>
@@ -119,7 +119,7 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 	 * @return value of 'varName' attribute
 	 */
 	private String getVarName() {
-		return (String) super.getAttributes().get(YComponent.VAR_ATTRIBUTE);
+		return (String) super.getAttributes().get(YComponentConfiguration.VAR_ATTRIBUTE);
 	}
 
 	/**
@@ -414,7 +414,7 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 
 			} catch (final YFacesException e) {
 				log.error("Error creating " + YModel.class.getSimpleName() + " ("
-						+ cmpInfo.getConfiguredModelImplementation() + ")", e);
+						+ cmpInfo.getConfiguration().getModelImplementation() + ")", e);
 				this.error = e;
 			}
 		}
