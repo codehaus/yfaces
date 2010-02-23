@@ -14,13 +14,13 @@
 package ystorefoundationpackage.yfaces.component.address;
 
 import de.hybris.platform.core.model.user.AddressModel;
-import de.hybris.yfaces.component.AbstractYComponent;
-import de.hybris.yfaces.component.YComponentEventHandler;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.codehaus.yfaces.component.AbstractYComponent;
+import org.codehaus.yfaces.component.YComponentEventHandler;
 
 import ystorefoundationpackage.YComponent;
 import ystorefoundationpackage.domain.YStorefoundation;

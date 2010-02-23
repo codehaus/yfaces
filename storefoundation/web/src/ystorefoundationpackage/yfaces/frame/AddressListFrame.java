@@ -14,14 +14,14 @@
 package ystorefoundationpackage.yfaces.frame;
 
 import de.hybris.platform.core.model.user.AddressModel;
-import de.hybris.yfaces.component.AbstractYFrame;
-import de.hybris.yfaces.component.YComponentBinding;
-import de.hybris.yfaces.component.YComponentEvent;
-import de.hybris.yfaces.component.YComponentEventListener;
-import de.hybris.yfaces.context.YConversationContext;
-import de.hybris.yfaces.context.YPageContext;
 
 import org.apache.log4j.Logger;
+import org.codehaus.yfaces.component.AbstractYFrame;
+import org.codehaus.yfaces.component.YComponentBinding;
+import org.codehaus.yfaces.component.YComponentEvent;
+import org.codehaus.yfaces.component.YComponentEventListener;
+import org.codehaus.yfaces.context.YConversationContext;
+import org.codehaus.yfaces.context.YPageContext;
 
 import ystorefoundationpackage.YComponent;
 import ystorefoundationpackage.domain.YStorefoundation;

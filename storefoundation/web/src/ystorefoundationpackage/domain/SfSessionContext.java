@@ -21,11 +21,12 @@ import de.hybris.platform.core.model.order.CartModel;
 import de.hybris.platform.core.model.product.ProductModel;
 import de.hybris.platform.core.model.user.UserModel;
 import de.hybris.platform.wishlist2.model.Wishlist2Model;
-import de.hybris.yfaces.context.YSessionContext;
-import de.hybris.yfaces.util.YPropertyHandler;
 
 import java.util.Locale;
 import java.util.TimeZone;
+
+import org.codehaus.yfaces.context.YSessionContext;
+import org.codehaus.yfaces.util.YPropertyHandler;
 
 
 

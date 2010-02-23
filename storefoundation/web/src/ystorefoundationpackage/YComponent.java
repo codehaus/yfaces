@@ -14,8 +14,8 @@
 package ystorefoundationpackage;
 
 /**
- * Enumeration of {@link de.hybris.yfaces.component.YComponent} view id's. Useful in combination with
- * {@link de.hybris.yfaces.component.YFrame#createComponentBinding(String)}
+ * Enumeration of {@link org.codehaus.yfaces.component.YComponent} view id's. Useful in combination with
+ * {@link org.codehaus.yfaces.component.YFrame#createComponentBinding(String)}
  */
 public enum YComponent
 {

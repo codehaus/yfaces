@@ -19,13 +19,13 @@ import de.hybris.platform.category.model.CategoryModel;
 import de.hybris.platform.core.model.product.ProductModel;
 import de.hybris.platform.servicelayer.exceptions.SystemException;
 import de.hybris.platform.variants.model.VariantProductModel;
-import de.hybris.yfaces.component.AbstractYComponent;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.codehaus.yfaces.component.AbstractYComponent;
 
 import ystorefoundationpackage.datatable.ext.DataTableAxisModel;
 import ystorefoundationpackage.datatable.ext.axes.DataTableFactory;

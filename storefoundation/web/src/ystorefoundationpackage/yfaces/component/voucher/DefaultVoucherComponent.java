@@ -16,10 +16,6 @@ package ystorefoundationpackage.yfaces.component.voucher;
 import de.hybris.platform.jalo.order.price.JaloPriceFactoryException;
 import de.hybris.platform.voucher.VoucherService;
 import de.hybris.platform.voucher.model.VoucherModel;
-import de.hybris.yfaces.component.AbstractYComponent;
-import de.hybris.yfaces.component.DefaultYComponentEventListener;
-import de.hybris.yfaces.component.YComponentEvent;
-import de.hybris.yfaces.component.YComponentEventHandler;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -29,6 +25,10 @@ import javax.faces.model.ArrayDataModel;
 import javax.faces.model.DataModel;
 
 import org.apache.log4j.Logger;
+import org.codehaus.yfaces.component.AbstractYComponent;
+import org.codehaus.yfaces.component.DefaultYComponentEventListener;
+import org.codehaus.yfaces.component.YComponentEvent;
+import org.codehaus.yfaces.component.YComponentEventHandler;
 
 import ystorefoundationpackage.domain.SfSessionContext;
 import ystorefoundationpackage.domain.YStorefoundation;

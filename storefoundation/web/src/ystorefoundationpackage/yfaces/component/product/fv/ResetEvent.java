@@ -13,8 +13,8 @@
  */
 package ystorefoundationpackage.yfaces.component.product.fv;
 
-import de.hybris.yfaces.component.DefaultYComponentEventListener;
-import de.hybris.yfaces.component.YComponentEvent;
+import org.codehaus.yfaces.component.DefaultYComponentEventListener;
+import org.codehaus.yfaces.component.YComponentEvent;
 
 
 /**

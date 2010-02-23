@@ -13,10 +13,11 @@
  */
 package ystorefoundationpackage.domain;
 
-import de.hybris.yfaces.YFacesException;
 
 import java.util.Collections;
 import java.util.Map;
+
+import org.codehaus.yfaces.YFacesException;
 
 
 /**

@@ -20,15 +20,15 @@ import de.hybris.platform.core.model.user.AddressModel;
 import de.hybris.platform.core.model.user.CustomerModel;
 import de.hybris.platform.core.model.user.UserModel;
 import de.hybris.platform.servicelayer.exceptions.UnknownIdentifierException;
-import de.hybris.yfaces.component.DefaultYComponentEventListener;
-import de.hybris.yfaces.component.YComponentEvent;
-import de.hybris.yfaces.context.YPageContext;
 
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
+import org.codehaus.yfaces.component.DefaultYComponentEventListener;
+import org.codehaus.yfaces.component.YComponentEvent;
+import org.codehaus.yfaces.context.YPageContext;
 
 import ystorefoundationpackage.domain.MailManagement;
 import ystorefoundationpackage.domain.PlatformServices;

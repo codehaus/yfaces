@@ -15,8 +15,6 @@ package ystorefoundationpackage.yfaces.component.product;
 
 import de.hybris.platform.catalog.model.CatalogModel;
 import de.hybris.platform.core.model.product.ProductModel;
-import de.hybris.yfaces.component.DefaultYComponentEventListener;
-import de.hybris.yfaces.component.YComponentEvent;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -24,6 +22,8 @@ import java.util.Comparator;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.codehaus.yfaces.component.DefaultYComponentEventListener;
+import org.codehaus.yfaces.component.YComponentEvent;
 
 import ystorefoundationpackage.domain.OrderManagement;
 import ystorefoundationpackage.domain.Prices;

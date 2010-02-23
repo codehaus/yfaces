@@ -14,12 +14,13 @@
 package ystorefoundationpackage.yfaces.component.i18n;
 
 import de.hybris.platform.core.model.c2l.LanguageModel;
-import de.hybris.yfaces.component.YComponent;
-import de.hybris.yfaces.component.YComponentEventHandler;
 
 import java.util.List;
 
 import javax.faces.model.SelectItem;
+
+import org.codehaus.yfaces.component.YComponent;
+import org.codehaus.yfaces.component.YComponentEventHandler;
 
 
 /**

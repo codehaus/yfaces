@@ -15,12 +15,12 @@ package ystorefoundationpackage.yfaces.component.user;
 
 import de.hybris.platform.core.model.user.UserModel;
 import de.hybris.platform.servicelayer.exceptions.UnknownIdentifierException;
-import de.hybris.yfaces.component.AbstractYComponent;
-import de.hybris.yfaces.component.DefaultYComponentEventListener;
-import de.hybris.yfaces.component.YComponentEvent;
-import de.hybris.yfaces.component.YComponentEventHandler;
 
 import org.apache.commons.validator.GenericValidator;
+import org.codehaus.yfaces.component.AbstractYComponent;
+import org.codehaus.yfaces.component.DefaultYComponentEventListener;
+import org.codehaus.yfaces.component.YComponentEvent;
+import org.codehaus.yfaces.component.YComponentEventHandler;
 
 import ystorefoundationpackage.domain.SfRequestContext;
 import ystorefoundationpackage.domain.SfSessionContext;

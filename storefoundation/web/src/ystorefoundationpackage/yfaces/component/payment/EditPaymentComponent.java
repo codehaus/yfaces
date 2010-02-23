@@ -13,9 +13,10 @@
  */
 package ystorefoundationpackage.yfaces.component.payment;
 
+import org.codehaus.yfaces.component.YComponent;
+import org.codehaus.yfaces.component.YComponentEventHandler;
+
 import de.hybris.platform.core.model.order.payment.PaymentInfoModel;
-import de.hybris.yfaces.component.YComponent;
-import de.hybris.yfaces.component.YComponentEventHandler;
 
 
 

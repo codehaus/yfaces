@@ -13,15 +13,15 @@
  */
 package ystorefoundationpackage.yfaces.frame;
 
-import de.hybris.yfaces.component.AbstractYFrame;
-import de.hybris.yfaces.component.DefaultYComponentEventListener;
-import de.hybris.yfaces.component.YComponentBinding;
-import de.hybris.yfaces.component.YComponentEvent;
-import de.hybris.yfaces.component.YComponentEventListener;
 
 import java.util.Collections;
 
 import org.apache.log4j.Logger;
+import org.codehaus.yfaces.component.AbstractYFrame;
+import org.codehaus.yfaces.component.DefaultYComponentEventListener;
+import org.codehaus.yfaces.component.YComponentBinding;
+import org.codehaus.yfaces.component.YComponentEvent;
+import org.codehaus.yfaces.component.YComponentEventListener;
 
 import ystorefoundationpackage.NavigationOutcome;
 import ystorefoundationpackage.domain.SfSessionContext;

@@ -16,16 +16,16 @@ package ystorefoundationpackage.yfaces.frame;
 import de.hybris.platform.catalog.model.ProductReferenceModel;
 import de.hybris.platform.core.model.enumeration.EnumerationValueModel;
 import de.hybris.platform.core.model.product.ProductModel;
-import de.hybris.yfaces.component.AbstractYFrame;
-import de.hybris.yfaces.component.YComponentBinding;
-import de.hybris.yfaces.context.YConversationContext;
-import de.hybris.yfaces.context.YPageContext;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.codehaus.yfaces.component.AbstractYFrame;
+import org.codehaus.yfaces.component.YComponentBinding;
+import org.codehaus.yfaces.context.YConversationContext;
+import org.codehaus.yfaces.context.YPageContext;
 
 import ystorefoundationpackage.NavigationOutcome;
 import ystorefoundationpackage.domain.SfSessionContext;

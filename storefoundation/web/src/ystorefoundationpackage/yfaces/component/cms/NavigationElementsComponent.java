@@ -14,9 +14,10 @@
 package ystorefoundationpackage.yfaces.component.cms;
 
 import de.hybris.platform.cms.model.NavigationElementModel;
-import de.hybris.yfaces.component.YComponent;
 
 import java.util.List;
+
+import org.codehaus.yfaces.component.YComponent;
 
 
 /**

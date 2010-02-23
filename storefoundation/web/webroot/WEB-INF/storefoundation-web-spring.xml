@@ -220,7 +220,7 @@
 		ErrorHandler
 	 -->
 	<bean id="YFacesErrorHandler"
-		class="de.hybris.yfaces.util.YFacesErrorHandler"
+		class="org.codehaus.yfaces.util.YFacesErrorHandler"
 		scope="singleton"/>
 	
 </beans>

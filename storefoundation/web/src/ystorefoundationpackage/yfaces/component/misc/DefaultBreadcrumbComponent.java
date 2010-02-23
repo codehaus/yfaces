@@ -15,10 +15,11 @@ package ystorefoundationpackage.yfaces.component.misc;
 
 import de.hybris.platform.category.model.CategoryModel;
 import de.hybris.platform.core.model.product.ProductModel;
-import de.hybris.yfaces.component.AbstractYComponent;
 
 import java.util.Collections;
 import java.util.List;
+
+import org.codehaus.yfaces.component.AbstractYComponent;
 
 import ystorefoundationpackage.domain.SfSessionContext;
 import ystorefoundationpackage.domain.YStorefoundation;

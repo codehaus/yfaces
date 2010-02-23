@@ -16,7 +16,6 @@ package ystorefoundationpackage.yfaces.component.misc;
 import de.hybris.platform.core.model.product.ProductModel;
 import de.hybris.platform.servicelayer.exceptions.AmbiguousIdentifierException;
 import de.hybris.platform.util.Utilities;
-import de.hybris.yfaces.component.AbstractYComponent;
 
 import java.util.List;
 
@@ -25,6 +24,8 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.ConverterException;
 import javax.faces.convert.DateTimeConverter;
+
+import org.codehaus.yfaces.component.AbstractYComponent;
 
 import ystorefoundationpackage.datatable.ext.DataTableAxisModel;
 import ystorefoundationpackage.datatable.ext.axes.DataTableAxis;

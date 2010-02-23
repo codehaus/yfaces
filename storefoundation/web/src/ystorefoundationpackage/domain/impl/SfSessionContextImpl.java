@@ -22,12 +22,13 @@ import de.hybris.platform.core.model.product.ProductModel;
 import de.hybris.platform.core.model.user.UserModel;
 import de.hybris.platform.wishlist2.model.Wishlist2EntryModel;
 import de.hybris.platform.wishlist2.model.Wishlist2Model;
-import de.hybris.yfaces.context.YSessionContextImpl;
-import de.hybris.yfaces.util.YPropertyHandler;
 
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.TimeZone;
+
+import org.codehaus.yfaces.context.YSessionContextImpl;
+import org.codehaus.yfaces.util.YPropertyHandler;
 
 import ystorefoundationpackage.domain.DefaultValues;
 import ystorefoundationpackage.domain.SfRequestContext;

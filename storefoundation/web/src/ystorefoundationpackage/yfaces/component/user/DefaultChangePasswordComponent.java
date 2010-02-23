@@ -13,11 +13,12 @@
  */
 package ystorefoundationpackage.yfaces.component.user;
 
+import org.codehaus.yfaces.component.AbstractYComponent;
+import org.codehaus.yfaces.component.DefaultYComponentEventListener;
+import org.codehaus.yfaces.component.YComponentEventHandler;
+import org.codehaus.yfaces.context.YPageContext;
+
 import de.hybris.platform.core.model.user.UserModel;
-import de.hybris.yfaces.component.AbstractYComponent;
-import de.hybris.yfaces.component.DefaultYComponentEventListener;
-import de.hybris.yfaces.component.YComponentEventHandler;
-import de.hybris.yfaces.context.YPageContext;
 
 import ystorefoundationpackage.domain.SfSessionContext;
 import ystorefoundationpackage.domain.YStorefoundation;

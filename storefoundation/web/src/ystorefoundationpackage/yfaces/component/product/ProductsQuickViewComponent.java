@@ -16,9 +16,10 @@ package ystorefoundationpackage.yfaces.component.product;
 import de.hybris.platform.catalog.model.CatalogModel;
 import de.hybris.platform.category.model.CategoryModel;
 import de.hybris.platform.core.model.product.ProductModel;
-import de.hybris.yfaces.component.YComponent;
 
 import java.util.List;
+
+import org.codehaus.yfaces.component.YComponent;
 
 import ystorefoundationpackage.datatable.ext.DataTableAxisModel;
 

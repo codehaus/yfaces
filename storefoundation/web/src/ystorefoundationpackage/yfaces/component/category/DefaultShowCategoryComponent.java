@@ -13,8 +13,9 @@
  */
 package ystorefoundationpackage.yfaces.component.category;
 
+import org.codehaus.yfaces.component.AbstractYComponent;
+
 import de.hybris.platform.category.model.CategoryModel;
-import de.hybris.yfaces.component.AbstractYComponent;
 
 import ystorefoundationpackage.domain.YStorefoundation;
 import ystorefoundationpackage.domain.impl.JaloBridge;

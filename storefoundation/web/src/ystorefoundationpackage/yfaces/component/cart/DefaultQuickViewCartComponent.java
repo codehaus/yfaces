@@ -13,10 +13,11 @@
  */
 package ystorefoundationpackage.yfaces.component.cart;
 
+import org.codehaus.yfaces.component.AbstractYComponent;
+
 import de.hybris.platform.core.model.c2l.CurrencyModel;
 import de.hybris.platform.core.model.order.AbstractOrderEntryModel;
 import de.hybris.platform.core.model.order.CartModel;
-import de.hybris.yfaces.component.AbstractYComponent;
 
 import ystorefoundationpackage.domain.SfRequestContext;
 import ystorefoundationpackage.domain.YStorefoundation;

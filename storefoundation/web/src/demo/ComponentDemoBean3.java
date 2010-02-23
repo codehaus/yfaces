@@ -14,10 +14,11 @@
 package demo;
 
 import de.hybris.platform.core.model.product.ProductModel;
-import de.hybris.yfaces.component.AbstractYFrame;
-import de.hybris.yfaces.component.YComponentBinding;
 
 import java.util.List;
+
+import org.codehaus.yfaces.component.AbstractYFrame;
+import org.codehaus.yfaces.component.YComponentBinding;
 
 import ystorefoundationpackage.domain.SfRequestContext;
 import ystorefoundationpackage.domain.YStorefoundation;

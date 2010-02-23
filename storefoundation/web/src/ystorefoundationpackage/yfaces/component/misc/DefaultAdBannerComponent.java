@@ -13,7 +13,6 @@
  */
 package ystorefoundationpackage.yfaces.component.misc;
 
-import de.hybris.yfaces.component.AbstractYComponent;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,6 +21,8 @@ import java.util.List;
 import java.util.Map;
 
 import javax.activation.MimetypesFileTypeMap;
+
+import org.codehaus.yfaces.component.AbstractYComponent;
 
 
 /**

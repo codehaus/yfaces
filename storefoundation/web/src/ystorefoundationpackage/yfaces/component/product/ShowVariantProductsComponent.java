@@ -14,9 +14,10 @@
 package ystorefoundationpackage.yfaces.component.product;
 
 import de.hybris.platform.core.model.product.ProductModel;
-import de.hybris.yfaces.component.YComponent;
 
 import java.util.List;
+
+import org.codehaus.yfaces.component.YComponent;
 
 import ystorefoundationpackage.domain.FormattedAttribute;
 import ystorefoundationpackage.yfaces.component.product.DefaultShowVariantProductsComponent.SimpleVariantProduct;

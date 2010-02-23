@@ -13,7 +13,7 @@
  */
 package ystorefoundationpackage.domain;
 
-import de.hybris.yfaces.YFaces;
+import org.codehaus.yfaces.YFaces;
 
 
 /**

@@ -16,7 +16,6 @@ package ystorefoundationpackage.yfaces.component.history;
 import de.hybris.platform.category.model.CategoryModel;
 import de.hybris.platform.core.model.ItemModel;
 import de.hybris.platform.core.model.product.ProductModel;
-import de.hybris.yfaces.component.AbstractYComponent;
 
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -27,6 +26,7 @@ import java.util.Set;
 import javax.faces.context.FacesContext;
 
 import org.apache.log4j.Logger;
+import org.codehaus.yfaces.component.AbstractYComponent;
 
 
 

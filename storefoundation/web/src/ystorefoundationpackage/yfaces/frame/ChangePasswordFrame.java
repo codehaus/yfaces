@@ -13,8 +13,8 @@
  */
 package ystorefoundationpackage.yfaces.frame;
 
-import de.hybris.yfaces.component.AbstractYFrame;
-import de.hybris.yfaces.component.YComponentBinding;
+import org.codehaus.yfaces.component.AbstractYFrame;
+import org.codehaus.yfaces.component.YComponentBinding;
 
 import ystorefoundationpackage.yfaces.component.user.ChangePasswordComponent;
 

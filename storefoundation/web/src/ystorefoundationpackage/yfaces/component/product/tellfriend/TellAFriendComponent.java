@@ -13,9 +13,10 @@
  */
 package ystorefoundationpackage.yfaces.component.product.tellfriend;
 
+import org.codehaus.yfaces.component.YComponent;
+
 import de.hybris.platform.core.model.product.ProductModel;
 import de.hybris.platform.core.model.user.UserModel;
-import de.hybris.yfaces.component.YComponent;
 
 
 public interface TellAFriendComponent extends YComponent

@@ -13,11 +13,12 @@
  */
 package ystorefoundationpackage.yfaces.component.misc;
 
-import de.hybris.yfaces.component.YComponent;
 
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
+
+import org.codehaus.yfaces.component.YComponent;
 
 
 

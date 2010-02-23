@@ -14,11 +14,12 @@
 package demo;
 
 import de.hybris.platform.core.model.product.ProductModel;
-import de.hybris.yfaces.component.AbstractYFrame;
-import de.hybris.yfaces.component.YComponentBinding;
-import de.hybris.yfaces.component.YComponentEvent;
 
 import java.util.List;
+
+import org.codehaus.yfaces.component.AbstractYFrame;
+import org.codehaus.yfaces.component.YComponentBinding;
+import org.codehaus.yfaces.component.YComponentEvent;
 
 import ystorefoundationpackage.domain.impl.LuceneByTermProductFinder;
 import ystorefoundationpackage.yfaces.component.search.DefaultQuickSearchComponent;

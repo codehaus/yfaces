@@ -13,10 +13,11 @@
  */
 package ystorefoundationpackage.yfaces.component.voucher;
 
-import de.hybris.yfaces.component.YComponent;
-import de.hybris.yfaces.component.YComponentEventHandler;
 
 import javax.faces.model.DataModel;
+
+import org.codehaus.yfaces.component.YComponent;
+import org.codehaus.yfaces.component.YComponentEventHandler;
 
 
 /**
