@@ -14,43 +14,45 @@
 package ystorefoundationpackage.yfaces.frame;
 
 import org.codehaus.yfaces.component.AbstractYFrame;
-import org.codehaus.yfaces.component.YModelBinding;
 
 import ystorefoundationpackage.NavigationOutcome;
 import ystorefoundationpackage.yfaces.component.cart.CartTableComponent;
 import ystorefoundationpackage.yfaces.component.user.DefaultLoginComponent;
 import ystorefoundationpackage.yfaces.component.user.LoginComponent;
 
-
 /**
  * Renders the detail information of the cart.
  */
-public class CartFrame extends AbstractYFrame
-{
+public class CartFrame extends AbstractYFrame {
 	private static final long serialVersionUID = 57824365959445L;
 
-	private YModelBinding<LoginComponent> loginCmp = null;
-	private YModelBinding<CartTableComponent> cartTableCmp = null;
+	private LoginComponent loginCmp = null;
+	private CartTableComponent cartTableCmp = null;
 
-	public CartFrame()
-	{
+	public CartFrame() {
 		super();
-		this.loginCmp = super.createComponentBinding(this.createLoginComponent());
-		this.cartTableCmp = super.createComponentBinding();
 	}
 
-	public YModelBinding<LoginComponent> getLoginComponent()
-	{
+	public LoginComponent getLoginComponent() {
+		if (this.loginCmp == null) {
+			this.loginCmp = this.createLoginComponent();
+		}
 		return this.loginCmp;
 	}
 
-	public YModelBinding<CartTableComponent> getCartTableComponent()
-	{
+	public void setLoginComponent(LoginComponent cmp) {
+		this.loginCmp = cmp;
+	}
+
+	public CartTableComponent getCartTableComponent() {
 		return this.cartTableCmp;
 	}
 
-	private LoginComponent createLoginComponent()
-	{
+	public void setCartTableComponent(CartTableComponent cmp) {
+		this.cartTableCmp = cmp;
+	}
+
+	private LoginComponent createLoginComponent() {
 		final LoginComponent result = new DefaultLoginComponent();
 		result.setErrorForward(NavigationOutcome.LOGIN_PAGE.id);
 		result.setSuccessForward(NavigationOutcome.CART_PAGE.id);

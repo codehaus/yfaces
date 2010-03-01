@@ -13,10 +13,8 @@
  */
 package ystorefoundationpackage.yfaces.frame;
 
-
 import org.apache.log4j.Logger;
 import org.codehaus.yfaces.component.AbstractYFrame;
-import org.codehaus.yfaces.component.YModelBinding;
 
 import ystorefoundationpackage.domain.YStorefoundation;
 import ystorefoundationpackage.yfaces.component.category.ListCategoryComponent;
@@ -25,55 +23,68 @@ import ystorefoundationpackage.yfaces.component.misc.DefaultBreadcrumbComponent;
 import ystorefoundationpackage.yfaces.component.product.ProductTableComponent;
 import ystorefoundationpackage.yfaces.component.product.fv.FeatureValueSelectorComponent;
 
-
 /**
  * Renders the specific category.
  * 
  */
-public class CategoryFrame extends AbstractYFrame
-{
+public class CategoryFrame extends AbstractYFrame {
 
 	private static final long serialVersionUID = -7278066698207691495L;
 
 	@SuppressWarnings("unused")
 	private static final Logger log = Logger.getLogger(CategoryFrame.class);
 
-	private final YModelBinding<FeatureValueSelectorComponent> fvCmp = super.createComponentBinding();
-	private final YModelBinding<ListCategoryComponent> listCatgCmp = super.createComponentBinding();
-	private final YModelBinding<ProductTableComponent> productTableCmp = super.createComponentBinding();
-	private final YModelBinding<BreadcrumbComponent> breadcrumbCmp = super.createComponentBinding(this
-			.createBreadcrumbComponent());
+	private FeatureValueSelectorComponent fvCmp = null;
+	private ListCategoryComponent listCatgCmp = null;
+	private ProductTableComponent productTableCmp = null;
+	private BreadcrumbComponent breadcrumbCmp = null;
 
-	private BreadcrumbComponent createBreadcrumbComponent()
-	{
+	private BreadcrumbComponent createBreadcrumbComponent() {
 		final BreadcrumbComponent cmp = new DefaultBreadcrumbComponent();
-		cmp.setLeaf(YStorefoundation.getRequestContext().getSessionContext().getCategory());
+		cmp.setLeaf(YStorefoundation.getRequestContext().getSessionContext()
+				.getCategory());
 		return cmp;
 	}
 
-	public YModelBinding<FeatureValueSelectorComponent> getFeatureValueSelectorComponent()
-	{
+	public FeatureValueSelectorComponent getFeatureValueSelectorComponent() {
 		return this.fvCmp;
 	}
 
-	public YModelBinding<ListCategoryComponent> getListCategoryComponent()
-	{
+	public void setFeatureValueSelectorComponent(
+			FeatureValueSelectorComponent cmp) {
+		this.fvCmp = cmp;
+	}
+
+	public ListCategoryComponent getListCategoryComponent() {
 		return this.listCatgCmp;
 	}
 
-	public YModelBinding<ProductTableComponent> getProductTableComponent()
-	{
+	public void setListCategoryComponent(ListCategoryComponent cmp) {
+		this.listCatgCmp = cmp;
+	}
+
+	public ProductTableComponent getProductTableComponent() {
 		return this.productTableCmp;
 	}
 
-	public YModelBinding<BreadcrumbComponent> getBreadcrumbComponent()
-	{
+	public void setProductTableComponent(ProductTableComponent cmp) {
+		this.productTableCmp = cmp;
+	}
+
+	public BreadcrumbComponent getBreadcrumbComponent() {
+		if (this.breadcrumbCmp == null) {
+			this.breadcrumbCmp = this.createBreadcrumbComponent();
+		}
 		return this.breadcrumbCmp;
 	}
 
-	public String getCategoryDescription()
-	{
-		return YStorefoundation.getRequestContext().getSessionContext().getCategory().getDescription();
+	public void setBreadcrumbComponent(BreadcrumbComponent cmp) {
+		this.breadcrumbCmp = cmp;
+	}
+
+	public String getCategoryDescription() {
+		return YStorefoundation.getRequestContext().getSessionContext()
+				.getCategory().getDescription();
 	}
 
 }
