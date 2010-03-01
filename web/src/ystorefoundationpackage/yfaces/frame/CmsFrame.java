@@ -13,41 +13,40 @@
  */
 package ystorefoundationpackage.yfaces.frame;
 
-
 import javax.faces.context.FacesContext;
 
 import org.codehaus.yfaces.component.AbstractYFrame;
-import org.codehaus.yfaces.component.YModelBinding;
 
 import ystorefoundationpackage.yfaces.component.cms.DefaultTextParagraphsComponent;
 import ystorefoundationpackage.yfaces.component.cms.TextParagraphsComponent;
-
 
 /**
  * Renders the cms information.
  * 
  */
-public class CmsFrame extends AbstractYFrame
-{
-	private YModelBinding<TextParagraphsComponent> textParagraphsCmp = null;
+public class CmsFrame extends AbstractYFrame {
+	private TextParagraphsComponent textParagraphsCompoent = null;
 
-	public CmsFrame()
-	{
+	public CmsFrame() {
 		super();
-		this.textParagraphsCmp = super.createComponentBinding(this.createTextParagraphsComponent());
 	}
 
-	public YModelBinding<TextParagraphsComponent> getTextParagraphsComponent()
-	{
-		return this.textParagraphsCmp;
+	public TextParagraphsComponent getTextParagraphsComponent() {
+		if (this.textParagraphsCompoent == null) {
+			this.textParagraphsCompoent = this.createTextParagraphsComponent();
+		}
+		return textParagraphsCompoent;
 	}
 
-	private TextParagraphsComponent createTextParagraphsComponent()
-	{
+	public void setTextParagraphsComponent(TextParagraphsComponent cmp) {
+		this.textParagraphsCompoent = cmp;
+	}
+
+	private TextParagraphsComponent createTextParagraphsComponent() {
 		final TextParagraphsComponent result = new DefaultTextParagraphsComponent();
-		String id = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("cmsid");
-		if (id == null)
-		{
+		String id = FacesContext.getCurrentInstance().getExternalContext()
+				.getRequestParameterMap().get("cmsid");
+		if (id == null) {
 			id = "frontpage";
 		}
 

@@ -14,32 +14,30 @@
 package ystorefoundationpackage.yfaces.frame;
 
 import org.codehaus.yfaces.component.AbstractYFrame;
-import org.codehaus.yfaces.component.YModelBinding;
 
 import ystorefoundationpackage.yfaces.component.user.ChangePasswordComponent;
-
 
 /**
  * Renders the page for the user to change the password.
  * 
  */
-public class ChangePasswordFrame extends AbstractYFrame
-{
+public class ChangePasswordFrame extends AbstractYFrame {
 
 	private static final long serialVersionUID = -3624214930177657263L;
 
-	private YModelBinding<ChangePasswordComponent> changePasswordCmp = null;
+	private ChangePasswordComponent changePasswordComponent = null;
 
-	//constructor
-	public ChangePasswordFrame()
-	{
+	// constructor
+	public ChangePasswordFrame() {
 		super();
-		this.changePasswordCmp = super.createComponentBinding();
 	}
 
-	public YModelBinding<ChangePasswordComponent> getChangePasswordComponent()
-	{
-		return this.changePasswordCmp;
+	public ChangePasswordComponent getChangePasswordComponent() {
+		return changePasswordComponent;
+	}
+
+	public void setChangePasswordComponent(ChangePasswordComponent cmp) {
+		this.changePasswordComponent = cmp;
 	}
 
 }

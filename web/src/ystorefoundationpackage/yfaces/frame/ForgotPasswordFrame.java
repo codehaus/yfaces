@@ -14,28 +14,26 @@
 package ystorefoundationpackage.yfaces.frame;
 
 import org.codehaus.yfaces.component.AbstractYFrame;
-import org.codehaus.yfaces.component.YModelBinding;
 
 import ystorefoundationpackage.yfaces.component.user.ForgotPasswordComponent;
-
 
 /**
  * Renders the page for the user who forgets the password.
  * 
  */
-public class ForgotPasswordFrame extends AbstractYFrame
-{
-	private YModelBinding<ForgotPasswordComponent> forgotPwCmp = null;
+public class ForgotPasswordFrame extends AbstractYFrame {
+	private ForgotPasswordComponent forgotPwCmp = null;
 
-	public ForgotPasswordFrame()
-	{
+	public ForgotPasswordFrame() {
 		super();
-		this.forgotPwCmp = super.createComponentBinding();
 	}
 
-	public YModelBinding<ForgotPasswordComponent> getForgotPasswordComponent()
-	{
+	public ForgotPasswordComponent getForgotPasswordComponent() {
 		return this.forgotPwCmp;
+	}
+
+	public void setForgotPasswordComponent(ForgotPasswordComponent cmp) {
+		this.forgotPwCmp = cmp;
 	}
 
 }
