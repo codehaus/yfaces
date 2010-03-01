@@ -58,39 +58,54 @@ public class UserDetailFrame extends AbstractYFrame {
 	private static final String USER_INFO_CHANGE_PASSWORD_ACTION = "changePasswordPage";
 	private static final String USER_INFO_SHOW_ORDER_HISTORY_ACTION = "orderHistoryPage";
 
-	private YModelBinding<ListAddressComponent> listAddressCmp = null;
-	private YModelBinding<ListPaymentComponent> listPaymentCmp = null;
-	private YModelBinding<UserInfoComponent> userInfoCmp = null;
+	private ListAddressComponent listAddressCmp = null;
+	private ListPaymentComponent listPaymentCmp = null;
+	private UserInfoComponent userInfoCmp = null;
 
 	public UserDetailFrame() {
 		super();
-		this.listAddressCmp = super.createComponentBinding(this
-				.createListAddressComponent());
-		this.listPaymentCmp = super.createComponentBinding(this
-				.createListPaymentComponent());
-		this.userInfoCmp = super.createComponentBinding(this
-				.createUserInfoComponent());
 	}
 
 	/**
 	 * @return {@link YModelBinding} for {@link ListAddressComponent}
 	 */
-	public YModelBinding<ListAddressComponent> getListAddressComponent() {
+	public ListAddressComponent getListAddressComponent() {
+		if (this.listAddressCmp == null) {
+			this.listAddressCmp = this.createListAddressComponent();
+		}
 		return this.listAddressCmp;
+	}
+
+	public void setListAddressComponent(ListAddressComponent cmp) {
+		this.listAddressCmp = cmp;
 	}
 
 	/**
 	 * @return {@link YModelBinding} for {@link ListPaymentComponent}
 	 */
-	public YModelBinding<ListPaymentComponent> getListPaymentComponent() {
+	public ListPaymentComponent getListPaymentComponent() {
+		if (this.listPaymentCmp == null) {
+			this.listPaymentCmp = this.createListPaymentComponent();
+		}
 		return this.listPaymentCmp;
+	}
+
+	public void setListPaymentComponent(ListPaymentComponent cmp) {
+		this.listPaymentCmp = cmp;
 	}
 
 	/**
 	 * @return {@link YModelBinding} for {@link UserInfoComponent}
 	 */
-	public YModelBinding<UserInfoComponent> getUserInfoComponent() {
+	public UserInfoComponent getUserInfoComponent() {
+		if (this.userInfoCmp == null) {
+			this.userInfoCmp = this.createUserInfoComponent();
+		}
 		return this.userInfoCmp;
+	}
+
+	public void setUserInfoComponent(UserInfoComponent cmp) {
+		this.userInfoCmp = cmp;
 	}
 
 	/**

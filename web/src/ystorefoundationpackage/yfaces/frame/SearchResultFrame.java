@@ -19,30 +19,33 @@ import org.codehaus.yfaces.component.YModelBinding;
 import ystorefoundationpackage.YComponent;
 import ystorefoundationpackage.yfaces.component.product.ProductTableComponent;
 
-
 /**
  * Renders the search results.
  * 
  */
-public class SearchResultFrame extends AbstractYFrame
-{
+public class SearchResultFrame extends AbstractYFrame {
 
 	private static final long serialVersionUID = 57824365989445L;
 
-	private YModelBinding<ProductTableComponent> productTableCmp = null;
+	private ProductTableComponent productTableCmp = null;
 
-	public SearchResultFrame()
-	{
+	public SearchResultFrame() {
 		super();
-		this.productTableCmp = super.createComponentBinding(YComponent.PRODUCT_TABLE.viewId);
 	}
 
 	/**
 	 * @return {@link YModelBinding} for {@link ProductTableComponent}
 	 */
-	public YModelBinding<ProductTableComponent> getProductTableComponent()
-	{
+	public ProductTableComponent getProductTableComponent() {
+		if (this.productTableCmp == null) {
+			this.productTableCmp = super
+					.createDefaultYModel(YComponent.PRODUCT_TABLE.viewId);
+		}
 		return this.productTableCmp;
+	}
+
+	public void setProductTableComponent(ProductTableComponent cmp) {
+		this.productTableCmp = cmp;
 	}
 
 }

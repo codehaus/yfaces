@@ -49,43 +49,56 @@ public class ProductFrame extends AbstractYFrame {
 	private static final long serialVersionUID = 8123237357574493529L;
 	private static final Logger log = Logger.getLogger(ProductFrame.class);
 
-	private YModelBinding<ChooseVariantsComponent> chooseVariantsCmp = null;
-	private YModelBinding<ShowVariantProductsComponent> showVariantProductsCmp = null;
+	private ChooseVariantsComponent chooseVariantsCmp = null;
+	private ShowVariantProductsComponent showVariantProductsCmp = null;
 	private List<YModelBinding<ProductReferencesComponent>> productReferencesCmpList = null;
-	private YModelBinding<ProductDetailComponent> productDetailCmp = null;
-	private YModelBinding<CustomerReviewComponent> customerReviewCmp = null;
-	private YModelBinding<BreadcrumbComponent> breadcrumbCmp = null;
+	private ProductDetailComponent productDetailCmp = null;
+	private CustomerReviewComponent customerReviewCmp = null;
+	private BreadcrumbComponent breadcrumbCmp = null;
 
 	public ProductFrame() {
 		super();
-
-		this.chooseVariantsCmp = super.createComponentBinding();
-		this.showVariantProductsCmp = super.createComponentBinding();
-		this.productDetailCmp = super.createComponentBinding(this
-				.createProductDetailComponent());
-		this.customerReviewCmp = super.createComponentBinding();
-		this.breadcrumbCmp = super.createComponentBinding(this
-				.createBreadcrumbComponent());
-
 	}
 
-	public YModelBinding<ChooseVariantsComponent> getChooseVariantsComponent() {
+	public ChooseVariantsComponent getChooseVariantsComponent() {
 		return this.chooseVariantsCmp;
 	}
 
-	public YModelBinding<ShowVariantProductsComponent> getShowVariantProductsComponent() {
+	public void setChooseVariantsComponent(ChooseVariantsComponent cmp) {
+		this.chooseVariantsCmp = cmp;
+	}
+
+	public ShowVariantProductsComponent getShowVariantProductsComponent() {
 		return this.showVariantProductsCmp;
 	}
 
-	public YModelBinding<ProductDetailComponent> getProductDetailComponent() {
+	public void setShowVariantProductsComponent(ShowVariantProductsComponent cmp) {
+		this.showVariantProductsCmp = cmp;
+	}
+
+	public ProductDetailComponent getProductDetailComponent() {
+		if (this.productDetailCmp == null) {
+			this.productDetailCmp = this.createProductDetailComponent();
+		}
 		return this.productDetailCmp;
 	}
 
-	public YModelBinding<CustomerReviewComponent> getCustomerReviewComponent() {
+	public void setProductDetailComponent(ProductDetailComponent cmp) {
+		this.productDetailCmp = cmp;
+	}
+
+	public CustomerReviewComponent getCustomerReviewComponent() {
 		return this.customerReviewCmp;
 	}
 
-	public YModelBinding<BreadcrumbComponent> getBreadcrumbComponent() {
+	public void setCustomerReviewComponent(CustomerReviewComponent cmp) {
+		this.customerReviewCmp = cmp;
+	}
+
+	public BreadcrumbComponent getBreadcrumbComponent() {
+		if (this.breadcrumbCmp == null) {
+			this.breadcrumbCmp = this.createBreadcrumbComponent();
+		}
 		return this.breadcrumbCmp;
 	}
 

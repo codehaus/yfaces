@@ -20,7 +20,6 @@ import org.apache.log4j.Logger;
 import org.codehaus.yfaces.component.AbstractYFrame;
 import org.codehaus.yfaces.component.YEvent;
 import org.codehaus.yfaces.component.YEventListener;
-import org.codehaus.yfaces.component.YModelBinding;
 import org.codehaus.yfaces.context.YConversationContext;
 import org.codehaus.yfaces.context.YPageContext;
 
@@ -64,70 +63,98 @@ public class SummaryFrame extends AbstractYFrame {
 	// showAddressModel shows a delivery or payment address
 	private static final String MODEL_ATTRIB_ADRESSTYPE = "ADDRESS_TYPE";
 
-	private YModelBinding<ShowAddressComponent> showDeliveryAddressCmp = null;
-	private YModelBinding<ShowAddressComponent> showPaymentAddressCmp = null;
-	private YModelBinding<ShowPaymentComponent> showPaymentCmp = null;
-	private YModelBinding<OrderTableComponent> orderTableCmp = null;
-	private YModelBinding<SelectDeliveryModeComponent> selectDeliveryModeCmp = null;
-	private YModelBinding<VoucherComponent> voucherCmp = null;
+	private ShowAddressComponent showDeliveryAddressCmp = null;
+	private ShowAddressComponent showPaymentAddressCmp = null;
+	private ShowPaymentComponent showPaymentCmp = null;
+	private OrderTableComponent orderTableCmp = null;
+	private SelectDeliveryModeComponent selectDeliveryModeCmp = null;
+	private VoucherComponent voucherCmp = null;
 
 	private static final String PAYMENT_ADDRESS = "defaultPaymentAddress";
 	private static final String DELIVERY_ADDRESS = "defaultShipmentAddress";
 
 	public SummaryFrame() {
 		super();
-		this.showDeliveryAddressCmp = super.createComponentBinding(this
-				.createShowDeliveryAddressComponent());
-		this.showPaymentAddressCmp = super.createComponentBinding(this
-				.createShowPaymentAddressComponent());
-		this.showPaymentCmp = super.createComponentBinding(this
-				.createShowPaymentComponent());
-		this.orderTableCmp = super.createComponentBinding(this
-				.createOrderTableComponent());
-		this.selectDeliveryModeCmp = super.createComponentBinding();
-		this.voucherCmp = super.createComponentBinding();
 	}
 
 	/**
 	 * @return Binding for {@link ShowAddressComponent} (delivery address)
 	 */
-	public YModelBinding<ShowAddressComponent> getShowDeliveryAddressComponent() {
+	public ShowAddressComponent getShowDeliveryAddressComponent() {
+		if (this.showDeliveryAddressCmp == null) {
+			this.showDeliveryAddressCmp = this
+					.createShowDeliveryAddressComponent();
+		}
 		return this.showDeliveryAddressCmp;
+	}
+
+	public void setShowDeliveryAddressComponent(ShowAddressComponent cmp) {
+		this.showDeliveryAddressCmp = cmp;
 	}
 
 	/**
 	 * @return Binding for {@link ShowAddressComponent} (payment address)
 	 */
-	public YModelBinding<ShowAddressComponent> getShowPaymentAddressComponent() {
+	public ShowAddressComponent getShowPaymentAddressComponent() {
+		if (this.showPaymentAddressCmp == null) {
+			this.showPaymentAddressCmp = this
+					.createShowPaymentAddressComponent();
+		}
 		return this.showPaymentAddressCmp;
+	}
+
+	public void setShowPaymentAddressComponent(ShowAddressComponent cmp) {
+		this.showPaymentAddressCmp = cmp;
 	}
 
 	/**
 	 * @return Binding for {@link SelectDeliveryModeComponent}
 	 */
-	public YModelBinding<SelectDeliveryModeComponent> getSelectDeliveryModeComponent() {
+	public SelectDeliveryModeComponent getSelectDeliveryModeComponent() {
 		return this.selectDeliveryModeCmp;
+	}
+
+	public void setSelectDeliveryModeComponent(SelectDeliveryModeComponent cmp) {
+		this.selectDeliveryModeCmp = cmp;
 	}
 
 	/**
 	 * @return Binding for {@link ShowPaymentComponent}
 	 */
-	public YModelBinding<ShowPaymentComponent> getShowPaymentComponent() {
+	public ShowPaymentComponent getShowPaymentComponent() {
+		if (this.showPaymentCmp == null) {
+			this.showPaymentCmp = this.createShowPaymentComponent();
+		}
 		return this.showPaymentCmp;
+	}
+
+	public void setShowPaymentComponent(ShowPaymentComponent cmp) {
+		this.showPaymentCmp = cmp;
 	}
 
 	/**
 	 * @return Binding for {@link VoucherComponent}
 	 */
-	public YModelBinding<VoucherComponent> getVoucherComponent() {
+	public VoucherComponent getVoucherComponent() {
 		return this.voucherCmp;
+	}
+
+	public void setVoucherComponent(VoucherComponent cmp) {
+		this.voucherCmp = cmp;
 	}
 
 	/**
 	 * @return binding for {@link OrderTableComponent}
 	 */
-	public YModelBinding<OrderTableComponent> getOrderTableComponent() {
+	public OrderTableComponent getOrderTableComponent() {
+		if (this.orderTableCmp == null) {
+			this.orderTableCmp = this.createOrderTableComponent();
+		}
 		return this.orderTableCmp;
+	}
+
+	public void setOrderTableComponent(OrderTableComponent cmp) {
+		this.orderTableCmp = cmp;
 	}
 
 	/**
@@ -181,8 +208,8 @@ public class SummaryFrame extends AbstractYFrame {
 		refreshPayment(null, event.getComponent().getPaymentInfo());
 
 		// auto detect new values according current cart
-		getShowPaymentComponent().getValue().setPaymentInfo(null);
-		getShowPaymentComponent().getValue().setPaymentMode(null);
+		getShowPaymentComponent().setPaymentInfo(null);
+		getShowPaymentComponent().setPaymentMode(null);
 
 		recalculateCart();
 	}
@@ -255,12 +282,12 @@ public class SummaryFrame extends AbstractYFrame {
 		if ("defaultPaymentAddress".equals(type)) {
 			user.setDefaultPaymentAddress(adr);
 			getPlatformServices().getModelService().save(user);
-			getShowPaymentAddressComponent().getValue().setAddress(adr);
+			getShowPaymentAddressComponent().setAddress(adr);
 		} else if ("defaultShipmentAddress".equals(type)) {
 			user.setDefaultShipmentAddress(adr);
 			// Webfoundation.getInstance().getServices().getUserService().saveUser(user);
 			getPlatformServices().getModelService().save(user);
-			getShowDeliveryAddressComponent().getValue().setAddress(adr);
+			getShowDeliveryAddressComponent().setAddress(adr);
 
 			recalculateCart();
 		}
@@ -295,7 +322,7 @@ public class SummaryFrame extends AbstractYFrame {
 		reqCtx.getOrderManagement().updateCart(currentCart);
 
 		// make sure that the order table component will generate a new order
-		getOrderTableComponent().getValue().setOrder(null);
+		getOrderTableComponent().setOrder(null);
 	}
 
 	/**
@@ -448,10 +475,9 @@ public class SummaryFrame extends AbstractYFrame {
 	@Override
 	public void refresh() {
 		super.refresh();
-		getShowPaymentComponent().getValue().setPaymentMode(null);
-		getShowPaymentComponent().getValue().setPaymentInfo(null);
-		getSelectDeliveryModeComponent().getValue().setSupportedDeliveryModes(
-				null);
+		getShowPaymentComponent().setPaymentMode(null);
+		getShowPaymentComponent().setPaymentInfo(null);
+		getSelectDeliveryModeComponent().setSupportedDeliveryModes(null);
 	}
 
 	private PlatformServices getPlatformServices() {
