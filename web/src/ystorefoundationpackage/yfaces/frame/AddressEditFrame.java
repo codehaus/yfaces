@@ -14,39 +14,26 @@
 package ystorefoundationpackage.yfaces.frame;
 
 import org.codehaus.yfaces.component.AbstractYFrame;
-import org.codehaus.yfaces.component.YModelBinding;
 
 import ystorefoundationpackage.YComponent;
 import ystorefoundationpackage.yfaces.component.address.EditAddressComponent;
-
 
 /**
  * Renders the page for the user to edit the address information.
  * 
  */
-public class AddressEditFrame extends AbstractYFrame
-{
+public class AddressEditFrame extends AbstractYFrame {
+	private EditAddressComponent editAddressCmp = null;
 
-	private final YModelBinding<EditAddressComponent> editAddressCmp = super
-			.createComponentBinding(YComponent.EDIT_ADDRESS.viewId);
-	
-
-	public YModelBinding<EditAddressComponent> getEditAddressComponent()
-	{
+	public EditAddressComponent getEditAddressComponent() {
+		if (this.editAddressCmp == null) {
+			this.editAddressCmp = (EditAddressComponent) createDefaultYModel(YComponent.EDIT_ADDRESS.viewId);
+		}
 		return this.editAddressCmp;
 	}
 
-//	private EditAddressComponent editAddressCmp = null;
-//
-//	public EditAddressComponent getEditAddressComponent()
-//	{
-//		return this.editAddressCmp;
-//	}
-//	
-//	public void  setEditAddressComponent(EditAddressComponent cmp)
-//	{
-//		this.editAddressCmp = cmp;
-//	}
-
+	public void setEditAddressComponent(EditAddressComponent cmp) {
+		this.editAddressCmp = cmp;
+	}
 
 }
