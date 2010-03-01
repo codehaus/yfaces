@@ -13,30 +13,30 @@
  */
 package ystorefoundationpackage.yfaces.frame;
 
-
 import org.apache.log4j.Logger;
 import org.codehaus.yfaces.component.AbstractYFrame;
-import org.codehaus.yfaces.component.YModelBinding;
 
 import ystorefoundationpackage.yfaces.component.payment.EditPaymentComponent;
-
 
 /**
  * Renders the page for the user to edit the selected payment information.
  * 
  */
-public class PaymentInfoEditFrame extends AbstractYFrame
-{
+public class PaymentInfoEditFrame extends AbstractYFrame {
 	private static final long serialVersionUID = 4318010538297503458L;
 
-	private final YModelBinding<EditPaymentComponent> editPaymentCmp = super.createComponentBinding();
+	private EditPaymentComponent editPaymentCmp = null;
 
 	@SuppressWarnings("unused")
-	private static final Logger log = Logger.getLogger(PaymentInfoEditFrame.class);
+	private static final Logger log = Logger
+			.getLogger(PaymentInfoEditFrame.class);
 
-	public YModelBinding<EditPaymentComponent> getEditPaymentComponent()
-	{
+	public EditPaymentComponent getEditPaymentComponent() {
 		return this.editPaymentCmp;
+	}
+
+	public void setEditPaymentComponent(EditPaymentComponent cmp) {
+		this.editPaymentCmp = cmp;
 	}
 
 }

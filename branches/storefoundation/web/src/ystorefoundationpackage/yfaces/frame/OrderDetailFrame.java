@@ -13,14 +13,10 @@
  */
 package ystorefoundationpackage.yfaces.frame;
 
-import de.hybris.platform.core.model.order.OrderModel;
-import de.hybris.platform.core.model.user.UserModel;
-
 import javax.faces.context.FacesContext;
 
 import org.codehaus.yfaces.YFacesException;
 import org.codehaus.yfaces.component.AbstractYFrame;
-import org.codehaus.yfaces.component.YModelBinding;
 
 import ystorefoundationpackage.domain.YStorefoundation;
 import ystorefoundationpackage.yfaces.component.address.DefaultShowAddressComponent;
@@ -29,66 +25,85 @@ import ystorefoundationpackage.yfaces.component.order.DefaultOrderTableComponent
 import ystorefoundationpackage.yfaces.component.order.OrderTableComponent;
 import ystorefoundationpackage.yfaces.component.payment.DefaultShowPaymentComponent;
 import ystorefoundationpackage.yfaces.component.payment.ShowPaymentComponent;
-
+import de.hybris.platform.core.model.order.OrderModel;
+import de.hybris.platform.core.model.user.UserModel;
 
 /**
  * Renders the detail information of the selected order.
  * 
  */
-public class OrderDetailFrame extends AbstractYFrame
-{
-	private static enum ADDRESS_TYPE
-	{
+public class OrderDetailFrame extends AbstractYFrame {
+	private static enum ADDRESS_TYPE {
 		Delivery, Payment
 	}
 
-	private YModelBinding<ShowAddressComponent> showDeliveryAddressCmp = null;
-	private YModelBinding<ShowAddressComponent> showPaymentAddressCmp = null;
-	private YModelBinding<ShowPaymentComponent> showPaymentCmp = null;
-	private YModelBinding<OrderTableComponent> orderTableCmp = null;
+	private ShowAddressComponent showDeliveryAddressCmp = null;
+	private ShowAddressComponent showPaymentAddressCmp = null;
+	private ShowPaymentComponent showPaymentCmp = null;
+	private OrderTableComponent orderTableCmp = null;
 
-	public OrderDetailFrame()
-	{
+	public OrderDetailFrame() {
 		super();
-		this.showDeliveryAddressCmp = super.createComponentBinding(this.createShowAddressCmp(ADDRESS_TYPE.Delivery));
-		this.showPaymentAddressCmp = super.createComponentBinding(this.createShowAddressCmp(ADDRESS_TYPE.Payment));
-		this.showPaymentCmp = super.createComponentBinding(this.createShowPaymentCmp());
-		this.orderTableCmp = super.createComponentBinding(this.createOrderTableCmp());
 	}
 
 	@Override
-	public String getTitle()
-	{
-		final String title = YStorefoundation.getRequestContext().getContentManagement().getLocalizedMessage("orderDetail",
-				getOrderModel().getCode());
+	public String getTitle() {
+		final String title = YStorefoundation.getRequestContext()
+				.getContentManagement().getLocalizedMessage("orderDetail",
+						getOrderModel().getCode());
 		return title;
 	}
 
-	public YModelBinding<ShowAddressComponent> getDeliveryShowAddressComponent()
-	{
+	public ShowAddressComponent getDeliveryShowAddressComponent() {
+		if (this.showDeliveryAddressCmp == null) {
+			this.showDeliveryAddressCmp = this
+					.createShowAddressCmp(ADDRESS_TYPE.Delivery);
+		}
 		return this.showDeliveryAddressCmp;
 	}
 
-	public YModelBinding<ShowAddressComponent> getPaymentShowAddressComponent()
-	{
+	public void setDeliveryShowAddressComponent(ShowAddressComponent cmp) {
+		this.showDeliveryAddressCmp = cmp;
+	}
+
+	public ShowAddressComponent getPaymentShowAddressComponent() {
+		if (this.showPaymentAddressCmp == null) {
+			this.showPaymentAddressCmp = this
+					.createShowAddressCmp(ADDRESS_TYPE.Payment);
+		}
 		return this.showPaymentAddressCmp;
 	}
 
-	public YModelBinding<ShowPaymentComponent> getShowPaymentComponent()
-	{
+	public void setPaymentShowAddressComponent(ShowAddressComponent cmp) {
+		this.showPaymentAddressCmp = cmp;
+	}
+
+	public ShowPaymentComponent getShowPaymentComponent() {
+		if (this.showPaymentCmp == null) {
+			this.showPaymentCmp = this.createShowPaymentCmp();
+		}
 		return this.showPaymentCmp;
 	}
 
-	public YModelBinding<OrderTableComponent> getOrderTableComponent()
-	{
+	public void setShowPaymentComponent(ShowPaymentComponent cmp) {
+		this.showPaymentCmp = cmp;
+	}
+
+	public OrderTableComponent getOrderTableComponent() {
+		if (this.orderTableCmp == null) {
+			this.orderTableCmp = this.createOrderTableCmp();
+		}
 		return this.orderTableCmp;
+	}
+
+	public void setOrderTableComponent(OrderTableComponent cmp) {
+		this.orderTableCmp = cmp;
 	}
 
 	/**
 	 * @return {@link ShowAddressComponent}
 	 */
-	private ShowAddressComponent createShowAddressCmp(final ADDRESS_TYPE type)
-	{
+	private ShowAddressComponent createShowAddressCmp(final ADDRESS_TYPE type) {
 		final ShowAddressComponent result = new DefaultShowAddressComponent();
 		result.getChooseAddressAsDeliveryEvent().setEnabled(false);
 		result.getChooseAddressAsPaymentEvent().setEnabled(false);
@@ -97,27 +112,25 @@ public class OrderDetailFrame extends AbstractYFrame
 		result.getEditAddressEvent().setEnabled(false);
 
 		final OrderModel order = this.getOrderModel();
-		if (type == ADDRESS_TYPE.Delivery)
-		{
-			//result.setAddress(order.getDeliveryAddress());
+		if (type == ADDRESS_TYPE.Delivery) {
+			// result.setAddress(order.getDeliveryAddress());
 			result.setAddress(order.getDeliveryAddress());
 		}
 
-		if (type == ADDRESS_TYPE.Payment)
-		{
-			//result.setAddress(order.getPaymentAddress());
+		if (type == ADDRESS_TYPE.Payment) {
+			// result.setAddress(order.getPaymentAddress());
 			result.setAddress(order.getPaymentAddress());
 		}
 		return result;
 	}
 
 	/**
-	 * Creates a {@link ShowPaymentComponent} for this {@link org.codehaus.yfaces.component.YFrame}
+	 * Creates a {@link ShowPaymentComponent} for this
+	 * {@link org.codehaus.yfaces.component.YFrame}
 	 * 
 	 * @return {@link ShowPaymentComponent}
 	 */
-	private ShowPaymentComponent createShowPaymentCmp()
-	{
+	private ShowPaymentComponent createShowPaymentCmp() {
 		final ShowPaymentComponent result = new DefaultShowPaymentComponent();
 		result.setPaymentInfo(this.getOrderModel().getPaymentInfo());
 		result.getDeletePaymentEvent().setEnabled(false);
@@ -126,32 +139,36 @@ public class OrderDetailFrame extends AbstractYFrame
 	}
 
 	/**
-	 * Creates a {@link OrderTableComponent} for this {@link org.codehaus.yfaces.component.YFrame}
+	 * Creates a {@link OrderTableComponent} for this
+	 * {@link org.codehaus.yfaces.component.YFrame}
 	 * 
 	 * @return {@link OrderTableComponent}
 	 */
-	private OrderTableComponent createOrderTableCmp()
-	{
+	private OrderTableComponent createOrderTableCmp() {
 		final OrderTableComponent result = new DefaultOrderTableComponent();
 		result.setOrder(this.getOrderModel());
 		return result;
 	}
 
-	private OrderModel getOrderModel()
-	{
+	private OrderModel getOrderModel() {
 		OrderModel result = (OrderModel) super.getAttributes().get("orderid");
-		if (result == null)
-		{
-			final String id = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("orderid");
-			final UserModel user = YStorefoundation.getRequestContext().getSessionContext().getUser();
-			//result = Webfoundation.getInstance().getServices().getOrderService().findById(Long.parseLong(id), user);
-			result = YStorefoundation.getRequestContext().getOrderManagement().getOrder(user, id);
+		if (result == null) {
+			final String id = FacesContext.getCurrentInstance()
+					.getExternalContext().getRequestParameterMap().get(
+							"orderid");
+			final UserModel user = YStorefoundation.getRequestContext()
+					.getSessionContext().getUser();
+			// result =
+			// Webfoundation.getInstance().getServices().getOrderService().findById(Long.parseLong(id),
+			// user);
+			result = YStorefoundation.getRequestContext().getOrderManagement()
+					.getOrder(user, id);
 
-			if (result == null)
-			{
+			if (result == null) {
 				YStorefoundation.getRequestContext().getErrorHandler()
-						.handleException(new YFacesException("Invalid order requested"));
-				//throw new YFacesException("Invalid order requested");
+						.handleException(
+								new YFacesException("Invalid order requested"));
+				// throw new YFacesException("Invalid order requested");
 			}
 
 			super.getAttributes().put("orderid", result);
