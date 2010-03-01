@@ -29,10 +29,24 @@ public class AddressEditFrame extends AbstractYFrame
 
 	private final YModelBinding<EditAddressComponent> editAddressCmp = super
 			.createComponentBinding(YComponent.EDIT_ADDRESS.viewId);
+	
 
 	public YModelBinding<EditAddressComponent> getEditAddressComponent()
 	{
 		return this.editAddressCmp;
 	}
+
+//	private EditAddressComponent editAddressCmp = null;
+//
+//	public EditAddressComponent getEditAddressComponent()
+//	{
+//		return this.editAddressCmp;
+//	}
+//	
+//	public void  setEditAddressComponent(EditAddressComponent cmp)
+//	{
+//		this.editAddressCmp = cmp;
+//	}
+
 
 }

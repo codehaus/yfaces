@@ -63,7 +63,7 @@ public class HistoryCmpUserSessionListener implements CategoryChangeListener, Pr
 	private ShowHistoryComponent getShowHistoryComponent()
 	{
 		final ShowHistoryComponent result = YStorefoundation.getRequestContext().getPageContext().getOrCreateFrame(
-				GlobalFrame.class).getShowHistoryComponent().getValue();
+				GlobalFrame.class).getShowHistoryComponent();
 		return result;
 	}
 

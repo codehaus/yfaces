@@ -10,5 +10,5 @@
 	<classpathentry kind="lib" path="web/webroot/WEB-INF/lib/myfaces-impl-1.2.6.jar"/>
 	<classpathentry kind="lib" path="web/webroot/WEB-INF/lib/tomahawk-1.1.6.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/yfaces-core"/>
-	<classpathentry kind="output" path="bin"/>
+	<classpathentry kind="output" path="web/webroot/WEB-INF/classes"/>
 </classpath>

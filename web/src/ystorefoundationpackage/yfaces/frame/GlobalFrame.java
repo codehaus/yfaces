@@ -54,101 +54,167 @@ public class GlobalFrame extends AbstractYFrame
 	@SuppressWarnings("unused")
 	private static final Logger log = Logger.getLogger(GlobalFrame.class);
 
-	private YModelBinding<CategoryTreeComponent> categoryTreeCmp = null;
-	private YModelBinding<QuickSearchComponent> quickSearchCmp = null;
-	private YModelBinding<ChooseLanguageComponent> chooseLanguageCmp = null;
-	private YModelBinding<AdBannerComponent> adBannerCmp = null;
-	private YModelBinding<LoginComponent> loginCmp = null;
-	private YModelBinding<ChooseCurrencyComponent> chooseCurrencyCmp = null;
-	private YModelBinding<ChooseCatalogComponent> chooseCatalogCmp = null;
-	private YModelBinding<ShowHistoryComponent> showHistoryCmp = null;
-	private YModelBinding<ProductsQuickViewComponent> productsQuickViewCmp = null;
+	private CategoryTreeComponent categoryTreeCmp = null;
+	private QuickSearchComponent quickSearchCmp = null;
+	private ChooseLanguageComponent chooseLanguageCmp = null;
+	private AdBannerComponent adBannerCmp = null;
+	private LoginComponent loginCmp = null;
+	private ChooseCurrencyComponent chooseCurrencyCmp = null;
+	private ChooseCatalogComponent chooseCatalogCmp = null;
+	private ShowHistoryComponent showHistoryCmp = null;
+	private ProductsQuickViewComponent productsQuickViewCmp = null;
 
 	public GlobalFrame()
 	{
 		super();
-		this.categoryTreeCmp = super.createComponentBinding();
-		this.quickSearchCmp = super.createComponentBinding(createQuickSearchComponent());
-		this.chooseLanguageCmp = super.createComponentBinding();
-		this.adBannerCmp = super.createComponentBinding(this.createAdBannerComponent());
-		this.loginCmp = super.createComponentBinding(this.createLoginComponent());
-		this.chooseCurrencyCmp = super.createComponentBinding();
-		this.chooseCatalogCmp = super.createComponentBinding();
-		this.showHistoryCmp = super.createComponentBinding((ShowHistoryComponent) new DefaultShowHistoryComponent());
-		this.productsQuickViewCmp = super.createComponentBinding();
 	}
 
 	/**
 	 * @return {@link YModelBinding} for {@link ChooseLanguageComponent}
 	 */
-	public YModelBinding<ChooseLanguageComponent> getChooseLanguageComponent()
+	public ChooseLanguageComponent getChooseLanguageComponent()
 	{
 		return this.chooseLanguageCmp;
 	}
+	
+	public void  setChooseLanguageComponent(ChooseLanguageComponent model)
+	{
+		this.chooseLanguageCmp = model;
+	}
+
 
 	/**
 	 * @return {@link YModelBinding} for {@link ChooseCurrencyComponent}
 	 */
-	public YModelBinding<ChooseCurrencyComponent> getChooseCurrencyComponent()
+	public ChooseCurrencyComponent getChooseCurrencyComponent()
 	{
 		return this.chooseCurrencyCmp;
 	}
+	
+	public void setChooseCurrencyComponent(ChooseCurrencyComponent model)
+	{
+		this.chooseCurrencyCmp = model;
+	}
+	
+	
+	
 
 	/**
 	 * @return {@link YModelBinding} for {@link QuickSearchComponent}
 	 */
-	public YModelBinding<QuickSearchComponent> getQuickSearchComponent()
+	public QuickSearchComponent getQuickSearchComponent()
 	{
+		if (this.quickSearchCmp == null) {
+			this.quickSearchCmp = createQuickSearchComponent();
+		}
 		return this.quickSearchCmp;
 	}
+	
+	public void setQuickSearchComponent(QuickSearchComponent model)
+	{
+		this.quickSearchCmp = model;
+	}
+
 
 	/**
 	 * @return {@link YModelBinding} for {@link AdBannerComponent}
 	 */
-	public YModelBinding<AdBannerComponent> getAdBannerComponent()
+	public AdBannerComponent getAdBannerComponent()
 	{
+		if (this.adBannerCmp == null) {
+			this.adBannerCmp = createAdBannerComponent();
+		}
 		return this.adBannerCmp;
 	}
+	
+	public void setAdBannerComponent(AdBannerComponent model)
+	{
+		this.adBannerCmp = model;
+	}
+
 
 	/**
 	 * @return {@link YModelBinding} for {@link LoginComponent}
 	 */
-	public YModelBinding<LoginComponent> getLoginComponent()
+	public LoginComponent getLoginComponent()
 	{
+		if (this.loginCmp == null) {
+			this.loginCmp = createLoginComponent();
+		}
 		return this.loginCmp;
 	}
+	
+	public void setLoginComponent(LoginComponent model)
+	{
+		this.loginCmp = model;
+	}
+
+//	public YModelBinding<LoginComponent> getLoginComponent()
+//	{
+//		return this.loginCmp;
+//
+//	}
+
 
 	/**
 	 * @return {@link YModelBinding} for {@link ProductsQuickViewComponent}
 	 */
-	public YModelBinding<ProductsQuickViewComponent> getProductsQuickViewComponent()
+	public ProductsQuickViewComponent getProductsQuickViewComponent()
 	{
 		return this.productsQuickViewCmp;
 	}
+	
+	public void  setProductsQuickViewComponent(ProductsQuickViewComponent model)
+	{
+		this.productsQuickViewCmp = model;
+	}
+
 
 	/**
 	 * @return {@link YModelBinding} for {@link ShowHistoryComponent}
 	 */
-	public YModelBinding<ShowHistoryComponent> getShowHistoryComponent()
+	public ShowHistoryComponent getShowHistoryComponent()
 	{
+		if (this.showHistoryCmp == null) {
+			this.showHistoryCmp = new DefaultShowHistoryComponent();
+		}
 		return this.showHistoryCmp;
 	}
+	
+	public void setShowHistoryComponent(ShowHistoryComponent model)
+	{
+		this.showHistoryCmp = model;
+	}
+
+	
 
 	/**
 	 * @return {@link YModelBinding} for {@link ChooseCatalogComponent}
 	 */
-	public YModelBinding<ChooseCatalogComponent> getChooseCatalogComponent()
+	public ChooseCatalogComponent getChooseCatalogComponent()
 	{
 		return this.chooseCatalogCmp;
 	}
+	
+	public void setChooseCatalogComponent(ChooseCatalogComponent model)
+	{
+		this.chooseCatalogCmp = model;
+	}
+
 
 	/**
 	 * @return {@link YModelBinding} for {@link CategoryTreeComponent}
 	 */
-	public YModelBinding<CategoryTreeComponent> getCategoryTreeComponent()
+	public CategoryTreeComponent getCategoryTreeComponent()
 	{
 		return this.categoryTreeCmp;
 	}
+	
+	public void  setCategoryTreeComponent(CategoryTreeComponent model)
+	{
+		this.categoryTreeCmp = model;
+	}
+
 
 	@Override
 	public void refresh()
@@ -157,7 +223,7 @@ public class GlobalFrame extends AbstractYFrame
 		final SfSessionContext session = YStorefoundation.getRequestContext().getSessionContext();
 		if (session.isLanguageChanged())
 		{
-			getAdBannerComponent().setValue(this.createAdBannerComponent());
+			this.adBannerCmp = this.createAdBannerComponent();
 		}
 	}
 

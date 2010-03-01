@@ -33,25 +33,41 @@ public class WelcomeFrame extends AbstractYFrame
 	@SuppressWarnings("unused")
 	private static final Logger log = Logger.getLogger(WelcomeFrame.class);
 
-	private YModelBinding<TextParagraphsComponent> textParagraphsCmp = null;
-	private YModelBinding<ProductsQuickViewComponent> productsQuickViewCmp = null;
+	private TextParagraphsComponent textParagraphsCmp = null;
+	private ProductsQuickViewComponent productsQuickViewCmp = null;
 
 	public WelcomeFrame()
 	{
 		super();
-		this.productsQuickViewCmp = super.createComponentBinding(this.createRandomProductsComponent());
-		this.textParagraphsCmp = super.createComponentBinding(this.createTextParagraphsComponent());
 	}
 
-	public YModelBinding<TextParagraphsComponent> getTextParagraphsComponent()
+	public TextParagraphsComponent getTextParagraphsComponent()
 	{
+		if (this.textParagraphsCmp == null) {
+			this.textParagraphsCmp = this.createTextParagraphsComponent();
+		}
 		return this.textParagraphsCmp;
 	}
-
-	public YModelBinding<ProductsQuickViewComponent> getRandomProductsComponent()
+	
+	public void setTextParagraphsComponent(TextParagraphsComponent model)
 	{
-		return this.productsQuickViewCmp;
+		this.textParagraphsCmp = model;
 	}
+
+
+	public ProductsQuickViewComponent getRandomProductsComponent()
+	{
+		if (this.productsQuickViewCmp == null) {
+			this.productsQuickViewCmp = this.createRandomProductsComponent();
+		}
+		 return this.productsQuickViewCmp;
+	}
+	
+	public void setRandomProductsComponent(ProductsQuickViewComponent model)
+	{
+		this.productsQuickViewCmp = model;
+	}
+
 
 	private TextParagraphsComponent createTextParagraphsComponent()
 	{
