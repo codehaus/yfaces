@@ -125,7 +125,7 @@ public class ProductFrame extends AbstractYFrame
 			final YConversationContext convCtx = YStorefoundation.getRequestContext().getPageContext().getConversationContext();
 			final YPageContext page = convCtx.getOrCreateNextPage();
 			page.getOrCreateFrame(LoginFrame.class).getLoginComponent().getValue().setSuccessForward(result);
-			page.getOrCreateFrame(GlobalFrame.class).getLoginComponent().getValue().setSuccessForward(result);
+			page.getOrCreateFrame(GlobalFrame.class).getLoginComponent().setSuccessForward(result);
 			result = NavigationOutcome.LOGIN_PAGE.id;
 		}
 		return result;
