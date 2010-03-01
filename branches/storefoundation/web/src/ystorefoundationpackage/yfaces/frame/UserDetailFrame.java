@@ -16,7 +16,6 @@ package ystorefoundationpackage.yfaces.frame;
 import org.codehaus.yfaces.component.AbstractYFrame;
 import org.codehaus.yfaces.component.YEvent;
 import org.codehaus.yfaces.component.YEventListener;
-import org.codehaus.yfaces.component.YModelBinding;
 import org.codehaus.yfaces.context.YConversationContext;
 import org.codehaus.yfaces.context.YPageContext;
 
@@ -67,7 +66,7 @@ public class UserDetailFrame extends AbstractYFrame {
 	}
 
 	/**
-	 * @return {@link YModelBinding} for {@link ListAddressComponent}
+	 * @return {@link ListAddressComponent}
 	 */
 	public ListAddressComponent getListAddressComponent() {
 		if (this.listAddressCmp == null) {
@@ -81,7 +80,7 @@ public class UserDetailFrame extends AbstractYFrame {
 	}
 
 	/**
-	 * @return {@link YModelBinding} for {@link ListPaymentComponent}
+	 * @return {@link ListPaymentComponent}
 	 */
 	public ListPaymentComponent getListPaymentComponent() {
 		if (this.listPaymentCmp == null) {
@@ -95,7 +94,7 @@ public class UserDetailFrame extends AbstractYFrame {
 	}
 
 	/**
-	 * @return {@link YModelBinding} for {@link UserInfoComponent}
+	 * @return {@link UserInfoComponent}
 	 */
 	public UserInfoComponent getUserInfoComponent() {
 		if (this.userInfoCmp == null) {

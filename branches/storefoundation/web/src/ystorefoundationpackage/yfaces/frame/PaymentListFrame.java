@@ -16,7 +16,6 @@ package ystorefoundationpackage.yfaces.frame;
 import org.codehaus.yfaces.component.AbstractYFrame;
 import org.codehaus.yfaces.component.YEvent;
 import org.codehaus.yfaces.component.YEventListener;
-import org.codehaus.yfaces.component.YModelBinding;
 import org.codehaus.yfaces.context.YConversationContext;
 import org.codehaus.yfaces.context.YPageContext;
 
@@ -45,29 +44,39 @@ public class PaymentListFrame extends AbstractYFrame {
 	private static final String NAV_PAYMENT_EDIT = "paymentEditPage";
 	private static final String NAV_PAYMENT_LIST = "paymentListPage";
 
-	private YModelBinding<ListPaymentComponent> listPaymentCmp = null;
-	private YModelBinding<SelectPaymentModeComponent> selectPaymentModeCmp = null;
+	private ListPaymentComponent listPaymentCmp = null;
+	private SelectPaymentModeComponent selectPaymentModeCmp = null;
 
 	public PaymentListFrame() {
 		super();
-		this.listPaymentCmp = super.createComponentBinding(this
-				.createListPaymentComponent());
-		this.selectPaymentModeCmp = super
-				.createComponentBinding((SelectPaymentModeComponent) new DefaultSelectPaymentModeComponent());
 	}
 
 	/**
-	 * @return {@link YModelBinding} for {@link ListPaymentComponent}
+	 * @return {@link ListPaymentComponent}
 	 */
-	public YModelBinding<ListPaymentComponent> getListPaymentComponent() {
+	public ListPaymentComponent getListPaymentComponent() {
+		if (this.listPaymentCmp == null) {
+			this.listPaymentCmp = this.createListPaymentComponent();
+		}
 		return this.listPaymentCmp;
 	}
 
+	public void setListPaymentComponent(ListPaymentComponent cmp) {
+		this.listPaymentCmp = cmp;
+	}
+
 	/**
-	 * @return {@link YModelBinding} for {@link SelectPaymentModeComponent}
+	 * @return {@link SelectPaymentModeComponent}
 	 */
-	public YModelBinding<SelectPaymentModeComponent> getSelectPaymentModeComponent() {
+	public SelectPaymentModeComponent getSelectPaymentModeComponent() {
+		if (this.selectPaymentModeCmp == null) {
+			this.selectPaymentModeCmp = new DefaultSelectPaymentModeComponent();
+		}
 		return this.selectPaymentModeCmp;
+	}
+
+	public void setSelectPaymentModeComponent(SelectPaymentModeComponent cmp) {
+		this.selectPaymentModeCmp = cmp;
 	}
 
 	/**

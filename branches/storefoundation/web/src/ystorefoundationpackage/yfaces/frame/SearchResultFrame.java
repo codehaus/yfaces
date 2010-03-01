@@ -14,7 +14,6 @@
 package ystorefoundationpackage.yfaces.frame;
 
 import org.codehaus.yfaces.component.AbstractYFrame;
-import org.codehaus.yfaces.component.YModelBinding;
 
 import ystorefoundationpackage.YComponent;
 import ystorefoundationpackage.yfaces.component.product.ProductTableComponent;
@@ -34,7 +33,7 @@ public class SearchResultFrame extends AbstractYFrame {
 	}
 
 	/**
-	 * @return {@link YModelBinding} for {@link ProductTableComponent}
+	 * @return {@link ProductTableComponent}
 	 */
 	public ProductTableComponent getProductTableComponent() {
 		if (this.productTableCmp == null) {

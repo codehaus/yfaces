@@ -167,7 +167,7 @@ public class SummaryFrame extends AbstractYFrame {
 		final PaymentListFrame payListFrame = this.getPaymentListFrame();
 
 		final ShowPaymentComponent spCmp = payListFrame
-				.getListPaymentComponent().getValue().getShowPaymentComponent();
+				.getListPaymentComponent().getShowPaymentComponent();
 
 		spCmp.getCustomPaymentEvent().setEnabled(true);
 		spCmp.getCustomPaymentEvent().getListener().setActionListener(
@@ -177,7 +177,7 @@ public class SummaryFrame extends AbstractYFrame {
 
 		// configure paymentModeComponent
 		final SelectPaymentModeComponent pmc = payListFrame
-				.getSelectPaymentModeComponent().getValue();
+				.getSelectPaymentModeComponent();
 		pmc.getChooseAdvanceEvent().getListener().setActionListener(
 				super.createExpressionString("doChooseAdvancedPayment"));
 		pmc.getChooseAdvanceEvent().getListener().setAction(NAV_THIS_PAGE);

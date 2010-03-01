@@ -13,64 +13,52 @@
  */
 package ystorefoundationpackage.yfaces.frame;
 
-
 import org.apache.log4j.Logger;
 import org.codehaus.yfaces.component.AbstractYFrame;
-import org.codehaus.yfaces.component.YModelBinding;
 
 import ystorefoundationpackage.yfaces.component.cms.DefaultTextParagraphsComponent;
 import ystorefoundationpackage.yfaces.component.cms.TextParagraphsComponent;
 import ystorefoundationpackage.yfaces.component.product.DefaultProductsQuickViewComponent;
 import ystorefoundationpackage.yfaces.component.product.ProductsQuickViewComponent;
 
-
 /**
  * Renders the default page of store foundation.
  * 
  */
-public class WelcomeFrame extends AbstractYFrame
-{
+public class WelcomeFrame extends AbstractYFrame {
 	@SuppressWarnings("unused")
 	private static final Logger log = Logger.getLogger(WelcomeFrame.class);
 
 	private TextParagraphsComponent textParagraphsCmp = null;
 	private ProductsQuickViewComponent productsQuickViewCmp = null;
 
-	public WelcomeFrame()
-	{
+	public WelcomeFrame() {
 		super();
 	}
 
-	public TextParagraphsComponent getTextParagraphsComponent()
-	{
+	public TextParagraphsComponent getTextParagraphsComponent() {
 		if (this.textParagraphsCmp == null) {
 			this.textParagraphsCmp = this.createTextParagraphsComponent();
 		}
 		return this.textParagraphsCmp;
 	}
-	
-	public void setTextParagraphsComponent(TextParagraphsComponent model)
-	{
+
+	public void setTextParagraphsComponent(TextParagraphsComponent model) {
 		this.textParagraphsCmp = model;
 	}
 
-
-	public ProductsQuickViewComponent getRandomProductsComponent()
-	{
+	public ProductsQuickViewComponent getRandomProductsComponent() {
 		if (this.productsQuickViewCmp == null) {
 			this.productsQuickViewCmp = this.createRandomProductsComponent();
 		}
-		 return this.productsQuickViewCmp;
+		return this.productsQuickViewCmp;
 	}
-	
-	public void setRandomProductsComponent(ProductsQuickViewComponent model)
-	{
+
+	public void setRandomProductsComponent(ProductsQuickViewComponent model) {
 		this.productsQuickViewCmp = model;
 	}
 
-
-	private TextParagraphsComponent createTextParagraphsComponent()
-	{
+	private TextParagraphsComponent createTextParagraphsComponent() {
 		final TextParagraphsComponent result = new DefaultTextParagraphsComponent();
 		result.setTextParagraphPageId("frontpage");
 		return result;
@@ -81,8 +69,7 @@ public class WelcomeFrame extends AbstractYFrame
 	 * 
 	 * @return {@link ProductsQuickViewComponent}
 	 */
-	private ProductsQuickViewComponent createRandomProductsComponent()
-	{
+	private ProductsQuickViewComponent createRandomProductsComponent() {
 		final ProductsQuickViewComponent result = new DefaultProductsQuickViewComponent();
 		result.setCategoryCode("topseller");
 		return result;
