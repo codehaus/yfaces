@@ -14,31 +14,30 @@
 package ystorefoundationpackage.yfaces.frame;
 
 import org.codehaus.yfaces.component.AbstractYFrame;
-import org.codehaus.yfaces.component.YModelBinding;
 
 import ystorefoundationpackage.yfaces.component.product.tellfriend.TellAFriendComponent;
 
-
 /**
- * Renders the page for the user to recommend a product to the friends with email.
+ * Renders the page for the user to recommend a product to the friends with
+ * email.
  * 
  */
-public class TellAFriendFrame extends AbstractYFrame
-{
+public class TellAFriendFrame extends AbstractYFrame {
 
 	private static final long serialVersionUID = 5064312503612109254L;
 
-	private YModelBinding<TellAFriendComponent> tellFriendCmp = null;
+	private TellAFriendComponent tellFriendCmp = null;
 
-	public TellAFriendFrame()
-	{
+	public TellAFriendFrame() {
 		super();
-		this.tellFriendCmp = super.createComponentBinding();
 	}
 
-	public YModelBinding<TellAFriendComponent> getTellAFriendComponent()
-	{
+	public TellAFriendComponent getTellAFriendComponent() {
 		return this.tellFriendCmp;
+	}
+
+	public void setTellAFriendComponent(TellAFriendComponent cmp) {
+		this.tellFriendCmp = cmp;
 	}
 
 }

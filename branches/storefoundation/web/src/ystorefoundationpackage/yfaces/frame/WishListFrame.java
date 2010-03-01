@@ -13,16 +13,12 @@
  */
 package ystorefoundationpackage.yfaces.frame;
 
-import de.hybris.platform.wishlist2.model.Wishlist2EntryModel;
-import de.hybris.platform.wishlist2.model.Wishlist2Model;
-
 import java.util.List;
 
 import javax.faces.context.FacesContext;
 
 import org.apache.log4j.Logger;
 import org.codehaus.yfaces.component.AbstractYFrame;
-import org.codehaus.yfaces.component.YModelBinding;
 import org.codehaus.yfaces.component.YEvent;
 import org.codehaus.yfaces.component.YEventListener;
 import org.codehaus.yfaces.context.YConversationContext;
@@ -37,14 +33,14 @@ import ystorefoundationpackage.yfaces.component.wishlist.ListWishListComponent;
 import ystorefoundationpackage.yfaces.component.wishlist.SaveTempWishListComponent;
 import ystorefoundationpackage.yfaces.component.wishlist.ShowWishListComponent;
 import ystorefoundationpackage.yfaces.component.wishlist.ShowWishListEntryComponent;
-
+import de.hybris.platform.wishlist2.model.Wishlist2EntryModel;
+import de.hybris.platform.wishlist2.model.Wishlist2Model;
 
 /**
  * Renders all wish lists and all products of the default wish list.
  * 
  */
-public class WishListFrame extends AbstractYFrame
-{
+public class WishListFrame extends AbstractYFrame {
 
 	private static final long serialVersionUID = 3293470797692376000L;
 
@@ -56,28 +52,23 @@ public class WishListFrame extends AbstractYFrame
 	public static final String WISH_LIST_EDIT_PAGE = "wishListEditPage";
 	public static final String CART_LINK = "/pages/cartPage.jsf";
 
-	private YModelBinding<ListWishListComponent> listWishListCmp = null;
-	private YModelBinding<ShowWishListComponent> showWishListCmp = null;
-	private YModelBinding<ShowWishListEntryComponent> showWishListEntryCmp = null;
-	private YModelBinding<SaveTempWishListComponent> saveTempWishListCmp = null;
+	private ListWishListComponent listWishListCmp = null;
+	private ShowWishListComponent showWishListCmp = null;
+	private ShowWishListEntryComponent showWishListEntryCmp = null;
+	private SaveTempWishListComponent saveTempWishListCmp = null;
 
-	//default constructor
-	public WishListFrame()
-	{
+	// default constructor
+	public WishListFrame() {
 		super();
-		this.listWishListCmp = super.createComponentBinding(createListWishListComponent());
-		this.showWishListCmp = super.createComponentBinding();
-		this.showWishListEntryCmp = super.createComponentBinding();
-		this.saveTempWishListCmp = super.createComponentBinding();
-
 	}
 
-	private ListWishListComponent createListWishListComponent()
-	{
+	private ListWishListComponent createListWishListComponent() {
 		final ListWishListComponent cmp = new DefaultListWishListComponent();
-		final YEventListener<ListWishListComponent> editListener = cmp.getEditWishListEvent().getListener();
+		final YEventListener<ListWishListComponent> editListener = cmp
+				.getEditWishListEvent().getListener();
 		editListener.setAction(WISH_LIST_EDIT_PAGE);
-		editListener.setActionListener(super.createExpressionString("doEditListWishList"));
+		editListener.setActionListener(super
+				.createExpressionString("doEditListWishList"));
 		return cmp;
 	}
 
@@ -85,57 +76,76 @@ public class WishListFrame extends AbstractYFrame
 	 * External {@link YEventListener} for {@link ListWishListComponent}
 	 * 
 	 * @param event
-	 *           {@link YEvent}
+	 *            {@link YEvent}
 	 */
-	public void doEditListWishList(final YEvent<ListWishListComponent> event)
-	{
-		final Wishlist2Model wishList = (Wishlist2Model) event.getFacesEvent().getComponent().getAttributes().get(
-				ListWishListComponent.ATTRIB_EDIT_WISH_LIST);
-		YStorefoundation.getRequestContext().getSessionContext().setWishList(wishList);
+	public void doEditListWishList(final YEvent<ListWishListComponent> event) {
+		final Wishlist2Model wishList = (Wishlist2Model) event.getFacesEvent()
+				.getComponent().getAttributes().get(
+						ListWishListComponent.ATTRIB_EDIT_WISH_LIST);
+		YStorefoundation.getRequestContext().getSessionContext().setWishList(
+				wishList);
 		final WishListEditFrame frame = getWishListEditFrame();
 		final EditWishListComponent cmp = new DefaultEditWishListComponent();
 		cmp.setWishList(wishList);
-		cmp.getCancelEditWishListEvent().getListener().setAction(WISH_LIST_PAGE);
-		frame.getEditWishListComponent().setValue(cmp);
+		cmp.getCancelEditWishListEvent().getListener()
+				.setAction(WISH_LIST_PAGE);
+		frame.setEditWishListComponent(cmp);
 	}
 
-	private WishListEditFrame getWishListEditFrame()
-	{
-		final YConversationContext convCtx = YStorefoundation.getRequestContext().getPageContext().getConversationContext();
+	private WishListEditFrame getWishListEditFrame() {
+		final YConversationContext convCtx = YStorefoundation
+				.getRequestContext().getPageContext().getConversationContext();
 		final YPageContext nextPage = convCtx.getOrCreateNextPage();
-		final WishListEditFrame frame = nextPage.getOrCreateFrame(WishListEditFrame.class);
+		final WishListEditFrame frame = nextPage
+				.getOrCreateFrame(WishListEditFrame.class);
 		return frame;
 	}
 
-	public YModelBinding<ListWishListComponent> getListWishListComponent()
-	{
+	public ListWishListComponent getListWishListComponent() {
+		if (this.listWishListCmp == null) {
+			this.listWishListCmp = this.createListWishListComponent();
+		}
 		return this.listWishListCmp;
 	}
 
-	public YModelBinding<ShowWishListComponent> getShowWishListComponent()
-	{
+	public void setListWishListComponent(ListWishListComponent cmp) {
+		this.listWishListCmp = cmp;
+	}
+
+	public ShowWishListComponent getShowWishListComponent() {
 		return this.showWishListCmp;
 	}
 
-	public YModelBinding<ShowWishListEntryComponent> getShowWishListEntryComponent()
-	{
+	public void setShowWishListComponent(ShowWishListComponent cmp) {
+		this.showWishListCmp = cmp;
+	}
+
+	public ShowWishListEntryComponent getShowWishListEntryComponent() {
 		return this.showWishListEntryCmp;
 	}
 
-	public YModelBinding<SaveTempWishListComponent> getSaveTempWishListComponent()
-	{
+	public void setShowWishListEntryComponent(ShowWishListEntryComponent cmp) {
+		this.showWishListEntryCmp = cmp;
+	}
+
+	public SaveTempWishListComponent getSaveTempWishListComponent() {
 		return this.saveTempWishListCmp;
 	}
 
-	public boolean isAnonymousUser()
-	{
-		return JaloBridge.getInstance().isAnonymous(YStorefoundation.getRequestContext().getSessionContext().getUser());
+	public void setSaveTempWishListComponent(SaveTempWishListComponent cmp) {
+		this.saveTempWishListCmp = cmp;
 	}
 
-	public boolean isAnonymousWishListEmpty()
-	{
-		final List<Wishlist2EntryModel> entries = (List<Wishlist2EntryModel>) FacesContext.getCurrentInstance()
-				.getExternalContext().getSessionMap().get(ANONYMOUS_WISH_LIST_ENTRIES);
+	public boolean isAnonymousUser() {
+		return JaloBridge.getInstance().isAnonymous(
+				YStorefoundation.getRequestContext().getSessionContext()
+						.getUser());
+	}
+
+	public boolean isAnonymousWishListEmpty() {
+		final List<Wishlist2EntryModel> entries = (List<Wishlist2EntryModel>) FacesContext
+				.getCurrentInstance().getExternalContext().getSessionMap().get(
+						ANONYMOUS_WISH_LIST_ENTRIES);
 		return (entries == null || entries.isEmpty());
 	}
 

@@ -13,10 +13,6 @@
  */
 package ystorefoundationpackage.yfaces.component.voucher;
 
-import de.hybris.platform.jalo.order.price.JaloPriceFactoryException;
-import de.hybris.platform.voucher.VoucherService;
-import de.hybris.platform.voucher.model.VoucherModel;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -34,13 +30,15 @@ import ystorefoundationpackage.domain.SfSessionContext;
 import ystorefoundationpackage.domain.YStorefoundation;
 import ystorefoundationpackage.domain.impl.JaloBridge;
 import ystorefoundationpackage.yfaces.frame.SummaryFrame;
-
+import de.hybris.platform.jalo.order.price.JaloPriceFactoryException;
+import de.hybris.platform.voucher.VoucherService;
+import de.hybris.platform.voucher.model.VoucherModel;
 
 /**
  * Implementation of the <code>VoucherComponent</code> interface.
  */
-public class DefaultVoucherComponent extends AbstractYModel implements VoucherComponent
-{
+public class DefaultVoucherComponent extends AbstractYModel implements
+		VoucherComponent {
 
 	private static final long serialVersionUID = 1883457799742145232L;
 
@@ -49,53 +47,50 @@ public class DefaultVoucherComponent extends AbstractYModel implements VoucherCo
 	private YEventHandler<VoucherComponent> ehRedeem = null;
 	private YEventHandler<VoucherComponent> ehRelease = null;
 
-	//default constructor
-	public DefaultVoucherComponent()
-	{
+	// default constructor
+	public DefaultVoucherComponent() {
 		super();
 		this.ehRedeem = super.createEventHandler(new RedeemVoucherAction());
 		this.ehRelease = super.createEventHandler(new ReleaseVoucherAction());
 	}
 
-
-	public YEventHandler<VoucherComponent> getRedeemVoucherEvent()
-	{
+	public YEventHandler<VoucherComponent> getRedeemVoucherEvent() {
 		return this.ehRedeem;
 	}
 
-	public YEventHandler<VoucherComponent> getReleaseVoucherEvent()
-	{
+	public YEventHandler<VoucherComponent> getReleaseVoucherEvent() {
 		return this.ehRelease;
 	}
 
 	/**
 	 * This event gets fired when the user tries to redeem a voucher.
 	 */
-	public static class RedeemVoucherAction extends DefaultYEventListener<VoucherComponent>
-	{
+	public static class RedeemVoucherAction extends
+			DefaultYEventListener<VoucherComponent> {
 
 		private static final long serialVersionUID = -6798481013719721264L;
 
 		@Override
-		public void actionListener(final YEvent<VoucherComponent> event)
-		{
+		public void actionListener(final YEvent<VoucherComponent> event) {
 			final VoucherComponent cmp = event.getComponent();
-			final SfSessionContext userSession = YStorefoundation.getRequestContext().getSessionContext();
+			final SfSessionContext userSession = YStorefoundation
+					.getRequestContext().getSessionContext();
 
 			final String redeemVoucherCode = cmp.getVoucherCode();
-			final String redeemResult = JaloBridge.getInstance().redeemVoucher(userSession.getCart(), redeemVoucherCode);
+			final String redeemResult = JaloBridge.getInstance().redeemVoucher(
+					userSession.getCart(), redeemVoucherCode);
 
 			final SummaryFrame ss = (SummaryFrame) cmp.getFrame();
-			if (redeemResult != null)
-			{
-				ss.getVoucherComponent().getValue().setVoucherCode(redeemVoucherCode);
-				userSession.getMessages().pushInfoMessage(redeemResult, redeemVoucherCode);
-			}
-			else
-			{
-				ss.getVoucherComponent().getValue().setVoucherCode(null);
-				//userSession.getPropertyChangeLog().setPropertyChanged(SfUserSession.CART, true);
-				userSession.getPropertyHandler().setPropertyChanged(SfSessionContext.CART, true);
+			if (redeemResult != null) {
+				ss.getVoucherComponent().setVoucherCode(redeemVoucherCode);
+				userSession.getMessages().pushInfoMessage(redeemResult,
+						redeemVoucherCode);
+			} else {
+				ss.getVoucherComponent().setVoucherCode(null);
+				// userSession.getPropertyChangeLog().setPropertyChanged(SfUserSession.CART,
+				// true);
+				userSession.getPropertyHandler().setPropertyChanged(
+						SfSessionContext.CART, true);
 			}
 		}
 	}
@@ -103,25 +98,25 @@ public class DefaultVoucherComponent extends AbstractYModel implements VoucherCo
 	/**
 	 * This event gets fired when the user tries to release a redeemed voucher.
 	 */
-	public static class ReleaseVoucherAction extends DefaultYEventListener<VoucherComponent>
-	{
+	public static class ReleaseVoucherAction extends
+			DefaultYEventListener<VoucherComponent> {
 
-		private static final Logger log = Logger.getLogger(ReleaseVoucherAction.class);
+		private static final Logger log = Logger
+				.getLogger(ReleaseVoucherAction.class);
 
 		private static final long serialVersionUID = -3006112371875768981L;
 
 		@Override
-		public void actionListener(final YEvent<VoucherComponent> event)
-		{
-			final String voucherCode = (String) event.getFacesEvent().getComponent().getAttributes().get(ATTRIB_SELECT_VOUCHER);
-			final SfSessionContext userSession = YStorefoundation.getRequestContext().getSessionContext();
-			try
-			{
-				YStorefoundation.getRequestContext().getPlatformServices().getVoucherService().releaseVoucher(voucherCode,
-						userSession.getCart());
-			}
-			catch (final JaloPriceFactoryException e)
-			{
+		public void actionListener(final YEvent<VoucherComponent> event) {
+			final String voucherCode = (String) event.getFacesEvent()
+					.getComponent().getAttributes().get(ATTRIB_SELECT_VOUCHER);
+			final SfSessionContext userSession = YStorefoundation
+					.getRequestContext().getSessionContext();
+			try {
+				YStorefoundation.getRequestContext().getPlatformServices()
+						.getVoucherService().releaseVoucher(voucherCode,
+								userSession.getCart());
+			} catch (final JaloPriceFactoryException e) {
 				log.error("Error when releasing voucher: " + e.getMessage());
 				userSession.getMessages().pushInfoMessage("error");
 			}
@@ -129,30 +124,25 @@ public class DefaultVoucherComponent extends AbstractYModel implements VoucherCo
 		}
 	}
 
-	public String getVoucherCode()
-	{
+	public String getVoucherCode() {
 		return this.voucherCode;
 	}
 
-	public void setVoucherCode(final String voucherCode)
-	{
+	public void setVoucherCode(final String voucherCode) {
 		this.voucherCode = voucherCode;
 	}
 
-	public DataModel getAppliedVouchers()
-	{
-		final VoucherService voucherService = YStorefoundation.getRequestContext().getPlatformServices().getVoucherService();
-		final Collection<String> codes = voucherService.getAppliedVoucherCodes(YStorefoundation.getRequestContext()
-				.getSessionContext().getCart());
-		if (codes.isEmpty())
-		{
+	public DataModel getAppliedVouchers() {
+		final VoucherService voucherService = YStorefoundation
+				.getRequestContext().getPlatformServices().getVoucherService();
+		final Collection<String> codes = voucherService
+				.getAppliedVoucherCodes(YStorefoundation.getRequestContext()
+						.getSessionContext().getCart());
+		if (codes.isEmpty()) {
 			return null;
-		}
-		else
-		{
+		} else {
 			final List<VoucherModel> vouchers = new ArrayList<VoucherModel>();
-			for (final String code : codes)
-			{
+			for (final String code : codes) {
 				final VoucherModel vm = voucherService.getVoucher(code);
 				vm.setCode(code);
 				vouchers.add(vm);

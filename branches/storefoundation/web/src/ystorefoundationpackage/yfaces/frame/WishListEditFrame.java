@@ -13,32 +13,32 @@
  */
 package ystorefoundationpackage.yfaces.frame;
 
-
 import org.apache.log4j.Logger;
 import org.codehaus.yfaces.component.AbstractYFrame;
-import org.codehaus.yfaces.component.YModelBinding;
 
 import ystorefoundationpackage.yfaces.component.wishlist.EditWishListComponent;
 
-
 /**
- * Renders the page for the user to edit the selected wish list. The user can edit the name, and description, and can
- * copy and/or move some entries to another wish list.
+ * Renders the page for the user to edit the selected wish list. The user can
+ * edit the name, and description, and can copy and/or move some entries to
+ * another wish list.
  * 
  */
-public class WishListEditFrame extends AbstractYFrame
-{
+public class WishListEditFrame extends AbstractYFrame {
 
 	private static final long serialVersionUID = 4128676973222489852L;
 
 	@SuppressWarnings("unused")
 	private static final Logger log = Logger.getLogger(WishListEditFrame.class);
 
-	private final YModelBinding<EditWishListComponent> editWishlistCmp = super.createComponentBinding();
+	private EditWishListComponent editWishlistCmp = null;
 
-	public YModelBinding<EditWishListComponent> getEditWishListComponent()
-	{
+	public EditWishListComponent getEditWishListComponent() {
 		return this.editWishlistCmp;
+	}
+
+	public void setEditWishListComponent(EditWishListComponent cmp) {
+		this.editWishlistCmp = cmp;
 	}
 
 }

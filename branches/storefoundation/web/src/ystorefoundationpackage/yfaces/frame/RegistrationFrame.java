@@ -14,24 +14,24 @@
 package ystorefoundationpackage.yfaces.frame;
 
 import org.codehaus.yfaces.component.AbstractYFrame;
-import org.codehaus.yfaces.component.YModelBinding;
 
 import ystorefoundationpackage.yfaces.component.user.RegistrationComponent;
-
 
 /**
  * Renders the page for the new user to register in the store foundation.
  * 
  */
-public class RegistrationFrame extends AbstractYFrame
-{
+public class RegistrationFrame extends AbstractYFrame {
 	private static final long serialVersionUID = 57824365972845L;
 
-	private final YModelBinding<RegistrationComponent> registrationCmp = super.createComponentBinding();
+	private RegistrationComponent registrationCmp = null;
 
-	public YModelBinding<RegistrationComponent> getRegistrationComponent()
-	{
+	public RegistrationComponent getRegistrationComponent() {
 		return this.registrationCmp;
+	}
+
+	public void setRegistrationComponent(RegistrationComponent cmp) {
+		this.registrationCmp = cmp;
 	}
 
 }
