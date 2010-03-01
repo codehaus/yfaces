@@ -144,7 +144,7 @@ public class UserDetailFrame extends AbstractYFrame {
 				NAV_USERDETAIL);
 		editCmp.getCancelEditPaymentInfoEvent().getListener().setAction(
 				NAV_USERDETAIL);
-		getPaymentInfoEditFrame().getEditPaymentComponent().setValue(editCmp);
+		getPaymentInfoEditFrame().setEditPaymentComponent(editCmp);
 	}
 
 	/**
@@ -160,7 +160,7 @@ public class UserDetailFrame extends AbstractYFrame {
 				NAV_USERDETAIL);
 		editCmp.getCancelEditPaymentInfoEvent().getListener().setAction(
 				NAV_USERDETAIL);
-		getPaymentInfoEditFrame().getEditPaymentComponent().setValue(editCmp);
+		getPaymentInfoEditFrame().setEditPaymentComponent(editCmp);
 	}
 
 	/**
@@ -180,7 +180,7 @@ public class UserDetailFrame extends AbstractYFrame {
 				NAV_USERDETAIL);
 		editCmp.getCancelEditPaymentInfoEvent().getListener().setAction(
 				NAV_USERDETAIL);
-		getPaymentInfoEditFrame().getEditPaymentComponent().setValue(editCmp);
+		getPaymentInfoEditFrame().setEditPaymentComponent(editCmp);
 	}
 
 	public void doChangePassword(final YEvent<DefaultUserInfoComponent> event) {

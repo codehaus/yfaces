@@ -20,10 +20,6 @@ import org.codehaus.yfaces.component.YEventHandler;
 import org.codehaus.yfaces.context.YConversationContext;
 import org.codehaus.yfaces.context.YPageContext;
 
-import de.hybris.platform.core.model.user.CustomerModel;
-import de.hybris.platform.core.model.user.UserModel;
-import de.hybris.platform.util.Config;
-
 import ystorefoundationpackage.NavigationOutcome;
 import ystorefoundationpackage.domain.DefaultValues;
 import ystorefoundationpackage.domain.SfRequestContext;
@@ -31,13 +27,15 @@ import ystorefoundationpackage.domain.SfSessionContext;
 import ystorefoundationpackage.domain.YStorefoundation;
 import ystorefoundationpackage.domain.impl.JaloBridge;
 import ystorefoundationpackage.yfaces.frame.LoginFrame;
-
+import de.hybris.platform.core.model.user.CustomerModel;
+import de.hybris.platform.core.model.user.UserModel;
+import de.hybris.platform.util.Config;
 
 /**
  * Implementation of the <code>LoginComponent</code> interface.
  */
-public class DefaultLoginComponent extends AbstractYModel implements LoginComponent
-{
+public class DefaultLoginComponent extends AbstractYModel implements
+		LoginComponent {
 	private String login = null;
 	private String password = null;
 
@@ -56,156 +54,138 @@ public class DefaultLoginComponent extends AbstractYModel implements LoginCompon
 	/**
 	 * Constructor.
 	 */
-	public DefaultLoginComponent()
-	{
+	public DefaultLoginComponent() {
 		super();
 		httpPort = Config.getInt("tomcat.http.port", 80);
 		sslPort = Config.getInt("tomcat.ssl.port", 443);
 
 		this.ehDemoLogin = super.createEventHandler(new DemoLoginEvent());
-		this.ehForgotPW = super.createEventHandler(new DefaultYEventListener(NavigationOutcome.FORGOT_PW_PAGE.id));
+		this.ehForgotPW = super.createEventHandler(new DefaultYEventListener(
+				NavigationOutcome.FORGOT_PW_PAGE.id));
 		this.ehLogin = super.createEventHandler(new LoginEvent());
 		this.ehLogout = super.createEventHandler(new LogoutEvent());
 		this.ehRegister = super.createEventHandler(new RegisterEvent());
 
 	}
 
-	public String getLogin()
-	{
+	public String getLogin() {
 		return this.login;
 	}
 
-	public String getPassword()
-	{
+	public String getPassword() {
 		return this.password;
 	}
 
-	public void setLogin(final String login)
-	{
+	public void setLogin(final String login) {
 		this.login = login;
 	}
 
-	public void setPassword(final String password)
-	{
+	public void setPassword(final String password) {
 		this.password = password;
 	}
 
-
-	public YEventHandler<LoginComponent> getLoginEvent()
-	{
+	public YEventHandler<LoginComponent> getLoginEvent() {
 		return this.ehLogin;
 	}
 
-	public YEventHandler<LoginComponent> getLogoutEvent()
-	{
+	public YEventHandler<LoginComponent> getLogoutEvent() {
 		return this.ehLogout;
 	}
 
-	public YEventHandler<LoginComponent> getDemoLoginEvent()
-	{
+	public YEventHandler<LoginComponent> getDemoLoginEvent() {
 		return this.ehDemoLogin;
 	}
 
-	public YEventHandler<LoginComponent> getRegisterEvent()
-	{
+	public YEventHandler<LoginComponent> getRegisterEvent() {
 		return this.ehRegister;
 	}
 
-	public YEventHandler<LoginComponent> getForgotPasswordEvent()
-	{
+	public YEventHandler<LoginComponent> getForgotPasswordEvent() {
 		return this.ehForgotPW;
 	}
 
 	/**
 	 * This event gets fired when the user tries to log in.
 	 */
-	public static class LoginEvent extends DefaultYEventListener<LoginComponent>
-	{
+	public static class LoginEvent extends
+			DefaultYEventListener<LoginComponent> {
 		private transient LoginComponent cmp = null;
 		private UserModel newUser = null;
 
 		@SuppressWarnings("unchecked")
 		@Override
-		public void actionListener(final YEvent<LoginComponent> event)
-		{
+		public void actionListener(final YEvent<LoginComponent> event) {
 			cmp = event.getComponent();
-			//request user by login values
+			// request user by login values
 			newUser = this.getUser(cmp.getLogin(), cmp.getPassword());
 
-			final SfSessionContext userSession = YStorefoundation.getRequestContext().getSessionContext();
+			final SfSessionContext userSession = YStorefoundation
+					.getRequestContext().getSessionContext();
 
-			//when login isn't successful ...
-			if (newUser == null)
-			{
-				YPageContext loginPage = YStorefoundation.getRequestContext().getPageContext();
+			// when login isn't successful ...
+			if (newUser == null) {
+				YPageContext loginPage = YStorefoundation.getRequestContext()
+						.getPageContext();
 
-				//... and it is the first try...
-				if (cmp.getFrame().getPage().getPreviousPage() == null)
-				{
-					loginPage = cmp.getFrame().getPage().getConversationContext().getOrCreateNextPage();
+				// ... and it is the first try...
+				if (cmp.getFrame().getPage().getPreviousPage() == null) {
+					loginPage = cmp.getFrame().getPage()
+							.getConversationContext().getOrCreateNextPage();
 
 				}
 
-				final LoginFrame loginFrame = loginPage.getOrCreateFrame(LoginFrame.class);
+				final LoginFrame loginFrame = loginPage
+						.getOrCreateFrame(LoginFrame.class);
 
-				loginFrame.getLoginComponent().getValue().setLogin(cmp.getLogin());
-				loginFrame.getLoginComponent().getValue().setPassword(cmp.getPassword());
-				userSession.getMessages().pushInfoMessage("frames.loginFrame.loginInvalid");
-			}
-			else
-			{
+				loginFrame.getLoginComponent().setLogin(cmp.getLogin());
+				loginFrame.getLoginComponent().setPassword(cmp.getPassword());
+				userSession.getMessages().pushInfoMessage(
+						"frames.loginFrame.loginInvalid");
+			} else {
 				userSession.setUser(newUser);
-				userSession.getMessages().pushInfoMessage("frames.loginFrame.loginValid", newUser.getName());
+				userSession.getMessages().pushInfoMessage(
+						"frames.loginFrame.loginValid", newUser.getName());
 			}
 		}
 
 		@Override
-		public String action()
-		{
+		public String action() {
 			String result = cmp.getSuccessForward();
 
-			if (newUser != null)
-			{
-				//previous or same page
-				if (result == null)
-				{
-					final YPageContext page = cmp.getFrame().getPage().getPreviousPage();
-					if (page != null)
-					{
-						YStorefoundation.getRequestContext().redirect(page, false);
-					}
-					else
-					{
+			if (newUser != null) {
+				// previous or same page
+				if (result == null) {
+					final YPageContext page = cmp.getFrame().getPage()
+							.getPreviousPage();
+					if (page != null) {
+						YStorefoundation.getRequestContext().redirect(page,
+								false);
+					} else {
 						YStorefoundation.getRequestContext().redirect(false);
 					}
 				}
-			}
-			else
-			{
+			} else {
 				result = cmp.getErrorForward();
 			}
 			return result;
 		}
 
-		private CustomerModel getUser(final String id, final String pw)
-		{
-			final SfRequestContext reqCtx = YStorefoundation.getRequestContext();
+		private CustomerModel getUser(final String id, final String pw) {
+			final SfRequestContext reqCtx = YStorefoundation
+					.getRequestContext();
 			UserModel result = null;
-			try
-			{
-				result = reqCtx.getPlatformServices().getUserService().getUser(id);
-				if (result instanceof CustomerModel)
-				{
-					final boolean pwCheck = JaloBridge.getInstance().checkPassword(result, pw);
-					if (!pwCheck)
-					{
+			try {
+				result = reqCtx.getPlatformServices().getUserService().getUser(
+						id);
+				if (result instanceof CustomerModel) {
+					final boolean pwCheck = JaloBridge.getInstance()
+							.checkPassword(result, pw);
+					if (!pwCheck) {
 						result = null;
 					}
 				}
-			}
-			catch (final Exception e)
-			{
-				//silent catch; password check not successful or user not found
+			} catch (final Exception e) {
+				// silent catch; password check not successful or user not found
 			}
 
 			return (CustomerModel) result;
@@ -215,28 +195,29 @@ public class DefaultLoginComponent extends AbstractYModel implements LoginCompon
 	/**
 	 * This event gets fired when the user logs out.
 	 */
-	public static class LogoutEvent extends DefaultYEventListener<LoginComponent>
-	{
+	public static class LogoutEvent extends
+			DefaultYEventListener<LoginComponent> {
 		private String oldLangIso = null;
 
 		@SuppressWarnings("unchecked")
 		@Override
-		public void actionListener(final YEvent<LoginComponent> event)
-		{
+		public void actionListener(final YEvent<LoginComponent> event) {
 			final LoginComponent cmp = event.getComponent();
-			final SfSessionContext userSession = YStorefoundation.getRequestContext().getSessionContext();
+			final SfSessionContext userSession = YStorefoundation
+					.getRequestContext().getSessionContext();
 
 			oldLangIso = userSession.getLanguage().getIsocode();
-			final DefaultValues defaults = YStorefoundation.getRequestContext().getDefaultValues();
+			final DefaultValues defaults = YStorefoundation.getRequestContext()
+					.getDefaultValues();
 			final UserModel defaultUser = defaults.getDefaultCustomer();
 			userSession.setUser(defaultUser);
 			cmp.setSuccessForward(null);
 		}
 
 		@Override
-		public String action()
-		{
-			YStorefoundation.getRequestContext().redirect("/index.jsf?lang=" + oldLangIso);
+		public String action() {
+			YStorefoundation.getRequestContext().redirect(
+					"/index.jsf?lang=" + oldLangIso);
 			return null;
 		}
 	}
@@ -244,31 +225,30 @@ public class DefaultLoginComponent extends AbstractYModel implements LoginCompon
 	/**
 	 * This event gets fired when the user wants to register.
 	 */
-	public static class RegisterEvent extends DefaultYEventListener<LoginComponent>
-	{
+	public static class RegisterEvent extends
+			DefaultYEventListener<LoginComponent> {
 		@Override
-		public void actionListener(final YEvent<LoginComponent> event)
-		{
-			final YConversationContext convCtx = YStorefoundation.getRequestContext().getPageContext().getConversationContext();
+		public void actionListener(final YEvent<LoginComponent> event) {
+			final YConversationContext convCtx = YStorefoundation
+					.getRequestContext().getPageContext()
+					.getConversationContext();
 			convCtx.getOrCreateNextPage();
 		}
 
 		@Override
-		public String action()
-		{
+		public String action() {
 			return "registrationPage";
 		}
 	}
 
 	/**
-	 * This event gets fired when the user has no account, but still wants to see what a logged in user can do. The
-	 * default demo customer 'demo' will be used.
+	 * This event gets fired when the user has no account, but still wants to
+	 * see what a logged in user can do. The default demo customer 'demo' will
+	 * be used.
 	 */
-	public static class DemoLoginEvent extends LoginEvent
-	{
+	public static class DemoLoginEvent extends LoginEvent {
 		@Override
-		public void actionListener(final YEvent<LoginComponent> event)
-		{
+		public void actionListener(final YEvent<LoginComponent> event) {
 			final LoginComponent cmp = event.getComponent();
 			cmp.setLogin("demo");
 			cmp.setPassword("1234");
@@ -277,55 +257,48 @@ public class DefaultLoginComponent extends AbstractYModel implements LoginCompon
 	}
 
 	/**
-	 * Returns {code}true{code}, if the current Session is not an anonymous session.
+	 * Returns {code}true{code}, if the current Session is not an anonymous
+	 * session.
 	 * 
-	 * @return {code}true{code}, if the current Session is not an anonymous session
+	 * @return {code}true{code}, if the current Session is not an anonymous
+	 *         session
 	 */
-	public boolean isLoggedIn()
-	{
+	public boolean isLoggedIn() {
 		final boolean result = !JaloBridge.getInstance().isAnonymous(
-				YStorefoundation.getRequestContext().getSessionContext().getUser());
+				YStorefoundation.getRequestContext().getSessionContext()
+						.getUser());
 		return result;
 	}
 
-
-	public String getErrorForward()
-	{
+	public String getErrorForward() {
 		return this.errorForward;
 	}
 
-	public String getSuccessForward()
-	{
+	public String getSuccessForward() {
 		return this.successForward;
 	}
 
-	public void setErrorForward(final String forward)
-	{
+	public void setErrorForward(final String forward) {
 		this.errorForward = forward;
 	}
 
-	public void setSuccessForward(final String forward)
-	{
+	public void setSuccessForward(final String forward) {
 		this.successForward = forward;
 	}
 
-	public int getHTTPPort()
-	{
+	public int getHTTPPort() {
 		return this.httpPort;
 	}
 
-	public int getSSLPort()
-	{
+	public int getSSLPort() {
 		return this.sslPort;
 	}
 
-	public void setHTTPPort(final int port)
-	{
+	public void setHTTPPort(final int port) {
 		this.httpPort = port;
 	}
 
-	public void setSSLPort(final int port)
-	{
+	public void setSSLPort(final int port) {
 		this.sslPort = port;
 	}
 

@@ -14,35 +14,30 @@
 package ystorefoundationpackage.yfaces.frame;
 
 import org.codehaus.yfaces.component.AbstractYFrame;
-import org.codehaus.yfaces.component.YModelBinding;
 
 import ystorefoundationpackage.yfaces.component.user.DefaultLoginComponent;
 import ystorefoundationpackage.yfaces.component.user.LoginComponent;
-
 
 /**
  * Renders the login page.
  * 
  */
-public class LoginFrame extends AbstractYFrame
-{
-	private YModelBinding<LoginComponent> loginCmp = null;
+public class LoginFrame extends AbstractYFrame {
+	private LoginComponent loginComponent = null;
 
-	public LoginFrame()
-	{
+	public LoginFrame() {
 		super();
-		this.loginCmp = super.createComponentBinding(this.createLoginComponent());
 	}
 
-	public YModelBinding<LoginComponent> getLoginComponent()
-	{
-		return this.loginCmp;
+	public LoginComponent getLoginComponent() {
+		if (this.loginComponent == null) {
+			this.loginComponent = new DefaultLoginComponent();
+		}
+		return loginComponent;
 	}
 
-	private LoginComponent createLoginComponent()
-	{
-		final LoginComponent result = new DefaultLoginComponent();
-		//result.setSuccessForward(OUTCOME.WELCOME_PAGE);
-		return result;
+	public void setLoginComponent(LoginComponent loginComponent) {
+		this.loginComponent = loginComponent;
 	}
+
 }

@@ -14,22 +14,22 @@
 package ystorefoundationpackage.yfaces.frame;
 
 import org.codehaus.yfaces.component.AbstractYFrame;
-import org.codehaus.yfaces.component.YModelBinding;
 
 import ystorefoundationpackage.yfaces.component.order.OrderHistoryComponent;
-
 
 /**
  * Renders all orders of the user as a list.
  * 
  */
-public class OrderHistoryFrame extends AbstractYFrame
-{
-	private final YModelBinding<OrderHistoryComponent> orderHistoryCmp = super.createComponentBinding();
+public class OrderHistoryFrame extends AbstractYFrame {
+	private OrderHistoryComponent orderHistoryCmp = null;
 
-	public YModelBinding<OrderHistoryComponent> getOrderHistoryComponent()
-	{
+	public OrderHistoryComponent getOrderHistoryComponent() {
 		return this.orderHistoryCmp;
+	}
+
+	public void setOrderHistoryComponent(OrderHistoryComponent cmp) {
+		this.orderHistoryCmp = cmp;
 	}
 
 }

@@ -14,36 +14,38 @@
 package ystorefoundationpackage.yfaces.frame;
 
 import org.codehaus.yfaces.component.AbstractYFrame;
-import org.codehaus.yfaces.component.YModelBinding;
 
 import ystorefoundationpackage.yfaces.component.product.DefaultProductDetailComponent;
 import ystorefoundationpackage.yfaces.component.product.ProductDetailComponent;
 
-
 /**
- * Renders the concrete description of the selected product which can be printed.
+ * Renders the concrete description of the selected product which can be
+ * printed.
  * 
  */
-public class PagePrintFrame extends AbstractYFrame
-{
+public class PagePrintFrame extends AbstractYFrame {
 
 	private static final long serialVersionUID = -8774098273550197135L;
 
-	private YModelBinding<ProductDetailComponent> productDetailCmp = null;
+	private ProductDetailComponent productDetailCmp = null;
 
-	public PagePrintFrame()
-	{
+	public PagePrintFrame() {
 		super();
-		this.productDetailCmp = super.createComponentBinding(this.createProductDetailComponentForPagePrint());
 	}
 
-	public YModelBinding<ProductDetailComponent> getProductDetailComponentForPagePrint()
-	{
+	public ProductDetailComponent getProductDetailComponentForPagePrint() {
+		if (this.productDetailCmp == null) {
+			this.productDetailCmp = this
+					.createProductDetailComponentForPagePrint();
+		}
 		return this.productDetailCmp;
 	}
 
-	private ProductDetailComponent createProductDetailComponentForPagePrint()
-	{
+	public void setProductDetailComponentForPagePrint(ProductDetailComponent cmp) {
+		this.productDetailCmp = cmp;
+	}
+
+	private ProductDetailComponent createProductDetailComponentForPagePrint() {
 		final ProductDetailComponent cmp = new DefaultProductDetailComponent();
 		cmp.setPrintPage(true);
 		return cmp;
