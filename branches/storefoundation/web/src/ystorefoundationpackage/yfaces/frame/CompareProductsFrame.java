@@ -14,29 +14,31 @@
 package ystorefoundationpackage.yfaces.frame;
 
 import org.codehaus.yfaces.component.AbstractYFrame;
-import org.codehaus.yfaces.component.YModelBinding;
 
 import ystorefoundationpackage.YComponent;
 import ystorefoundationpackage.yfaces.component.product.CompareProductsComponent;
-
 
 /**
  * Renders the classification information of the selected products.
  * 
  */
-public class CompareProductsFrame extends AbstractYFrame
-{
-	private YModelBinding<CompareProductsComponent> compareProductsCmp = null;
+public class CompareProductsFrame extends AbstractYFrame {
+	private CompareProductsComponent compareProductsComponent = null;
 
-	public CompareProductsFrame()
-	{
+	public CompareProductsFrame() {
 		super();
-		this.compareProductsCmp = super.createComponentBinding(YComponent.COMPARE_PRODUCTS.viewId);
 	}
 
-	public YModelBinding<CompareProductsComponent> getCompareProductsComponent()
-	{
-		return this.compareProductsCmp;
+	public CompareProductsComponent getCompareProductsComponent() {
+		if (this.compareProductsComponent == null) {
+			this.compareProductsComponent = super
+					.createDefaultYModel(YComponent.COMPARE_PRODUCTS.viewId);
+		}
+		return compareProductsComponent;
+	}
+
+	public void setCompareProductsComponent(CompareProductsComponent cmp) {
+		this.compareProductsComponent = cmp;
 	}
 
 }
