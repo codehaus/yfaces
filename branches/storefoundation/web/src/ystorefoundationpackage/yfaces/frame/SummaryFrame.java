@@ -13,21 +13,14 @@
  */
 package ystorefoundationpackage.yfaces.frame;
 
-import de.hybris.platform.core.model.order.CartModel;
-import de.hybris.platform.core.model.order.delivery.DeliveryModeModel;
-import de.hybris.platform.core.model.order.payment.PaymentInfoModel;
-import de.hybris.platform.core.model.order.payment.PaymentModeModel;
-import de.hybris.platform.core.model.user.AddressModel;
-import de.hybris.platform.core.model.user.UserModel;
-
 import java.util.Collection;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.codehaus.yfaces.component.AbstractYFrame;
-import org.codehaus.yfaces.component.YModelBinding;
 import org.codehaus.yfaces.component.YEvent;
 import org.codehaus.yfaces.component.YEventListener;
+import org.codehaus.yfaces.component.YModelBinding;
 import org.codehaus.yfaces.context.YConversationContext;
 import org.codehaus.yfaces.context.YPageContext;
 
@@ -49,22 +42,26 @@ import ystorefoundationpackage.yfaces.component.order.OrderTableComponent;
 import ystorefoundationpackage.yfaces.component.payment.DefaultShowPaymentComponent;
 import ystorefoundationpackage.yfaces.component.payment.ShowPaymentComponent;
 import ystorefoundationpackage.yfaces.component.voucher.VoucherComponent;
-
+import de.hybris.platform.core.model.order.CartModel;
+import de.hybris.platform.core.model.order.delivery.DeliveryModeModel;
+import de.hybris.platform.core.model.order.payment.PaymentInfoModel;
+import de.hybris.platform.core.model.order.payment.PaymentModeModel;
+import de.hybris.platform.core.model.user.AddressModel;
+import de.hybris.platform.core.model.user.UserModel;
 
 /**
  * Renders the summary information of the cart.
  * 
  */
-public class SummaryFrame extends AbstractYFrame
-{
+public class SummaryFrame extends AbstractYFrame {
 	private static final Logger log = Logger.getLogger(SummaryFrame.class);
 
 	private static final String NAV_ADDRESSLIST = "addressListPage";
 	private static final String NAV_PAYMENTLIST = "paymentListPage";
 	private static final String NAV_THIS_PAGE = "summaryPage";
 
-	//name of the attribute which indicates whether the current
-	//showAddressModel shows a delivery or payment address 
+	// name of the attribute which indicates whether the current
+	// showAddressModel shows a delivery or payment address
 	private static final String MODEL_ATTRIB_ADRESSTYPE = "ADDRESS_TYPE";
 
 	private YModelBinding<ShowAddressComponent> showDeliveryAddressCmp = null;
@@ -77,14 +74,16 @@ public class SummaryFrame extends AbstractYFrame
 	private static final String PAYMENT_ADDRESS = "defaultPaymentAddress";
 	private static final String DELIVERY_ADDRESS = "defaultShipmentAddress";
 
-
-	public SummaryFrame()
-	{
+	public SummaryFrame() {
 		super();
-		this.showDeliveryAddressCmp = super.createComponentBinding(this.createShowDeliveryAddressComponent());
-		this.showPaymentAddressCmp = super.createComponentBinding(this.createShowPaymentAddressComponent());
-		this.showPaymentCmp = super.createComponentBinding(this.createShowPaymentComponent());
-		this.orderTableCmp = super.createComponentBinding(this.createOrderTableComponent());
+		this.showDeliveryAddressCmp = super.createComponentBinding(this
+				.createShowDeliveryAddressComponent());
+		this.showPaymentAddressCmp = super.createComponentBinding(this
+				.createShowPaymentAddressComponent());
+		this.showPaymentCmp = super.createComponentBinding(this
+				.createShowPaymentComponent());
+		this.orderTableCmp = super.createComponentBinding(this
+				.createOrderTableComponent());
 		this.selectDeliveryModeCmp = super.createComponentBinding();
 		this.voucherCmp = super.createComponentBinding();
 	}
@@ -92,48 +91,42 @@ public class SummaryFrame extends AbstractYFrame
 	/**
 	 * @return Binding for {@link ShowAddressComponent} (delivery address)
 	 */
-	public YModelBinding<ShowAddressComponent> getShowDeliveryAddressComponent()
-	{
+	public YModelBinding<ShowAddressComponent> getShowDeliveryAddressComponent() {
 		return this.showDeliveryAddressCmp;
 	}
 
 	/**
 	 * @return Binding for {@link ShowAddressComponent} (payment address)
 	 */
-	public YModelBinding<ShowAddressComponent> getShowPaymentAddressComponent()
-	{
+	public YModelBinding<ShowAddressComponent> getShowPaymentAddressComponent() {
 		return this.showPaymentAddressCmp;
 	}
 
 	/**
 	 * @return Binding for {@link SelectDeliveryModeComponent}
 	 */
-	public YModelBinding<SelectDeliveryModeComponent> getSelectDeliveryModeComponent()
-	{
+	public YModelBinding<SelectDeliveryModeComponent> getSelectDeliveryModeComponent() {
 		return this.selectDeliveryModeCmp;
 	}
 
 	/**
 	 * @return Binding for {@link ShowPaymentComponent}
 	 */
-	public YModelBinding<ShowPaymentComponent> getShowPaymentComponent()
-	{
+	public YModelBinding<ShowPaymentComponent> getShowPaymentComponent() {
 		return this.showPaymentCmp;
 	}
 
 	/**
 	 * @return Binding for {@link VoucherComponent}
 	 */
-	public YModelBinding<VoucherComponent> getVoucherComponent()
-	{
+	public YModelBinding<VoucherComponent> getVoucherComponent() {
 		return this.voucherCmp;
 	}
 
 	/**
 	 * @return binding for {@link OrderTableComponent}
 	 */
-	public YModelBinding<OrderTableComponent> getOrderTableComponent()
-	{
+	public YModelBinding<OrderTableComponent> getOrderTableComponent() {
 		return this.orderTableCmp;
 	}
 
@@ -141,35 +134,39 @@ public class SummaryFrame extends AbstractYFrame
 	 * External {@link YEventListener} for {@link ShowAddressComponent}
 	 * 
 	 * @param event
-	 *           {@link YEvent}
+	 *            {@link YEvent}
 	 */
-	public void doChangePayment(final YEvent<ShowPaymentComponent> event)
-	{
+	public void doChangePayment(final YEvent<ShowPaymentComponent> event) {
 		final PaymentListFrame payListFrame = this.getPaymentListFrame();
 
-		final ShowPaymentComponent spCmp = payListFrame.getListPaymentComponent().getValue().getShowPaymentComponent();
+		final ShowPaymentComponent spCmp = payListFrame
+				.getListPaymentComponent().getValue().getShowPaymentComponent();
 
 		spCmp.getCustomPaymentEvent().setEnabled(true);
-		spCmp.getCustomPaymentEvent().getListener().setActionListener(super.createExpressionString("doChoosePayment"));
+		spCmp.getCustomPaymentEvent().getListener().setActionListener(
+				super.createExpressionString("doChoosePayment"));
 		spCmp.getCustomPaymentEvent().getListener().setAction(NAV_THIS_PAGE);
 		spCmp.getCustomPaymentEvent().setName(Localized.ACTION_CHOOSE.key);
 
-		//configure paymentModeComponent
-		final SelectPaymentModeComponent pmc = payListFrame.getSelectPaymentModeComponent().getValue();
-		pmc.getChooseAdvanceEvent().getListener().setActionListener(super.createExpressionString("doChooseAdvancedPayment"));
+		// configure paymentModeComponent
+		final SelectPaymentModeComponent pmc = payListFrame
+				.getSelectPaymentModeComponent().getValue();
+		pmc.getChooseAdvanceEvent().getListener().setActionListener(
+				super.createExpressionString("doChooseAdvancedPayment"));
 		pmc.getChooseAdvanceEvent().getListener().setAction(NAV_THIS_PAGE);
-		pmc.getChooseInvoiceEvent().getListener().setActionListener(super.createExpressionString("doChooseInvoicePayment"));
+		pmc.getChooseInvoiceEvent().getListener().setActionListener(
+				super.createExpressionString("doChooseInvoicePayment"));
 		pmc.getChooseInvoiceEvent().getListener().setAction(NAV_THIS_PAGE);
 	}
 
-	public void doChooseAdvancedPayment(final YEvent<SelectPaymentModeComponent> event)
-	{
+	public void doChooseAdvancedPayment(
+			final YEvent<SelectPaymentModeComponent> event) {
 		refreshPayment(PaymentModes.ADVANCE.getCode(), null);
 		recalculateCart();
 	}
 
-	public void doChooseInvoicePayment(final YEvent<SelectPaymentModeComponent> event)
-	{
+	public void doChooseInvoicePayment(
+			final YEvent<SelectPaymentModeComponent> event) {
 		refreshPayment(PaymentModes.INVOICE.getCode(), null);
 		recalculateCart();
 	}
@@ -178,24 +175,24 @@ public class SummaryFrame extends AbstractYFrame
 	 * External {@link YEventListener} for {@link ShowAddressComponent}
 	 * 
 	 * @param event
-	 *           {@link YEvent}
+	 *            {@link YEvent}
 	 */
-	public void doChoosePayment(final YEvent<ShowPaymentComponent> event)
-	{
+	public void doChoosePayment(final YEvent<ShowPaymentComponent> event) {
 		refreshPayment(null, event.getComponent().getPaymentInfo());
 
-		//auto detect new values according current cart
+		// auto detect new values according current cart
 		getShowPaymentComponent().getValue().setPaymentInfo(null);
 		getShowPaymentComponent().getValue().setPaymentMode(null);
 
 		recalculateCart();
 	}
 
-	private void refreshPayment(final String paymentModeCode, final PaymentInfoModel paymentInfo)
-	{
+	private void refreshPayment(final String paymentModeCode,
+			final PaymentInfoModel paymentInfo) {
 		final SfRequestContext reqCtx = YStorefoundation.getRequestContext();
 		final CartModel cart = reqCtx.getSessionContext().getCart();
-		reqCtx.getOrderManagement().updateCart(cart, paymentModeCode, paymentInfo);
+		reqCtx.getOrderManagement().updateCart(cart, paymentModeCode,
+				paymentInfo);
 
 	}
 
@@ -203,26 +200,33 @@ public class SummaryFrame extends AbstractYFrame
 	 * External {@link YEventListener} for {@link ShowAddressComponent}
 	 * 
 	 * @param event
-	 *           {@link YEvent}
+	 *            {@link YEvent}
 	 */
-	public void doChangeAddress(final YEvent<ShowAddressComponent> event)
-	{
+	public void doChangeAddress(final YEvent<ShowAddressComponent> event) {
 		final ShowAddressComponent cmp = event.getComponent();
-		final String type = (String) cmp.getAttributes().get(MODEL_ATTRIB_ADRESSTYPE);
+		final String type = (String) cmp.getAttributes().get(
+				MODEL_ATTRIB_ADRESSTYPE);
 
-		//configure AddressListPage
+		// configure AddressListPage
 		final AddressListFrame addressListFrame = getAddressListFrame();
 
-		final ListAddressComponent laCmp = addressListFrame.getListAddressComponent().getValue();
+		final ListAddressComponent laCmp = addressListFrame
+				.getListAddressComponent();
 
-		//and modify it (change some options; configure choose-action)
-		laCmp.getShowAddressComponentTemplate().getChooseAddressAsDeliveryEvent().setEnabled(false);
-		laCmp.getShowAddressComponentTemplate().getChooseAddressAsPaymentEvent().setEnabled(false);
-		laCmp.getShowAddressComponentTemplate().getCustomAddressEvent().setEnabled(true);
-		laCmp.getShowAddressComponentTemplate().getCustomAddressEvent().setName(Localized.ACTION_CHOOSE.key);
-		laCmp.getShowAddressComponentTemplate().getCustomAddressEvent().getListener().setAction(NAV_THIS_PAGE);
-		laCmp.getShowAddressComponentTemplate().getCustomAddressEvent().getListener().setActionListener(
-				super.createExpressionString("doChooseAddress"));
+		// and modify it (change some options; configure choose-action)
+		laCmp.getShowAddressComponentTemplate()
+				.getChooseAddressAsDeliveryEvent().setEnabled(false);
+		laCmp.getShowAddressComponentTemplate()
+				.getChooseAddressAsPaymentEvent().setEnabled(false);
+		laCmp.getShowAddressComponentTemplate().getCustomAddressEvent()
+				.setEnabled(true);
+		laCmp.getShowAddressComponentTemplate().getCustomAddressEvent()
+				.setName(Localized.ACTION_CHOOSE.key);
+		laCmp.getShowAddressComponentTemplate().getCustomAddressEvent()
+				.getListener().setAction(NAV_THIS_PAGE);
+		laCmp.getShowAddressComponentTemplate().getCustomAddressEvent()
+				.getListener().setActionListener(
+						super.createExpressionString("doChooseAddress"));
 
 		super.getAttributes().put(MODEL_ATTRIB_ADRESSTYPE, type);
 	}
@@ -231,59 +235,57 @@ public class SummaryFrame extends AbstractYFrame
 	 * External {@link YEventListener} for {@link ShowAddressComponent}
 	 * 
 	 * @param event
-	 *           {@link YEvent}
+	 *            {@link YEvent}
 	 */
-	public void doChooseAddress(final YEvent<ShowAddressComponent> event)
-	{
+	public void doChooseAddress(final YEvent<ShowAddressComponent> event) {
 		final ShowAddressComponent cmp = event.getComponent();
-		final String type = (String) super.getAttributes().get(MODEL_ATTRIB_ADRESSTYPE);
+		final String type = (String) super.getAttributes().get(
+				MODEL_ATTRIB_ADRESSTYPE);
 
-		if (!"defaultPaymentAddress".equals(type) && !"defaultShipmentAddress".equals(type))
-		{
-			throw new StorefoundationException("Can't detect Type of address (payment or delivery?)");
+		if (!"defaultPaymentAddress".equals(type)
+				&& !"defaultShipmentAddress".equals(type)) {
+			throw new StorefoundationException(
+					"Can't detect Type of address (payment or delivery?)");
 		}
 
 		final AddressModel adr = cmp.getAddress();
-		final UserModel user = YStorefoundation.getRequestContext().getSessionContext().getUser();
+		final UserModel user = YStorefoundation.getRequestContext()
+				.getSessionContext().getUser();
 
-		if ("defaultPaymentAddress".equals(type))
-		{
+		if ("defaultPaymentAddress".equals(type)) {
 			user.setDefaultPaymentAddress(adr);
 			getPlatformServices().getModelService().save(user);
 			getShowPaymentAddressComponent().getValue().setAddress(adr);
-		}
-		else if ("defaultShipmentAddress".equals(type))
-		{
+		} else if ("defaultShipmentAddress".equals(type)) {
 			user.setDefaultShipmentAddress(adr);
-			//Webfoundation.getInstance().getServices().getUserService().saveUser(user);
+			// Webfoundation.getInstance().getServices().getUserService().saveUser(user);
 			getPlatformServices().getModelService().save(user);
 			getShowDeliveryAddressComponent().getValue().setAddress(adr);
 
 			recalculateCart();
 		}
 
-		if (log.isDebugEnabled())
-		{
-			log.debug("Set " + type + " for " + user.getName() + " -> " + adr.getFirstname() + " " + adr.getLastname());
+		if (log.isDebugEnabled()) {
+			log.debug("Set " + type + " for " + user.getName() + " -> "
+					+ adr.getFirstname() + " " + adr.getLastname());
 		}
 	}
 
-	//after the delivery address or payment is changed, 
-	//the cart must be recalculated because of the different delivery cost
-	private void recalculateCart()
-	{
+	// after the delivery address or payment is changed,
+	// the cart must be recalculated because of the different delivery cost
+	private void recalculateCart() {
 		final SfRequestContext reqCtx = YStorefoundation.getRequestContext();
 
-		final AddressModel deliveryAddress = reqCtx.getSessionContext().getUser().getDefaultShipmentAddress();
+		final AddressModel deliveryAddress = reqCtx.getSessionContext()
+				.getUser().getDefaultShipmentAddress();
 		final CartModel currentCart = reqCtx.getSessionContext().getCart();
 		final PaymentModeModel pm = currentCart.getPaymentMode();
 		final DeliveryModeModel deliveryMode = currentCart.getDeliveryMode();
-		if (deliveryMode != null)
-		{
-			final List<DeliveryModeModel> modes = reqCtx.getOrderManagement().getSupportedDeliveryModes(pm, deliveryAddress);
+		if (deliveryMode != null) {
+			final List<DeliveryModeModel> modes = reqCtx.getOrderManagement()
+					.getSupportedDeliveryModes(pm, deliveryAddress);
 
-			if (!modes.contains(deliveryMode))
-			{
+			if (!modes.contains(deliveryMode)) {
 				currentCart.setDeliveryMode(null);
 			}
 		}
@@ -292,7 +294,7 @@ public class SummaryFrame extends AbstractYFrame
 		reqCtx.getPlatformServices().getModelService().save(currentCart);
 		reqCtx.getOrderManagement().updateCart(currentCart);
 
-		//make sure that the order table component will generate a new order
+		// make sure that the order table component will generate a new order
 		getOrderTableComponent().getValue().setOrder(null);
 	}
 
@@ -300,35 +302,38 @@ public class SummaryFrame extends AbstractYFrame
 	 * External {@link YEventListener} for {@link OrderTableComponent}
 	 * 
 	 * @param event
-	 *           {@link YEvent}
+	 *            {@link YEvent}
 	 */
-	public void doPlaceOrder(final YEvent<OrderTableComponent> event)
-	{
-		final PlaceOrderResult result = (PlaceOrderResult) event.getAttributes().get(PlaceOrderResult.class.getName());
+	public void doPlaceOrder(final YEvent<OrderTableComponent> event) {
+		final PlaceOrderResult result = (PlaceOrderResult) event
+				.getAttributes().get(PlaceOrderResult.class.getName());
 
-		if (result.getErrorCode() == 0)
-		{
-			final URLFactory uf = YStorefoundation.getRequestContext().getURLFactory();
-			final String path = uf.getURLCreator("orderstate").createExternalForm(result.getOrder());
+		if (result.getErrorCode() == 0) {
+			final URLFactory uf = YStorefoundation.getRequestContext()
+					.getURLFactory();
+			final String path = uf.getURLCreator("orderstate")
+					.createExternalForm(result.getOrder());
 			YStorefoundation.getRequestContext().redirect(path);
 		}
 	}
 
-
 	@SuppressWarnings("unchecked")
-	private AddressModel detectAddress(final UserModel userBean, final String type, final String fallback)
-	{
-		AddressModel address = type.equals(DELIVERY_ADDRESS) ? userBean.getDefaultShipmentAddress() : userBean
+	private AddressModel detectAddress(final UserModel userBean,
+			final String type, final String fallback) {
+		AddressModel address = type.equals(DELIVERY_ADDRESS) ? userBean
+				.getDefaultShipmentAddress() : userBean
 				.getDefaultPaymentAddress();
 
-		if (address == null)
-		{
-			address = fallback.equals(DELIVERY_ADDRESS) ? userBean.getDefaultShipmentAddress() : userBean.getDefaultPaymentAddress();
-			if (address == null)
-			{
-				final Collection<AddressModel> addressList = YStorefoundation.getRequestContext().getSessionContext().getUser()
+		if (address == null) {
+			address = fallback.equals(DELIVERY_ADDRESS) ? userBean
+					.getDefaultShipmentAddress() : userBean
+					.getDefaultPaymentAddress();
+			if (address == null) {
+				final Collection<AddressModel> addressList = YStorefoundation
+						.getRequestContext().getSessionContext().getUser()
 						.getAddresses();
-				address = addressList.isEmpty() ? null : addressList.iterator().next();
+				address = addressList.isEmpty() ? null : addressList.iterator()
+						.next();
 			}
 		}
 
@@ -340,33 +345,33 @@ public class SummaryFrame extends AbstractYFrame
 	 * 
 	 * @return {@link ShowPaymentComponent}
 	 */
-	private ShowPaymentComponent createShowPaymentComponent()
-	{
+	private ShowPaymentComponent createShowPaymentComponent() {
 		final ShowPaymentComponent result = new DefaultShowPaymentComponent();
 		result.getDeletePaymentEvent().setEnabled(false);
 		result.getEditPaymentEvent().setEnabled(false);
 		result.getCustomPaymentEvent().setEnabled(true);
 		result.getCustomPaymentEvent().getListener().setAction(NAV_PAYMENTLIST);
-		result.getCustomPaymentEvent().getListener().setActionListener(super.createExpressionString("doChangePayment"));
+		result.getCustomPaymentEvent().getListener().setActionListener(
+				super.createExpressionString("doChangePayment"));
 		result.getCustomPaymentEvent().setName(Localized.ACTION_CHANGE.key);
 
 		return result;
 	}
 
-
 	/**
 	 * @return {@link ShowAddressComponent} for Payment
 	 */
-	private ShowAddressComponent createShowPaymentAddressComponent()
-	{
+	private ShowAddressComponent createShowPaymentAddressComponent() {
 		final ShowAddressComponent result = new DefaultShowAddressComponent();
-		final AddressModel paymentAddress = detectAddress(YStorefoundation.getRequestContext().getSessionContext().getUser(),
+		final AddressModel paymentAddress = detectAddress(YStorefoundation
+				.getRequestContext().getSessionContext().getUser(),
 				PAYMENT_ADDRESS, DELIVERY_ADDRESS);
 
 		result.setAddress(paymentAddress);
-		YStorefoundation.getRequestContext().getSessionContext().getCart().setPaymentAddress(paymentAddress);
+		YStorefoundation.getRequestContext().getSessionContext().getCart()
+				.setPaymentAddress(paymentAddress);
 
-		//save type of this address (payment)
+		// save type of this address (payment)
 		result.getAttributes().put(MODEL_ATTRIB_ADRESSTYPE, PAYMENT_ADDRESS);
 
 		this.prepareShowAddressComponent(result);
@@ -377,17 +382,18 @@ public class SummaryFrame extends AbstractYFrame
 	/**
 	 * @return {@link ShowAddressComponent} for Delivery
 	 */
-	private ShowAddressComponent createShowDeliveryAddressComponent()
-	{
+	private ShowAddressComponent createShowDeliveryAddressComponent() {
 		final ShowAddressComponent result = new DefaultShowAddressComponent();
 
-		final AddressModel deliveryAddress = detectAddress(YStorefoundation.getRequestContext().getSessionContext().getUser(),
+		final AddressModel deliveryAddress = detectAddress(YStorefoundation
+				.getRequestContext().getSessionContext().getUser(),
 				DELIVERY_ADDRESS, PAYMENT_ADDRESS);
 
 		result.setAddress(deliveryAddress);
-		YStorefoundation.getRequestContext().getSessionContext().getCart().setDeliveryAddress(deliveryAddress);
+		YStorefoundation.getRequestContext().getSessionContext().getCart()
+				.setDeliveryAddress(deliveryAddress);
 
-		//save type of this address (delivery)
+		// save type of this address (delivery)
 		result.getAttributes().put(MODEL_ATTRIB_ADRESSTYPE, DELIVERY_ADDRESS);
 
 		this.prepareShowAddressComponent(result);
@@ -395,8 +401,7 @@ public class SummaryFrame extends AbstractYFrame
 		return result;
 	}
 
-	private void prepareShowAddressComponent(final ShowAddressComponent cmp)
-	{
+	private void prepareShowAddressComponent(final ShowAddressComponent cmp) {
 		cmp.getDeleteAddressEvent().setEnabled(false);
 		cmp.getChooseAddressAsDeliveryEvent().setEnabled(false);
 		cmp.getChooseAddressAsPaymentEvent().setEnabled(false);
@@ -404,13 +409,14 @@ public class SummaryFrame extends AbstractYFrame
 		cmp.getCustomAddressEvent().setEnabled(true);
 		cmp.getCustomAddressEvent().setName(Localized.ACTION_CHANGE.key);
 		cmp.getCustomAddressEvent().getListener().setAction(NAV_ADDRESSLIST);
-		cmp.getCustomAddressEvent().getListener().setActionListener(super.createExpressionString("doChangeAddress"));
+		cmp.getCustomAddressEvent().getListener().setActionListener(
+				super.createExpressionString("doChangeAddress"));
 	}
 
-	private OrderTableComponent createOrderTableComponent()
-	{
+	private OrderTableComponent createOrderTableComponent() {
 		final OrderTableComponent result = new DefaultOrderTableComponent();
-		final YEventListener<OrderTableComponent> listener = super.createComponentEventListener("doPlaceOrder");
+		final YEventListener<OrderTableComponent> listener = super
+				.createComponentEventListener("doPlaceOrder");
 		result.getPlaceOrderEvent().addCustomListener(listener);
 
 		return result;
@@ -421,35 +427,35 @@ public class SummaryFrame extends AbstractYFrame
 	 * 
 	 * @return {@link AddressListFrame}
 	 */
-	private AddressListFrame getAddressListFrame()
-	{
-		final YConversationContext convCtx = YStorefoundation.getRequestContext().getPageContext().getConversationContext();
+	private AddressListFrame getAddressListFrame() {
+		final YConversationContext convCtx = YStorefoundation
+				.getRequestContext().getPageContext().getConversationContext();
 		final YPageContext nextPage = convCtx.getOrCreateNextPage();
-		final AddressListFrame result = nextPage.getOrCreateFrame(AddressListFrame.class);
+		final AddressListFrame result = nextPage
+				.getOrCreateFrame(AddressListFrame.class);
 		return result;
 	}
 
-	private PaymentListFrame getPaymentListFrame()
-	{
-		final YConversationContext convCtx = YStorefoundation.getRequestContext().getPageContext().getConversationContext();
+	private PaymentListFrame getPaymentListFrame() {
+		final YConversationContext convCtx = YStorefoundation
+				.getRequestContext().getPageContext().getConversationContext();
 		final YPageContext nextPage = convCtx.getOrCreateNextPage();
-		final PaymentListFrame result = nextPage.getOrCreateFrame(PaymentListFrame.class);
+		final PaymentListFrame result = nextPage
+				.getOrCreateFrame(PaymentListFrame.class);
 		return result;
 	}
 
 	@Override
-	public void refresh()
-	{
+	public void refresh() {
 		super.refresh();
 		getShowPaymentComponent().getValue().setPaymentMode(null);
 		getShowPaymentComponent().getValue().setPaymentInfo(null);
-		getSelectDeliveryModeComponent().getValue().setSupportedDeliveryModes(null);
+		getSelectDeliveryModeComponent().getValue().setSupportedDeliveryModes(
+				null);
 	}
 
-	private PlatformServices getPlatformServices()
-	{
+	private PlatformServices getPlatformServices() {
 		return YStorefoundation.getRequestContext().getPlatformServices();
 	}
-
 
 }

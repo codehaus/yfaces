@@ -105,13 +105,12 @@ public class UserDetailFrame extends AbstractYFrame
 	public void doCreateAddress(final YEvent<ListAddressComponent> event)
 	{
 		//retrieve EditAddressComponent from AddressEditFrame...
-		final EditAddressComponent editCmp = getAddressEditFrame().getEditAddressComponent().getValue();
+		final EditAddressComponent editCmp = getAddressEditFrame().getEditAddressComponent();
 
 		//...and set empty address and return action
 		editCmp.setAddress(null);
 		editCmp.getSaveAddressEvent().getListener().setAction(NAV_USERDETAIL);
 		editCmp.getCancelEditAddressEvent().getListener().setAction(NAV_USERDETAIL);
-		getAddressEditFrame().getEditAddressComponent().setValue(editCmp);
 	}
 
 	/**
@@ -127,11 +126,10 @@ public class UserDetailFrame extends AbstractYFrame
 		final AddressModel address = cmp.getAddress();
 
 		//retrieve EditAddressComponent from AddressEditFrame
-		final EditAddressComponent editCmp = getAddressEditFrame().getEditAddressComponent().getValue();
+		final EditAddressComponent editCmp = getAddressEditFrame().getEditAddressComponent();
 		editCmp.getSaveAddressEvent().getListener().setAction(NAV_USERDETAIL);
 		editCmp.getCancelEditAddressEvent().getListener().setAction(NAV_USERDETAIL);
 		editCmp.setAddress(address);
-		getAddressEditFrame().getEditAddressComponent().setValue(editCmp);
 	}
 
 	/**
