@@ -19,7 +19,6 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.codehaus.yfaces.component.AbstractYFrame;
-import org.codehaus.yfaces.component.YModelBinding;
 import org.codehaus.yfaces.context.YConversationContext;
 import org.codehaus.yfaces.context.YPageContext;
 
@@ -51,7 +50,7 @@ public class ProductFrame extends AbstractYFrame {
 
 	private ChooseVariantsComponent chooseVariantsCmp = null;
 	private ShowVariantProductsComponent showVariantProductsCmp = null;
-	private List<YModelBinding<ProductReferencesComponent>> productReferencesCmpList = null;
+	private List<ProductReferencesComponent> productReferencesCmpList = null;
 	private ProductDetailComponent productDetailCmp = null;
 	private CustomerReviewComponent customerReviewCmp = null;
 	private BreadcrumbComponent breadcrumbCmp = null;
@@ -102,11 +101,16 @@ public class ProductFrame extends AbstractYFrame {
 		return this.breadcrumbCmp;
 	}
 
-	public List<YModelBinding<ProductReferencesComponent>> getProductReferencesComponentList() {
+	public List<ProductReferencesComponent> getProductReferencesComponentList() {
 		if (this.productReferencesCmpList == null) {
 			this.productReferencesCmpList = createProductReferenceComponentList();
 		}
 		return this.productReferencesCmpList;
+	}
+
+	public void setProductReferencesComponentList(
+			List<ProductReferencesComponent> cmp) {
+		this.productReferencesCmpList = cmp;
 	}
 
 	@Override
@@ -144,7 +148,7 @@ public class ProductFrame extends AbstractYFrame {
 		return cmp;
 	}
 
-	private List<YModelBinding<ProductReferencesComponent>> createProductReferenceComponentList() {
+	private List<ProductReferencesComponent> createProductReferenceComponentList() {
 		log.debug("Creating initial "
 				+ ProductReferencesComponent.class.getName());
 
@@ -158,7 +162,7 @@ public class ProductFrame extends AbstractYFrame {
 				.getRequestContext().getProductManagement()
 				.getAllProductReferences(product);
 
-		final List<YModelBinding<ProductReferencesComponent>> result = new ArrayList<YModelBinding<ProductReferencesComponent>>();
+		final List<ProductReferencesComponent> result = new ArrayList<ProductReferencesComponent>();
 
 		// iterate over all referencetypes...
 		for (final Map.Entry<EnumerationValueModel, List<ProductReferenceModel>> entry : refs
@@ -209,15 +213,17 @@ public class ProductFrame extends AbstractYFrame {
 				}
 			}
 
-			// ...create a binding for the component
-			// TODO: REAPLCE CASTS
-			final YModelBinding<ProductReferencesComponent> binding = super
-					.createComponentBinding((ProductReferencesComponent) cmp);
+			// // ...create a binding for the component
+			// // TODO: REAPLCE CASTS
+			// final YModelBinding<ProductReferencesComponent> binding = super
+			// .createComponentBinding((ProductReferencesComponent) cmp);
+			//
+			// binding.setValue(cmp);
+			//
+			// // ...and put the binding into resultlist
+			// result.add(binding);
 
-			binding.setValue(cmp);
-
-			// ...and put the binding into resultlist
-			result.add(binding);
+			result.add(cmp);
 		}
 		return result;
 	}

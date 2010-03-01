@@ -20,7 +20,6 @@ import org.codehaus.yfaces.component.AbstractYFrame;
 import org.codehaus.yfaces.component.DefaultYEventListener;
 import org.codehaus.yfaces.component.YEvent;
 import org.codehaus.yfaces.component.YEventListener;
-import org.codehaus.yfaces.component.YModelBinding;
 
 import ystorefoundationpackage.NavigationOutcome;
 import ystorefoundationpackage.domain.SfSessionContext;
@@ -66,7 +65,7 @@ public class GlobalFrame extends AbstractYFrame {
 	}
 
 	/**
-	 * @return {@link YModelBinding} for {@link ChooseLanguageComponent}
+	 * @return {@link ChooseLanguageComponent}
 	 */
 	public ChooseLanguageComponent getChooseLanguageComponent() {
 		return this.chooseLanguageCmp;
@@ -77,7 +76,7 @@ public class GlobalFrame extends AbstractYFrame {
 	}
 
 	/**
-	 * @return {@link YModelBinding} for {@link ChooseCurrencyComponent}
+	 * @return {@link ChooseCurrencyComponent}
 	 */
 	public ChooseCurrencyComponent getChooseCurrencyComponent() {
 		return this.chooseCurrencyCmp;
@@ -88,7 +87,7 @@ public class GlobalFrame extends AbstractYFrame {
 	}
 
 	/**
-	 * @return {@link YModelBinding} for {@link QuickSearchComponent}
+	 * @return {@link QuickSearchComponent}
 	 */
 	public QuickSearchComponent getQuickSearchComponent() {
 		if (this.quickSearchCmp == null) {
@@ -102,7 +101,7 @@ public class GlobalFrame extends AbstractYFrame {
 	}
 
 	/**
-	 * @return {@link YModelBinding} for {@link AdBannerComponent}
+	 * @return {@link AdBannerComponent}
 	 */
 	public AdBannerComponent getAdBannerComponent() {
 		if (this.adBannerCmp == null) {
@@ -116,7 +115,7 @@ public class GlobalFrame extends AbstractYFrame {
 	}
 
 	/**
-	 * @return {@link YModelBinding} for {@link LoginComponent}
+	 * @return {@link LoginComponent}
 	 */
 	public LoginComponent getLoginComponent() {
 		if (this.loginCmp == null) {
@@ -136,7 +135,7 @@ public class GlobalFrame extends AbstractYFrame {
 	// }
 
 	/**
-	 * @return {@link YModelBinding} for {@link ProductsQuickViewComponent}
+	 * @return {@link ProductsQuickViewComponent}
 	 */
 	public ProductsQuickViewComponent getProductsQuickViewComponent() {
 		return this.productsQuickViewCmp;
@@ -147,7 +146,7 @@ public class GlobalFrame extends AbstractYFrame {
 	}
 
 	/**
-	 * @return {@link YModelBinding} for {@link ShowHistoryComponent}
+	 * @return {@link ShowHistoryComponent}
 	 */
 	public ShowHistoryComponent getShowHistoryComponent() {
 		if (this.showHistoryCmp == null) {
@@ -161,7 +160,7 @@ public class GlobalFrame extends AbstractYFrame {
 	}
 
 	/**
-	 * @return {@link YModelBinding} for {@link ChooseCatalogComponent}
+	 * @return {@link ChooseCatalogComponent}
 	 */
 	public ChooseCatalogComponent getChooseCatalogComponent() {
 		return this.chooseCatalogCmp;
@@ -172,7 +171,7 @@ public class GlobalFrame extends AbstractYFrame {
 	}
 
 	/**
-	 * @return {@link YModelBinding} for {@link CategoryTreeComponent}
+	 * @return {@link CategoryTreeComponent}
 	 */
 	public CategoryTreeComponent getCategoryTreeComponent() {
 		return this.categoryTreeCmp;
