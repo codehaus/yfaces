@@ -73,8 +73,7 @@
 	<context-param>
 		<param-name>javax.faces.CONFIG_FILES</param-name>
 		<param-value>
-			/WEB-INF/sf-faces-config.xml,
-			/demo/faces-config-demo.xml
+			/WEB-INF/sf-faces-config.xml
 		</param-value>
 	</context-param>
 	
