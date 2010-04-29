@@ -118,14 +118,14 @@ public class YComponentFactory {
 				result = new YComponentImpl();
 
 				// component name
-				final YComponentConfigurationImpl cmpCfg = (YComponentConfigurationImpl) result
+				final YComponentConfigImpl cmpCfg = (YComponentConfigImpl) result
 						.getConfiguration();
-				cmpCfg.setId(attributes.get(YComponentConfiguration.ID_ATTRIBUTE));
-				cmpCfg.setVariableName(attributes.get(YComponentConfiguration.VAR_ATTRIBUTE));
-				cmpCfg.setModelImplementation(attributes.get(YComponentConfiguration.MODEL_IMPL_ATTRIBUTE));
-				cmpCfg.setModelSpecification(attributes.get(YComponentConfiguration.MODEL_SPEC_ATTRIBUTE));
-				cmpCfg.setErrorHandling(attributes.get(YComponentConfiguration.ERROR_ATTRIBUTE));
-				cmpCfg.setPushProperties(attributes.get(YComponentConfiguration.PASS_TO_MODEL_ATTRIBUTE));
+				cmpCfg.setId(attributes.get(YComponentConfig.ID_ATTRIBUTE));
+				cmpCfg.setVariableName(attributes.get(YComponentConfig.VAR_ATTRIBUTE));
+				cmpCfg.setModelImplementation(attributes.get(YComponentConfig.MODEL_IMPL_ATTRIBUTE));
+				cmpCfg.setModelSpecification(attributes.get(YComponentConfig.MODEL_SPEC_ATTRIBUTE));
+				cmpCfg.setErrorHandling(attributes.get(YComponentConfig.ERROR_ATTRIBUTE));
+				cmpCfg.setPushProperties(attributes.get(YComponentConfig.PASS_TO_MODEL_ATTRIBUTE));
 
 				result.initialize();
 			}

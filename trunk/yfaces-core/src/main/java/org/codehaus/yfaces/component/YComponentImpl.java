@@ -62,11 +62,11 @@ public class YComponentImpl implements YComponent {
 	private boolean isYComponent = false;
 
 	private ModelProcessor modelProcessor = null;
-	private YComponentConfigurationImpl cmpCfg = null;
+	private YComponentConfigImpl cmpCfg = null;
 
 	protected YComponentImpl() {
 		this.pushProperties = Collections.emptySet();
-		this.cmpCfg = new YComponentConfigurationImpl(this);
+		this.cmpCfg = new YComponentConfigImpl(this);
 	}
 
 	/**
@@ -87,7 +87,7 @@ public class YComponentImpl implements YComponent {
 		this.url = url;
 	}
 
-	public YComponentConfiguration getConfiguration() {
+	public YComponentConfig getConfiguration() {
 		return this.cmpCfg;
 	}
 
@@ -212,7 +212,7 @@ public class YComponentImpl implements YComponent {
 		if (isEmpty(this.id)) {
 			this.id = this.uid;
 			if (log.isDebugEnabled()) {
-				log.debug(this.cmpName + ": set missing '" + YComponentConfiguration.ID_ATTRIBUTE + "' to "
+				log.debug(this.cmpName + ": set missing '" + YComponentConfig.ID_ATTRIBUTE + "' to "
 						+ this.uid);
 			}
 		}
@@ -225,7 +225,7 @@ public class YComponentImpl implements YComponent {
 		if (isEmpty(this.errorHandling)) {
 			this.errorHandling = YFacesConfig.CMP_ERROR_HANDLING.getString();
 			if (log.isDebugEnabled()) {
-				log.debug(this.cmpName + ": set missing '" + YComponentConfiguration.ERROR_ATTRIBUTE
+				log.debug(this.cmpName + ": set missing '" + YComponentConfig.ERROR_ATTRIBUTE
 						+ "' to " + this.errorHandling);
 			}
 		}

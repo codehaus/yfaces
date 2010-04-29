@@ -30,7 +30,7 @@ public class YComponentValidatorImpl implements YComponentValidator {
 	private static final Logger log = Logger.getLogger(YComponentValidator.class);
 
 	private YComponentImpl cmpInfo = null;
-	private YComponentConfiguration cmpCfg = null;
+	private YComponentConfig cmpCfg = null;
 
 	public YComponentValidatorImpl(final YComponentImpl cmpInfo) {
 		this.cmpInfo = cmpInfo;

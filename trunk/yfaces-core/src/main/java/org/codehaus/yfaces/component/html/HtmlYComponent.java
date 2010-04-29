@@ -36,10 +36,9 @@ import org.codehaus.yfaces.YFaces;
 import org.codehaus.yfaces.YFacesConfig;
 import org.codehaus.yfaces.YFacesELContext;
 import org.codehaus.yfaces.YFacesException;
-import org.codehaus.yfaces.component.AbstractYModel;
 import org.codehaus.yfaces.component.ModelProcessor;
 import org.codehaus.yfaces.component.YComponent;
-import org.codehaus.yfaces.component.YComponentConfiguration;
+import org.codehaus.yfaces.component.YComponentConfig;
 import org.codehaus.yfaces.component.YComponentImpl;
 import org.codehaus.yfaces.component.YComponentValidator;
 import org.codehaus.yfaces.component.YModel;
@@ -93,16 +92,6 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 		return COMPONENT_FAMILY;
 	}
 
-	@Override
-	public void setId(final String id) {
-		super.setId(id);
-	}
-
-	@Override
-	public String getId() {
-		return super.getId();
-	}
-
 	public String getErrorHandling() {
 		return errorHandling;
 	}
@@ -111,15 +100,11 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 		this.errorHandling = errorHandling.toLowerCase();
 	}
 
-	public void setViewLocation(final String view) {
-		this.viewLocation = view;
-	}
-
 	/**
 	 * @return value of 'varName' attribute
 	 */
 	private String getVarName() {
-		return (String) super.getAttributes().get(YComponentConfiguration.VAR_ATTRIBUTE);
+		return (String) super.getAttributes().get(YComponentConfig.VAR_ATTRIBUTE);
 	}
 
 	/**
@@ -182,44 +167,8 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 			// new featured models (POJO)
 			if (!getYComponent().isYComponent()) {
 				vb.setValue(elCtx, model);
-
 			} else {
-
 				vb.setValue(elCtx, model);
-
-				// new feature "get rid of YModelbinding"
-				if (((AbstractYModel) model).getModelBinding() != null) {
-					//					((AbstractYModel) model).getModelBinding().setValue(elCtx, model);
-
-					//				} else {
-					//
-					//					// old implementation (YMOdel only)
-					//					final YModel cmp = (YModel) model;
-					//
-					//					final YFacesELContext yCtx = (YFacesELContext) FacesContext.getCurrentInstance()
-					//							.getELContext().getContext(YFacesELContext.class);
-					//
-					//					yCtx.setCmp(this.getYComponent());
-					//
-					//					yCtx.setResolveYComponentBinding(false);
-					//					final Object value = vb.getValue(elCtx);
-					//					if (value instanceof YModelBinding) {
-					//						((YModelBinding<YModel>) value).setValue(cmp);
-					//					}
-					//
-					//					if (value == null) {
-					//						if (YModel.class.isAssignableFrom(vb.getType(elCtx))) {
-					//							vb.setValue(elCtx, cmp);
-					//						} else {
-					//							final YComponent cmpInfo = cmp.getComponent();
-					//							final YModelBinding<YModel> binding = new YModelBinding<YModel>(cmpInfo);
-					//							vb.setValue(elCtx, binding);
-					//							binding.setValue(cmp);
-					//						}
-					//					}
-					//
-					//					yCtx.setResolveYComponentBinding(true);
-				}
 			}
 		}
 	}
@@ -340,9 +289,6 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 		final Object values[] = (Object[]) state;
 
 		super.restoreState(context, values[i++]);
-		//		this.specClassName = (String) values[i++];
-		//		this.implClassName = (String) values[i++];
-		//		this.injectableProperties = (String[]) values[i++];
 		this.viewLocation = (String) values[i++];
 
 		// can't restore bindings here as the ViewRoot isn't completed yet
@@ -554,8 +500,9 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 		return cmpInfo;
 	}
 
-	protected void setComponent(final YComponentImpl cmpInfo) {
-		this.cmpInfo = cmpInfo;
+	protected void setComponent(final YComponent yCmp) {
+		this.cmpInfo = yCmp;
+		this.viewLocation = yCmp.getViewLocation();
 	}
 
 	private void validateComponentInfo(final YComponentValidator cmpValid) {
@@ -605,11 +552,6 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 
 			// if a Model instance is available...
 		} else {
-
-			//			if (value instanceof YModel && ((YModel) value).getComponent() == null) {
-			//				// ComponentInfo is empty whenever a YComponent is created via Constructor
-			//				cmpInfo.getModelProcessor().setYComponent(value, cmpInfo);
-			//			}
 
 			// ...validate passed model 
 			final YComponentValidator cmpValid = cmpInfo.createValidator();
