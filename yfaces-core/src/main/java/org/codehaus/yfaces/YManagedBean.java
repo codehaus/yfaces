@@ -23,12 +23,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.el.ELContext;
-import javax.el.ValueExpression;
 import javax.faces.context.FacesContext;
 
 import org.apache.log4j.Logger;
 import org.codehaus.yfaces.component.AbstractYFrame;
-
 
 /**
  * Abstract Implementation of a generic ManagedBean. Autodetects the ManagedBean id according the
@@ -167,9 +165,17 @@ public class YManagedBean {
 	public void refreshBeanScope() {
 		final String beanId = this.getBeanId();
 		final ELContext ctx = FacesContext.getCurrentInstance().getELContext();
-		final ValueExpression ve = FacesContext.getCurrentInstance().getApplication()
-				.getExpressionFactory().createValueExpression(ctx, "#{" + beanId + "}", YManagedBean.class);
-		ve.setValue(ctx, this);
+
+		ctx.getELResolver().setValue(ctx, null, beanId, this);
+
+		//		final ValueExpression ve = FacesContext.getCurrentInstance().getApplication()
+		//				.getExpressionFactory().createValueExpression(ctx, "#{" + beanId + "}", YManagedBean.class);
+		//		ve.setValue(ctx, this);
+
+		//		// this one invokes TestCmpSetupFrame constructor...but why?
+		//		final Object x = ve.getValue(ctx);
+		//		log.info(x.hashCode() == this.hashCode());
+
 	}
 
 	//	@Override

@@ -19,7 +19,6 @@ import java.util.Map;
 
 import org.codehaus.yfaces.context.YPageContext;
 
-
 /**
  * @author Denny Strietzbaum
  * 
@@ -31,47 +30,14 @@ public interface YFrame {
 	 * 
 	 * @return ID for this frame.
 	 */
-	public String getId();
+	String getId();
 
 	/**
 	 * An optional title for this Frame or 'null'.<br/>
 	 * 
 	 * @return title of the frame
 	 */
-	public String getTitle();
-
-	/**
-	 * Creates an {@link YModelBinding} which is currently not bound to any particular component
-	 * instance.<br/>
-	 * 
-	 * @param <T>
-	 *          type of {@link YModel}
-	 * @return {@link YModelBinding}
-	 */
-	public <T extends YModel> YModelBinding<T> createComponentBinding();
-
-	/**
-	 * Creates an {@link YModelBinding} which is bound to a component instance given by its id.<br/>
-	 * The ID must match one of the IDs of the component xhtml files.
-	 * 
-	 * @param <T>
-	 *          type of {@link YModel}
-	 * @param componentId
-	 *          component ID as declared in xhtml renderer
-	 * @return {@link YModelBinding}
-	 */
-	public <T extends YModel> YModelBinding<T> createComponentBinding(String componentId);
-
-	/**
-	 * Creates a {@link YModelBinding} and already sets a concrete component instance.
-	 * 
-	 * @param <T>
-	 *          type of {@link YModel}
-	 * @param component
-	 *          {@link YModel} to set
-	 * @return {@link YModelBinding}
-	 */
-	public <T extends YModel> YModelBinding<T> createComponentBinding(T component);
+	String getTitle();
 
 	/**
 	 * Returns an attribute map which is bound to this frame.

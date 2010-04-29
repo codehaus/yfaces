@@ -36,13 +36,13 @@ import org.codehaus.yfaces.YFaces;
 import org.codehaus.yfaces.YFacesConfig;
 import org.codehaus.yfaces.YFacesELContext;
 import org.codehaus.yfaces.YFacesException;
+import org.codehaus.yfaces.component.AbstractYModel;
 import org.codehaus.yfaces.component.ModelProcessor;
 import org.codehaus.yfaces.component.YComponent;
 import org.codehaus.yfaces.component.YComponentConfiguration;
 import org.codehaus.yfaces.component.YComponentImpl;
 import org.codehaus.yfaces.component.YComponentValidator;
 import org.codehaus.yfaces.component.YModel;
-import org.codehaus.yfaces.component.YModelBinding;
 import org.codehaus.yfaces.component.YComponentValidator.YValidationAspekt;
 
 /**
@@ -183,33 +183,43 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 			if (!getYComponent().isYComponent()) {
 				vb.setValue(elCtx, model);
 
-				// old implementation (YMOdel only)
 			} else {
-				final YModel cmp = (YModel) model;
 
-				final YFacesELContext yCtx = (YFacesELContext) FacesContext.getCurrentInstance()
-						.getELContext().getContext(YFacesELContext.class);
+				vb.setValue(elCtx, model);
 
-				yCtx.setCmp(this.getYComponent());
+				// new feature "get rid of YModelbinding"
+				if (((AbstractYModel) model).getModelBinding() != null) {
+					//					((AbstractYModel) model).getModelBinding().setValue(elCtx, model);
 
-				yCtx.setResolveYComponentBinding(false);
-				final Object value = vb.getValue(elCtx);
-				if (value instanceof YModelBinding) {
-					((YModelBinding<YModel>) value).setValue(cmp);
+					//				} else {
+					//
+					//					// old implementation (YMOdel only)
+					//					final YModel cmp = (YModel) model;
+					//
+					//					final YFacesELContext yCtx = (YFacesELContext) FacesContext.getCurrentInstance()
+					//							.getELContext().getContext(YFacesELContext.class);
+					//
+					//					yCtx.setCmp(this.getYComponent());
+					//
+					//					yCtx.setResolveYComponentBinding(false);
+					//					final Object value = vb.getValue(elCtx);
+					//					if (value instanceof YModelBinding) {
+					//						((YModelBinding<YModel>) value).setValue(cmp);
+					//					}
+					//
+					//					if (value == null) {
+					//						if (YModel.class.isAssignableFrom(vb.getType(elCtx))) {
+					//							vb.setValue(elCtx, cmp);
+					//						} else {
+					//							final YComponent cmpInfo = cmp.getComponent();
+					//							final YModelBinding<YModel> binding = new YModelBinding<YModel>(cmpInfo);
+					//							vb.setValue(elCtx, binding);
+					//							binding.setValue(cmp);
+					//						}
+					//					}
+					//
+					//					yCtx.setResolveYComponentBinding(true);
 				}
-
-				if (value == null) {
-					if (YModel.class.isAssignableFrom(vb.getType(elCtx))) {
-						vb.setValue(elCtx, cmp);
-					} else {
-						final YComponent cmpInfo = cmp.getComponent();
-						final YModelBinding<YModel> binding = new YModelBinding<YModel>(cmpInfo);
-						vb.setValue(elCtx, binding);
-						binding.setValue(cmp);
-					}
-				}
-
-				yCtx.setResolveYComponentBinding(true);
 			}
 		}
 	}

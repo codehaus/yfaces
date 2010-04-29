@@ -19,20 +19,9 @@ import javax.el.ELContext;
 
 import org.apache.log4j.Logger;
 import org.codehaus.yfaces.component.YComponent;
-import org.codehaus.yfaces.component.YModelBinding;
-import org.codehaus.yfaces.component.html.HtmlYComponent;
 
 /**
- * When an {@link ELContext} gets created this YFaces specific context is added into it. The
- * {@link YFacesELContextListener} listens to {@link ELContext} creation and injects an instance of
- * this context into it. The {@link YFacesELResolver} extracts this context from {@link ELContext}
- * and asks each time when a {@link YModelBinding} shall be resolved whether that binding has to be
- * resolved automatically. If so the result of {@link YModelBinding#getValue() } is used for further
- * resolving instead of the {@link YModelBinding} instance.
- * 
- * @see YFacesELContextListener
- * @see YFacesELResolver
- * @see HtmlYComponent
+ * YFaces specific context for each {@link ELContext}
  * 
  * @author Denny Strietzbaum
  */
@@ -40,27 +29,7 @@ public class YFacesELContext {
 
 	private static final Logger log = Logger.getLogger(YFacesELContext.class);
 
-	private boolean resolveComponentBinding = true;
 	private YComponent cmp = null;
-
-	/**
-	 * Sets auto-resolving of {@link YModelBinding} instances.
-	 * 
-	 * @param enabled
-	 *          true when auto-resolving shall be enabled
-	 */
-	public void setResolveYComponentBinding(final boolean enabled) {
-		this.resolveComponentBinding = enabled;
-	}
-
-	/**
-	 * Whether auto-resolving of {@link YModelBinding} instances is enabled.
-	 * 
-	 * @return true when enabled
-	 */
-	public boolean isResolveYComponentBinding() {
-		return this.resolveComponentBinding;
-	}
 
 	public YComponent getCmp() {
 		return cmp;

@@ -1,5 +1,9 @@
 package org.codehaus.yfaces.component;
 
+import javax.el.ELContext;
+import javax.el.ValueExpression;
+import javax.faces.context.FacesContext;
+
 import org.apache.log4j.Logger;
 import org.codehaus.yfaces.component.YFrameRegistry.YFrameContext;
 
@@ -34,10 +38,15 @@ public class YModelProcessor extends PojoModelProcessor<YModel> {
 			final YFrameContext frameCtx = YFrameRegistry.getInstance().getFrameContext(frame.getClass());
 			amodel.setFrame("#{" + frameCtx.getBeanId() + "}");
 
-			((AbstractYFrame) frame).addYModel(frameProperty, model);
+			final String bind = frameCtx.getBeanId() + "." + frameProperty;
+
+			final ELContext elCtx = FacesContext.getCurrentInstance().getELContext();
+			final ValueExpression ve = FacesContext.getCurrentInstance().getApplication()
+					.getExpressionFactory().createValueExpression(elCtx, "#{" + bind + "}", Object.class);
+			((AbstractYFrame) frame).addModelBinding(ve);
+			amodel.setModelBinding(ve);
 
 			if (log.isDebugEnabled()) {
-				final String bind = frameCtx.getBeanId() + "." + frameProperty;
 				log.debug("Resolved framebinding for model " + model.getClass().getSimpleName() + ": #{"
 						+ bind + "}");
 			}
