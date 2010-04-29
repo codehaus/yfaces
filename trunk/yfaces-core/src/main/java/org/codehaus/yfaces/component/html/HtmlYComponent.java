@@ -37,20 +37,20 @@ import org.codehaus.yfaces.YFacesConfig;
 import org.codehaus.yfaces.YFacesELContext;
 import org.codehaus.yfaces.YFacesException;
 import org.codehaus.yfaces.component.ModelProcessor;
-import org.codehaus.yfaces.component.YComponentContext;
-import org.codehaus.yfaces.component.YComponentConfig;
 import org.codehaus.yfaces.component.YCmpContextImpl;
+import org.codehaus.yfaces.component.YComponent;
+import org.codehaus.yfaces.component.YComponentConfig;
+import org.codehaus.yfaces.component.YComponentContext;
 import org.codehaus.yfaces.component.YComponentValidator;
-import org.codehaus.yfaces.component.YModel;
 import org.codehaus.yfaces.component.YComponentValidator.YValidationAspekt;
 
 /**
- * Each {@link YModel} must be enclosed by this {@link UIComponent}.<br/>
- * The enclosed {@link YModel} must be either passed or, when null, gets automatically instantiated
- * via the <code>default</code> Attribute.<br/>
+ * Each {@link YComponent} must be enclosed by this {@link UIComponent}.<br/>
+ * The enclosed {@link YComponent} must be either passed or, when null, gets automatically
+ * instantiated via the <code>default</code> Attribute.<br/>
  * An undefined amount of additional attributes can be defined.<br/>
- * Each of such attribute must be available as property (setter) at the {@link YModel} instance.<br/>
- * When such attributes are passed then the value gets injected into the {@link YModel}. <br/>
+ * Each of such attribute must be available as property (setter) at the {@link YComponent} instance.<br/>
+ * When such attributes are passed then the value gets injected into the {@link YComponent}. <br/>
  * This component works within compile time and render time tags.<br/>
  * 
  * @author Denny Strietzbaum
@@ -108,10 +108,10 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 	}
 
 	/**
-	 * Set {@link YModel} instance as value of variable whose name was passed as 'var'
+	 * Set {@link YComponent} instance as value of variable whose name was passed as 'var'
 	 * 
 	 * @param component
-	 *          {@link YModel}
+	 *          {@link YComponent}
 	 */
 	private void setVarValue(final Object component) {
 		getFacesContext().getExternalContext().getRequestMap().put(getVarName(), component);
@@ -148,11 +148,11 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 	}
 
 	/**
-	 * Sets the {@link YModel}.<br/>
+	 * Sets the {@link YComponent}.<br/>
 	 * Setting means injecting the value into the writable binding.<br/>
 	 * 
 	 * @param cmp
-	 *          {@link YModel}
+	 *          {@link YComponent}
 	 */
 	private void setYModelToBinding(final Object model) {
 		final ValueExpression vb = getValueExpression(PARAM_YCMP_BINDING);
@@ -164,20 +164,15 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 		if (vb != null) {
 			final ELContext elCtx = FacesContext.getCurrentInstance().getELContext();
 
-			// new featured models (POJO)
-			if (!getYComponent().isYComponent()) {
-				vb.setValue(elCtx, model);
-			} else {
-				vb.setValue(elCtx, model);
-			}
+			vb.setValue(elCtx, model);
 		}
 	}
 
 	/**
-	 * Returns the final {@link YModel} which is used for rendering.<br/>
-	 * This is the merge result of the passed {@link YModel} and passed model attributes.<br/>
+	 * Returns the final {@link YComponent} which is used for rendering.<br/>
+	 * This is the merge result of the passed {@link YComponent} and passed model attributes.<br/>
 	 * 
-	 * @return {@link YModel}
+	 * @return {@link YComponent}
 	 */
 	public Object getComponentModel() {
 		// it's possible that one HtmlYComponent instance is used with multiple YComponent instances
@@ -192,11 +187,11 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 
 	/**
 	 * Internal.<br/>
-	 * Sets the final {@link YModel} which shall be used.<br/>
-	 * Normally this is done after all passed {@link YModel} Attributes are injected.<br/>
+	 * Sets the final {@link YComponent} which shall be used.<br/>
+	 * Normally this is done after all passed {@link YComponent} Attributes are injected.<br/>
 	 * 
 	 * @param model
-	 *          {@link YModel} to set.
+	 *          {@link YComponent} to set.
 	 */
 	private void setComponentModel(final Object model) {
 		final String clientId = super.getClientId(getFacesContext());
@@ -318,7 +313,7 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 			// ValueBinding
 			// XXX 1.2 simulate old behavior that non-framed components aren't
 			// available
-			if (restoredModel instanceof YModel && ((YModel) restoredModel).getFrame() != null) {
+			if (restoredModel instanceof YComponent && ((YComponent) restoredModel).getFrame() != null) {
 				this.setYModelToBinding(restoredModel);
 			}
 
@@ -387,7 +382,7 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 				cmp = this.getOrCreateComponentModel(cmpInfo);
 
 			} catch (final YFacesException e) {
-				log.error("Error creating " + YModel.class.getSimpleName() + " ("
+				log.error("Error creating " + YComponent.class.getSimpleName() + " ("
 						+ cmpInfo.getConfiguration().getModelImplementation() + ")", e);
 				this.error = e;
 			}
@@ -525,16 +520,16 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 	}
 
 	/**
-	 * Gets or creates the {@link YModel} instance for this UiComponent.
+	 * Gets or creates the {@link YComponent} instance for this UiComponent.
 	 * <p/>
 	 * Evaluates the result of {@link ValueExpression} 'binding'.<br/>
-	 * If 'binding' is not set, a new {@link YModel} instance is always created.<br/>
-	 * If 'binding' is set, but returns null, a new {@link YModel} gets created and 'binding' gets
+	 * If 'binding' is not set, a new {@link YComponent} instance is always created.<br/>
+	 * If 'binding' is set, but returns null, a new {@link YComponent} gets created and 'binding' gets
 	 * set.<br/>
 	 * If 'binding' returns a value, that value is taken, but validated whether it matches
 	 * {@link YComponentContext} criteria.
 	 * 
-	 * @return {@link YModel}
+	 * @return {@link YComponent}
 	 */
 	private Object getOrCreateComponentModel(final YComponentContext cmpInfo) {
 		Object result = null;
@@ -676,12 +671,12 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 	}
 
 	/**
-	 * Iterates over all writable properties of the passed {@link YModel}. If a properties name
+	 * Iterates over all writable properties of the passed {@link YComponent}. If a properties name
 	 * matches an attributes name of this component, the value of the attribute gets injected into the
-	 * passed {@link YModel} instance.
+	 * passed {@link YComponent} instance.
 	 * 
 	 * @param cmp
-	 *          {@link YModel}
+	 *          {@link YComponent}
 	 */
 	private void pushAttributesIntoModel(final Object cmp, final YComponentContext cmpInfo) {
 
@@ -709,7 +704,7 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 	 * Creates HTML debug output. Forwards the content directly into the ResponseWriter.
 	 * 
 	 * @param cmp
-	 *          {@link YModel}
+	 *          {@link YComponent}
 	 * @param prefix
 	 *          general prefix
 	 */

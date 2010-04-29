@@ -56,7 +56,7 @@ public interface YComponentValidator {
 
 		/** When a specification is used, but specification is not an YComponent */
 		SPEC_IS_NO_YCMP("Invalid specification {" + PLACEHOLDER_SPECCLASS + "} - no "
-				+ YModel.class.getSimpleName()),
+				+ YComponent.class.getSimpleName()),
 
 		/** When no component class (implementation) is provided */
 		IMPL_IS_MISSING("No default model implementation specified"),
@@ -66,7 +66,7 @@ public interface YComponentValidator {
 
 		/** When implementation is not an YComponent */
 		IMPL_IS_NO_YCMP("Invalid implementation {" + PLACEHOLDER_IMPLCLASS + "}; not an instanceof "
-				+ YModel.class.getSimpleName()),
+				+ YComponent.class.getSimpleName()),
 
 		/** When implementation doesn't match specification */
 		IMPL_UNASSIGNABLE_TO_SPEC("Invalid implementation {" + PLACEHOLDER_IMPLCLASS

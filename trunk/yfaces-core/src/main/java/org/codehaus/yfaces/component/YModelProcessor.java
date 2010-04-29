@@ -7,7 +7,7 @@ import javax.faces.context.FacesContext;
 import org.apache.log4j.Logger;
 import org.codehaus.yfaces.component.YFrameRegistry.YFrameContext;
 
-public class YModelProcessor extends PojoModelProcessor<YModel> {
+public class YModelProcessor extends PojoModelProcessor<YComponent> {
 
 	private static final Logger log = Logger.getLogger(YModelProcessor.class);
 
@@ -16,23 +16,23 @@ public class YModelProcessor extends PojoModelProcessor<YModel> {
 	}
 
 	@Override
-	public YModel createModel() {
+	public YComponent createModel() {
 		return super.createModel();
 	}
 
 	@Override
-	public void validateModel(final YModel model) {
+	public void validateModel(final YComponent model) {
 		model.validate();
 	}
 
 	@Override
-	public void setYComponent(final YModel model) {
+	public void setYComponent(final YComponent model) {
 		final AbstractYModel amodel = (AbstractYModel) model;
 		amodel.setYComponent(cmpInfo);
 	}
 
 	@Override
-	public void setYFrame(final YModel model, final YFrame frame, final String frameProperty) {
+	public void setYFrame(final YComponent model, final YFrame frame, final String frameProperty) {
 		final AbstractYModel amodel = (AbstractYModel) model;
 		if (amodel.getFrameBinding() == null && frame != null) {
 			final YFrameContext frameCtx = YFrameRegistry.getInstance().getFrameContext(frame.getClass());

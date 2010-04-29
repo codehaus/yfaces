@@ -1,8 +1,9 @@
 package org.codehaus.yfaces.component;
 
 /**
- * Configuration settings for a {@link YComponentContext}. Generally given as attributes of 'ycomponent' in
- * view file. These settings are taken, to calculate runtime properties of {@link YComponentContext}
+ * Raw, unprocessed and not validated configuration settings for a YComponent.
+ * <p/>
+ * Values are extracted from components view file during startup.
  * 
  * @author Denny Strietzbaum
  * 
@@ -38,7 +39,8 @@ public interface YComponentConfig {
 	String getModelImplementation();
 
 	/**
-	 * Returns the variable name under which an {@link YComponentContext} instance is available in view.
+	 * Returns the variable name under which an {@link YComponentContext} instance is available in
+	 * view.
 	 * 
 	 * @return variable name
 	 */

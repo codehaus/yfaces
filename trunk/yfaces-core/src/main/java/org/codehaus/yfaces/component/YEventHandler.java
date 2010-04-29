@@ -23,7 +23,7 @@ import javax.faces.event.FacesEvent;
 import javax.faces.event.ValueChangeEvent;
 
 /**
- * An event handler for a {@link YModel}.
+ * An event handler for a {@link YComponent}.
  * <p>
  * Technically this handler catches a JSF event of type {@link FacesEvent}, wraps that event into a
  * {@link YEvent} and notifies all {@link YEventListener} which are registered at
@@ -40,7 +40,7 @@ import javax.faces.event.ValueChangeEvent;
  * 
  * @author Denny Strietzbaum
  */
-public interface YEventHandler<T extends YModel> extends Serializable {
+public interface YEventHandler<T extends YComponent> extends Serializable {
 
 	/**
 	 * Adds a custom {@link YEventListener}.<br/>
