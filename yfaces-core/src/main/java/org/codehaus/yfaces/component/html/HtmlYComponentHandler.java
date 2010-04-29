@@ -26,8 +26,8 @@ import javax.faces.component.UIComponent;
 import org.apache.log4j.Logger;
 import org.codehaus.yfaces.YFaces;
 import org.codehaus.yfaces.component.YComponent;
-import org.codehaus.yfaces.component.YComponentConfiguration;
-import org.codehaus.yfaces.component.YComponentConfigurationImpl;
+import org.codehaus.yfaces.component.YComponentConfig;
+import org.codehaus.yfaces.component.YComponentConfigImpl;
 import org.codehaus.yfaces.component.YComponentImpl;
 
 import com.sun.facelets.FaceletContext;
@@ -89,33 +89,33 @@ public class HtmlYComponentHandler extends ComponentHandler {
 		log.debug("Refreshing " + YComponent.class.getSimpleName() + " for "
 				+ cmpInfo.getViewLocation() + "...");
 
-		final String specClass = getAttributeValue(tag, YComponentConfiguration.MODEL_SPEC_ATTRIBUTE);
-		final String implClass = getAttributeValue(tag, YComponentConfiguration.MODEL_IMPL_ATTRIBUTE);
-		final String varName = getAttributeValue(tag, YComponentConfiguration.VAR_ATTRIBUTE);
-		final String id = getAttributeValue(tag, YComponentConfiguration.ID_ATTRIBUTE);
+		final String specClass = getAttributeValue(tag, YComponentConfig.MODEL_SPEC_ATTRIBUTE);
+		final String implClass = getAttributeValue(tag, YComponentConfig.MODEL_IMPL_ATTRIBUTE);
+		final String varName = getAttributeValue(tag, YComponentConfig.VAR_ATTRIBUTE);
+		final String id = getAttributeValue(tag, YComponentConfig.ID_ATTRIBUTE);
 		final String injectable = getAttributeValue(tag,
-				YComponentConfiguration.PASS_TO_MODEL_ATTRIBUTE);
-		final String errorHandling = getAttributeValue(tag, YComponentConfiguration.ERROR_ATTRIBUTE);
+				YComponentConfig.PASS_TO_MODEL_ATTRIBUTE);
+		final String errorHandling = getAttributeValue(tag, YComponentConfig.ERROR_ATTRIBUTE);
 
-		final YComponentConfigurationImpl cmpCfg = (YComponentConfigurationImpl) cmpInfo
+		final YComponentConfigImpl cmpCfg = (YComponentConfigImpl) cmpInfo
 				.getConfiguration();
 
 		if (log.isDebugEnabled()) {
 			String updatedAttribs = "";
 			if (isModified(cmpCfg.getModelSpecification(), specClass)) {
-				updatedAttribs = updatedAttribs + YComponentConfiguration.MODEL_SPEC_ATTRIBUTE + ",";
+				updatedAttribs = updatedAttribs + YComponentConfig.MODEL_SPEC_ATTRIBUTE + ",";
 			}
 			if (isModified(cmpCfg.getModelImplementation(), implClass)) {
-				updatedAttribs = updatedAttribs + YComponentConfiguration.MODEL_IMPL_ATTRIBUTE + ",";
+				updatedAttribs = updatedAttribs + YComponentConfig.MODEL_IMPL_ATTRIBUTE + ",";
 			}
 			if (isModified(cmpCfg.getVariableName(), varName)) {
-				updatedAttribs = updatedAttribs + YComponentConfiguration.VAR_ATTRIBUTE + ",";
+				updatedAttribs = updatedAttribs + YComponentConfig.VAR_ATTRIBUTE + ",";
 			}
 			if (isModified(cmpCfg.getId(), id)) {
-				updatedAttribs = updatedAttribs + YComponentConfiguration.ID_ATTRIBUTE + ",";
+				updatedAttribs = updatedAttribs + YComponentConfig.ID_ATTRIBUTE + ",";
 			}
 			if (isModified(cmpCfg.getPushProperties(), injectable)) {
-				updatedAttribs = updatedAttribs + YComponentConfiguration.PASS_TO_MODEL_ATTRIBUTE + ",";
+				updatedAttribs = updatedAttribs + YComponentConfig.PASS_TO_MODEL_ATTRIBUTE + ",";
 			}
 
 			log.debug("...updated attributes: "
@@ -266,7 +266,6 @@ public class HtmlYComponentHandler extends ComponentHandler {
 			final UIComponent uicomponent1) {
 		super.onComponentPopulated(ctx, cmp, uicomponent1);
 		((HtmlYComponent) cmp).setComponent(cmpInfo);
-		((HtmlYComponent) cmp).setViewLocation(cmpInfo.getViewLocation());
 	}
 
 }

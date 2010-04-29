@@ -33,26 +33,26 @@ public interface YComponent {
 
 	/**
 	 * Returns the view 'id' which is unique within the same namespace. ID is taken from
-	 * {@link YComponentConfiguration} or, when not set, automatically generated.
+	 * {@link YComponentConfig} or, when not set, automatically generated.
 	 * 
 	 * @return id view id
 	 */
 	String getViewId();
 
 	/**
-	 * Runtime value based on {@link YComponentConfiguration#getVariableName()}
+	 * Runtime value based on {@link YComponentConfig#getVariableName()}
 	 * 
 	 * @return variable name
 	 */
 	String getVariableName();
 
 	/**
-	 * Runtime value based on {@link YComponentConfiguration#getErrorHandling()}
+	 * Runtime value based on {@link YComponentConfig#getErrorHandling()}
 	 */
 	String getErrorHandling();
 
 	/**
-	 * Runtime value based on {@link YComponentConfiguration#getPushProperties()}
+	 * Runtime value based on {@link YComponentConfig#getPushProperties()}
 	 * 
 	 * @return Collection of properties which are passed to model
 	 */
@@ -93,14 +93,14 @@ public interface YComponent {
 	String getNamespace();
 
 	/**
-	 * Runtime value based on {@link YComponentConfiguration#getModelSpecification()}
+	 * Runtime value based on {@link YComponentConfig#getModelSpecification()}
 	 * 
 	 * @return model specification class
 	 */
 	public Class getModelSpecification();
 
 	/**
-	 * Runtime value based on {@link YComponentConfiguration#getModelImplementation()}
+	 * Runtime value based on {@link YComponentConfig#getModelImplementation()}
 	 * 
 	 * @return model implementation class
 	 */
@@ -123,9 +123,9 @@ public interface YComponent {
 	/**
 	 * Returns the configuration which is used for this {@link YComponent}.
 	 * 
-	 * @return {@link YComponentConfiguration}
+	 * @return {@link YComponentConfig}
 	 */
-	YComponentConfiguration getConfiguration();
+	YComponentConfig getConfiguration();
 
 	boolean isValidated();
 

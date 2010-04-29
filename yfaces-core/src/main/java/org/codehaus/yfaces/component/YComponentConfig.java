@@ -7,7 +7,7 @@ package org.codehaus.yfaces.component;
  * @author Denny Strietzbaum
  * 
  */
-public interface YComponentConfiguration {
+public interface YComponentConfig {
 
 	static final String VAR_ATTRIBUTE = "var";
 	static final String ID_ATTRIBUTE = "id";
