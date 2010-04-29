@@ -32,14 +32,14 @@ import org.apache.log4j.Logger;
 import org.codehaus.yfaces.component.YComponentContext;
 import org.codehaus.yfaces.component.YFrame;
 import org.codehaus.yfaces.component.YFrameRegistry;
-import org.codehaus.yfaces.component.YModel;
+import org.codehaus.yfaces.component.YComponent;
 import org.codehaus.yfaces.component.YFrameRegistry.YFrameContext;
 import org.codehaus.yfaces.context.REQUEST_PHASE;
 import org.codehaus.yfaces.context.YPageContext;
 import org.codehaus.yfaces.context.YRequestContextImpl;
 
 /**
- * A YFaces specific custom {@link ELResolver} implementation- Handles {@link YModel} and
+ * A YFaces specific custom {@link ELResolver} implementation- Handles {@link YComponent} and
  * {@link YFrame} instances.Whenever a resolved value leads into one of these instances some pre- pr
  * post-processing is done.
  * <p>
@@ -109,7 +109,7 @@ public class YFacesELResolver extends ELResolver {
 			}
 		}
 
-		if (result instanceof YModel) {
+		if (result instanceof YComponent) {
 			final YComponentContext cmp = getYContext(context).getCmp();
 			if (cmp != null) {
 				cmp.getModelProcessor().setYComponent(result);
@@ -135,7 +135,7 @@ public class YFacesELResolver extends ELResolver {
 
 		final Class<?> type = this.resolver.getType(context, base, property);
 
-		if (value instanceof YModel) {
+		if (value instanceof YComponent) {
 			final YComponentContext cmp = getYContext(context).getCmp();
 			if (cmp != null) {
 				cmp.getModelProcessor().setYComponent(value);

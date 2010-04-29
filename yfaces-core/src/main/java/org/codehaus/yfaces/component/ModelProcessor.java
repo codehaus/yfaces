@@ -18,7 +18,7 @@ public interface ModelProcessor<T> {
 	T createModel();
 
 	/**
-	 * Adds {@link YFrame} to passed {@link YModel}
+	 * Adds {@link YFrame} to passed {@link YComponent}
 	 * 
 	 * @param model
 	 * @param frame

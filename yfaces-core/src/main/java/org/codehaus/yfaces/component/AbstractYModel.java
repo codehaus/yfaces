@@ -34,7 +34,7 @@ import org.codehaus.yfaces.YFacesException;
  * @author Denny Strietzbaum
  * 
  */
-public abstract class AbstractYModel implements YModel {
+public abstract class AbstractYModel implements YComponent {
 
 	private static final long serialVersionUID = 1L;
 
@@ -87,7 +87,7 @@ public abstract class AbstractYModel implements YModel {
 	 * 
 	 * @return {@link YEventHandler}
 	 */
-	public <T extends YModel> YEventHandler<T> createEventHandler() {
+	public <T extends YComponent> YEventHandler<T> createEventHandler() {
 		return this.createEventHandler(new DefaultYEventListener<T>());
 	}
 
@@ -98,7 +98,7 @@ public abstract class AbstractYModel implements YModel {
 	 *          {@link YEventListener} default listener
 	 * @return {@link YEventHandler}
 	 */
-	public <T extends YModel> YEventHandler<T> createEventHandler(final YEventListener<T> listener) {
+	public <T extends YComponent> YEventHandler<T> createEventHandler(final YEventListener<T> listener) {
 		final YEventHandler<T> result = new YEventHandlerImpl<T>(listener);
 		return result;
 	}
@@ -144,25 +144,25 @@ public abstract class AbstractYModel implements YModel {
 		return this.frameBinding;
 	}
 
-	public <T extends YModel> T newInstance(final String id) {
+	public <T extends YComponent> T newInstance(final String id) {
 		return this.newInstance(null, id);
 	}
 
-	public <T extends YModel> T newInstance(final String ns, final String id) {
+	public <T extends YComponent> T newInstance(final String ns, final String id) {
 
 		final YComponentContext cmpInfo = YFaces.getYComponentRegistry().getComponent(ns, id);
 		return (T) cmpInfo.getModelProcessor().createModel();
 	}
 
-	public <T extends YModel> T newInstance(final T template) {
+	public <T extends YComponent> T newInstance(final T template) {
 		T result = null;
 		final Class<T> clazz = (Class) template.getClass();
 		try {
-			final Constructor<T> c = clazz.getConstructor(YModel.class);
+			final Constructor<T> c = clazz.getConstructor(YComponent.class);
 			result = c.newInstance(template);
 		} catch (final Exception e) {
 			throw new YFacesException(clazz + " can't be created; missing Constructor which accepts "
-					+ YModel.class);
+					+ YComponent.class);
 		}
 		return result;
 	}

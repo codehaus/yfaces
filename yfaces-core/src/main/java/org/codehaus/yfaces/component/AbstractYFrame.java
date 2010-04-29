@@ -30,7 +30,7 @@ import org.codehaus.yfaces.context.YPageContext;
 /**
  * Abstract base class for every YFrame.<br/>
  * Each {@link YPageContext} manages one or more {@link YFrame} instances.<br/>
- * Each {@link YFrame} manages one ore more {@link YModel} instances. <br/>
+ * Each {@link YFrame} manages one ore more {@link YComponent} instances. <br/>
  * A YFrame is a ManagedBean and must declared in a faces configuration file.<br/>
  * 
  * @author Denny Strietzbaum
@@ -90,7 +90,7 @@ public abstract class AbstractYFrame extends YManagedBean implements YFrame {
 		this.modelBindings.add(ve);
 	}
 
-	protected <T extends YModel> T createDefaultYModel(final String cmpId) {
+	protected <T extends YComponent> T createDefaultYModel(final String cmpId) {
 		return (T) YFaces.getYComponentRegistry().getComponent(cmpId).getModelProcessor().createModel();
 	}
 
@@ -128,7 +128,7 @@ public abstract class AbstractYFrame extends YManagedBean implements YFrame {
 	 *          method of this frame which shall listen to
 	 * @return {@link YEventListener}
 	 */
-	public <T extends YModel> YEventListener<T> createComponentEventListener(final String frameMethod) {
+	public <T extends YComponent> YEventListener<T> createComponentEventListener(final String frameMethod) {
 		final YEventListener<T> result = new DefaultYEventListener<T>();
 		result.setActionListener(super.createExpressionString(frameMethod));
 		return result;

@@ -33,7 +33,7 @@ import org.apache.log4j.Logger;
 import org.codehaus.yfaces.YFacesConfig;
 
 /**
- * Holds {@link YModel} specific meta information.
+ * Holds {@link YComponent} specific meta information.
  * 
  * @author Denny Strietzbaum
  */
@@ -171,10 +171,6 @@ public class YCmpContextImpl implements YComponentContext {
 		this.isValid = isValid;
 	}
 
-	public boolean isYComponent() {
-		return isYComponent;
-	}
-
 	public Class getModelSpecification() {
 		return this.modelSpecClass;
 	}
@@ -225,8 +221,8 @@ public class YCmpContextImpl implements YComponentContext {
 		if (isEmpty(this.errorHandling)) {
 			this.errorHandling = YFacesConfig.CMP_ERROR_HANDLING.getString();
 			if (log.isDebugEnabled()) {
-				log.debug(this.cmpName + ": set missing '" + YComponentConfig.ERROR_ATTRIBUTE
-						+ "' to " + this.errorHandling);
+				log.debug(this.cmpName + ": set missing '" + YComponentConfig.ERROR_ATTRIBUTE + "' to "
+						+ this.errorHandling);
 			}
 		}
 
@@ -242,7 +238,7 @@ public class YCmpContextImpl implements YComponentContext {
 		try {
 			if (cmpCfg.getModelSpecification() != null) {
 				this.modelSpecClass = loader.loadClass(cmpCfg.getModelSpecification());
-				if (modelSpecClass != null && YModel.class.isAssignableFrom(modelSpecClass)) {
+				if (modelSpecClass != null && YComponent.class.isAssignableFrom(modelSpecClass)) {
 					this.isYComponent = true;
 				}
 			}
@@ -254,7 +250,7 @@ public class YCmpContextImpl implements YComponentContext {
 				this.modelImplClass = loader.loadClass(cmpCfg.getModelImplementation());
 
 				if (modelSpecClass == null && modelImplClass != null
-						&& YModel.class.isAssignableFrom(modelImplClass)) {
+						&& YComponent.class.isAssignableFrom(modelImplClass)) {
 					this.isYComponent = true;
 				}
 			}
@@ -263,7 +259,7 @@ public class YCmpContextImpl implements YComponentContext {
 		}
 		if (log.isDebugEnabled()) {
 			log.debug(this.cmpName + ": model is declared as "
-					+ (isYComponent ? YModel.class.getSimpleName() : "PoJo component"));
+					+ (isYComponent ? YComponent.class.getSimpleName() : "PoJo component"));
 		}
 
 		this.modelProcessor = this.isYComponent ? new YModelProcessor(this) : new PojoModelProcessor(
