@@ -11,10 +11,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
-import org.codehaus.yfaces.component.YComponent;
-import org.codehaus.yfaces.component.YComponentFactory;
-import org.codehaus.yfaces.component.YComponentImpl;
-import org.codehaus.yfaces.component.YComponentRegistry;
+import org.codehaus.yfaces.component.YComponentContext;
+import org.codehaus.yfaces.component.YComponentContextFactory;
+import org.codehaus.yfaces.component.YCmpContextImpl;
+import org.codehaus.yfaces.component.YComponentContextRegistry;
 import org.codehaus.yfaces.component.YComponentValidator.YValidationAspekt;
 import org.junit.Assert;
 import org.junit.Test;
@@ -34,8 +34,8 @@ public class TestYComponentInfo /* extends TestCase */{
 
 	private class AddSingleYComponentTest {
 		private String componentFile = null;
-		private YComponentRegistry registry = null;
-		private final YComponentFactory cmpFac = new YComponentFactory();
+		private YComponentContextRegistry registry = null;
+		private final YComponentContextFactory cmpFac = new YComponentContextFactory();
 
 		private boolean expectedToAdd = false;
 		private Set<YValidationAspekt> expectedErrors = Collections.emptySet();
@@ -45,10 +45,10 @@ public class TestYComponentInfo /* extends TestCase */{
 		private String expVar = null;
 		private Collection<String> expInjectableAttributes = Collections.emptySet();
 
-		private YComponent cmpInfo = null;
+		private YComponentContext cmpInfo = null;
 		private boolean wasAdded = false;
 
-		public AddSingleYComponentTest(final YComponentRegistry registry, final String file,
+		public AddSingleYComponentTest(final YComponentContextRegistry registry, final String file,
 				final boolean mustBeAdded) {
 			this.componentFile = file;
 			this.expectedToAdd = mustBeAdded;
@@ -121,10 +121,10 @@ public class TestYComponentInfo /* extends TestCase */{
 				"<yf:component	id	= \" id1\"	model=	\"		" + impl + "\"	modelspec=\"" + spec + "\" var=\""
 						+ var + "	\" >", };
 
-		final YComponentFactory cmpFac = new YComponentFactory();
+		final YComponentContextFactory cmpFac = new YComponentContextFactory();
 		for (final String s : cmps1) {
 			// System.out.println(count++ + ": " + s);
-			final YComponentImpl cmpInfo = cmpFac.createComponent(HEAD + s);
+			final YCmpContextImpl cmpInfo = cmpFac.createComponent(HEAD + s);
 			Assert.assertEquals(spec, cmpInfo.getConfiguration().getModelSpecification());
 			Assert.assertEquals(impl, cmpInfo.getConfiguration().getModelImplementation());
 			Assert.assertEquals(var, cmpInfo.getVariableName());
@@ -137,7 +137,7 @@ public class TestYComponentInfo /* extends TestCase */{
 				"<yf:component model=\"" + impl + "\" passToModel=\"prop1,prop2,prop3,prop4\">",
 				"<yf:component model=\"" + impl + "\" passToModel=\"	prop1 ,prop2	,prop3,	prop4\">", };
 		for (final String s : cmps2) {
-			final YComponentImpl cmpInfo = cmpFac.createComponent(HEAD + s);
+			final YCmpContextImpl cmpInfo = cmpFac.createComponent(HEAD + s);
 			final Collection<String> props = cmpInfo.getPushProperties();
 			Assert.assertEquals(4, props.size());
 			Assert.assertTrue("Got properties " + props.toString(), props.containsAll(properties));
@@ -158,8 +158,8 @@ public class TestYComponentInfo /* extends TestCase */{
 		final String spec = TEST_COMPONENT;
 		final String impl = TEST_COMPONENT_IMPL;
 		final String var = "adBannerCmpVar";
-		YComponentImpl cmpInfo = null;
-		final YComponentFactory cmpFac = new YComponentFactory();
+		YCmpContextImpl cmpInfo = null;
+		final YComponentContextFactory cmpFac = new YComponentContextFactory();
 
 		// test various errors
 		int count = -1;
@@ -215,7 +215,7 @@ public class TestYComponentInfo /* extends TestCase */{
 	}
 
 	/**
-	 * Tests {@link YComponentRegistry} and {@link YComponentImpl} validation. Additional does
+	 * Tests {@link YComponentContextRegistry} and {@link YCmpContextImpl} validation. Additional does
 	 * enhanced text parsing as components are provided as external resources.
 	 */
 	@Test
@@ -226,7 +226,7 @@ public class TestYComponentInfo /* extends TestCase */{
 		log.info("---------------------------------");
 
 		AddSingleYComponentTest test = null;
-		final YComponentRegistry reg = new YComponentRegistry();
+		final YComponentContextRegistry reg = new YComponentContextRegistry();
 
 		// no ycomponent at all; plain facelet tag
 		test = new AddSingleYComponentTest(reg, "plainFaceletTag.xhtml", false);

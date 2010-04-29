@@ -18,7 +18,7 @@ package org.codehaus.yfaces;
 import javax.el.ELContext;
 
 import org.apache.log4j.Logger;
-import org.codehaus.yfaces.component.YComponent;
+import org.codehaus.yfaces.component.YComponentContext;
 
 /**
  * YFaces specific context for each {@link ELContext}
@@ -29,13 +29,13 @@ public class YFacesELContext {
 
 	private static final Logger log = Logger.getLogger(YFacesELContext.class);
 
-	private YComponent cmp = null;
+	private YComponentContext cmp = null;
 
-	public YComponent getCmp() {
+	public YComponentContext getCmp() {
 		return cmp;
 	}
 
-	public void setCmp(final YComponent cmp) {
+	public void setCmp(final YComponentContext cmp) {
 		this.cmp = cmp;
 	}
 

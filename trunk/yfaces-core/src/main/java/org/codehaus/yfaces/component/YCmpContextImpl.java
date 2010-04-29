@@ -37,8 +37,8 @@ import org.codehaus.yfaces.YFacesConfig;
  * 
  * @author Denny Strietzbaum
  */
-public class YComponentImpl implements YComponent {
-	private static final Logger log = Logger.getLogger(YComponentImpl.class);
+public class YCmpContextImpl implements YComponentContext {
+	private static final Logger log = Logger.getLogger(YCmpContextImpl.class);
 
 	// raw (unevaluated) attribute values
 	private String id = null;
@@ -62,17 +62,17 @@ public class YComponentImpl implements YComponent {
 	private boolean isYComponent = false;
 
 	private ModelProcessor modelProcessor = null;
-	private YComponentConfigImpl cmpCfg = null;
+	private YCmpConfigImpl cmpCfg = null;
 
-	protected YComponentImpl() {
+	protected YCmpContextImpl() {
 		this.pushProperties = Collections.emptySet();
-		this.cmpCfg = new YComponentConfigImpl(this);
+		this.cmpCfg = new YCmpConfigImpl(this);
 	}
 
 	/**
 	 * Constructor. Initializes this instance by parsing the url stream.
 	 */
-	public YComponentImpl(final String id, final String varName, final String modelSpecClass,
+	public YCmpContextImpl(final String id, final String varName, final String modelSpecClass,
 			final String modelClass) {
 		this();
 		cmpCfg.setId(id);
@@ -81,7 +81,7 @@ public class YComponentImpl implements YComponent {
 		cmpCfg.setModelImplementation(modelClass);
 	}
 
-	public YComponentImpl(final String namespace, final URL url) {
+	public YCmpContextImpl(final String namespace, final URL url) {
 		this();
 		this.namespace = namespace;
 		this.url = url;
@@ -155,7 +155,7 @@ public class YComponentImpl implements YComponent {
 
 	@Override
 	public boolean equals(final Object obj) {
-		return this.url.toExternalForm().equals(((YComponentImpl) obj).url.toExternalForm());
+		return this.url.toExternalForm().equals(((YCmpContextImpl) obj).url.toExternalForm());
 	}
 
 	@Override
@@ -192,7 +192,7 @@ public class YComponentImpl implements YComponent {
 	}
 
 	public YComponentValidator createValidator() {
-		final YComponentValidator result = this.isYComponent ? new YComponentValidatorImpl(this)
+		final YComponentValidator result = this.isYComponent ? new YCmpValidatorImpl(this)
 				: new PojoComponentValidator(this);
 		return result;
 	}

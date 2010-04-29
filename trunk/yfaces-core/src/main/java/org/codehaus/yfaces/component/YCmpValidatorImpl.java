@@ -25,14 +25,14 @@ import org.apache.log4j.Logger;
 /**
  * @author Denny Strietzbaum
  */
-public class YComponentValidatorImpl implements YComponentValidator {
+public class YCmpValidatorImpl implements YComponentValidator {
 
 	private static final Logger log = Logger.getLogger(YComponentValidator.class);
 
-	private YComponentImpl cmpInfo = null;
+	private YCmpContextImpl cmpInfo = null;
 	private YComponentConfig cmpCfg = null;
 
-	public YComponentValidatorImpl(final YComponentImpl cmpInfo) {
+	public YCmpValidatorImpl(final YCmpContextImpl cmpInfo) {
 		this.cmpInfo = cmpInfo;
 		this.cmpCfg = cmpInfo.getConfiguration();
 	}
@@ -43,7 +43,7 @@ public class YComponentValidatorImpl implements YComponentValidator {
 
 	private Set<YValidationAspekt> asWarnings = Collections.EMPTY_SET;
 
-	public YComponent getYComponentInfo() {
+	public YComponentContext getYComponentInfo() {
 		return this.cmpInfo;
 	}
 

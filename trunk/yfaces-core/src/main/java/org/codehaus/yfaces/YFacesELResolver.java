@@ -29,7 +29,7 @@ import javax.faces.application.Application;
 import javax.faces.context.FacesContext;
 
 import org.apache.log4j.Logger;
-import org.codehaus.yfaces.component.YComponent;
+import org.codehaus.yfaces.component.YComponentContext;
 import org.codehaus.yfaces.component.YFrame;
 import org.codehaus.yfaces.component.YFrameRegistry;
 import org.codehaus.yfaces.component.YModel;
@@ -110,7 +110,7 @@ public class YFacesELResolver extends ELResolver {
 		}
 
 		if (result instanceof YModel) {
-			final YComponent cmp = getYContext(context).getCmp();
+			final YComponentContext cmp = getYContext(context).getCmp();
 			if (cmp != null) {
 				cmp.getModelProcessor().setYComponent(result);
 				if (base instanceof YFrame) {
@@ -136,7 +136,7 @@ public class YFacesELResolver extends ELResolver {
 		final Class<?> type = this.resolver.getType(context, base, property);
 
 		if (value instanceof YModel) {
-			final YComponent cmp = getYContext(context).getCmp();
+			final YComponentContext cmp = getYContext(context).getCmp();
 			if (cmp != null) {
 				cmp.getModelProcessor().setYComponent(value);
 				if (base instanceof YFrame) {

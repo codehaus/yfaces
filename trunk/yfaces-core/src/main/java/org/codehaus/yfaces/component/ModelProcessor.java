@@ -29,8 +29,6 @@ public interface ModelProcessor<T> {
 
 	void validateModel(T model);
 
-	//void refreshModel(T model);
-
 	void setProperty(T model, String property, Object value);
 
 }

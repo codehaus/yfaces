@@ -29,11 +29,11 @@ import org.apache.commons.io.IOUtils;
 import org.codehaus.yfaces.YFacesTaglib;
 
 /**
- * Factory class for {@link YComponentImpl} instances.
+ * Factory class for {@link YCmpContextImpl} instances.
  * 
  * @author Denny Strietzbaum
  */
-public class YComponentFactory {
+public class YComponentContextFactory {
 
 	// Searches for a single Attribute within the attributes String
 	private static final Pattern SINGLE_ATTRIBUTE = Pattern.compile(
@@ -58,11 +58,11 @@ public class YComponentFactory {
 
 	private String base = null;
 
-	public YComponentFactory() {
+	public YComponentContextFactory() {
 		this("");
 	}
 
-	public YComponentFactory(String base) {
+	public YComponentContextFactory(String base) {
 		this.cmpAttributesPatternMap = new HashMap<String, Pattern>();
 		this.base = base;
 		if (!base.startsWith("/")) {
@@ -70,9 +70,9 @@ public class YComponentFactory {
 		}
 	}
 
-	public YComponent createComponent(final URL url, final String namespace) {
+	public YComponentContext createComponent(final URL url, final String namespace) {
 
-		YComponentImpl result = null;
+		YCmpContextImpl result = null;
 
 		// get component name
 		final String cmpName = this.getComponentName(url);
@@ -103,9 +103,9 @@ public class YComponentFactory {
 		return result;
 	}
 
-	public YComponentImpl createComponent(final String content) {
+	public YCmpContextImpl createComponent(final String content) {
 
-		YComponentImpl result = null;
+		YCmpContextImpl result = null;
 
 		// get namespace prefix used for HtmlYCOmponent
 		final String nsPrefix = this.getYComponentNamespacePrefix(content);
@@ -115,10 +115,10 @@ public class YComponentFactory {
 
 			if (attributes != null) {
 
-				result = new YComponentImpl();
+				result = new YCmpContextImpl();
 
 				// component name
-				final YComponentConfigImpl cmpCfg = (YComponentConfigImpl) result
+				final YCmpConfigImpl cmpCfg = (YCmpConfigImpl) result
 						.getConfiguration();
 				cmpCfg.setId(attributes.get(YComponentConfig.ID_ATTRIBUTE));
 				cmpCfg.setVariableName(attributes.get(YComponentConfig.VAR_ATTRIBUTE));

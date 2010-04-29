@@ -37,9 +37,9 @@ import org.codehaus.yfaces.YFacesConfig;
 import org.codehaus.yfaces.YFacesELContext;
 import org.codehaus.yfaces.YFacesException;
 import org.codehaus.yfaces.component.ModelProcessor;
-import org.codehaus.yfaces.component.YComponent;
+import org.codehaus.yfaces.component.YComponentContext;
 import org.codehaus.yfaces.component.YComponentConfig;
-import org.codehaus.yfaces.component.YComponentImpl;
+import org.codehaus.yfaces.component.YCmpContextImpl;
 import org.codehaus.yfaces.component.YComponentValidator;
 import org.codehaus.yfaces.component.YModel;
 import org.codehaus.yfaces.component.YComponentValidator.YValidationAspekt;
@@ -73,7 +73,7 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 	// properties are set by HtmlYComponentHandler ...
 	// ... the YComponentInfo for this UIComponent
 	private String viewLocation = null;
-	private transient YComponent cmpInfo = null;
+	private transient YComponentContext cmpInfo = null;
 
 	// other transient members
 	private transient Exception error = null;
@@ -364,7 +364,7 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 		super.encodeBegin(context);
 
 		// get YComponentInfo for current processed component
-		final YComponent cmpInfo = this.getYComponent();
+		final YComponentContext cmpInfo = this.getYComponent();
 
 		// YComponentInfo must be validated when HtmlYComponentHandler detected a change in Facelet file
 		//boolean isValidated = !this.isValidateYComponentInfo();
@@ -372,7 +372,7 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 			final YComponentValidator cmpValid = cmpInfo.createValidator();
 			try {
 				this.validateComponentInfo(cmpValid);
-				((YComponentImpl) cmpInfo).setValid(true);
+				((YCmpContextImpl) cmpInfo).setValid(true);
 			} catch (final YFacesException e) {
 				log.error("Validation error", e);
 				this.error = e;
@@ -488,19 +488,19 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 	}
 
 	/**
-	 * Returns a {@link YComponent} which provides YFaces specific meta-information for this
+	 * Returns a {@link YComponentContext} which provides YFaces specific meta-information for this
 	 * component.
 	 * 
-	 * @return {@link YComponent}
+	 * @return {@link YComponentContext}
 	 */
-	protected YComponent getYComponent() {
+	protected YComponentContext getYComponent() {
 		if (cmpInfo == null) {
 			cmpInfo = YFaces.getYComponentRegistry().getComponentByPath(this.viewLocation);
 		}
 		return cmpInfo;
 	}
 
-	protected void setComponent(final YComponent yCmp) {
+	protected void setComponent(final YComponentContext yCmp) {
 		this.cmpInfo = yCmp;
 		this.viewLocation = yCmp.getViewLocation();
 	}
@@ -532,11 +532,11 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 	 * If 'binding' is set, but returns null, a new {@link YModel} gets created and 'binding' gets
 	 * set.<br/>
 	 * If 'binding' returns a value, that value is taken, but validated whether it matches
-	 * {@link YComponent} criteria.
+	 * {@link YComponentContext} criteria.
 	 * 
 	 * @return {@link YModel}
 	 */
-	private Object getOrCreateComponentModel(final YComponent cmpInfo) {
+	private Object getOrCreateComponentModel(final YComponentContext cmpInfo) {
 		Object result = null;
 
 		final Object value = this.getYModelFromBinding();
@@ -683,7 +683,7 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 	 * @param cmp
 	 *          {@link YModel}
 	 */
-	private void pushAttributesIntoModel(final Object cmp, final YComponent cmpInfo) {
+	private void pushAttributesIntoModel(final Object cmp, final YComponentContext cmpInfo) {
 
 		final Collection<String> attributes = cmpInfo.getPushProperties();
 
@@ -715,7 +715,7 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 	 */
 	private void generateHtmlDebug(final String prefix) {
 		if (this.debugHtmlOut == null) {
-			final YComponent yInfo = getYComponent();
+			final YComponentContext yInfo = getYComponent();
 			debugHtmlOut = yInfo.getViewId() + ":" + yInfo.getViewLocation();
 		}
 		try {
