@@ -44,6 +44,7 @@ public abstract class AbstractYModel implements YModel {
 	private String frameBinding = null;
 
 	private String viewLocation = null;
+	private ValueExpression modelBinding = null;
 
 	private String uid = null;
 
@@ -71,6 +72,14 @@ public abstract class AbstractYModel implements YModel {
 	void setYComponent(final YComponent info) {
 		this.viewLocation = info.getViewLocation();
 		this.cmpInfo = info;
+	}
+
+	public ValueExpression getModelBinding() {
+		return modelBinding;
+	}
+
+	public void setModelBinding(final ValueExpression modelBinding) {
+		this.modelBinding = modelBinding;
 	}
 
 	/**

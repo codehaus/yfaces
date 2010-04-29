@@ -33,21 +33,15 @@ import org.codehaus.yfaces.component.YComponent;
 import org.codehaus.yfaces.component.YFrame;
 import org.codehaus.yfaces.component.YFrameRegistry;
 import org.codehaus.yfaces.component.YModel;
-import org.codehaus.yfaces.component.YModelBinding;
 import org.codehaus.yfaces.component.YFrameRegistry.YFrameContext;
 import org.codehaus.yfaces.context.REQUEST_PHASE;
 import org.codehaus.yfaces.context.YPageContext;
 import org.codehaus.yfaces.context.YRequestContextImpl;
 
 /**
- * A custom {@link ELResolver} implementation which handles {@link YModelBinding} and {@link YFrame}
- * instances.Whenever a resolved value leads into one of these instances some pre- pr
+ * A YFaces specific custom {@link ELResolver} implementation- Handles {@link YModel} and
+ * {@link YFrame} instances.Whenever a resolved value leads into one of these instances some pre- pr
  * post-processing is done.
- * <ul>
- * <li> {@link YModelBinding}: automatically resolve it to {@link YModelBinding#getValue()} except
- * {@link YFacesELContext#isResolveYComponentBinding()} returns false</li>
- * <li> {@link YFrame}: notify current {@link YPageContext}</li>
- * </ul>
  * <p>
  * This resolver can't be element of the {@link ELResolver} chain but actually is a wrapper about
  * the standard resolver returned by the underlying JSF implementation.
@@ -96,17 +90,12 @@ public class YFacesELResolver extends ELResolver {
 	 * @see javax.el.ELResolver#getValue(javax.el.ELContext, java.lang.Object, java.lang.Object)
 	 */
 	@Override
-	public Object getValue(final ELContext context, Object base, final Object property)
+	public Object getValue(final ELContext context, final Object base, final Object property)
 			throws NullPointerException, PropertyNotFoundException, ELException {
 
-		// when base is a YComponentBinding (Components within components;
-		// component templates) then resolve to its value
-		if (base instanceof YModelBinding) {
-			base = ((YModelBinding<?>) base).getValue();
-		}
-
-		// delegate to original resolver
-		Object result = this.resolver.getValue(context, base, property);
+		// first delegate to original resolver
+		// resolved value may need some yfaces specific post-processing
+		final Object result = this.resolver.getValue(context, base, property);
 
 		// ... when value is a Frame: notify current YPage
 		if (result instanceof YFrame) {
@@ -118,12 +107,6 @@ public class YFacesELResolver extends ELResolver {
 			if (!frameCtx.isResolved()) {
 				frameCtx.setBeanId((String) property);
 			}
-		}
-
-		// ... when value is a YComponentBinding and resolving is enabled,
-		// resolve value to YComponentBindings value
-		if (getYContext(context).isResolveYComponentBinding() && result instanceof YModelBinding) {
-			result = ((YModelBinding<?>) result).getValue();
 		}
 
 		if (result instanceof YModel) {
@@ -152,28 +135,18 @@ public class YFacesELResolver extends ELResolver {
 
 		final Class<?> type = this.resolver.getType(context, base, property);
 
-		//special handling in case of YComponentBinding
-		if (YModelBinding.class.equals(type)) {
-			final boolean resolveBinding = getYContext(context).isResolveYComponentBinding();
-			if (resolveBinding) {
-				final YModelBinding binding = (YModelBinding) this.resolver.getValue(context, base,
-						property);
-				binding.setValue((YModel) value);
-			} else {
-				this.resolver.setValue(context, base, property, value);
-			}
-		} else {
-			if (value instanceof YModel) {
-				final YComponent cmp = getYContext(context).getCmp();
-				if (cmp != null) {
-					cmp.getModelProcessor().setYComponent(value);
-					if (base instanceof YFrame) {
-						cmp.getModelProcessor().setYFrame(value, (YFrame) base, (String) property);
-					}
+		if (value instanceof YModel) {
+			final YComponent cmp = getYContext(context).getCmp();
+			if (cmp != null) {
+				cmp.getModelProcessor().setYComponent(value);
+				if (base instanceof YFrame) {
+					cmp.getModelProcessor().setYFrame(value, (YFrame) base, (String) property);
 				}
 			}
-			this.resolver.setValue(context, base, property, value);
 		}
+
+		// finally delegate to original resolver
+		this.resolver.setValue(context, base, property, value);
 	}
 
 	/*
@@ -197,12 +170,8 @@ public class YFacesELResolver extends ELResolver {
 	public Class<?> getType(final ELContext context, final Object base, final Object property)
 			throws NullPointerException, PropertyNotFoundException, ELException {
 		// delegate to original resolver
-		Class<?> result = this.resolver.getType(context, base, property);
+		final Class<?> result = this.resolver.getType(context, base, property);
 
-		// when enabled, resolve YComponentBinding to YComponent
-		if (getYContext(context).isResolveYComponentBinding() && YModelBinding.class.equals(result)) {
-			result = YModel.class;
-		}
 		return result;
 	}
 

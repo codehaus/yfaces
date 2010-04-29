@@ -17,9 +17,10 @@
 package org.codehaus.yfaces.component;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
+
+import javax.el.ValueExpression;
+import javax.faces.context.FacesContext;
 
 import org.apache.log4j.Logger;
 import org.codehaus.yfaces.YFaces;
@@ -37,22 +38,24 @@ import org.codehaus.yfaces.context.YPageContext;
  */
 public abstract class AbstractYFrame extends YManagedBean implements YFrame {
 
+	//
+	// Developer notes:
+	// Never hold instances if YModel here (transient is allowed)
+	// Reason: When client-side state saving is enabled, YModels are getting serialized in UiTree
+	// after deserializing them, these models are decoupled from the instances held here
+	//
 	private static final long serialVersionUID = 1L;
 
 	private static final Logger log = Logger.getLogger(AbstractYFrame.class);
 
-	private List<YModelBinding<?>> componentBindings = null;
-
-	private Map<String, Object> models = null;
+	private List<ValueExpression> modelBindings = null;
 
 	/**
 	 * Constructor.
 	 */
 	public AbstractYFrame() {
 		super();
-		this.componentBindings = new ArrayList<YModelBinding<?>>();
-
-		this.models = new LinkedHashMap<String, Object>();
+		this.modelBindings = new ArrayList<ValueExpression>();
 	}
 
 	/*
@@ -61,38 +64,34 @@ public abstract class AbstractYFrame extends YManagedBean implements YFrame {
 	 * @see de.hybris.yfaces.component.YFrame#refresh()
 	 */
 	public void refresh() {
-		for (final YModelBinding<?> binding : this.componentBindings) {
-			if (binding.isResolved() && binding.getValue() != null) {
-				log.debug("Refreshing component: " + binding.getValue().getClass().getSimpleName());
-				try {
-					binding.getValue().refresh();
-				} catch (final Exception e) {
-					final AbstractYModel cmp = (AbstractYModel) binding.getValue();
-					log.error("Error refreshing component: " + cmp.getClass().getSimpleName() + " ("
-							+ this.getClass().getSimpleName() + ")", e);
-				}
-			}
-		}
-
-		this.refreshNew();
-	};
-
-	public void refreshNew() {
-		for (final Map.Entry<String, Object> entry : this.models.entrySet()) {
-			log.debug("Refreshing " + this.getClass().getSimpleName() + "." + entry.getKey());
+		for (final ValueExpression ve : this.modelBindings) {
+			log.debug("Refreshing " + ve);
+			AbstractYModel model = null;
 			try {
 
-				((AbstractYModel) entry.getValue()).refresh();
+				// NOTES:
+				// refresh should only invoke VE get and call refers
+				// YFrame set should be called in HtmlYComponent in processDecodes
+				// problrm is: identic model gets serialized in htmlycompoent and stays in yframe
+				// -> after deserialization its not identic anymore
+				// soluion: model must store full framebinding
+
+				model = (AbstractYModel) ve.getValue(FacesContext.getCurrentInstance().getELContext());
+				model.refresh();
 			} catch (final Exception e) {
-				final AbstractYModel cmp = (AbstractYModel) entry.getValue();
-				log.error("Error refreshing component: " + cmp.getClass().getSimpleName() + " ("
+				log.error("Error refreshing component: " + model.getClass().getSimpleName() + " ("
 						+ this.getClass().getSimpleName() + ")", e);
 			}
 		}
+
 	};
 
-	protected void addYModel(final String property, final YModel model) {
-		this.models.put(property, model);
+	protected void addModelBinding(final ValueExpression ve) {
+		this.modelBindings.add(ve);
+	}
+
+	protected <T extends YModel> T createDefaultYModel(final String cmpId) {
+		return (T) YFaces.getYComponentRegistry().getComponent(cmpId).getModelProcessor().createModel();
 	}
 
 	/*
@@ -102,42 +101,6 @@ public abstract class AbstractYFrame extends YManagedBean implements YFrame {
 	 */
 	public String getId() {
 		return super.getBeanId();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see de.hybris.yfaces.YFrame#createComponentBinding()
-	 */
-	public <T extends YModel> YModelBinding<T> createComponentBinding() {
-		return this.createComponentBinding(null, null, null);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see de.hybris.yfaces.YFrame#createComponentBinding(de.hybris.yfaces.YComponent )
-	 */
-	public <T extends YModel> YModelBinding<T> createComponentBinding(final T value) {
-		return this.createComponentBinding(null, null, value);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see de.hybris.yfaces.YFrame#createComponentBinding(java.lang.String)
-	 */
-	public <T extends YModel> YModelBinding<T> createComponentBinding(final String cmpId) {
-		return this.createComponentBinding(null, cmpId, null);
-	}
-
-	private <T extends YModel> YModelBinding<T> createComponentBinding(final String ns,
-			final String id, final T value) {
-		final YComponent cmpInfo = YFaces.getYComponentRegistry().getComponent(ns, id);
-		final YModelBinding<T> result = new YModelBinding<T>(cmpInfo, super.createExpressionString());
-		result.setValue(value);
-		this.componentBindings.add(result);
-		return result;
 	}
 
 	/*
