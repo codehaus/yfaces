@@ -29,7 +29,7 @@ import com.sun.facelets.tag.Tag;
  * 
  * @author Denny Strietzbaum
  */
-public interface YComponent {
+public interface YComponentContext {
 
 	/**
 	 * Returns the view 'id' which is unique within the same namespace. ID is taken from
@@ -77,7 +77,7 @@ public interface YComponent {
 	 * points to same target like {@link #getViewURL()}. This value gets detected and set
 	 * automatically.
 	 * <p/>
-	 * Location is used, to have a mapping between {@link YComponent} and Facelets managed view files.
+	 * Location is used, to have a mapping between {@link YComponentContext} and Facelets managed view files.
 	 * This location is identical to that one of {@link Tag#getLocation()} which is made available in
 	 * {@link HtmlYComponentHandler}.
 	 * 
@@ -121,7 +121,7 @@ public interface YComponent {
 	ModelProcessor getModelProcessor();
 
 	/**
-	 * Returns the configuration which is used for this {@link YComponent}.
+	 * Returns the configuration which is used for this {@link YComponentContext}.
 	 * 
 	 * @return {@link YComponentConfig}
 	 */

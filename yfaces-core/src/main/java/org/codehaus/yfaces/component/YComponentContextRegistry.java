@@ -26,78 +26,78 @@ import org.codehaus.yfaces.YFacesTaglib;
 
 /**
  * A registry which holds meta information about registered YComponent. Components are registered
- * during startup. YComponent meta information are described as {@link YComponentImpl}.
+ * during startup. YComponent meta information are described as {@link YCmpContextImpl}.
  * 
  * @author Denny Strietzbaum
  */
 
-public class YComponentRegistry {
+public class YComponentContextRegistry {
 
-	private static final Logger log = Logger.getLogger(YComponentRegistry.class);
+	private static final Logger log = Logger.getLogger(YComponentContextRegistry.class);
 
 	// namespace + id are mapped to YComponentInfo
-	private Map<String, YComponent> defaultNsCmpMap = null;
-	private Map<String, Map<String, YComponent>> cmpMap = null;
+	private Map<String, YComponentContext> defaultNsCmpMap = null;
+	private Map<String, Map<String, YComponentContext>> cmpMap = null;
 
-	private Map<String, YComponent> locationToCmpMap = null;
+	private Map<String, YComponentContext> locationToCmpMap = null;
 
-	public YComponentRegistry() {
-		this.locationToCmpMap = new HashMap<String, YComponent>();
+	public YComponentContextRegistry() {
+		this.locationToCmpMap = new HashMap<String, YComponentContext>();
 
-		this.defaultNsCmpMap = new LinkedHashMap<String, YComponent>();
-		this.cmpMap = new HashMap<String, Map<String, YComponent>>();
+		this.defaultNsCmpMap = new LinkedHashMap<String, YComponentContext>();
+		this.cmpMap = new HashMap<String, Map<String, YComponentContext>>();
 		this.cmpMap.put(YFacesTaglib.YFACES_NAMESPACE, defaultNsCmpMap);
 	}
 
 	/**
-	 * Looks for a registered {@link YComponent} by ID and default namespace.
+	 * Looks for a registered {@link YComponentContext} by ID and default namespace.
 	 * 
 	 * @param id
-	 *          ID of requested {@link YComponent}
-	 * @return {@link YComponent} or null
+	 *          ID of requested {@link YComponentContext}
+	 * @return {@link YComponentContext} or null
 	 */
-	public YComponent getComponent(final String id) {
+	public YComponentContext getComponent(final String id) {
 		return defaultNsCmpMap.get(id);
 	}
 
 	/**
-	 * Looks for a registered {@link YComponent} by namespace and ID.
+	 * Looks for a registered {@link YComponentContext} by namespace and ID.
 	 * 
 	 * @param namespace
-	 *          namespace (or null for default namespace) of requested {@link YComponent}
+	 *          namespace (or null for default namespace) of requested {@link YComponentContext}
 	 * @param id
-	 *          id of requested {@link YComponent}
-	 * @return {@link YComponent} or null
+	 *          id of requested {@link YComponentContext}
+	 * @return {@link YComponentContext} or null
 	 */
-	public YComponent getComponent(String namespace, final String id) {
+	public YComponentContext getComponent(String namespace, final String id) {
 
 		if (namespace == null) {
 			namespace = YFacesTaglib.YFACES_NAMESPACE;
 		}
-		final Map<String, YComponent> idToCmpMap = this.cmpMap.get(namespace);
-		final YComponent result = idToCmpMap != null ? idToCmpMap.get(id) : null;
+		final Map<String, YComponentContext> idToCmpMap = this.cmpMap.get(namespace);
+		final YComponentContext result = idToCmpMap != null ? idToCmpMap.get(id) : null;
 		return result;
 	}
 
 	/**
-	 * Looks for a {@link YComponent} by it's unique location.
+	 * Looks for a {@link YComponentContext} by it's unique location.
 	 * 
 	 * @param location
-	 *          location of requested {@link YComponent}
-	 * @return {@link YComponent} or null
+	 *          location of requested {@link YComponentContext}
+	 * @return {@link YComponentContext} or null
 	 */
-	public YComponent getComponentByPath(final String location) {
+	public YComponentContext getComponentByPath(final String location) {
 		return locationToCmpMap.get(location);
 	}
 
 	/**
-	 * Registers a new YComponent as {@link YComponent} to this registry.
+	 * Registers a new YComponent as {@link YComponentContext} to this registry.
 	 * 
 	 * @param cmpInfo
-	 *          {@link YComponent}
+	 *          {@link YComponentContext}
 	 * @return true when successfully registered
 	 */
-	public boolean addComponent(final YComponent cmpInfo) {
+	public boolean addComponent(final YComponentContext cmpInfo) {
 
 		boolean result = false;
 
@@ -117,11 +117,11 @@ public class YComponentRegistry {
 			}
 
 			// get namespace -> component mapping
-			Map<String, YComponent> map = this.cmpMap.get(ns);
+			Map<String, YComponentContext> map = this.cmpMap.get(ns);
 
 			// create if necessary
 			if (map == null) {
-				cmpMap.put(ns, map = new LinkedHashMap<String, YComponent>());
+				cmpMap.put(ns, map = new LinkedHashMap<String, YComponentContext>());
 			}
 
 			// assure another component is not already mapped with same id

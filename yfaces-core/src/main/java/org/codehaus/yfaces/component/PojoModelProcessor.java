@@ -14,9 +14,9 @@ public class PojoModelProcessor<T> implements ModelProcessor<T> {
 
 	private static final Logger log = Logger.getLogger(YModelProcessor.class);
 
-	protected YComponentImpl cmpInfo = null;
+	protected YCmpContextImpl cmpInfo = null;
 
-	public PojoModelProcessor(final YComponentImpl cmpInfo) {
+	public PojoModelProcessor(final YCmpContextImpl cmpInfo) {
 		this.cmpInfo = cmpInfo;
 	}
 
