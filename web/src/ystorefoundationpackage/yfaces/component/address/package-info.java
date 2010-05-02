@@ -1,5 +1,5 @@
 /**
- * {@link de.hybris.yfaces.component.YComponent} implementation(s) for 'address' issues.
+ * {@link de.hybris.YComponentContext.component.YComponent} implementation(s) for 'address' issues.
  */
 package ystorefoundationpackage.yfaces.component.address;
 
