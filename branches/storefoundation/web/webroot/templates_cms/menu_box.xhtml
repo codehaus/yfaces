@@ -12,7 +12,7 @@
 	xmlns:yf="http://yfaces.codehaus.org/taglib">
 
 		<yf:quickSearch 
-			binding="#{globalFrame.quickSearchComponent}" />
+			model="#{globalFrame.quickSearchComponent}" />
 		
 		<ui:remove>
 		<ui:include src="/templates_cms/fastsearch.xhtml">
@@ -21,10 +21,10 @@
 		</ui:remove>
 
 		<yf:chooseLanguage
-			binding="#{globalFrame.chooseLanguageComponent}" />
+			model="#{globalFrame.chooseLanguageComponent}" />
 
 		<yf:chooseCurrency
-			binding="#{globalFrame.chooseCurrencyComponent}" /> 
+			model="#{globalFrame.chooseCurrencyComponent}" /> 
 
 
 </ui:composition>

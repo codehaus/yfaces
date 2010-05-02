@@ -30,16 +30,16 @@ Assigned Styleclasses
 
 	<ui:define name="contentTitle">
 		<yf:breadcrumb 
-			binding="#{productFrame.breadcrumbComponent}"/>
+			model="#{productFrame.breadcrumbComponent}"/>
 	</ui:define>
 	
 	<ui:define name="content">
 		<yf:productDetail 
-			binding="#{productFrame.productDetailComponent}"/>
+			model="#{productFrame.productDetailComponent}"/>
 
 		<ui:repeat id="loop" value="#{productFrame.productReferencesComponentList}" var="prodRefCmp">
 			<yf:productReferences 
-				binding="#{prodRefCmp}"/>
+				model="#{prodRefCmp}"/>
 		</ui:repeat>
 	</ui:define>
 

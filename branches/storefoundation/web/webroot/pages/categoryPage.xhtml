@@ -18,7 +18,7 @@
 	<!-- ContentTitle -->
 	<ui:define name="contentTitle">
 		<yf:breadcrumb 
-			binding="#{categoryFrame.breadcrumbComponent}"/>
+			model="#{categoryFrame.breadcrumbComponent}"/>
 	</ui:define>
 
 	<!-- Content -->
@@ -30,14 +30,14 @@
 		</t:div>
 
 		<yf:listCategory
-			binding="#{categoryFrame.listCategoryComponent}"/>
+			model="#{categoryFrame.listCategoryComponent}"/>
 
 		<ui:param name="featureValueSelectorComponent" value="#{categoryFrame.featureValueSelectorComponent}"/>
 		<yf:featureValuesSelector
-			binding="#{featureValueSelectorComponent}"/>
+			model="#{featureValueSelectorComponent}"/>
 		
 		<yf:productTable 
-			binding="#{categoryFrame.productTableComponent}"
+			model="#{categoryFrame.productTableComponent}"
 			productList="#{featureValueSelectorComponent.filteredProductList}" 
 			selectColumnEnabled="#{!empty featureValueSelectorComponent.selectorList}" visibleRowCount="10"/>
 

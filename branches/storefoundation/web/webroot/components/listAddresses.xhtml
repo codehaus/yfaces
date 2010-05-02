@@ -38,7 +38,7 @@ Parameters:
 			<h:outputText styleClass="h3" value="#{msg['address.listAddressCmp.headline']}"/>
 			<ui:repeat value="#{listAddressCmpVar.addressList}" var="_address" id="listAddressLoop">
 				<yf:showAddress 
-					binding="#{listAddressCmpVar.showAddressComponent}"
+					model="#{listAddressCmpVar.showAddressComponent}"
 					address="#{_address}" />
 			</ui:repeat>
 

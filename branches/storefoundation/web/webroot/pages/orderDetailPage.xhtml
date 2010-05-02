@@ -33,7 +33,7 @@ Displays Orderinformation.
 					<yf:showAddress 
 						id="delivery"
 						headline="#{msg['frames.orderDetailFrame.deliveryAddress']}"
-						binding="#{orderDetailFrame.deliveryShowAddressComponent}" />
+						model="#{orderDetailFrame.deliveryShowAddressComponent}" />
 				</f:subview>
 			</h:panelGroup>
 			
@@ -43,21 +43,21 @@ Displays Orderinformation.
 					<yf:showAddress 
 						id="payment"
 						headline="#{msg['frames.orderDetailFrame.paymentAddress']}"
-						binding="#{orderDetailFrame.paymentShowAddressComponent}" />
+						model="#{orderDetailFrame.paymentShowAddressComponent}" />
 				</f:subview>
 			</h:panelGroup>
 
 			<h:panelGroup>
 				<yf:showPayment
 					headline="#{msg['frames.orderDetailFrame.paymentMode']}"
-					binding="#{orderDetailFrame.showPaymentComponent}" />
+					model="#{orderDetailFrame.showPaymentComponent}" />
 			</h:panelGroup>
 			
 		</h:panelGrid>
 		
 		<p/>
 		
-		<yf:orderTable binding="#{orderDetailFrame.orderTableComponent}"/>
+		<yf:orderTable model="#{orderDetailFrame.orderTableComponent}"/>
 		
 	</ui:define>
 </ui:composition>

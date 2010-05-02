@@ -36,19 +36,19 @@ used templates: wishListPage.xhtml
 		<t:div rendered="#{wishListFrame.anonymousUser == false}">
 			<t:div rendered="#{wishListFrame.anonymousWishListEmpty == false}">
 				<yf:saveTempWishList
-					binding="#{wishListFrame.saveTempWishListComponent}"/>
+					model="#{wishListFrame.saveTempWishListComponent}"/>
 				<br/><br/>
 			</t:div>
 		</t:div>
 
 		<t:div rendered="#{wishListFrame.anonymousUser == false}">
 			<yf:listWishList
-				binding="#{wishListFrame.listWishListComponent}"/>
+				model="#{wishListFrame.listWishListComponent}"/>
 			<br/><br/>
 		</t:div>
 
 		<yf:showWishList
-			binding="#{wishListFrame.showWishListComponent}"/>
+			model="#{wishListFrame.showWishListComponent}"/>
 		<br/>
 
 	</ui:define>

@@ -33,7 +33,7 @@ Parameters:
 			<h:outputText styleClass="h3" value="#{msg['payment.listPaymentCmp.headline']}"/>
 			<ui:repeat id="listPaymentInfoLoop" value="#{listPaymentCmpVar.paymentInfoList}" var="paymentInfo">
 				<yf:showPayment
-					binding="#{listPaymentCmpVar.showPaymentComponent}"
+					model="#{listPaymentCmpVar.showPaymentComponent}"
 					paymentInfo="#{paymentInfo}" />
 			</ui:repeat>
 		</t:div>

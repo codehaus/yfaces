@@ -24,14 +24,14 @@ used templates: addressList.xhtml, paymentInfoList.xhtml
 	<ui:define name="content">
 
 		<yf:userInfo
-			binding="#{userDetailFrame.userInfoComponent}"/>
+			model="#{userDetailFrame.userInfoComponent}"/>
 
 		<br/>
 		<yf:listAddresses 
-			binding="#{userDetailFrame.listAddressComponent}"/>
+			model="#{userDetailFrame.listAddressComponent}"/>
 		<br/>		
 		<yf:listPayment
-			binding="#{userDetailFrame.listPaymentComponent}" />
+			model="#{userDetailFrame.listPaymentComponent}" />
 
 	</ui:define>
 

@@ -21,7 +21,7 @@
 	
 	<ui:define name="content">
 	
-		<yf:cartTable binding="#{cartFrame.cartTableComponent}" />	
+		<yf:cartTable model="#{cartFrame.cartTableComponent}" />	
 		
 		<h:panelGrid columns="2" styleClass="cartPageAdd" cellpadding="0" cellspacing="0">
 			<yf:quickAddToCart />
@@ -37,7 +37,7 @@
 
 				<t:div rendered="#{userSession.anonymousUser}">
 					#{msg['frames.cartFrame.loginToContinue']}
-					<yf:login binding="#{cartFrame.loginComponent}"/>
+					<yf:login model="#{cartFrame.loginComponent}"/>
 				</t:div>
 		
 				<h:form id="continueShopping">
