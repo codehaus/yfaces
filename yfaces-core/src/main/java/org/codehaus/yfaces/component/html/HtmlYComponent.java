@@ -544,7 +544,7 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 		if (value == null) {
 
 			// ...create a default Model 
-			result = cmpInfo.createComponent();
+			result = cmpInfo.createModel();
 
 			// ...and update ValueBinding (if any)
 			this.setYModelToBinding(result);
@@ -697,7 +697,7 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 
 				// when a value can be found
 				if (value != null) {
-					cmpInfo.setProperty(cmp, attribute, value);
+					cmpInfo.setModelProperty(cmp, attribute, value);
 				}
 			}
 		}

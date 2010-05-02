@@ -33,7 +33,7 @@ public interface YComponentContext {
 
 	/**
 	 * Returns the view 'id' which is unique within the same namespace. ID is taken from
-	 * {@link YComponentConfig} or, when not set, automatically generated.
+	 * {@link YComponentConfig#getId()} or when not available automatically generated.
 	 * 
 	 * @return id view id
 	 */
@@ -107,23 +107,36 @@ public interface YComponentContext {
 	public Class<?> getModelImplementation();
 
 	/**
+	 * Creates and returns a new component instance which fulfills all configuration settings.
+	 * 
+	 * @return
+	 */
+	Object createModel();
+
+	void setModelProperty(Object model, String property, Object value);
+
+	/**
 	 * Creates a {@link YComponentValidator}.
 	 * 
 	 * @return {@link YComponentValidator}
 	 */
 	YComponentValidator createValidator();
 
-	Object createComponent();
-
-	void setProperty(Object model, String property, Object value);
-
 	/**
-	 * Returns the configuration which is used for this {@link YComponentContext}.
+	 * Returns a plain, unprocessed component configuration which is used to build this
+	 * {@link YComponentContext}.
 	 * 
 	 * @return {@link YComponentConfig}
 	 */
 	YComponentConfig getConfiguration();
 
+	/**
+	 * Returns true when component settings where validated successfully at least one times.
+	 * Successfully means {@link #createModel()} will create and return an instance which matches all
+	 * configuration settings.
+	 * 
+	 * @return true when validated
+	 */
 	boolean isValidated();
 
 }

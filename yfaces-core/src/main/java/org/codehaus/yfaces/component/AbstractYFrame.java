@@ -91,7 +91,7 @@ public abstract class AbstractYFrame extends YManagedBean implements YFrame {
 	}
 
 	protected <T extends YComponent> T createDefaultYModel(final String cmpId) {
-		return (T) YFaces.getYComponentRegistry().getComponent(cmpId).createComponent();
+		return (T) YFaces.getYComponentRegistry().getComponent(cmpId).createModel();
 	}
 
 	/*
