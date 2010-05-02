@@ -197,7 +197,7 @@ public class YCmpContextImpl implements YComponentContext {
 		return result;
 	}
 
-	public Object createComponent() {
+	public Object createModel() {
 		Object result = null;
 		try {
 			result = getModelImplementation().newInstance();
@@ -213,7 +213,7 @@ public class YCmpContextImpl implements YComponentContext {
 		return result;
 	}
 
-	public void setProperty(final Object cmp, final String property, Object value) {
+	public void setModelProperty(final Object cmp, final String property, Object value) {
 
 		final Method method = getAllProperties().get(property);
 
