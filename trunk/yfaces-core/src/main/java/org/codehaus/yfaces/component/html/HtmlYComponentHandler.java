@@ -25,10 +25,10 @@ import javax.faces.component.UIComponent;
 
 import org.apache.log4j.Logger;
 import org.codehaus.yfaces.YFaces;
-import org.codehaus.yfaces.component.YComponentContext;
-import org.codehaus.yfaces.component.YComponentConfig;
 import org.codehaus.yfaces.component.YCmpConfigImpl;
 import org.codehaus.yfaces.component.YCmpContextImpl;
+import org.codehaus.yfaces.component.YComponentConfig;
+import org.codehaus.yfaces.component.YComponentContext;
 
 import com.sun.facelets.FaceletContext;
 import com.sun.facelets.tag.MetaRuleset;
@@ -44,7 +44,7 @@ import com.sun.facelets.tag.jsf.ComponentHandler;
  */
 public class HtmlYComponentHandler extends ComponentHandler {
 	private static final Logger log = Logger.getLogger(HtmlYComponentHandler.class);
-	private static final String BINDING_ATTRIBUTE = "binding";
+	private static final String BINDING_ATTRIBUTE = "model";
 
 	//private final TagAttribute attributes;
 
@@ -93,12 +93,10 @@ public class HtmlYComponentHandler extends ComponentHandler {
 		final String implClass = getAttributeValue(tag, YComponentConfig.MODEL_IMPL_ATTRIBUTE);
 		final String varName = getAttributeValue(tag, YComponentConfig.VAR_ATTRIBUTE);
 		final String id = getAttributeValue(tag, YComponentConfig.ID_ATTRIBUTE);
-		final String injectable = getAttributeValue(tag,
-				YComponentConfig.PASS_TO_MODEL_ATTRIBUTE);
+		final String injectable = getAttributeValue(tag, YComponentConfig.PASS_TO_MODEL_ATTRIBUTE);
 		final String errorHandling = getAttributeValue(tag, YComponentConfig.ERROR_ATTRIBUTE);
 
-		final YCmpConfigImpl cmpCfg = (YCmpConfigImpl) cmpInfo
-				.getConfiguration();
+		final YCmpConfigImpl cmpCfg = (YCmpConfigImpl) cmpInfo.getConfiguration();
 
 		if (log.isDebugEnabled()) {
 			String updatedAttribs = "";
