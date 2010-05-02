@@ -16,13 +16,13 @@
 	
 		
 		<t:div styleClass="sidebar_boxes">
-			<yf:categoryTree binding="#{globalFrame.categoryTreeComponent}" />
+			<yf:categoryTree model="#{globalFrame.categoryTreeComponent}" />
 		</t:div>
 	
 	
 		<t:div styleClass="sidebar_boxes">
 			<yf:showHistory
-				binding="#{globalFrame.showHistoryComponent}"
+				model="#{globalFrame.showHistoryComponent}"
 				enabledProduct="true"
 				enabledCategory="false"
 				historyEntrySize="5"/>
@@ -32,7 +32,7 @@
 	
 		<t:div id="showTopSellerCmp" styleClass="sidebar_boxes">
 			<yf:productsQuickView
-				binding="#{globalFrame.productsQuickViewComponent}"/>
+				model="#{globalFrame.productsQuickViewComponent}"/>
 		</t:div>
 	
 

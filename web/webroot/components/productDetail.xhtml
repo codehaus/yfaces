@@ -51,7 +51,7 @@ display the complete description for the given product
 				<t:div rendered="#{printPage == false}">
 					<f:subview id="chooseVariantCmp" rendered="#{productDetailCmpVar.variantsAvailable}">
 						<yf:chooseVariants
-							binding="#{productFrame.chooseVariantsComponent}"/>
+							model="#{productFrame.chooseVariantsComponent}"/>
 					</f:subview>
 				</t:div>
 				
@@ -60,7 +60,7 @@ display the complete description for the given product
 				<t:div rendered="#{product != null}">
 				<f:subview id="variantProducts" rendered="#{productDetailCmpVar.variantsAvailable}">
 					<yf:showVariantProducts
-						binding="#{productFrame.showVariantProductsComponent}"
+						model="#{productFrame.showVariantProductsComponent}"
 						currentProduct="#{productDetailCmpVar.product}"
 						printPage="#{printPage}"/>
 				</f:subview>
@@ -135,7 +135,7 @@ display the complete description for the given product
 			<t:div rendered="#{product != null}">
 			<f:subview id="customerReview" rendered="#{productDetailCmpVar.customerReviewAvailable}">
 				<yf:customerReview
-					binding="#{productFrame.customerReviewComponent}"/>
+					model="#{productFrame.customerReviewComponent}"/>
 			</f:subview>
 			</t:div>
 		</t:div>

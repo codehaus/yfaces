@@ -32,7 +32,7 @@ tiles:	address,voucher,orderListComplete
 			<h:panelGroup id="deliveryAddressPanel">
 				<f:subview id="delivery">
 					<yf:showAddress 
-						binding="#{summaryFrame.showDeliveryAddressComponent}" 						
+						model="#{summaryFrame.showDeliveryAddressComponent}" 						
 						headline="#{msg['frames.summaryFrame.deliveryAddress']}"/>
 				</f:subview>
 			</h:panelGroup>
@@ -40,7 +40,7 @@ tiles:	address,voucher,orderListComplete
 			<h:panelGroup id="paymentAddressPanel">
 				<f:subview id="payment">
 					<yf:showAddress 
-						binding="#{summaryFrame.showPaymentAddressComponent}" 						
+						model="#{summaryFrame.showPaymentAddressComponent}" 						
 						headline="#{msg['frames.summaryFrame.paymentAddress']}"/>
 				</f:subview>
 			</h:panelGroup>
@@ -48,26 +48,26 @@ tiles:	address,voucher,orderListComplete
 			<ui:param name="cart" value="#{userSession.cart}"/>
 			<h:panelGroup>
 				<yf:showPayment 
-					binding="#{summaryFrame.showPaymentComponent}"
+					model="#{summaryFrame.showPaymentComponent}"
 					cart="#{cart}"
 					headline="#{msg['frames.summaryFrame.paymentMode']}"/>
 			</h:panelGroup>
 	
 			<h:panelGroup>
 				<yf:selectDeliveryMode 
-					binding="#{summaryFrame.selectDeliveryModeComponent}"
+					model="#{summaryFrame.selectDeliveryModeComponent}"
 					cart="#{cart}"/>
 			</h:panelGroup>
 
 			<h:panelGroup>
 				<yf:voucher 
-					binding="#{summaryFrame.voucherComponent}"/>
+					model="#{summaryFrame.voucherComponent}"/>
 			</h:panelGroup>
 
 		</h:panelGrid>
 		<br/>
 		<yf:orderTable 
-			binding="#{summaryFrame.orderTableComponent}" 
+			model="#{summaryFrame.orderTableComponent}" 
 			order="#{cart}"/>
 		<br/>
 		
