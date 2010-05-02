@@ -22,7 +22,7 @@ import java.io.Serializable;
  * 
  * @author Denny Strietzbaum
  */
-public interface YEventListener<T extends YComponent> extends Serializable {
+public interface YEventListener<T extends YModel> extends Serializable {
 	/**
 	 * Process action logic.
 	 * 

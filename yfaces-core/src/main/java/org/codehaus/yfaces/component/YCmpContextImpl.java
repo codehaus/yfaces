@@ -38,7 +38,7 @@ import org.codehaus.yfaces.YFacesConfig;
 import org.codehaus.yfaces.YFacesException;
 
 /**
- * Holds {@link YComponent} specific meta information.
+ * Holds {@link YModel} specific meta information.
  * 
  * @author Denny Strietzbaum
  */
@@ -202,8 +202,8 @@ public class YCmpContextImpl implements YComponentContext {
 		try {
 			result = getModelImplementation().newInstance();
 
-			if (result instanceof AbstractYComponent) {
-				((AbstractYComponent) result).setYComponent(this);
+			if (result instanceof AbstractYModel) {
+				((AbstractYModel) result).setYComponent(this);
 			}
 			//this.setYComponent(result);
 		} catch (final Exception e) {
@@ -295,7 +295,7 @@ public class YCmpContextImpl implements YComponentContext {
 		try {
 			if (cmpCfg.getModelSpecification() != null) {
 				this.modelSpecClass = loader.loadClass(cmpCfg.getModelSpecification());
-				if (modelSpecClass != null && YComponent.class.isAssignableFrom(modelSpecClass)) {
+				if (modelSpecClass != null && YModel.class.isAssignableFrom(modelSpecClass)) {
 					this.isYComponent = true;
 				}
 			}
@@ -307,7 +307,7 @@ public class YCmpContextImpl implements YComponentContext {
 				this.modelImplClass = loader.loadClass(cmpCfg.getModelImplementation());
 
 				if (modelSpecClass == null && modelImplClass != null
-						&& YComponent.class.isAssignableFrom(modelImplClass)) {
+						&& YModel.class.isAssignableFrom(modelImplClass)) {
 					this.isYComponent = true;
 				}
 			}
@@ -316,7 +316,7 @@ public class YCmpContextImpl implements YComponentContext {
 		}
 		if (log.isDebugEnabled()) {
 			log.debug(this.cmpName + ": model is declared as "
-					+ (isYComponent ? YComponent.class.getSimpleName() : "PoJo component"));
+					+ (isYComponent ? YModel.class.getSimpleName() : "PoJo component"));
 		}
 
 	}
@@ -337,7 +337,7 @@ public class YCmpContextImpl implements YComponentContext {
 		this.availableCmpProperties = classToPropertiesMap.get(this.modelImplClass);
 		if (this.availableCmpProperties == null) {
 			this.availableCmpProperties = this.findAllWriteProperties(modelImplClass,
-					AbstractYComponent.class);
+					AbstractYModel.class);
 			classToPropertiesMap.put(modelImplClass, this.availableCmpProperties);
 		}
 		return this.availableCmpProperties;
