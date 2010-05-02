@@ -34,11 +34,11 @@ import org.codehaus.yfaces.YFacesException;
  * @author Denny Strietzbaum
  * 
  */
-public abstract class AbstractYModel implements YComponent {
+public abstract class AbstractYComponent implements YComponent {
 
 	private static final long serialVersionUID = 1L;
 
-	private static final Logger log = Logger.getLogger(AbstractYModel.class);
+	private static final Logger log = Logger.getLogger(AbstractYComponent.class);
 
 	private Map<String, Object> attributes = null;
 	private String frameBinding = null;
@@ -51,7 +51,7 @@ public abstract class AbstractYModel implements YComponent {
 	private transient String logId = this.getClass().getSimpleName();
 	private transient YComponentContext cmpInfo = null;
 
-	public AbstractYModel() {
+	public AbstractYComponent() {
 		this.uid = this.getClass().getName() + String.valueOf(Math.random());
 	}
 
@@ -151,7 +151,7 @@ public abstract class AbstractYModel implements YComponent {
 	public <T extends YComponent> T newInstance(final String ns, final String id) {
 
 		final YComponentContext cmpInfo = YFaces.getYComponentRegistry().getComponent(ns, id);
-		return (T) cmpInfo.getModelProcessor().createModel();
+		return (T) cmpInfo.createComponent();
 	}
 
 	public <T extends YComponent> T newInstance(final T template) {
@@ -174,7 +174,8 @@ public abstract class AbstractYModel implements YComponent {
 	 */
 	@Override
 	public boolean equals(final Object obj) {
-		return (obj.getClass().equals(this.getClass())) && ((AbstractYModel) obj).uid.equals(this.uid);
+		return (obj.getClass().equals(this.getClass()))
+				&& ((AbstractYComponent) obj).uid.equals(this.uid);
 	}
 
 	/*

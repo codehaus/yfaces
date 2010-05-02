@@ -66,7 +66,7 @@ public abstract class AbstractYFrame extends YManagedBean implements YFrame {
 	public void refresh() {
 		for (final ValueExpression ve : this.modelBindings) {
 			log.debug("Refreshing " + ve);
-			AbstractYModel model = null;
+			AbstractYComponent model = null;
 			try {
 
 				// NOTES:
@@ -76,7 +76,7 @@ public abstract class AbstractYFrame extends YManagedBean implements YFrame {
 				// -> after deserialization its not identic anymore
 				// soluion: model must store full framebinding
 
-				model = (AbstractYModel) ve.getValue(FacesContext.getCurrentInstance().getELContext());
+				model = (AbstractYComponent) ve.getValue(FacesContext.getCurrentInstance().getELContext());
 				model.refresh();
 			} catch (final Exception e) {
 				log.error("Error refreshing component: " + model.getClass().getSimpleName() + " ("
@@ -91,7 +91,7 @@ public abstract class AbstractYFrame extends YManagedBean implements YFrame {
 	}
 
 	protected <T extends YComponent> T createDefaultYModel(final String cmpId) {
-		return (T) YFaces.getYComponentRegistry().getComponent(cmpId).getModelProcessor().createModel();
+		return (T) YFaces.getYComponentRegistry().getComponent(cmpId).createComponent();
 	}
 
 	/*
@@ -128,7 +128,8 @@ public abstract class AbstractYFrame extends YManagedBean implements YFrame {
 	 *          method of this frame which shall listen to
 	 * @return {@link YEventListener}
 	 */
-	public <T extends YComponent> YEventListener<T> createComponentEventListener(final String frameMethod) {
+	public <T extends YComponent> YEventListener<T> createComponentEventListener(
+			final String frameMethod) {
 		final YEventListener<T> result = new DefaultYEventListener<T>();
 		result.setActionListener(super.createExpressionString(frameMethod));
 		return result;

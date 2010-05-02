@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.codehaus.yfaces;
+package org.codehaus.yfaces.component;
 
 import java.beans.FeatureDescriptor;
 import java.util.Iterator;
@@ -25,14 +25,15 @@ import javax.el.ELException;
 import javax.el.ELResolver;
 import javax.el.PropertyNotFoundException;
 import javax.el.PropertyNotWritableException;
+import javax.el.ValueExpression;
 import javax.faces.application.Application;
 import javax.faces.context.FacesContext;
 
 import org.apache.log4j.Logger;
-import org.codehaus.yfaces.component.YComponentContext;
-import org.codehaus.yfaces.component.YFrame;
-import org.codehaus.yfaces.component.YFrameRegistry;
-import org.codehaus.yfaces.component.YComponent;
+import org.codehaus.yfaces.YFaces;
+import org.codehaus.yfaces.YFacesApplication;
+import org.codehaus.yfaces.YFacesELContext;
+import org.codehaus.yfaces.YFacesELContextListener;
 import org.codehaus.yfaces.component.YFrameRegistry.YFrameContext;
 import org.codehaus.yfaces.context.REQUEST_PHASE;
 import org.codehaus.yfaces.context.YPageContext;
@@ -99,23 +100,18 @@ public class YFacesELResolver extends ELResolver {
 
 		// ... when value is a Frame: notify current YPage
 		if (result instanceof YFrame) {
-			this.addFrameToPageContext(context, (YFrame) result);
+			this.afterYFrameResolved((YFrame) result, (String) property);
 
-			// gather frame information when not already done
-			final YFrameContext frameCtx = YFrameRegistry.getInstance()
-					.getFrameContext(result.getClass());
-			if (!frameCtx.isResolved()) {
-				frameCtx.setBeanId((String) property);
-			}
 		}
 
 		if (result instanceof YComponent) {
-			final YComponentContext cmp = getYContext(context).getCmp();
-			if (cmp != null) {
-				cmp.getModelProcessor().setYComponent(result);
-				if (base instanceof YFrame) {
-					cmp.getModelProcessor().setYFrame(result, (YFrame) base, (String) property);
-				}
+			final YComponentContext yCtx = getYContext(context).getCmp();
+			if (yCtx != null) {
+				this.afterYComponentResolved(yCtx, (AbstractYComponent) result);
+			}
+			if (base instanceof AbstractYFrame) {
+				this.afterYComponentResolved((AbstractYComponent) result, (AbstractYFrame) base,
+						(String) property);
 			}
 		}
 
@@ -135,13 +131,19 @@ public class YFacesELResolver extends ELResolver {
 
 		final Class<?> type = this.resolver.getType(context, base, property);
 
+		//		if (value instanceof YComponent) {
+		//			this.setYFrame(context, (YComponent) value, base, (String) property);
+		//		}
+
 		if (value instanceof YComponent) {
-			final YComponentContext cmp = getYContext(context).getCmp();
-			if (cmp != null) {
-				cmp.getModelProcessor().setYComponent(value);
-				if (base instanceof YFrame) {
-					cmp.getModelProcessor().setYFrame(value, (YFrame) base, (String) property);
-				}
+			final YComponentContext yCtx = getYContext(context).getCmp();
+			if (yCtx != null) {
+				this.afterYComponentResolved(yCtx, (AbstractYComponent) value);
+			}
+
+			if (base instanceof AbstractYFrame) {
+				this.afterYComponentResolved((AbstractYComponent) value, (AbstractYFrame) base,
+						(String) property);
 			}
 		}
 
@@ -209,6 +211,13 @@ public class YFacesELResolver extends ELResolver {
 		return (YFacesELContext) context.getContext(YFacesELContext.class);
 	}
 
+	private void afterYComponentResolved(final YComponentContext yCtx,
+			final AbstractYComponent component) {
+		if (yCtx != null) {
+			component.setYComponent(yCtx);
+		}
+	}
+
 	/**
 	 * Adds the frame to current {@link YPageContext} when necessary
 	 * 
@@ -216,7 +225,7 @@ public class YFacesELResolver extends ELResolver {
 	 *          frame to add
 	 * 
 	 */
-	private void addFrameToPageContext(final ELContext elCtx, final YFrame frame) {
+	private void afterYFrameResolved(final YFrame frame, final String property) {
 		// frames are getting added when:
 		// a) method is get
 		// b) method is post and START_REQUEST phase has finished (nothing is done
@@ -240,6 +249,35 @@ public class YFacesELResolver extends ELResolver {
 		// adding a frame more than one times doesn't matter; it's just ignored
 		if (threshold) {
 			YFaces.getRequestContext().getPageContext().addFrame(frame);
+		}
+
+		// gather frame information when not already done
+		final YFrameContext frameCtx = YFrameRegistry.getInstance().getFrameContext(frame.getClass());
+		if (!frameCtx.isResolved()) {
+			frameCtx.setBeanId(property);
+		}
+
+	}
+
+	private void afterYComponentResolved(final AbstractYComponent model, final YFrame frame,
+			final String frameProperty) {
+
+		if (model.getFrameBinding() == null) {
+			final YFrameContext frameCtx = YFrameRegistry.getInstance().getFrameContext(frame.getClass());
+			model.setFrame("#{" + frameCtx.getBeanId() + "}");
+
+			final String bind = frameCtx.getBeanId() + "." + frameProperty;
+
+			final ELContext elCtx = FacesContext.getCurrentInstance().getELContext();
+			final ValueExpression ve = FacesContext.getCurrentInstance().getApplication()
+					.getExpressionFactory().createValueExpression(elCtx, "#{" + bind + "}", Object.class);
+			((AbstractYFrame) frame).addModelBinding(ve);
+			model.setModelBinding(ve);
+
+			if (log.isDebugEnabled()) {
+				log.debug("Resolved framebinding for model " + model.getClass().getSimpleName() + ": #{"
+						+ bind + "}");
+			}
 		}
 	}
 

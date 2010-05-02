@@ -26,6 +26,8 @@ import javax.faces.el.VariableResolver;
 import javax.faces.event.ActionListener;
 import javax.faces.validator.Validator;
 
+import org.codehaus.yfaces.component.YFacesELResolver;
+
 /**
  * A custom {@link Application} implementation which wraps the default {@link Application} instance
  * which is returned by the underlying JSF implementation.

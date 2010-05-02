@@ -1,8 +1,8 @@
 package org.codehaus.yfaces;
 
-import org.codehaus.yfaces.component.AbstractYModel;
+import org.codehaus.yfaces.component.AbstractYComponent;
 
-public class YTestComponentImpl extends AbstractYModel implements YTestComponent {
+public class YTestComponentImpl extends AbstractYComponent implements YTestComponent {
 
 	private static final long serialVersionUID = 1L;
 
