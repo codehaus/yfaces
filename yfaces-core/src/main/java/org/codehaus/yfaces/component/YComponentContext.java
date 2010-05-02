@@ -113,12 +113,9 @@ public interface YComponentContext {
 	 */
 	YComponentValidator createValidator();
 
-	/**
-	 * Returns a Processor which is used to operate on the component model.
-	 * 
-	 * @return {@link ModelProcessor}
-	 */
-	ModelProcessor getModelProcessor();
+	Object createComponent();
+
+	void setProperty(Object model, String property, Object value);
 
 	/**
 	 * Returns the configuration which is used for this {@link YComponentContext}.

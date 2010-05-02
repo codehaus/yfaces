@@ -36,7 +36,6 @@ import org.codehaus.yfaces.YFaces;
 import org.codehaus.yfaces.YFacesConfig;
 import org.codehaus.yfaces.YFacesELContext;
 import org.codehaus.yfaces.YFacesException;
-import org.codehaus.yfaces.component.ModelProcessor;
 import org.codehaus.yfaces.component.YCmpContextImpl;
 import org.codehaus.yfaces.component.YComponent;
 import org.codehaus.yfaces.component.YComponentConfig;
@@ -407,7 +406,12 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 			// invoke phase: YComponent#validate
 			if (this.error == null) {
 				try {
-					cmpInfo.getModelProcessor().validateModel(cmp);
+
+					//cmpInfo.getModelProcessor().validateModel(cmp);
+					if (cmp instanceof YComponent) {
+						((YComponent) cmp).validate();
+					}
+
 				} catch (final Exception e) {
 					log.error(logId + "Error while validating component", e);
 					this.error = e;
@@ -540,7 +544,7 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 		if (value == null) {
 
 			// ...create a default Model 
-			result = cmpInfo.getModelProcessor().createModel();
+			result = cmpInfo.createComponent();
 
 			// ...and update ValueBinding (if any)
 			this.setYModelToBinding(result);
@@ -684,7 +688,6 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 
 		// now go through all attributes which shall be injected
 		if (attributes != null) {
-			final ModelProcessor yProc = cmpInfo.getModelProcessor();
 			for (final String attribute : attributes) {
 
 				// attribute value may either be a ValueExpression or a Literal
@@ -694,7 +697,7 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 
 				// when a value can be found
 				if (value != null) {
-					yProc.setProperty(cmp, attribute, value);
+					cmpInfo.setProperty(cmp, attribute, value);
 				}
 			}
 		}

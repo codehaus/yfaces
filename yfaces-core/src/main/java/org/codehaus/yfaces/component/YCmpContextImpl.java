@@ -19,6 +19,7 @@ package org.codehaus.yfaces.component;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.Arrays;
@@ -29,8 +30,12 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
+import javax.el.ExpressionFactory;
+import javax.faces.context.FacesContext;
+
 import org.apache.log4j.Logger;
 import org.codehaus.yfaces.YFacesConfig;
+import org.codehaus.yfaces.YFacesException;
 
 /**
  * Holds {@link YComponent} specific meta information.
@@ -61,7 +66,6 @@ public class YCmpContextImpl implements YComponentContext {
 	private boolean isValid = false;
 	private boolean isYComponent = false;
 
-	private ModelProcessor modelProcessor = null;
 	private YCmpConfigImpl cmpCfg = null;
 
 	protected YCmpContextImpl() {
@@ -193,8 +197,61 @@ public class YCmpContextImpl implements YComponentContext {
 		return result;
 	}
 
-	public ModelProcessor getModelProcessor() {
-		return this.modelProcessor;
+	public Object createComponent() {
+		Object result = null;
+		try {
+			result = getModelImplementation().newInstance();
+
+			if (result instanceof AbstractYComponent) {
+				((AbstractYComponent) result).setYComponent(this);
+			}
+			//this.setYComponent(result);
+		} catch (final Exception e) {
+			throw new YFacesException("Can't create Component model " + getModelImplementation(), e);
+		}
+
+		return result;
+	}
+
+	public void setProperty(final Object cmp, final String property, Object value) {
+
+		final Method method = getAllProperties().get(property);
+
+		try {
+
+			// JSF 1.2: do type coercion (e.g. String->Integer)
+			final ExpressionFactory ef = FacesContext.getCurrentInstance().getApplication()
+					.getExpressionFactory();
+			value = ef.coerceToType(value, method.getParameterTypes()[0]);
+
+			// invoke setter
+			method.invoke(cmp, value);
+
+		} catch (final Exception e) {
+			if (e instanceof IllegalArgumentException) {
+				log.error(getViewId() + " Error converting " + value.getClass().getName() + " to "
+						+ method.getParameterTypes()[0].getName());
+			} else {
+				if (e instanceof InvocationTargetException) {
+					log.error(getViewId() + " Error while executing setter for attribute '" + property + "'");
+				}
+			}
+			final String error = getViewId() + " Error setting attribute '" + property + "' at "
+					+ cmp.getClass().getSimpleName() + "(" + method + ")";
+			throw new YFacesException(error, e);
+		}
+
+		// some nice debug output for bughunting
+		if (log.isDebugEnabled()) {
+			final String _value = (value != null) ? value.toString() : "null";
+			String suffix = "";
+			if (value instanceof Collection<?>) {
+				suffix = "(count:" + ((Collection<?>) value).size() + ")";
+			}
+
+			log.debug(getViewId() + "injected Attribute " + property + " ("
+					+ (_value.length() < 30 ? _value : _value.substring(0, 29).concat("...")) + ")" + suffix);
+		}
 	}
 
 	/**
@@ -262,9 +319,6 @@ public class YCmpContextImpl implements YComponentContext {
 					+ (isYComponent ? YComponent.class.getSimpleName() : "PoJo component"));
 		}
 
-		this.modelProcessor = this.isYComponent ? new YModelProcessor(this) : new PojoModelProcessor(
-				this);
-
 	}
 
 	private boolean isEmpty(final String value) {
@@ -283,7 +337,7 @@ public class YCmpContextImpl implements YComponentContext {
 		this.availableCmpProperties = classToPropertiesMap.get(this.modelImplClass);
 		if (this.availableCmpProperties == null) {
 			this.availableCmpProperties = this.findAllWriteProperties(modelImplClass,
-					AbstractYModel.class);
+					AbstractYComponent.class);
 			classToPropertiesMap.put(modelImplClass, this.availableCmpProperties);
 		}
 		return this.availableCmpProperties;
