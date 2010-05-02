@@ -28,7 +28,7 @@ import org.apache.log4j.Logger;
  * @author Denny Strietzbaum
  * 
  */
-public class YEventHandlerImpl<T extends YComponent> implements YEventHandler<T> {
+public class YEventHandlerImpl<T extends YModel> implements YEventHandler<T> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -122,7 +122,7 @@ public class YEventHandlerImpl<T extends YComponent> implements YEventHandler<T>
 			} catch (final RuntimeException e) {
 				final String _id = _event.getComponent().getComponent().getViewId();
 				final String msg = "Exception while processing ActionListener ("
-						+ YComponent.class.getSimpleName() + ": " + _id + "; Event: "
+						+ YModel.class.getSimpleName() + ": " + _id + "; Event: "
 						+ listener.getClass().getSimpleName() + ")";
 
 				log.error(msg, e);
@@ -153,7 +153,7 @@ public class YEventHandlerImpl<T extends YComponent> implements YEventHandler<T>
 				final String _id = _event.getComponent().getComponent().getViewId();
 
 				final String msg = "Exception while processing ValueChangeListener ("
-						+ YComponent.class.getSimpleName() + ": " + _id + "; Event: "
+						+ YModel.class.getSimpleName() + ": " + _id + "; Event: "
 						+ listener.getClass().getSimpleName() + ")";
 
 				log.error(msg, e);

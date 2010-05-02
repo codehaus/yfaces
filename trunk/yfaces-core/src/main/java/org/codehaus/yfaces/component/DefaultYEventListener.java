@@ -22,7 +22,7 @@ package org.codehaus.yfaces.component;
  * 
  * @author Denny Strietzbaum
  */
-public class DefaultYEventListener<T extends YComponent> extends
+public class DefaultYEventListener<T extends YModel> extends
 		AbstractYEventListener<T> {
 
 	private static final long serialVersionUID = 1L;

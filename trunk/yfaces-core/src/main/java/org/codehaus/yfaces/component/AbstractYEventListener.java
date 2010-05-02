@@ -29,7 +29,7 @@ import org.codehaus.yfaces.YFacesException;
  * @author Denny Strietzbaum
  * 
  */
-public abstract class AbstractYEventListener<T extends YComponent> implements
+public abstract class AbstractYEventListener<T extends YModel> implements
 		YEventListener<T> {
 
 	private static final long serialVersionUID = 1L;

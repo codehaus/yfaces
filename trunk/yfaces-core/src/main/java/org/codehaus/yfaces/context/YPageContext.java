@@ -28,7 +28,7 @@ import org.apache.log4j.Logger;
 import org.codehaus.yfaces.YFacesException;
 import org.codehaus.yfaces.YManagedBean;
 import org.codehaus.yfaces.component.AbstractYFrame;
-import org.codehaus.yfaces.component.YComponent;
+import org.codehaus.yfaces.component.YModel;
 import org.codehaus.yfaces.component.YFrame;
 
 
@@ -39,7 +39,7 @@ import org.codehaus.yfaces.component.YFrame;
  * operations are made at that view. An easy summary: this instance lives as long as the customer
  * deals with the same browser URL (incl. query parameters)
  * <p>
- * Access is provided to every {@link YFrame} (and all {@link YComponent} instances) which are used
+ * Access is provided to every {@link YFrame} (and all {@link YModel} instances) which are used
  * to build up the current view. When this page is part of a conversation it may have one ore more
  * previous (not visible) pages.
  * 

@@ -23,7 +23,7 @@ import javax.faces.component.UIForm;
 import javax.faces.event.FacesEvent;
 
 /**
- * Common event which gets thrown by a {@link YComponent}<br/>
+ * Common event which gets thrown by a {@link YModel}<br/>
  * <br/>
  * Or more detailed:<br/>
  * This type of event gets created and thrown from within a {@link YEventHandler}<br/>
@@ -32,7 +32,7 @@ import javax.faces.event.FacesEvent;
  * 
  * @author Denny Strietzbaum
  */
-public interface YEvent<T extends YComponent> {
+public interface YEvent<T extends YModel> {
 	/**
 	 * Returns the nearest enclosing {@link UIForm} of the {@link UICommand} who fired this action.<br/>
 	 * 
@@ -48,9 +48,9 @@ public interface YEvent<T extends YComponent> {
 	public UIComponent getUIComponent();
 
 	/**
-	 * The {@link YComponent} which was responsible for this event.
+	 * The {@link YModel} which was responsible for this event.
 	 * 
-	 * @return {@link YComponent}
+	 * @return {@link YModel}
 	 */
 	public T getComponent();
 

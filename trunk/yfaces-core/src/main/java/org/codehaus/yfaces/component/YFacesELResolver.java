@@ -40,7 +40,7 @@ import org.codehaus.yfaces.context.YPageContext;
 import org.codehaus.yfaces.context.YRequestContextImpl;
 
 /**
- * A YFaces specific custom {@link ELResolver} implementation- Handles {@link YComponent} and
+ * A YFaces specific custom {@link ELResolver} implementation- Handles {@link YModel} and
  * {@link YFrame} instances.Whenever a resolved value leads into one of these instances some pre- pr
  * post-processing is done.
  * <p>
@@ -104,13 +104,13 @@ public class YFacesELResolver extends ELResolver {
 
 		}
 
-		if (result instanceof YComponent) {
+		if (result instanceof YModel) {
 			final YComponentContext yCtx = getYContext(context).getCmp();
 			if (yCtx != null) {
-				this.afterYComponentResolved(yCtx, (AbstractYComponent) result);
+				this.afterYComponentResolved(yCtx, (AbstractYModel) result);
 			}
 			if (base instanceof AbstractYFrame) {
-				this.afterYComponentResolved((AbstractYComponent) result, (AbstractYFrame) base,
+				this.afterYComponentResolved((AbstractYModel) result, (AbstractYFrame) base,
 						(String) property);
 			}
 		}
@@ -135,14 +135,14 @@ public class YFacesELResolver extends ELResolver {
 		//			this.setYFrame(context, (YComponent) value, base, (String) property);
 		//		}
 
-		if (value instanceof YComponent) {
+		if (value instanceof YModel) {
 			final YComponentContext yCtx = getYContext(context).getCmp();
 			if (yCtx != null) {
-				this.afterYComponentResolved(yCtx, (AbstractYComponent) value);
+				this.afterYComponentResolved(yCtx, (AbstractYModel) value);
 			}
 
 			if (base instanceof AbstractYFrame) {
-				this.afterYComponentResolved((AbstractYComponent) value, (AbstractYFrame) base,
+				this.afterYComponentResolved((AbstractYModel) value, (AbstractYFrame) base,
 						(String) property);
 			}
 		}
@@ -212,7 +212,7 @@ public class YFacesELResolver extends ELResolver {
 	}
 
 	private void afterYComponentResolved(final YComponentContext yCtx,
-			final AbstractYComponent component) {
+			final AbstractYModel component) {
 		if (yCtx != null) {
 			component.setYComponent(yCtx);
 		}
@@ -259,7 +259,7 @@ public class YFacesELResolver extends ELResolver {
 
 	}
 
-	private void afterYComponentResolved(final AbstractYComponent model, final YFrame frame,
+	private void afterYComponentResolved(final AbstractYModel model, final YFrame frame,
 			final String frameProperty) {
 
 		if (model.getFrameBinding() == null) {
