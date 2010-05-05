@@ -2,13 +2,13 @@ package org.codehaus.yfaces.component;
 
 public class YCmpConfigImpl implements YComponentConfig {
 
-	private YCmpContextImpl cmpImpl = null;
+	private YComponentHandlerImpl cmpImpl = null;
 	private String id = null;
 	private String variableName = null;
 	private String errorHandling = null;
 	private String pushProperties = null;
 
-	protected YCmpConfigImpl(final YCmpContextImpl cmpImpl) {
+	protected YCmpConfigImpl(final YComponentHandlerImpl cmpImpl) {
 		this.cmpImpl = cmpImpl;
 	}
 

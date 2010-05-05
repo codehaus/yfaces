@@ -26,9 +26,9 @@ import javax.faces.component.UIComponent;
 import org.apache.log4j.Logger;
 import org.codehaus.yfaces.YFaces;
 import org.codehaus.yfaces.component.YCmpConfigImpl;
-import org.codehaus.yfaces.component.YCmpContextImpl;
+import org.codehaus.yfaces.component.YComponentHandlerImpl;
 import org.codehaus.yfaces.component.YComponentConfig;
-import org.codehaus.yfaces.component.YComponentContext;
+import org.codehaus.yfaces.component.YComponentHandler;
 
 import com.sun.facelets.FaceletContext;
 import com.sun.facelets.tag.MetaRuleset;
@@ -49,7 +49,7 @@ public class HtmlYComponentHandler extends ComponentHandler {
 	//private final TagAttribute attributes;
 
 	// YComponentInfo gets newly created whenever facelet-file was changed
-	private YCmpContextImpl cmpInfo = null;
+	private YComponentHandlerImpl cmpInfo = null;
 
 	/**
 	 * Constructor.
@@ -65,11 +65,11 @@ public class HtmlYComponentHandler extends ComponentHandler {
 
 		final String tagPath = config.getTag().getLocation().getPath();
 
-		this.cmpInfo = (YCmpContextImpl) YFaces.getYComponentRegistry().getComponentByPath(tagPath);
+		this.cmpInfo = (YComponentHandlerImpl) YFaces.getYComponentRegistry().getComponentByPath(tagPath);
 
 		// should be considered, to make this an exception
 		if (log.isDebugEnabled() && cmpInfo == null) {
-			log.error("No " + YComponentContext.class.getSimpleName() + " for " + tagPath + " found");
+			log.error("No " + YComponentHandler.class.getSimpleName() + " for " + tagPath + " found");
 		}
 
 		// a ComponentInfo is available for the 'location' (view file location) of this handler
@@ -86,7 +86,7 @@ public class HtmlYComponentHandler extends ComponentHandler {
 
 	private void updateYComponentInfo(final Tag tag) {
 
-		log.debug("Refreshing " + YComponentContext.class.getSimpleName() + " for "
+		log.debug("Refreshing " + YComponentHandler.class.getSimpleName() + " for "
 				+ cmpInfo.getViewLocation() + "...");
 
 		final String specClass = getAttributeValue(tag, YComponentConfig.MODEL_SPEC_ATTRIBUTE);

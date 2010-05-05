@@ -29,7 +29,7 @@ import com.sun.facelets.tag.Tag;
  * 
  * @author Denny Strietzbaum
  */
-public interface YComponentContext {
+public interface YComponentHandler {
 
 	/**
 	 * Returns the view 'id' which is unique within the same namespace. ID is taken from
@@ -38,6 +38,26 @@ public interface YComponentContext {
 	 * @return id view id
 	 */
 	String getViewId();
+
+	/**
+	 * Returns an URL for the component view. This value is detected and set automatically.
+	 * 
+	 * @return URL of component view
+	 */
+	URL getViewURL();
+
+	/**
+	 * Returns the location for the component view. This URI is relative to webapplication root and
+	 * points to same target like {@link #getViewURL()}. This value gets detected and set
+	 * automatically.
+	 * <p/>
+	 * Location is used, to have a mapping between {@link YComponentHandler} and Facelets managed view
+	 * files. This location is identical to that one of {@link Tag#getLocation()} which is made
+	 * available in {@link HtmlYComponentHandler}.
+	 * 
+	 * @return
+	 */
+	String getViewLocation();
 
 	/**
 	 * Runtime value based on {@link YComponentConfig#getVariableName()}
@@ -64,26 +84,6 @@ public interface YComponentContext {
 	 * @return name of component
 	 */
 	String getName();
-
-	/**
-	 * Returns an URL for the component view. This value is detected and set automatically.
-	 * 
-	 * @return URL of component view
-	 */
-	URL getViewURL();
-
-	/**
-	 * Returns the location for the component view. This URI is relative to webapplication root and
-	 * points to same target like {@link #getViewURL()}. This value gets detected and set
-	 * automatically.
-	 * <p/>
-	 * Location is used, to have a mapping between {@link YComponentContext} and Facelets managed view
-	 * files. This location is identical to that one of {@link Tag#getLocation()} which is made
-	 * available in {@link HtmlYComponentHandler}.
-	 * 
-	 * @return
-	 */
-	String getViewLocation();
 
 	/**
 	 * Returns the namespace for this component.
@@ -124,7 +124,7 @@ public interface YComponentContext {
 
 	/**
 	 * Returns a plain, unprocessed component configuration which is used to build this
-	 * {@link YComponentContext}.
+	 * {@link YComponentHandler}.
 	 * 
 	 * @return {@link YComponentConfig}
 	 */

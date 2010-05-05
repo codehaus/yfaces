@@ -89,7 +89,7 @@ public interface YComponentValidator {
 		private static final Pattern placeHolderPattern = Pattern.compile("\\{(.*?)\\}");
 
 		public static String getFormattedErrorMessage(final Collection<YValidationAspekt> errors,
-				final YComponentContext cmpInfo, final Class<?> customImplClass) {
+				final YComponentHandler cmpInfo, final Class<?> customImplClass) {
 			String result = null;
 			if (!errors.isEmpty()) {
 				result = cmpInfo.getViewId() != null ? cmpInfo.getViewId() : "";
@@ -114,7 +114,7 @@ public interface YComponentValidator {
 		 *          {@link YComponentValidator}
 		 * @return String
 		 */
-		public String getFormattedErrorMessage(final YComponentContext cmpInfo) {
+		public String getFormattedErrorMessage(final YComponentHandler cmpInfo) {
 			return this.getFormattedErrorMessage(cmpInfo, null);
 		}
 
@@ -129,7 +129,7 @@ public interface YComponentValidator {
 		 *          Class
 		 * @return String
 		 */
-		public String getFormattedErrorMessage(final YComponentContext cmpInfo, final Class<?> customImplClass) {
+		public String getFormattedErrorMessage(final YComponentHandler cmpInfo, final Class<?> customImplClass) {
 			String result = "";
 			final String msg = this.msg;
 

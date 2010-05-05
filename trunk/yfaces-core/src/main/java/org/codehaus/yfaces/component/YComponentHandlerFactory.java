@@ -29,11 +29,11 @@ import org.apache.commons.io.IOUtils;
 import org.codehaus.yfaces.YFacesTaglib;
 
 /**
- * Factory class for {@link YCmpContextImpl} instances.
+ * Factory class for {@link YComponentHandlerImpl} instances.
  * 
  * @author Denny Strietzbaum
  */
-public class YComponentContextFactory {
+public class YComponentHandlerFactory {
 
 	// Searches for a single Attribute within the attributes String
 	private static final Pattern SINGLE_ATTRIBUTE = Pattern.compile(
@@ -58,11 +58,11 @@ public class YComponentContextFactory {
 
 	private String base = null;
 
-	public YComponentContextFactory() {
+	public YComponentHandlerFactory() {
 		this("");
 	}
 
-	public YComponentContextFactory(String base) {
+	public YComponentHandlerFactory(String base) {
 		this.cmpAttributesPatternMap = new HashMap<String, Pattern>();
 		this.base = base;
 		if (!base.startsWith("/")) {
@@ -70,9 +70,9 @@ public class YComponentContextFactory {
 		}
 	}
 
-	public YComponentContext createComponent(final URL url, final String namespace) {
+	public YComponentHandler createHandler(final URL url, final String namespace) {
 
-		YCmpContextImpl result = null;
+		YComponentHandler result = null;
 
 		// get component name
 		final String cmpName = this.getComponentName(url);
@@ -89,23 +89,25 @@ public class YComponentContextFactory {
 				e.printStackTrace();
 			}
 
-			result = this.createComponent(content);
+			result = this.createHandler(content);
 
 			if (result != null) {
 
+				final YComponentHandlerImpl impl = (YComponentHandlerImpl) result;
+
 				// component name
-				result.setName(cmpName);
-				result.setViewURL(url);
-				result.setNamespace(namespace);
-				result.setViewLocation("/" + url.getFile().substring(this.base.length()));
+				impl.setName(cmpName);
+				impl.setViewURL(url);
+				impl.setNamespace(namespace);
+				impl.setViewLocation("/" + url.getFile().substring(this.base.length()));
 			}
 		}
 		return result;
 	}
 
-	public YCmpContextImpl createComponent(final String content) {
+	public YComponentHandler createHandler(final String content) {
 
-		YCmpContextImpl result = null;
+		YComponentHandlerImpl result = null;
 
 		// get namespace prefix used for HtmlYCOmponent
 		final String nsPrefix = this.getYComponentNamespacePrefix(content);
@@ -115,11 +117,10 @@ public class YComponentContextFactory {
 
 			if (attributes != null) {
 
-				result = new YCmpContextImpl();
+				result = new YComponentHandlerImpl();
 
 				// component name
-				final YCmpConfigImpl cmpCfg = (YCmpConfigImpl) result
-						.getConfiguration();
+				final YCmpConfigImpl cmpCfg = (YCmpConfigImpl) result.getConfiguration();
 				cmpCfg.setId(attributes.get(YComponentConfig.ID_ATTRIBUTE));
 				cmpCfg.setVariableName(attributes.get(YComponentConfig.VAR_ATTRIBUTE));
 				cmpCfg.setModelImplementation(attributes.get(YComponentConfig.MODEL_IMPL_ATTRIBUTE));
