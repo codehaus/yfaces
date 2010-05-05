@@ -25,7 +25,7 @@ import javax.faces.component.UIComponent;
 
 import org.apache.log4j.Logger;
 import org.codehaus.yfaces.YFaces;
-import org.codehaus.yfaces.component.YCmpConfigImpl;
+import org.codehaus.yfaces.component.YComponentConfigImpl;
 import org.codehaus.yfaces.component.YComponentHandlerImpl;
 import org.codehaus.yfaces.component.YComponentConfig;
 import org.codehaus.yfaces.component.YComponentHandler;
@@ -96,7 +96,7 @@ public class HtmlYComponentHandler extends ComponentHandler {
 		final String injectable = getAttributeValue(tag, YComponentConfig.PASS_TO_MODEL_ATTRIBUTE);
 		final String errorHandling = getAttributeValue(tag, YComponentConfig.ERROR_ATTRIBUTE);
 
-		final YCmpConfigImpl cmpCfg = (YCmpConfigImpl) cmpInfo.getConfiguration();
+		final YComponentConfigImpl cmpCfg = (YComponentConfigImpl) cmpInfo.getConfiguration();
 
 		if (log.isDebugEnabled()) {
 			String updatedAttribs = "";
