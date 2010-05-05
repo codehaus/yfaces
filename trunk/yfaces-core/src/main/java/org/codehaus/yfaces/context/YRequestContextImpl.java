@@ -28,7 +28,7 @@ import org.apache.log4j.Logger;
 import org.codehaus.yfaces.YFaces;
 import org.codehaus.yfaces.YFacesException;
 import org.codehaus.yfaces.YManagedBean;
-import org.codehaus.yfaces.component.YFrame;
+import org.codehaus.yfaces.component.YComponentContainer;
 import org.codehaus.yfaces.util.YFacesErrorHandler;
 
 
@@ -229,7 +229,7 @@ public class YRequestContextImpl implements YRequestContext {
 			for (final YPageContext page : pages) {
 				// ...and notify page for a new request (re-inject all
 				// frames/mbeans)
-				for (final YFrame frame : page.getFrames()) {
+				for (final YComponentContainer frame : page.getFrames()) {
 					((YManagedBean) frame).refreshBeanScope();
 				}
 			}

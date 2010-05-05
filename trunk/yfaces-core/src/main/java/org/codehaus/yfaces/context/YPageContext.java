@@ -27,9 +27,9 @@ import java.util.regex.Pattern;
 import org.apache.log4j.Logger;
 import org.codehaus.yfaces.YFacesException;
 import org.codehaus.yfaces.YManagedBean;
-import org.codehaus.yfaces.component.AbstractYFrame;
+import org.codehaus.yfaces.component.AbstractYComponentContainer;
 import org.codehaus.yfaces.component.YModel;
-import org.codehaus.yfaces.component.YFrame;
+import org.codehaus.yfaces.component.YComponentContainer;
 
 
 /**
@@ -39,7 +39,7 @@ import org.codehaus.yfaces.component.YFrame;
  * operations are made at that view. An easy summary: this instance lives as long as the customer
  * deals with the same browser URL (incl. query parameters)
  * <p>
- * Access is provided to every {@link YFrame} (and all {@link YModel} instances) which are used
+ * Access is provided to every {@link YComponentContainer} (and all {@link YModel} instances) which are used
  * to build up the current view. When this page is part of a conversation it may have one ore more
  * previous (not visible) pages.
  * 
@@ -63,7 +63,7 @@ public class YPageContext {
 	private YConversationContext conversationCtx = null;
 
 	// all Frames within this page
-	private final Map<String, YFrame> frames = new HashMap<String, YFrame>();
+	private final Map<String, YComponentContainer> frames = new HashMap<String, YComponentContainer>();
 
 	/**
 	 * Constructor.
@@ -173,7 +173,7 @@ public class YPageContext {
 	 * 
 	 * @return Frames
 	 */
-	public Collection<YFrame> getFrames() {
+	public Collection<YComponentContainer> getFrames() {
 		return this.frames.values();
 	}
 
@@ -185,9 +185,9 @@ public class YPageContext {
 	 * @param frameClass
 	 *          requested frame
 	 * 
-	 * @see AbstractYFrame#getBeanId()
+	 * @see AbstractYComponentContainer#getBeanId()
 	 */
-	public <T extends YFrame> T getOrCreateFrame(final Class<T> frameClass) {
+	public <T extends YComponentContainer> T getOrCreateFrame(final Class<T> frameClass) {
 		T result = (T) this.frames.get(frameClass.getName());
 
 		// when no instance is available, request is delegated to YManagedBean which itself creates a
@@ -202,7 +202,7 @@ public class YPageContext {
 	//used for #getOrdCreateFrame(...) currently only used for YFacesELResolver
 	// a) #getOrdCreateFrame(...)
 	// b) #YFacesElResolver whenever a frame is requested
-	public void addFrame(final YFrame frame) {
+	public void addFrame(final YComponentContainer frame) {
 		this.frames.put(frame.getClass().getName(), frame);
 	}
 
@@ -230,10 +230,10 @@ public class YPageContext {
 	}
 
 	/**
-	 * Starts updating all {@link YFrame} instances of this page.
+	 * Starts updating all {@link YComponentContainer} instances of this page.
 	 */
 	protected void refresh() {
-		for (final YFrame frame : getFrames()) {
+		for (final YComponentContainer frame : getFrames()) {
 			frame.refresh();
 		}
 	}
@@ -241,7 +241,7 @@ public class YPageContext {
 	@Override
 	public String toString() {
 		final List<String> idList = new ArrayList<String>();
-		for (final YFrame frame : this.frames.values()) {
+		for (final YComponentContainer frame : this.frames.values()) {
 			idList.add(frame.getId() + "@" + Integer.toHexString(frame.hashCode()));
 		}
 		final String frames = Arrays.toString(idList.toArray());
