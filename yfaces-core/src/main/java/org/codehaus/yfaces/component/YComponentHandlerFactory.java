@@ -120,7 +120,7 @@ public class YComponentHandlerFactory {
 				result = new YComponentHandlerImpl();
 
 				// component name
-				final YCmpConfigImpl cmpCfg = (YCmpConfigImpl) result.getConfiguration();
+				final YComponentConfigImpl cmpCfg = (YComponentConfigImpl) result.getConfiguration();
 				cmpCfg.setId(attributes.get(YComponentConfig.ID_ATTRIBUTE));
 				cmpCfg.setVariableName(attributes.get(YComponentConfig.VAR_ATTRIBUTE));
 				cmpCfg.setModelImplementation(attributes.get(YComponentConfig.MODEL_IMPL_ATTRIBUTE));

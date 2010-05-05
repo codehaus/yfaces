@@ -25,14 +25,14 @@ import org.apache.log4j.Logger;
 /**
  * @author Denny Strietzbaum
  */
-public class YCmpValidatorImpl implements YComponentValidator {
+public class BaseYComponentValidator implements YComponentValidator {
 
 	private static final Logger log = Logger.getLogger(YComponentValidator.class);
 
 	private YComponentHandler cmpHandler = null;
 	private YComponentConfig cmpCfg = null;
 
-	public YCmpValidatorImpl(final YComponentHandler cmpInfo) {
+	public BaseYComponentValidator(final YComponentHandler cmpInfo) {
 		this.cmpHandler = cmpInfo;
 		this.cmpCfg = cmpInfo.getConfiguration();
 	}
@@ -43,7 +43,7 @@ public class YCmpValidatorImpl implements YComponentValidator {
 
 	private Set<YValidationAspekt> asWarnings = Collections.EMPTY_SET;
 
-	public YComponentHandler getYComponentInfo() {
+	public YComponentHandler getComponentHandler() {
 		return this.cmpHandler;
 	}
 
@@ -161,10 +161,10 @@ public class YCmpValidatorImpl implements YComponentValidator {
 			result.add(YValidationAspekt.SPEC_IS_NO_INTERFACE);
 		}
 
-		// check for YComponent type
-		if (!YModel.class.isAssignableFrom(specClass)) {
-			result.add(YValidationAspekt.SPEC_IS_NO_YCMP);
-		}
+		//		// check for YComponent type
+		//		if (!YModel.class.isAssignableFrom(specClass)) {
+		//			result.add(YValidationAspekt.SPEC_IS_NO_YCMP);
+		//		}
 
 		return result;
 	}
@@ -185,9 +185,9 @@ public class YCmpValidatorImpl implements YComponentValidator {
 			result.add(YValidationAspekt.IMPL_IS_INTERFACE);
 		}
 
-		if (!YModel.class.isAssignableFrom(implClass)) {
-			result.add(YValidationAspekt.IMPL_IS_NO_YCMP);
-		}
+		//		if (!YModel.class.isAssignableFrom(implClass)) {
+		//			result.add(YValidationAspekt.IMPL_IS_NO_YCMP);
+		//		}
 
 		final Class<?> specClass = cmpHandler.getModelSpecification();
 		if (specClass != null && !specClass.isAssignableFrom(implClass)) {

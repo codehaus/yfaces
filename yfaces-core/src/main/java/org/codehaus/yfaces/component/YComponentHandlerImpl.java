@@ -66,11 +66,11 @@ public class YComponentHandlerImpl implements YComponentHandler {
 	private boolean isValid = false;
 	private boolean isYComponent = false;
 
-	private YCmpConfigImpl cmpCfg = null;
+	private YComponentConfigImpl cmpCfg = null;
 
 	protected YComponentHandlerImpl() {
 		this.pushProperties = Collections.emptySet();
-		this.cmpCfg = new YCmpConfigImpl(this);
+		this.cmpCfg = new YComponentConfigImpl(this);
 	}
 
 	/**
@@ -192,8 +192,8 @@ public class YComponentHandlerImpl implements YComponentHandler {
 	}
 
 	public YComponentValidator createValidator() {
-		final YComponentValidator result = this.isYComponent ? new YCmpValidatorImpl(this)
-				: new PojoComponentValidator(this);
+		final YComponentValidator result = this.isYComponent ? new DefaultYComponentValidator(this)
+				: new BaseYComponentValidator(this);
 		return result;
 	}
 
