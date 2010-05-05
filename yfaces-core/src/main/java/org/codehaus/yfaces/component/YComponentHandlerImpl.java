@@ -42,8 +42,8 @@ import org.codehaus.yfaces.YFacesException;
  * 
  * @author Denny Strietzbaum
  */
-public class YCmpContextImpl implements YComponentContext {
-	private static final Logger log = Logger.getLogger(YCmpContextImpl.class);
+public class YComponentHandlerImpl implements YComponentHandler {
+	private static final Logger log = Logger.getLogger(YComponentHandlerImpl.class);
 
 	// raw (unevaluated) attribute values
 	private String id = null;
@@ -68,7 +68,7 @@ public class YCmpContextImpl implements YComponentContext {
 
 	private YCmpConfigImpl cmpCfg = null;
 
-	protected YCmpContextImpl() {
+	protected YComponentHandlerImpl() {
 		this.pushProperties = Collections.emptySet();
 		this.cmpCfg = new YCmpConfigImpl(this);
 	}
@@ -76,7 +76,7 @@ public class YCmpContextImpl implements YComponentContext {
 	/**
 	 * Constructor. Initializes this instance by parsing the url stream.
 	 */
-	public YCmpContextImpl(final String id, final String varName, final String modelSpecClass,
+	public YComponentHandlerImpl(final String id, final String varName, final String modelSpecClass,
 			final String modelClass) {
 		this();
 		cmpCfg.setId(id);
@@ -85,7 +85,7 @@ public class YCmpContextImpl implements YComponentContext {
 		cmpCfg.setModelImplementation(modelClass);
 	}
 
-	public YCmpContextImpl(final String namespace, final URL url) {
+	public YComponentHandlerImpl(final String namespace, final URL url) {
 		this();
 		this.namespace = namespace;
 		this.url = url;
@@ -159,7 +159,7 @@ public class YCmpContextImpl implements YComponentContext {
 
 	@Override
 	public boolean equals(final Object obj) {
-		return this.url.toExternalForm().equals(((YCmpContextImpl) obj).url.toExternalForm());
+		return this.url.toExternalForm().equals(((YComponentHandlerImpl) obj).url.toExternalForm());
 	}
 
 	@Override

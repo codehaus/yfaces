@@ -105,7 +105,7 @@ public class YFacesELResolver extends ELResolver {
 		}
 
 		if (result instanceof YModel) {
-			final YComponentContext yCtx = getYContext(context).getCmp();
+			final YComponentHandler yCtx = getYContext(context).getCmp();
 			if (yCtx != null) {
 				this.afterYComponentResolved(yCtx, (AbstractYModel) result);
 			}
@@ -136,7 +136,7 @@ public class YFacesELResolver extends ELResolver {
 		//		}
 
 		if (value instanceof YModel) {
-			final YComponentContext yCtx = getYContext(context).getCmp();
+			final YComponentHandler yCtx = getYContext(context).getCmp();
 			if (yCtx != null) {
 				this.afterYComponentResolved(yCtx, (AbstractYModel) value);
 			}
@@ -211,7 +211,7 @@ public class YFacesELResolver extends ELResolver {
 		return (YFacesELContext) context.getContext(YFacesELContext.class);
 	}
 
-	private void afterYComponentResolved(final YComponentContext yCtx,
+	private void afterYComponentResolved(final YComponentHandler yCtx,
 			final AbstractYModel component) {
 		if (yCtx != null) {
 			component.setYComponent(yCtx);

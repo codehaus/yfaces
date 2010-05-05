@@ -29,11 +29,11 @@ public class YCmpValidatorImpl implements YComponentValidator {
 
 	private static final Logger log = Logger.getLogger(YComponentValidator.class);
 
-	private YCmpContextImpl cmpInfo = null;
+	private YComponentHandler cmpHandler = null;
 	private YComponentConfig cmpCfg = null;
 
-	public YCmpValidatorImpl(final YCmpContextImpl cmpInfo) {
-		this.cmpInfo = cmpInfo;
+	public YCmpValidatorImpl(final YComponentHandler cmpInfo) {
+		this.cmpHandler = cmpInfo;
 		this.cmpCfg = cmpInfo.getConfiguration();
 	}
 
@@ -43,8 +43,8 @@ public class YCmpValidatorImpl implements YComponentValidator {
 
 	private Set<YValidationAspekt> asWarnings = Collections.EMPTY_SET;
 
-	public YComponentContext getYComponentInfo() {
-		return this.cmpInfo;
+	public YComponentHandler getYComponentInfo() {
+		return this.cmpHandler;
 	}
 
 	public Set<YValidationAspekt> validateComponent(final YValidationAspekt... asWarningOnly) {
@@ -90,9 +90,9 @@ public class YCmpValidatorImpl implements YComponentValidator {
 
 			if (isValid = (modelSpec != null)) {
 
-				if (!modelSpec.equals(cmpInfo.getModelSpecification())) {
+				if (!modelSpec.equals(cmpHandler.getModelSpecification())) {
 					throw new IllegalStateException("Model specification class mismatch " + modelSpec
-							+ " vs " + cmpInfo.getModelSpecification());
+							+ " vs " + cmpHandler.getModelSpecification());
 				}
 
 				final Set<YValidationAspekt> _specErrors = this.validateSpecificationClass(modelSpec);
@@ -121,7 +121,7 @@ public class YCmpValidatorImpl implements YComponentValidator {
 
 			if (isValid = (modelImpl != null)) {
 
-				if (!modelImpl.equals(cmpInfo.getModelImplementation())) {
+				if (!modelImpl.equals(cmpHandler.getModelImplementation())) {
 					throw new IllegalStateException("Model implementation class mismatch");
 				}
 
@@ -189,7 +189,7 @@ public class YCmpValidatorImpl implements YComponentValidator {
 			result.add(YValidationAspekt.IMPL_IS_NO_YCMP);
 		}
 
-		final Class<?> specClass = cmpInfo.getModelSpecification();
+		final Class<?> specClass = cmpHandler.getModelSpecification();
 		if (specClass != null && !specClass.isAssignableFrom(implClass)) {
 			result.add(YValidationAspekt.IMPL_UNASSIGNABLE_TO_SPEC);
 		}
@@ -201,7 +201,7 @@ public class YCmpValidatorImpl implements YComponentValidator {
 			// if (this.writableProperties.containsKey(s))
 			// this.errors.add(ERROR_STATE.FORBIDDEN_PROPERTY);
 
-			if (cmpInfo.getPushProperties().contains(s)) {
+			if (cmpHandler.getPushProperties().contains(s)) {
 				this.addValidationProblem(YValidationAspekt.VIEW_INJECTABLE_PROP_FORBIDDEN);
 			}
 		}

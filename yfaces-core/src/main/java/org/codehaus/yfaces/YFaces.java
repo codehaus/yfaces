@@ -1,6 +1,6 @@
 package org.codehaus.yfaces;
 
-import org.codehaus.yfaces.component.YComponentContextRegistry;
+import org.codehaus.yfaces.component.YComponentHandlerRegistry;
 import org.codehaus.yfaces.context.YRequestContext;
 
 public class YFaces {
@@ -20,9 +20,9 @@ public class YFaces {
 	}
 
 	// for now a singleton, should be integrated intoe the yfaces-framework as part of application
-	private static YComponentContextRegistry singleton = new YComponentContextRegistry();
+	private static YComponentHandlerRegistry singleton = new YComponentHandlerRegistry();
 
-	public static YComponentContextRegistry getYComponentRegistry() {
+	public static YComponentHandlerRegistry getYComponentRegistry() {
 		return singleton;
 	}
 

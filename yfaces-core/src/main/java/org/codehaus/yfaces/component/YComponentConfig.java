@@ -39,7 +39,7 @@ public interface YComponentConfig {
 	String getModelImplementation();
 
 	/**
-	 * Returns the variable name under which an {@link YComponentContext} instance is available in
+	 * Returns the variable name under which an {@link YComponentHandler} instance is available in
 	 * view.
 	 * 
 	 * @return variable name
