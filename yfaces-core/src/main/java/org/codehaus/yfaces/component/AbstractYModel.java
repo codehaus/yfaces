@@ -125,16 +125,16 @@ public abstract class AbstractYModel implements YModel {
 		this.frameBinding = frameBinding;
 	}
 
-	public YFrame getFrame() {
-		YFrame result = null;
+	public YComponentContainer getFrame() {
+		YComponentContainer result = null;
 		if (frameBinding != null) {
 			final FacesContext fc = FacesContext.getCurrentInstance();
 			final ValueExpression ve = fc.getApplication().getExpressionFactory().createValueExpression(
 					fc.getELContext(), this.frameBinding, Object.class);
 
 			final Object value = ve.getValue(fc.getELContext());
-			if (value instanceof YFrame) {
-				result = (YFrame) value;
+			if (value instanceof YComponentContainer) {
+				result = (YComponentContainer) value;
 			}
 		}
 		return result;

@@ -29,14 +29,14 @@ import org.codehaus.yfaces.context.YPageContext;
 
 /**
  * Abstract base class for every YFrame.<br/>
- * Each {@link YPageContext} manages one or more {@link YFrame} instances.<br/>
- * Each {@link YFrame} manages one ore more {@link YModel} instances. <br/>
+ * Each {@link YPageContext} manages one or more {@link YComponentContainer} instances.<br/>
+ * Each {@link YComponentContainer} manages one ore more {@link YModel} instances. <br/>
  * A YFrame is a ManagedBean and must declared in a faces configuration file.<br/>
  * 
  * @author Denny Strietzbaum
  * 
  */
-public abstract class AbstractYFrame extends YManagedBean implements YFrame {
+public abstract class AbstractYComponentContainer extends YManagedBean implements YComponentContainer {
 
 	//
 	// Developer notes:
@@ -46,14 +46,14 @@ public abstract class AbstractYFrame extends YManagedBean implements YFrame {
 	//
 	private static final long serialVersionUID = 1L;
 
-	private static final Logger log = Logger.getLogger(AbstractYFrame.class);
+	private static final Logger log = Logger.getLogger(AbstractYComponentContainer.class);
 
 	private List<ValueExpression> modelBindings = null;
 
 	/**
 	 * Constructor.
 	 */
-	public AbstractYFrame() {
+	public AbstractYComponentContainer() {
 		super();
 		this.modelBindings = new ArrayList<ValueExpression>();
 	}
@@ -122,7 +122,7 @@ public abstract class AbstractYFrame extends YManagedBean implements YFrame {
 	}
 
 	/**
-	 * Creates an {@link YEventListener} for this {@link YFrame} based on the passed method.<br/>
+	 * Creates an {@link YEventListener} for this {@link YComponentContainer} based on the passed method.<br/>
 	 * 
 	 * @param frameMethod
 	 *          method of this frame which shall listen to

@@ -23,7 +23,7 @@ import org.codehaus.yfaces.context.YPageContext;
  * @author Denny Strietzbaum
  * 
  */
-public interface YFrame {
+public interface YComponentContainer {
 	/**
 	 * The ID for this frame.<br/>
 	 * This is the ManagedBean ID as declared within faces-config.<br/>

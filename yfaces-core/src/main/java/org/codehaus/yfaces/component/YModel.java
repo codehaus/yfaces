@@ -60,11 +60,11 @@ public interface YModel extends /* Externalizable */Serializable {
 	public void refresh();
 
 	/**
-	 * Returns the parent {@link YFrame} of this component.<br/>
+	 * Returns the parent {@link YComponentContainer} of this component.<br/>
 	 * May return 'null' when this component isn't bound.
 	 * 
-	 * @return {@link YFrame}
+	 * @return {@link YComponentContainer}
 	 */
-	public YFrame getFrame();
+	public YComponentContainer getFrame();
 
 }

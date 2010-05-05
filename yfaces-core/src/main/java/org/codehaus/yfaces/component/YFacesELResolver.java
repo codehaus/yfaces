@@ -41,7 +41,7 @@ import org.codehaus.yfaces.context.YRequestContextImpl;
 
 /**
  * A YFaces specific custom {@link ELResolver} implementation- Handles {@link YModel} and
- * {@link YFrame} instances.Whenever a resolved value leads into one of these instances some pre- pr
+ * {@link YComponentContainer} instances.Whenever a resolved value leads into one of these instances some pre- pr
  * post-processing is done.
  * <p>
  * This resolver can't be element of the {@link ELResolver} chain but actually is a wrapper about
@@ -99,8 +99,8 @@ public class YFacesELResolver extends ELResolver {
 		final Object result = this.resolver.getValue(context, base, property);
 
 		// ... when value is a Frame: notify current YPage
-		if (result instanceof YFrame) {
-			this.afterYFrameResolved((YFrame) result, (String) property);
+		if (result instanceof YComponentContainer) {
+			this.afterYFrameResolved((YComponentContainer) result, (String) property);
 
 		}
 
@@ -109,8 +109,8 @@ public class YFacesELResolver extends ELResolver {
 			if (yCtx != null) {
 				this.afterYComponentResolved(yCtx, (AbstractYModel) result);
 			}
-			if (base instanceof AbstractYFrame) {
-				this.afterYComponentResolved((AbstractYModel) result, (AbstractYFrame) base,
+			if (base instanceof AbstractYComponentContainer) {
+				this.afterYComponentResolved((AbstractYModel) result, (AbstractYComponentContainer) base,
 						(String) property);
 			}
 		}
@@ -141,8 +141,8 @@ public class YFacesELResolver extends ELResolver {
 				this.afterYComponentResolved(yCtx, (AbstractYModel) value);
 			}
 
-			if (base instanceof AbstractYFrame) {
-				this.afterYComponentResolved((AbstractYModel) value, (AbstractYFrame) base,
+			if (base instanceof AbstractYComponentContainer) {
+				this.afterYComponentResolved((AbstractYModel) value, (AbstractYComponentContainer) base,
 						(String) property);
 			}
 		}
@@ -225,7 +225,7 @@ public class YFacesELResolver extends ELResolver {
 	 *          frame to add
 	 * 
 	 */
-	private void afterYFrameResolved(final YFrame frame, final String property) {
+	private void afterYFrameResolved(final YComponentContainer frame, final String property) {
 		// frames are getting added when:
 		// a) method is get
 		// b) method is post and START_REQUEST phase has finished (nothing is done
@@ -259,7 +259,7 @@ public class YFacesELResolver extends ELResolver {
 
 	}
 
-	private void afterYComponentResolved(final AbstractYModel model, final YFrame frame,
+	private void afterYComponentResolved(final AbstractYModel model, final YComponentContainer frame,
 			final String frameProperty) {
 
 		if (model.getFrameBinding() == null) {
@@ -271,7 +271,7 @@ public class YFacesELResolver extends ELResolver {
 			final ELContext elCtx = FacesContext.getCurrentInstance().getELContext();
 			final ValueExpression ve = FacesContext.getCurrentInstance().getApplication()
 					.getExpressionFactory().createValueExpression(elCtx, "#{" + bind + "}", Object.class);
-			((AbstractYFrame) frame).addModelBinding(ve);
+			((AbstractYComponentContainer) frame).addModelBinding(ve);
 			model.setModelBinding(ve);
 
 			if (log.isDebugEnabled()) {

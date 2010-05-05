@@ -26,7 +26,7 @@ import javax.el.ELContext;
 import javax.faces.context.FacesContext;
 
 import org.apache.log4j.Logger;
-import org.codehaus.yfaces.component.AbstractYFrame;
+import org.codehaus.yfaces.component.AbstractYComponentContainer;
 
 /**
  * Abstract Implementation of a generic ManagedBean. Autodetects the ManagedBean id according the
@@ -39,7 +39,7 @@ public class YManagedBean {
 
 	private static final long serialVersionUID = 1L;
 
-	private static final Logger log = Logger.getLogger(AbstractYFrame.class);
+	private static final Logger log = Logger.getLogger(AbstractYComponentContainer.class);
 
 	// Cache for ManagedBean id's
 	private static final Map<Class<YManagedBean>, String> mbeanIdMap = new HashMap<Class<YManagedBean>, String>();
