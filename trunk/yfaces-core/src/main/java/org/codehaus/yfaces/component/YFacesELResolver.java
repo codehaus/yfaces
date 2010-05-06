@@ -36,6 +36,7 @@ import org.codehaus.yfaces.YFacesELContext;
 import org.codehaus.yfaces.YFacesELContextListener;
 import org.codehaus.yfaces.YFacesException;
 import org.codehaus.yfaces.context.REQUEST_PHASE;
+import org.codehaus.yfaces.context.YApplicationContextImpl;
 import org.codehaus.yfaces.context.YPageContext;
 import org.codehaus.yfaces.context.YRequestContextImpl;
 
@@ -253,7 +254,9 @@ public class YFacesELResolver extends ELResolver {
 		// store resolved componentcontainer property for global usage 
 		final String frameId = YFaces.getApplicationContext().getComponentContainerId(frame.getClass());
 		if (frameId == null) {
-			YFaces.getApplicationContext().setComponentContainerId(frame.getClass(), property);
+			final YApplicationContextImpl appCtxImpl = (YApplicationContextImpl) YFaces
+					.getApplicationContext();
+			appCtxImpl.setComponentContainerId(frame.getClass(), property);
 		} else {
 			if (!frameId.equals(property)) {
 				throw new YFacesException("Illegal state of " + YComponentContainer.class.getSimpleName()

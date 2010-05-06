@@ -27,7 +27,7 @@
 	</bean>
 		
 	<bean id="YApplicationContext"
-		class="org.codehaus.yfaces.context.YApplicationContext"
+		class="org.codehaus.yfaces.context.YApplicationContextImpl"
 		scope="singleton"/>
 
 	<!--  

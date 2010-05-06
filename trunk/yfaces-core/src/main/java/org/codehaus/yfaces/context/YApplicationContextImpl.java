@@ -15,8 +15,10 @@
  */
 package org.codehaus.yfaces.context;
 
+import java.util.HashMap;
 import java.util.Map;
 
+import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
 
 import org.codehaus.yfaces.component.YComponentHandlerRegistry;
@@ -29,11 +31,27 @@ import org.codehaus.yfaces.component.YComponentHandlerRegistry;
  * 
  * @author Denny Strietzbaum
  */
-public interface YApplicationContext {
+public class YApplicationContextImpl implements YApplicationContext {
 
-	YComponentHandlerRegistry getComponentHandlers();
+	private final YComponentHandlerRegistry cmpHandlers;
+	private final Map<Class, String> cmpContainerIdMap;
 
-	String getComponentContainerId(final Class cmpContainerClass);
+	public YApplicationContextImpl() {
+		this.cmpHandlers = new YComponentHandlerRegistry();
+		this.cmpContainerIdMap = new HashMap<Class, String>();
+	}
+
+	public YComponentHandlerRegistry getComponentHandlers() {
+		return this.cmpHandlers;
+	}
+
+	public String getComponentContainerId(final Class cmpContainerClass) {
+		return this.cmpContainerIdMap.get(cmpContainerClass);
+	}
+
+	public void setComponentContainerId(final Class cmpContainerClass, final String id) {
+		this.cmpContainerIdMap.put(cmpContainerClass, id);
+	}
 
 	/**
 	 * A map of attributes backed by the lifetime of this scope. Fetching a value for a key is the
@@ -41,6 +59,8 @@ public interface YApplicationContext {
 	 * 
 	 * @return {@link Map}
 	 */
-	Map<String, Object> getAttributes();
+	public Map<String, Object> getAttributes() {
+		return FacesContext.getCurrentInstance().getExternalContext().getApplicationMap();
+	}
 
 }
