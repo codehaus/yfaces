@@ -23,18 +23,16 @@ import ystorefoundationpackage.domain.OrderManagement;
 import ystorefoundationpackage.domain.PlatformServices;
 import ystorefoundationpackage.domain.ProductManagement;
 import ystorefoundationpackage.domain.SfRequestContext;
-import ystorefoundationpackage.domain.SfSessionContext;
 import ystorefoundationpackage.domain.URLFactory;
 
-
-
 /**
- * A Storefoundation specific request singleton which provides access to various domain specific methods and services.
- * Actually {@link ystorefoundationpackage.domain.YStorefoundation#getRequestContext()} is the base of all calls to get
- * access to domain logic.
+ * A Storefoundation specific request singleton which provides access to various
+ * domain specific methods and services. Actually
+ * {@link ystorefoundationpackage.domain.YStorefoundation#getRequestContext()}
+ * is the base of all calls to get access to domain logic.
  */
-public class SfRequestContextImpl extends YRequestContextImpl implements SfRequestContext
-{
+public class SfRequestContextImpl extends YRequestContextImpl implements
+		SfRequestContext {
 	private MailManagement mailTemplates = null;
 	private DefaultValues defaultValues = null;
 
@@ -48,150 +46,130 @@ public class SfRequestContextImpl extends YRequestContextImpl implements SfReque
 	/**
 	 * @return the orderManagement
 	 */
-	public OrderManagement getOrderManagement()
-	{
+	public OrderManagement getOrderManagement() {
 		return orderManagement;
 	}
 
 	/**
 	 * @param orderManagement
-	 *           the orderManagement to set
+	 *            the orderManagement to set
 	 */
-	public void setOrderManagement(final OrderManagement orderManagement)
-	{
+	public void setOrderManagement(final OrderManagement orderManagement) {
 		this.orderManagement = orderManagement;
 	}
 
 	/**
 	 * @return the contentManagement
 	 */
-	public ContentManagement getContentManagement()
-	{
+	public ContentManagement getContentManagement() {
 		return contentManagement;
 	}
 
 	/**
 	 * @param contentManagement
-	 *           the contentManagement to set
+	 *            the contentManagement to set
 	 */
-	public void setContentManagement(final ContentManagement contentManagement)
-	{
+	public void setContentManagement(final ContentManagement contentManagement) {
 		this.contentManagement = contentManagement;
 	}
 
 	/**
 	 * @return the productManagement
 	 */
-	public ProductManagement getProductManagement()
-	{
+	public ProductManagement getProductManagement() {
 		return productManagement;
 	}
 
 	/**
 	 * @param productManagement
-	 *           the productManagement to set
+	 *            the productManagement to set
 	 */
-	public void setProductManagement(final ProductManagement productManagement)
-	{
+	public void setProductManagement(final ProductManagement productManagement) {
 		this.productManagement = productManagement;
 	}
 
 	/**
 	 * @return the shopDefaults
 	 */
-	public DefaultValues getDefaultValues()
-	{
+	public DefaultValues getDefaultValues() {
 		return defaultValues;
 	}
 
 	/**
 	 * @param shopDefaults
-	 *           the shopDefaults to set
+	 *            the shopDefaults to set
 	 */
-	public void setDefaultValues(final DefaultValues shopDefaults)
-	{
+	public void setDefaultValues(final DefaultValues shopDefaults) {
 		this.defaultValues = shopDefaults;
 	}
 
 	/**
 	 * @return the mailTemplates
 	 */
-	public MailManagement getMailManagement()
-	{
+	public MailManagement getMailManagement() {
 		return mailTemplates;
 	}
 
 	/**
 	 * @param mailTemplates
-	 *           the mailTemplates to set
+	 *            the mailTemplates to set
 	 */
-	public void setMailManagement(final MailManagement mailTemplates)
-	{
+	public void setMailManagement(final MailManagement mailTemplates) {
 		this.mailTemplates = mailTemplates;
 	}
-
 
 	/**
 	 * @return the converterFactory
 	 */
-	public ConverterFactory getConverterFactory()
-	{
+	public ConverterFactory getConverterFactory() {
 		return converterFactory;
 	}
 
 	/**
 	 * @param converterFactory
-	 *           the converterFactory to set
+	 *            the converterFactory to set
 	 */
-	public void setConverterFactory(final ConverterFactory converterFactory)
-	{
+	public void setConverterFactory(final ConverterFactory converterFactory) {
 		this.converterFactory = converterFactory;
 	}
 
 	/**
 	 * @return the urlFactory
 	 */
-	public URLFactory getURLFactory()
-	{
+	public URLFactory getURLFactory() {
 		return urlFactory;
 	}
 
 	/**
 	 * @param urlFactory
-	 *           the urlFactory to set
+	 *            the urlFactory to set
 	 */
-	public void setURLFactory(final URLFactory urlFactory)
-	{
+	public void setURLFactory(final URLFactory urlFactory) {
 		this.urlFactory = urlFactory;
 	}
 
-
-	public PlatformServices getPlatformServices()
-	{
+	public PlatformServices getPlatformServices() {
 		return platformServices;
 	}
 
-	public void setPlatformServices(final PlatformServices platformServices)
-	{
+	public void setPlatformServices(final PlatformServices platformServices) {
 		this.platformServices = platformServices;
 	}
 
-
 	@Override
-	public SfSessionContext getSessionContext()
-	{
-		return (SfSessionContext) super.getSessionContext();
+	public SfSessionContextImpl getSessionContext() {
+		return (SfSessionContextImpl) super.getSessionContext();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see de.hybris.yfaces.context.YRequestContextImpl#setSessionContext(de.hybris.yfaces.context.YSessionContext)
+	 * @see
+	 * de.hybris.yfaces.context.YRequestContextImpl#setSessionContext(de.hybris
+	 * .yfaces.context.YSessionContext)
 	 */
-	public void setSessionContext(final SfSessionContext sessionContext)
-	{
+	public void setSessionContext(final SfSessionContextImpl sessionContext) {
 		super.setSessionContext(sessionContext);
 	}
-
 
 }
