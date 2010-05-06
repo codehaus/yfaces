@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <!--
  [y] hybris Platform
 
@@ -214,7 +214,12 @@
 	<bean id="YSessionContext"
 		class="ystorefoundationpackage.domain.impl.SfSessionContextImpl"
 		scope="session">
+		<property name="applicationContext" ref="YApplicationContext"/>
 	</bean>
+
+	<bean id="YApplicationContext"
+		class="org.codehaus.yfaces.context.YApplicationContextImpl"
+		scope="singleton"/>
 
 	<!--  
 		ErrorHandler
