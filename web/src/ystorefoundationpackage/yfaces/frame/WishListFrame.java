@@ -18,7 +18,7 @@ import java.util.List;
 import javax.faces.context.FacesContext;
 
 import org.apache.log4j.Logger;
-import org.codehaus.yfaces.component.AbstractYFrame;
+import org.codehaus.yfaces.component.AbstractYComponentContainer;
 import org.codehaus.yfaces.component.YEvent;
 import org.codehaus.yfaces.component.YEventListener;
 import org.codehaus.yfaces.context.YConversationContext;
@@ -40,7 +40,7 @@ import de.hybris.platform.wishlist2.model.Wishlist2Model;
  * Renders all wish lists and all products of the default wish list.
  * 
  */
-public class WishListFrame extends AbstractYFrame {
+public class WishListFrame extends AbstractYComponentContainer {
 
 	private static final long serialVersionUID = 3293470797692376000L;
 

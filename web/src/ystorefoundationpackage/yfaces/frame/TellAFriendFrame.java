@@ -13,7 +13,7 @@
  */
 package ystorefoundationpackage.yfaces.frame;
 
-import org.codehaus.yfaces.component.AbstractYFrame;
+import org.codehaus.yfaces.component.AbstractYComponentContainer;
 
 import ystorefoundationpackage.yfaces.component.product.tellfriend.TellAFriendComponent;
 
@@ -22,7 +22,7 @@ import ystorefoundationpackage.yfaces.component.product.tellfriend.TellAFriendCo
  * email.
  * 
  */
-public class TellAFriendFrame extends AbstractYFrame {
+public class TellAFriendFrame extends AbstractYComponentContainer {
 
 	private static final long serialVersionUID = 5064312503612109254L;
 

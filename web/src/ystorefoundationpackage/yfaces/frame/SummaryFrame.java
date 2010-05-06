@@ -17,7 +17,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.codehaus.yfaces.component.AbstractYFrame;
+import org.codehaus.yfaces.component.AbstractYComponentContainer;
 import org.codehaus.yfaces.component.YEvent;
 import org.codehaus.yfaces.component.YEventListener;
 import org.codehaus.yfaces.context.YConversationContext;
@@ -52,7 +52,7 @@ import de.hybris.platform.core.model.user.UserModel;
  * Renders the summary information of the cart.
  * 
  */
-public class SummaryFrame extends AbstractYFrame {
+public class SummaryFrame extends AbstractYComponentContainer {
 	private static final Logger log = Logger.getLogger(SummaryFrame.class);
 
 	private static final String NAV_ADDRESSLIST = "addressListPage";

@@ -13,7 +13,7 @@
  */
 package ystorefoundationpackage.yfaces.frame;
 
-import org.codehaus.yfaces.component.AbstractYFrame;
+import org.codehaus.yfaces.component.AbstractYComponentContainer;
 
 import ystorefoundationpackage.yfaces.component.user.RegistrationComponent;
 
@@ -21,7 +21,7 @@ import ystorefoundationpackage.yfaces.component.user.RegistrationComponent;
  * Renders the page for the new user to register in the store foundation.
  * 
  */
-public class RegistrationFrame extends AbstractYFrame {
+public class RegistrationFrame extends AbstractYComponentContainer {
 	private static final long serialVersionUID = 57824365972845L;
 
 	private RegistrationComponent registrationCmp = null;

@@ -14,7 +14,7 @@
 package ystorefoundationpackage.yfaces.frame;
 
 import org.apache.log4j.Logger;
-import org.codehaus.yfaces.component.AbstractYFrame;
+import org.codehaus.yfaces.component.AbstractYComponentContainer;
 
 import ystorefoundationpackage.yfaces.component.wishlist.EditWishListComponent;
 
@@ -24,7 +24,7 @@ import ystorefoundationpackage.yfaces.component.wishlist.EditWishListComponent;
  * another wish list.
  * 
  */
-public class WishListEditFrame extends AbstractYFrame {
+public class WishListEditFrame extends AbstractYComponentContainer {
 
 	private static final long serialVersionUID = 4128676973222489852L;
 

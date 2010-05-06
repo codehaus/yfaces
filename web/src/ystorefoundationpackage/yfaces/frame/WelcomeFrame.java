@@ -14,7 +14,7 @@
 package ystorefoundationpackage.yfaces.frame;
 
 import org.apache.log4j.Logger;
-import org.codehaus.yfaces.component.AbstractYFrame;
+import org.codehaus.yfaces.component.AbstractYComponentContainer;
 
 import ystorefoundationpackage.yfaces.component.cms.DefaultTextParagraphsComponent;
 import ystorefoundationpackage.yfaces.component.cms.TextParagraphsComponent;
@@ -25,7 +25,7 @@ import ystorefoundationpackage.yfaces.component.product.ProductsQuickViewCompone
  * Renders the default page of store foundation.
  * 
  */
-public class WelcomeFrame extends AbstractYFrame {
+public class WelcomeFrame extends AbstractYComponentContainer {
 	@SuppressWarnings("unused")
 	private static final Logger log = Logger.getLogger(WelcomeFrame.class);
 

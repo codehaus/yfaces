@@ -13,7 +13,7 @@
  */
 package ystorefoundationpackage.yfaces.frame;
 
-import org.codehaus.yfaces.component.AbstractYFrame;
+import org.codehaus.yfaces.component.AbstractYComponentContainer;
 
 import ystorefoundationpackage.YComponent;
 import ystorefoundationpackage.yfaces.component.product.ProductTableComponent;
@@ -22,7 +22,7 @@ import ystorefoundationpackage.yfaces.component.product.ProductTableComponent;
  * Renders the search results.
  * 
  */
-public class SearchResultFrame extends AbstractYFrame {
+public class SearchResultFrame extends AbstractYComponentContainer {
 
 	private static final long serialVersionUID = 57824365989445L;
 

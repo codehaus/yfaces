@@ -33,14 +33,14 @@ public class StorefoundationYRequestBuilder extends SpringYRequestContextBuilder
 
 
 	@Override
-	protected WebApplicationContext createYApplicationContext(final ServletContext ctx)
+	protected WebApplicationContext createWebApplicationContext(final ServletContext ctx)
 	{
 		ConfigurableWebApplicationContext hybrisCtx = null;
 
 		try
 		{
 			hybrisCtx = (ConfigurableWebApplicationContext) WebApplicationContextUtils.getRequiredWebApplicationContext(ctx);
-			final WebApplicationContext yfacesCtx = super.createYApplicationContext(ctx);
+			final WebApplicationContext yfacesCtx = super.createWebApplicationContext(ctx);
 
 			((ConfigurableWebApplicationContext) yfacesCtx).getBeanFactory().copyConfigurationFrom(hybrisCtx.getBeanFactory());
 			hybrisCtx.refresh();

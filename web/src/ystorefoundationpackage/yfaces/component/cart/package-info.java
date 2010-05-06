@@ -1,5 +1,5 @@
 /**
- * {@link de.hybris.YComponentContext.component.YComponent} implementation(s) for 'cart'.
+ * {@link de.hybris.YComponentHandler.component.YComponent} implementation(s) for 'cart'.
  */
 package ystorefoundationpackage.yfaces.component.cart;
 

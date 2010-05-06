@@ -15,7 +15,7 @@ package ystorefoundationpackage.yfaces.frame;
 
 import javax.faces.context.FacesContext;
 
-import org.codehaus.yfaces.component.AbstractYFrame;
+import org.codehaus.yfaces.component.AbstractYComponentContainer;
 
 import ystorefoundationpackage.yfaces.component.cms.DefaultTextParagraphsComponent;
 import ystorefoundationpackage.yfaces.component.cms.TextParagraphsComponent;
@@ -24,7 +24,7 @@ import ystorefoundationpackage.yfaces.component.cms.TextParagraphsComponent;
  * Renders the cms information.
  * 
  */
-public class CmsFrame extends AbstractYFrame {
+public class CmsFrame extends AbstractYComponentContainer {
 	private TextParagraphsComponent textParagraphsCompoent = null;
 
 	public CmsFrame() {

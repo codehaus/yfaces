@@ -14,7 +14,7 @@
 package ystorefoundationpackage.yfaces.frame;
 
 import org.apache.log4j.Logger;
-import org.codehaus.yfaces.component.AbstractYFrame;
+import org.codehaus.yfaces.component.AbstractYComponentContainer;
 
 import ystorefoundationpackage.domain.YStorefoundation;
 import ystorefoundationpackage.yfaces.component.category.ListCategoryComponent;
@@ -27,7 +27,7 @@ import ystorefoundationpackage.yfaces.component.product.fv.FeatureValueSelectorC
  * Renders the specific category.
  * 
  */
-public class CategoryFrame extends AbstractYFrame {
+public class CategoryFrame extends AbstractYComponentContainer {
 
 	private static final long serialVersionUID = -7278066698207691495L;
 

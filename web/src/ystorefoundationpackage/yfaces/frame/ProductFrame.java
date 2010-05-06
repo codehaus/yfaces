@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
-import org.codehaus.yfaces.component.AbstractYFrame;
+import org.codehaus.yfaces.component.AbstractYComponentContainer;
 import org.codehaus.yfaces.context.YConversationContext;
 import org.codehaus.yfaces.context.YPageContext;
 
@@ -44,7 +44,7 @@ import de.hybris.platform.core.model.product.ProductModel;
  * Renders the description of the specific product.
  * 
  */
-public class ProductFrame extends AbstractYFrame {
+public class ProductFrame extends AbstractYComponentContainer {
 	private static final long serialVersionUID = 8123237357574493529L;
 	private static final Logger log = Logger.getLogger(ProductFrame.class);
 

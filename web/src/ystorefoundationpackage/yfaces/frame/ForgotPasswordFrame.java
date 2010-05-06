@@ -13,7 +13,7 @@
  */
 package ystorefoundationpackage.yfaces.frame;
 
-import org.codehaus.yfaces.component.AbstractYFrame;
+import org.codehaus.yfaces.component.AbstractYComponentContainer;
 
 import ystorefoundationpackage.yfaces.component.user.ForgotPasswordComponent;
 
@@ -21,7 +21,7 @@ import ystorefoundationpackage.yfaces.component.user.ForgotPasswordComponent;
  * Renders the page for the user who forgets the password.
  * 
  */
-public class ForgotPasswordFrame extends AbstractYFrame {
+public class ForgotPasswordFrame extends AbstractYComponentContainer {
 	private ForgotPasswordComponent forgotPwCmp = null;
 
 	public ForgotPasswordFrame() {

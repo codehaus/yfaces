@@ -16,7 +16,7 @@ package ystorefoundationpackage.yfaces.frame;
 import javax.faces.context.FacesContext;
 
 import org.codehaus.yfaces.YFacesException;
-import org.codehaus.yfaces.component.AbstractYFrame;
+import org.codehaus.yfaces.component.AbstractYComponentContainer;
 
 import ystorefoundationpackage.domain.YStorefoundation;
 import ystorefoundationpackage.yfaces.component.address.DefaultShowAddressComponent;
@@ -32,7 +32,7 @@ import de.hybris.platform.core.model.user.UserModel;
  * Renders the detail information of the selected order.
  * 
  */
-public class OrderDetailFrame extends AbstractYFrame {
+public class OrderDetailFrame extends AbstractYComponentContainer {
 	private static enum ADDRESS_TYPE {
 		Delivery, Payment
 	}
@@ -126,7 +126,7 @@ public class OrderDetailFrame extends AbstractYFrame {
 
 	/**
 	 * Creates a {@link ShowPaymentComponent} for this
-	 * {@link org.codehaus.yfaces.component.YFrame}
+	 * {@link org.codehaus.yfaces.component.YComponentContainer}
 	 * 
 	 * @return {@link ShowPaymentComponent}
 	 */
@@ -140,7 +140,7 @@ public class OrderDetailFrame extends AbstractYFrame {
 
 	/**
 	 * Creates a {@link OrderTableComponent} for this
-	 * {@link org.codehaus.yfaces.component.YFrame}
+	 * {@link org.codehaus.yfaces.component.YComponentContainer}
 	 * 
 	 * @return {@link OrderTableComponent}
 	 */

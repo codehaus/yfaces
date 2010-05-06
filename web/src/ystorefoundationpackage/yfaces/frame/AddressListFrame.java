@@ -14,7 +14,7 @@
 package ystorefoundationpackage.yfaces.frame;
 
 import org.apache.log4j.Logger;
-import org.codehaus.yfaces.component.AbstractYFrame;
+import org.codehaus.yfaces.component.AbstractYComponentContainer;
 import org.codehaus.yfaces.component.YEvent;
 import org.codehaus.yfaces.component.YEventListener;
 import org.codehaus.yfaces.context.YConversationContext;
@@ -31,7 +31,7 @@ import de.hybris.platform.core.model.user.AddressModel;
  * Renders all addresses of the user as a list.
  * 
  */
-public class AddressListFrame extends AbstractYFrame {
+public class AddressListFrame extends AbstractYComponentContainer {
 	private static final long serialVersionUID = 1173030385751555763L;
 
 	@SuppressWarnings("unused")

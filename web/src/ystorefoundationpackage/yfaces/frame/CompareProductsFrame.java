@@ -13,7 +13,7 @@
  */
 package ystorefoundationpackage.yfaces.frame;
 
-import org.codehaus.yfaces.component.AbstractYFrame;
+import org.codehaus.yfaces.component.AbstractYComponentContainer;
 
 import ystorefoundationpackage.YComponent;
 import ystorefoundationpackage.yfaces.component.product.CompareProductsComponent;
@@ -22,7 +22,7 @@ import ystorefoundationpackage.yfaces.component.product.CompareProductsComponent
  * Renders the classification information of the selected products.
  * 
  */
-public class CompareProductsFrame extends AbstractYFrame {
+public class CompareProductsFrame extends AbstractYComponentContainer {
 	private CompareProductsComponent compareProductsComponent = null;
 
 	public CompareProductsFrame() {
