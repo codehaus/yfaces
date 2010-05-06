@@ -22,7 +22,13 @@
 	 -->
 	<bean id="YSessionContext"
 		class="org.codehaus.yfaces.context.YSessionContextImpl"
-		scope="session"/>
+		scope="session">
+		<property name="applicationContext" ref="YApplicationContext"/>
+	</bean>
+		
+	<bean id="YApplicationContext"
+		class="org.codehaus.yfaces.context.YApplicationContext"
+		scope="singleton"/>
 
 	<!--  
 		ErrorHandler

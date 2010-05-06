@@ -34,15 +34,15 @@ import org.codehaus.yfaces.YFaces;
 import org.codehaus.yfaces.YFacesApplication;
 import org.codehaus.yfaces.YFacesELContext;
 import org.codehaus.yfaces.YFacesELContextListener;
-import org.codehaus.yfaces.component.YFrameRegistry.YFrameContext;
+import org.codehaus.yfaces.YFacesException;
 import org.codehaus.yfaces.context.REQUEST_PHASE;
 import org.codehaus.yfaces.context.YPageContext;
 import org.codehaus.yfaces.context.YRequestContextImpl;
 
 /**
  * A YFaces specific custom {@link ELResolver} implementation- Handles {@link YModel} and
- * {@link YComponentContainer} instances.Whenever a resolved value leads into one of these instances some pre- pr
- * post-processing is done.
+ * {@link YComponentContainer} instances.Whenever a resolved value leads into one of these instances
+ * some pre- pr post-processing is done.
  * <p>
  * This resolver can't be element of the {@link ELResolver} chain but actually is a wrapper about
  * the standard resolver returned by the underlying JSF implementation.
@@ -211,8 +211,7 @@ public class YFacesELResolver extends ELResolver {
 		return (YFacesELContext) context.getContext(YFacesELContext.class);
 	}
 
-	private void afterYComponentResolved(final YComponentHandler yCtx,
-			final AbstractYModel component) {
+	private void afterYComponentResolved(final YComponentHandler yCtx, final AbstractYModel component) {
 		if (yCtx != null) {
 			component.setYComponent(yCtx);
 		}
@@ -251,10 +250,15 @@ public class YFacesELResolver extends ELResolver {
 			YFaces.getRequestContext().getPageContext().addFrame(frame);
 		}
 
-		// gather frame information when not already done
-		final YFrameContext frameCtx = YFrameRegistry.getInstance().getFrameContext(frame.getClass());
-		if (!frameCtx.isResolved()) {
-			frameCtx.setBeanId(property);
+		// store resolved componentcontainer property for global usage 
+		final String frameId = YFaces.getApplicationContext().getComponentContainerId(frame.getClass());
+		if (frameId == null) {
+			YFaces.getApplicationContext().setComponentContainerId(frame.getClass(), property);
+		} else {
+			if (!frameId.equals(property)) {
+				throw new YFacesException("Illegal state of " + YComponentContainer.class.getSimpleName()
+						+ " id");
+			}
 		}
 
 	}
@@ -263,10 +267,12 @@ public class YFacesELResolver extends ELResolver {
 			final String frameProperty) {
 
 		if (model.getFrameBinding() == null) {
-			final YFrameContext frameCtx = YFrameRegistry.getInstance().getFrameContext(frame.getClass());
-			model.setFrame("#{" + frameCtx.getBeanId() + "}");
+			final String frameId = YFaces.getApplicationContext().getComponentContainerId(
+					frame.getClass());
 
-			final String bind = frameCtx.getBeanId() + "." + frameProperty;
+			model.setFrame("#{" + frameId + "}");
+
+			final String bind = frameId + "." + frameProperty;
 
 			final ELContext elCtx = FacesContext.getCurrentInstance().getELContext();
 			final ValueExpression ve = FacesContext.getCurrentInstance().getApplication()

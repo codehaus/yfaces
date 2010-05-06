@@ -36,11 +36,11 @@ public class YSessionContextImpl implements YSessionContext {
 		this.conversationCtx = new YConversationContext();
 	}
 
-	public void setYApplicationContext(YApplicationContext appCtx) {
+	public void setApplicationContext(YApplicationContext appCtx) {
 		this.appCtx = appCtx;
 	}
 
-	public YApplicationContext getYApplicationContext() {
+	public YApplicationContext getApplicationContext() {
 		return this.appCtx;
 	}
 

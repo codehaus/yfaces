@@ -25,10 +25,10 @@ import javax.faces.component.UIComponent;
 
 import org.apache.log4j.Logger;
 import org.codehaus.yfaces.YFaces;
-import org.codehaus.yfaces.component.YComponentConfigImpl;
-import org.codehaus.yfaces.component.YComponentHandlerImpl;
 import org.codehaus.yfaces.component.YComponentConfig;
+import org.codehaus.yfaces.component.YComponentConfigImpl;
 import org.codehaus.yfaces.component.YComponentHandler;
+import org.codehaus.yfaces.component.YComponentHandlerImpl;
 
 import com.sun.facelets.FaceletContext;
 import com.sun.facelets.tag.MetaRuleset;
@@ -65,7 +65,8 @@ public class HtmlYComponentHandler extends ComponentHandler {
 
 		final String tagPath = config.getTag().getLocation().getPath();
 
-		this.cmpInfo = (YComponentHandlerImpl) YFaces.getYComponentRegistry().getComponentByPath(tagPath);
+		this.cmpInfo = (YComponentHandlerImpl) YFaces.getApplicationContext().getComponentHandlers()
+				.getComponentByPath(tagPath);
 
 		// should be considered, to make this an exception
 		if (log.isDebugEnabled() && cmpInfo == null) {

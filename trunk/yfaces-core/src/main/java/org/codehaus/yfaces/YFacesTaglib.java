@@ -217,7 +217,8 @@ public class YFacesTaglib extends AbstractTagLibrary {
 			for (final URL url : resCollector.getFileResources()) {
 
 				//...create component meta information
-				final YComponentHandlerImpl cmpInfo = (YComponentHandlerImpl) cmpFac.createHandler(url, namespace);
+				final YComponentHandlerImpl cmpInfo = (YComponentHandlerImpl) cmpFac.createHandler(url,
+						namespace);
 
 				//...which is successful when it's really a YComponent and not only a simple file
 				if (cmpInfo != null) {
@@ -245,7 +246,8 @@ public class YFacesTaglib extends AbstractTagLibrary {
 					final Set<YValidationAspekt> warnings = cmpValidator.getValidationWarnings();
 
 					// add that Component to a registry
-					final boolean added = YFaces.getYComponentRegistry().addComponent(cmpInfo);
+					final boolean added = YFaces.getApplicationContext().getComponentHandlers().addComponent(
+							cmpInfo);
 
 					// and if registry does not complain
 					if (added) {

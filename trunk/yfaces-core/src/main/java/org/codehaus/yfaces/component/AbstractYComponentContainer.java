@@ -36,7 +36,8 @@ import org.codehaus.yfaces.context.YPageContext;
  * @author Denny Strietzbaum
  * 
  */
-public abstract class AbstractYComponentContainer extends YManagedBean implements YComponentContainer {
+public abstract class AbstractYComponentContainer extends YManagedBean implements
+		YComponentContainer {
 
 	//
 	// Developer notes:
@@ -91,7 +92,8 @@ public abstract class AbstractYComponentContainer extends YManagedBean implement
 	}
 
 	protected <T extends YModel> T createDefaultYModel(final String cmpId) {
-		return (T) YFaces.getYComponentRegistry().getComponent(cmpId).createModel();
+		return (T) YFaces.getApplicationContext().getComponentHandlers().getComponent(cmpId)
+				.createModel();
 	}
 
 	/*
@@ -122,14 +124,14 @@ public abstract class AbstractYComponentContainer extends YManagedBean implement
 	}
 
 	/**
-	 * Creates an {@link YEventListener} for this {@link YComponentContainer} based on the passed method.<br/>
+	 * Creates an {@link YEventListener} for this {@link YComponentContainer} based on the passed
+	 * method.<br/>
 	 * 
 	 * @param frameMethod
 	 *          method of this frame which shall listen to
 	 * @return {@link YEventListener}
 	 */
-	public <T extends YModel> YEventListener<T> createComponentEventListener(
-			final String frameMethod) {
+	public <T extends YModel> YEventListener<T> createComponentEventListener(final String frameMethod) {
 		final YEventListener<T> result = new DefaultYEventListener<T>();
 		result.setActionListener(super.createExpressionString(frameMethod));
 		return result;

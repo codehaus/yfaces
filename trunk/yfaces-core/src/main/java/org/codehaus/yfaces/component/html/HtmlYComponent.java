@@ -36,17 +36,17 @@ import org.codehaus.yfaces.YFaces;
 import org.codehaus.yfaces.YFacesConfig;
 import org.codehaus.yfaces.YFacesELContext;
 import org.codehaus.yfaces.YFacesException;
-import org.codehaus.yfaces.component.YComponentHandlerImpl;
-import org.codehaus.yfaces.component.YModel;
 import org.codehaus.yfaces.component.YComponentConfig;
 import org.codehaus.yfaces.component.YComponentHandler;
+import org.codehaus.yfaces.component.YComponentHandlerImpl;
 import org.codehaus.yfaces.component.YComponentValidator;
+import org.codehaus.yfaces.component.YModel;
 import org.codehaus.yfaces.component.YComponentValidator.YValidationAspekt;
 
 /**
  * Each {@link YModel} must be enclosed by this {@link UIComponent}.<br/>
- * The enclosed {@link YModel} must be either passed or, when null, gets automatically
- * instantiated via the <code>default</code> Attribute.<br/>
+ * The enclosed {@link YModel} must be either passed or, when null, gets automatically instantiated
+ * via the <code>default</code> Attribute.<br/>
  * An undefined amount of additional attributes can be defined.<br/>
  * Each of such attribute must be available as property (setter) at the {@link YModel} instance.<br/>
  * When such attributes are passed then the value gets injected into the {@link YModel}. <br/>
@@ -494,7 +494,8 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 	 */
 	protected YComponentHandler getYComponent() {
 		if (cmpInfo == null) {
-			cmpInfo = YFaces.getYComponentRegistry().getComponentByPath(this.viewLocation);
+			cmpInfo = YFaces.getApplicationContext().getComponentHandlers().getComponentByPath(
+					this.viewLocation);
 		}
 		return cmpInfo;
 	}
