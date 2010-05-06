@@ -38,6 +38,7 @@ import org.codehaus.yfaces.YFacesException;
 import org.codehaus.yfaces.context.REQUEST_PHASE;
 import org.codehaus.yfaces.context.YApplicationContextImpl;
 import org.codehaus.yfaces.context.YPageContext;
+import org.codehaus.yfaces.context.YPageContextImpl;
 import org.codehaus.yfaces.context.YRequestContextImpl;
 
 /**
@@ -248,7 +249,7 @@ public class YFacesELResolver extends ELResolver {
 
 		// adding a frame more than one times doesn't matter; it's just ignored
 		if (threshold) {
-			YFaces.getRequestContext().getPageContext().addFrame(frame);
+			((YPageContextImpl) YFaces.getRequestContext().getPageContext()).addFrame(frame);
 		}
 
 		// store resolved componentcontainer property for global usage 

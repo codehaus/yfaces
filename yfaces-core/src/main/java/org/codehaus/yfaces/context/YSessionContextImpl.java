@@ -28,15 +28,15 @@ import javax.servlet.http.HttpSession;
  */
 public class YSessionContextImpl implements YSessionContext {
 
-	private YConversationContext conversationCtx = null;
+	private YConversationContextImpl conversationCtx = null;
 	private boolean isInitialized = false;
 	private YApplicationContext appCtx = null;
 
 	public YSessionContextImpl() {
-		this.conversationCtx = new YConversationContext();
+		this.conversationCtx = new YConversationContextImpl();
 	}
 
-	public void setApplicationContext(YApplicationContext appCtx) {
+	public void setApplicationContext(final YApplicationContext appCtx) {
 		this.appCtx = appCtx;
 	}
 
@@ -50,12 +50,12 @@ public class YSessionContextImpl implements YSessionContext {
 	 * @return {@link Map}
 	 */
 	public Map<String, Object> getAttributes() {
-		Map<String, Object> result = FacesContext.getCurrentInstance().getExternalContext()
+		final Map<String, Object> result = FacesContext.getCurrentInstance().getExternalContext()
 				.getSessionMap();
 		return result;
 	}
 
-	public YConversationContext getConversationContext() {
+	public YConversationContextImpl getConversationContext() {
 		return this.conversationCtx;
 	}
 

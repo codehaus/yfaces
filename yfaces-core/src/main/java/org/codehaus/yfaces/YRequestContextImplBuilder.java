@@ -17,10 +17,9 @@ import org.codehaus.yfaces.context.YSessionContext;
 import org.codehaus.yfaces.context.YSessionContextImpl;
 import org.codehaus.yfaces.util.YFacesErrorHandler;
 
+public class YRequestContextImplBuilder implements YRequestContextBuilder {
 
-public class DefaultYRequestContextBuilder implements YRequestContextBuilder {
-
-	private static final Logger log = Logger.getLogger(DefaultYRequestContextBuilder.class);
+	private static final Logger log = Logger.getLogger(YRequestContextImplBuilder.class);
 
 	private static final String YFACES_PROPERTIES_PARAM_NAME = "yfaces-properties";
 	private static final String YFACES_PROPERTIES_PARAM_VALUE = "/WEB-INF/yfaces.properties";
@@ -35,7 +34,7 @@ public class DefaultYRequestContextBuilder implements YRequestContextBuilder {
 	private static final String YFACES_APPCTXCLASS_VALUE = YApplicationContext.class.getName();
 
 	private Class<YRequestContext> reqCtxClass = null;
-	private Class<YSessionContext> sessCtxClass = null;
+	private Class<YSessionContextImpl> sessCtxClass = null;
 	private Class<YApplicationContext> appCtxClass = null;
 
 	public YRequestContext buildYRequestContext(final ServletRequest request) {
@@ -100,7 +99,7 @@ public class DefaultYRequestContextBuilder implements YRequestContextBuilder {
 			this.initialize(ctx);
 		}
 
-		final YSessionContext session = getYSessionContext(ctx.getSession());
+		final YSessionContextImpl session = getYSessionContext(ctx.getSession());
 
 		final YRequestContextImpl result = (YRequestContextImpl) getInstance(this.reqCtxClass);
 		result.setErrorHandler(new YFacesErrorHandler());
@@ -109,15 +108,16 @@ public class DefaultYRequestContextBuilder implements YRequestContextBuilder {
 		return result;
 	}
 
-	private YSessionContext getYSessionContext(final HttpSession ctx) {
+	private YSessionContextImpl getYSessionContext(final HttpSession ctx) {
 
-		YSessionContext result = (YSessionContext) ctx.getAttribute(YSessionContext.class.getName());
+		YSessionContextImpl result = (YSessionContextImpl) ctx.getAttribute(YSessionContext.class
+				.getName());
 
 		if (result == null) {
 			final YApplicationContext appCtx = getYApplicationContext(ctx.getServletContext());
 
 			result = getInstance(this.sessCtxClass);
-			((YSessionContextImpl) result).setApplicationContext(appCtx);
+			(result).setApplicationContext(appCtx);
 
 			ctx.setAttribute(YSessionContext.class.getName(), result);
 		}

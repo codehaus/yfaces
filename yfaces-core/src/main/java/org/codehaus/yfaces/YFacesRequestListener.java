@@ -73,7 +73,7 @@ public class YFacesRequestListener implements ServletRequestListener {
 						+ builder.getClass().getName());
 				// ... otherwise take a default one
 			} else {
-				builder = new DefaultYRequestContextBuilder();
+				builder = new YRequestContextImplBuilder();
 			}
 		}
 
