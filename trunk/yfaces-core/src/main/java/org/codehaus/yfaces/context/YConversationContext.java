@@ -16,14 +16,7 @@
 package org.codehaus.yfaces.context;
 
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.Map;
-
-import org.apache.log4j.Logger;
-import org.codehaus.yfaces.YFaces;
-import org.codehaus.yfaces.YFacesException;
-
 
 /**
  * A context object whose scope and lifetime is bound to a Conversation. A conversation lays between
@@ -43,57 +36,21 @@ import org.codehaus.yfaces.YFacesException;
  * 
  * @author Denny Strietzbaum
  */
-public class YConversationContext {
-
-	private static final Logger log = Logger.getLogger(YConversationContext.class);
-
-	// the current pagecontext
-	private YPageContext currentPage = null;
-
-	private int resetCounter = 0;
-
-	private String id = null;
-
-	// context attributes
-	private final Map<String, Object> attributes = new HashMap<String, Object>();
-
-	// holds a queue of navigable pages
-	private LinkedHashMap<String, YPageContext> contextPages = new LinkedHashMap<String, YPageContext>();
-
-	// next page
-	// gets added to queue of context pages with the next request
-	private YPageContext nextContextPage = null;
-
-	/**
-	 * Constructor.
-	 */
-	public YConversationContext() {
-		this.id = this.calculateNewId();
-
-		final YPageContext startPage = new YPageContext(this, null, null);
-		this.currentPage = startPage;
-		this.contextPages = new LinkedHashMap<String, YPageContext>();
-		this.contextPages.put(startPage.getId(), startPage);
-		this.nextContextPage = null;
-	}
+public interface YConversationContext {
 
 	/**
 	 * Returns the ID of this context.
 	 * 
 	 * @return id
 	 */
-	public String getId() {
-		return this.id;
-	}
+	public String getId();
 
 	/**
 	 * A map of attributes backed by the lifetime of this scope.
 	 * 
 	 * @return {@link Map}
 	 */
-	public Map<String, Object> getAttributes() {
-		return this.attributes;
-	}
+	public Map<String, Object> getAttributes();
 
 	/**
 	 * Returns the current displayed Page.<br/>
@@ -103,9 +60,7 @@ public class YConversationContext {
 	 * 
 	 * @return the current {@link YPageContext}
 	 */
-	public YPageContext getLastPage() {
-		return this.currentPage;
-	}
+	public YPageContext getLastPage();
 
 	/**
 	 * Returns the {@link YPageContext} which becomes the current one with next request.<br/>
@@ -117,21 +72,7 @@ public class YConversationContext {
 	 * 
 	 * @return {@link YPageContext}
 	 */
-	public YPageContext getOrCreateNextPage() {
-		if (this.nextContextPage == null) {
-			this.nextContextPage = new YPageContext(this, null, null);
-		}
-		return this.nextContextPage;
-	}
-
-	/**
-	 * Returns the next {@link YPageContext} if any.
-	 * 
-	 * @return {@link YPageContext}
-	 */
-	protected YPageContext getNextPage() {
-		return this.nextContextPage;
-	}
+	public YPageContext getOrCreateNextPage();
 
 	/**
 	 * Returns all available {@link YPageContext} instances for this conversation. Collection elements
@@ -139,146 +80,13 @@ public class YConversationContext {
 	 * 
 	 * @return all {@link YPageContext} instances
 	 */
-	public Collection<YPageContext> getAllPages() {
-		return this.contextPages.values();
-	}
+	public Collection<YPageContext> getAllPages();
 
 	/**
 	 * Returns the current {@link YSessionContext}
 	 * 
 	 * @return {@link YSessionContext}
 	 */
-	public YSessionContext getSessionContext() {
-		return YFaces.getRequestContext().getSessionContext();
-	}
-
-	/**
-	 * Starts updating the current {@link YPageContext}. If a conversation is running and more than
-	 * one pages are available only the active {@link YPageContext} gets refreshed. Incoming request
-	 * must be of type POST or GET as flashback. Refresh isn't called when conversation is left (When
-	 * requested page is not element element of this conversation)
-	 * <p>
-	 * This method gets not invoked for general GET requests and it gets not invoked for POST requests
-	 * on Pages that are not element of this conversation.
-	 */
-	protected void refresh() {
-		this.currentPage.refresh();
-	}
-
-	/**
-	 * Resets the context and sets the passed Page as new, initial one.
-	 * 
-	 * @param page
-	 *          {@link YPageContext} as start page
-	 */
-	void start(final YPageContext page) {
-		this.attributes.clear();
-		this.id = this.calculateNewId();
-
-		this.currentPage = page;
-		((YRequestContextImpl) YFaces.getRequestContext()).setPageContext(page);
-
-		this.contextPages = new LinkedHashMap<String, YPageContext>();
-		this.contextPages.put(page.getId(), page);
-		this.nextContextPage = null;
-
-		log.debug("Reseting to initial new Page (" + page.getId() + ")");
-	}
-
-	/**
-	 * Proceeds conversation with adding a new {@link YPageContext} to the queue of current pages.A
-	 * possible {@link YPageContext} created previously with {@link #getOrCreateNextPage()} gets
-	 * reseted.
-	 * 
-	 * @param page
-	 *          {@link YPageContext}
-	 */
-	void forward(final YPageContext page) {
-		// ...take that "next page" and append it to the queue of current pages
-		this.addPage(page);
-
-		this.currentPage = page;
-		((YRequestContextImpl) YFaces.getRequestContext()).setPageContext(page);
-
-		this.nextContextPage = null;
-	}
-
-	/**
-	 * "Rollback" the conversation. Passed {@link YPageContext} must be element of this conversations
-	 * page stack. Passed page is set as current one and the conversations page stack gets updated
-	 * (following pages are removed)
-	 * 
-	 * @param page
-	 *          page to navigate to
-	 */
-	void backward(final YPageContext page) {
-
-		// availability check
-		if (!this.contextPages.containsKey(page.getId())) {
-			throw new YFacesException("Can't navigate to page " + page.getId() + " (not found)");
-		}
-
-		if (log.isDebugEnabled()) {
-			log.debug("Navigating to already existing page (" + page.getId() + ")");
-		}
-
-		// update some members and request context
-		this.nextContextPage = null;
-		this.currentPage = page;
-		((YRequestContextImpl) YFaces.getRequestContext()).setPageContext(page);
-
-		// update pages stack
-		final LinkedHashMap<String, YPageContext> updatedNavigationPages = new LinkedHashMap<String, YPageContext>();
-		for (final Map.Entry<String, YPageContext> entry : this.contextPages.entrySet()) {
-			updatedNavigationPages.put(entry.getKey(), entry.getValue());
-			if (entry.getKey().equals(page.getId())) {
-				break;
-			}
-		}
-		this.contextPages = updatedNavigationPages;
-	}
-
-	/**
-	 * Adds the passed page to top of the queue of already managed pages.
-	 * 
-	 * @param page
-	 *          {@link YPageContext} to add.
-	 */
-	protected void addPage(final YPageContext page) {
-		final YPageContext previousPage = page.getPreviousPage();
-
-		final YPageContext currentPage = YFaces.getRequestContext().getPageContext();
-
-		// in case added page has already a previous page, then it must be same
-		// as current page
-		if (previousPage != null && !previousPage.equals(currentPage)) {
-			final String msg = "Can't add page (" + page.getId() + ") as previous page ("
-					+ previousPage.getId() + ") is not compatible with current page (" + currentPage.getId()
-					+ ")";
-			throw new YFacesException(msg);
-		}
-
-		// set current page as previous page of added page
-		page.setPreviousPage(currentPage);
-
-		// add page to stack
-		this.contextPages.put(page.getId(), page);
-	}
-
-	/**
-	 * Returns a {@link YPageContext} by its pageId. The page must be available within the queue of
-	 * managed pages otherwise null is returned.
-	 * 
-	 * @param pageId
-	 *          pageId
-	 * @return {@link YPageContext}
-	 */
-	protected YPageContext getPage(final String pageId) {
-		return this.contextPages.get(pageId);
-	}
-
-	private String calculateNewId() {
-		return "#" + String.valueOf(this.resetCounter++);
-	}
+	public YSessionContext getSessionContext();
 
 }

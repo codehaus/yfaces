@@ -29,7 +29,6 @@ import org.codehaus.yfaces.YFaces;
 import org.codehaus.yfaces.YFacesApplication;
 import org.codehaus.yfaces.YFacesException;
 
-
 /**
  * This {@link PhaseListener} is mandatory for a properly work with the {@link YConversationContext}
  * .<br/>
@@ -86,8 +85,8 @@ public class YRequestContextPhaseListener implements PhaseListener {
 
 		if (phaseevent.getPhaseId() == PhaseId.RESTORE_VIEW) {
 			final YRequestContextImpl reqCtx = (YRequestContextImpl) YFaces.getRequestContext();
-			final YSessionContext sesCtx = reqCtx.getSessionContext();
-			final YPageContext pageContext = sesCtx.getConversationContext().getLastPage();
+			final YSessionContextImpl sesCtx = reqCtx.getSessionContext();
+			final YPageContextImpl pageContext = sesCtx.getConversationContext().getLastPage();
 			reqCtx.setPageContext(pageContext);
 
 			reqCtx.startInitialization();

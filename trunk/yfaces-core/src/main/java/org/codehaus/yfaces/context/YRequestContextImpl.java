@@ -31,7 +31,6 @@ import org.codehaus.yfaces.YManagedBean;
 import org.codehaus.yfaces.component.YComponentContainer;
 import org.codehaus.yfaces.util.YFacesErrorHandler;
 
-
 /**
  * {@link YRequestContext} implementation which gives additional configuration for IOC containers.
  * 
@@ -42,11 +41,11 @@ public class YRequestContextImpl implements YRequestContext {
 	private static final Logger log = Logger.getLogger(YRequestContext.class);
 	private static final String IS_FLASHBACK = YRequestContext.class.getName() + "_isFlashback";
 
-	private YPageContext pageContext = null;
+	private YPageContextImpl pageContext = null;
 
 	private REQUEST_PHASE currentPhase = REQUEST_PHASE.END_REQUEST;
 
-	private YSessionContext sessionContext = null;
+	private YSessionContextImpl sessionContext = null;
 
 	private YFacesErrorHandler errorHandler = null;
 
@@ -73,7 +72,7 @@ public class YRequestContextImpl implements YRequestContext {
 	/**
 	 * @return {@link YPageContext}
 	 */
-	public YPageContext getPageContext() {
+	public YPageContextImpl getPageContext() {
 		return this.pageContext;
 	}
 
@@ -83,18 +82,18 @@ public class YRequestContextImpl implements YRequestContext {
 	 * @param pageContext
 	 *          {@link YPageContext} to set
 	 */
-	protected void setPageContext(final YPageContext pageContext) {
+	protected void setPageContext(final YPageContextImpl pageContext) {
 		this.pageContext = pageContext;
 	}
 
 	/**
 	 * @return {@link YSessionContext}
 	 */
-	public YSessionContext getSessionContext() {
+	public YSessionContextImpl getSessionContext() {
 		return sessionContext;
 	}
 
-	public void setSessionContext(final YSessionContext sessionContext) {
+	public void setSessionContext(final YSessionContextImpl sessionContext) {
 		this.sessionContext = sessionContext;
 	}
 
@@ -218,7 +217,7 @@ public class YRequestContextImpl implements YRequestContext {
 		final boolean isPostBack = this.isPostback();
 		final boolean isFlash = this.isFlashback();
 
-		final YConversationContext convCtx = getPageContext().getConversationContext();
+		final YConversationContextImpl convCtx = getPageContext().getConversationContext();
 
 		// restore context information (mbeans) when
 		// a)POST (postback) or
@@ -248,7 +247,7 @@ public class YRequestContextImpl implements YRequestContext {
 		else {
 			// ...reset context with new initialized page
 			final String url = getViewURL(viewId, true);
-			final YPageContext newPage = new YPageContext(convCtx, viewId, url);
+			final YPageContextImpl newPage = new YPageContextImpl(convCtx, viewId, url);
 			convCtx.start(newPage);
 		}
 	}
@@ -264,11 +263,11 @@ public class YRequestContextImpl implements YRequestContext {
 	void switchPage(final String newViewId) {
 		this.currentPhase = REQUEST_PHASE.FORWARD_REQUEST;
 
-		final YConversationContext convCtx = getPageContext().getConversationContext();
+		final YConversationContextImpl convCtx = getPageContext().getConversationContext();
 
 		// lookup whether newViewId matches on of context managed previous pages
 		// (browser backbutton, regular "back" navigation, etc. )
-		final YPageContext previousPage = convCtx.getPage(newViewId);
+		final YPageContextImpl previousPage = (YPageContextImpl) convCtx.getPage(newViewId);
 
 		// when no previous page is available (e.g. navigation to a new view)
 		// ...
@@ -277,7 +276,7 @@ public class YRequestContextImpl implements YRequestContext {
 			final String viewUrl = getViewURL(newViewId, false);
 
 			// ...and the context is prepared to have a next page...
-			final YPageContext forwardPage = convCtx.getNextPage();
+			final YPageContextImpl forwardPage = (YPageContextImpl) convCtx.getNextPage();
 			if (forwardPage != null) {
 				forwardPage.setURL(viewUrl);
 				forwardPage.setId(newViewId);
@@ -286,7 +285,7 @@ public class YRequestContextImpl implements YRequestContext {
 			// ...otherwise reset Conversation
 			else {
 				// ...initialize new context and new YPage
-				convCtx.start(new YPageContext(convCtx, newViewId, viewUrl));
+				convCtx.start(new YPageContextImpl(convCtx, newViewId, viewUrl));
 			}
 		}
 		// when a previous page is available (or current page)...
@@ -295,7 +294,7 @@ public class YRequestContextImpl implements YRequestContext {
 			convCtx.backward(previousPage);
 
 			// ...and start update mechanism
-			((YSessionContextImpl) this.sessionContext).refresh();
+			(this.sessionContext).refresh();
 		}
 	}
 
@@ -366,7 +365,7 @@ public class YRequestContextImpl implements YRequestContext {
 		isFlashback = FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove(
 				IS_FLASHBACK) != null;
 
-		final YSessionContextImpl sessCtx = (YSessionContextImpl) getSessionContext();
+		final YSessionContextImpl sessCtx = getSessionContext();
 		if (!sessCtx.isInitialized()) {
 			sessCtx.startInitialization();
 		}
