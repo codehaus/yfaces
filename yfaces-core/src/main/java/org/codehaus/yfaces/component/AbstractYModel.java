@@ -64,7 +64,8 @@ public abstract class AbstractYModel implements YModel {
 
 	public YComponentHandler getComponent() {
 		if (this.cmpInfo == null) {
-			this.cmpInfo = YFaces.getYComponentRegistry().getComponentByPath(viewLocation);
+			this.cmpInfo = YFaces.getApplicationContext().getComponentHandlers().getComponentByPath(
+					viewLocation);
 		}
 		return this.cmpInfo;
 	}
@@ -150,7 +151,8 @@ public abstract class AbstractYModel implements YModel {
 
 	public <T extends YModel> T newInstance(final String ns, final String id) {
 
-		final YComponentHandler cmpInfo = YFaces.getYComponentRegistry().getComponent(ns, id);
+		final YComponentHandler cmpInfo = YFaces.getApplicationContext().getComponentHandlers()
+				.getComponent(ns, id);
 		return (T) cmpInfo.createModel();
 	}
 
@@ -174,8 +176,7 @@ public abstract class AbstractYModel implements YModel {
 	 */
 	@Override
 	public boolean equals(final Object obj) {
-		return (obj.getClass().equals(this.getClass()))
-				&& ((AbstractYModel) obj).uid.equals(this.uid);
+		return (obj.getClass().equals(this.getClass())) && ((AbstractYModel) obj).uid.equals(this.uid);
 	}
 
 	/*

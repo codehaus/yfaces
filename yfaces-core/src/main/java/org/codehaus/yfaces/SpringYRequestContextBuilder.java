@@ -17,7 +17,6 @@ import org.springframework.web.context.ConfigurableWebApplicationContext;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.XmlWebApplicationContext;
 
-
 public class SpringYRequestContextBuilder implements YRequestContextBuilder {
 
 	private static final Logger log = Logger.getLogger(SpringYRequestContextBuilder.class);
@@ -25,14 +24,17 @@ public class SpringYRequestContextBuilder implements YRequestContextBuilder {
 	private static final String PARAM_YFACES_CTX = "yfaces-context";
 	private static final String DEFAULT_YFACES_CTX = "/META-INF/yfaces-context.xml";
 
-	private static ApplicationContext appCtx = null;
+	private static ApplicationContext springAppCtx = null;
 
 	public YRequestContext buildYRequestContext(final ServletRequest request) {
-		if (appCtx == null) {
-			appCtx = this.createYApplicationContext(((HttpServletRequest) request).getSession()
-					.getServletContext());
+		// get or create (merged) WebApplicationContext
+		if (springAppCtx == null) {
+			final ServletContext ctx = ((HttpServletRequest) request).getSession().getServletContext();
+			springAppCtx = this.createWebApplicationContext(ctx);
 		}
-		final YRequestContext ctx = (YRequestContext) appCtx.getBean(YRequestContext.class
+
+		// fetch YRequestContext from that application context
+		final YRequestContext ctx = (YRequestContext) springAppCtx.getBean(YRequestContext.class
 				.getSimpleName());
 
 		return ctx;
@@ -54,7 +56,7 @@ public class SpringYRequestContextBuilder implements YRequestContextBuilder {
 	 *          {@link ServletContextEvent}
 	 * @return {@link ApplicationContext}
 	 */
-	protected WebApplicationContext createYApplicationContext(final ServletContext servletCtx) {
+	protected WebApplicationContext createWebApplicationContext(final ServletContext servletCtx) {
 		final ConfigurableWebApplicationContext result = new XmlWebApplicationContext();
 		result.setServletContext(servletCtx);
 

@@ -33,8 +33,10 @@ public interface YSessionContext {
 	 * 
 	 * @return {@link Map}
 	 */
-	public Map<String, Object> getAttributes();
+	Map<String, Object> getAttributes();
 
-	public YConversationContext getConversationContext();
+	YConversationContext getConversationContext();
+
+	YApplicationContext getApplicationContext();
 
 }

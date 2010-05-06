@@ -117,7 +117,7 @@ public class DefaultYRequestContextBuilder implements YRequestContextBuilder {
 			final YApplicationContext appCtx = getYApplicationContext(ctx.getServletContext());
 
 			result = getInstance(this.sessCtxClass);
-			((YSessionContextImpl) result).setYApplicationContext(appCtx);
+			((YSessionContextImpl) result).setApplicationContext(appCtx);
 
 			ctx.setAttribute(YSessionContext.class.getName(), result);
 		}

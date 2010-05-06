@@ -15,10 +15,13 @@
  */
 package org.codehaus.yfaces.context;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
+
+import org.codehaus.yfaces.component.YComponentHandlerRegistry;
 
 /**
  * A context object whose scope and lifetime is bound to {@link ServletContext}. In other words:
@@ -30,7 +33,24 @@ import javax.servlet.ServletContext;
  */
 public class YApplicationContext {
 
+	private final YComponentHandlerRegistry cmpHandlers;
+	private final Map<Class, String> cmpContainerIdMap;
+
 	public YApplicationContext() {
+		this.cmpHandlers = new YComponentHandlerRegistry();
+		this.cmpContainerIdMap = new HashMap<Class, String>();
+	}
+
+	public YComponentHandlerRegistry getComponentHandlers() {
+		return this.cmpHandlers;
+	}
+
+	public String getComponentContainerId(final Class cmpContainerClass) {
+		return this.cmpContainerIdMap.get(cmpContainerClass);
+	}
+
+	public void setComponentContainerId(final Class cmpContainerClass, final String id) {
+		this.cmpContainerIdMap.put(cmpContainerClass, id);
 	}
 
 	/**
