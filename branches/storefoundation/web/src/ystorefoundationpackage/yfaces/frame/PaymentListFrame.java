@@ -13,7 +13,7 @@
  */
 package ystorefoundationpackage.yfaces.frame;
 
-import org.codehaus.yfaces.component.AbstractYFrame;
+import org.codehaus.yfaces.component.AbstractYComponentContainer;
 import org.codehaus.yfaces.component.YEvent;
 import org.codehaus.yfaces.component.YEventListener;
 import org.codehaus.yfaces.context.YConversationContext;
@@ -37,7 +37,7 @@ import de.hybris.platform.core.model.order.payment.PaymentInfoModel;
  * Renders all payment information of the user as a list.
  * 
  */
-public class PaymentListFrame extends AbstractYFrame {
+public class PaymentListFrame extends AbstractYComponentContainer {
 
 	private static final long serialVersionUID = 1L;
 

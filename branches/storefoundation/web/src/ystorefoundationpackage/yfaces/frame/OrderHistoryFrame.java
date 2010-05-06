@@ -13,7 +13,7 @@
  */
 package ystorefoundationpackage.yfaces.frame;
 
-import org.codehaus.yfaces.component.AbstractYFrame;
+import org.codehaus.yfaces.component.AbstractYComponentContainer;
 
 import ystorefoundationpackage.yfaces.component.order.OrderHistoryComponent;
 
@@ -21,7 +21,7 @@ import ystorefoundationpackage.yfaces.component.order.OrderHistoryComponent;
  * Renders all orders of the user as a list.
  * 
  */
-public class OrderHistoryFrame extends AbstractYFrame {
+public class OrderHistoryFrame extends AbstractYComponentContainer {
 	private OrderHistoryComponent orderHistoryCmp = null;
 
 	public OrderHistoryComponent getOrderHistoryComponent() {

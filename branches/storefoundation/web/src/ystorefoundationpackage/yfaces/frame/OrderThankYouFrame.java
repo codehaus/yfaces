@@ -18,7 +18,7 @@ import de.hybris.platform.core.model.user.UserModel;
 
 import javax.faces.context.FacesContext;
 
-import org.codehaus.yfaces.component.AbstractYFrame;
+import org.codehaus.yfaces.component.AbstractYComponentContainer;
 
 import ystorefoundationpackage.domain.YStorefoundation;
 
@@ -27,7 +27,7 @@ import ystorefoundationpackage.domain.YStorefoundation;
  * Renders the page to display all important information(especially order id) of the order.
  * 
  */
-public class OrderThankYouFrame extends AbstractYFrame
+public class OrderThankYouFrame extends AbstractYComponentContainer
 {
 	private OrderModel order = null;
 

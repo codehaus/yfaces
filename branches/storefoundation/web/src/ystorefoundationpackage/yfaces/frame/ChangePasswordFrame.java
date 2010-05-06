@@ -13,7 +13,7 @@
  */
 package ystorefoundationpackage.yfaces.frame;
 
-import org.codehaus.yfaces.component.AbstractYFrame;
+import org.codehaus.yfaces.component.AbstractYComponentContainer;
 
 import ystorefoundationpackage.yfaces.component.user.ChangePasswordComponent;
 
@@ -21,7 +21,7 @@ import ystorefoundationpackage.yfaces.component.user.ChangePasswordComponent;
  * Renders the page for the user to change the password.
  * 
  */
-public class ChangePasswordFrame extends AbstractYFrame {
+public class ChangePasswordFrame extends AbstractYComponentContainer {
 
 	private static final long serialVersionUID = -3624214930177657263L;
 

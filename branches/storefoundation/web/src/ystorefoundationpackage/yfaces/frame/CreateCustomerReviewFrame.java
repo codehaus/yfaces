@@ -13,7 +13,7 @@
  */
 package ystorefoundationpackage.yfaces.frame;
 
-import org.codehaus.yfaces.component.AbstractYFrame;
+import org.codehaus.yfaces.component.AbstractYComponentContainer;
 
 import ystorefoundationpackage.yfaces.component.customerreview.CreateCustomerReviewComponent;
 
@@ -22,7 +22,7 @@ import ystorefoundationpackage.yfaces.component.customerreview.CreateCustomerRev
  * product.
  * 
  */
-public class CreateCustomerReviewFrame extends AbstractYFrame {
+public class CreateCustomerReviewFrame extends AbstractYComponentContainer {
 
 	private static final long serialVersionUID = 7865042503932068434L;
 

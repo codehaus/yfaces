@@ -16,7 +16,7 @@ package ystorefoundationpackage.yfaces.frame;
 import java.util.Collections;
 
 import org.apache.log4j.Logger;
-import org.codehaus.yfaces.component.AbstractYFrame;
+import org.codehaus.yfaces.component.AbstractYComponentContainer;
 import org.codehaus.yfaces.component.DefaultYEventListener;
 import org.codehaus.yfaces.component.YEvent;
 import org.codehaus.yfaces.component.YEventListener;
@@ -45,7 +45,7 @@ import ystorefoundationpackage.yfaces.component.user.LoginComponent;
  * Renders the general information.
  * 
  */
-public class GlobalFrame extends AbstractYFrame {
+public class GlobalFrame extends AbstractYComponentContainer {
 	private static final long serialVersionUID = 8924906285775079218L;
 	@SuppressWarnings("unused")
 	private static final Logger log = Logger.getLogger(GlobalFrame.class);

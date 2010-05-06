@@ -13,7 +13,7 @@
  */
 package ystorefoundationpackage.yfaces.frame;
 
-import org.codehaus.yfaces.component.AbstractYFrame;
+import org.codehaus.yfaces.component.AbstractYComponentContainer;
 
 import ystorefoundationpackage.NavigationOutcome;
 import ystorefoundationpackage.yfaces.component.cart.CartTableComponent;
@@ -23,7 +23,7 @@ import ystorefoundationpackage.yfaces.component.user.LoginComponent;
 /**
  * Renders the detail information of the cart.
  */
-public class CartFrame extends AbstractYFrame {
+public class CartFrame extends AbstractYComponentContainer {
 	private static final long serialVersionUID = 57824365959445L;
 
 	private LoginComponent loginCmp = null;

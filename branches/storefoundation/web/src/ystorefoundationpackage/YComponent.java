@@ -15,7 +15,7 @@ package ystorefoundationpackage;
 
 /**
  * Enumeration of {@link org.codehaus.yfaces.component.YModel} view id's. Useful in combination with
- * {@link org.codehaus.yfaces.component.YFrame#createComponentBinding(String)}
+ * {@link org.codehaus.yfaces.component.YComponentContainer#createComponentBinding(String)}
  */
 public enum YComponent
 {

@@ -13,7 +13,7 @@
  */
 package ystorefoundationpackage.yfaces.frame;
 
-import org.codehaus.yfaces.component.AbstractYFrame;
+import org.codehaus.yfaces.component.AbstractYComponentContainer;
 import org.codehaus.yfaces.component.YEvent;
 import org.codehaus.yfaces.component.YEventListener;
 import org.codehaus.yfaces.context.YConversationContext;
@@ -45,7 +45,7 @@ import de.hybris.platform.core.model.user.AddressModel;
  * information.
  * 
  */
-public class UserDetailFrame extends AbstractYFrame {
+public class UserDetailFrame extends AbstractYComponentContainer {
 	private static final long serialVersionUID = -1550283086759307248L;
 
 	// Navigation targets

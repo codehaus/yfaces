@@ -13,7 +13,7 @@
  */
 package ystorefoundationpackage.yfaces.frame;
 
-import org.codehaus.yfaces.component.AbstractYFrame;
+import org.codehaus.yfaces.component.AbstractYComponentContainer;
 
 import ystorefoundationpackage.yfaces.component.product.DefaultProductDetailComponent;
 import ystorefoundationpackage.yfaces.component.product.ProductDetailComponent;
@@ -23,7 +23,7 @@ import ystorefoundationpackage.yfaces.component.product.ProductDetailComponent;
  * printed.
  * 
  */
-public class PagePrintFrame extends AbstractYFrame {
+public class PagePrintFrame extends AbstractYComponentContainer {
 
 	private static final long serialVersionUID = -8774098273550197135L;
 

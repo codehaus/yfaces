@@ -13,7 +13,7 @@
  */
 package ystorefoundationpackage.yfaces.frame;
 
-import org.codehaus.yfaces.component.AbstractYFrame;
+import org.codehaus.yfaces.component.AbstractYComponentContainer;
 
 import ystorefoundationpackage.YComponent;
 import ystorefoundationpackage.yfaces.component.address.EditAddressComponent;
@@ -22,7 +22,7 @@ import ystorefoundationpackage.yfaces.component.address.EditAddressComponent;
  * Renders the page for the user to edit the address information.
  * 
  */
-public class AddressEditFrame extends AbstractYFrame {
+public class AddressEditFrame extends AbstractYComponentContainer {
 	private EditAddressComponent editAddressCmp = null;
 
 	public EditAddressComponent getEditAddressComponent() {

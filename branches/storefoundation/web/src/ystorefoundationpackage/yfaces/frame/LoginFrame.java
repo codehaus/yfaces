@@ -13,7 +13,7 @@
  */
 package ystorefoundationpackage.yfaces.frame;
 
-import org.codehaus.yfaces.component.AbstractYFrame;
+import org.codehaus.yfaces.component.AbstractYComponentContainer;
 
 import ystorefoundationpackage.yfaces.component.user.DefaultLoginComponent;
 import ystorefoundationpackage.yfaces.component.user.LoginComponent;
@@ -22,7 +22,7 @@ import ystorefoundationpackage.yfaces.component.user.LoginComponent;
  * Renders the login page.
  * 
  */
-public class LoginFrame extends AbstractYFrame {
+public class LoginFrame extends AbstractYComponentContainer {
 	private LoginComponent loginComponent = null;
 
 	public LoginFrame() {
