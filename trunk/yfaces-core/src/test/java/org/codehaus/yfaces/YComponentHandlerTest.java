@@ -11,10 +11,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
-import org.codehaus.yfaces.component.YComponentHandlerImpl;
-import org.codehaus.yfaces.component.YComponentHandlerRegistry;
 import org.codehaus.yfaces.component.YComponentHandler;
 import org.codehaus.yfaces.component.YComponentHandlerFactory;
+import org.codehaus.yfaces.component.YComponentHandlerImpl;
+import org.codehaus.yfaces.component.YComponentHandlerRegistry;
 import org.codehaus.yfaces.component.YComponentValidator.YValidationAspekt;
 import org.junit.Assert;
 import org.junit.Test;
@@ -23,12 +23,12 @@ import org.junit.Test;
  * @author Denny.Strietzbaum
  * 
  */
-public class TestYComponentInfo /* extends TestCase */{
+public class YComponentHandlerTest {
 
-	private static final Logger log = Logger.getLogger(TestYComponentInfo.class);
+	private static final Logger log = Logger.getLogger(YComponentHandlerTest.class);
 
-	private static final String TEST_COMPONENT = YTestComponent.class.getName();
-	private static final String TEST_COMPONENT_IMPL = YTestComponentImpl.class.getName();
+	private static final String TEST_COMPONENT = TestModel.class.getName();
+	private static final String TEST_COMPONENT_IMPL = TestModelImpl.class.getName();
 
 	private static final String HEAD = "<ui:composition xmlns:yf=\"http://yfaces.codehaus.org/taglib\">\n\n";
 
@@ -61,8 +61,8 @@ public class TestYComponentInfo /* extends TestCase */{
 
 		public void run() {
 			URL url = null;
-			final ClassLoader loader = TestYComponentInfo.class.getClassLoader();
-			url = loader.getResource("testYComponentInfo/" + componentFile);
+			final ClassLoader loader = YComponentHandlerTest.class.getClassLoader();
+			url = loader.getResource("YComponentHandlerTest/" + componentFile);
 
 			log.info("Now processing: " + componentFile + " ...");
 			log.info("Expected errors: " + this.expectedErrors);
@@ -215,8 +215,8 @@ public class TestYComponentInfo /* extends TestCase */{
 	}
 
 	/**
-	 * Tests {@link YComponentHandlerRegistry} and {@link YComponentHandlerImpl} validation. Additional does
-	 * enhanced text parsing as components are provided as external resources.
+	 * Tests {@link YComponentHandlerRegistry} and {@link YComponentHandlerImpl} validation.
+	 * Additional does enhanced text parsing as components are provided as external resources.
 	 */
 	@Test
 	public void testYComponentRegistry() {
@@ -267,7 +267,7 @@ public class TestYComponentInfo /* extends TestCase */{
 	}
 
 	public static void main(final String argc[]) {
-		final TestYComponentInfo test = new TestYComponentInfo();
+		final YComponentHandlerTest test = new YComponentHandlerTest();
 		test.testYComponentInfoValidation();
 	}
 }
