@@ -126,7 +126,7 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 	//	 * 
 	//	 * @param binding
 	//	 */
-	protected void setYComponentBinding(final ValueExpression binding) {
+	protected void setComponentModelBinding(final ValueExpression binding) {
 		super.setValueExpression(PARAM_YCMP_BINDING, binding);
 	}
 
@@ -154,16 +154,20 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 	 *          {@link YModel}
 	 */
 	private void setYModelToBinding(final Object model) {
-		final ValueExpression vb = getValueExpression(PARAM_YCMP_BINDING);
+		final ValueExpression ve = getValueExpression(PARAM_YCMP_BINDING);
 
 		if (model == null) {
 			throw new NullPointerException();
 		}
 
-		if (vb != null) {
+		if (ve != null) {
 			final ELContext elCtx = FacesContext.getCurrentInstance().getELContext();
+			//			if (!ve.isReadOnly(elCtx)) {
+			ve.setValue(elCtx, model);
+			//			} else {
+			//				log.warn("Can't update model instance; " + ve.toString() + " is readOnly");
+			//			}
 
-			vb.setValue(elCtx, model);
 		}
 	}
 
@@ -253,9 +257,6 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 		int i = 0;
 		final Object values[] = new Object[4];
 		values[i++] = super.saveState(context);
-		//		values[i++] = this.specClassName;
-		//		values[i++] = this.implClassName;
-		//		values[i++] = this.injectableProperties;
 		values[i++] = this.viewLocation;
 
 		return values;
@@ -312,7 +313,11 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 			// ValueBinding
 			// XXX 1.2 simulate old behavior that non-framed components aren't
 			// available
-			if (restoredModel instanceof YModel && ((YModel) restoredModel).getFrame() != null) {
+
+			if (restoredModel instanceof YModel
+					&& ((YModel) restoredModel).getComponentContainer() != null) {
+				// TODO: add a check which recognizes, whether parent has changed
+				// and only if instance is not same inject the model
 				this.setYModelToBinding(restoredModel);
 			}
 
@@ -366,7 +371,7 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 			final YComponentValidator cmpValid = cmpInfo.createValidator();
 			try {
 				this.validateComponentInfo(cmpValid);
-				((YComponentHandlerImpl) cmpInfo).setValid(true);
+				((YComponentHandlerImpl) cmpInfo).setValidated(true);
 			} catch (final YFacesException e) {
 				log.error("Validation error", e);
 				this.error = e;
@@ -595,7 +600,7 @@ public class HtmlYComponent extends UIComponentBase implements NamingContainer {
 				final FacesContext fc = getFacesContext();
 				final String key = super.getClientId(fc) + "_COUNT";
 				Integer count = (Integer) map.get(key);
-				int result = 0;
+				int result = 1;
 				if (count != null) {
 					result = count.intValue() + 1;
 				}

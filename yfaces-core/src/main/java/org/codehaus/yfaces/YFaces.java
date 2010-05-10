@@ -8,6 +8,10 @@ public class YFaces {
 
 	private static ThreadLocal<YRequestContext> localCtx = new ThreadLocal<YRequestContext>();
 
+	private YFaces() {
+		// forbid instances
+	}
+
 	public static YRequestContext getRequestContext() {
 		return localCtx.get();
 	}
@@ -27,12 +31,5 @@ public class YFaces {
 	static void removeRequestContext() {
 		localCtx.remove();
 	}
-
-	//	// for now a singleton, should be integrated into the yfaces-framework as part of application
-	//	private static YComponentHandlerRegistry singleton = new YComponentHandlerRegistry();
-	//
-	//	public static YComponentHandlerRegistry getYComponentRegistry() {
-	//		return singleton;
-	//	}
 
 }

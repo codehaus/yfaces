@@ -79,7 +79,7 @@ public interface YPageContext {
 	 * 
 	 * @return Frames
 	 */
-	Collection<YComponentContainer> getFrames();
+	Collection<YComponentContainer> getComponentContainers();
 
 	/**
 	 * Returns the previous YPage.<br/>
@@ -92,6 +92,6 @@ public interface YPageContext {
 	 */
 	YPageContext getPreviousPage();
 
-	<T extends YComponentContainer> T getOrCreateFrame(final Class<T> frameClass);
+	<T extends YComponentContainer> T getOrCreateComponentContainer(final Class<T> cmpContainerClass);
 
 }

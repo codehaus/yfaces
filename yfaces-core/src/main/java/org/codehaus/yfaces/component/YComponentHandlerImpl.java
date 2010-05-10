@@ -63,7 +63,7 @@ public class YComponentHandlerImpl implements YComponentHandler {
 	private Class<?> modelSpecClass = null;
 	private Class<?> modelImplClass = null;
 
-	private boolean isValid = false;
+	private boolean isValidated = false;
 	private boolean isYComponent = false;
 
 	private YComponentConfigImpl cmpCfg = null;
@@ -168,11 +168,11 @@ public class YComponentHandlerImpl implements YComponentHandler {
 	}
 
 	public boolean isValidated() {
-		return isValid;
+		return isValidated;
 	}
 
-	public void setValid(final boolean isValid) {
-		this.isValid = isValid;
+	public void setValidated(final boolean isValid) {
+		this.isValidated = isValid;
 	}
 
 	public Class getModelSpecification() {

@@ -32,7 +32,7 @@ public interface YModel extends /* Externalizable */Serializable {
 	 * 
 	 * @return
 	 */
-	YComponentHandler getComponent();
+	YComponentHandler getComponentHandler();
 
 	/**
 	 * Returns a custom for general usage with the scope of this component.
@@ -60,11 +60,11 @@ public interface YModel extends /* Externalizable */Serializable {
 	public void refresh();
 
 	/**
-	 * Returns the parent {@link YComponentContainer} of this component.<br/>
-	 * May return 'null' when this component isn't bound.
+	 * Returns the {@link YComponentContainer} which this component belongs too.<br/>
+	 * Returns 'null' when container is assigned.
 	 * 
 	 * @return {@link YComponentContainer}
 	 */
-	public YComponentContainer getFrame();
+	public YComponentContainer getComponentContainer();
 
 }

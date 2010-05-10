@@ -38,7 +38,7 @@ import org.codehaus.yfaces.util.YFacesErrorHandler;
  */
 public class YRequestContextImpl implements YRequestContext {
 
-	private static final Logger log = Logger.getLogger(YRequestContext.class);
+	private static final Logger log = Logger.getLogger(YRequestContextImpl.class);
 	private static final String IS_FLASHBACK = YRequestContext.class.getName() + "_isFlashback";
 
 	private YPageContextImpl pageContext = null;
@@ -228,8 +228,8 @@ public class YRequestContextImpl implements YRequestContext {
 			for (final YPageContext page : pages) {
 				// ...and notify page for a new request (re-inject all
 				// frames/mbeans)
-				for (final YComponentContainer frame : page.getFrames()) {
-					((YManagedBean) frame).refreshBeanScope();
+				for (final YComponentContainer cmpContainers : page.getComponentContainers()) {
+					((YManagedBean) cmpContainers).refreshBeanScope();
 				}
 			}
 

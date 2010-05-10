@@ -29,6 +29,7 @@ import org.codehaus.yfaces.component.YComponentConfig;
 import org.codehaus.yfaces.component.YComponentConfigImpl;
 import org.codehaus.yfaces.component.YComponentHandler;
 import org.codehaus.yfaces.component.YComponentHandlerImpl;
+import org.codehaus.yfaces.component.YComponentHandlerRegistry;
 
 import com.sun.facelets.FaceletContext;
 import com.sun.facelets.tag.MetaRuleset;
@@ -44,12 +45,14 @@ import com.sun.facelets.tag.jsf.ComponentHandler;
  */
 public class HtmlYComponentHandler extends ComponentHandler {
 	private static final Logger log = Logger.getLogger(HtmlYComponentHandler.class);
-	private static final String BINDING_ATTRIBUTE = "model";
 
-	//private final TagAttribute attributes;
+	private static final String COMPONENT_MODEL_ATTRIBUTE = "model";
 
-	// YComponentInfo gets newly created whenever facelet-file was changed
-	private YComponentHandlerImpl cmpInfo = null;
+	// YComponentHandler is bound to this Facelet-ComponentHandler lifecycle
+	// Whenever a xhtml file gets changed (whenever a new ComponentHandler gets created) the appropriate
+	// YComponentHandler gets refreshed
+	// The mapping ComponentHandler to YComponentHandler is done by the location (tagpath) of the xhtml file.
+	private YComponentHandlerImpl cmpHandler = null;
 
 	/**
 	 * Constructor.
@@ -61,43 +64,50 @@ public class HtmlYComponentHandler extends ComponentHandler {
 	 *          {@link ComponentConfig}
 	 */
 	public HtmlYComponentHandler(final ComponentConfig config) {
+
 		super(config);
 
+		// get the location of the tag file (xhtml file)
 		final String tagPath = config.getTag().getLocation().getPath();
 
-		this.cmpInfo = (YComponentHandlerImpl) YFaces.getApplicationContext().getComponentHandlers()
-				.getComponentByPath(tagPath);
+		// get the YComponentHandler which is responsible for that tag file 
+		final YComponentHandlerRegistry cmpHandlers = YFaces.getApplicationContext()
+				.getComponentHandlers();
+		this.cmpHandler = (YComponentHandlerImpl) cmpHandlers.getComponentByPath(tagPath);
 
-		// should be considered, to make this an exception
-		if (log.isDebugEnabled() && cmpInfo == null) {
+		// there is no reason why a ComponentHandler shouldn't be available
+		// TODO: throw an IllegalStateException?
+		if (cmpHandler == null) {
 			log.error("No " + YComponentHandler.class.getSimpleName() + " for " + tagPath + " found");
 		}
 
 		// a ComponentInfo is available for the 'location' (view file location) of this handler
-		if (cmpInfo != null) {
+		if (cmpHandler != null) {
 
-			// refresh some attributes
-			this.updateYComponentInfo(config.getTag());
+			// refresh YComponentHandler
+			this.refreshYComponentHandler();
 
-			// force validation in HtmlYComponent
-			cmpInfo.setValid(false);
+			// and validate lazily (when this component gets rendered first time after refresh) 
+			cmpHandler.setValidated(false);
 		}
 
 	}
 
-	private void updateYComponentInfo(final Tag tag) {
+	private void refreshYComponentHandler() {
 
 		log.debug("Refreshing " + YComponentHandler.class.getSimpleName() + " for "
-				+ cmpInfo.getViewLocation() + "...");
+				+ cmpHandler.getViewLocation() + "...");
 
-		final String specClass = getAttributeValue(tag, YComponentConfig.MODEL_SPEC_ATTRIBUTE);
-		final String implClass = getAttributeValue(tag, YComponentConfig.MODEL_IMPL_ATTRIBUTE);
-		final String varName = getAttributeValue(tag, YComponentConfig.VAR_ATTRIBUTE);
-		final String id = getAttributeValue(tag, YComponentConfig.ID_ATTRIBUTE);
-		final String injectable = getAttributeValue(tag, YComponentConfig.PASS_TO_MODEL_ATTRIBUTE);
-		final String errorHandling = getAttributeValue(tag, YComponentConfig.ERROR_ATTRIBUTE);
+		// retrieve some YComponent specific attributes from xhtml view file
+		final String specClass = getAttributeValue(YComponentConfig.MODEL_SPEC_ATTRIBUTE);
+		final String implClass = getAttributeValue(YComponentConfig.MODEL_IMPL_ATTRIBUTE);
+		final String varName = getAttributeValue(YComponentConfig.VAR_ATTRIBUTE);
+		final String id = getAttributeValue(YComponentConfig.ID_ATTRIBUTE);
+		final String injectable = getAttributeValue(YComponentConfig.PASS_TO_MODEL_ATTRIBUTE);
+		final String errorHandling = getAttributeValue(YComponentConfig.ERROR_ATTRIBUTE);
 
-		final YComponentConfigImpl cmpCfg = (YComponentConfigImpl) cmpInfo.getConfiguration();
+		// gets the ComponentHandler's underlying ComponentConfig
+		final YComponentConfigImpl cmpCfg = (YComponentConfigImpl) cmpHandler.getConfiguration();
 
 		if (log.isDebugEnabled()) {
 			String updatedAttribs = "";
@@ -122,6 +132,7 @@ public class HtmlYComponentHandler extends ComponentHandler {
 
 		}
 
+		// ... update ComponentConfig properties
 		cmpCfg.setModelSpecification(specClass);
 		cmpCfg.setModelImplementation(implClass);
 		cmpCfg.setVariableName(varName);
@@ -129,30 +140,8 @@ public class HtmlYComponentHandler extends ComponentHandler {
 		cmpCfg.setErrorHandling(errorHandling);
 		cmpCfg.setPushProperties(injectable);
 
-		cmpInfo.initialize();
-	}
-
-	/**
-	 * Returns the value of an {@link TagAttribute}.
-	 * 
-	 * @param tag
-	 *          Tag
-	 * @param name
-	 *          Attribute name
-	 * @return value
-	 */
-	private String getAttributeValue(final Tag tag, final String name) {
-
-		final TagAttribute tagAttr = tag.getAttributes().get(name);
-		final String result = tagAttr != null ? tagAttr.getValue() : null;
-		return result;
-	}
-
-	private boolean isModified(final String oldValue, final String currentValue) {
-		final boolean changed = (oldValue == null) ? (currentValue != null) : !oldValue
-				.equals(currentValue);
-		return changed;
-
+		// and refresh YComponentHandler based on currently updated ComponentConfig
+		cmpHandler.initialize();
 	}
 
 	@Override
@@ -199,26 +188,32 @@ public class HtmlYComponentHandler extends ComponentHandler {
 
 		final HtmlYComponent htmlYCmp = (HtmlYComponent) cmp;
 
+		// check whether tag-caller defines an own 'id' attribute
+		// ctx.getAttribute behaves like ctx.getVariableMapper().resolveVariable(..)
 		//		final String _id = (String) ctx.getAttribute("id");
 		//		if (_id == null) {
+
+		// check whether xhtml tag file has an 'id' attribute for that YComponent
 		final TagAttribute attrib = getAttribute("id");
+
+		// if not take view id as component id
 		if (attrib == null) {
-			final String id = this.cmpInfo.getViewId();
+			final String id = this.cmpHandler.getViewId();
 			cmp.setId(id);
-			log.debug("Setting component id: " + cmpInfo.getViewId());
+			log.debug("Setting component id: " + cmpHandler.getViewId());
 		}
 		//		} else {
 		//			cmp.setId(_id);
 		//		}
 
-		// publish ValueExpression for 'binding' into HtmlYComponent
-		// value of that expression is the YComponent instance
-		final ValueExpression _binding = ctx.getVariableMapper().resolveVariable(BINDING_ATTRIBUTE);
-		htmlYCmp.setYComponentBinding(_binding);
+		// pass ValueExpression for component model into HtmlYComponent
+		final ValueExpression _binding = ctx.getVariableMapper().resolveVariable(
+				COMPONENT_MODEL_ATTRIBUTE);
+		htmlYCmp.setComponentModelBinding(_binding);
 
 		// publish ValueExpression for push-properties into HtmlYComponent
 		// values of that expressions are injected/pushed into YComponent
-		final Collection<String> passToModelProps = this.cmpInfo.getPushProperties();
+		final Collection<String> passToModelProps = this.cmpHandler.getPushProperties();
 		if (passToModelProps != null) {
 			// iterate over each supported push-property...
 			for (final String passToModelProp : passToModelProps) {
@@ -249,7 +244,7 @@ public class HtmlYComponentHandler extends ComponentHandler {
 		// This means 'bindig' attribute is shared through all nested HtmlYComponentHandlers/HtmlYComponents
 		// This is no problem, when nested elements have it's own binding (binding gets updated than)
 		// but it is a problem when they don't because then the parent binding will be taken
-		ctx.getVariableMapper().setVariable(BINDING_ATTRIBUTE, null);
+		ctx.getVariableMapper().setVariable(COMPONENT_MODEL_ATTRIBUTE, null);
 
 		// XXX: whats with the other variables? pushProperties? id?
 		// why not reset the variables within onCOmponentCreated
@@ -264,7 +259,27 @@ public class HtmlYComponentHandler extends ComponentHandler {
 	protected void onComponentPopulated(final FaceletContext ctx, final UIComponent cmp,
 			final UIComponent uicomponent1) {
 		super.onComponentPopulated(ctx, cmp, uicomponent1);
-		((HtmlYComponent) cmp).setComponent(cmpInfo);
+		((HtmlYComponent) cmp).setComponent(cmpHandler);
+	}
+
+	/**
+	 * Debug helper; returns the value of an {@link TagAttribute} or null when attribute isn't set.
+	 */
+	private String getAttributeValue(final String attributeName) {
+
+		final TagAttribute tagAttr = getTag().getAttributes().get(attributeName);
+		final String result = tagAttr != null ? tagAttr.getValue() : null;
+		return result;
+	}
+
+	private boolean isModified(final String oldValue, final String currentValue) {
+		final boolean changed = (oldValue == null) ? (currentValue != null) : !oldValue
+				.equals(currentValue);
+		return changed;
+	}
+
+	private Tag getTag() {
+		return super.tag;
 	}
 
 }

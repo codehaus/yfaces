@@ -52,7 +52,7 @@ public class YFacesException extends RuntimeException {
 	}
 
 	private static String createMessage(final YModel cmp, final String subMessage) {
-		return subMessage + " (" + cmp.getComponent().getViewId() + ")";
+		return subMessage + " (" + cmp.getComponentHandler().getViewId() + ")";
 	}
 
 }
