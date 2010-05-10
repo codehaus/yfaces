@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.codehaus.yfaces.context.YApplicationContext;
+import org.codehaus.yfaces.context.YApplicationContextImpl;
 import org.codehaus.yfaces.context.YRequestContext;
 import org.codehaus.yfaces.context.YRequestContextImpl;
 import org.codehaus.yfaces.context.YSessionContext;
@@ -31,7 +32,7 @@ public class YRequestContextImplBuilder implements YRequestContextBuilder {
 	private static final String YFACES_SESSCTXCLASS_VALUE = YSessionContextImpl.class.getName();
 	private static final String YFACES_APPCTXCLASS_KEY = YFACES_KEY_SUFFIX
 			+ "applicationcontext.class";
-	private static final String YFACES_APPCTXCLASS_VALUE = YApplicationContext.class.getName();
+	private static final String YFACES_APPCTXCLASS_VALUE = YApplicationContextImpl.class.getName();
 
 	private Class<YRequestContext> reqCtxClass = null;
 	private Class<YSessionContextImpl> sessCtxClass = null;

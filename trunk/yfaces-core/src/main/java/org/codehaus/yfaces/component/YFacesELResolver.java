@@ -133,10 +133,6 @@ public class YFacesELResolver extends ELResolver {
 
 		final Class<?> type = this.resolver.getType(context, base, property);
 
-		//		if (value instanceof YComponent) {
-		//			this.setYFrame(context, (YComponent) value, base, (String) property);
-		//		}
-
 		if (value instanceof YModel) {
 			final YComponentHandler yCtx = getYContext(context).getCmp();
 			if (yCtx != null) {
@@ -161,7 +157,8 @@ public class YFacesELResolver extends ELResolver {
 	@Override
 	public boolean isReadOnly(final ELContext context, final Object base, final Object property)
 			throws NullPointerException, PropertyNotFoundException, ELException {
-		final boolean result = false;
+
+		final boolean result = this.resolver.isReadOnly(context, base, property);
 		return result;
 	}
 
@@ -270,13 +267,13 @@ public class YFacesELResolver extends ELResolver {
 	private void afterYComponentResolved(final AbstractYModel model, final YComponentContainer frame,
 			final String frameProperty) {
 
-		if (model.getFrameBinding() == null) {
-			final String frameId = YFaces.getApplicationContext().getComponentContainerId(
+		if (model.getComponentContainerBinding() == null) {
+			final String cmpContainerId = YFaces.getApplicationContext().getComponentContainerId(
 					frame.getClass());
 
-			model.setFrame("#{" + frameId + "}");
+			model.setComponentContainerBinding("#{" + cmpContainerId + "}");
 
-			final String bind = frameId + "." + frameProperty;
+			final String bind = cmpContainerId + "." + frameProperty;
 
 			final ELContext elCtx = FacesContext.getCurrentInstance().getELContext();
 			final ValueExpression ve = FacesContext.getCurrentInstance().getApplication()

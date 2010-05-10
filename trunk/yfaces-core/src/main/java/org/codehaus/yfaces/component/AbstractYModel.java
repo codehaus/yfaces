@@ -41,7 +41,7 @@ public abstract class AbstractYModel implements YModel {
 	private static final Logger log = Logger.getLogger(AbstractYModel.class);
 
 	private Map<String, Object> attributes = null;
-	private String frameBinding = null;
+	private String cmpContainerBinding = null;
 
 	private String viewLocation = null;
 	private ValueExpression modelBinding = null;
@@ -62,7 +62,7 @@ public abstract class AbstractYModel implements YModel {
 		return this.attributes;
 	}
 
-	public YComponentHandler getComponent() {
+	public YComponentHandler getComponentHandler() {
 		if (this.cmpInfo == null) {
 			this.cmpInfo = YFaces.getApplicationContext().getComponentHandlers().getComponentByPath(
 					viewLocation);
@@ -122,16 +122,16 @@ public abstract class AbstractYModel implements YModel {
 		return super.hashCode() + " uid: " + this.uid + " " + result.toString();
 	}
 
-	public void setFrame(final String frameBinding) {
-		this.frameBinding = frameBinding;
+	void setComponentContainerBinding(final String frameBinding) {
+		this.cmpContainerBinding = frameBinding;
 	}
 
-	public YComponentContainer getFrame() {
+	public YComponentContainer getComponentContainer() {
 		YComponentContainer result = null;
-		if (frameBinding != null) {
+		if (cmpContainerBinding != null) {
 			final FacesContext fc = FacesContext.getCurrentInstance();
 			final ValueExpression ve = fc.getApplication().getExpressionFactory().createValueExpression(
-					fc.getELContext(), this.frameBinding, Object.class);
+					fc.getELContext(), this.cmpContainerBinding, Object.class);
 
 			final Object value = ve.getValue(fc.getELContext());
 			if (value instanceof YComponentContainer) {
@@ -141,8 +141,8 @@ public abstract class AbstractYModel implements YModel {
 		return result;
 	}
 
-	public String getFrameBinding() {
-		return this.frameBinding;
+	String getComponentContainerBinding() {
+		return this.cmpContainerBinding;
 	}
 
 	public <T extends YModel> T newInstance(final String id) {

@@ -172,7 +172,7 @@ public class YPageContextImpl implements YPageContext {
 	 * 
 	 * @return Frames
 	 */
-	public Collection<YComponentContainer> getFrames() {
+	public Collection<YComponentContainer> getComponentContainers() {
 		return this.frames.values();
 	}
 
@@ -186,7 +186,7 @@ public class YPageContextImpl implements YPageContext {
 	 * 
 	 * @see AbstractYComponentContainer#getBeanId()
 	 */
-	public <T extends YComponentContainer> T getOrCreateFrame(final Class<T> frameClass) {
+	public <T extends YComponentContainer> T getOrCreateComponentContainer(final Class<T> frameClass) {
 		T result = (T) this.frames.get(frameClass.getName());
 
 		// when no instance is available, request is delegated to YManagedBean which itself creates a
@@ -232,7 +232,7 @@ public class YPageContextImpl implements YPageContext {
 	 * Starts updating all {@link YComponentContainer} instances of this page.
 	 */
 	protected void refresh() {
-		for (final YComponentContainer frame : getFrames()) {
+		for (final YComponentContainer frame : getComponentContainers()) {
 			frame.refresh();
 		}
 	}

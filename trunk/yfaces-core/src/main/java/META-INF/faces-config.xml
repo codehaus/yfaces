@@ -15,6 +15,15 @@
 		<!-- for developing; nice logging (debug logger must be enabled)-->
 		<phase-listener> org.codehaus.yfaces.util.DebugPhaseListener </phase-listener>
 	</lifecycle>
+
+	<!-- YFaces singleton made available as Application scoped ManagedBean -->
+	<managed-bean>
+		<managed-bean-name>yfaces</managed-bean-name>
+		<managed-bean-class>
+			org.codehaus.yfaces.YFacesBean
+		</managed-bean-class>
+		<managed-bean-scope>application</managed-bean-scope>
+	</managed-bean>
 	
 	
 	<component>
