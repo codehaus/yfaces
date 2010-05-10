@@ -97,7 +97,7 @@ public class DefaultTellAFriendComponent extends AbstractYModel implements
 					.getRequestContext().getSessionContext();
 
 			final TellAFriendFrame tellAFriendFrame = (TellAFriendFrame) cmp
-					.getFrame();
+					.getComponentContainer();
 			tellAFriendFrame.getTellAFriendComponent().setEmailAddress(
 					cmp.getEmailAddress());
 			tellAFriendFrame.getTellAFriendComponent().setComment(

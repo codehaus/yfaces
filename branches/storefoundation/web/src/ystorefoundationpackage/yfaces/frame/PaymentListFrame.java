@@ -185,7 +185,7 @@ public class PaymentListFrame extends AbstractYComponentContainer {
 				.getRequestContext().getPageContext().getConversationContext();
 		final YPageContext nextPage = convCtx.getOrCreateNextPage();
 		final PaymentInfoEditFrame result = nextPage
-				.getOrCreateFrame(PaymentInfoEditFrame.class);
+				.getOrCreateComponentContainer(PaymentInfoEditFrame.class);
 		return result;
 	}
 }

@@ -248,8 +248,8 @@ public class GlobalFrame extends AbstractYComponentContainer {
 		final QuickSearchComponent cmp = event.getComponent();
 
 		// initialize ProductTableComponent at SearchResultFrame
-		final SearchResultFrame frame = cmp.getFrame().getPage()
-				.getOrCreateFrame(SearchResultFrame.class);
+		final SearchResultFrame frame = cmp.getComponentContainer().getPage()
+				.getOrCreateComponentContainer(SearchResultFrame.class);
 		final ProductTableComponent ptCmp = frame.getProductTableComponent();
 		// ...set productlist
 		ptCmp.setProductList(cmp.getSearchResultList());

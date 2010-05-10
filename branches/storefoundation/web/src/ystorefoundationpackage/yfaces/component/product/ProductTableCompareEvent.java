@@ -35,8 +35,8 @@ public class ProductTableCompareEvent extends
 	@Override
 	public void actionListener(final YEvent<ProductTableComponent> event) {
 		final ProductTableComponent pcmp = event.getComponent();
-		final CompareProductsFrame sec = pcmp.getFrame().getPage()
-				.getOrCreateFrame(CompareProductsFrame.class);
+		final CompareProductsFrame sec = pcmp.getComponentContainer().getPage()
+				.getOrCreateComponentContainer(CompareProductsFrame.class);
 		final CompareProductsComponent cmp = sec.getCompareProductsComponent();
 
 		final List<ProductModel> products = pcmp.getSelectedProducts();

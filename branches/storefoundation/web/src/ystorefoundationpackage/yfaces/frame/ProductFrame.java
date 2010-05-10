@@ -132,9 +132,9 @@ public class ProductFrame extends AbstractYComponentContainer {
 					.getRequestContext().getPageContext()
 					.getConversationContext();
 			final YPageContext page = convCtx.getOrCreateNextPage();
-			page.getOrCreateFrame(LoginFrame.class).getLoginComponent()
+			page.getOrCreateComponentContainer(LoginFrame.class).getLoginComponent()
 					.setSuccessForward(result);
-			page.getOrCreateFrame(GlobalFrame.class).getLoginComponent()
+			page.getOrCreateComponentContainer(GlobalFrame.class).getLoginComponent()
 					.setSuccessForward(result);
 			result = NavigationOutcome.LOGIN_PAGE.id;
 		}

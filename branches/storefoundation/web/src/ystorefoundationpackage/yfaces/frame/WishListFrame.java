@@ -97,7 +97,7 @@ public class WishListFrame extends AbstractYComponentContainer {
 				.getRequestContext().getPageContext().getConversationContext();
 		final YPageContext nextPage = convCtx.getOrCreateNextPage();
 		final WishListEditFrame frame = nextPage
-				.getOrCreateFrame(WishListEditFrame.class);
+				.getOrCreateComponentContainer(WishListEditFrame.class);
 		return frame;
 	}
 

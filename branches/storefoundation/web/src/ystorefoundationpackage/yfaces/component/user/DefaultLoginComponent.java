@@ -128,14 +128,14 @@ public class DefaultLoginComponent extends AbstractYModel implements
 						.getPageContext();
 
 				// ... and it is the first try...
-				if (cmp.getFrame().getPage().getPreviousPage() == null) {
-					loginPage = cmp.getFrame().getPage()
+				if (cmp.getComponentContainer().getPage().getPreviousPage() == null) {
+					loginPage = cmp.getComponentContainer().getPage()
 							.getConversationContext().getOrCreateNextPage();
 
 				}
 
 				final LoginFrame loginFrame = loginPage
-						.getOrCreateFrame(LoginFrame.class);
+						.getOrCreateComponentContainer(LoginFrame.class);
 
 				loginFrame.getLoginComponent().setLogin(cmp.getLogin());
 				loginFrame.getLoginComponent().setPassword(cmp.getPassword());
@@ -155,7 +155,7 @@ public class DefaultLoginComponent extends AbstractYModel implements
 			if (newUser != null) {
 				// previous or same page
 				if (result == null) {
-					final YPageContext page = cmp.getFrame().getPage()
+					final YPageContext page = cmp.getComponentContainer().getPage()
 							.getPreviousPage();
 					if (page != null) {
 						YStorefoundation.getRequestContext().redirect(page,

@@ -210,7 +210,7 @@ public class UserDetailFrame extends AbstractYComponentContainer {
 				.getRequestContext().getPageContext().getConversationContext();
 		final YPageContext nextPage = convCtx.getOrCreateNextPage();
 		final ChangePasswordFrame frame = nextPage
-				.getOrCreateFrame(ChangePasswordFrame.class);
+				.getOrCreateComponentContainer(ChangePasswordFrame.class);
 		return frame;
 	}
 
@@ -305,7 +305,7 @@ public class UserDetailFrame extends AbstractYComponentContainer {
 				.getRequestContext().getPageContext().getConversationContext();
 		final YPageContext nextPage = convCtx.getOrCreateNextPage();
 		final PaymentInfoEditFrame result = nextPage
-				.getOrCreateFrame(PaymentInfoEditFrame.class);
+				.getOrCreateComponentContainer(PaymentInfoEditFrame.class);
 		return result;
 	}
 
@@ -317,7 +317,7 @@ public class UserDetailFrame extends AbstractYComponentContainer {
 				.getRequestContext().getPageContext().getConversationContext();
 		final YPageContext nextPage = convCtx.getOrCreateNextPage();
 		final AddressEditFrame result = nextPage
-				.getOrCreateFrame(AddressEditFrame.class);
+				.getOrCreateComponentContainer(AddressEditFrame.class);
 		return result;
 	}
 
