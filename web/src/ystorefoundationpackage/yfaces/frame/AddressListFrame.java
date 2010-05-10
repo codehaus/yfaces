@@ -137,7 +137,7 @@ public class AddressListFrame extends AbstractYComponentContainer {
 				.getRequestContext().getPageContext().getConversationContext();
 		final YPageContext nextPage = conversationCtx.getOrCreateNextPage();
 		final AddressEditFrame result = nextPage
-				.getOrCreateFrame(AddressEditFrame.class);
+				.getOrCreateComponentContainer(AddressEditFrame.class);
 		return result;
 	}
 

@@ -150,7 +150,7 @@ public class RegistrationEvent extends DefaultYEventListener<RegistrationCompone
 	{
 		if (success)
 		{
-			final YPageContext page = cmp.getFrame().getPage().getPreviousPage();
+			final YPageContext page = cmp.getComponentContainer().getPage().getPreviousPage();
 			if (page != null)
 			{
 				YStorefoundation.getRequestContext().redirect(page, true);

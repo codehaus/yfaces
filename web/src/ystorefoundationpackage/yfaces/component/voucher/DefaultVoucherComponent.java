@@ -80,7 +80,7 @@ public class DefaultVoucherComponent extends AbstractYModel implements
 			final String redeemResult = JaloBridge.getInstance().redeemVoucher(
 					userSession.getCart(), redeemVoucherCode);
 
-			final SummaryFrame ss = (SummaryFrame) cmp.getFrame();
+			final SummaryFrame ss = (SummaryFrame) cmp.getComponentContainer();
 			if (redeemResult != null) {
 				ss.getVoucherComponent().setVoucherCode(redeemVoucherCode);
 				userSession.getMessages().pushInfoMessage(redeemResult,

@@ -459,7 +459,7 @@ public class SummaryFrame extends AbstractYComponentContainer {
 				.getRequestContext().getPageContext().getConversationContext();
 		final YPageContext nextPage = convCtx.getOrCreateNextPage();
 		final AddressListFrame result = nextPage
-				.getOrCreateFrame(AddressListFrame.class);
+				.getOrCreateComponentContainer(AddressListFrame.class);
 		return result;
 	}
 
@@ -468,7 +468,7 @@ public class SummaryFrame extends AbstractYComponentContainer {
 				.getRequestContext().getPageContext().getConversationContext();
 		final YPageContext nextPage = convCtx.getOrCreateNextPage();
 		final PaymentListFrame result = nextPage
-				.getOrCreateFrame(PaymentListFrame.class);
+				.getOrCreateComponentContainer(PaymentListFrame.class);
 		return result;
 	}
 
