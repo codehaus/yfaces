@@ -1,0 +1,143 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+
+<web-app
+	id="yfaces-testweb"
+	xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	version="2.5">
+
+	<display-name>yfaces-testweb</display-name>
+
+
+	<!--  
+		This will cause JBoss to ignore the built-in JSF implementation 
+	-->
+	<context-param>
+     <param-name>org.jboss.jbossfaces.WAR_BUNDLES_JSF_IMPL</param-name>
+     <param-value>true</param-value>
+	</context-param> 
+
+    <!--  
+    	Validate faces-config.xml against the DTD. Default value is false. 
+    -->
+	<context-param>
+		<param-name>com.sun.faces.validateXml</param-name>
+		<param-value>true</param-value>
+	</context-param>
+
+    <!-- 
+    	Verify that all configured application objects (components, converters, 
+        renderers, and validators) can be successfully created. Default value is false. 
+    -->
+	<context-param>
+		<param-name>com.sun.faces.verifyObjects</param-name>
+		<param-value>true</param-value>
+	</context-param>
+	
+	<context-param>
+		<param-name>org.apache.myfaces.ALLOW_JAVASCRIPT</param-name>
+		<param-value>true</param-value>
+	</context-param>
+	
+	<!-- 
+	<context-param>
+		<param-name>org.apache.myfaces.ERROR_HANDLER</param-name>
+		<param-value>de.hybris.yfaces.myfaces.MyFacesErrorHandler</param-value>
+	</context-param>
+	 -->
+	
+	<!-- Performance:
+	     replaces DefaultAddResource (no response parsing [ReducedHtmlParser] anymore) -->
+	<context-param>
+    	<param-name>org.apache.myfaces.ADD_RESOURCE_CLASS</param-name>
+    	<param-value>org.apache.myfaces.component.html.util.StreamingAddResource</param-value>
+  	</context-param>
+  	 
+	<!-- Additional faces-configs -->
+	<context-param>
+		<param-name>javax.faces.CONFIG_FILES</param-name>
+		<param-value>
+			/WEB-INF/yfaces-config.xml
+		</param-value>
+	</context-param>
+	
+	
+	<!-- JSF-Spec: 
+	1)/META-INF/faces-config.xml 
+	2)these parameter (comma separated) 
+	3)/WEB-INF/faces-config.xml -->
+	
+	<context-param>
+		<param-name>javax.faces.STATE_SAVING_METHOD</param-name>
+		<param-value>client</param-value>
+	</context-param>
+	
+	<!-- State compression: client -->
+	<context-param>
+		<param-name>org.apache.myfaces.COMPRESS_STATE_IN_CLIENT</param-name>
+		<param-value>true</param-value>
+	</context-param>
+	
+	
+	<context-param>
+		<param-name>org.apache.myfaces.PRETTY_HTML</param-name>
+		<param-value>true</param-value>
+	</context-param>
+	
+	<context-param>
+		<param-name>org.apache.myfaces.DETECT_JAVASCRIPT</param-name>
+		<param-value>false</param-value>
+	</context-param>
+	
+	<context-param>
+		<param-name>org.apache.myfaces.AUTO_SCROLL</param-name>
+		<param-value>false</param-value>
+	</context-param>
+	
+	<context-param>
+		<param-name>javax.faces.DEFAULT_SUFFIX</param-name>
+		<param-value>.xhtml</param-value>
+	</context-param>
+	
+	<context-param>
+		<param-name>facelets.REFRESH_PERIOD</param-name>
+		<param-value>2</param-value>
+	</context-param>
+	
+	<!-- Set this to true when Facelets should handle exceptions and present them in a nice way.
+	     When this is false MyFaces error handling won't work anymore   -->
+	<context-param>
+		<param-name>facelets.DEVELOPMENT</param-name>
+		<param-value>false</param-value>
+	</context-param>
+	
+	<filter>
+		<filter-name>seleniumFilter</filter-name>
+		<filter-class>org.codehaus.yfaces.selenium.SeleniumFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>seleniumFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	
+	<listener>
+		<listener-class> org.codehaus.yfaces.YFacesRequestListener </listener-class>
+	</listener>
+	
+	
+	<!-- Faces Servlet -->
+	<servlet>
+		<servlet-name>Faces Servlet</servlet-name>
+		<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+	</servlet>
+
+	<!-- Faces Servlet Mapping -->
+	<servlet-mapping>
+		<servlet-name>Faces Servlet</servlet-name>
+		<url-pattern>*.jsf</url-pattern>
+	</servlet-mapping>
+
+	
+</web-app>

@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8'?>
+ 
+<faces-config
+	xmlns="http://java.sun.com/xml/ns/javaee"	version="1.2"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee/web-facesconfig_1_2.xsd">
+
+	<managed-bean>
+		<managed-bean-name>reqTestBean</managed-bean-name>
+		<managed-bean-class>
+			org.codehaus.yfaces.selenium.bean.YModelPojoContainer
+		</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+
+	<managed-bean>
+		<managed-bean-name>sessTestBean</managed-bean-name>
+		<managed-bean-class>
+			org.codehaus.yfaces.selenium.bean.YModelPojoContainer
+		</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+	</managed-bean>
+	
+		<managed-bean>
+		<managed-bean-name>testCmpContainer</managed-bean-name>
+		<managed-bean-class>
+			org.codehaus.yfaces.selenium.frame.TestCmpContainer
+		</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+
+
+</faces-config>

@@ -1,0 +1,27 @@
+<!DOCTYPE subview [<!ENTITY nbsp "&#160;">]>
+
+<ui:composition
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:yf="http://yfaces.codehaus.org/taglib"
+	>
+	<yf:component
+		model="org.codehaus.yfaces.selenium.component.TestErrorHandlingCmp" 
+		var="cmpVar"
+		passToModel="errorMessage"
+		>      
+		
+		<t:div id="div">
+			<h:outputText value="Component: #{cmpVar.componentInfo.id}"/>			
+			<br/>
+			<h:outputText value="Message:#{cmpVar.errorMessage}"/>
+			<br/>
+			<h:form id="form">
+			<h:commandButton type="submit" value="dummy"/>
+			</h:form>
+		</t:div>
+	</yf:component>
+</ui:composition>

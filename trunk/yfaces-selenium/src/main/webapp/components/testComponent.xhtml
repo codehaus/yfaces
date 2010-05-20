@@ -1,0 +1,56 @@
+<!DOCTYPE subview [<!ENTITY nbsp "&#160;">]>
+
+<ui:composition
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:yf="http://yfaces.codehaus.org/taglib"
+	>
+	<yf:component
+		model="org.codehaus.yfaces.selenium.component.TestComponent" 
+		var="cmpVar"
+		passToModel="value"
+		>      
+		
+		<t:div id="div">
+			<h:panelGrid id="panelGrid" columns="2" style="border:1px solid; float:left">
+				<h:outputText value="ComponentHandler information" style="font-weight:bold"/>
+				<h:outputText value=" "/>
+				<h:outputText value="id/name:"/>
+				<h:outputText id="idAndName" value="#{cmpVar.componentHandler.viewId}/#{cmpVar.componentHandler.name}"/>
+				<h:outputText value="location:"/>
+				<h:outputText id="viewLocation" value="#{cmpVar.componentHandler.viewLocation}"/>
+				<h:outputText value="passToModel:"/>
+				<h:outputText id="pushByViewProps" value="#{cmpVar.componentHandler.pushProperties}"/>
+			</h:panelGrid>
+			
+			<h:panelGrid columns="2" style="border:1px solid; float:left">
+				<h:outputText value="Component model state" style="font-weight:bold"/>
+				<h:outputText value=" "/>
+				<h:outputText value="value:"/>
+				<h:outputText id="value" value="#{cmpVar.value}"/>
+				<h:outputText value="validated/refreshed:"/>
+				<h:outputText id="validatedAndRefreshed" value="#{cmpVar.validated}/#{cmpVar.refreshed}"/>
+			</h:panelGrid>
+			
+			<h:panelGrid columns="2" style="border:1px solid; float:left">
+				<h:outputText value="Belongs to component container:" style="font-weight:bold"/>
+				<h:outputText value=" "/>
+				<h:outputText id="cmpContainer" value="ValueExpression:#{cmpVar.componentContainer}"/> 		
+			</h:panelGrid>
+
+			<h:panelGrid columns="1" style="clear:both">
+				<h:outputText value=" "/>
+			</h:panelGrid>
+			
+			<h:form id="form">
+				<h:inputText id="inputText" value="#{cmpVar.value}" />
+				<h:commandButton id="button" type="submit" value="Submit value"/>
+			</h:form>
+			
+		</t:div>
+		
+	</yf:component>
+</ui:composition>

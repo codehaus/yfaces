@@ -1,0 +1,32 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" [<!ENTITY nbsp "&#160;">]>
+
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html" 
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:t="http://myfaces.apache.org/tomahawk" 
+	xmlns:yf="http://yfaces.codehaus.org/taglib"
+	>
+	<h3> YPageContext Status </h3>
+	<t:div>
+	<h:panelGrid id="pageContextStatus" columns="2">
+<h:outputText value="Available containers"/>
+<h:outputText id="pageCmpContainers" value="#{yfaces.pageContext.componentContainers}"/>
+
+<h:outputText value="ID"/>
+<h:outputText id="pageId" value="#{yfaces.pageContext.id}"/>
+
+<h:outputText value="URL"/>
+<h:outputText id="pageUrl" value="#{yfaces.pageContext.URL}"/>
+
+<h:outputText value="Navigation ID"/>
+<h:outputText id="pageNavId" value="#{yfaces.pageContext.navigationId}"/>
+
+<h:outputText value="previous Page"/>
+<h:outputText id="pagePrevPage" value="#{yfaces.pageContext.previousPage}"/>
+
+	</h:panelGrid>
+	</t:div>
+	
+</ui:composition>
