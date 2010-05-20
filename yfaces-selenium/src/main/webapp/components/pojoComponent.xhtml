@@ -1,0 +1,29 @@
+<!DOCTYPE subview [<!ENTITY nbsp "&#160;">]>
+
+<ui:composition
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:yf="http://yfaces.codehaus.org/taglib"
+	>
+	<yf:component
+		model="org.codehaus.yfaces.selenium.component.PojoTestModel" 
+		var="cmpVar"
+		passToModel="value"
+		>      
+		
+		<t:div id="div">
+			<h:panelGrid id="grid" columns="2" style="border:1px solid">
+				<h:outputText value="Component properties" style="font-weight:bold"/>
+				<h:outputText value=" "/>
+				<h:outputText value="value:"/>
+				<h:outputText id="value" value="#{cmpVar.value}"/>
+			</h:panelGrid>
+			<h:form id="form">
+				<h:commandButton type="submit" value="dummy"/>
+			</h:form>
+		</t:div>
+	</yf:component>
+</ui:composition>

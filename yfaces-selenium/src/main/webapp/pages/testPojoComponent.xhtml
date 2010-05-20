@@ -1,0 +1,37 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" [<!ENTITY nbsp "&#160;">]>
+
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html" 
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:t="http://myfaces.apache.org/tomahawk" 
+	xmlns:yf="http://yfaces.codehaus.org/taglib"
+	
+	template="./layout.xhtml"
+	>
+
+	<ui:define name="content">
+
+	<h3>Check usage of plain Beans as component model (without any component container)</h3>
+YFaces is fine with simply using plain Beans instead of an YModel.
+Property injection from view to model must work.
+<p/>
+pojoComponent without passing any attributes.<br/>
+Expected result is just the rendered view.
+<yf:pojoComponent/>
+<p/>
+
+pojoComponent with passing attribute value='value'
+Expected result is the rendered view which uses passed value as attribute value.
+<yf:pojoComponent value="value"/><p/>
+<p/>
+
+TODO:<br/>
+- id Attribute 'pojo1' should be used instead of view id<br/>
+- param 'value=outerValue' is defined outside and should not be passed<br/>
+<ui:param name="value" value="outerValue"/>
+<yf:pojoComponent id="pojo1" />
+
+	</ui:define>
+</ui:composition>

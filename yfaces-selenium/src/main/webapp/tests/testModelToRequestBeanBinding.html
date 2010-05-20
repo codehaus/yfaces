@@ -1,0 +1,406 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="" />
+<title>testModelToRequestBeanBinding</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">testModelToRequestBeanBinding</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>/yfaces-selenium/pages/testModelToRequestBeanBinding.jsf</td>
+	<td></td>
+</tr>
+<!--Check component0 - no attributes passed-->
+<tr>
+	<td>assertText</td>
+	<td>//span[@id=&quot;testComponent:idAndName&quot;]</td>
+	<td>testComponent/testComponent</td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>//span[@id=&quot;testComponent:viewLocation&quot;]</td>
+	<td>/components/testComponent.xhtml</td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>//span[@id=&quot;testComponent:pushByViewProps&quot;]</td>
+	<td>[value]</td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>//span[@id=&quot;testComponent:value&quot;]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>//span[@id=&quot;testComponent:validatedAndRefreshed&quot;]</td>
+	<td>1/0</td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>//span[@id=&quot;testComponent:cmpContainer&quot;]</td>
+	<td>ValueExpression:</td>
+</tr>
+<!--Check component1 - valid binding to request bean; preinitialized model-->
+<tr>
+	<td>assertText</td>
+	<td>//span[@id=&quot;testComponent_0:idAndName&quot;]</td>
+	<td>testComponent/testComponent</td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>//span[@id=&quot;testComponent_0:viewLocation&quot;]</td>
+	<td>/components/testComponent.xhtml</td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>//span[@id=&quot;testComponent_0:pushByViewProps&quot;]</td>
+	<td>[value]</td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>//span[@id=&quot;testComponent_0:value&quot;]</td>
+	<td>component1</td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>//span[@id=&quot;testComponent_0:validatedAndRefreshed&quot;]</td>
+	<td>1/0</td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>//span[@id=&quot;testComponent_0:cmpContainer&quot;]</td>
+	<td>ValueExpression:</td>
+</tr>
+<!--Check component2 - valid binding to request bean; preinitiloized model gets updated by view-->
+<tr>
+	<td>assertText</td>
+	<td>//span[@id=&quot;testComponent_1:idAndName&quot;]</td>
+	<td>testComponent/testComponent</td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>//span[@id=&quot;testComponent_1:viewLocation&quot;]</td>
+	<td>/components/testComponent.xhtml</td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>//span[@id=&quot;testComponent_1:pushByViewProps&quot;]</td>
+	<td>[value]</td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>//span[@id=&quot;testComponent_1:value&quot;]</td>
+	<td>newValue</td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>//span[@id=&quot;testComponent_1:validatedAndRefreshed&quot;]</td>
+	<td>1/0</td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>//span[@id=&quot;testComponent_1:cmpContainer&quot;]</td>
+	<td>ValueExpression:</td>
+</tr>
+<!--Check component3 - valid binding to request bean, but bean returns 'null'-->
+<tr>
+	<td>assertText</td>
+	<td>//span[@id=&quot;testComponent_2:idAndName&quot;]</td>
+	<td>testComponent/testComponent</td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>//span[@id=&quot;testComponent_2:viewLocation&quot;]</td>
+	<td>/components/testComponent.xhtml</td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>//span[@id=&quot;testComponent_2:pushByViewProps&quot;]</td>
+	<td>[value]</td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>//span[@id=&quot;testComponent_2:value&quot;]</td>
+	<td>newValue</td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>//span[@id=&quot;testComponent_2:validatedAndRefreshed&quot;]</td>
+	<td>1/0</td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>//span[@id=&quot;testComponent_2:cmpContainer&quot;]</td>
+	<td>ValueExpression:</td>
+</tr>
+<!--Check component4 - same binding to request bean like previous component-->
+<tr>
+	<td>assertText</td>
+	<td>//span[@id=&quot;testComponent_3:idAndName&quot;]</td>
+	<td>testComponent/testComponent</td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>//span[@id=&quot;testComponent_3:viewLocation&quot;]</td>
+	<td>/components/testComponent.xhtml</td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>//span[@id=&quot;testComponent_3:pushByViewProps&quot;]</td>
+	<td>[value]</td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>//span[@id=&quot;testComponent_3:value&quot;]</td>
+	<td>newValue</td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>//span[@id=&quot;testComponent_3:validatedAndRefreshed&quot;]</td>
+	<td>2/0</td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>//span[@id=&quot;testComponent_3:cmpContainer&quot;]</td>
+	<td>ValueExpression:</td>
+</tr>
+<!--Check PageContext status-->
+<tr>
+	<td>assertText</td>
+	<td>//table[@id=&quot;pageContextStatus&quot;]//span[@id=&quot;pageCmpContainers&quot;]</td>
+	<td>[]</td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>//table[@id=&quot;pageContextStatus&quot;]//span[@id=&quot;pagePrevPage&quot;]</td>
+	<td></td>
+</tr>
+<!--Now execute every form by trying to set a value-->
+<tr>
+	<td>type</td>
+	<td>testComponent:form:inputText</td>
+	<td>dummyValue</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>testComponent:form:button</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>testComponent_0:form:inputText</td>
+	<td>dummyValue</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>testComponent_0:form:button</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>testComponent_1:form:inputText</td>
+	<td>dummyValue</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>testComponent_1:form:button</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>testComponent_2:form:inputText</td>
+	<td>dummyValue</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>testComponent_2:form:button</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>testComponent_3:form:inputText</td>
+	<td>dummyValue</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>testComponent_3:form:button</td>
+	<td></td>
+</tr>
+<!--Finally reqeat all assertions; result must be same-->
+<!--Check component0 - no attributes passed-->
+<tr>
+	<td>assertText</td>
+	<td>//span[@id=&quot;testComponent:idAndName&quot;]</td>
+	<td>testComponent/testComponent</td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>//span[@id=&quot;testComponent:viewLocation&quot;]</td>
+	<td>/components/testComponent.xhtml</td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>//span[@id=&quot;testComponent:pushByViewProps&quot;]</td>
+	<td>[value]</td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>//span[@id=&quot;testComponent:value&quot;]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>//span[@id=&quot;testComponent:validatedAndRefreshed&quot;]</td>
+	<td>1/0</td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>//span[@id=&quot;testComponent:cmpContainer&quot;]</td>
+	<td>ValueExpression:</td>
+</tr>
+<!--Check component1 - valid binding to request bean; preinitialized model-->
+<tr>
+	<td>assertText</td>
+	<td>//span[@id=&quot;testComponent_0:idAndName&quot;]</td>
+	<td>testComponent/testComponent</td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>//span[@id=&quot;testComponent_0:viewLocation&quot;]</td>
+	<td>/components/testComponent.xhtml</td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>//span[@id=&quot;testComponent_0:pushByViewProps&quot;]</td>
+	<td>[value]</td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>//span[@id=&quot;testComponent_0:value&quot;]</td>
+	<td>component1</td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>//span[@id=&quot;testComponent_0:validatedAndRefreshed&quot;]</td>
+	<td>1/0</td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>//span[@id=&quot;testComponent_0:cmpContainer&quot;]</td>
+	<td>ValueExpression:</td>
+</tr>
+<!--Check component2 - valid binding to request bean; preinitiloized model gets updated by view-->
+<tr>
+	<td>assertText</td>
+	<td>//span[@id=&quot;testComponent_1:idAndName&quot;]</td>
+	<td>testComponent/testComponent</td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>//span[@id=&quot;testComponent_1:viewLocation&quot;]</td>
+	<td>/components/testComponent.xhtml</td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>//span[@id=&quot;testComponent_1:pushByViewProps&quot;]</td>
+	<td>[value]</td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>//span[@id=&quot;testComponent_1:value&quot;]</td>
+	<td>newValue</td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>//span[@id=&quot;testComponent_1:validatedAndRefreshed&quot;]</td>
+	<td>1/0</td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>//span[@id=&quot;testComponent_1:cmpContainer&quot;]</td>
+	<td>ValueExpression:</td>
+</tr>
+<!--Check component3 - valid binding to request bean, but bean returns 'null'-->
+<tr>
+	<td>assertText</td>
+	<td>//span[@id=&quot;testComponent_2:idAndName&quot;]</td>
+	<td>testComponent/testComponent</td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>//span[@id=&quot;testComponent_2:viewLocation&quot;]</td>
+	<td>/components/testComponent.xhtml</td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>//span[@id=&quot;testComponent_2:pushByViewProps&quot;]</td>
+	<td>[value]</td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>//span[@id=&quot;testComponent_2:value&quot;]</td>
+	<td>newValue</td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>//span[@id=&quot;testComponent_2:validatedAndRefreshed&quot;]</td>
+	<td>1/0</td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>//span[@id=&quot;testComponent_2:cmpContainer&quot;]</td>
+	<td>ValueExpression:</td>
+</tr>
+<!--Check component4 - same binding to request bean like previous component-->
+<tr>
+	<td>assertText</td>
+	<td>//span[@id=&quot;testComponent_3:idAndName&quot;]</td>
+	<td>testComponent/testComponent</td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>//span[@id=&quot;testComponent_3:viewLocation&quot;]</td>
+	<td>/components/testComponent.xhtml</td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>//span[@id=&quot;testComponent_3:pushByViewProps&quot;]</td>
+	<td>[value]</td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>//span[@id=&quot;testComponent_3:value&quot;]</td>
+	<td>newValue</td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>//span[@id=&quot;testComponent_3:validatedAndRefreshed&quot;]</td>
+	<td>2/0</td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>//span[@id=&quot;testComponent_3:cmpContainer&quot;]</td>
+	<td>ValueExpression:</td>
+</tr>
+<!--Check PageContext status-->
+<tr>
+	<td>assertText</td>
+	<td>//table[@id=&quot;pageContextStatus&quot;]//span[@id=&quot;pageCmpContainers&quot;]</td>
+	<td>[]</td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>//table[@id=&quot;pageContextStatus&quot;]//span[@id=&quot;pagePrevPage&quot;]</td>
+	<td></td>
+</tr>
+
+</tbody></table>
+</body>
+</html>

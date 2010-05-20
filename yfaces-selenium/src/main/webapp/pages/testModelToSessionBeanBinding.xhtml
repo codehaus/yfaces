@@ -1,0 +1,31 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" [<!ENTITY nbsp "&#160;">]>
+
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html" 
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:t="http://myfaces.apache.org/tomahawk" 
+	xmlns:yf="http://yfaces.codehaus.org/taglib"
+	
+	template="./layout.xhtml"
+	>
+
+	<ui:define name="content">
+	<h3>Check whether ycomponent can be bound to a bean. Because it is a session bean form submits have an influence on model changes.</h3>
+	    No binding to a bean, no passing of attributes<br/>
+		<yf:testComponent/>
+		<p/>
+		Binding to a bean (component1), component model is preinitialized<br/>
+		<yf:testComponent model="#{sessTestBean.testComponent1}"/>
+		<p/>
+		Binding to a bean (component2), component model is preinitialized but gets overwritten from view<br/>
+		<yf:testComponent model="#{sessTestBean.testComponent2}" value="newValue"/><p/>
+
+		Binding to a bean (component3), but bean provides no component (null)<br/>
+		<yf:testComponent model="#{sessTestBean.testComponent3}" value="newValue"/><p/>
+		
+		Binding to a bean (component3), component3 must now be available, can be recognized when validation gets called a second time<br/>
+		<yf:testComponent model="#{sessTestBean.testComponent3}"/><p/>
+	</ui:define>
+</ui:composition>

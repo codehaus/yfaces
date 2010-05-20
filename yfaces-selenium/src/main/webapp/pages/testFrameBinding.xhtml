@@ -1,0 +1,39 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" [<!ENTITY nbsp "&#160;">]>
+
+<f:view 
+	xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html" 
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:t="http://myfaces.apache.org/tomahawk" 
+	xmlns:yf="http://yfaces.codehaus.org/taglib">
+
+	<html>
+
+	<head profile="http://www.w3.org/2000/08/w3c-synd/#">
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+	</head>
+
+	<body>
+	<h2>Check whether ycomponent can be bound to a frame (no YComponentBinding)</h2>
+		Just display empty component; no binding to any frame; "submit value" has no effect<br/>
+		<yf:testComponent/><p/>
+		
+		frame#component1; 'value' property is initialzed by frame; submit changes value<br/>
+		<yf:testComponent model="#{testCmpSetupFrame.testComponent1}"/><p/>
+		
+		frame#component2; 'value' is initialized by frame, but view passes another value (newValue); submit has no effect<br/>
+		<yf:testComponent model="#{testCmpSetupFrame.testComponent2}" value="newValue"/><p/>
+
+		frame#component3; frame provides no componenent instance, YFaces have to create one; view always passes a value 'newValue' submit has no efefct<br/>
+		<yf:testComponent model="#{testCmpSetupFrame.testComponent3}" value="newValue"/><p/>
+		
+		frame#component3 again; view does not pass a value but submit has no effect because it's same component like above<br/>
+		<yf:testComponent model="#{testCmpSetupFrame.testComponent3}"/><p/>
+		
+		frame#component4 frame provides no component, view does not pass a value, submit has an effect
+		<yf:testComponent model="#{testCmpSetupFrame.testComponent4}"/><p/>
+
+	</body>
+	</html>
+</f:view>
